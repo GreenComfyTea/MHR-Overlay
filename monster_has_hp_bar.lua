@@ -93,6 +93,8 @@ end)
 local shadow_shift_x = 1
 local shadow_shift_y = 1
 
+local missing_monster_hp = 0;
+
 re.on_frame(function()
     monster_hp();
     quest_time();
@@ -143,6 +145,8 @@ function monster_hp()
     --local closest_enemy = nil
     --local closest_dist = 999999
 
+    missing_monster_hp = 0
+
     for i = 0, 4 do
         local enemy = enemy_manager:call("getBossEnemy", i)
         if not enemy then
@@ -190,6 +194,8 @@ function monster_hp()
         local x = 450 + width * i + spacing * i
         local y = screen_height - 27
 
+        missing_monster_hp = missing_monster_hp + (hp_entry.max_hp - hp_entry.hp)
+
         local hp_percent = hp_entry.hp / hp_entry.max_hp
         local hp_width = width * hp_percent
         local missing_hp_width = width - hp_width
@@ -200,9 +206,9 @@ function monster_hp()
         --border
         --draw.filled_rect(x - 1, y - 1, width + 2, height + 2, 0xAA000000)
         --missing hp
-        draw.filled_rect(x + hp_width, y, missing_hp_width, height, 0xAA000000)
+        draw.filled_rect(x + hp_width, y, missing_hp_width, height, 0xB9000000)
         --remaining hp
-        draw.filled_rect(x, y, hp_width, height, 0xFF52A674)
+        draw.filled_rect(x, y, hp_width, height, 0xB952A674)
 
         --text shadow
         draw.text(text_name, x + 5 + shadow_shift_x, y - height + shadow_shift_y + 2, 0xFF000000)
@@ -323,10 +329,41 @@ function dps_meter()
         return
     end
 
+    if missing_monster_hp == 0 then
+        return
+    end
+
     local player_total_damage = player_total_attack_damage + player_total_elemental_attack_damage + player_total_status_ailments_damage
 
+    local x = 450
+    local y = screen_height - 75
+    local width = 200
+    local height = 3
+
+    local bar_shift = 17
+
+    local dealt_damage_percent = player_total_damage / missing_monster_hp
+    local dealt_damage_bar_width = width * dealt_damage_percent
+    local rest_bar_width = width - dealt_damage_bar_width
+
+    
+    local damage_text = string.format("%d/%d\t", player_total_damage, missing_monster_hp);
+    local damage_percent_text = string.format("%5.1f%%",  100 * dealt_damage_percent);
+
+    --rest of the bar
+    draw.filled_rect(x + dealt_damage_bar_width, y + bar_shift, rest_bar_width, height, 0xA7000000)
+    --dealt_damage
+    draw.filled_rect(x, y + bar_shift, dealt_damage_bar_width, height, 0xA7F4A3CC)
+
+    --Damage
     --shadow
-    draw.text("Damage: " .. player_total_damage, 450 + shadow_shift_x, screen_height - 75 + shadow_shift_y, 0xFF000000)
+    draw.text(damage_text, x + 5 + shadow_shift_x, y + shadow_shift_y, 0xFF000000)
     --text
-    draw.text("Damage: " .. player_total_damage, 450, screen_height - 75, 0xFFE1F4CC)
+    draw.text(damage_text, x + 5, y, 0xFFE1F4CC)
+    
+    --Percent
+    --shadow
+    draw.text(damage_percent_text , x - 45 + width + shadow_shift_x, y + shadow_shift_y, 0xFF000000)
+    --text
+    draw.text(damage_percent_text, x - 45 + width, y, 0xFFE1F4CC)
 end
