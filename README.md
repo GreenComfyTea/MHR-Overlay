@@ -10,5 +10,7 @@ But with few differences:
 4) Shows elapsed quest time;
 5) Shows total damage dealt by player (you).
 
-Problems:
+Note:
 I couldn't find total damage dealt by other players. I will keep looking thou.
+
+<img src="https://i.imgur.com/coHuXPv.png" />
