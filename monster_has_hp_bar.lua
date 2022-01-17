@@ -345,7 +345,6 @@ function dps_meter()
     local dealt_damage_percent = player_total_damage / missing_monster_hp
     local dealt_damage_bar_width = width * dealt_damage_percent
     local rest_bar_width = width - dealt_damage_bar_width
-
     
     local damage_text = string.format("%d/%d\t", player_total_damage, missing_monster_hp);
     local damage_percent_text = string.format("%5.1f%%",  100 * dealt_damage_percent);
