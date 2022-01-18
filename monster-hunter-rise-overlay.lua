@@ -331,6 +331,10 @@ re.on_draw_ui(function()
     if string.len(status) > 0 then
         imgui.text("[monster_has_hp_bar.lua] Status: " .. status);
     end
+
+    _, monster_UI.enabled = imgui.checkbox("Enable monster health UI", monster_UI.enabled)
+    _, time_UI.enabled = imgui.checkbox("Enable quest time UI", time_UI.enabled)
+    _, damage_meter_UI.enabled = imgui.checkbox("Enable damage dealt UI", damage_meter_UI.enabled)
 end);
 
 re.on_frame(function()
