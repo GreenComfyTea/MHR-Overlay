@@ -320,10 +320,10 @@ function disappearing_monster_fix()
 	previous_missing_monster_health = missing_monster_health;
 end
 
-local type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
-local update_method = type_def:get_method("update");
+local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
+local enemy_character_base_type_def_update_method = enemy_character_base_type_def:get_method("update");
 
-sdk.hook(update_method, function(args) 
+sdk.hook(enemy_character_base_type_def_update_method, function(args) 
     record_health(sdk.to_managed_object(args[2]));
 end, function(retval) end);
 
@@ -334,7 +334,6 @@ re.on_draw_ui(function()
 end);
 
 re.on_frame(function()
-	missing_monster_health = -1;
 	get_window_size();
 
 	if monster_UI.enabled then
@@ -342,7 +341,7 @@ re.on_frame(function()
 	end
    
 	if time_UI.enabled then
-		quest_time();   
+		quest_time();
 	end
 
 	if damage_meter_UI.enabled then
@@ -352,10 +351,8 @@ re.on_frame(function()
 end)
 
 function monster_health()
-    missing_monster_health = 0;
-
     local enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager");
-    if not enemy_manager then 
+    if not enemy_manager then
         status = "No enemy manager";
         return;
 	end
@@ -365,14 +362,12 @@ function monster_health()
         if not enemy then
             break;
         end
-
+		
         local monster = monster_table[enemy];
         if not monster then 
             status = "No hp entry";
             break;
         end
-
-        missing_monster_health = missing_monster_health + monster.missing_health;
 
 		local screen_position = calculate_screen_coordinates(monster_UI.position);
 		screen_position.x = screen_position.x + monster_UI.spacing * i;
@@ -436,7 +431,7 @@ end
 
 function quest_time()
     local quest_manager = sdk.get_managed_singleton("snow.QuestManager");
-    if not quest_manager then 
+    if not quest_manager then
         status = "No quest manager";
         return;
     end
@@ -472,55 +467,60 @@ function quest_time()
 end
 
 function damage_meter()
-	if missing_monster_health == -1 then
-		missing_monster_health = 0;
+	local quest_manager = sdk.get_managed_singleton("snow.QuestManager");
+    if not quest_manager then
+        status = "No quest manager";
+        return;
+    end
 
-		local enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager");
-		if not enemy_manager then 
-			status = "No enemy manager";
-			return;
-		end
-
-		for i = 0, 4 do
-			local enemy = enemy_manager:call("getBossEnemy", i);
-			if not enemy then
-				break;
-			end
-
-			local monster = monster_table[enemy];
-			if not monster then 
-				status = "No health entry";
-				break;
-			end
-
-			missing_monster_health = missing_monster_health + monster.missing_health;
-			disappearing_monster_fix();
-		end
+	local quest_status = quest_manager:call("getStatus");
+	if not quest_status then
+		status = "No quest status";
+        return;
 	end
+
+	if quest_status == 0 then
+		memorized_missing_monster_health = 0;
+		previous_missing_monster_health = 0;
+		return;
+	end
+
+	missing_monster_health = 0;
+
+	local enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager");
+	if not enemy_manager then
+		status = "No enemy manager";
+		return;
+	end
+
+	for i = 0, 4 do
+		local enemy = enemy_manager:call("getBossEnemy", i);
+		if not enemy then
+			break;
+		end
+
+		local monster = monster_table[enemy];
+		if not monster then 
+			status = "No health entry";
+			break;
+		end
+
+		missing_monster_health = missing_monster_health + monster.missing_health;
+
+	end
+	disappearing_monster_fix();
 
 	if missing_monster_health == 0 then
         return;
     end
 
-    local player_manager = sdk.get_managed_singleton("snow.player.PlayerManager");
-    if not player_manager then 
-        status = "No player manager";
-        return;
-    end
-
-    local player = player_manager:call("findMasterPlayer");
-    if not player then 
-        status = "No local player";
-        return;
-    end
-
     local quest_manager = sdk.get_managed_singleton("snow.QuestManager");
-    if not quest_manager then 
+    if not quest_manager then
         status = "No quest manager";
         return;
     end
 
-    local kpi_data = quest_manager:call("get_KpiData");;
+    local kpi_data = quest_manager:call("get_KpiData");
     if not kpi_data then
         status = "No kpi data";
         return;
