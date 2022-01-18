@@ -11,7 +11,7 @@ But with few differences:
 5) Shows damage dealt by player (you).
 
 # Dependencies:
-1) REFramework (https://www.nexusmods.com/monsterhunterrise/mods/26?tab=posts
+1) REFramework (https://www.nexusmods.com/monsterhunterrise/mods/26)
 
 # How to install:
 1) Install REFramework
