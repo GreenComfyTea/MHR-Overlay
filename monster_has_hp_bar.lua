@@ -1,368 +1,597 @@
-log.info("[monster_has_hp_bar.lua] loaded")
+--------------------CUSTOMIZATION SECTION--------------------
+local monster_UI = {
+	enabled = true,
 
-local status = ""
-local hp_table = {}
+    visibility = {
+        health_bar = true,
+        monster_name = true,
+        current_health = true,
+        max_health = true,
+        health_percentage = true
+    },
 
-local scene_manager = sdk.get_native_singleton("via.SceneManager")
+	shadows = {
+		monster_name = true,
+		health_values = true, --current_health and max_health
+		health_percentage = true
+	},
+    
+    position = {
+        x = 450,
+        y = 27,  
+        --Possible values: "top_left", "top_right", "bottom_left", "bottom_right"
+        anchor = "bottom_left"
+    },
+
+	spacing = 220,
+
+    offsets = {
+        health_bar = {
+            x = 0,
+            y = 0
+        },
+		
+        monster_name = {
+            x = 5,
+            y = -17
+        },
+
+        health_values = {
+            x = 5,
+            y = 2
+        },
+
+        health_percentage = {
+            x = 150,
+            y = 2
+        }
+    },
+    
+    health_bar = {
+        width = 200,
+        height = 20
+    },
+
+    shadow_offsets = {
+        monster_name = {
+            x = 1,
+            y = 1
+        },
+
+        health_values = {
+            x = 1,
+            y = 1
+        },
+
+        health_percentage = {
+            x = 1,
+            y = 1
+        }
+    },
+
+    colors = {
+		health_bar = {
+            remaining_health = 0xB952A674,
+            missing_health = 0xB9000000
+        },
+		
+        monster_name = {
+            text = 0xFFE1F4CC,
+            shadow = 0xFF000000
+        },
+
+        health_values = {
+            text = 0xFFFFFFFF,
+            shadow = 0xFF000000
+        },
+
+        health_percentage = {
+            text = 0xFFFFFFFF,
+            shadow = 0xFF000000
+        }
+    }
+};
+
+local time_UI = {
+    enabled = true,
+	shadow = true,
+
+    position = {
+        x = 65,
+        y = 189,
+        --Possible values: "top_left", "top_right", "bottom_left", "bottom_right"
+        anchor = "top_left"
+    },
+
+    shadow_offset = {
+        x = 1,
+        y = 1
+    },
+
+    colors = {
+        text = 0xFFE1F4CC,
+		shadow = 0xFF000000
+    }
+};
+
+local damage_meter_UI = {
+	enabled = true,
+
+	visibility = {
+		damage_bar = true,
+		player_damage = true,
+		total_damage = true,
+		damage_percentage = true
+
+	},
+
+	shadows = {
+		damage_values = true,
+		damage_percentage = true
+	},
+
+	position = {
+		x = 450,
+		y = 75,  
+		--Possible values: "top_left", "top_right", "bottom_left", "bottom_right"
+		anchor = "bottom_left"
+	},
+
+	offsets = {
+		damage_bar = {
+			x = 0,
+			y = 17
+		},
+		
+		damage_values = {
+			x = 5,
+			y = 0
+		},
+
+		damage_percentage = {
+			x = 155,
+			y = 0
+		}
+	},
+	
+	damage_bar = {
+		width = 200,
+		height = 3
+	},
+
+	shadow_offsets = {
+		damage_values = {
+			x = 1,
+			y = 1
+		},
+
+		damage_percentage = {
+			x = 1,
+			y = 1
+		}
+	},
+
+	colors = {
+		damage_bar = {
+			player_damage = 0xA7F4A3CC,
+			others_damage = 0xA7000000
+		},
+		
+		damage_values = {
+			text = 0xFFE1F4CC,
+			shadow = 0xFF000000
+		},
+
+		damage_percentage = {
+			text = 0xFFE1F4CC,
+			shadow = 0xFF000000
+		},
+	}
+};
+----------------------CUSTOMIZATION END----------------------
+
+log.info("[monster_has_hp_bar.lua] loaded");
+
+local status = "";
+local monster_table = {};
+
+local missing_monster_health = 0;
+local previous_missing_monster_health = 0;
+local memorized_missing_monster_health = 0;
+
+local scene_manager = sdk.get_native_singleton("via.SceneManager");
 if not scene_manager then 
-    log.error("[monster_has_hp_bar.lua] No scene manager")
+    log.error("[monster_has_hp_bar.lua] No scene manager");
     return
 end
 
-local scene_view = sdk.call_native_func(scene_manager, sdk.find_type_definition("via.SceneManager"), "get_MainView")
+local scene_view = sdk.call_native_func(scene_manager, sdk.find_type_definition("via.SceneManager"), "get_MainView");
 if not scene_view then
-    log.error("[monster_has_hp_bar.lua] No main view")
+    log.error("[monster_has_hp_bar.lua] No main view");
     return
 end
 
-local size = scene_view:call("get_Size")
-if not size then
-    log.error("[monster_has_hp_bar.lua] No scene view size")
-    return
-end
+local screen_width;
+local screen_height;
 
-local screen_width = size:get_field("w")
-if not screen_width then
-    log.error("[monster_has_hp_bar.lua] No screen width")
-    return
-end
+function record_health(enemy)
+    if not enemy then
+		return;
+	end
 
-local screen_height = size:get_field("h")
-if not screen_height then
-    log.error("[monster_has_hp_bar.lua] No screen height")
-    return
-end
-
-function record_hp(enemy)
-    if not enemy then return end
-
-    local physical_param = enemy:get_field("<PhysicalParam>k__BackingField")
+    local physical_param = enemy:get_field("<PhysicalParam>k__BackingField");
     if not physical_param then 
-        status = "No physical param"
-        return
+        status = "No physical param";
+        return;
     end
 
-    local vital_param = physical_param:call("getVital", 0, 0)
+    local vital_param = physical_param:call("getVital", 0, 0);
     if not vital_param then
-        status = "No vital param"
-        return
+        status = "No vital param";
+        return;
     end
 
-    local hp = vital_param:call("get_Current")
-    local max_hp = vital_param:call("get_Max")
-    local hp_entry = hp_table[enemy]
+    local health = vital_param:call("get_Current");
+    local max_health = vital_param:call("get_Max");
+	local missing_health = max_health - health;
+
+	local health_percentage = 1;
+	if max_health ~= 0 then
+		health_percentage = health / max_health;
+	end
+
+    local monster = monster_table[enemy];
 
     if not hp_entry then 
-        hp_entry = {} 
-        hp_table[enemy] = hp_entry
+        monster = {};
+        monster_table[enemy] = monster;
 
         -- Grab enemy name.
-        local message_manager = sdk.get_managed_singleton("snow.gui.MessageManager")
+        local message_manager = sdk.get_managed_singleton("snow.gui.MessageManager");
         if not message_manager then
-            status = "No message manager"
-            return
+            status = "No message manager";
+            return;
         end
 
-        local enemy_type = enemy:get_field("<EnemyType>k__BackingField")
+        local enemy_type = enemy:get_field("<EnemyType>k__BackingField");
         if not enemy_type then
-            status = "No enemy type"
-            return
+            status = "No enemy type";
+            return;
         end
 
-        local enemy_name = message_manager:call("getEnemyNameMessage", enemy_type)
-        hp_entry.name = enemy_name
+        local enemy_name = message_manager:call("getEnemyNameMessage", enemy_type);
+        monster.name = enemy_name;
     end
 
-    hp_entry.hp = hp
-    hp_entry.max_hp = max_hp
+    monster.health = health;
+    monster.max_health = max_health;
+	monster.health_percentage = health_percentage;
+	monster.missing_health = missing_health;
 end
 
-local type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase")
-local update_method = type_def:get_method("update")
+function get_window_size()
+	local size = scene_view:call("get_Size");
+	if not size then
+		log.error("[monster_has_hp_bar.lua] No scene view size");
+		return
+	end
+
+	screen_width = size:get_field("w");
+	if not screen_width then
+		log.error("[monster_has_hp_bar.lua] No screen width");
+		return
+	end
+
+	screen_height = size:get_field("h");
+	if not screen_height then
+		log.error("[monster_has_hp_bar.lua] No screen height");
+		return
+	end
+end
+
+function calculate_screen_coordinates(position)
+	if position.anchor == "top_left" then
+		return {x = position.x, y = position.y};
+	end
+
+	if position.anchor == "top_right" then
+		local screen_x = screen_width - position.x;
+		return {x = screen_x, y = position.y};
+	end
+
+	if position.anchor == "bottom_left" then
+		local screen_y = screen_height - position.y;
+		return {x = position.x, y = screen_y};
+	end
+
+	if position.anchor == "bottom_right" then
+		local screen_x = screen_width - position.x;
+		local screen_y = screen_height - position.y;
+		return {x = screen_x, y = screen_y};
+	end
+
+	return {x = position.x, y = position.y};
+end
+
+function disappearing_monster_fix()
+	if missing_monster_health < previous_missing_monster_health then
+		memorized_missing_monster_health = memorized_missing_monster_health + previous_missing_monster_health - missing_monster_health;
+	end
+	previous_missing_monster_health = missing_monster_health;
+end
+
+local type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
+local update_method = type_def:get_method("update");
 
 sdk.hook(update_method, function(args) 
-    record_hp(sdk.to_managed_object(args[2]))
-end, function(retval) end)
+    record_health(sdk.to_managed_object(args[2]));
+end, function(retval) end);
 
 re.on_draw_ui(function() 
     if string.len(status) > 0 then
-        imgui.text("[monster_has_hp_bar.lua] Status: " .. status)
+        imgui.text("[monster_has_hp_bar.lua] Status: " .. status);
     end
-end)
-
-local shadow_shift_x = 1
-local shadow_shift_y = 1
-
-local missing_monster_hp = 0;
+end);
 
 re.on_frame(function()
-    monster_hp();
-    quest_time();
-    dps_meter();
+	missing_monster_health = -1;
+	get_window_size();
 
-    status = ""
+	if monster_UI.enabled then
+		monster_health();
+	end
+   
+	if time_UI.enabled then
+		quest_time();   
+	end
+
+	if damage_meter_UI.enabled then
+		damage_meter();
+		
+	end
 end)
 
-function monster_hp()
-    --[[
-    local player_manager = sdk.get_managed_singleton("snow.player.PlayerManager")
-    if not player_manager then 
-        status = "No player manager"
-        return
-    end
+function monster_health()
+    missing_monster_health = 0;
 
-    local player = player_manager:call("findMasterPlayer")
-    if not player then 
-        status = "No local player"
-        return
-    end
-
-    local player_game_object = player:call("get_GameObject")
-    if not player_game_object then
-        status = "No local player game object"
-        return
-    end
-
-    local player_transform = player_game_object:call("get_Transform")
-    if not player_transform then
-        status = "No local player transform"
-        return
-    end
-
-    local player_position = player_transform:call("get_Position")
-    if not player_position then 
-        status = "No local player position"
-        return
-    end
-    --]]
-
-    local enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager")
+    local enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager");
     if not enemy_manager then 
-        status = "No enemy manager"
-        return 
-    end
-
-    --local closest_enemy = nil
-    --local closest_dist = 999999
-
-    missing_monster_hp = 0
+        status = "No enemy manager";
+        return;
+	end
 
     for i = 0, 4 do
-        local enemy = enemy_manager:call("getBossEnemy", i)
+        local enemy = enemy_manager:call("getBossEnemy", i);
         if not enemy then
-            break
+            break;
         end
 
-        local hp_entry = hp_table[enemy]
-        if not hp_entry then 
-            status = "No hp entry"
-            break 
+        local monster = monster_table[enemy];
+        if not monster then 
+            status = "No hp entry";
+            break;
         end
 
-        --[[
-        local enemy_game_object = enemy:call("get_GameObject")
-        if not enemy_game_object then
-            status = "No enemy game object"
-            break
-        end
+        missing_monster_health = missing_monster_health + monster.missing_health;
 
-        local enemy_transform = enemy_game_object:call("get_Transform")
-        if not enemy_transform then
-            status = "No enemy transform"
-            break 
-        end
+		local screen_position = calculate_screen_coordinates(monster_UI.position);
+		screen_position.x = screen_position.x + monster_UI.spacing * i;
 
-        local enemy_position = enemy_transform:call("get_Position")
-        if not enemy_position then 
-            status = "No enemy position"
-            break 
-        end
+		if monster_UI.visibility.health_bar then
+			local health_bar_remaining_health_width = monster_UI.health_bar.width * monster.health_percentage;
+			local health_bar_missing_health_width = monster_UI.health_bar.width - health_bar_remaining_health_width;
 
-        local distance = (player_position - enemy_position):length()
+			--remaining health
+			draw.filled_rect(screen_position.x + monster_UI.offsets.health_bar.x, screen_position.y + monster_UI.offsets.health_bar.y, health_bar_remaining_health_width, monster_UI.health_bar.height, monster_UI.colors.health_bar.remaining_health);
+			--missing health
+			draw.filled_rect(screen_position.x + monster_UI.offsets.health_bar.x + health_bar_remaining_health_width, screen_position.y + monster_UI.offsets.health_bar.y, health_bar_missing_health_width, monster_UI.health_bar.height, monster_UI.colors.health_bar.missing_health);
+		end
 
-        if distance < closest_dist then
-            closest_dist = distance
-            closest_enemy = enemy
-        end
-        --]]
+		if monster_UI.visibility.monster_name then
+			if monster_UI.shadows.monster_name then
+				--monster name shadow
+				draw.text(monster.name, screen_position.x + monster_UI.offsets.monster_name.x + monster_UI.shadow_offsets.monster_name.x, screen_position.y + monster_UI.offsets.monster_name.y + monster_UI.shadow_offsets.monster_name.y, monster_UI.colors.monster_name.shadow);
+			end
 
-        local width = 200
-        local height = 20
+			--monster name
+			draw.text(monster.name, screen_position.x  + monster_UI.offsets.monster_name.x, screen_position.y + monster_UI.offsets.monster_name.y, monster_UI.colors.monster_name.text);
+		end
 
-        local spacing = 20
+		if monster_UI.visibility.current_health or monster_UI.visibility.max_health then
+			local health_values = "";
+			if monster_UI.visibility.current_health then
+				health_values = string.format("%d", monster.health);
+			end
+	
+			if monster_UI.visibility.max_health then
+				if monster_UI.visibility.current_health then
+					health_values = health_values .. "/";
+				end
 
-        local x = 450 + width * i + spacing * i
-        local y = screen_height - 27
+				health_values = health_values .. string.format("%d", monster.max_health);
+			end
 
-        missing_monster_hp = missing_monster_hp + (hp_entry.max_hp - hp_entry.hp)
+			if monster_UI.shadows.health_values then
+				--health values shadow
+				draw.text(health_values, screen_position.x + monster_UI.offsets.health_values.x + monster_UI.shadow_offsets.health_values.x, screen_position.y + monster_UI.offsets.health_values.y + monster_UI.shadow_offsets.health_values.y, monster_UI.colors.health_values.shadow);
+			end
+			--health values
+			draw.text(health_values, screen_position.x + monster_UI.offsets.health_values.x, screen_position.y  + monster_UI.offsets.health_values.y, monster_UI.colors.health_values.text);
+		end
 
-        local hp_percent = hp_entry.hp / hp_entry.max_hp
-        local hp_width = width * hp_percent
-        local missing_hp_width = width - hp_width
-    
-        local text_name = hp_entry.name
-        local text_hp = string.format("%d/%d\t(%d%%)", hp_entry.hp, hp_entry.max_hp, math.floor(hp_percent * 100))
+		if monster_UI.visibility.health_percentage then
+			local health_percentage_text = string.format("%3.1f%%", 100 * monster.health_percentage);
 
-        --border
-        --draw.filled_rect(x - 1, y - 1, width + 2, height + 2, 0xAA000000)
-        --missing hp
-        draw.filled_rect(x + hp_width, y, missing_hp_width, height, 0xB9000000)
-        --remaining hp
-        draw.filled_rect(x, y, hp_width, height, 0xB952A674)
-
-        --text shadow
-        draw.text(text_name, x + 5 + shadow_shift_x, y - height + shadow_shift_y + 2, 0xFF000000)
-        draw.text(text_hp, x + shadow_shift_x + width / 4, y + shadow_shift_y + 2, 0xFF000000)
-
-        --text itself
-        draw.text(text_name, x + 5, y - height + 2, 0xFFE1F4CC)
-        draw.text(text_hp, x + width / 4, y + 2, 0xFFFFFFFF)
-        
-        status = ""
+			if monster_UI.shadows.health_percentage then
+				--health percentage shadow
+				draw.text(health_percentage_text, screen_position.x + monster_UI.offsets.health_percentage.x + monster_UI.shadow_offsets.health_percentage.x, screen_position.y + monster_UI.offsets.health_percentage.y + monster_UI.shadow_offsets.health_percentage.y, monster_UI.colors.health_percentage.shadow);
+			end
+			--health percentage
+			draw.text(health_percentage_text, screen_position.x + monster_UI.offsets.health_percentage.x, screen_position.y + monster_UI.offsets.health_percentage.y, monster_UI.colors.health_percentage.text);
+		end
     end
 
-     --[[
-    if not closest_enemy then
-        hp_table = {}
-        status = "No enemy"
-        return
-    end
-
-    local hp_entry = hp_table[closest_enemy]
-    if not hp_entry then 
-        status = "No hp entry"
-        return
-    end
-
-    local x = 0
-    local y = 0
-    local w = screen_width
-    local h = 20
-    local hp_percent = hp_entry.hp / hp_entry.max_hp
-    local hp_w = w * hp_percent 
-    local missing_hp_w = w - hp_w 
-
-    draw.filled_rect(x + hp_w, y, missing_hp_w, h, 0xAA000000)
-    draw.filled_rect(x, y, hp_w, h, 0xAA228B22)
-    draw.text(hp_entry.name .. "\t" .. math.floor(hp_percent * 100) .. "%\t" .. hp_entry.hp .. "/" .. hp_entry.max_hp, x + 5, y + 2, 0xFFFFFFFF)
-    status = ""
-    --]]
+	disappearing_monster_fix();
 end
 
 function quest_time()
-    local quest_manager = sdk.get_managed_singleton("snow.QuestManager")
+    local quest_manager = sdk.get_managed_singleton("snow.QuestManager");
     if not quest_manager then 
-        status = "No quest manager"
-        return 
+        status = "No quest manager";
+        return;
     end
 
     local quest_time_elapsed_minutes = quest_manager:call("getQuestElapsedTimeMin");
     if not quest_time_elapsed_minutes then
-        status = "No quest time elapsed minutes"
-        return
+        status = "No quest time elapsed minutes";
+        return;
     end
 
     local quest_time_total_elapsed_seconds = quest_manager:call("getQuestElapsedTimeSec");
     if not quest_time_total_elapsed_seconds then
-        status = "No quest time total elapsed seconds"
-        return
+        status = "No quest time total elapsed seconds";
+        return;
     end
 
     if quest_time_total_elapsed_seconds == 0 then
-        return
+        return;
     end
 
-    local quest_time_elapsed_seconds = quest_time_total_elapsed_seconds - quest_time_elapsed_minutes * 60
+    local quest_time_elapsed_seconds = quest_time_total_elapsed_seconds - quest_time_elapsed_minutes * 60;
 
-    local elapsed_time = string.format("%02d:%06.3f", quest_time_elapsed_minutes, quest_time_elapsed_seconds)
+    local elapsed_time_text = string.format("%02d:%06.3f", quest_time_elapsed_minutes, quest_time_elapsed_seconds);
 
-    local x = 65
-    local y = 189
+	local screen_position = calculate_screen_coordinates(time_UI.position);
 
-    --shadow
-    draw.text(elapsed_time, x + shadow_shift_x, y + shadow_shift_y, 0xFF000000)
-
+	if time_UI.shadow then
+		--shadow
+		draw.text(elapsed_time_text, screen_position.x + time_UI.shadow_offset.x, screen_position.y + time_UI.shadow_offset.y, time_UI.colors.shadow);
+	end
     --text
-    draw.text(elapsed_time, x, y, 0xFFE1F4CC)
+	draw.text(elapsed_time_text, screen_position.x, screen_position.y, time_UI.colors.text);
 end
 
-function dps_meter()
-    local player_manager = sdk.get_managed_singleton("snow.player.PlayerManager")
+function damage_meter()
+	if missing_monster_health == -1 then
+		missing_monster_health = 0;
+
+		local enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager");
+		if not enemy_manager then 
+			status = "No enemy manager";
+			return;
+		end
+
+		for i = 0, 4 do
+			local enemy = enemy_manager:call("getBossEnemy", i);
+			if not enemy then
+				break;
+			end
+
+			local monster = monster_table[enemy];
+			if not monster then 
+				status = "No health entry";
+				break;
+			end
+
+			missing_monster_health = missing_monster_health + monster.missing_health;
+			disappearing_monster_fix();
+		end
+	end
+
+	if missing_monster_health == 0 then
+        return;
+    end
+
+    local player_manager = sdk.get_managed_singleton("snow.player.PlayerManager");
     if not player_manager then 
-        status = "No player manager"
-        return
+        status = "No player manager";
+        return;
     end
 
-    local player = player_manager:call("findMasterPlayer")
+    local player = player_manager:call("findMasterPlayer");
     if not player then 
-        status = "No local player"
-        return
+        status = "No local player";
+        return;
     end
 
-    local quest_manager = sdk.get_managed_singleton("snow.QuestManager")
+    local quest_manager = sdk.get_managed_singleton("snow.QuestManager");
     if not quest_manager then 
-        status = "No quest manager"
-        return 
+        status = "No quest manager";
+        return;
     end
 
-    local kpi_data = quest_manager:call("get_KpiData");
+    local kpi_data = quest_manager:call("get_KpiData");;
     if not kpi_data then
-        status = "No kpi data"
-        return
+        status = "No kpi data";
+        return;
     end
 
     local player_total_attack_damage = kpi_data:call("get_PlayerTotalAttackDamage");
     if not player_total_attack_damage then
-        status = "No player total attack damage"
-        return
+        status = "No player total attack damage";
+        return;
     end
     
     local player_total_elemental_attack_damage = kpi_data:call("get_PlayerTotalElementalAttackDamage");
     if not player_total_elemental_attack_damage then
-        status = "No player total elemental attack damage"
-        return
+        status = "No player total elemental attack damage";
+        return;
     end
 
     local player_total_status_ailments_damage = kpi_data:call("get_PlayerTotalStatusAilmentsDamage");
     if not player_total_status_ailments_damage then
-        status = "No player total status ailments damage"
-        return
+        status = "No player total status ailments damage";
+        return;
     end
 
-    if missing_monster_hp == 0 then
-        return
-    end
+    local player_total_damage = player_total_attack_damage + player_total_elemental_attack_damage + player_total_status_ailments_damage;
+	local total_missing_monster_health = missing_monster_health + memorized_missing_monster_health;
+	local player_damage_percentage = player_total_damage / total_missing_monster_health ;
 
-    local player_total_damage = player_total_attack_damage + player_total_elemental_attack_damage + player_total_status_ailments_damage
+    local screen_position = calculate_screen_coordinates(damage_meter_UI.position);
 
-    local x = 450
-    local y = screen_height - 75
-    local width = 200
-    local height = 3
+	if damage_meter_UI.visibility.damage_bar then
+		local damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * player_damage_percentage;
+		local damage_bar_others_damage_width = damage_meter_UI.damage_bar.width - damage_bar_player_damage_width;
 
-    local bar_shift = 17
+		--player damage
+		draw.filled_rect(screen_position.x + damage_meter_UI.offsets.damage_bar.x, screen_position.y + damage_meter_UI.offsets.damage_bar.y, damage_bar_player_damage_width, damage_meter_UI.damage_bar.height, damage_meter_UI.colors.damage_bar.player_damage);
+		--others damage
+		draw.filled_rect(screen_position.x + damage_meter_UI.offsets.damage_bar.x + damage_bar_player_damage_width, screen_position.y + damage_meter_UI.offsets.damage_bar.y, damage_bar_others_damage_width, damage_meter_UI.damage_bar.height, damage_meter_UI.colors.damage_bar.others_damage);
+	end
 
-    local dealt_damage_percent = player_total_damage / missing_monster_hp
-    local dealt_damage_bar_width = width * dealt_damage_percent
-    local rest_bar_width = width - dealt_damage_bar_width
-    
-    local damage_text = string.format("%d/%d\t", player_total_damage, missing_monster_hp);
-    local damage_percent_text = string.format("%5.1f%%",  100 * dealt_damage_percent);
+	if damage_meter_UI.visibility.player_damage or damage_meter_UI.visibility.total_damage then
+		local damage_values = "";
+		if damage_meter_UI.visibility.player_damage then
+			damage_values = string.format("%d", player_total_damage);
+		end
 
-    --rest of the bar
-    draw.filled_rect(x + dealt_damage_bar_width, y + bar_shift, rest_bar_width, height, 0xA7000000)
-    --dealt_damage
-    draw.filled_rect(x, y + bar_shift, dealt_damage_bar_width, height, 0xA7F4A3CC)
+		if damage_meter_UI.visibility.total_damage then
+			if damage_meter_UI.visibility.player_damage then
+				damage_values = damage_values .. "/";
+			end
 
-    --Damage
-    --shadow
-    draw.text(damage_text, x + 5 + shadow_shift_x, y + shadow_shift_y, 0xFF000000)
-    --text
-    draw.text(damage_text, x + 5, y, 0xFFE1F4CC)
-    
-    --Percent
-    --shadow
-    draw.text(damage_percent_text , x - 45 + width + shadow_shift_x, y + shadow_shift_y, 0xFF000000)
-    --text
-    draw.text(damage_percent_text, x - 45 + width, y, 0xFFE1F4CC)
+			damage_values = damage_values .. string.format("%d", total_missing_monster_health);
+		end
+
+		if damage_meter_UI.shadows.damage_values then
+			--health values shadow
+			draw.text(damage_values, screen_position.x + damage_meter_UI.offsets.damage_values.x + damage_meter_UI.shadow_offsets.damage_values.x, screen_position.y + damage_meter_UI.offsets.damage_values.y + damage_meter_UI.shadow_offsets.damage_values.y, damage_meter_UI.colors.damage_values.shadow);
+		end
+		--health values
+		draw.text(damage_values, screen_position.x  + damage_meter_UI.offsets.damage_values.x, screen_position.y  + damage_meter_UI.offsets.damage_values.y, damage_meter_UI.colors.damage_values.text);
+	end
+
+	
+
+	if damage_meter_UI.visibility.damage_percentage then
+		local damage_percentage_text = string.format("%3.1f%%", 100 * player_damage_percentage);
+
+		if damage_meter_UI.shadows.damage_percentage then
+			--health percentage shadow
+			draw.text(damage_percentage_text, screen_position.x + damage_meter_UI.offsets.damage_percentage.x + damage_meter_UI.shadow_offsets.damage_percentage.x, screen_position.y + damage_meter_UI.offsets.damage_percentage.y + damage_meter_UI.shadow_offsets.damage_percentage.y, damage_meter_UI.colors.damage_percentage.shadow);
+		end
+		--health percentage
+		draw.text(damage_percentage_text, screen_position.x + damage_meter_UI.offsets.damage_percentage.x, screen_position.y + damage_meter_UI.offsets.damage_percentage.y, damage_meter_UI.colors.damage_percentage.text);
+	end
 end
