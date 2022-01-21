@@ -1,14 +1,12 @@
 # Monster Hunter Rise Overlay Mod
 
-Built on Monster Hp Bar Mod https://www.nexusmods.com/monsterhunterrise/mods/43?tab=description
+Built on https://www.nexusmods.com/monsterhunterrise/mods/43?tab=description and https://www.nexusmods.com/monsterhunterrise/mods/68
 
-But with few differences:
-
-1) Shows health bars for all large monsters;
-2) Changed layout, appearance and added text shadow (default values are made for 1080p screen);
-3) No sorting based on distance;
-4) Shows elapsed quest time;
-5) Shows damage dealt by player (you).
+Features:
+1) Large Monster Health;
+2) Quest Time;
+3) Damage Meter;
+4) Flexible Customization.
 
 # Dependencies:
 1) REFramework (https://www.nexusmods.com/monsterhunterrise/mods/26)
@@ -23,10 +21,6 @@ The beginning of the monster-hunter-rise-overlay.lua file is dedicated to Custom
 
 To simplify the customization process you can reload scripts in REFramework after each change. No need to restart the game each time. Press Insert Button to open REFramework window inside the game.
 REFramework -> ScriptRunner -> Reset Scripts.
-
-# Notes:
-1) I couldn't find total damage dealt by other players. I will keep looking thou.
-2) Damage meter might work incorrectly due to monster health scaling in multiplayer.
 
 <img src="https://i.imgur.com/TSphQYb.png" />
 
