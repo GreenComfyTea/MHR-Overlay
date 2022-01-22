@@ -1,4 +1,5 @@
 # Monster Hunter Rise Overlay Mod
+Link: https://www.nexusmods.com/monsterhunterrise/mods/50
 
 Built on https://www.nexusmods.com/monsterhunterrise/mods/43?tab=description and https://www.nexusmods.com/monsterhunterrise/mods/68
 
