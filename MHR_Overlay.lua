@@ -2,6 +2,12 @@
 local monster_UI = {
 	enabled = true,
 
+	spacing = 220,
+	orientation = "horizontal", -- "vertical" or "horizontal"
+
+	sort_type = "health percentage", -- "normal" or "health" or "health percentage"
+	reverse_order = false,
+
     visibility = {
         health_bar = true,
         monster_name = true,
@@ -17,14 +23,11 @@ local monster_UI = {
 	},
     
     position = {
-        x = 450,
+        x = 525,
         y = 27,  
-        --Possible values: "top_left", "top_right", "bottom_left", "bottom_right"
-        anchor = "bottom_left"
+        --Possible values: "top-left", "top-right", "bottom-left", "bottom-right"
+        anchor = "bottom-left"
     },
-
-	spacing = 220,
-	orientation = "horizontal", -- "vertical" or "horizontal"
 
     offsets = {
         health_bar = {
@@ -100,8 +103,8 @@ local time_UI = {
     position = {
         x = 65,
         y = 189,
-        --Possible values: "top_left", "top_right", "bottom_left", "bottom_right"
-        anchor = "top_left"
+        --Possible values: "top-left", "top-right", "bottom-left", "bottom-right"
+        anchor = "top-left"
     },
 
     shadow_offset = {
@@ -128,29 +131,33 @@ local damage_meter_UI = {
 
 	spacing = 24,
 	orientation = "vertical", -- "vertical" or "horizontal"
+	total_damage_offset_is_relative = true,
 
-	myself_always_first = true,
-	sorting = "descending", -- "natural" or "ascending" or "descending"
+	damage_bar_relative_to = "top_damage", -- "total_damage" or "top_damage"
+	myself_bar_place_in_order = "first", --"normal" or "first" or "last"
+	sort_type = "damage", -- "normal" or "damage"
+	reverse_order = false,
 
 	visibility = {
 		name = true,
 		damage_bar = true,
 		player_damage = true,
-		total_damage = true,
-		damage_percentage = true
+		player_damage_percentage = true,
+		total_damage = true
 	},
 
 	shadows = {
 		name = true,
-		damage_values = true,
-		damage_percentage = true
+		player_damage = true,
+		player_damage_percentage = true,
+		total_damage = true
 	},
 
 	position = {
-		x = 450,
+		x = 525,
 		y = 225,  
-		--Possible values: "top_left", "top_right", "bottom_left", "bottom_right"
-		anchor = "bottom_left"
+		--Possible values: "top-left", "top-right", "bottom-left", "bottom-right"
+		anchor = "bottom-left"
 	},
 
 	offsets = {
@@ -164,19 +171,24 @@ local damage_meter_UI = {
 			y = 17
 		},
 		
-		damage_values = {
-			x = 100,
+		player_damage = {
+			x = 120,
 			y = 0
 		},
 
-		damage_percentage = {
-			x = 205,
+		player_damage_percentage = {
+			x = 180,
+			y = 0
+		},
+
+		total_damage = {
+			x = 120,
 			y = 0
 		}
 	},
 	
 	damage_bar = {
-		width = 250,
+		width = 225,
 		height = 5
 	},
 
@@ -186,12 +198,17 @@ local damage_meter_UI = {
 			y = 1
 		},
 
-		damage_values = {
+		player_damage = {
 			x = 1,
 			y = 1
 		},
 
-		damage_percentage = {
+		player_damage_percentage = {
+			x = 1,
+			y = 1
+		},
+
+		total_damage = {
 			x = 1,
 			y = 1
 		}
@@ -213,15 +230,20 @@ local damage_meter_UI = {
 			others_damage = 0xA7000000
 		},
 		
-		damage_values = {
+		player_damage = {
 			text = 0xFFE1F4CC,
 			shadow = 0xFF000000
 		},
 
-		damage_percentage = {
+		player_damage_percentage = {
 			text = 0xFFE1F4CC,
 			shadow = 0xFF000000
 		},
+
+		total_damage = {
+			text = 0xFF7373ff,
+			shadow = 0xFF000000
+		}
 	}
 };
 ----------------------CUSTOMIZATION END----------------------
@@ -295,21 +317,21 @@ function get_window_size()
 end
 
 function calculate_screen_coordinates(position)
-	if position.anchor == "top_left" then
+	if position.anchor == "top-left" then
 		return {x = position.x, y = position.y};
 	end
 
-	if position.anchor == "top_right" then
+	if position.anchor == "top-right" then
 		local screen_x = screen_width - position.x;
 		return {x = screen_x, y = position.y};
 	end
 
-	if position.anchor == "bottom_left" then
+	if position.anchor == "bottom-left" then
 		local screen_y = screen_height - position.y;
 		return {x = position.x, y = screen_y};
 	end
 
-	if position.anchor == "bottom_right" then
+	if position.anchor == "bottom-right" then
 		local screen_x = screen_width - position.x;
 		local screen_y = screen_height - position.y;
 		return {x = screen_x, y = screen_y};
@@ -400,7 +422,7 @@ function monster_health()
         return;
 	end
 
-
+	local monsters = {}
     for i = 0, 4 do
         local enemy = enemy_manager:call("getBossEnemy", i);
         if not enemy then
@@ -412,6 +434,44 @@ function monster_health()
             status = "No hp entry";
             break;
         end
+
+		table.insert(monsters, monster);
+    end
+
+	--sort_type = "normal", -- "normal" or "health" or "health_percentage"
+	--sort here
+	if monster_UI.sort_type == "normal" and monster_UI.reverse_order then
+		local reversed_monsters = {};
+
+		for i = #monsters, 1, -1 do
+			table.insert(reversed_monsters, monsters[i]);
+		end
+		monsters = reversed_monsters;
+
+	elseif monster_UI.sort_type == "health" then
+		table.sort(monsters, function(left, right)
+			local result = left.health > right.health;
+
+			if monster_UI.reverse_order then
+				result = not result;
+			end
+
+			return result;
+		end);
+	elseif monster_UI.sort_type == "health percentage" then
+		table.sort(monsters, function(left, right)
+			local result = left.health_percentage < right.health_percentage;
+			
+			if monster_UI.reverse_order then
+				result = not result;
+			end
+
+			return result;
+		end);
+	end
+
+	local i = 0;
+	for _, monster in ipairs(monsters) do
 		local screen_position = calculate_screen_coordinates(monster_UI.position);
 
 		if monster_UI.orientation == "horizontal" then
@@ -463,7 +523,7 @@ function monster_health()
 		end
 
 		if monster_UI.visibility.health_percentage then
-			local health_percentage_text = string.format("%3.1f%%", 100 * monster.health_percentage);
+			local health_percentage_text = string.format("%5.1f%%", 100 * monster.health_percentage);
 
 			if monster_UI.shadows.health_percentage then
 				--health percentage shadow
@@ -472,7 +532,9 @@ function monster_health()
 			--health percentage
 			draw.text(health_percentage_text, screen_position.x + monster_UI.offsets.health_percentage.x, screen_position.y + monster_UI.offsets.health_percentage.y, monster_UI.colors.health_percentage.text);
 		end
-    end
+
+		i = i + 1;
+	end
 end
 -------------------------MONSTER UI--------------------------
 
@@ -703,7 +765,6 @@ function damage_meter()
 	end
 
 	local quest_players = {};
-	table.insert(quest_players, players[myself_player_id]);
 
 	--other players
 	local player_info_list = lobby_manager:get_field("_questHunterInfo");
@@ -728,8 +789,8 @@ function damage_meter()
 			goto continue;
 		end
 
-		if player_id == myself_player_id then
-			table.remove(quest_players, 1);
+		if player_id == myself_player_id and damage_meter_UI.myself_bar_place_in_order ~= "normal" then
+			goto continue;
 		end
 		
 		local player_name = player_info:get_field("_name");
@@ -746,12 +807,16 @@ function damage_meter()
 	end
 
 	--sort here
-	if damage_meter_UI.sorting == "ascending" then
+	if damage_meter_UI.sort_type == "normal" and damage_meter_UI.reverse_order then
+		local reversed_quest_players = {};
+
+		for i = #quest_players, 1, -1 do
+			table.insert(reversed_quest_players, quest_players[i]);
+		end
+		quest_players = reversed_quest_players;
+
+	elseif damage_meter_UI.sort_type == "damage" then
 		table.sort(quest_players, function(left, right)
-			if damage_meter_UI.myself_always_first and left.id == myself_player_id then
-				return true;
-			end
-			
 			local left_total_damage = left.total_damage;
 			local right_total_damage = right.total_damage;
 
@@ -765,33 +830,43 @@ function damage_meter()
 				right_total_damage = right_total_damage + right.other.total_damage;
 			end
 
-			return left_total_damage < right_total_damage;
+			local result = left_total_damage > right_total_damage
+			if damage_meter_UI.reverse_order then
+				result = not result;
+			end
+
+			return result;
 		end);
-	elseif damage_meter_UI.sorting == "descending" then
-		table.sort(quest_players, function(left, right)
-			if damage_meter_UI.myself_always_first and left.id == myself_player_id then
-				return true;
-			end
+	end
 
-			if damage_meter_UI.myself_always_first and right.id == myself_player_id then
-				return false;
-			end
+	if damage_meter_UI.myself_bar_place_in_order == "first" then
+		table.insert(quest_players, 1, players[myself_player_id]);
+	end
 
-			local left_total_damage = left.total_damage;
-			local right_total_damage = right.total_damage;
-
-			if damage_meter_UI.include_otomo_damage then
-				left_total_damage = left_total_damage + left.otomo.total_damage;
-				right_total_damage = right_total_damage + right.otomo.total_damage;
-			end
+	if damage_meter_UI.myself_bar_place_in_order == "last" then
+		table.insert(quest_players, #quest_players + 1, players[myself_player_id]);
+	end
 	
-			if damage_meter_UI.include_other_type_damage then
-				left_total_damage = left_total_damage + left.other.total_damage;
-				right_total_damage = right_total_damage + right.other.total_damage;
-			end
+	local top_damage_percentage = 0;
+	for _, player in ipairs(quest_players) do
+		local player_total_damage = player.total_damage;
 
-			return left_total_damage > right_total_damage;
-		end);
+		if damage_meter_UI.include_otomo_damage then
+			player_total_damage = player_total_damage + player.otomo.total_damage;
+		end
+
+		if damage_meter_UI.include_other_type_damage then
+			player_total_damage = player_total_damage + player.other.total_damage;
+		end
+
+		local player_damage_percentage = 0;
+		if total_damage ~= 0  then
+			player_damage_percentage = player_total_damage / total_damage;
+		end
+
+		if player_damage_percentage > top_damage_percentage then
+			top_damage_percentage = player_damage_percentage;
+		end
 	end
 
 	--draw
@@ -812,9 +887,9 @@ function damage_meter()
 			goto continue1;
 		end
 
-		local player_total_damage_percentage = 0;
+		local player_damage_percentage = 0;
 		if total_damage ~= 0  then
-			player_total_damage_percentage = player_total_damage / total_damage;
+			player_damage_percentage = player_total_damage / total_damage;
 		end
 
 		local screen_position = calculate_screen_coordinates(damage_meter_UI.position);
@@ -826,7 +901,13 @@ function damage_meter()
 		end
 
 		if damage_meter_UI.visibility.damage_bar then
-			local damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * player_total_damage_percentage;
+			local damage_bar_player_damage_width = 0;
+			if damage_meter_UI.damage_bar_relative_to == "total_damage" then
+				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * player_damage_percentage;
+			elseif top_damage_percentage ~= 0 then
+				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * (player_damage_percentage / top_damage_percentage); 
+			end
+			
 			local damage_bar_others_damage_width = damage_meter_UI.damage_bar.width - damage_bar_player_damage_width;
 
 			local damage_bar_color =  damage_meter_UI.colors.damage_bar;
@@ -851,40 +932,54 @@ function damage_meter()
 			draw.text(name_text, screen_position.x + damage_meter_UI.offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y, damage_meter_UI.colors.name.text);
 		end
 
-		if damage_meter_UI.visibility.player_damage or damage_meter_UI.visibility.total_damage then
-			local damage_values = "";
-			if damage_meter_UI.visibility.player_damage then
-				damage_values = string.format("%d", player_total_damage);
-			end
+		if damage_meter_UI.visibility.player_damage then
+			local player_damage = string.format("%d", player_total_damage);
 	
-			if damage_meter_UI.visibility.total_damage then
-				if damage_meter_UI.visibility.player_damage then
-					damage_values = damage_values .. "/";
-				end
-	
-				damage_values = damage_values .. string.format("%d", total_damage);
+			if damage_meter_UI.shadows.player_damage then
+				--player_damage shadow
+				draw.text(player_damage, screen_position.x + damage_meter_UI.offsets.player_damage.x + damage_meter_UI.shadow_offsets.player_damage.x, screen_position.y + damage_meter_UI.offsets.player_damage.y + damage_meter_UI.shadow_offsets.player_damage.y, damage_meter_UI.colors.player_damage.shadow);
 			end
-	
-			if damage_meter_UI.shadows.damage_values then
-				--damage values shadow
-				draw.text(damage_values, screen_position.x + damage_meter_UI.offsets.damage_values.x + damage_meter_UI.shadow_offsets.damage_values.x, screen_position.y + damage_meter_UI.offsets.damage_values.y + damage_meter_UI.shadow_offsets.damage_values.y, damage_meter_UI.colors.damage_values.shadow);
-			end
-			--damage values
-			draw.text(damage_values, screen_position.x  + damage_meter_UI.offsets.damage_values.x, screen_position.y  + damage_meter_UI.offsets.damage_values.y, damage_meter_UI.colors.damage_values.text);
-		end
 
-		if damage_meter_UI.visibility.damage_percentage then
-			local damage_percentage_text = string.format("%3.1f%%", 100 * player_total_damage_percentage);
-	
-			if damage_meter_UI.shadows.damage_percentage then
-				--health percentage shadow
-				draw.text(damage_percentage_text, screen_position.x + damage_meter_UI.offsets.damage_percentage.x + damage_meter_UI.shadow_offsets.damage_percentage.x, screen_position.y + damage_meter_UI.offsets.damage_percentage.y + damage_meter_UI.shadow_offsets.damage_percentage.y, damage_meter_UI.colors.damage_percentage.shadow);
+			--player_damage
+			draw.text(player_damage, screen_position.x  + damage_meter_UI.offsets.player_damage.x, screen_position.y  + damage_meter_UI.offsets.player_damage.y, damage_meter_UI.colors.player_damage.text);
+		end
+		if damage_meter_UI.visibility.player_damage_percentage then
+			local player_damage_percentage_text = string.format("%5.1f%%", 100 * player_damage_percentage);
+			
+			if damage_meter_UI.shadows.player_damage_percentage then
+				--player damage percentage shadow
+				draw.text(player_damage_percentage_text, screen_position.x + damage_meter_UI.offsets.player_damage_percentage.x + damage_meter_UI.shadow_offsets.player_damage_percentage.x, screen_position.y + damage_meter_UI.offsets.player_damage_percentage.y + damage_meter_UI.shadow_offsets.player_damage_percentage.y, damage_meter_UI.colors.player_damage_percentage.shadow);
 			end
-			--health percentage
-			draw.text(damage_percentage_text, screen_position.x + damage_meter_UI.offsets.damage_percentage.x, screen_position.y + damage_meter_UI.offsets.damage_percentage.y, damage_meter_UI.colors.damage_percentage.text);
+
+			--player damage percentage
+			draw.text(player_damage_percentage_text, screen_position.x + damage_meter_UI.offsets.player_damage_percentage.x, screen_position.y + damage_meter_UI.offsets.player_damage_percentage.y, damage_meter_UI.colors.player_damage_percentage.text);
 		end
 		i = i + 1;
 		::continue1::
 	end
+
+	--draw total damage
+	if damage_meter_UI.visibility.total_damage then
+		local total_damage_text = string.format("%d", total_damage);
+
+		local screen_position = calculate_screen_coordinates(damage_meter_UI.position);
+		if damage_meter_UI.total_damage_offset_is_relative then
+			if damage_meter_UI.orientation == "horizontal" then
+				screen_position.x = screen_position.x + damage_meter_UI.spacing * i;
+			else
+				screen_position.y = screen_position.y + damage_meter_UI.spacing * i;
+			end
+		end
+
+		if damage_meter_UI.shadows.total_damage then
+			--total damage shadow
+			draw.text(total_damage_text, screen_position.x + damage_meter_UI.offsets.total_damage.x + damage_meter_UI.shadow_offsets.total_damage.x, screen_position.y + damage_meter_UI.offsets.total_damage.y + damage_meter_UI.shadow_offsets.total_damage.y, damage_meter_UI.colors.total_damage.shadow);
+		end
+
+		--total damage
+		draw.text(total_damage_text, screen_position.x + damage_meter_UI.offsets.total_damage.x, screen_position.y + damage_meter_UI.offsets.total_damage.y, damage_meter_UI.colors.total_damage.text);
+	end
+
+
 end
 -----------------------DAMAGE METER UI-----------------------
