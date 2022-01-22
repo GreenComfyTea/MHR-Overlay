@@ -23,6 +23,14 @@ The beginning of the monster-hunter-rise-overlay.lua file is dedicated to Custom
 To simplify the customization process you can reload scripts in REFramework after each change. No need to restart the game each time. Press Insert Button to open REFramework window inside the game.
 REFramework -> ScriptRunner -> Reset Scripts.
 
+Things that can be changed:
+
+1) Visibility of modules, elements, labels;
+2) Module positions, offsets;
+3) Bar sizes;
+4) Colors, shadows;
+5) Sorting.
+
 <img src="https://i.imgur.com/zgPlLqY.png" />
 
 # Support
