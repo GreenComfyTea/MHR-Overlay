@@ -121,8 +121,12 @@ local time_UI = {
 local damage_meter_UI = {
 	enabled = true,
 
+	include_player_damage = true,
+	include_bomb_damage = true,
+	include_kunai_damage = true,
+	include_installation_damage = true, -- hunting_installations like ballista, cannon, etc.
 	include_otomo_damage = true,
-	include_other_type_damage = true, -- hunting_installations, monsters
+	include_monster_damage = true, -- note that installations during narwa fight are counted as monster damage
 
 	show_module_if_total_damage_is_zero = true,
 	show_player_if_player_damage_is_zero = true,
@@ -139,6 +143,7 @@ local damage_meter_UI = {
 	reverse_order = false,
 
 	visibility = {
+		id = true,
 		name = true,
 		damage_bar = true,
 		player_damage = true,
@@ -286,7 +291,6 @@ re.on_frame(function()
 		monster_health();
 	end
 
-
 	if time_UI.enabled then
 		quest_time();
 	end
@@ -422,16 +426,24 @@ function monster_health()
         return;
 	end
 
-	local monsters = {}
-    for i = 0, 4 do
+	local monsters = {};
+
+	local enemy_count = enemy_manager:call("getBossEnemyCount");
+	if enemy_count == nil then
+		status = "No enemy count";
+		return;
+	end
+
+    for i = 0, enemy_count - 1 do
         local enemy = enemy_manager:call("getBossEnemy", i);
-        if not enemy then
+        if enemy == nil then
+			status = "No enemy";
             break;
         end
 		
         local monster = monster_table[enemy];
-        if not monster then 
-            status = "No hp entry";
+        if monster == nil then 
+            status = "No monster hp entry";
             break;
         end
 
@@ -587,6 +599,9 @@ end
 
 -----------------------DAMAGE METER UI-----------------------
 players = {};
+is_quest_online = false;
+last_displayed_players = {};
+myself_player_id = 0;
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_after_calc_damage_damage_side = enemy_character_base_type_def:get_method("afterCalcDamage_DamageSide");
@@ -600,17 +615,21 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 	local enemy_calc_damage_info = sdk.to_managed_object(args[3]); -- snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide
 	local attacker_id = enemy_calc_damage_info:call("get_AttackerID");
 	local attacker_type = enemy_calc_damage_info:call("get_DamageAttackerType");
-	local is_player = (attacker_type == 0);
-	local is_otomo = (attacker_type == 19);
-	local is_monster = (attacker_type == 23);
 
-	local total_damage = enemy_calc_damage_info:call("get_TotalDamage");
-	local physical_damage = enemy_calc_damage_info:call("get_PhysicalDamage");
-	local elemental_damage = enemy_calc_damage_info:call("get_ElementDamage");
-	local ailment_damage = enemy_calc_damage_info:call("get_ConditionDamage");
-	
-	-- -1 - ???
+	if is_quest_online and attacker_id == 4 then
+		attacker_id = myself_id;
+	end 
+
+	local damage_object = {}
+	damage_object.total_damage = enemy_calc_damage_info:call("get_TotalDamage");;
+	damage_object.physical_damage = enemy_calc_damage_info:call("get_PhysicalDamage");
+	damage_object.elemental_damage = enemy_calc_damage_info:call("get_ElementDamage");
+	damage_object.ailment_damage = enemy_calc_damage_info:call("get_ConditionDamage");
+
+	-- -1 - bombs
 	--  0 - player
+	--  9 - kunai
+	-- 11 - wyverblast
 	-- 12 - ballista
 	-- 13 - cannon
 	-- 14 - machine cannon
@@ -620,9 +639,15 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 	-- 19 - otomo
 	-- 23 - monster
 
-	local damage_source_type = "";
+	local damage_source_type = tostring(attacker_type);
 	if attacker_type == 0 then
 		damage_source_type = "player";
+	elseif attacker_type == 1 then
+		damage_source_type = "bomb";
+	elseif attacker_type == 9 then
+		damage_source_type = "kunai";
+	elseif attacker_type == 11 then
+		damage_source_type = "wyvernblast";
 	elseif attacker_type == 12 or attacker_type == 13 or attacker_type == 14 or attacker_type == 18 then
 		damage_source_type = "installation";
 	elseif attacker_type == 19 then
@@ -631,11 +656,8 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 		damage_source_type = "monster";
 	end
 
-	update_player(total, damage_source_type, total_damage, physical_damage, elemental_damage, ailment_damage);
-
-	update_player(get_player(attacker_id), damage_source_type, total_damage, physical_damage, elemental_damage, ailment_damage);
-		
-	
+	update_player(total, damage_source_type, damage_object);
+	update_player(get_player(attacker_id), damage_source_type, damage_object);
 end, function(retval) return retval; end);
 
 function init_player(player_id, player_name)
@@ -647,27 +669,54 @@ function init_player(player_id, player_name)
 	player.physical_damage = 0;
 	player.elemental_damage = 0;
 	player.ailment_damage = 0;
-	player.total_damage_percentage = 0.0;
+
+	player.bombs = {};
+	player.bombs.total_damage = 0;
+	player.bombs.physical_damage = 0;
+	player.bombs.elemental_damage = 0;
+	player.bombs.ailment_damage = 0;
+
+	player.kunai = {};
+	player.kunai.total_damage = 0;
+	player.kunai.physical_damage = 0;
+	player.kunai.elemental_damage = 0;
+	player.kunai.ailment_damage = 0;
+
+	player.installations = {};
+	player.installations.total_damage = 0;
+	player.installations.physical_damage = 0;
+	player.installations.elemental_damage = 0;
+	player.installations.ailment_damage = 0;
 
 	player.otomo = {};
 	player.otomo.total_damage = 0;
 	player.otomo.physical_damage = 0;
 	player.otomo.elemental_damage = 0;
 	player.otomo.ailment_damage = 0;
-	player.otomo.total_damage_percentage = 0.0;
 
-	player.other = {};
-	player.other.total_damage = 0;
-	player.other.physical_damage = 0;
-	player.other.elemental_damage = 0;
-	player.other.ailment_damage = 0;
-	player.other.total_damage_percentage = 0.0;
+	player.monster = {};
+	player.monster.total_damage = 0;
+	player.monster.physical_damage = 0;
+	player.monster.elemental_damage = 0;
+	player.monster.ailment_damage = 0;
 
+	player.display = {};
+	player.display.total_damage = 0;
+	player.display.physical_damage = 0;
+	player.display.elemental_damage = 0;
+	player.display.ailment_damage = 0;
 
 	return player;
 end
 
-total = init_player(0);
+function merge_damage(first, second)
+	first.total_damage = first.total_damage + second.total_damage;
+	first.physical_damage =  first.physical_damage + second.physical_damage;
+	first.elemental_damage = first.elemental_damage + second.elemental_damage;
+	first.ailment_damage = first.ailment_damage + second.ailment_damage;
+end
+
+total = init_player(0, "Total");
 
 function get_player(player_id)
 	if players[player_id] == nil then
@@ -677,27 +726,58 @@ function get_player(player_id)
 	return players[player_id];
 end
 
-function update_player(player, damage_source_type, total_damage, physical_damage, elemental_damage, ailment_damage)
-	local player_damage_entity;
-	local total_damage_entity;
-
-	if damage_source_type == "player" then
-		player_damage_entity = player;
-		total_damage_entity = total;
-	elseif damage_source_type == "otomo" then
-		player_damage_entity = player.otomo;
-		total_damage_entity = total.otomo;
-	elseif damage_source_type == "installation" or damage_source_type == "monster" then
-		player_damage_entity = player.other;
-		total_damage_entity = total.other;
-	else
+function update_player(player, damage_source_type, damage_object)
+	if player == nil then
 		return;
 	end
 
-	player_damage_entity.total_damage = player_damage_entity.total_damage + total_damage;
-	player_damage_entity.physical_damage =  player_damage_entity.physical_damage + physical_damage;
-	player_damage_entity.elemental_damage = player_damage_entity.elemental_damage + elemental_damage;
-	player_damage_entity.ailment_damage = player_damage_entity.ailment_damage + ailment_damage;
+	if damage_source_type == "player" then
+		merge_damage(player, damage_object);
+	elseif damage_source_type == "bomb" then
+		merge_damage(player.bombs, damage_object);
+	elseif damage_source_type == "kunai" then
+		merge_damage(player.kunai, damage_object);
+	elseif damage_source_type == "wyvernblast" then
+		merge_damage(player, damage_object);
+	elseif damage_source_type == "installation" then
+		merge_damage(player.installations, damage_object);
+	elseif damage_source_type == "otomo" then
+		merge_damage(player.otomo, damage_object);
+	elseif damage_source_type == "monster" then
+		merge_damage(player.monster, damage_object);
+	else
+		merge_damage(player, damage_object);
+	end
+
+	player.display.total_damage = 0;
+	player.display.physical_damage = 0;
+	player.display.elemental_damage = 0;
+	player.display.ailment_damage = 0;
+
+	if damage_meter_UI.include_player_damage then
+		merge_damage(player.display, player);
+	end
+
+	if damage_meter_UI.include_bomb_damage then
+		merge_damage(player.display, player.bombs);
+		
+	end
+
+	if damage_meter_UI.include_kunai_damage then
+		merge_damage(player.display, player.kunai);
+	end
+
+	if damage_meter_UI.include_installation_damage then
+		merge_damage(player.display, player.installations);
+	end
+
+	if damage_meter_UI.include_otomo_damage then
+		merge_damage(player.display, player.otomo);
+	end
+
+	if damage_meter_UI.include_monster_damage then
+		merge_damage(player.display, player.monster);
+	end
 end
 
 function damage_meter()
@@ -713,33 +793,28 @@ function damage_meter()
         return;
 	end
 
-	if quest_status == 0 then
+	if quest_status < 2 then
 		players = {};
-		total = init_player(0);
+		total = init_player(0, "Total");
+		return;
+	end
+	
+	if total.display.total_damage == 0 and not damage_meter_UI.show_module_if_total_damage_is_zero then
 		return;
 	end
 
-	--total damage
-	local total_damage = total.total_damage;
-
-	if damage_meter_UI.include_otomo_damage then
-		total_damage = total_damage + total.otomo.total_damage;
-	end
-
-	if damage_meter_UI.include_other_type_damage then
-		total_damage = total_damage + total.other.total_damage;
-	end
-
-	if total_damage == 0 and not damage_meter_UI.show_module_if_total_damage_is_zero then
-		return;
-	end
-
+	
 	-- players in lobby
 	local lobby_manager = sdk.get_managed_singleton("snow.LobbyManager");
     if lobby_manager == nil then
         status = "No lobby manager";
         return;
     end
+
+	is_quest_online = lobby_manager:call("IsQuestOnline");
+	if is_quest_online == nil then
+		is_quest_online = false;
+	end
 
 	--myself player
 	local myself_player_info = lobby_manager:get_field("_myHunterInfo");
@@ -754,10 +829,19 @@ function damage_meter()
 		return;
 	end
 
-	local myself_player_id = lobby_manager:get_field("_myselfQuestIndex");
-	if myself_player_id == nil then
-		status = "No myself player id";
-		return;
+	myself_player_id = 0;
+	if is_quest_online then
+		myself_player_id = lobby_manager:get_field("_myselfQuestIndex");
+		if myself_player_id == nil then
+			status = "No myself player id";
+			return;
+		end
+	else
+		myself_player_id = lobby_manager:get_field("_myselfIndex");
+		if myself_player_id == nil then
+			status = "No myself player id";
+			return;
+		end
 	end
 
 	if players[myself_player_id] == nil then
@@ -783,7 +867,6 @@ function damage_meter()
 		if player_info == nil then
 			goto continue;
 		end
-
 		local player_id = player_info:get_field("_memberIndex");
 		if player_id == nil then
 			goto continue;
@@ -792,7 +875,7 @@ function damage_meter()
 		if player_id == myself_player_id and damage_meter_UI.myself_bar_place_in_order ~= "normal" then
 			goto continue;
 		end
-		
+
 		local player_name = player_info:get_field("_name");
 		if player_name == nil then
 			goto continue;
@@ -800,9 +883,12 @@ function damage_meter()
 
 		if players[player_id] == nil then
 			players[player_id] = init_player(player_id, player_name);
+		elseif players[player_id].name ~= player_name then
+			players[player_id] = init_player(player_id, player_name);
 		end
 
 		table.insert(quest_players, players[player_id]);
+
 		::continue::
 	end
 
@@ -817,20 +903,7 @@ function damage_meter()
 
 	elseif damage_meter_UI.sort_type == "damage" then
 		table.sort(quest_players, function(left, right)
-			local left_total_damage = left.total_damage;
-			local right_total_damage = right.total_damage;
-
-			if damage_meter_UI.include_otomo_damage then
-				left_total_damage = left_total_damage + left.otomo.total_damage;
-				right_total_damage = right_total_damage + right.otomo.total_damage;
-			end
-	
-			if damage_meter_UI.include_other_type_damage then
-				left_total_damage = left_total_damage + left.other.total_damage;
-				right_total_damage = right_total_damage + right.other.total_damage;
-			end
-
-			local result = left_total_damage > right_total_damage
+			local result = left.display.total_damage > right.display.total_damage;
 			if damage_meter_UI.reverse_order then
 				result = not result;
 			end
@@ -847,49 +920,20 @@ function damage_meter()
 		table.insert(quest_players, #quest_players + 1, players[myself_player_id]);
 	end
 	
-	local top_damage_percentage = 0;
+	local top_damage = 0;
 	for _, player in ipairs(quest_players) do
-		local player_total_damage = player.total_damage;
-
-		if damage_meter_UI.include_otomo_damage then
-			player_total_damage = player_total_damage + player.otomo.total_damage;
-		end
-
-		if damage_meter_UI.include_other_type_damage then
-			player_total_damage = player_total_damage + player.other.total_damage;
-		end
-
-		local player_damage_percentage = 0;
-		if total_damage ~= 0  then
-			player_damage_percentage = player_total_damage / total_damage;
-		end
-
-		if player_damage_percentage > top_damage_percentage then
-			top_damage_percentage = player_damage_percentage;
+		if player.display.total_damage > top_damage then
+			top_damage = player.display.total_damage;
 		end
 	end
+
+	last_displayed_players = quest_players;
 
 	--draw
 	local i = 0;
 	for _, player in ipairs(quest_players) do
-		--draw
-		local player_total_damage = player.total_damage;
-
-		if damage_meter_UI.include_otomo_damage then
-			player_total_damage = player_total_damage + player.otomo.total_damage;
-		end
-
-		if damage_meter_UI.include_other_type_damage then
-			player_total_damage = player_total_damage + player.other.total_damage;
-		end
-
-		if player_total_damage == 0 and not damage_meter_UI.show_player_if_player_damage_is_zero then
+		if player.display.total_damage == 0 and not damage_meter_UI.show_player_if_player_damage_is_zero then
 			goto continue1;
-		end
-
-		local player_damage_percentage = 0;
-		if total_damage ~= 0  then
-			player_damage_percentage = player_total_damage / total_damage;
 		end
 
 		local screen_position = calculate_screen_coordinates(damage_meter_UI.position);
@@ -900,12 +944,17 @@ function damage_meter()
 			screen_position.y = screen_position.y + damage_meter_UI.spacing * i;
 		end
 
+		local player_total_damage_percentage = 0;
+		if total.display.total_damage ~= 0 then
+			player_total_damage_percentage = player.display.total_damage / total.display.total_damage;
+		end
+
 		if damage_meter_UI.visibility.damage_bar then
 			local damage_bar_player_damage_width = 0;
 			if damage_meter_UI.damage_bar_relative_to == "total_damage" then
-				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * player_damage_percentage;
-			elseif top_damage_percentage ~= 0 then
-				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * (player_damage_percentage / top_damage_percentage); 
+				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * player_total_damage_percentage;
+			elseif top_damage ~= 0 then
+				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * (player.display.total_damage / top_damage); 
 			end
 			
 			local damage_bar_others_damage_width = damage_meter_UI.damage_bar.width - damage_bar_player_damage_width;
@@ -917,23 +966,36 @@ function damage_meter()
 
 			--player damage
 			draw.filled_rect(screen_position.x + damage_meter_UI.offsets.damage_bar.x, screen_position.y + damage_meter_UI.offsets.damage_bar.y, damage_bar_player_damage_width, damage_meter_UI.damage_bar.height, damage_bar_color.player_damage);
+			
 			--other damage
 			draw.filled_rect(screen_position.x + damage_meter_UI.offsets.damage_bar.x + damage_bar_player_damage_width, screen_position.y + damage_meter_UI.offsets.damage_bar.y, damage_bar_others_damage_width, damage_meter_UI.damage_bar.height, damage_bar_color.others_damage);
 		end
 
-		if damage_meter_UI.visibility.name then
-			local name_text = player.name;
+		if damage_meter_UI.visibility.id or damage_meter_UI.visibility.name then
+			local id_name_text = "";
+			
+			if damage_meter_UI.visibility.id then
+				id_name_text = player.id;
+			end
+
+			if damage_meter_UI.visibility.name then
+				if damage_meter_UI.visibility.id then
+					id_name_text = id_name_text .. " ";
+				end
+
+				id_name_text = id_name_text .. player.name;
+			end
 	
 			if damage_meter_UI.shadows.name then
 				--name shadow
-				draw.text(name_text, screen_position.x + damage_meter_UI.offsets.name.x + damage_meter_UI.shadow_offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y + damage_meter_UI.shadow_offsets.name.y, damage_meter_UI.colors.name.shadow);
+				draw.text(id_name_text, screen_position.x + damage_meter_UI.offsets.name.x + damage_meter_UI.shadow_offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y + damage_meter_UI.shadow_offsets.name.y, damage_meter_UI.colors.name.shadow);
 			end
 			--name
-			draw.text(name_text, screen_position.x + damage_meter_UI.offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y, damage_meter_UI.colors.name.text);
+			draw.text(id_name_text, screen_position.x + damage_meter_UI.offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y, damage_meter_UI.colors.name.text);
 		end
 
 		if damage_meter_UI.visibility.player_damage then
-			local player_damage = string.format("%d", player_total_damage);
+			local player_damage = string.format("%d", player.display.total_damage);
 	
 			if damage_meter_UI.shadows.player_damage then
 				--player_damage shadow
@@ -943,8 +1005,9 @@ function damage_meter()
 			--player_damage
 			draw.text(player_damage, screen_position.x  + damage_meter_UI.offsets.player_damage.x, screen_position.y  + damage_meter_UI.offsets.player_damage.y, damage_meter_UI.colors.player_damage.text);
 		end
+
 		if damage_meter_UI.visibility.player_damage_percentage then
-			local player_damage_percentage_text = string.format("%5.1f%%", 100 * player_damage_percentage);
+			local player_damage_percentage_text = string.format("%5.1f%%", 100 * player_total_damage_percentage);
 			
 			if damage_meter_UI.shadows.player_damage_percentage then
 				--player damage percentage shadow
@@ -956,11 +1019,12 @@ function damage_meter()
 		end
 		i = i + 1;
 		::continue1::
+
 	end
 
 	--draw total damage
 	if damage_meter_UI.visibility.total_damage then
-		local total_damage_text = string.format("%d", total_damage);
+		local total_damage_text = string.format("%d", total.display.total_damage);
 
 		local screen_position = calculate_screen_coordinates(damage_meter_UI.position);
 		if damage_meter_UI.total_damage_offset_is_relative then
@@ -979,7 +1043,5 @@ function damage_meter()
 		--total damage
 		draw.text(total_damage_text, screen_position.x + damage_meter_UI.offsets.total_damage.x, screen_position.y + damage_meter_UI.offsets.total_damage.y, damage_meter_UI.colors.total_damage.text);
 	end
-
-
 end
 -----------------------DAMAGE METER UI-----------------------
