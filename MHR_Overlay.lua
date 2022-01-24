@@ -21,10 +21,10 @@ local monster_UI = {
 		health_values = true, --current_health and max_health
 		health_percentage = true
 	},
-    
+
     position = {
         x = 525,
-        y = 27,  
+        y = 27,
         --Possible values: "top-left", "top-right", "bottom-left", "bottom-right"
         anchor = "bottom-left"
     },
@@ -34,7 +34,7 @@ local monster_UI = {
             x = 0,
             y = 0
         },
-		
+
         monster_name = {
             x = 5,
             y = -17
@@ -50,7 +50,7 @@ local monster_UI = {
             y = 2
         }
     },
-    
+
     health_bar = {
         width = 200,
         height = 20
@@ -78,7 +78,7 @@ local monster_UI = {
             remaining_health = 0xB952A674,
             missing_health = 0xB9000000
         },
-		
+
         monster_name = {
             text = 0xFFE1F4CC,
             shadow = 0xFF000000
@@ -160,7 +160,7 @@ local damage_meter_UI = {
 
 	position = {
 		x = 525,
-		y = 225,  
+		y = 225,
 		--Possible values: "top-left", "top-right", "bottom-left", "bottom-right"
 		anchor = "bottom-left"
 	},
@@ -175,7 +175,7 @@ local damage_meter_UI = {
 			x = 0,
 			y = 17
 		},
-		
+
 		player_damage = {
 			x = 120,
 			y = 0
@@ -191,7 +191,7 @@ local damage_meter_UI = {
 			y = 0
 		}
 	},
-	
+
 	damage_bar = {
 		width = 225,
 		height = 5
@@ -234,7 +234,7 @@ local damage_meter_UI = {
 			player_damage = 0xA7A3D5F4,
 			others_damage = 0xA7000000
 		},
-		
+
 		player_damage = {
 			text = 0xFFE1F4CC,
 			shadow = 0xFF000000
@@ -265,7 +265,7 @@ screen_width = 0;
 screen_height = 0;
 
 local scene_manager = sdk.get_native_singleton("via.SceneManager");
-if not scene_manager then 
+if not scene_manager then
     log.error("[MHR_Overlay.lua] No scene manager");
     return
 end
@@ -277,7 +277,7 @@ if not scene_view then
 end
 
 
-re.on_draw_ui(function() 
+re.on_draw_ui(function()
     if string.len(status) > 0 then
         imgui.text("[MHR_Overlay.lua] Status: " .. status);
     end
@@ -360,7 +360,7 @@ local memorized_missing_monster_health = 0;
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_type_def_update_method = enemy_character_base_type_def:get_method("update");
 
-sdk.hook(enemy_character_base_type_def_update_method, function(args) 
+sdk.hook(enemy_character_base_type_def_update_method, function(args)
     record_health(sdk.to_managed_object(args[2]));
 end, function(retval) return retval; end);
 
@@ -370,7 +370,7 @@ function record_health(enemy)
 	end
 
     local physical_param = enemy:get_field("<PhysicalParam>k__BackingField");
-    if not physical_param then 
+    if not physical_param then
         status = "No physical param";
         return;
     end
@@ -392,7 +392,7 @@ function record_health(enemy)
 
     local monster = monster_table[enemy];
 
-    if not hp_entry then 
+    if not monster then
         monster = {};
         monster_table[enemy] = monster;
 
@@ -440,9 +440,9 @@ function monster_health()
 			status = "No enemy";
             break;
         end
-		
+
         local monster = monster_table[enemy];
-        if monster == nil then 
+        if monster == nil then
             status = "No monster hp entry";
             break;
         end
@@ -473,7 +473,7 @@ function monster_health()
 	elseif monster_UI.sort_type == "health percentage" then
 		table.sort(monsters, function(left, right)
 			local result = left.health_percentage < right.health_percentage;
-			
+
 			if monster_UI.reverse_order then
 				result = not result;
 			end
@@ -517,7 +517,7 @@ function monster_health()
 			if monster_UI.visibility.current_health then
 				health_values = string.format("%d", monster.health);
 			end
-	
+
 			if monster_UI.visibility.max_health then
 				if monster_UI.visibility.current_health then
 					health_values = health_values .. "/";
@@ -618,7 +618,7 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 
 	if is_quest_online and attacker_id == 4 then
 		attacker_id = myself_id;
-	end 
+	end
 
 	local damage_object = {}
 	damage_object.total_damage = enemy_calc_damage_info:call("get_TotalDamage");;
@@ -760,7 +760,7 @@ function update_player(player, damage_source_type, damage_object)
 
 	if damage_meter_UI.include_bomb_damage then
 		merge_damage(player.display, player.bombs);
-		
+
 	end
 
 	if damage_meter_UI.include_kunai_damage then
@@ -798,12 +798,12 @@ function damage_meter()
 		total = init_player(0, "Total");
 		return;
 	end
-	
+
 	if total.display.total_damage == 0 and not damage_meter_UI.show_module_if_total_damage_is_zero then
 		return;
 	end
 
-	
+
 	-- players in lobby
 	local lobby_manager = sdk.get_managed_singleton("snow.LobbyManager");
     if lobby_manager == nil then
@@ -855,7 +855,7 @@ function damage_meter()
 	if player_info_list == nil then
         status = "No player info list";
     end
-	
+
 	local count = player_info_list:call("get_Count");
 	if count == nil then
         status = "No player info list count";
@@ -919,7 +919,7 @@ function damage_meter()
 	if damage_meter_UI.myself_bar_place_in_order == "last" then
 		table.insert(quest_players, #quest_players + 1, players[myself_player_id]);
 	end
-	
+
 	local top_damage = 0;
 	for _, player in ipairs(quest_players) do
 		if player.display.total_damage > top_damage then
@@ -954,9 +954,9 @@ function damage_meter()
 			if damage_meter_UI.damage_bar_relative_to == "total_damage" then
 				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * player_total_damage_percentage;
 			elseif top_damage ~= 0 then
-				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * (player.display.total_damage / top_damage); 
+				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * (player.display.total_damage / top_damage);
 			end
-			
+
 			local damage_bar_others_damage_width = damage_meter_UI.damage_bar.width - damage_bar_player_damage_width;
 
 			local damage_bar_color =  damage_meter_UI.colors.damage_bar;
@@ -966,14 +966,14 @@ function damage_meter()
 
 			--player damage
 			draw.filled_rect(screen_position.x + damage_meter_UI.offsets.damage_bar.x, screen_position.y + damage_meter_UI.offsets.damage_bar.y, damage_bar_player_damage_width, damage_meter_UI.damage_bar.height, damage_bar_color.player_damage);
-			
+
 			--other damage
 			draw.filled_rect(screen_position.x + damage_meter_UI.offsets.damage_bar.x + damage_bar_player_damage_width, screen_position.y + damage_meter_UI.offsets.damage_bar.y, damage_bar_others_damage_width, damage_meter_UI.damage_bar.height, damage_bar_color.others_damage);
 		end
 
 		if damage_meter_UI.visibility.id or damage_meter_UI.visibility.name then
 			local id_name_text = "";
-			
+
 			if damage_meter_UI.visibility.id then
 				id_name_text = player.id;
 			end
@@ -985,7 +985,7 @@ function damage_meter()
 
 				id_name_text = id_name_text .. player.name;
 			end
-	
+
 			if damage_meter_UI.shadows.name then
 				--name shadow
 				draw.text(id_name_text, screen_position.x + damage_meter_UI.offsets.name.x + damage_meter_UI.shadow_offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y + damage_meter_UI.shadow_offsets.name.y, damage_meter_UI.colors.name.shadow);
@@ -996,7 +996,7 @@ function damage_meter()
 
 		if damage_meter_UI.visibility.player_damage then
 			local player_damage = string.format("%d", player.display.total_damage);
-	
+
 			if damage_meter_UI.shadows.player_damage then
 				--player_damage shadow
 				draw.text(player_damage, screen_position.x + damage_meter_UI.offsets.player_damage.x + damage_meter_UI.shadow_offsets.player_damage.x, screen_position.y + damage_meter_UI.offsets.player_damage.y + damage_meter_UI.shadow_offsets.player_damage.y, damage_meter_UI.colors.player_damage.shadow);
@@ -1008,7 +1008,7 @@ function damage_meter()
 
 		if damage_meter_UI.visibility.player_damage_percentage then
 			local player_damage_percentage_text = string.format("%5.1f%%", 100 * player_total_damage_percentage);
-			
+
 			if damage_meter_UI.shadows.player_damage_percentage then
 				--player damage percentage shadow
 				draw.text(player_damage_percentage_text, screen_position.x + damage_meter_UI.offsets.player_damage_percentage.x + damage_meter_UI.shadow_offsets.player_damage_percentage.x, screen_position.y + damage_meter_UI.offsets.player_damage_percentage.y + damage_meter_UI.shadow_offsets.player_damage_percentage.y, damage_meter_UI.colors.player_damage_percentage.shadow);
