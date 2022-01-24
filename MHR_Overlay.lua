@@ -138,13 +138,13 @@ local damage_meter_UI = {
 	orientation = "vertical", -- "vertical" or "horizontal"
 	total_damage_offset_is_relative = true,
 
-	damage_bar_relative_to = "top_damage", -- "total_damage" or "top_damage"
+	damage_bar_relative_to = "top damage", -- "total damage" or "top damage"
 	myself_bar_place_in_order = "first", --"normal" or "first" or "last"
 	sort_type = "damage", -- "normal" or "damage"
 	reverse_order = false,
 
 	visibility = {
-		id = true,
+		id = false,
 		name = true,
 		hunter_rank = true,
 		damage_bar = true,
@@ -174,44 +174,34 @@ local damage_meter_UI = {
 			y = 0
 		},
 
-		hunter_rank = {
-			x = -50,
-			y = 0
-		},
-
 		damage_bar = {
 			x = 0,
 			y = 17
 		},
 
 		player_damage = {
-			x = 120,
+			x = 145,
 			y = 0
 		},
 
 		player_damage_percentage = {
-			x = 180,
+			x = 205,
 			y = 0
 		},
 
 		total_damage = {
-			x = 120,
+			x = 145,
 			y = 0
 		}
 	},
 
 	damage_bar = {
-		width = 225,
+		width = 250,
 		height = 5
 	},
 
 	shadow_offsets = {
 		name = {
-			x = 1,
-			y = 1
-		},
-
-		hunter_rank = {
 			x = 1,
 			y = 1
 		},
@@ -234,11 +224,6 @@ local damage_meter_UI = {
 
 	colors = {
 		name = {
-			text = 0xFFE1F4CC,
-			shadow = 0xFF000000
-		},
-
-		hunter_rank = {
 			text = 0xFFE1F4CC,
 			shadow = 0xFF000000
 		},
@@ -321,6 +306,8 @@ re.on_frame(function()
 	if damage_meter_UI.enabled then
 		damage_meter();
 	end
+
+  --draw.text("x:\n" .. tostring(x), 500, 800, 0xFFFFFFFF);
 
 end);
 
@@ -758,7 +745,7 @@ function merge_damage(first, second)
 	first.ailment_damage = first.ailment_damage + second.ailment_damage;
 end
 
-total = init_player(0, "Total");
+total = init_player(0, "Total", 0);
 
 function get_player(player_id)
 	if players[player_id] == nil then
@@ -999,7 +986,7 @@ function damage_meter()
 
 		if damage_meter_UI.visibility.damage_bar then
 			local damage_bar_player_damage_width = 0;
-			if damage_meter_UI.damage_bar_relative_to == "total_damage" then
+			if damage_meter_UI.damage_bar_relative_to == "total damage" then
 				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * player_total_damage_percentage;
 			elseif top_damage ~= 0 then
 				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * (player.display.total_damage / top_damage);
@@ -1020,38 +1007,30 @@ function damage_meter()
 		end
 
 		if damage_meter_UI.visibility.id or damage_meter_UI.visibility.name then
-			local id_name_text = "";
+			local name_text = "";
+
+			if damage_meter_UI.visibility.hunter_rank then
+					name_text = string.format("[%d] ", player.hunter_rank);
+			end
 
 			if damage_meter_UI.visibility.id then
-				id_name_text = player.id;
+				name_text = name_text .. string.format("%d", player.id);
 			end
 
 			if damage_meter_UI.visibility.name then
 				if damage_meter_UI.visibility.id then
-					id_name_text = id_name_text .. " ";
+					name_text = name_text .. " ";
 				end
 
-				id_name_text = id_name_text .. player.name;
+				name_text = name_text .. player.name;
 			end
 
 			if damage_meter_UI.shadows.name then
 				--name shadow
-				draw.text(id_name_text, screen_position.x + damage_meter_UI.offsets.name.x + damage_meter_UI.shadow_offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y + damage_meter_UI.shadow_offsets.name.y, damage_meter_UI.colors.name.shadow);
+				draw.text(name_text, screen_position.x + damage_meter_UI.offsets.name.x + damage_meter_UI.shadow_offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y + damage_meter_UI.shadow_offsets.name.y, damage_meter_UI.colors.name.shadow);
 			end
 			--name
-			draw.text(id_name_text, screen_position.x + damage_meter_UI.offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y, damage_meter_UI.colors.name.text);
-		end
-
-
-		if damage_meter_UI.visibility.hunter_rank and player.hunter_rank ~= 0 then
-			local hunter_rank_text = "HR" .. player.hunter_rank;
-
-			if damage_meter_UI.shadows.hunter_rank then
-				--hunter rank shadow
-				draw.text(hunter_rank_text, screen_position.x + damage_meter_UI.offsets.hunter_rank.x + damage_meter_UI.shadow_offsets.hunter_rank.x, screen_position.y + damage_meter_UI.offsets.hunter_rank.y + damage_meter_UI.shadow_offsets.hunter_rank.y, damage_meter_UI.colors.hunter_rank.shadow);
-			end
-			--hunter rank
-			draw.text(hunter_rank_text, screen_position.x + damage_meter_UI.offsets.hunter_rank.x, screen_position.y + damage_meter_UI.offsets.hunter_rank.y, damage_meter_UI.colors.hunter_rank.text);
+			draw.text(name_text, screen_position.x + damage_meter_UI.offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y, damage_meter_UI.colors.name.text);
 		end
 
 		if damage_meter_UI.visibility.player_damage then
