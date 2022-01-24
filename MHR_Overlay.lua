@@ -76,7 +76,8 @@ local monster_UI = {
     colors = {
 		health_bar = {
             remaining_health = 0xB952A674,
-            missing_health = 0xB9000000
+            missing_health = 0xB9000000,
+            capturable_health = 0xFF7373ff
         },
 
         monster_name = {
@@ -306,7 +307,8 @@ re.on_frame(function()
 		damage_meter();
 	end
 
-	--draw.text("x:\n" .. tostring(x), 500, 800, 0xFFFFFFFF);
+  --draw.text("x:\n" .. tostring(x), 500, 800, 0xFFFFFFFF);
+
 end);
 
 function get_window_size()
@@ -389,6 +391,7 @@ function record_health(enemy)
     local health = vital_param:call("get_Current");
     local max_health = vital_param:call("get_Max");
 	local missing_health = max_health - health;
+	local capture_health = physical_param:call("get_CaptureHpVital");
 
 	local health_percentage = 1;
 	if max_health ~= 0 then
@@ -422,6 +425,8 @@ function record_health(enemy)
     monster.max_health = max_health;
 	monster.health_percentage = health_percentage;
 	monster.missing_health = missing_health;
+	monster.capture_health = capture_health;
+
 end
 
 function monster_health()
@@ -502,7 +507,13 @@ function monster_health()
 			local health_bar_missing_health_width = monster_UI.health_bar.width - health_bar_remaining_health_width;
 
 			--remaining health
-			draw.filled_rect(screen_position.x + monster_UI.offsets.health_bar.x, screen_position.y + monster_UI.offsets.health_bar.y, health_bar_remaining_health_width, monster_UI.health_bar.height, monster_UI.colors.health_bar.remaining_health);
+			if monster.health <= monster.capture_health then
+				remaining_health_color = monster_UI.colors.health_bar.capturable_health
+			else
+				remaining_health_color = monster_UI.colors.health_bar.remaining_health
+			end
+
+			draw.filled_rect(screen_position.x + monster_UI.offsets.health_bar.x, screen_position.y + monster_UI.offsets.health_bar.y, health_bar_remaining_health_width, monster_UI.health_bar.height, remaining_health_color);
 			--missing health
 			draw.filled_rect(screen_position.x + monster_UI.offsets.health_bar.x + health_bar_remaining_health_width, screen_position.y + monster_UI.offsets.health_bar.y, health_bar_missing_health_width, monster_UI.health_bar.height, monster_UI.colors.health_bar.missing_health);
 		end
