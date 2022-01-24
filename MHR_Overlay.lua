@@ -77,7 +77,7 @@ local monster_UI = {
 		health_bar = {
             remaining_health = 0xB952A674,
             missing_health = 0xB9000000,
-            capturable_health = 0xFF7373ff
+            capture_health = 0xB933CCCC
         },
 
         monster_name = {
@@ -460,7 +460,6 @@ function monster_health()
 		table.insert(monsters, monster);
     end
 
-	--sort_type = "normal", -- "normal" or "health" or "health_percentage"
 	--sort here
 	if monster_UI.sort_type == "normal" and monster_UI.reverse_order then
 		local reversed_monsters = {};
@@ -508,7 +507,7 @@ function monster_health()
 
 			--remaining health
 			if monster.health <= monster.capture_health then
-				remaining_health_color = monster_UI.colors.health_bar.capturable_health
+				remaining_health_color = monster_UI.colors.health_bar.capture_health
 			else
 				remaining_health_color = monster_UI.colors.health_bar.remaining_health
 			end
