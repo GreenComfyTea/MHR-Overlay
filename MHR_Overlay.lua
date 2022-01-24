@@ -145,6 +145,7 @@ local damage_meter_UI = {
 	visibility = {
 		id = true,
 		name = true,
+		hunter_rank = true,
 		damage_bar = true,
 		player_damage = true,
 		player_damage_percentage = true,
@@ -153,6 +154,7 @@ local damage_meter_UI = {
 
 	shadows = {
 		name = true,
+		hunter_rank = true,
 		player_damage = true,
 		player_damage_percentage = true,
 		total_damage = true
@@ -168,6 +170,11 @@ local damage_meter_UI = {
 	offsets = {
 		name = {
 			x = 5,
+			y = 0
+		},
+
+		hunter_rank = {
+			x = -50,
 			y = 0
 		},
 
@@ -203,6 +210,11 @@ local damage_meter_UI = {
 			y = 1
 		},
 
+		hunter_rank = {
+			x = 1,
+			y = 1
+		},
+
 		player_damage = {
 			x = 1,
 			y = 1
@@ -221,6 +233,11 @@ local damage_meter_UI = {
 
 	colors = {
 		name = {
+			text = 0xFFE1F4CC,
+			shadow = 0xFF000000
+		},
+
+		hunter_rank = {
 			text = 0xFFE1F4CC,
 			shadow = 0xFF000000
 		},
@@ -609,7 +626,7 @@ myself_player_id = 0;
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_after_calc_damage_damage_side = enemy_character_base_type_def:get_method("afterCalcDamage_DamageSide");
 
-sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)	
+sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 	local enemy = sdk.to_managed_object(args[2]);
 	if enemy == nil then
 		return;
@@ -675,10 +692,11 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 	update_player(player, damage_source_type, damage_object);
 end, function(retval) return retval; end);
 
-function init_player(player_id, player_name)
+function init_player(player_id, player_name, player_hunter_rank)
 	player = {};
 	player.id = player_id;
 	player.name = player_name;
+	player.hunter_rank = player_hunter_rank;
 
 	player.total_damage = 0;
 	player.physical_damage = 0;
@@ -860,7 +878,7 @@ function damage_meter()
 	end
 
 	if players[myself_player_id] == nil then
-		players[myself_player_id] = init_player(myself_player_id, myself_player_name);
+		players[myself_player_id] = init_player(myself_player_id, myself_player_name, 0);
 	end
 
 	local quest_players = {};
@@ -887,7 +905,13 @@ function damage_meter()
 			goto continue;
 		end
 
+		local player_hunter_rank = player_info:get_field("_hunterRank");
+		if player_hunter_rank == nil then
+			goto continue;
+		end
+
 		if player_id == myself_player_id and damage_meter_UI.myself_bar_place_in_order ~= "normal" then
+			players[myself_player_id].hunter_rank = player_hunter_rank;
 			goto continue;
 		end
 
@@ -897,9 +921,9 @@ function damage_meter()
 		end
 
 		if players[player_id] == nil then
-			players[player_id] = init_player(player_id, player_name);
+			players[player_id] = init_player(player_id, player_name, player_hunter_rank);
 		elseif players[player_id].name ~= player_name then
-			players[player_id] = init_player(player_id, player_name);
+			players[player_id] = init_player(player_id, player_name, player_hunter_rank);
 		end
 
 		table.insert(quest_players, players[player_id]);
@@ -1007,6 +1031,18 @@ function damage_meter()
 			end
 			--name
 			draw.text(id_name_text, screen_position.x + damage_meter_UI.offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y, damage_meter_UI.colors.name.text);
+		end
+
+
+		if damage_meter_UI.visibility.hunter_rank and player.hunter_rank ~= 0 then
+			local hunter_rank_text = "HR" .. player.hunter_rank;
+
+			if damage_meter_UI.shadows.hunter_rank then
+				--hunter rank shadow
+				draw.text(hunter_rank_text, screen_position.x + damage_meter_UI.offsets.hunter_rank.x + damage_meter_UI.shadow_offsets.hunter_rank.x, screen_position.y + damage_meter_UI.offsets.hunter_rank.y + damage_meter_UI.shadow_offsets.hunter_rank.y, damage_meter_UI.colors.hunter_rank.shadow);
+			end
+			--hunter rank
+			draw.text(hunter_rank_text, screen_position.x + damage_meter_UI.offsets.hunter_rank.x, screen_position.y + damage_meter_UI.offsets.hunter_rank.y, damage_meter_UI.colors.hunter_rank.text);
 		end
 
 		if damage_meter_UI.visibility.player_damage then
