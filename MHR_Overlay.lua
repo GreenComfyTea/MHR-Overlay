@@ -260,18 +260,19 @@ local damage_meter_UI = {
 log.info("[MHR_Overlay.lua] loaded");
 
 status = "OK";
+x = "";
 
 screen_width = 0;
 screen_height = 0;
 
 local scene_manager = sdk.get_native_singleton("via.SceneManager");
-if not scene_manager then
+if scene_manager == nil then
     log.error("[MHR_Overlay.lua] No scene manager");
     return
 end
 
 local scene_view = sdk.call_native_func(scene_manager, sdk.find_type_definition("via.SceneManager"), "get_MainView");
-if not scene_view then
+if scene_view == nil then
     log.error("[MHR_Overlay.lua] No main view");
     return
 end
@@ -279,8 +280,12 @@ end
 
 re.on_draw_ui(function()
     if string.len(status) > 0 then
-        imgui.text("[MHR_Overlay.lua] Status: " .. status);
+        imgui.text("[MHR_Overlay.lua] Status: " .. tostring(status));
     end
+
+	_, monster_UI.enabled = imgui.checkbox("Enable monster health UI", monster_UI.enabled)
+    _, time_UI.enabled = imgui.checkbox("Enable quest time UI", time_UI.enabled)
+    _, damage_meter_UI.enabled = imgui.checkbox("Enable damage dealt UI", damage_meter_UI.enabled)
 end);
 
 re.on_frame(function()
@@ -298,23 +303,25 @@ re.on_frame(function()
 	if damage_meter_UI.enabled then
 		damage_meter();
 	end
+
+	draw.text("x:\n" .. tostring(x), 500, 800, 0xFFFFFFFF);
 end);
 
 function get_window_size()
 	local size = scene_view:call("get_Size");
-	if not size then
+	if size == nil then
 		log.error("[MHR_Overlay.lua] No scene view size");
 		return
 	end
 
 	screen_width = size:get_field("w");
-	if not screen_width then
+	if screen_width == nil then
 		log.error("[MHR_Overlay.lua] No screen width");
 		return
 	end
 
 	screen_height = size:get_field("h");
-	if not screen_height then
+	if screen_height == nil then
 		log.error("[MHR_Overlay.lua] No screen height");
 		return
 	end
@@ -353,10 +360,6 @@ end
 -------------------------MONSTER UI--------------------------
 local monster_table = {};
 
-local missing_monster_health = 0;
-local previous_missing_monster_health = 0;
-local memorized_missing_monster_health = 0;
-
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_type_def_update_method = enemy_character_base_type_def:get_method("update");
 
@@ -365,18 +368,18 @@ sdk.hook(enemy_character_base_type_def_update_method, function(args)
 end, function(retval) return retval; end);
 
 function record_health(enemy)
-    if not enemy then
+    if enemy == nil then
 		return;
 	end
 
     local physical_param = enemy:get_field("<PhysicalParam>k__BackingField");
-    if not physical_param then
+    if physical_param == nil then
         status = "No physical param";
         return;
     end
 
     local vital_param = physical_param:call("getVital", 0, 0);
-    if not vital_param then
+    if vital_param == nil then
         status = "No vital param";
         return;
     end
@@ -392,19 +395,19 @@ function record_health(enemy)
 
     local monster = monster_table[enemy];
 
-    if not monster then
+    if monster == nil then
         monster = {};
         monster_table[enemy] = monster;
 
         -- Grab enemy name.
         local message_manager = sdk.get_managed_singleton("snow.gui.MessageManager");
-        if not message_manager then
+        if message_manager == nil then
             status = "No message manager";
             return;
         end
 
         local enemy_type = enemy:get_field("<EnemyType>k__BackingField");
-        if not enemy_type then
+        if enemy_type == nil then
             status = "No enemy type";
             return;
         end
@@ -421,7 +424,7 @@ end
 
 function monster_health()
     local enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager");
-    if not enemy_manager then
+    if enemy_manager == nil then
         status = "No enemy manager";
         return;
 	end
@@ -557,19 +560,19 @@ end
 ---------------------------TIME UI---------------------------
 function quest_time()
     local quest_manager = sdk.get_managed_singleton("snow.QuestManager");
-    if not quest_manager then
+    if quest_manager == nil then
         status = "No quest manager";
         return;
     end
 
     local quest_time_elapsed_minutes = quest_manager:call("getQuestElapsedTimeMin");
-    if not quest_time_elapsed_minutes then
+    if quest_time_elapsed_minutes == nil then
         status = "No quest time elapsed minutes";
         return;
     end
 
     local quest_time_total_elapsed_seconds = quest_manager:call("getQuestElapsedTimeSec");
-    if not quest_time_total_elapsed_seconds then
+    if quest_time_total_elapsed_seconds == nil then
         status = "No quest time total elapsed seconds";
         return;
     end
@@ -606,7 +609,7 @@ myself_player_id = 0;
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_after_calc_damage_damage_side = enemy_character_base_type_def:get_method("afterCalcDamage_DamageSide");
 
-sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
+sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)	
 	local enemy = sdk.to_managed_object(args[2]);
 	if enemy == nil then
 		return;
@@ -616,8 +619,13 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 	local attacker_id = enemy_calc_damage_info:call("get_AttackerID");
 	local attacker_type = enemy_calc_damage_info:call("get_DamageAttackerType");
 
-	if is_quest_online and attacker_id == 4 then
-		attacker_id = myself_id;
+	if attacker_id >= 100 then
+		return;
+	end
+
+	-- 4 is virtual player in singleplayer that 'owns' 2nd otomo
+	if not is_quest_online and attacker_id == 4 then
+		attacker_id = myself_player_id;
 	end
 
 	local damage_object = {}
@@ -656,8 +664,15 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 		damage_source_type = "monster";
 	end
 
+	local player = get_player(attacker_id);
+	if player == nil then
+		return;
+	end
+
+	x = string.format("[id-name] %d [type] %s [dmg] %d", attacker_id, damage_source_type, damage_object.total_damage);
+
 	update_player(total, damage_source_type, damage_object);
-	update_player(get_player(attacker_id), damage_source_type, damage_object);
+	update_player(player, damage_source_type, damage_object);
 end, function(retval) return retval; end);
 
 function init_player(player_id, player_name)
