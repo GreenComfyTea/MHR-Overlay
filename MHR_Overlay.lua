@@ -137,7 +137,7 @@ local damage_meter_UI = {
 	orientation = "vertical", -- "vertical" or "horizontal"
 	total_damage_offset_is_relative = true,
 
-	damage_bar_relative_to = "top_damage", -- "total_damage" or "top_damage"
+	damage_bar_relative_to = "top damage", -- "total damage" or "top damage"
 	myself_bar_place_in_order = "first", --"normal" or "first" or "last"
 	sort_type = "damage", -- "normal" or "damage"
 	reverse_order = false,
@@ -990,7 +990,7 @@ function damage_meter()
 
 		if damage_meter_UI.visibility.damage_bar then
 			local damage_bar_player_damage_width = 0;
-			if damage_meter_UI.damage_bar_relative_to == "total_damage" then
+			if damage_meter_UI.damage_bar_relative_to == "total damage" then
 				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * player_total_damage_percentage;
 			elseif top_damage ~= 0 then
 				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * (player.display.total_damage / top_damage);
