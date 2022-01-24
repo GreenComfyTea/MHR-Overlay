@@ -696,7 +696,7 @@ function init_player(player_id, player_name, player_hunter_rank)
 	player = {};
 	player.id = player_id;
 	player.name = player_name;
-	player.hunter_rank = hunter_rank;
+	player.hunter_rank = player_hunter_rank;
 
 	player.total_damage = 0;
 	player.physical_damage = 0;
@@ -1033,7 +1033,8 @@ function damage_meter()
 			draw.text(id_name_text, screen_position.x + damage_meter_UI.offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y, damage_meter_UI.colors.name.text);
 		end
 
-		if damage_meter_UI.visibility.hunter_rank then
+
+		if damage_meter_UI.visibility.hunter_rank and player.hunter_rank ~= 0 then
 			local hunter_rank_text = "HR" .. player.hunter_rank;
 
 			if damage_meter_UI.shadows.hunter_rank then
