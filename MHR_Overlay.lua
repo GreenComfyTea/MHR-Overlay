@@ -262,11 +262,11 @@ local damage_meter_UI = {
 ---------------------------GLOBAL----------------------------
 log.info("[MHR_Overlay.lua] loaded");
 
-status = "OK";
-x = "";
+local status = "OK";
+local x = "";
 
-screen_width = 0;
-screen_height = 0;
+local screen_width = 0;
+local screen_height = 0;
 
 local scene_manager = sdk.get_native_singleton("via.SceneManager");
 if scene_manager == nil then
@@ -282,8 +282,9 @@ end
 
 
 re.on_draw_ui(function()
-    if string.len(status) > 0 then
-        imgui.text("[MHR_Overlay.lua] Status: " .. tostring(status));
+	local status_string = tostring(status);
+    if string.len(status_string) > 0 then
+        imgui.text("[MHR_Overlay.lua] Status: " .. status_string);
     end
 
 	_, monster_UI.enabled = imgui.checkbox("Enable monster health UI", monster_UI.enabled)
@@ -490,7 +491,6 @@ function monster_health()
 			return result;
 		end);
 	end
-
 	local i = 0;
 	for _, monster in ipairs(monsters) do
 		local screen_position = calculate_screen_coordinates(monster_UI.position);
@@ -529,8 +529,9 @@ function monster_health()
 
 		if monster_UI.visibility.current_health or monster_UI.visibility.max_health then
 			local health_values = "";
+
 			if monster_UI.visibility.current_health then
-				health_values = string.format("%d", monster.health);
+				health_values = string.format("%.0f", monster.health);
 			end
 
 			if monster_UI.visibility.max_health then
@@ -538,7 +539,7 @@ function monster_health()
 					health_values = health_values .. "/";
 				end
 
-				health_values = health_values .. string.format("%d", monster.max_health);
+				health_values = health_values .. string.format("%.0f", monster.max_health);
 			end
 
 			if monster_UI.shadows.health_values then
@@ -613,10 +614,10 @@ end
 
 
 -----------------------DAMAGE METER UI-----------------------
-players = {};
-is_quest_online = false;
-last_displayed_players = {};
-myself_player_id = 0;
+local players = {};
+local is_quest_online = false;
+local last_displayed_players = {};
+local myself_player_id = 0;
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_after_calc_damage_damage_side = enemy_character_base_type_def:get_method("afterCalcDamage_DamageSide");
@@ -744,7 +745,7 @@ function merge_damage(first, second)
 	first.ailment_damage = first.ailment_damage + second.ailment_damage;
 end
 
-total = init_player(0, "Total", 0);
+local total = init_player(0, "Total", 0);
 
 function get_player(player_id)
 	if players[player_id] == nil then
@@ -831,7 +832,6 @@ function damage_meter()
 		return;
 	end
 
-
 	-- players in lobby
 	local lobby_manager = sdk.get_managed_singleton("snow.LobbyManager");
     if lobby_manager == nil then
@@ -872,8 +872,20 @@ function damage_meter()
 		end
 	end
 
+	local progress_manager = sdk.get_managed_singleton("snow.progress.ProgressManager");
+    if progress_manager == nil then
+        status = "No progress manager";
+        return;
+    end
+
+	local myself_hunter_rank = progress_manager:call("get_HunterRank");
+	if myself_hunter_rank == nil then
+        status = "No myself hunter rank";
+		myself_hunter_rank = 0;
+    end
+
 	if players[myself_player_id] == nil then
-		players[myself_player_id] = init_player(myself_player_id, myself_player_name, 0);
+		players[myself_player_id] = init_player(myself_player_id, myself_player_name, myself_hunter_rank);
 	end
 
 	local quest_players = {};
@@ -1033,7 +1045,7 @@ function damage_meter()
 		end
 
 		if damage_meter_UI.visibility.player_damage then
-			local player_damage = string.format("%d", player.display.total_damage);
+			local player_damage = string.format("%.0f", player.display.total_damage);
 
 			if damage_meter_UI.shadows.player_damage then
 				--player_damage shadow
@@ -1062,7 +1074,7 @@ function damage_meter()
 
 	--draw total damage
 	if damage_meter_UI.visibility.total_damage then
-		local total_damage_text = string.format("%d", total.display.total_damage);
+		local total_damage_text = string.format("%.0f", total.display.total_damage);
 
 		local screen_position = calculate_screen_coordinates(damage_meter_UI.position);
 		if damage_meter_UI.total_damage_offset_is_relative then
