@@ -615,6 +615,7 @@ end
 
 -----------------------DAMAGE METER UI-----------------------
 local players = {};
+local total = {};
 local is_quest_online = false;
 local last_displayed_players = {};
 local myself_player_id = 0;
@@ -737,6 +738,7 @@ function init_player(player_id, player_name, player_hunter_rank)
 
 	return player;
 end
+total = init_player(0, "Total", 0);
 
 function merge_damage(first, second)
 	first.total_damage = first.total_damage + second.total_damage;
@@ -745,7 +747,6 @@ function merge_damage(first, second)
 	first.ailment_damage = first.ailment_damage + second.ailment_damage;
 end
 
-local total = init_player(0, "Total", 0);
 
 function get_player(player_id)
 	if players[player_id] == nil then
