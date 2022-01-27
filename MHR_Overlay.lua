@@ -457,7 +457,7 @@ function monster_health()
         if monster == nil then
             status = "No monster hp entry";
             break;
-        end
+		end
 
 		table.insert(monsters, monster);
     end
@@ -635,6 +635,15 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 		if not is_boss_enemy then
 			return;
 		end
+	end
+
+	local dead_or_captured = enemy:call("checkDie");
+	if dead_or_captured == nil then
+		return;
+	end
+
+	if dead_or_captured then
+		return;
 	end
 
 	local enemy_calc_damage_info = sdk.to_managed_object(args[3]); -- snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide
