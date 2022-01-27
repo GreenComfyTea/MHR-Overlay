@@ -1,257 +1,297 @@
 --------------------CUSTOMIZATION SECTION--------------------
-local monster_UI = {
-	enabled = true,
-
-	spacing = 220,
-	orientation = "horizontal", -- "vertical" or "horizontal"
-
-	sort_type = "health percentage", -- "normal" or "health" or "health percentage"
-	reverse_order = false,
-
-    visibility = {
-        health_bar = true,
-        monster_name = true,
-        current_health = true,
-        max_health = true,
-        health_percentage = true
-    },
-
-	shadows = {
-		monster_name = true,
-		health_values = true, --current_health and max_health
-		health_percentage = true
-	},
-
-    position = {
-        x = 525,
-        y = 27,
-        --Possible values: "top-left", "top-right", "bottom-left", "bottom-right"
-        anchor = "bottom-left"
-    },
-
-    offsets = {
-        health_bar = {
-            x = 0,
-            y = 0
-        },
-
-        monster_name = {
-            x = 5,
-            y = -17
-        },
-
-        health_values = {
-            x = 5,
-            y = 2
-        },
-
-        health_percentage = {
-            x = 150,
-            y = 2
-        }
-    },
-
-    health_bar = {
-        width = 200,
-        height = 20
-    },
-
-    shadow_offsets = {
-        monster_name = {
-            x = 1,
-            y = 1
-        },
-
-        health_values = {
-            x = 1,
-            y = 1
-        },
-
-        health_percentage = {
-            x = 1,
-            y = 1
-        }
-    },
-
-    colors = {
+local config = {
+	monster_UI = {
+		enabled = true,
+	
+		spacing = 220, 
+		orientation = "horizontal",
+		sort_type = "health percentage", -- "normal" or "health" or "health percentage"
+		reverse_order = false,
+		
+		position = {
+			x = 525,
+			y = 44,
+			anchor = "bottom-left"
+		},
+	
+		monster_name_label = {
+			visibility = true,
+			text = "%s",
+			offset = {
+				x = 5,
+				y = 0
+			},
+	
+			shadow = true,
+			shadow_offset = {
+				x = 1,
+				y = 1
+			},
+	
+			text_color = 0xFFE1F4CC,
+			shadow_color = 0xFF000000
+		},
+	
+		health_label = {
+			visibility = false,
+			text = "HP:",
+			offset = {
+				x = -25,
+				y = 19
+			},
+	
+			shadow = true,
+			shadow_offset = {
+				x = 1,
+				y = 1
+			},
+	
+			text_color = 0xFFE1F4CC,
+			shadow_color = 0xFF000000
+		},
+	
+		health_value_label = {
+			text = "%.0f/%.0f", -- current_health/max_health
+			visibility = true,
+	
+			offset = {
+				x = 5,
+				y = 19
+			},
+	
+			shadow = true,
+			shadow_offset = {
+				x = 1,
+				y = 1
+			},
+	
+			text_color = 0xFFFFFFFF,
+			shadow_color = 0xFF000000
+		},
+	
+		health_percentage_label = {
+			text = "%5.1f%%",
+			visibility = true,
+			
+			offset = {
+				x = 150,
+				y = 19
+			},
+	
+			shadow = true,
+			shadow_offset = {
+				x = 1,
+				y = 1
+			},
+	
+			text_color = 0xFFFFFFFF,
+			shadow_color = 0xFF000000
+		},
+	
 		health_bar = {
-            remaining_health = 0xB952A674,
-            missing_health = 0xB9000000,
-            capture_health = 0xB933CCCC
-        },
-
-        monster_name = {
-            text = 0xFFE1F4CC,
-            shadow = 0xFF000000
-        },
-
-        health_values = {
-            text = 0xFFFFFFFF,
-            shadow = 0xFF000000
-        },
-
-        health_percentage = {
-            text = 0xFFFFFFFF,
-            shadow = 0xFF000000
-        }
-    }
-};
-
-local time_UI = {
-    enabled = true,
-	shadow = true,
-
-    position = {
-        x = 65,
-        y = 189,
-        --Possible values: "top-left", "top-right", "bottom-left", "bottom-right"
-        anchor = "top-left"
-    },
-
-    shadow_offset = {
-        x = 1,
-        y = 1
-    },
-
-    colors = {
-        text = 0xFFE1F4CC,
-		shadow = 0xFF000000
-    }
-};
-
-local damage_meter_UI = {
-	enabled = true,
-
-	include_small_monsters = true,
-	include_player_damage = true,
-	include_bomb_damage = true,
-	include_kunai_damage = true,
-	include_installation_damage = true, -- hunting_installations like ballista, cannon, etc.
-	include_otomo_damage = true,
-	include_monster_damage = true, -- note that installations during narwa fight are counted as monster damage
-
-	show_module_if_total_damage_is_zero = true,
-	show_player_if_player_damage_is_zero = true,
-
-	highlight_damade_bar_of_myself = true,
-
-	spacing = 24,
-	orientation = "vertical", -- "vertical" or "horizontal"
-	total_damage_offset_is_relative = true,
-
-	damage_bar_relative_to = "top damage", -- "total damage" or "top damage"
-	myself_bar_place_in_order = "first", --"normal" or "first" or "last"
-	sort_type = "damage", -- "normal" or "damage"
-	reverse_order = false,
-
-	visibility = {
-		id = false,
-		name = true,
-		hunter_rank = true,
-		damage_bar = true,
-		player_damage = true,
-		player_damage_percentage = true,
-		total_damage = true
-	},
-
-	shadows = {
-		name = true,
-		hunter_rank = true,
-		player_damage = true,
-		player_damage_percentage = true,
-		total_damage = true
-	},
-
-	position = {
-		x = 525,
-		y = 225,
-		--Possible values: "top-left", "top-right", "bottom-left", "bottom-right"
-		anchor = "bottom-left"
-	},
-
-	offsets = {
-		name = {
-			x = 5,
-			y = 0
-		},
-
-		damage_bar = {
-			x = 0,
-			y = 17
-		},
-
-		player_damage = {
-			x = 145,
-			y = 0
-		},
-
-		player_damage_percentage = {
-			x = 205,
-			y = 0
-		},
-
-		total_damage = {
-			x = 145,
-			y = 0
+			visibility = true,
+			offset = {
+				x = 0,
+				y = 17
+			},
+	
+			size = {
+				width = 200,
+				height = 20
+			},
+	
+			colors = {
+				foreground = 0xB952A674,
+				background = 0xB9000000,
+				capture_health = 0xB933CCCC
+			},
 		}
 	},
 
-	damage_bar = {
-		width = 250,
-		height = 5
-	},
-
-	shadow_offsets = {
-		name = {
-			x = 1,
-			y = 1
+	time_UI = {
+		enabled = true,
+		
+		position = {
+			x = 65,
+			y = 189,
+			anchor = "top-left"
 		},
-
-		player_damage = {
-			x = 1,
-			y = 1
-		},
-
-		player_damage_percentage = {
-			x = 1,
-			y = 1
-		},
-
-		total_damage = {
-			x = 1,
-			y = 1
+	
+		time_label = {
+			visibility = true,
+			text = "%02d:%06.3f",
+			offset = {
+				x = 0,
+				y = 0
+			},
+	
+			shadow = true,
+			shadow_offset = {
+				x = 1,
+				y = 1
+			},
+	
+			text_color = 0xFFE1F4CC,
+			shadow_color = 0xFF000000
 		}
 	},
 
-	colors = {
-		name = {
-			text = 0xFFE1F4CC,
-			shadow = 0xFF000000
+	damage_meter_UI = {
+		enabled = true,
+	
+		include_small_monsters = true,
+		include_player_damage = true,
+		include_bomb_damage = true,
+		include_kunai_damage = true,
+		include_installation_damage = true, -- hunting_installations like ballista, cannon, etc.
+		include_otomo_damage = true,
+		include_monster_damage = true, -- note that installations during narwa fight are counted as monster damage
+	
+		show_module_if_total_damage_is_zero = true,
+		show_player_if_player_damage_is_zero = true,
+	
+		highlighted_bar = "me",
+	
+		spacing = 24,
+		orientation = "vertical", -- "vertical" or "horizontal"
+		total_damage_offset_is_relative = true,
+	
+		damage_bar_relative_to = "top damage", -- "total damage" or "top damage"
+		myself_bar_place_in_order = "first", --"normal" or "first" or "last"
+		sort_type = "damage", -- "normal" or "damage"
+		reverse_order = false,
+	
+		position = {
+			x = 525,
+			y = 225,
+			--Possible values: "top-left", "top-right", "bottom-left", "bottom-right"
+			anchor = "bottom-left"
 		},
-
+	
+		player_name_label = {
+			visibility = true,
+			text = "[%d] %d %s",
+			offset = {
+				x = 5,
+				y = 0
+			},
+	
+			shadow = true,
+			shadow_offset = {
+				x = 1,
+				y = 1
+			},
+	
+			text_color = 0xFFE1F4CC,
+			shadow_color = 0xFF000000
+		},
+	
+		damage_value_label = {
+			visibility = true,
+			text = "%.0f",
+			offset = {
+				x = 145,
+				y = 0
+			},
+	
+			shadow = true,
+			shadow_offset = {
+				x = 1,
+				y = 1
+			},
+	
+			text_color = 0xFFE1F4CC,
+			shadow_color = 0xFF000000
+		},
+	
+		damage_percentage_label = {
+			visibility = true,
+			text = "%5.1f%%",
+			offset = {
+				x = 205,
+				y = 0
+			},
+	
+			shadow = true,
+			shadow_offset = {
+				x = 1,
+				y = 1
+			},
+	
+			text_color = 0xFFE1F4CC,
+			shadow_color = 0xFF000000
+		},
+	
+		total_damage_label = {
+			visibility = true,
+			text = "Total Damage",
+			offset = {
+				x = 5,
+				y = 0
+			},
+	
+			shadow = true,
+			shadow_offset = {
+				x = 1,
+				y = 1
+			},
+	
+			text_color = 0xFF7373FF,
+			shadow_color = 0xFF000000
+		},
+	
+		total_damage_value_label = {
+			visibility = true,
+			text = "%.0f",
+			offset = {
+				x = 145,
+				y = 0
+			},
+	
+			shadow = true,
+			shadow_offset = {
+				x = 1,
+				y = 1
+			},
+	
+			text_color = 0xFF7373FF,
+			shadow_color = 0xFF000000
+		},
+	
 		damage_bar = {
-			player_damage = 0xA7F4A3CC,
-			others_damage = 0xA7000000
+			visibility = true,
+			offset = {
+				x = 0,
+				y = 17
+			},
+	
+			size = {
+				width = 250,
+				height = 5
+			},
+	
+			colors = {
+				foreground = 0xA7F4A3CC,
+				background = 0xB9000000
+			},
 		},
-
-		damage_bar_myself = {
-			player_damage = 0xA7A3D5F4,
-			others_damage = 0xA7000000
-		},
-
-		player_damage = {
-			text = 0xFFE1F4CC,
-			shadow = 0xFF000000
-		},
-
-		player_damage_percentage = {
-			text = 0xFFE1F4CC,
-			shadow = 0xFF000000
-		},
-
-		total_damage = {
-			text = 0xFF7373ff,
-			shadow = 0xFF000000
+	
+		highlighted_damage_bar = {
+			visibility = true,
+			offset = {
+				x = 0,
+				y = 17
+			},
+	
+			size = {
+				width = 250,
+				height = 5
+			},
+	
+			colors = {
+				foreground = 0xA7A3D5F4,
+				background = 0xB9000000
+			},
 		}
 	}
 };
@@ -288,24 +328,24 @@ re.on_draw_ui(function()
         imgui.text("[MHR_Overlay.lua] Status: " .. status_string);
     end
 
-	_, monster_UI.enabled = imgui.checkbox("Enable monster health UI", monster_UI.enabled)
-    _, time_UI.enabled = imgui.checkbox("Enable quest time UI", time_UI.enabled)
-    _, damage_meter_UI.enabled = imgui.checkbox("Enable damage dealt UI", damage_meter_UI.enabled)
+	_, config.monster_UI.enabled = imgui.checkbox("Enable monster health UI", config.monster_UI.enabled)
+    _, config.time_UI.enabled = imgui.checkbox("Enable quest time UI", config.time_UI.enabled)
+    _, config.damage_meter_UI.enabled = imgui.checkbox("Enable damage dealt UI", config.damage_meter_UI.enabled)
 end);
 
 re.on_frame(function()
 	status = "OK";
 	get_window_size();
 
-	if monster_UI.enabled then
+	if config.monster_UI.enabled then
 		monster_health();
 	end
 
-	if time_UI.enabled then
+	if config.time_UI.enabled then
 		quest_time();
 	end
 
-	if damage_meter_UI.enabled then
+	if config.damage_meter_UI.enabled then
 		damage_meter();
 	end
 
@@ -356,9 +396,50 @@ function calculate_screen_coordinates(position)
 
 	return {x = position.x, y = position.y};
 end
-
 ---------------------------GLOBAL----------------------------
 
+
+
+
+
+------------------------DRAW HELPERS-------------------------
+function draw_label(label, position, ...)
+	if label == nil then
+		return;
+	end
+
+	if not label.visibility then
+		return;
+	end
+
+	local text = string.format(label.text, table.unpack({...}));
+
+	if label.shadow then
+		draw.text(text, position.x + label.offset.x + label.shadow_offset.x, position.y + label.offset.y + label.shadow_offset.y, label.shadow_color);
+	end
+
+	draw.text(text, position.x + label.offset.x, position.y + label.offset.y, label.text_color);
+end
+
+function draw_bar(bar, position, percentage)
+	if bar == nil then
+		return;
+	end
+
+	if not bar.visibility then
+		return;
+	end
+
+	local foreground_width = bar.size.width * percentage;
+	local background_width = bar.size.width - foreground_width;
+
+	--foreground
+	draw.filled_rect(position.x + bar.offset.x, position.y + bar.offset.y, foreground_width, bar.size.height, bar.colors.foreground);
+
+	--background
+	draw.filled_rect(position.x + foreground_width + bar.offset.x, position.y + bar.offset.y, background_width,bar.size.height, bar.colors.background);
+end
+------------------------DRAW HELPERS-------------------------
 
 
 
@@ -463,7 +544,7 @@ function monster_health()
     end
 
 	--sort here
-	if monster_UI.sort_type == "normal" and monster_UI.reverse_order then
+	if config.monster_UI.sort_type == "normal" and config.monster_UI.reverse_order then
 		local reversed_monsters = {};
 
 		for i = #monsters, 1, -1 do
@@ -471,96 +552,53 @@ function monster_health()
 		end
 		monsters = reversed_monsters;
 
-	elseif monster_UI.sort_type == "health" then
+	elseif config.monster_UI.sort_type == "health" then
 		table.sort(monsters, function(left, right)
 			local result = left.health > right.health;
 
-			if monster_UI.reverse_order then
+			if config.monster_UI.reverse_order then
 				result = not result;
 			end
 
 			return result;
 		end);
-	elseif monster_UI.sort_type == "health percentage" then
+	elseif config.monster_UI.sort_type == "health percentage" then
 		table.sort(monsters, function(left, right)
 			local result = left.health_percentage < right.health_percentage;
 
-			if monster_UI.reverse_order then
+			if config.monster_UI.reverse_order then
 				result = not result;
 			end
 
 			return result;
 		end);
 	end
+
 	local i = 0;
 	for _, monster in ipairs(monsters) do
-		local screen_position = calculate_screen_coordinates(monster_UI.position);
+		local position_on_screen = calculate_screen_coordinates(config.monster_UI.position);
 
-		if monster_UI.orientation == "horizontal" then
-			screen_position.x = screen_position.x + monster_UI.spacing * i;
+		if config.monster_UI.orientation == "horizontal" then
+			position_on_screen.x = position_on_screen.x + config.monster_UI.spacing * i;
 		else
-			screen_position.y = screen_position.y + monster_UI.spacing * i;
+			position_on_screen.y = position_on_screen.y + config.monster_UI.spacing * i;
 		end
 
-		if monster_UI.visibility.health_bar then
-			local health_bar_remaining_health_width = monster_UI.health_bar.width * monster.health_percentage;
-			local health_bar_missing_health_width = monster_UI.health_bar.width - health_bar_remaining_health_width;
-
-			--remaining health
-			if monster.health <= monster.capture_health then
-				remaining_health_color = monster_UI.colors.health_bar.capture_health
-			else
-				remaining_health_color = monster_UI.colors.health_bar.remaining_health
-			end
-
-			draw.filled_rect(screen_position.x + monster_UI.offsets.health_bar.x, screen_position.y + monster_UI.offsets.health_bar.y, health_bar_remaining_health_width, monster_UI.health_bar.height, remaining_health_color);
-			--missing health
-			draw.filled_rect(screen_position.x + monster_UI.offsets.health_bar.x + health_bar_remaining_health_width, screen_position.y + monster_UI.offsets.health_bar.y, health_bar_missing_health_width, monster_UI.health_bar.height, monster_UI.colors.health_bar.missing_health);
+		--remaining health
+		--[[
+		if monster.health <= monster.capture_health then
+			remaining_health_color = monster_UI.colors.health_bar.capture_health
+		else
+			remaining_health_color = monster_UI.colors.health_bar.remaining_health
 		end
+		--]]
 
-		if monster_UI.visibility.monster_name then
-			if monster_UI.shadows.monster_name then
-				--monster name shadow
-				draw.text(monster.name, screen_position.x + monster_UI.offsets.monster_name.x + monster_UI.shadow_offsets.monster_name.x, screen_position.y + monster_UI.offsets.monster_name.y + monster_UI.shadow_offsets.monster_name.y, monster_UI.colors.monster_name.shadow);
-			end
+		draw_bar(config.monster_UI.health_bar, position_on_screen, monster.health_percentage);
 
-			--monster name
-			draw.text(monster.name, screen_position.x  + monster_UI.offsets.monster_name.x, screen_position.y + monster_UI.offsets.monster_name.y, monster_UI.colors.monster_name.text);
-		end
-
-		if monster_UI.visibility.current_health or monster_UI.visibility.max_health then
-			local health_values = "";
-
-			if monster_UI.visibility.current_health then
-				health_values = string.format("%.0f", monster.health);
-			end
-
-			if monster_UI.visibility.max_health then
-				if monster_UI.visibility.current_health then
-					health_values = health_values .. "/";
-				end
-
-				health_values = health_values .. string.format("%.0f", monster.max_health);
-			end
-
-			if monster_UI.shadows.health_values then
-				--health values shadow
-				draw.text(health_values, screen_position.x + monster_UI.offsets.health_values.x + monster_UI.shadow_offsets.health_values.x, screen_position.y + monster_UI.offsets.health_values.y + monster_UI.shadow_offsets.health_values.y, monster_UI.colors.health_values.shadow);
-			end
-			--health values
-			draw.text(health_values, screen_position.x + monster_UI.offsets.health_values.x, screen_position.y  + monster_UI.offsets.health_values.y, monster_UI.colors.health_values.text);
-		end
-
-		if monster_UI.visibility.health_percentage then
-			local health_percentage_text = string.format("%5.1f%%", 100 * monster.health_percentage);
-
-			if monster_UI.shadows.health_percentage then
-				--health percentage shadow
-				draw.text(health_percentage_text, screen_position.x + monster_UI.offsets.health_percentage.x + monster_UI.shadow_offsets.health_percentage.x, screen_position.y + monster_UI.offsets.health_percentage.y + monster_UI.shadow_offsets.health_percentage.y, monster_UI.colors.health_percentage.shadow);
-			end
-			--health percentage
-			draw.text(health_percentage_text, screen_position.x + monster_UI.offsets.health_percentage.x, screen_position.y + monster_UI.offsets.health_percentage.y, monster_UI.colors.health_percentage.text);
-		end
+		draw_label(config.monster_UI.monster_name_label, position_on_screen, monster.name);
+		draw_label(config.monster_UI.health_label, position_on_screen);
+		draw_label(config.monster_UI.health_value_label, position_on_screen, monster.health, monster.max_health);
+		draw_label(config.monster_UI.health_percentage_label, position_on_screen, 100 * monster.health_percentage);
 
 		i = i + 1;
 	end
@@ -597,16 +635,9 @@ function quest_time()
 
     local quest_time_elapsed_seconds = quest_time_total_elapsed_seconds - quest_time_elapsed_minutes * 60;
 
-    local elapsed_time_text = string.format("%02d:%06.3f", quest_time_elapsed_minutes, quest_time_elapsed_seconds);
+	local position_on_screen = calculate_screen_coordinates(config.time_UI.position);
 
-	local screen_position = calculate_screen_coordinates(time_UI.position);
-
-	if time_UI.shadow then
-		--shadow
-		draw.text(elapsed_time_text, screen_position.x + time_UI.shadow_offset.x, screen_position.y + time_UI.shadow_offset.y, time_UI.colors.shadow);
-	end
-    --text
-	draw.text(elapsed_time_text, screen_position.x, screen_position.y, time_UI.colors.text);
+	draw_label(config.time_UI.time_label, position_on_screen, quest_time_elapsed_minutes, quest_time_elapsed_seconds);
 end
 ---------------------------TIME UI---------------------------
 
@@ -630,7 +661,7 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 		return;
 	end
 
-	if not damage_meter_UI.include_small_monsters then
+	if not config.damage_meter_UI.include_small_monsters then
 		local is_boss_enemy = enemy:call("get_isBossEnemy");
 		if not is_boss_enemy then
 			return;
@@ -801,28 +832,28 @@ function update_player(player, damage_source_type, damage_object)
 	player.display.elemental_damage = 0;
 	player.display.ailment_damage = 0;
 
-	if damage_meter_UI.include_player_damage then
+	if config.damage_meter_UI.include_player_damage then
 		merge_damage(player.display, player);
 	end
 
-	if damage_meter_UI.include_bomb_damage then
+	if config.damage_meter_UI.include_bomb_damage then
 		merge_damage(player.display, player.bombs);
 
 	end
 
-	if damage_meter_UI.include_kunai_damage then
+	if config.damage_meter_UI.include_kunai_damage then
 		merge_damage(player.display, player.kunai);
 	end
 
-	if damage_meter_UI.include_installation_damage then
+	if config.damage_meter_UI.include_installation_damage then
 		merge_damage(player.display, player.installations);
 	end
 
-	if damage_meter_UI.include_otomo_damage then
+	if config.damage_meter_UI.include_otomo_damage then
 		merge_damage(player.display, player.otomo);
 	end
 
-	if damage_meter_UI.include_monster_damage then
+	if config.damage_meter_UI.include_monster_damage then
 		merge_damage(player.display, player.monster);
 	end
 end
@@ -846,7 +877,7 @@ function damage_meter()
 		return;
 	end
 
-	if total.display.total_damage == 0 and not damage_meter_UI.show_module_if_total_damage_is_zero then
+	if total.display.total_damage == 0 and not config.damage_meter_UI.show_module_if_total_damage_is_zero then
 		return;
 	end
 
@@ -935,7 +966,7 @@ function damage_meter()
 			goto continue;
 		end
 
-		if player_id == myself_player_id and damage_meter_UI.myself_bar_place_in_order ~= "normal" then
+		if player_id == myself_player_id and config.damage_meter_UI.myself_bar_place_in_order ~= "normal" then
 			players[myself_player_id].hunter_rank = player_hunter_rank;
 			goto continue;
 		end
@@ -957,7 +988,7 @@ function damage_meter()
 	end
 
 	--sort here
-	if damage_meter_UI.sort_type == "normal" and damage_meter_UI.reverse_order then
+	if config.damage_meter_UI.sort_type == "normal" and config.damage_meter_UI.reverse_order then
 		local reversed_quest_players = {};
 
 		for i = #quest_players, 1, -1 do
@@ -965,10 +996,10 @@ function damage_meter()
 		end
 		quest_players = reversed_quest_players;
 
-	elseif damage_meter_UI.sort_type == "damage" then
+	elseif config.damage_meter_UI.sort_type == "damage" then
 		table.sort(quest_players, function(left, right)
 			local result = left.display.total_damage > right.display.total_damage;
-			if damage_meter_UI.reverse_order then
+			if config.damage_meter_UI.reverse_order then
 				result = not result;
 			end
 
@@ -976,11 +1007,11 @@ function damage_meter()
 		end);
 	end
 
-	if damage_meter_UI.myself_bar_place_in_order == "first" then
+	if config.damage_meter_UI.myself_bar_place_in_order == "first" then
 		table.insert(quest_players, 1, players[myself_player_id]);
 	end
 
-	if damage_meter_UI.myself_bar_place_in_order == "last" then
+	if config.damage_meter_UI.myself_bar_place_in_order == "last" then
 		table.insert(quest_players, #quest_players + 1, players[myself_player_id]);
 	end
 
@@ -994,122 +1025,45 @@ function damage_meter()
 	last_displayed_players = quest_players;
 
 	--draw
-	local i = 0;
+	local position_on_screen = calculate_screen_coordinates(config.damage_meter_UI.position);
+
 	for _, player in ipairs(quest_players) do
-		if player.display.total_damage == 0 and not damage_meter_UI.show_player_if_player_damage_is_zero then
+		if player.display.total_damage == 0 and not config.damage_meter_UI.show_player_if_player_damage_is_zero then
 			goto continue1;
 		end
-
-		local screen_position = calculate_screen_coordinates(damage_meter_UI.position);
-
-		if damage_meter_UI.orientation == "horizontal" then
-			screen_position.x = screen_position.x + damage_meter_UI.spacing * i;
-		else
-			screen_position.y = screen_position.y + damage_meter_UI.spacing * i;
-		end
-
-		local player_total_damage_percentage = 0;
+		local player_damage_percentage = 0;
 		if total.display.total_damage ~= 0 then
-			player_total_damage_percentage = player.display.total_damage / total.display.total_damage;
+			player_damage_percentage = player.display.total_damage / total.display.total_damage;
 		end
 
-		if damage_meter_UI.visibility.damage_bar then
-			local damage_bar_player_damage_width = 0;
-			if damage_meter_UI.damage_bar_relative_to == "total damage" then
-				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * player_total_damage_percentage;
-			elseif top_damage ~= 0 then
-				damage_bar_player_damage_width = damage_meter_UI.damage_bar.width * (player.display.total_damage / top_damage);
+		if config.damage_meter_UI.highlighted_bar == "me" then
+			if player.id == myself_player_id then
+				draw_bar(config.damage_meter_UI.highlighted_damage_bar, position_on_screen, player_damage_percentage);
 			end
-
-			local damage_bar_others_damage_width = damage_meter_UI.damage_bar.width - damage_bar_player_damage_width;
-
-			local damage_bar_color =  damage_meter_UI.colors.damage_bar;
-			if damage_meter_UI.highlight_damade_bar_of_myself and player.id == myself_player_id then
-				damage_bar_color = damage_meter_UI.colors.damage_bar_myself;
+		elseif config.damage_meter_UI.highlighted_bar == "top damage" then
+			if player.display.total_damage == top_damage then
+				draw_bar(config.damage_meter_UI.highlighted_damage_bar, position_on_screen, player_damage_percentage);
 			end
-
-			--player damage
-			draw.filled_rect(screen_position.x + damage_meter_UI.offsets.damage_bar.x, screen_position.y + damage_meter_UI.offsets.damage_bar.y, damage_bar_player_damage_width, damage_meter_UI.damage_bar.height, damage_bar_color.player_damage);
-
-			--other damage
-			draw.filled_rect(screen_position.x + damage_meter_UI.offsets.damage_bar.x + damage_bar_player_damage_width, screen_position.y + damage_meter_UI.offsets.damage_bar.y, damage_bar_others_damage_width, damage_meter_UI.damage_bar.height, damage_bar_color.others_damage);
+		else
+			draw_bar(config.damage_meter_UI.damage_bar, position_on_screen, player_damage_percentage);
 		end
 
-		if damage_meter_UI.visibility.id or damage_meter_UI.visibility.name then
-			local name_text = "";
+		draw_label(config.damage_meter_UI.player_name_label, position_on_screen, player.hunter_rank, player.id, player.name)
+		draw_label(config.damage_meter_UI.damage_value_label, position_on_screen, player.display.total_damage);
+		draw_label(config.damage_meter_UI.damage_percentage_label, position_on_screen, 100 * player_damage_percentage);
 
-			if damage_meter_UI.visibility.hunter_rank then
-					name_text = string.format("[%d] ", player.hunter_rank);
-			end
-
-			if damage_meter_UI.visibility.id then
-				name_text = name_text .. string.format("%d", player.id);
-			end
-
-			if damage_meter_UI.visibility.name then
-				if damage_meter_UI.visibility.id then
-					name_text = name_text .. " ";
-				end
-
-				name_text = name_text .. player.name;
-			end
-
-			if damage_meter_UI.shadows.name then
-				--name shadow
-				draw.text(name_text, screen_position.x + damage_meter_UI.offsets.name.x + damage_meter_UI.shadow_offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y + damage_meter_UI.shadow_offsets.name.y, damage_meter_UI.colors.name.shadow);
-			end
-			--name
-			draw.text(name_text, screen_position.x + damage_meter_UI.offsets.name.x, screen_position.y + damage_meter_UI.offsets.name.y, damage_meter_UI.colors.name.text);
+		if config.damage_meter_UI.orientation == "horizontal" then
+			position_on_screen.x = position_on_screen.x + config.damage_meter_UI.spacing;
+		else
+			position_on_screen.y = position_on_screen.y + config.damage_meter_UI.spacing;
 		end
-
-		if damage_meter_UI.visibility.player_damage then
-			local player_damage = string.format("%.0f", player.display.total_damage);
-
-			if damage_meter_UI.shadows.player_damage then
-				--player_damage shadow
-				draw.text(player_damage, screen_position.x + damage_meter_UI.offsets.player_damage.x + damage_meter_UI.shadow_offsets.player_damage.x, screen_position.y + damage_meter_UI.offsets.player_damage.y + damage_meter_UI.shadow_offsets.player_damage.y, damage_meter_UI.colors.player_damage.shadow);
-			end
-
-			--player_damage
-			draw.text(player_damage, screen_position.x  + damage_meter_UI.offsets.player_damage.x, screen_position.y  + damage_meter_UI.offsets.player_damage.y, damage_meter_UI.colors.player_damage.text);
-		end
-
-		if damage_meter_UI.visibility.player_damage_percentage then
-			local player_damage_percentage_text = string.format("%5.1f%%", 100 * player_total_damage_percentage);
-
-			if damage_meter_UI.shadows.player_damage_percentage then
-				--player damage percentage shadow
-				draw.text(player_damage_percentage_text, screen_position.x + damage_meter_UI.offsets.player_damage_percentage.x + damage_meter_UI.shadow_offsets.player_damage_percentage.x, screen_position.y + damage_meter_UI.offsets.player_damage_percentage.y + damage_meter_UI.shadow_offsets.player_damage_percentage.y, damage_meter_UI.colors.player_damage_percentage.shadow);
-			end
-
-			--player damage percentage
-			draw.text(player_damage_percentage_text, screen_position.x + damage_meter_UI.offsets.player_damage_percentage.x, screen_position.y + damage_meter_UI.offsets.player_damage_percentage.y, damage_meter_UI.colors.player_damage_percentage.text);
-		end
-		i = i + 1;
 		::continue1::
 
 	end
 
 	--draw total damage
-	if damage_meter_UI.visibility.total_damage then
-		local total_damage_text = string.format("%.0f", total.display.total_damage);
+	draw_label(config.damage_meter_UI.total_damage_label, position_on_screen);
+	draw_label(config.damage_meter_UI.total_damage_value_label, position_on_screen, total.display.total_damage);
 
-		local screen_position = calculate_screen_coordinates(damage_meter_UI.position);
-		if damage_meter_UI.total_damage_offset_is_relative then
-			if damage_meter_UI.orientation == "horizontal" then
-				screen_position.x = screen_position.x + damage_meter_UI.spacing * i;
-			else
-				screen_position.y = screen_position.y + damage_meter_UI.spacing * i;
-			end
-		end
-
-		if damage_meter_UI.shadows.total_damage then
-			--total damage shadow
-			draw.text(total_damage_text, screen_position.x + damage_meter_UI.offsets.total_damage.x + damage_meter_UI.shadow_offsets.total_damage.x, screen_position.y + damage_meter_UI.offsets.total_damage.y + damage_meter_UI.shadow_offsets.total_damage.y, damage_meter_UI.colors.total_damage.shadow);
-		end
-
-		--total damage
-		draw.text(total_damage_text, screen_position.x + damage_meter_UI.offsets.total_damage.x, screen_position.y + damage_meter_UI.offsets.total_damage.y, damage_meter_UI.colors.total_damage.text);
-	end
 end
 -----------------------DAMAGE METER UI-----------------------
