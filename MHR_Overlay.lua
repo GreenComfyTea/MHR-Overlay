@@ -300,37 +300,113 @@ local config = {
 
 
 
----------------------------GLOBAL----------------------------
-log.info("[MHR_Overlay.lua] loaded");
+
+--------------------FUNCTION DEFINITIONS---------------------
+local save_config;
+local load_config;
+
+local get_window_size;
+local calculate_screen_coordinates;
+
+local draw_label;
+local draw_bar;
+local record_health;
+local monster_health;
+local quest_time;
+
+
+local init_player;
+local merge_damage;
+local get_player;
+local update_player;
+
+local damage_meter;
+--------------------FUNCTION DEFINITIONS---------------------
+
+
+
+
+
+----------------------CUSTOMIZATION UI-----------------------
+----------------------CUSTOMIZATION UI-----------------------
+
+
+
+
+
+----------------------CONFIG LOAD/SAVE-----------------------
+local config_file_name = 'MHR Overlay/config.json';
 
 local status = "OK";
 local x = "";
+
+load_config = function()
+	local loaded_config = json.load_file(config_file_name);
+	if loaded_config ~= nil then
+		log.info('[MHR Overlay] config.json loaded successfully');
+		config = loaded_config;
+	end
+end
+
+save_config = function ()
+	x = "2";
+	-- save current config to disk, replacing any existing file
+	local success = json.dump_file(config_file_name, config);
+	if success then
+		log.info('[MHR Overlay] config.json saved successfully');
+	else
+		log.error('[MHR Overlay] Failed to save config.json');
+	end
+end
+
+load_config();
+----------------------CONFIG LOAD/SAVE-----------------------
+
+---------------------------GLOBAL----------------------------
+log.info("[MHR Overlay] loaded");
+
 
 local screen_width = 0;
 local screen_height = 0;
 
 local scene_manager = sdk.get_native_singleton("via.SceneManager");
 if scene_manager == nil then
-    log.error("[MHR_Overlay.lua] No scene manager");
+    log.error("[MHR Overlay] No scene manager");
     return
 end
 
 local scene_view = sdk.call_native_func(scene_manager, sdk.find_type_definition("via.SceneManager"), "get_MainView");
 if scene_view == nil then
-    log.error("[MHR_Overlay.lua] No main view");
+    log.error("[MHR Overlay] No main view");
     return
 end
-
 
 re.on_draw_ui(function()
 	local status_string = tostring(status);
     if string.len(status_string) > 0 then
-        imgui.text("[MHR_Overlay.lua] Status: " .. status_string);
+        imgui.text("Status: " .. status_string);
     end
 
-	_, config.monster_UI.enabled = imgui.checkbox("Enable monster health UI", config.monster_UI.enabled)
-    _, config.time_UI.enabled = imgui.checkbox("Enable quest time UI", config.time_UI.enabled)
-    _, config.damage_meter_UI.enabled = imgui.checkbox("Enable damage dealt UI", config.damage_meter_UI.enabled)
+	local config_changed = false;
+
+	changed, config.monster_UI.enabled = imgui.checkbox("Enable monster health UI", config.monster_UI.enabled);
+	if changed then
+		config_changed = true;
+	end
+
+    changed, config.time_UI.enabled = imgui.checkbox("Enable quest time UI", config.time_UI.enabled);
+	if changed then
+		config_changed = true;
+	end
+
+    changed, config.damage_meter_UI.enabled = imgui.checkbox("Enable damage dealt UI", config.damage_meter_UI.enabled);
+	if changed then
+		config_changed = true;
+	end
+
+	if config_changed then
+		save_config();
+	end
 end);
 
 re.on_frame(function()
@@ -353,27 +429,27 @@ re.on_frame(function()
 
 end);
 
-function get_window_size()
+get_window_size = function ()
 	local size = scene_view:call("get_Size");
 	if size == nil then
-		log.error("[MHR_Overlay.lua] No scene view size");
+		log.error("[MHR Overlay] No scene view size");
 		return
 	end
 
 	screen_width = size:get_field("w");
 	if screen_width == nil then
-		log.error("[MHR_Overlay.lua] No screen width");
+		log.error("[MHR Overlay] No screen width");
 		return
 	end
 
 	screen_height = size:get_field("h");
 	if screen_height == nil then
-		log.error("[MHR_Overlay.lua] No screen height");
+		log.error("[MHR Overlay] No screen height");
 		return
 	end
 end
 
-function calculate_screen_coordinates(position)
+calculate_screen_coordinates = function (position)
 	if position.anchor == "top-left" then
 		return {x = position.x, y = position.y};
 	end
@@ -403,7 +479,7 @@ end
 
 
 ------------------------DRAW HELPERS-------------------------
-function draw_label(label, position, ...)
+draw_label = function(label, position, ...)
 	if label == nil then
 		return;
 	end
@@ -421,7 +497,7 @@ function draw_label(label, position, ...)
 	draw.text(text, position.x + label.offset.x, position.y + label.offset.y, label.text_color);
 end
 
-function draw_bar(bar, position, percentage)
+draw_bar = function (bar, position, percentage)
 	if bar == nil then
 		return;
 	end
@@ -454,7 +530,7 @@ sdk.hook(enemy_character_base_type_def_update_method, function(args)
     record_health(sdk.to_managed_object(args[2]));
 end, function(retval) return retval; end);
 
-function record_health(enemy)
+record_health = function (enemy)
     if enemy == nil then
 		return;
 	end
@@ -512,7 +588,7 @@ function record_health(enemy)
 
 end
 
-function monster_health()
+monster_health = function()
     local enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager");
     if enemy_manager == nil then
         status = "No enemy manager";
@@ -610,7 +686,7 @@ end
 
 
 ---------------------------TIME UI---------------------------
-function quest_time()
+quest_time = function()
     local quest_manager = sdk.get_managed_singleton("snow.QuestManager");
     if quest_manager == nil then
         status = "No quest manager";
@@ -737,7 +813,7 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 	update_player(player, damage_source_type, damage_object);
 end, function(retval) return retval; end);
 
-function init_player(player_id, player_name, player_hunter_rank)
+init_player = function(player_id, player_name, player_hunter_rank)
 	player = {};
 	player.id = player_id;
 	player.name = player_name;
@@ -788,15 +864,7 @@ function init_player(player_id, player_name, player_hunter_rank)
 end
 total = init_player(0, "Total", 0);
 
-function merge_damage(first, second)
-	first.total_damage = first.total_damage + second.total_damage;
-	first.physical_damage =  first.physical_damage + second.physical_damage;
-	first.elemental_damage = first.elemental_damage + second.elemental_damage;
-	first.ailment_damage = first.ailment_damage + second.ailment_damage;
-end
-
-
-function get_player(player_id)
+get_player = function(player_id)
 	if players[player_id] == nil then
 		return nil;
 	end
@@ -804,7 +872,7 @@ function get_player(player_id)
 	return players[player_id];
 end
 
-function update_player(player, damage_source_type, damage_object)
+update_player = function(player, damage_source_type, damage_object)
 	if player == nil then
 		return;
 	end
@@ -858,7 +926,14 @@ function update_player(player, damage_source_type, damage_object)
 	end
 end
 
-function damage_meter()
+merge_damage = function(first, second)
+	first.total_damage = first.total_damage + second.total_damage;
+	first.physical_damage =  first.physical_damage + second.physical_damage;
+	first.elemental_damage = first.elemental_damage + second.elemental_damage;
+	first.ailment_damage = first.ailment_damage + second.ailment_damage;
+end
+
+damage_meter = function()
 	local quest_manager = sdk.get_managed_singleton("snow.QuestManager");
     if quest_manager == nil then
         status = "No quest manager";
