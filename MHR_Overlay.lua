@@ -122,6 +122,7 @@ local time_UI = {
 local damage_meter_UI = {
 	enabled = true,
 
+	include_small_monsters = true,
 	include_player_damage = true,
 	include_bomb_damage = true,
 	include_kunai_damage = true,
@@ -308,7 +309,7 @@ re.on_frame(function()
 		damage_meter();
 	end
 
-  --draw.text("x:\n" .. tostring(x), 500, 800, 0xFFFFFFFF);
+	--draw.text("x:\n" .. tostring(x), 500, 800, 0xFFFFFFFF);
 
 end);
 
@@ -629,6 +630,13 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 		return;
 	end
 
+	if not damage_meter_UI.include_small_monsters then
+		local is_boss_enemy = enemy:call("get_isBossEnemy");
+		if not is_boss_enemy then
+			return;
+		end
+	end
+
 	local enemy_calc_damage_info = sdk.to_managed_object(args[3]); -- snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide
 	local attacker_id = enemy_calc_damage_info:call("get_AttackerID");
 	local attacker_type = enemy_calc_damage_info:call("get_DamageAttackerType");
@@ -683,7 +691,7 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 		return;
 	end
 
-	x = string.format("[id-name] %d [type] %s [dmg] %d", attacker_id, damage_source_type, damage_object.total_damage);
+	--x = x.. string.format("[attacker] %d [type] %s [dmg] %d", attacker_id, damage_source_type, damage_object.total_damage);
 
 	update_player(total, damage_source_type, damage_object);
 	update_player(player, damage_source_type, damage_object);
