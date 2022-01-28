@@ -1,4 +1,5 @@
 --------------------CUSTOMIZATION SECTION--------------------
+--#region
 local config = {
 	monster_UI = {
 		enabled = true,
@@ -6,7 +7,7 @@ local config = {
 		spacing = 220, 
 		orientation = "horizontal",
 		sort_type = "health percentage", -- "normal" or "health" or "health percentage"
-		reverse_order = false,
+		reversed_order = false,
 		
 		position = {
 			x = 525,
@@ -21,15 +22,16 @@ local config = {
 				x = 5,
 				y = 0
 			},
+			color = 0xFFE1F4CC,
 	
-			shadow = true,
-			shadow_offset = {
-				x = 1,
-				y = 1
-			},
-	
-			text_color = 0xFFE1F4CC,
-			shadow_color = 0xFF000000
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
 		},
 	
 		health_label = {
@@ -39,53 +41,55 @@ local config = {
 				x = -25,
 				y = 19
 			},
+			color = 0xFFE1F4CC,
 	
-			shadow = true,
-			shadow_offset = {
-				x = 1,
-				y = 1
-			},
-	
-			text_color = 0xFFE1F4CC,
-			shadow_color = 0xFF000000
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
 		},
 	
 		health_value_label = {
-			text = "%.0f/%.0f", -- current_health/max_health
 			visibility = true,
-	
+			text = "%.0f/%.0f", -- current_health/max_health
 			offset = {
 				x = 5,
 				y = 19
 			},
+			color = 0xFFFFFFFF,
 	
-			shadow = true,
-			shadow_offset = {
-				x = 1,
-				y = 1
-			},
-	
-			text_color = 0xFFFFFFFF,
-			shadow_color = 0xFF000000
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
 		},
 	
 		health_percentage_label = {
-			text = "%5.1f%%",
 			visibility = true,
+			text = "%5.1f%%",
 			
 			offset = {
 				x = 150,
 				y = 19
 			},
+			color = 0xFFFFFFFF,
 	
-			shadow = true,
-			shadow_offset = {
-				x = 1,
-				y = 1
-			},
-	
-			text_color = 0xFFFFFFFF,
-			shadow_color = 0xFF000000
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
 		},
 	
 		health_bar = {
@@ -94,7 +98,7 @@ local config = {
 				x = 0,
 				y = 17
 			},
-	
+			
 			size = {
 				width = 200,
 				height = 20
@@ -124,15 +128,16 @@ local config = {
 				x = 0,
 				y = 0
 			},
+			color = 0xFFE1F4CC,
 	
-			shadow = true,
-			shadow_offset = {
-				x = 1,
-				y = 1
-			},
-	
-			text_color = 0xFFE1F4CC,
-			shadow_color = 0xFF000000
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
 		}
 	},
 
@@ -175,15 +180,16 @@ local config = {
 				x = 5,
 				y = 0
 			},
+			color = 0xFFE1F4CC,
 	
-			shadow = true,
-			shadow_offset = {
-				x = 1,
-				y = 1
-			},
-	
-			text_color = 0xFFE1F4CC,
-			shadow_color = 0xFF000000
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
 		},
 	
 		damage_value_label = {
@@ -193,15 +199,16 @@ local config = {
 				x = 145,
 				y = 0
 			},
+			color = 0xFFE1F4CC,
 	
-			shadow = true,
-			shadow_offset = {
-				x = 1,
-				y = 1
-			},
-	
-			text_color = 0xFFE1F4CC,
-			shadow_color = 0xFF000000
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
 		},
 	
 		damage_percentage_label = {
@@ -211,15 +218,16 @@ local config = {
 				x = 205,
 				y = 0
 			},
+			color = 0xFFE1F4CC,
 	
-			shadow = true,
-			shadow_offset = {
-				x = 1,
-				y = 1
-			},
-	
-			text_color = 0xFFE1F4CC,
-			shadow_color = 0xFF000000
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
 		},
 	
 		total_damage_label = {
@@ -229,15 +237,16 @@ local config = {
 				x = 5,
 				y = 0
 			},
+			color = 0xFF7373FF,
 	
-			shadow = true,
-			shadow_offset = {
-				x = 1,
-				y = 1
-			},
-	
-			text_color = 0xFF7373FF,
-			shadow_color = 0xFF000000
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
 		},
 	
 		total_damage_value_label = {
@@ -247,15 +256,16 @@ local config = {
 				x = 145,
 				y = 0
 			},
+			color = 0xFF7373FF,
 	
-			shadow = true,
-			shadow_offset = {
-				x = 1,
-				y = 1
-			},
-	
-			text_color = 0xFF7373FF,
-			shadow_color = 0xFF000000
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
 		},
 	
 		damage_bar = {
@@ -295,6 +305,7 @@ local config = {
 		}
 	}
 };
+--#endregion
 ----------------------CUSTOMIZATION END----------------------
 
 
@@ -302,6 +313,18 @@ local config = {
 
 
 --------------------FUNCTION DEFINITIONS---------------------
+--#region
+local init;
+local init_singletons;
+local init_scene_manager;
+local init_message_manager;
+local init_enemy_manager;
+local init_lobby_manager;
+local init_progress_manager;
+local init_quest_manager;
+
+local customization_ui;
+
 local save_config;
 local load_config;
 
@@ -310,8 +333,10 @@ local calculate_screen_coordinates;
 
 local draw_label;
 local draw_bar;
+
 local record_health;
 local monster_health;
+
 local quest_time;
 
 
@@ -319,15 +344,422 @@ local init_player;
 local merge_damage;
 local get_player;
 local update_player;
-
 local damage_meter;
+--#endregion
 --------------------FUNCTION DEFINITIONS---------------------
 
 
 
 
 
+--------------------VARIABLE DEFINITIONS---------------------
+--#region
+local config_file_name;
+
+local is_customization_window_opened;
+
+local status;
+local x;
+
+local screen_width;
+local screen_height;
+local scene_view;
+
+local quest_status;
+
+local monsters;
+local players;
+local total;
+local is_quest_online;
+local last_displayed_players;
+local myself_player_id;
+
+--Singletons
+local scene_manager;
+local message_manager;
+local enemy_manager;
+local lobby_manager;
+local progress_manager;
+local quest_manager;
+--#endregion
+--------------------VARIABLE DEFINITIONS---------------------
+
+
+
+
+
+----------------------------INIT-----------------------------
+--#region
+init = function()
+	init_singletons();
+
+	status = "OK";
+	x = "";
+
+	quest_status = 0;
+	if quest_manager ~= nil then
+		local _quest_status = quest_manager:call("getStatus");
+		if _quest_status == nil then
+			status = "No quest status";
+		else
+			quest_status = _quest_status;
+		end
+	end
+
+	screen_width = 0;
+	screen_height = 0;
+	if scene_manager ~= nil then
+		scene_view = sdk.call_native_func(scene_manager, sdk.find_type_definition("via.SceneManager"), "get_MainView");
+
+		if scene_view == nil then
+			log.error("[MHR Overlay] No main view");
+			return false;
+		else
+			get_window_size();
+		end
+	end
+
+	monsters = {};
+
+	players = {};
+	total = init_player(0, "Total", 0);
+	is_quest_online = false;
+	last_displayed_players = {};
+	myself_player_id = 0;
+
+	log.info("[MHR Overlay] loaded");
+
+	config_file_name = 'MHR Overlay/config.json';
+	load_config();
+
+	is_customization_window_opened = false;
+
+	return true;
+end
+
+init_singletons = function()
+	init_scene_manager();
+	init_message_manager();
+	init_enemy_manager();
+	init_lobby_manager()
+	init_progress_manager();
+	init_quest_manager();
+end
+
+init_scene_manager = function()
+	if scene_manager ~= nil then
+		return;
+	end
+		
+	scene_manager = sdk.get_native_singleton("via.SceneManager");
+	if scene_manager == nil then
+		log.error("[MHR Overlay] No scene manager");
+	end
+end
+
+init_message_manager = function()
+	if message_manager ~= nil then
+		return;
+	end
+		
+	message_manager = sdk.get_managed_singleton("snow.gui.MessageManager");
+	if message_manager == nil then
+		log.error("[MHR Overlay] No message manager");
+	end
+end
+
+init_enemy_manager = function()
+	if enemy_manager ~= nil then
+		return;
+	end
+
+	enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager");
+    if enemy_manager == nil then
+		log.error("[MHR Overlay] No enemy manager");
+	end
+end
+
+init_lobby_manager = function()
+	if lobby_manager ~= nil then
+		return;
+	end
+		
+	lobby_manager = sdk.get_managed_singleton("snow.LobbyManager");
+    if lobby_manager == nil then
+		log.error("[MHR Overlay] No lobby manager");
+        return false;
+    end
+end
+
+init_progress_manager = function()
+	if progress_manager ~= nil then
+		return;
+	end
+		
+	progress_manager = sdk.get_managed_singleton("snow.progress.ProgressManager");
+    if progress_manager == nil then
+        log.error("[MHR Overlay] No progress manager");
+        return false;
+    end
+end
+
+init_quest_manager = function()
+	if quest_manager ~= nil then
+		return;
+	end
+
+	quest_manager = sdk.get_managed_singleton("snow.QuestManager");
+    if quest_manager == nil then
+        log.error("[MHR Overlay] No quest manager");
+    end
+end
+--#endregion
+----------------------------INIT-----------------------------
+
+
+
+
 ----------------------CUSTOMIZATION UI-----------------------
+--#region
+customization_ui = function()
+	imgui.begin_window("MHR Overlay", is_customization_window_opened, 0x10120);
+	
+	local status_string = tostring(status);
+	imgui.text("Status: " .. status_string);
+
+	if imgui.tree_node("Modules") then
+		changed, config.monster_UI.enabled = imgui.checkbox("Monster UI", config.monster_UI.enabled);
+		imgui.same_line();
+		changed, config.time_UI.enabled = imgui.checkbox("Time UI", config.time_UI.enabled);
+		imgui.same_line();
+		changed, config.damage_meter_UI.enabled = imgui.checkbox("Damage Meter UI", config.damage_meter_UI.enabled);
+
+		imgui.tree_pop();
+	end
+
+	if imgui.tree_node("Monster UI") then
+		changed, config.monster_UI.enabled = imgui.checkbox("Enabled", config.monster_UI.enabled);
+
+		changed, config.monster_UI.spacing = imgui.drag_float("Spacing", config.monster_UI.spacing, 0.1, 0, screen_width, "%.1f");
+
+		--add orientation
+		--add sort type
+
+		changed, config.monster_UI.reversed_order = imgui.checkbox("Reversed Order", config.monster_UI.reversed_order);
+
+		if imgui.tree_node("Position") then
+			changed, config.monster_UI.position.x = imgui.drag_float("X", config.monster_UI.position.x, 0.1, 0, screen_width, "%.1f");
+
+			changed, config.monster_UI.position.y = imgui.drag_float("Y", config.monster_UI.position.y, 0.1, 0, screen_height, "%.1f");
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Monster Name Label") then
+			changed, config.monster_UI.monster_name_label.visibility = imgui.checkbox("Visible", config.monster_UI.monster_name_label.visibility);
+
+			-- add text format
+
+			if imgui.tree_node("Offset") then
+				changed, config.monster_UI.monster_name_label.offset.x = imgui.drag_float("X", config.monster_UI.monster_name_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+
+				changed, config.monster_UI.monster_name_label.offset.y = imgui.drag_float("Y", config.monster_UI.monster_name_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.monster_UI.monster_name_label.shadow.visibility = imgui.checkbox("Enable", config.monster_UI.monster_name_label.shadow.visibility);
+
+				if imgui.tree_node("Offset") then
+					changed, config.monster_UI.monster_name_label.shadow.offset.x = imgui.drag_float("X", config.monster_UI.monster_name_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+
+					changed, config.monster_UI.monster_name_label.shadow.offset.y = imgui.drag_float("Y", config.monster_UI.monster_name_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					imgui.tree_pop();
+				end
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Health Label") then
+			changed, config.monster_UI.health_label.visibility = imgui.checkbox("Visible", config.monster_UI.health_label.visibility);
+
+			-- add text format
+
+			if imgui.tree_node("Offset") then
+				changed, config.monster_UI.health_label.offset.x = imgui.drag_float("X", config.monster_UI.health_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+
+				changed, config.monster_UI.health_label.offset.y = imgui.drag_float("Y", config.monster_UI.health_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.monster_UI.health_label.shadow.visibility = imgui.checkbox("Enable", config.monster_UI.health_label.shadow.visibility);
+
+				if imgui.tree_node("Offset") then
+					changed, config.monster_UI.health_label.shadow.offset.x = imgui.drag_float("X", config.monster_UI.health_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+
+					changed, config.monster_UI.health_label.shadow.offset.y = imgui.drag_float("Y", config.monster_UI.health_label.shadow.offset.y, 0.1, -screen_width, screen_width, "%.1f");
+
+					imgui.tree_pop();
+				end
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Health Value Label") then
+			changed, config.monster_UI.health_value_label.visibility = imgui.checkbox("Visible", config.monster_UI.health_value_label.visibility);
+
+			-- add text format
+
+			if imgui.tree_node("Offset") then
+				changed, config.monster_UI.health_value_label.offset.x = imgui.drag_float("X", config.monster_UI.health_value_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+
+				changed, config.monster_UI.health_value_label.offset.y = imgui.drag_float("Y", config.monster_UI.health_value_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.monster_UI.health_value_label.shadow.visibility = imgui.checkbox("Enable", config.monster_UI.health_value_label.shadow.visibility);
+
+				if imgui.tree_node("Offset") then
+					changed, config.monster_UI.health_value_label.shadow.offset.x = imgui.drag_float("X", config.monster_UI.health_value_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+
+					changed, config.monster_UI.health_value_label.shadow.offset.y = imgui.drag_float("Y", config.monster_UI.health_value_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					imgui.tree_pop();
+				end
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Health Percentage Label") then
+			changed, config.monster_UI.health_percentage_label.visibility = imgui.checkbox("Visible", config.monster_UI.health_percentage_label.visibility);
+
+			-- add text format
+
+			if imgui.tree_node("Offset") then
+				changed, config.monster_UI.health_percentage_label.offset.x = imgui.drag_float("X", config.monster_UI.health_percentage_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+
+				changed, config.monster_UI.health_percentage_label.offset.y = imgui.drag_float("Y", config.monster_UI.health_percentage_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.monster_UI.health_percentage_label.shadow.visibility = imgui.checkbox("Enable", config.monster_UI.health_percentage_label.shadow.visibility);
+
+				if imgui.tree_node("Offset") then
+					changed, config.monster_UI.health_percentage_label.shadow.offset.x = imgui.drag_float("X", config.monster_UI.health_percentage_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+
+					changed, config.monster_UI.health_percentage_label.shadow.offset.y = imgui.drag_float("Y", config.monster_UI.health_percentage_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					imgui.tree_pop();
+				end
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Health Bar") then
+			changed, config.monster_UI.health_bar.visibility = imgui.checkbox("Visible", config.monster_UI.health_bar.visibility);
+
+			if imgui.tree_node("Offset") then
+				changed, config.monster_UI.health_bar.offset.x = imgui.drag_float("X", config.monster_UI.health_bar.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+
+				changed, config.monster_UI.health_bar.offset.y = imgui.drag_float("Y", config.monster_UI.health_bar.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+	
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node("Size") then
+				changed, config.monster_UI.health_bar.size.width = imgui.drag_float("Width", config.monster_UI.health_bar.size.width, 0.1, -screen_width, screen_width, "%.1f");
+
+				changed, config.monster_UI.health_bar.size.height = imgui.drag_float("Height", config.monster_UI.health_bar.size.height, 0.1, -screen_height, screen_height, "%.1f");
+	
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node("Colors") then
+				-- color pickers?
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		imgui.tree_pop();
+	end
+
+	if imgui.tree_node("Time UI") then
+		changed, config.time_UI.enabled = imgui.checkbox("Enabled", config.monster_UI.enabled);
+
+		if imgui.tree_node("Position") then
+			changed, config.time_UI.position.x = imgui.drag_float("X", config.time_UI.position.x, 0.1, 0, screen_width, "%.1f");
+
+			changed, config.time_UI.position.y = imgui.drag_float("Y", config.time_UI.position.y, 0.1, 0, screen_height, "%.1f");
+
+			imgui.tree_pop();
+		end
+
+
+		if imgui.tree_node("Time Label") then
+			changed, config.time_UI.time_label.visibility = imgui.checkbox("Visible", config.time_UI.time_label.visibility);
+
+			-- add text format
+
+			if imgui.tree_node("Offset") then
+				changed, config.time_UI.time_label.offset.x = imgui.drag_float("X", config.time_UI.time_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+
+				changed, config.time_UI.time_label.offset.y = imgui.drag_float("Y", config.time_UI.time_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.time_UI.time_label.shadow.visibility = imgui.checkbox("Enable", config.time_UI.time_label.shadow.visibility);
+
+				if imgui.tree_node("Offset") then
+					changed, config.time_UI.time_label.shadow.offset.x = imgui.drag_float("X", config.time_UI.time_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+
+					changed, config.time_UI.time_label.shadow.offset.y = imgui.drag_float("Y", config.time_UI.time_label.shadow.offset.y, 0.1, -screen_width, screen_width, "%.1f");
+
+					imgui.tree_pop();
+				end
+
+				imgui.tree_pop();
+			end
+			imgui.tree_pop();
+		end
+
+		imgui.tree_pop();
+	end
+
+	imgui.end_window();
+end
+--#endregion
 ----------------------CUSTOMIZATION UI-----------------------
 
 
@@ -335,11 +767,7 @@ local damage_meter;
 
 
 ----------------------CONFIG LOAD/SAVE-----------------------
-local config_file_name = 'MHR Overlay/config.json';
-
-local status = "OK";
-local x = "";
-
+--#region
 load_config = function()
 	local loaded_config = json.load_file(config_file_name);
 	if loaded_config ~= nil then
@@ -349,7 +777,6 @@ load_config = function()
 end
 
 save_config = function ()
-	x = "2";
 	-- save current config to disk, replacing any existing file
 	local success = json.dump_file(config_file_name, config);
 	if success then
@@ -358,60 +785,25 @@ save_config = function ()
 		log.error('[MHR Overlay] Failed to save config.json');
 	end
 end
-
-load_config();
+--#endregion
 ----------------------CONFIG LOAD/SAVE-----------------------
 
 ---------------------------GLOBAL----------------------------
-log.info("[MHR Overlay] loaded");
-
-
-local screen_width = 0;
-local screen_height = 0;
-
-local scene_manager = sdk.get_native_singleton("via.SceneManager");
-if scene_manager == nil then
-    log.error("[MHR Overlay] No scene manager");
-    return
-end
-
-local scene_view = sdk.call_native_func(scene_manager, sdk.find_type_definition("via.SceneManager"), "get_MainView");
-if scene_view == nil then
-    log.error("[MHR Overlay] No main view");
-    return
-end
-
+--#region
 re.on_draw_ui(function()
-	local status_string = tostring(status);
-    if string.len(status_string) > 0 then
-        imgui.text("Status: " .. status_string);
-    end
-
-	local config_changed = false;
-
-	changed, config.monster_UI.enabled = imgui.checkbox("Enable monster health UI", config.monster_UI.enabled);
-	if changed then
-		config_changed = true;
-	end
-
-    changed, config.time_UI.enabled = imgui.checkbox("Enable quest time UI", config.time_UI.enabled);
-	if changed then
-		config_changed = true;
-	end
-
-    changed, config.damage_meter_UI.enabled = imgui.checkbox("Enable damage dealt UI", config.damage_meter_UI.enabled);
-	if changed then
-		config_changed = true;
-	end
-
-	if config_changed then
-		save_config();
+	if imgui.button('MHR Overlay') then
+		is_customization_window_opened = not is_customization_window_opened;
 	end
 end);
 
 re.on_frame(function()
 	status = "OK";
 	get_window_size();
+	init_singletons();
+
+	if is_customization_window_opened then
+		customization_ui();
+	end
 
 	if config.monster_UI.enabled then
 		monster_health();
@@ -472,6 +864,7 @@ calculate_screen_coordinates = function (position)
 
 	return {x = position.x, y = position.y};
 end
+--#endregion
 ---------------------------GLOBAL----------------------------
 
 
@@ -479,6 +872,7 @@ end
 
 
 ------------------------DRAW HELPERS-------------------------
+--#region
 draw_label = function(label, position, ...)
 	if label == nil then
 		return;
@@ -489,12 +883,11 @@ draw_label = function(label, position, ...)
 	end
 
 	local text = string.format(label.text, table.unpack({...}));
-
-	if label.shadow then
-		draw.text(text, position.x + label.offset.x + label.shadow_offset.x, position.y + label.offset.y + label.shadow_offset.y, label.shadow_color);
+	if label.shadow.visibility then
+		draw.text(text, position.x + label.offset.x + label.shadow.offset.x, position.y + label.offset.y + label.shadow.offset.y, label.shadow.color);
 	end
 
-	draw.text(text, position.x + label.offset.x, position.y + label.offset.y, label.text_color);
+	draw.text(text, position.x + label.offset.x, position.y + label.offset.y, label.color);
 end
 
 draw_bar = function (bar, position, percentage)
@@ -515,14 +908,34 @@ draw_bar = function (bar, position, percentage)
 	--background
 	draw.filled_rect(position.x + foreground_width + bar.offset.x, position.y + bar.offset.y, background_width,bar.size.height, bar.colors.background);
 end
+--#endregion
 ------------------------DRAW HELPERS-------------------------
 
 
 
 
--------------------------MONSTER UI--------------------------
-local monster_table = {};
 
+------------------------QUEST STATUS-------------------------
+--#region
+local quest_manager_type_definition = sdk.find_type_definition("snow.QuestManager");
+local on_changed_game_status = quest_manager_type_definition:get_method("onChangedGameStatus");
+
+sdk.hook(on_changed_game_status, function(args)
+	local status = sdk.to_int64(args[3]);
+	if status ~= nil then
+		quest_status = status;
+	end
+
+end, function(retval) return retval; end);
+--#endregion
+------------------------QUEST STATUS-------------------------
+
+
+
+
+
+-------------------------MONSTER UI--------------------------
+--#region
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_type_def_update_method = enemy_character_base_type_def:get_method("update");
 
@@ -557,18 +970,11 @@ record_health = function (enemy)
 		health_percentage = health / max_health;
 	end
 
-    local monster = monster_table[enemy];
+    local monster = monsters[enemy];
 
     if monster == nil then
         monster = {};
-        monster_table[enemy] = monster;
-
-        -- Grab enemy name.
-        local message_manager = sdk.get_managed_singleton("snow.gui.MessageManager");
-        if message_manager == nil then
-            status = "No message manager";
-            return;
-        end
+        monsters[enemy] = monster;
 
         local enemy_type = enemy:get_field("<EnemyType>k__BackingField");
         if enemy_type == nil then
@@ -589,13 +995,12 @@ record_health = function (enemy)
 end
 
 monster_health = function()
-    local enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager");
-    if enemy_manager == nil then
-        status = "No enemy manager";
-        return;
+	if enemy_manager == nil then
+		status = "No enemy manager";
+		return;
 	end
 
-	local monsters = {};
+	local displayed_monsters = {};
 
 	local enemy_count = enemy_manager:call("getBossEnemyCount");
 	if enemy_count == nil then
@@ -610,39 +1015,39 @@ monster_health = function()
             break;
         end
 
-        local monster = monster_table[enemy];
+        local monster = monsters[enemy];
         if monster == nil then
             status = "No monster hp entry";
             break;
 		end
 
-		table.insert(monsters, monster);
+		table.insert(displayed_monsters, monster);
     end
 
 	--sort here
-	if config.monster_UI.sort_type == "normal" and config.monster_UI.reverse_order then
+	if config.monster_UI.sort_type == "normal" and config.monster_UI.reversed_order then
 		local reversed_monsters = {};
 
-		for i = #monsters, 1, -1 do
+		for i = #displayed_monsters, 1, -1 do
 			table.insert(reversed_monsters, monsters[i]);
 		end
-		monsters = reversed_monsters;
+		displayed_monsters = reversed_monsters;
 
 	elseif config.monster_UI.sort_type == "health" then
-		table.sort(monsters, function(left, right)
+		table.sort(displayed_monsters, function(left, right)
 			local result = left.health > right.health;
 
-			if config.monster_UI.reverse_order then
+			if config.monster_UI.reversed_order then
 				result = not result;
 			end
 
 			return result;
 		end);
 	elseif config.monster_UI.sort_type == "health percentage" then
-		table.sort(monsters, function(left, right)
+		table.sort(displayed_monsters, function(left, right)
 			local result = left.health_percentage < right.health_percentage;
 
-			if config.monster_UI.reverse_order then
+			if config.monster_UI.reversed_order then
 				result = not result;
 			end
 
@@ -651,7 +1056,7 @@ monster_health = function()
 	end
 
 	local i = 0;
-	for _, monster in ipairs(monsters) do
+	for _, monster in ipairs(displayed_monsters) do
 		local position_on_screen = calculate_screen_coordinates(config.monster_UI.position);
 
 		if config.monster_UI.orientation == "horizontal" then
@@ -679,6 +1084,7 @@ monster_health = function()
 		i = i + 1;
 	end
 end
+--#endregion
 -------------------------MONSTER UI--------------------------
 
 
@@ -686,12 +1092,12 @@ end
 
 
 ---------------------------TIME UI---------------------------
+--#region
 quest_time = function()
-    local quest_manager = sdk.get_managed_singleton("snow.QuestManager");
-    if quest_manager == nil then
-        status = "No quest manager";
-        return;
-    end
+	if quest_manager == nil then
+		status = "No quest manager";
+		return;
+	end
 
     local quest_time_elapsed_minutes = quest_manager:call("getQuestElapsedTimeMin");
     if quest_time_elapsed_minutes == nil then
@@ -715,6 +1121,7 @@ quest_time = function()
 
 	draw_label(config.time_UI.time_label, position_on_screen, quest_time_elapsed_minutes, quest_time_elapsed_seconds);
 end
+--#endregion
 ---------------------------TIME UI---------------------------
 
 
@@ -722,12 +1129,7 @@ end
 
 
 -----------------------DAMAGE METER UI-----------------------
-local players = {};
-local total = {};
-local is_quest_online = false;
-local last_displayed_players = {};
-local myself_player_id = 0;
-
+--#region
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_after_calc_damage_damage_side = enemy_character_base_type_def:get_method("afterCalcDamage_DamageSide");
 
@@ -862,7 +1264,6 @@ init_player = function(player_id, player_name, player_hunter_rank)
 
 	return player;
 end
-total = init_player(0, "Total", 0);
 
 get_player = function(player_id)
 	if players[player_id] == nil then
@@ -934,21 +1335,9 @@ merge_damage = function(first, second)
 end
 
 damage_meter = function()
-	local quest_manager = sdk.get_managed_singleton("snow.QuestManager");
-    if quest_manager == nil then
-        status = "No quest manager";
-        return;
-    end
-
-	local quest_status = quest_manager:call("getStatus");
-	if quest_status == nil then
-		status = "No quest status";
-        return;
-	end
-
 	if quest_status < 2 then
 		players = {};
-		total = init_player(0, "Total");
+		total = init_player(0, "Total", 0);
 		return;
 	end
 
@@ -956,12 +1345,15 @@ damage_meter = function()
 		return;
 	end
 
-	-- players in lobby
-	local lobby_manager = sdk.get_managed_singleton("snow.LobbyManager");
-    if lobby_manager == nil then
-        status = "No lobby manager";
-        return;
-    end
+	if lobby_manager == nil then
+		status = "No lobby manager";
+		return;
+	end
+	
+	if progress_manager == nil then
+		status = "No progress manager";
+		return;
+	end
 
 	is_quest_online = lobby_manager:call("IsQuestOnline");
 	if is_quest_online == nil then
@@ -996,12 +1388,6 @@ damage_meter = function()
 		end
 	end
 
-	local progress_manager = sdk.get_managed_singleton("snow.progress.ProgressManager");
-    if progress_manager == nil then
-        status = "No progress manager";
-        return;
-    end
-
 	local myself_hunter_rank = progress_manager:call("get_HunterRank");
 	if myself_hunter_rank == nil then
         status = "No myself hunter rank";
@@ -1014,80 +1400,86 @@ damage_meter = function()
 
 	local quest_players = {};
 
-	--other players
-	local player_info_list = lobby_manager:get_field("_questHunterInfo");
-	if player_info_list == nil then
-        status = "No player info list";
-    end
-
-	local count = player_info_list:call("get_Count");
-	if count == nil then
-        status = "No player info list count";
-		return;
-    end
-
-	for i = 0, count - 1 do
-		local player_info = player_info_list:call("get_Item", i);
-		if player_info == nil then
-			goto continue;
-		end
-		local player_id = player_info:get_field("_memberIndex");
-		if player_id == nil then
-			goto continue;
+	if quest_status > 2 then
+		quest_players = last_displayed_players;
+	else
+		--other players
+		local player_info_list = lobby_manager:get_field("_questHunterInfo");
+		if player_info_list == nil then
+			status = "No player info list";
 		end
 
-		local player_hunter_rank = player_info:get_field("_hunterRank");
-		if player_hunter_rank == nil then
-			goto continue;
+		local count = player_info_list:call("get_Count");
+		if count == nil then
+			status = "No player info list count";
+			return;
 		end
 
-		if player_id == myself_player_id and config.damage_meter_UI.myself_bar_place_in_order ~= "normal" then
-			players[myself_player_id].hunter_rank = player_hunter_rank;
-			goto continue;
-		end
-
-		local player_name = player_info:get_field("_name");
-		if player_name == nil then
-			goto continue;
-		end
-
-		if players[player_id] == nil then
-			players[player_id] = init_player(player_id, player_name, player_hunter_rank);
-		elseif players[player_id].name ~= player_name then
-			players[player_id] = init_player(player_id, player_name, player_hunter_rank);
-		end
-
-		table.insert(quest_players, players[player_id]);
-
-		::continue::
-	end
-
-	--sort here
-	if config.damage_meter_UI.sort_type == "normal" and config.damage_meter_UI.reverse_order then
-		local reversed_quest_players = {};
-
-		for i = #quest_players, 1, -1 do
-			table.insert(reversed_quest_players, quest_players[i]);
-		end
-		quest_players = reversed_quest_players;
-
-	elseif config.damage_meter_UI.sort_type == "damage" then
-		table.sort(quest_players, function(left, right)
-			local result = left.display.total_damage > right.display.total_damage;
-			if config.damage_meter_UI.reverse_order then
-				result = not result;
+		for i = 0, count - 1 do
+			local player_info = player_info_list:call("get_Item", i);
+			if player_info == nil then
+				goto continue;
+			end
+			local player_id = player_info:get_field("_memberIndex");
+			if player_id == nil then
+				goto continue;
 			end
 
-			return result;
-		end);
-	end
+			local player_hunter_rank = player_info:get_field("_hunterRank");
+			if player_hunter_rank == nil then
+				goto continue;
+			end
 
-	if config.damage_meter_UI.myself_bar_place_in_order == "first" then
-		table.insert(quest_players, 1, players[myself_player_id]);
-	end
+			if player_id == myself_player_id and config.damage_meter_UI.myself_bar_place_in_order ~= "normal" then
+				players[myself_player_id].hunter_rank = player_hunter_rank;
+				goto continue;
+			end
 
-	if config.damage_meter_UI.myself_bar_place_in_order == "last" then
-		table.insert(quest_players, #quest_players + 1, players[myself_player_id]);
+			local player_name = player_info:get_field("_name");
+			if player_name == nil then
+				goto continue;
+			end
+
+			if players[player_id] == nil then
+				players[player_id] = init_player(player_id, player_name, player_hunter_rank);
+			elseif players[player_id].name ~= player_name then
+				players[player_id] = init_player(player_id, player_name, player_hunter_rank);
+			end
+
+			table.insert(quest_players, players[player_id]);
+
+			::continue::
+		end
+
+		--sort here
+		if config.damage_meter_UI.sort_type == "normal" and config.damage_meter_UI.reverse_order then
+			local reversed_quest_players = {};
+
+			for i = #quest_players, 1, -1 do
+				table.insert(reversed_quest_players, quest_players[i]);
+			end
+			quest_players = reversed_quest_players;
+
+		elseif config.damage_meter_UI.sort_type == "damage" then
+			table.sort(quest_players, function(left, right)
+				local result = left.display.total_damage > right.display.total_damage;
+				if config.damage_meter_UI.reverse_order then
+					result = not result;
+				end
+
+				return result;
+			end);
+		end
+
+		if config.damage_meter_UI.myself_bar_place_in_order == "first" then
+			table.insert(quest_players, 1, players[myself_player_id]);
+		end
+
+		if config.damage_meter_UI.myself_bar_place_in_order == "last" then
+			table.insert(quest_players, #quest_players + 1, players[myself_player_id]);
+		end
+
+		last_displayed_players = quest_players;
 	end
 
 	local top_damage = 0;
@@ -1096,8 +1488,6 @@ damage_meter = function()
 			top_damage = player.display.total_damage;
 		end
 	end
-
-	last_displayed_players = quest_players;
 
 	--draw
 	local position_on_screen = calculate_screen_coordinates(config.damage_meter_UI.position);
@@ -1141,4 +1531,10 @@ damage_meter = function()
 	draw_label(config.damage_meter_UI.total_damage_value_label, position_on_screen, total.display.total_damage);
 
 end
+--#endregion
 -----------------------DAMAGE METER UI-----------------------
+--#region
+if not init() then
+	return;
+end
+--#endregion
