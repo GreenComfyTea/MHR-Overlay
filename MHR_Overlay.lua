@@ -1,6 +1,13 @@
 --------------------CUSTOMIZATION SECTION--------------------
 --#region
 local config = {
+	font = {
+		family = "Consolas",
+		size = 13,
+		bold = true,
+		italic = false
+	},
+
 	monster_UI = {
 		enabled = true,
 	
@@ -23,11 +30,20 @@ local config = {
 		monster_name_label = {
 			visibility = true,
 			text = "%s",
+
+			include = {
+				monster_name = true,
+				crown = true,
+				size = true,
+				silver_crown_threshold = false,
+				gold_crown_threshold = false
+			},
+
 			offset = {
 				x = 5,
 				y = 0
 			},
-			color = 0xFFE1F4CC,
+			color = 0xFFCCF4E1,
 	
 			shadow = {
 				visibility = true,
@@ -46,7 +62,7 @@ local config = {
 				x = -25,
 				y = 19
 			},
-			color = 0xFFE1F4CC,
+			color = 0xFFCCF4E1,
 	
 			shadow = {
 				visibility = true,
@@ -110,9 +126,9 @@ local config = {
 			},
 	
 			colors = {
-				foreground = 0xB952A674,
+				foreground = 0xB974A652,
 				background = 0xB9000000,
-				capture_health = 0xB933CCCC
+				capture_health = 0xB9CCCC33
 			},
 		}
 	},
@@ -133,7 +149,7 @@ local config = {
 				x = 0,
 				y = 0
 			},
-			color = 0xFFE1F4CC,
+			color = 0xFFCCF4E1,
 	
 			shadow = {
 				visibility = true,
@@ -212,7 +228,7 @@ local config = {
 				x = 5,
 				y = 0
 			},
-			color = 0xFFE1F4CC,
+			color = 0xFFCCF4E1,
 	
 			shadow = {
 				visibility = true,
@@ -231,7 +247,7 @@ local config = {
 				x = 145,
 				y = 0
 			},
-			color = 0xFFE1F4CC,
+			color = 0xFFCCF4E1,
 	
 			shadow = {
 				visibility = true,
@@ -250,7 +266,7 @@ local config = {
 				x = 205,
 				y = 0
 			},
-			color = 0xFFE1F4CC,
+			color = 0xFFCCF4E1,
 	
 			shadow = {
 				visibility = true,
@@ -269,7 +285,7 @@ local config = {
 				x = 5,
 				y = 0
 			},
-			color = 0xFF7373FF,
+			color = 0xFFFF7373,
 	
 			shadow = {
 				visibility = true,
@@ -288,7 +304,7 @@ local config = {
 				x = 145,
 				y = 0
 			},
-			color = 0xFF7373FF,
+			color = 0xFFFF7373,
 	
 			shadow = {
 				visibility = true,
@@ -313,7 +329,7 @@ local config = {
 			},
 	
 			colors = {
-				foreground = 0xA7F4A3CC,
+				foreground = 0xA7CCA3F4,
 				background = 0xB9000000
 			},
 		},
@@ -331,7 +347,7 @@ local config = {
 			},
 	
 			colors = {
-				foreground = 0xA7A3D5F4,
+				foreground = 0xA7F4D5A3,
 				background = 0xB9000000
 			},
 		}
@@ -367,7 +383,7 @@ local table_find_index;
 local draw_label;
 local draw_bar;
 
-local record_health;
+local update_monster;
 local monster_health;
 
 local quest_time;
@@ -389,6 +405,10 @@ local damage_meter;
 --#region
 local config_file_name;
 
+local font;
+local fonts = {};
+local selected_font_index;
+
 local is_customization_window_opened;
 
 local status;
@@ -400,7 +420,8 @@ local scene_view;
 
 local quest_status;
 
-local monsters;
+local large_monsters;
+local small_monsters;
 local players;
 local total;
 local is_quest_online;
@@ -421,8 +442,37 @@ local quest_manager;
 
 
 
+----------------------CONFIG LOAD/SAVE-----------------------
+--#region
+load_config = function()
+	local loaded_config = json.load_file(config_file_name);
+	if loaded_config ~= nil then
+		log.info('[MHR Overlay] config.json loaded successfully');
+		config = loaded_config;
+	end
+end
+
+save_config = function ()
+	-- save current config to disk, replacing any existing file
+	local success = json.dump_file(config_file_name, config);
+	if success then
+		log.info('[MHR Overlay] config.json saved successfully');
+	else
+		log.error('[MHR Overlay] Failed to save config.json');
+	end
+end
+--#endregion
+----------------------CONFIG LOAD/SAVE-----------------------
+
+
+
+
+
 ----------------------------INIT-----------------------------
 --#region
+config_file_name = 'MHR Overlay/config.json';
+load_config();
+
 init = function()
 	init_singletons();
 
@@ -452,7 +502,8 @@ init = function()
 		end
 	end
 
-	monsters = {};
+	large_monsters = {};
+	small_monsters = {};
 
 	players = {};
 	total = init_player(0, "Total", 0);
@@ -461,9 +512,6 @@ init = function()
 	myself_player_id = 0;
 
 	log.info("[MHR Overlay] loaded");
-
-	config_file_name = 'MHR Overlay/config.json';
-	load_config();
 
 	orientation_types = {"Horizontal", "Vertical"};
 
@@ -487,6 +535,9 @@ init = function()
 	damage_meter_UI_sort_type_index = table_find_index(damage_meter_UI_sort_types, config.damage_meter_UI.sorting.type, false);
 
 	is_customization_window_opened = false;
+
+	fonts = {"Arial", "Arial Black", "Bahnschrift", "Calibri", "Cambria", "Cambria Math", "Candara", "Comic Sans MS", "Consolas", "Constantia", "Corbel", "Courier New", "Ebrima", "Franklin Gothic Medium", "Gabriola", "Gadugi", "Georgia", "HoloLens MDL2 Assets", "Impact", "Ink Free", "Javanese Text", "Leelawadee UI", "Lucida Console", "Lucida Sans Unicode", "Malgun Gothic", "Marlett", "Microsoft Himalaya", "Microsoft JhengHei", "Microsoft New Tai Lue", "Microsoft PhagsPa", "Microsoft Sans Serif", "Microsoft Tai Le", "Microsoft YaHei", "Microsoft Yi Baiti", "MingLiU-ExtB", "Mongolian Baiti", "MS Gothic", "MV Boli", "Myanmar Text", "Nirmala UI", "Palatino Linotype", "Segoe MDL2 Assets", "Segoe Print", "Segoe Script", "Segoe UI", "Segoe UI Historic", "Segoe UI Emoji", "Segoe UI Symbol", "SimSun", "Sitka", "Sylfaen", "Symbol", "Tahoma", "Times New Roman", "Trebuchet MS", "Verdana", "Webdings", "Wingdings", "Yu Gothic"};
+	selected_font_index = table_find_index(fonts, config.font.family, false);
 
 	return true;
 end
@@ -573,15 +624,66 @@ end
 
 
 
+
+--------------------------D2D---------------------------
+d2d.register(function()
+    font = d2d.create_font(config.font.family, config.font.size, config.font.bold, config.font.italic);
+end,
+function()
+	status = "OK";
+	get_window_size();
+	init_singletons();
+
+	if config.monster_UI.enabled then
+		monster_health();
+	end
+
+	if config.time_UI.enabled then
+		quest_time();
+	end
+
+	if config.damage_meter_UI.enabled then
+		damage_meter();
+	end
+end)
+--------------------------D2D---------------------------
+
+
+
 ----------------------CUSTOMIZATION UI-----------------------
 --#region
 customization_ui = function()
-	imgui.begin_window("MHR Overlay", is_customization_window_opened, 0x10120);
+	is_customization_window_opened = imgui.begin_window("MHR Overlay", is_customization_window_opened, 0x10120);
+
+	if not is_customization_window_opened then
+		return;
+	end
 	
 	local config_changed = false;
 	local changed;
 	local status_string = tostring(status);
 	imgui.text("Status: " .. status_string);
+
+	if imgui.tree_node("Font") then
+		imgui.text("Any changes to the font require script reload!");
+
+		changed, selected_font_index = imgui.combo("Family", selected_font_index, fonts);
+		config_changed = config_changed or changed;
+		if changed then
+			config.font.family = fonts[selected_font_index];
+		end
+
+		changed, config.font.size = imgui.slider_int("Size", config.font.size, 1, 100);
+		config_changed = config_changed or changed;
+		
+		changed, config.font.bold = imgui.checkbox("Bold", config.font.bold);
+		config_changed = config_changed or changed;
+		
+		changed, config.font.italic = imgui.checkbox("Italic", config.font.italic);
+		config_changed = config_changed or changed;
+
+		imgui.tree_pop();
+	end
 
 	if imgui.tree_node("Modules") then
 		changed, config.monster_UI.enabled = imgui.checkbox("Monster UI", config.monster_UI.enabled);
@@ -641,6 +743,25 @@ customization_ui = function()
 		if imgui.tree_node("Monster Name Label") then
 			changed, config.monster_UI.monster_name_label.visibility = imgui.checkbox("Visible", config.monster_UI.monster_name_label.visibility);
 			config_changed = config_changed or changed;
+
+			if imgui.tree_node("Include") then
+				changed, config.monster_UI.monster_name_label.include.monster_name = imgui.checkbox("Monster Name", config.monster_UI.monster_name_label.include.monster_name);
+				config_changed = config_changed or changed;
+
+				changed, config.monster_UI.monster_name_label.include.crown = imgui.checkbox("Crown", config.monster_UI.monster_name_label.include.crown);
+				config_changed = config_changed or changed;
+
+				changed, config.monster_UI.monster_name_label.include.size = imgui.checkbox("Size", config.monster_UI.monster_name_label.include.size);
+				config_changed = config_changed or changed;
+
+				changed, config.monster_UI.monster_name_label.include.silver_crown_threshold = imgui.checkbox("Silver Crown Threshold", config.monster_UI.monster_name_label.include.silver_crown_threshold);
+				config_changed = config_changed or changed;
+
+				changed, config.monster_UI.monster_name_label.include.gold_crown_threshold = imgui.checkbox("Gold Crown Threshold", config.monster_UI.monster_name_label.include.gold_crown_threshold);
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Offset") then
 				changed, config.monster_UI.monster_name_label.offset.x = imgui.drag_float("X", config.monster_UI.monster_name_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
@@ -1290,28 +1411,6 @@ end
 
 
 
-----------------------CONFIG LOAD/SAVE-----------------------
---#region
-load_config = function()
-	local loaded_config = json.load_file(config_file_name);
-	if loaded_config ~= nil then
-		log.info('[MHR Overlay] config.json loaded successfully');
-		config = loaded_config;
-	end
-end
-
-save_config = function ()
-	-- save current config to disk, replacing any existing file
-	local success = json.dump_file(config_file_name, config);
-	if success then
-		log.info('[MHR Overlay] config.json saved successfully');
-	else
-		log.error('[MHR Overlay] Failed to save config.json');
-	end
-end
---#endregion
-----------------------CONFIG LOAD/SAVE-----------------------
-
 ---------------------------GLOBAL----------------------------
 --#region
 re.on_draw_ui(function()
@@ -1321,28 +1420,9 @@ re.on_draw_ui(function()
 end);
 
 re.on_frame(function()
-	status = "OK";
-	get_window_size();
-	init_singletons();
-
 	if is_customization_window_opened then
 		customization_ui();
 	end
-
-	if config.monster_UI.enabled then
-		monster_health();
-	end
-
-	if config.time_UI.enabled then
-		quest_time();
-	end
-
-	if config.damage_meter_UI.enabled then
-		damage_meter();
-	end
-
-	--draw.text("x:\n" .. tostring(x), 500, 800, 0xFFFFFFFF);
-
 end);
 
 get_window_size = function ()
@@ -1422,10 +1502,9 @@ draw_label = function(label, position, ...)
 
 	local text = string.format(label.text, table.unpack({...}));
 	if label.shadow.visibility then
-		draw.text(text, position.x + label.offset.x + label.shadow.offset.x, position.y + label.offset.y + label.shadow.offset.y, label.shadow.color);
+		d2d.text(font, text, position.x + label.offset.x + label.shadow.offset.x, position.y + label.offset.y + label.shadow.offset.y, label.shadow.color);
 	end
-
-	draw.text(text, position.x + label.offset.x, position.y + label.offset.y, label.color);
+	d2d.text(font, text, position.x + label.offset.x, position.y + label.offset.y, label.color);
 end
 
 draw_bar = function (bar, position, percentage)
@@ -1441,10 +1520,10 @@ draw_bar = function (bar, position, percentage)
 	local background_width = bar.size.width - foreground_width;
 
 	--foreground
-	draw.filled_rect(position.x + bar.offset.x, position.y + bar.offset.y, foreground_width, bar.size.height, bar.colors.foreground);
+	d2d.fill_rect(position.x + bar.offset.x, position.y + bar.offset.y, foreground_width, bar.size.height, bar.colors.foreground);
 
 	--background
-	draw.filled_rect(position.x + foreground_width + bar.offset.x, position.y + bar.offset.y, background_width,bar.size.height, bar.colors.background);
+	d2d.fill_rect(position.x + foreground_width + bar.offset.x, position.y + bar.offset.y, background_width, bar.size.height, bar.colors.background);
 end
 --#endregion
 ------------------------DRAW HELPERS-------------------------
@@ -1472,17 +1551,22 @@ end, function(retval) return retval; end);
 
 
 
--------------------------MONSTER UI--------------------------
+------------------------MONSTER HOOK-------------------------
 --#region
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_type_def_update_method = enemy_character_base_type_def:get_method("update");
 
 sdk.hook(enemy_character_base_type_def_update_method, function(args)
-    record_health(sdk.to_managed_object(args[2]));
+    update_monster(sdk.to_managed_object(args[2]));
 end, function(retval) return retval; end);
 
-record_health = function (enemy)
-    if enemy == nil then
+update_monster = function (enemy)
+	if enemy == nil then
+		return;
+	end
+
+	local is_boss_enemy = enemy:call("get_isBossEnemy");
+	if is_boss_enemy == nil then
 		return;
 	end
 
@@ -1508,11 +1592,16 @@ record_health = function (enemy)
 		health_percentage = health / max_health;
 	end
 
-    local monster = monsters[enemy];
+	local monster_list = large_monsters;
+	if not is_boss_enemy then
+		monster_list = small_monsters;
+	end
+
+    local monster = monster_list[enemy];
 
     if monster == nil then
         monster = {};
-        monsters[enemy] = monster;
+		monster_list[enemy] = monster;
 
         local enemy_type = enemy:get_field("<EnemyType>k__BackingField");
         if enemy_type == nil then
@@ -1522,6 +1611,19 @@ record_health = function (enemy)
 
         local enemy_name = message_manager:call("getEnemyNameMessage", enemy_type);
         monster.name = enemy_name;
+
+		local size_info = enemy_manager:call("findEnemySizeInfo", enemy_type);
+		monster.small_border = size_info:call("get_SmallBorder");
+		monster.big_border = size_info:call("get_KingBorder");
+		monster.size = enemy:call("get_MonsterListRegisterScale");
+
+		if monster.size < monster.small_border then
+			monster.crown = "Silver";
+		elseif monster.size > monster.big_border then
+			monster.crown = "Gold";
+		else
+			monster.crown = "";
+		end
     end
 
     monster.health = health;
@@ -1531,7 +1633,15 @@ record_health = function (enemy)
 	monster.capture_health = capture_health;
 
 end
+--#endregion
+------------------------MONSTER HOOK-------------------------
 
+
+
+
+
+----------------------LARGE MONSTER UI-----------------------
+--#region
 monster_health = function()
 	if enemy_manager == nil then
 		status = "No enemy manager";
@@ -1546,10 +1656,6 @@ monster_health = function()
 		return;
 	end
 
-	--for id,enemy in pairs(monsters) do
-	--	status = status .. tostring(enemy.name) .. "\n";
-	--end
-
     for i = 0, enemy_count - 1 do
         local enemy = enemy_manager:call("getBossEnemy", i);
         if enemy == nil then
@@ -1557,7 +1663,7 @@ monster_health = function()
             break;
         end
 
-        local monster = monsters[enemy];
+        local monster = large_monsters[enemy];
         if monster == nil then
             status = "No monster hp entry";
             break;
@@ -1571,7 +1677,7 @@ monster_health = function()
 		local reversed_monsters = {};
 
 		for i = #displayed_monsters, 1, -1 do
-			table.insert(reversed_monsters, monsters[i]);
+			table.insert(reversed_monsters, large_monsters[i]);
 		end
 		displayed_monsters = reversed_monsters;
 
@@ -1618,7 +1724,26 @@ monster_health = function()
 
 		draw_bar(config.monster_UI.health_bar, position_on_screen, monster.health_percentage);
 
-		draw_label(config.monster_UI.monster_name_label, position_on_screen, monster.name);
+		local monster_name_text = "";
+		if config.monster_UI.monster_name_label.include.monster_name then
+			monster_name_text = string.format("%s ", monster.name);
+		end
+		if config.monster_UI.monster_name_label.include.crown and monster.crown ~= "" then
+			monster_name_text = monster_name_text .. string.format("%s ", monster.crown);
+		end
+		if config.monster_UI.monster_name_label.include.size then
+			monster_name_text = monster_name_text .. string.format("#%.0f ", 100 * monster.size);
+		end
+
+		if config.monster_UI.monster_name_label.include.silver_crown_threshold and config.monster_UI.monster_name_label.include.gold_crown_threshold then
+			monster_name_text = monster_name_text .. string.format("(Silver: <%.0f, Gold: >%.0f)", 100 * monster.small_border, 100 * monster.big_border);
+		elseif config.monster_UI.monster_name_label.include.silver_crown_threshold then
+			monster_name_text = monster_name_text .. string.format("(Silver: <%.0f)", 100 * monster.small_border);
+		elseif config.monster_UI.monster_name_label.include.gold_crown_threshold then
+			monster_name_text = monster_name_text .. string.format("(Gold: >%.0f)", 100 * monster.big_border);
+		end
+
+		draw_label(config.monster_UI.monster_name_label, position_on_screen, monster_name_text);
 		draw_label(config.monster_UI.health_label, position_on_screen);
 		draw_label(config.monster_UI.health_value_label, position_on_screen, monster.health, monster.max_health);
 		draw_label(config.monster_UI.health_percentage_label, position_on_screen, 100 * monster.health_percentage);
@@ -1627,7 +1752,7 @@ monster_health = function()
 	end
 end
 --#endregion
--------------------------MONSTER UI--------------------------
+----------------------LARGE MONSTER UI-----------------------
 
 
 
