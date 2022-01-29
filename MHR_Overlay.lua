@@ -4,15 +4,20 @@ local config = {
 	monster_UI = {
 		enabled = true,
 	
-		spacing = 220, 
-		orientation = "horizontal",
-		sort_type = "health percentage", -- "normal" or "health" or "health percentage"
-		reversed_order = false,
+		settings =  {
+			spacing = 220,
+			orientation = "Horizontal"
+		},
+
+		sorting = {
+			type = "Normal",
+			reversed_order = false,
+		},
 		
 		position = {
 			x = 525,
 			y = 44,
-			anchor = "bottom-left"
+			anchor = "Bottom-Left"
 		},
 	
 		monster_name_label = {
@@ -118,7 +123,7 @@ local config = {
 		position = {
 			x = 65,
 			y = 189,
-			anchor = "top-left"
+			anchor = "Top-Left"
 		},
 	
 		time_label = {
@@ -143,39 +148,66 @@ local config = {
 
 	damage_meter_UI = {
 		enabled = true,
+		
+		tracked_monster_types = {
+			small_monsters = true,
+			large_monsters = true
+		},
+		
+		tracked_damage_types = {
+			player_damage = true,
+			bomb_damage = true,
+			kunai_damage = true,
+			installation_damage = true, -- hunting_installations like ballista, cannon, etc.
+			otomo_damage = true,
+			monster_damage = true
+		}, -- note that installations during narwa fight are counted as monster damage
 	
-		include_small_monsters = true,
-		include_player_damage = true,
-		include_bomb_damage = true,
-		include_kunai_damage = true,
-		include_installation_damage = true, -- hunting_installations like ballista, cannon, etc.
-		include_otomo_damage = true,
-		include_monster_damage = true, -- note that installations during narwa fight are counted as monster damage
-	
-		show_module_if_total_damage_is_zero = true,
-		show_player_if_player_damage_is_zero = true,
-	
-		highlighted_bar = "me",
-	
-		spacing = 24,
-		orientation = "vertical", -- "vertical" or "horizontal"
-		total_damage_offset_is_relative = true,
-	
-		damage_bar_relative_to = "top damage", -- "total damage" or "top damage"
-		myself_bar_place_in_order = "first", --"normal" or "first" or "last"
-		sort_type = "damage", -- "normal" or "damage"
-		reverse_order = false,
-	
+		settings = {
+			spacing = 24,
+			orientation = "Vertical", -- "Vertical" or "Horizontal"
+
+			hide_module_if_total_damage_is_zero = false,
+			hide_player_if_player_damage_is_zero = false,
+			total_damage_offset_is_relative = true,
+
+			highlighted_bar = "Me",
+			damage_bar_relative_to = "Top Damage", -- "total damage" or "top damage"
+			my_damage_bar_location = "First", --"normal" or "first" or "last"
+		},
+		
+		sorting = {
+			type = "Damage", -- "normal" or "damage"
+			reversed_order = false,
+		},
+		
 		position = {
 			x = 525,
 			y = 225,
-			--Possible values: "top-left", "top-right", "bottom-left", "bottom-right"
-			anchor = "bottom-left"
+			--Possible values: "Top-Left", "Top-Right", "Bottom-Left", "Bottom-Right"
+			anchor = "Bottom-Left"
 		},
 	
 		player_name_label = {
 			visibility = true,
-			text = "[%d] %d %s",
+
+			include = {
+				myself = {
+					hunter_rank = true,
+					word_player = false,
+					player_id = false,
+					player_name = true
+				},
+
+				others = {
+					hunter_rank = true,
+					word_player = false,
+					player_id = false,
+					player_name = true
+				}
+			},
+
+			text = "%s",
 			offset = {
 				x = 5,
 				y = 0
@@ -330,6 +362,7 @@ local load_config;
 
 local get_window_size;
 local calculate_screen_coordinates;
+local table_find_index;
 
 local draw_label;
 local draw_bar;
@@ -432,6 +465,27 @@ init = function()
 	config_file_name = 'MHR Overlay/config.json';
 	load_config();
 
+	orientation_types = {"Horizontal", "Vertical"};
+
+	monster_UI_orientation_index = table_find_index(orientation_types, config.monster_UI.settings.orientation, false);
+
+	monster_UI_sort_types = {"Normal", "Health", "Health Percentage", "Distance"};
+	monster_UI_sort_type_index = table_find_index(monster_UI_sort_types, config.monster_UI.sorting.type, false);
+
+	damage_meter_UI_orientation_index = table_find_index(orientation_types, config.damage_meter_UI.settings.orientation, false);
+
+	damage_meter_UI_highlighted_bar_types = {"Me", "Top Damage", "None"};
+	damage_meter_UI_highlighted_bar_index = table_find_index(damage_meter_UI_highlighted_bar_types, config.damage_meter_UI.settings.highlighted_bar, false);
+
+	damage_meter_UI_damage_bar_relative_types = {"Total Damage", "Top Damage"};
+	damage_meter_UI_damage_bar_relative_index = table_find_index(damage_meter_UI_damage_bar_relative_types, config.damage_meter_UI.settings.damage_bar_relative_to, false);
+
+	damage_meter_UI_my_damage_bar_location_types = {"Normal", "First", "Last"};
+	damage_meter_UI_my_damage_bar_location_index = table_find_index(damage_meter_UI_my_damage_bar_location_types, config.damage_meter_UI.settings.my_damage_bar_location, false);
+
+	damage_meter_UI_sort_types = {"Normal", "Damage"};
+	damage_meter_UI_sort_type_index = table_find_index(damage_meter_UI_sort_types, config.damage_meter_UI.sorting.type, false);
+
 	is_customization_window_opened = false;
 
 	return true;
@@ -524,46 +578,76 @@ end
 customization_ui = function()
 	imgui.begin_window("MHR Overlay", is_customization_window_opened, 0x10120);
 	
+	local config_changed = false;
+	local changed;
 	local status_string = tostring(status);
 	imgui.text("Status: " .. status_string);
 
 	if imgui.tree_node("Modules") then
 		changed, config.monster_UI.enabled = imgui.checkbox("Monster UI", config.monster_UI.enabled);
+		config_changed = config_changed or changed;
 		imgui.same_line();
+
 		changed, config.time_UI.enabled = imgui.checkbox("Time UI", config.time_UI.enabled);
+		config_changed = config_changed or changed;
 		imgui.same_line();
+		
 		changed, config.damage_meter_UI.enabled = imgui.checkbox("Damage Meter UI", config.damage_meter_UI.enabled);
+		config_changed = config_changed or changed;
 
 		imgui.tree_pop();
 	end
 
 	if imgui.tree_node("Monster UI") then
 		changed, config.monster_UI.enabled = imgui.checkbox("Enabled", config.monster_UI.enabled);
+		config_changed = config_changed or changed;
 
-		changed, config.monster_UI.spacing = imgui.drag_float("Spacing", config.monster_UI.spacing, 0.1, 0, screen_width, "%.1f");
+		if imgui.tree_node("Settings") then
+			changed, config.monster_UI.settings.spacing = imgui.drag_float("Spacing", config.monster_UI.settings.spacing, 0.1, 0, screen_width, "%.1f");
+			config_changed = config_changed or changed;
 
-		--add orientation
-		--add sort type
+			changed, monster_UI_orientation_index = imgui.combo("Orientation", monster_UI_orientation_index, orientation_types);
+			config_changed = config_changed or changed;
+			if changed then
+				config.monster_UI.settings.orientation = orientation_types[monster_UI_orientation_index];
+			end
 
-		changed, config.monster_UI.reversed_order = imgui.checkbox("Reversed Order", config.monster_UI.reversed_order);
+			imgui.tree_pop();
+		end
 
 		if imgui.tree_node("Position") then
 			changed, config.monster_UI.position.x = imgui.drag_float("X", config.monster_UI.position.x, 0.1, 0, screen_width, "%.1f");
+			config_changed = config_changed or changed;
 
 			changed, config.monster_UI.position.y = imgui.drag_float("Y", config.monster_UI.position.y, 0.1, 0, screen_height, "%.1f");
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+		
+		if imgui.tree_node("Sorting") then
+			changed, monster_UI_sort_type_index = imgui.combo("Type", monster_UI_sort_type_index, monster_UI_sort_types);
+			config_changed = config_changed or changed;
+			if changed then
+				config.monster_UI.sorting.type = monster_UI_sort_types[monster_UI_sort_type_index];
+			end
+					
+			changed, config.monster_UI.reversed_order = imgui.checkbox("Reversed Order", config.monster_UI.reversed_order);
+			config_changed = config_changed or changed;
 
 			imgui.tree_pop();
 		end
 
 		if imgui.tree_node("Monster Name Label") then
 			changed, config.monster_UI.monster_name_label.visibility = imgui.checkbox("Visible", config.monster_UI.monster_name_label.visibility);
-
-			-- add text format
+			config_changed = config_changed or changed;
 
 			if imgui.tree_node("Offset") then
 				changed, config.monster_UI.monster_name_label.offset.x = imgui.drag_float("X", config.monster_UI.monster_name_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
 
 				changed, config.monster_UI.monster_name_label.offset.y = imgui.drag_float("Y", config.monster_UI.monster_name_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
 	
 				imgui.tree_pop();
 			end
@@ -572,13 +656,19 @@ customization_ui = function()
 
 			if imgui.tree_node("Shadow") then
 				changed, config.monster_UI.monster_name_label.shadow.visibility = imgui.checkbox("Enable", config.monster_UI.monster_name_label.shadow.visibility);
+				config_changed = config_changed or changed;
 
 				if imgui.tree_node("Offset") then
 					changed, config.monster_UI.monster_name_label.shadow.offset.x = imgui.drag_float("X", config.monster_UI.monster_name_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
 
 					changed, config.monster_UI.monster_name_label.shadow.offset.y = imgui.drag_float("Y", config.monster_UI.monster_name_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					config_changed = config_changed or changed;
+
 					imgui.tree_pop();
 				end
+
+				--color picker
 	
 				imgui.tree_pop();
 			end
@@ -588,13 +678,16 @@ customization_ui = function()
 
 		if imgui.tree_node("Health Label") then
 			changed, config.monster_UI.health_label.visibility = imgui.checkbox("Visible", config.monster_UI.health_label.visibility);
+			config_changed = config_changed or changed;
 
 			-- add text format
 
 			if imgui.tree_node("Offset") then
 				changed, config.monster_UI.health_label.offset.x = imgui.drag_float("X", config.monster_UI.health_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
 
 				changed, config.monster_UI.health_label.offset.y = imgui.drag_float("Y", config.monster_UI.health_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
 	
 				imgui.tree_pop();
 			end
@@ -603,11 +696,14 @@ customization_ui = function()
 
 			if imgui.tree_node("Shadow") then
 				changed, config.monster_UI.health_label.shadow.visibility = imgui.checkbox("Enable", config.monster_UI.health_label.shadow.visibility);
+				config_changed = config_changed or changed;
 
 				if imgui.tree_node("Offset") then
 					changed, config.monster_UI.health_label.shadow.offset.x = imgui.drag_float("X", config.monster_UI.health_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
 
 					changed, config.monster_UI.health_label.shadow.offset.y = imgui.drag_float("Y", config.monster_UI.health_label.shadow.offset.y, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -620,13 +716,16 @@ customization_ui = function()
 
 		if imgui.tree_node("Health Value Label") then
 			changed, config.monster_UI.health_value_label.visibility = imgui.checkbox("Visible", config.monster_UI.health_value_label.visibility);
+			config_changed = config_changed or changed;
 
 			-- add text format
 
 			if imgui.tree_node("Offset") then
 				changed, config.monster_UI.health_value_label.offset.x = imgui.drag_float("X", config.monster_UI.health_value_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
 
 				changed, config.monster_UI.health_value_label.offset.y = imgui.drag_float("Y", config.monster_UI.health_value_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
 	
 				imgui.tree_pop();
 			end
@@ -635,11 +734,15 @@ customization_ui = function()
 
 			if imgui.tree_node("Shadow") then
 				changed, config.monster_UI.health_value_label.shadow.visibility = imgui.checkbox("Enable", config.monster_UI.health_value_label.shadow.visibility);
+				config_changed = config_changed or changed;
 
 				if imgui.tree_node("Offset") then
 					changed, config.monster_UI.health_value_label.shadow.offset.x = imgui.drag_float("X", config.monster_UI.health_value_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
 
 					changed, config.monster_UI.health_value_label.shadow.offset.y = imgui.drag_float("Y", config.monster_UI.health_value_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					config_changed = config_changed or changed;
+
 					imgui.tree_pop();
 				end
 	
@@ -651,13 +754,16 @@ customization_ui = function()
 
 		if imgui.tree_node("Health Percentage Label") then
 			changed, config.monster_UI.health_percentage_label.visibility = imgui.checkbox("Visible", config.monster_UI.health_percentage_label.visibility);
+			config_changed = config_changed or changed;
 
 			-- add text format
 
 			if imgui.tree_node("Offset") then
 				changed, config.monster_UI.health_percentage_label.offset.x = imgui.drag_float("X", config.monster_UI.health_percentage_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
 
 				changed, config.monster_UI.health_percentage_label.offset.y = imgui.drag_float("Y", config.monster_UI.health_percentage_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
 	
 				imgui.tree_pop();
 			end
@@ -666,11 +772,15 @@ customization_ui = function()
 
 			if imgui.tree_node("Shadow") then
 				changed, config.monster_UI.health_percentage_label.shadow.visibility = imgui.checkbox("Enable", config.monster_UI.health_percentage_label.shadow.visibility);
+				config_changed = config_changed or changed;
 
 				if imgui.tree_node("Offset") then
 					changed, config.monster_UI.health_percentage_label.shadow.offset.x = imgui.drag_float("X", config.monster_UI.health_percentage_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
 
 					changed, config.monster_UI.health_percentage_label.shadow.offset.y = imgui.drag_float("Y", config.monster_UI.health_percentage_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					config_changed = config_changed or changed;
+
 					imgui.tree_pop();
 				end
 	
@@ -682,19 +792,24 @@ customization_ui = function()
 
 		if imgui.tree_node("Health Bar") then
 			changed, config.monster_UI.health_bar.visibility = imgui.checkbox("Visible", config.monster_UI.health_bar.visibility);
+			config_changed = config_changed or changed;
 
 			if imgui.tree_node("Offset") then
 				changed, config.monster_UI.health_bar.offset.x = imgui.drag_float("X", config.monster_UI.health_bar.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
 
 				changed, config.monster_UI.health_bar.offset.y = imgui.drag_float("Y", config.monster_UI.health_bar.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
 	
 				imgui.tree_pop();
 			end
 
 			if imgui.tree_node("Size") then
 				changed, config.monster_UI.health_bar.size.width = imgui.drag_float("Width", config.monster_UI.health_bar.size.width, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
 
 				changed, config.monster_UI.health_bar.size.height = imgui.drag_float("Height", config.monster_UI.health_bar.size.height, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
 	
 				imgui.tree_pop();
 			end
@@ -712,12 +827,15 @@ customization_ui = function()
 	end
 
 	if imgui.tree_node("Time UI") then
-		changed, config.time_UI.enabled = imgui.checkbox("Enabled", config.monster_UI.enabled);
+		changed, config.time_UI.enabled = imgui.checkbox("Enabled", config.time_UI.enabled);
+		config_changed = config_changed or changed;
 
 		if imgui.tree_node("Position") then
 			changed, config.time_UI.position.x = imgui.drag_float("X", config.time_UI.position.x, 0.1, 0, screen_width, "%.1f");
+			config_changed = config_changed or changed;
 
 			changed, config.time_UI.position.y = imgui.drag_float("Y", config.time_UI.position.y, 0.1, 0, screen_height, "%.1f");
+			config_changed = config_changed or changed;
 
 			imgui.tree_pop();
 		end
@@ -725,13 +843,16 @@ customization_ui = function()
 
 		if imgui.tree_node("Time Label") then
 			changed, config.time_UI.time_label.visibility = imgui.checkbox("Visible", config.time_UI.time_label.visibility);
+			config_changed = config_changed or changed;
 
 			-- add text format
 
 			if imgui.tree_node("Offset") then
 				changed, config.time_UI.time_label.offset.x = imgui.drag_float("X", config.time_UI.time_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
 
 				changed, config.time_UI.time_label.offset.y = imgui.drag_float("Y", config.time_UI.time_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
 
 				imgui.tree_pop();
 			end
@@ -740,11 +861,14 @@ customization_ui = function()
 
 			if imgui.tree_node("Shadow") then
 				changed, config.time_UI.time_label.shadow.visibility = imgui.checkbox("Enable", config.time_UI.time_label.shadow.visibility);
+				config_changed = config_changed or changed;
 
 				if imgui.tree_node("Offset") then
 					changed, config.time_UI.time_label.shadow.offset.x = imgui.drag_float("X", config.time_UI.time_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
 
 					changed, config.time_UI.time_label.shadow.offset.y = imgui.drag_float("Y", config.time_UI.time_label.shadow.offset.y, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -757,7 +881,407 @@ customization_ui = function()
 		imgui.tree_pop();
 	end
 
+	if imgui.tree_node("Damage Meter UI") then
+		changed, config.damage_meter_UI.enabled = imgui.checkbox("Enabled", config.damage_meter_UI.enabled);
+		config_changed = config_changed or changed;
+
+		if imgui.tree_node("Settings") then
+			changed, config.damage_meter_UI.settings.hide_module_if_total_damage_is_zero = imgui.checkbox("Hide Module if Total Damage is 0", config.damage_meter_UI.settings.hide_module_if_total_damage_is_zero);
+			config_changed = config_changed or changed;
+
+			changed, config.damage_meter_UI.settings.hide_player_if_player_damage_is_zero = imgui.checkbox("Hide Player if Player Damage is 0", config.damage_meter_UI.settings.hide_player_if_player_damage_is_zero);
+			config_changed = config_changed or changed;
+
+			changed, config.damage_meter_UI.settings.total_damage_offset_is_relative = imgui.checkbox("Total Damage Offset is Relative", config.damage_meter_UI.settings.total_damage_offset_is_relative);
+			config_changed = config_changed or changed;
+
+			changed, config.damage_meter_UI.settings.spacing = imgui.drag_float("Spacing", config.damage_meter_UI.settings.spacing, 0.1, 0, screen_width, "%.1f");
+			config_changed = config_changed or changed;
+
+			changed, damage_meter_UI_orientation_index = imgui.combo("Orientation", damage_meter_UI_orientation_index, orientation_types);
+			config_changed = config_changed or changed;
+			if changed then
+				config.damage_meter_UI.settings.orientation = orientation_types[damage_meter_UI_orientation_index];
+			end
+
+			changed, damage_meter_UI_highlighted_bar_index = imgui.combo("Highlighted Bar", damage_meter_UI_highlighted_bar_index, damage_meter_UI_highlighted_bar_types);
+			config_changed = config_changed or changed;
+			if changed then
+				config.damage_meter_UI.settings.highlighted_bar = damage_meter_UI_highlighted_bar_types[damage_meter_UI_highlighted_bar_index];
+			end
+
+			changed, damage_meter_UI_damage_bar_relative_index = imgui.combo("Damage Bars are Relative to", damage_meter_UI_damage_bar_relative_index, damage_meter_UI_damage_bar_relative_types);
+			config_changed = config_changed or changed;
+			if changed then
+				config.damage_meter_UI.settings.damage_bar_relative_to = damage_meter_UI_damage_bar_relative_types[damage_meter_UI_damage_bar_relative_index];
+			end
+
+			changed, damage_meter_UI_my_damage_bar_location_index = imgui.combo("My Damage Bar Location", damage_meter_UI_my_damage_bar_location_index, damage_meter_UI_my_damage_bar_location_types);
+			config_changed = config_changed or changed;
+			if changed then
+				config.damage_meter_UI.settings.my_damage_bar_location = damage_meter_UI_my_damage_bar_location_types[damage_meter_UI_my_damage_bar_location_index];
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Tracked Monster Types") then
+			changed, config.damage_meter_UI.tracked_monster_types.small_monsters = imgui.checkbox("Small Monsters", config.damage_meter_UI.tracked_monster_types.small_monsters);
+			config_changed = config_changed or changed;
+
+			changed, config.damage_meter_UI.tracked_monster_types.large_monsters = imgui.checkbox("Large Monsters", config.damage_meter_UI.tracked_monster_types.large_monsters);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Tracked Damage Types") then
+			changed, config.damage_meter_UI.tracked_damage_types.player_damage = imgui.checkbox("Player Damage", config.damage_meter_UI.tracked_damage_types.player_damage);
+			config_changed = config_changed or changed;
+
+			changed, config.damage_meter_UI.tracked_damage_types.bomb_damage = imgui.checkbox("Bomb Damage", config.damage_meter_UI.tracked_damage_types.bomb_damage);
+			config_changed = config_changed or changed;
+
+			changed, config.damage_meter_UI.tracked_damage_types.kunai_damage = imgui.checkbox("Kunai Damage", config.damage_meter_UI.tracked_damage_types.kunai_damage);
+			config_changed = config_changed or changed;
+
+			changed, config.damage_meter_UI.tracked_damage_types.installation_damage = imgui.checkbox("Installation Damage", config.damage_meter_UI.tracked_damage_types.installation_damage);
+			config_changed = config_changed or changed;
+
+			changed, config.damage_meter_UI.tracked_damage_types.otomo_damage = imgui.checkbox("Otomo Damage", config.damage_meter_UI.tracked_damage_types.otomo_damage);
+			config_changed = config_changed or changed;
+
+			changed, config.damage_meter_UI.tracked_damage_types.monster_damage = imgui.checkbox("Monster Damage", config.damage_meter_UI.tracked_damage_types.monster_damage);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Position") then
+			changed, config.damage_meter_UI.position.x = imgui.drag_float("X", config.damage_meter_UI.position.x, 0.1, 0, screen_width, "%.1f");
+			config_changed = config_changed or changed;
+
+			changed, config.damage_meter_UI.position.y = imgui.drag_float("Y", config.damage_meter_UI.position.y, 0.1, 0, screen_height, "%.1f");
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+		
+		if imgui.tree_node("Sorting") then
+			changed, damage_meter_UI_sort_type_index = imgui.combo("Type", damage_meter_UI_sort_type_index, damage_meter_UI_sort_types);
+			config_changed = config_changed or changed;
+			if changed then
+				config.damage_meter_UI.sorting.type = damage_meter_UI_sort_types[damage_meter_UI_sort_type_index];
+			end
+					
+			changed, config.damage_meter_UI.reversed_order = imgui.checkbox("Reversed Order", config.damage_meter_UI.reversed_order);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Player Name Label") then
+			changed, config.damage_meter_UI.player_name_label.visibility = imgui.checkbox("Visible", config.damage_meter_UI.player_name_label.visibility);
+			config_changed = config_changed or changed;
+
+			if imgui.tree_node("Include") then
+				if imgui.tree_node("Me") then
+					changed, config.damage_meter_UI.player_name_label.include.myself.hunter_rank = imgui.checkbox("Hunter Rank", config.damage_meter_UI.player_name_label.include.myself.hunter_rank);
+					config_changed = config_changed or changed;
+	
+					changed, config.damage_meter_UI.player_name_label.include.myself.word_player = imgui.checkbox("Word \"Player\"", config.damage_meter_UI.player_name_label.include.myself.word_player);
+					config_changed = config_changed or changed;
+	
+					changed, config.damage_meter_UI.player_name_label.include.myself.player_id = imgui.checkbox("Player ID", config.damage_meter_UI.player_name_label.include.myself.player_id);
+					config_changed = config_changed or changed;
+		
+					changed, config.damage_meter_UI.player_name_label.include.myself.player_name = imgui.checkbox("Player Name", config.damage_meter_UI.player_name_label.include.myself.player_name);
+					config_changed = config_changed or changed;
+		
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Other Players") then
+					changed, config.damage_meter_UI.player_name_label.include.others.hunter_rank = imgui.checkbox("Hunter Rank", config.damage_meter_UI.player_name_label.include.others.hunter_rank);
+					config_changed = config_changed or changed;
+	
+					changed, config.damage_meter_UI.player_name_label.include.others.word_player = imgui.checkbox("Word \"Player\"", config.damage_meter_UI.player_name_label.include.others.word_player);
+					config_changed = config_changed or changed;
+	
+					changed, config.damage_meter_UI.player_name_label.include.others.player_id = imgui.checkbox("Player ID", config.damage_meter_UI.player_name_label.include.others.player_id);
+					config_changed = config_changed or changed;
+		
+					changed, config.damage_meter_UI.player_name_label.include.others.player_name = imgui.checkbox("Player Name", config.damage_meter_UI.player_name_label.include.others.player_name);
+					config_changed = config_changed or changed;
+		
+					imgui.tree_pop();
+				end
+	
+				imgui.tree_pop();
+			end
+
+		
+
+			if imgui.tree_node("Offset") then
+				changed, config.damage_meter_UI.player_name_label.offset.x = imgui.drag_float("X", config.damage_meter_UI.player_name_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.damage_meter_UI.player_name_label.offset.y = imgui.drag_float("Y", config.damage_meter_UI.player_name_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.damage_meter_UI.player_name_label.shadow.visibility = imgui.checkbox("Enable", config.damage_meter_UI.player_name_label.shadow.visibility);
+				config_changed = config_changed or changed;
+
+				if imgui.tree_node("Offset") then
+					changed, config.damage_meter_UI.player_name_label.shadow.offset.x = imgui.drag_float("X", config.damage_meter_UI.player_name_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
+
+					changed, config.damage_meter_UI.player_name_label.shadow.offset.y = imgui.drag_float("Y", config.damage_meter_UI.player_name_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				--color picker
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Damage Value Label") then
+			changed, config.damage_meter_UI.damage_value_label.visibility = imgui.checkbox("Visible", config.damage_meter_UI.damage_value_label.visibility);
+			config_changed = config_changed or changed;
+
+			-- add text format
+
+			if imgui.tree_node("Offset") then
+				changed, config.damage_meter_UI.damage_value_label.offset.x = imgui.drag_float("X", config.damage_meter_UI.damage_value_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.damage_meter_UI.damage_value_label.offset.y = imgui.drag_float("Y", config.damage_meter_UI.damage_value_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.damage_meter_UI.damage_value_label.shadow.visibility = imgui.checkbox("Enable", config.damage_meter_UI.damage_value_label.shadow.visibility);
+				config_changed = config_changed or changed;
+
+				if imgui.tree_node("Offset") then
+					changed, config.damage_meter_UI.damage_value_label.shadow.offset.x = imgui.drag_float("X", config.damage_meter_UI.damage_value_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
+
+					changed, config.damage_meter_UI.damage_value_label.shadow.offset.y = imgui.drag_float("Y", config.damage_meter_UI.damage_value_label.shadow.offset.y, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Damage Percentage Label") then
+			changed, config.damage_meter_UI.damage_percentage_label.visibility = imgui.checkbox("Visible", config.damage_meter_UI.damage_percentage_label.visibility);
+			config_changed = config_changed or changed;
+
+			-- add text format
+
+			if imgui.tree_node("Offset") then
+				changed, config.damage_meter_UI.damage_percentage_label.offset.x = imgui.drag_float("X", config.damage_meter_UI.damage_percentage_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.damage_meter_UI.damage_percentage_label.offset.y = imgui.drag_float("Y", config.damage_meter_UI.damage_percentage_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.damage_meter_UI.damage_percentage_label.shadow.visibility = imgui.checkbox("Enable", config.damage_meter_UI.damage_percentage_label.shadow.visibility);
+				config_changed = config_changed or changed;
+
+				if imgui.tree_node("Offset") then
+					changed, config.damage_meter_UI.damage_percentage_label.shadow.offset.x = imgui.drag_float("X", config.damage_meter_UI.damage_percentage_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
+
+					changed, config.damage_meter_UI.damage_percentage_label.shadow.offset.y = imgui.drag_float("Y", config.damage_meter_UI.damage_percentage_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Total Damage Label") then
+			changed, config.damage_meter_UI.total_damage_label.visibility = imgui.checkbox("Visible", config.damage_meter_UI.total_damage_label.visibility);
+			config_changed = config_changed or changed;
+
+			-- add text format
+
+			if imgui.tree_node("Offset") then
+				changed, config.damage_meter_UI.total_damage_label.offset.x = imgui.drag_float("X", config.damage_meter_UI.total_damage_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.damage_meter_UI.total_damage_label.offset.y = imgui.drag_float("Y", config.damage_meter_UI.total_damage_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.damage_meter_UI.total_damage_label.shadow.visibility = imgui.checkbox("Enable", config.damage_meter_UI.total_damage_label.shadow.visibility);
+				config_changed = config_changed or changed;
+
+				if imgui.tree_node("Offset") then
+					changed, config.damage_meter_UI.total_damage_label.shadow.offset.x = imgui.drag_float("X", config.damage_meter_UI.total_damage_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
+
+					changed, config.damage_meter_UI.total_damage_label.shadow.offset.y = imgui.drag_float("Y", config.damage_meter_UI.total_damage_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Total Damage Value Label") then
+			changed, config.damage_meter_UI.total_damage_value_label.visibility = imgui.checkbox("Visible", config.damage_meter_UI.total_damage_value_label.visibility);
+			config_changed = config_changed or changed;
+
+			-- add text format
+
+			if imgui.tree_node("Offset") then
+				changed, config.damage_meter_UI.total_damage_value_label.offset.x = imgui.drag_float("X", config.damage_meter_UI.total_damage_value_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.damage_meter_UI.total_damage_value_label.offset.y = imgui.drag_float("Y", config.damage_meter_UI.total_damage_value_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.damage_meter_UI.total_damage_value_label.shadow.visibility = imgui.checkbox("Enable", config.damage_meter_UI.total_damage_value_label.shadow.visibility);
+				config_changed = config_changed or changed;
+
+				if imgui.tree_node("Offset") then
+					changed, config.damage_meter_UI.total_damage_value_label.shadow.offset.x = imgui.drag_float("X", config.damage_meter_UI.total_damage_value_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
+
+					changed, config.damage_meter_UI.total_damage_value_label.shadow.offset.y = imgui.drag_float("Y", config.damage_meter_UI.total_damage_value_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Damage Bar") then
+			changed, config.damage_meter_UI.damage_bar.visibility = imgui.checkbox("Visible", config.damage_meter_UI.damage_bar.visibility);
+			config_changed = config_changed or changed;
+
+			if imgui.tree_node("Offset") then
+				changed, config.damage_meter_UI.damage_bar.offset.x = imgui.drag_float("X", config.damage_meter_UI.damage_bar.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.damage_meter_UI.damage_bar.offset.y = imgui.drag_float("Y", config.damage_meter_UI.damage_bar.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node("Size") then
+				changed, config.damage_meter_UI.damage_bar.size.width = imgui.drag_float("Width", config.damage_meter_UI.damage_bar.size.width, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.damage_meter_UI.damage_bar.size.height = imgui.drag_float("Height", config.damage_meter_UI.damage_bar.size.height, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node("Colors") then
+				-- color pickers?
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Highlighted Damage Bar") then
+			changed, config.damage_meter_UI.highlighted_damage_bar.visibility = imgui.checkbox("Visible", config.damage_meter_UI.highlighted_damage_bar.visibility);
+			config_changed = config_changed or changed;
+
+			if imgui.tree_node("Offset") then
+				changed, config.damage_meter_UI.highlighted_damage_bar.offset.x = imgui.drag_float("X", config.damage_meter_UI.highlighted_damage_bar.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.damage_meter_UI.highlighted_damage_bar.offset.y = imgui.drag_float("Y", config.damage_meter_UI.highlighted_damage_bar.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node("Size") then
+				changed, config.damage_meter_UI.damage_bar.size.width = imgui.drag_float("Width", config.damage_meter_UI.damage_bar.size.width, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.damage_meter_UI.damage_bar.size.height = imgui.drag_float("Height", config.damage_meter_UI.damage_bar.size.height, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node("Colors") then
+				-- color pickers?
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		imgui.tree_pop();
+	end
+
 	imgui.end_window();
+
+	if config_changed then
+		save_config();
+	end
 end
 --#endregion
 ----------------------CUSTOMIZATION UI-----------------------
@@ -842,27 +1366,41 @@ get_window_size = function ()
 end
 
 calculate_screen_coordinates = function (position)
-	if position.anchor == "top-left" then
+	if position.anchor == "Top-Left" then
 		return {x = position.x, y = position.y};
 	end
 
-	if position.anchor == "top-right" then
+	if position.anchor == "Top-Right" then
 		local screen_x = screen_width - position.x;
 		return {x = screen_x, y = position.y};
 	end
 
-	if position.anchor == "bottom-left" then
+	if position.anchor == "Bottom-Left" then
 		local screen_y = screen_height - position.y;
 		return {x = position.x, y = screen_y};
 	end
 
-	if position.anchor == "bottom-right" then
+	if position.anchor == "Bottom-Right" then
 		local screen_x = screen_width - position.x;
 		local screen_y = screen_height - position.y;
 		return {x = screen_x, y = screen_y};
 	end
 
 	return {x = position.x, y = position.y};
+end
+
+table_find_index = function (table, value, nullable)
+    for i = 1, #table do
+        if table[i] == value then
+            return i;
+        end
+    end
+
+	if not nullable then
+		return 1;
+	end
+	
+    return nil;
 end
 --#endregion
 ---------------------------GLOBAL----------------------------
@@ -1008,6 +1546,10 @@ monster_health = function()
 		return;
 	end
 
+	--for id,enemy in pairs(monsters) do
+	--	status = status .. tostring(enemy.name) .. "\n";
+	--end
+
     for i = 0, enemy_count - 1 do
         local enemy = enemy_manager:call("getBossEnemy", i);
         if enemy == nil then
@@ -1025,7 +1567,7 @@ monster_health = function()
     end
 
 	--sort here
-	if config.monster_UI.sort_type == "normal" and config.monster_UI.reversed_order then
+	if config.monster_UI.sort_type == "Normal" and config.monster_UI.reversed_order then
 		local reversed_monsters = {};
 
 		for i = #displayed_monsters, 1, -1 do
@@ -1033,7 +1575,7 @@ monster_health = function()
 		end
 		displayed_monsters = reversed_monsters;
 
-	elseif config.monster_UI.sort_type == "health" then
+	elseif config.monster_UI.sort_type == "Health" then
 		table.sort(displayed_monsters, function(left, right)
 			local result = left.health > right.health;
 
@@ -1043,7 +1585,7 @@ monster_health = function()
 
 			return result;
 		end);
-	elseif config.monster_UI.sort_type == "health percentage" then
+	elseif config.monster_UI.sort_type == "Health Percentage" then
 		table.sort(displayed_monsters, function(left, right)
 			local result = left.health_percentage < right.health_percentage;
 
@@ -1059,10 +1601,10 @@ monster_health = function()
 	for _, monster in ipairs(displayed_monsters) do
 		local position_on_screen = calculate_screen_coordinates(config.monster_UI.position);
 
-		if config.monster_UI.orientation == "horizontal" then
-			position_on_screen.x = position_on_screen.x + config.monster_UI.spacing * i;
+		if config.monster_UI.settings.orientation == "Horizontal" then
+			position_on_screen.x = position_on_screen.x + config.monster_UI.settings.spacing * i;
 		else
-			position_on_screen.y = position_on_screen.y + config.monster_UI.spacing * i;
+			position_on_screen.y = position_on_screen.y + config.monster_UI.settings.spacing * i;
 		end
 
 		--remaining health
@@ -1139,11 +1681,17 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 		return;
 	end
 
-	if not config.damage_meter_UI.include_small_monsters then
-		local is_boss_enemy = enemy:call("get_isBossEnemy");
-		if not is_boss_enemy then
-			return;
-		end
+	local is_boss_enemy = enemy:call("get_isBossEnemy");
+	if is_boss_enemy == nil then
+		return;
+	end
+
+	if not config.damage_meter_UI.tracked_monster_types.small_monsters and not is_boss_enemy then
+		return;
+	end
+
+	if not config.damage_meter_UI.tracked_monster_types.large_monsters and not is_boss_enemy then
+		return;
 	end
 
 	local dead_or_captured = enemy:call("checkDie");
@@ -1301,28 +1849,28 @@ update_player = function(player, damage_source_type, damage_object)
 	player.display.elemental_damage = 0;
 	player.display.ailment_damage = 0;
 
-	if config.damage_meter_UI.include_player_damage then
+	if config.damage_meter_UI.tracked_damage_types.player_damage then
 		merge_damage(player.display, player);
 	end
 
-	if config.damage_meter_UI.include_bomb_damage then
+	if config.damage_meter_UI.tracked_damage_types.bomb_damage then
 		merge_damage(player.display, player.bombs);
 
 	end
 
-	if config.damage_meter_UI.include_kunai_damage then
+	if config.damage_meter_UI.tracked_damage_types.kunai_damage then
 		merge_damage(player.display, player.kunai);
 	end
 
-	if config.damage_meter_UI.include_installation_damage then
+	if config.damage_meter_UI.tracked_damage_types.installation_damage then
 		merge_damage(player.display, player.installations);
 	end
 
-	if config.damage_meter_UI.include_otomo_damage then
+	if config.damage_meter_UI.tracked_damage_types.otomo_damage then
 		merge_damage(player.display, player.otomo);
 	end
 
-	if config.damage_meter_UI.include_monster_damage then
+	if config.damage_meter_UI.tracked_damage_types.monster_damage then
 		merge_damage(player.display, player.monster);
 	end
 end
@@ -1341,7 +1889,7 @@ damage_meter = function()
 		return;
 	end
 
-	if total.display.total_damage == 0 and not config.damage_meter_UI.show_module_if_total_damage_is_zero then
+	if total.display.total_damage == 0 and config.damage_meter_UI.settings.hide_module_if_total_damage_is_zero then
 		return;
 	end
 
@@ -1397,7 +1945,6 @@ damage_meter = function()
 	if players[myself_player_id] == nil then
 		players[myself_player_id] = init_player(myself_player_id, myself_player_name, myself_hunter_rank);
 	end
-
 	local quest_players = {};
 
 	if quest_status > 2 then
@@ -1418,19 +1965,22 @@ damage_meter = function()
 		for i = 0, count - 1 do
 			local player_info = player_info_list:call("get_Item", i);
 			if player_info == nil then
-				goto continue;
-			end
-			local player_id = player_info:get_field("_memberIndex");
-			if player_id == nil then
+
 				goto continue;
 			end
 
+			local player_id = player_info:get_field("_memberIndex");
+			if player_id == nil then
+				
+				goto continue;
+			end
+			
 			local player_hunter_rank = player_info:get_field("_hunterRank");
 			if player_hunter_rank == nil then
 				goto continue;
 			end
 
-			if player_id == myself_player_id and config.damage_meter_UI.myself_bar_place_in_order ~= "normal" then
+			if player_id == myself_player_id and config.damage_meter_UI.settings.my_damage_bar_location ~= "Normal" then
 				players[myself_player_id].hunter_rank = player_hunter_rank;
 				goto continue;
 			end
@@ -1471,12 +2021,12 @@ damage_meter = function()
 			end);
 		end
 
-		if config.damage_meter_UI.myself_bar_place_in_order == "first" then
+		if config.damage_meter_UI.settings.my_damage_bar_location == "First" then
 			table.insert(quest_players, 1, players[myself_player_id]);
-		end
-
-		if config.damage_meter_UI.myself_bar_place_in_order == "last" then
+		elseif config.damage_meter_UI.settings.my_damage_bar_location == "Last" then
 			table.insert(quest_players, #quest_players + 1, players[myself_player_id]);
+		elseif #quest_players == 0 then
+			table.insert(quest_players, 1, players[myself_player_id]);
 		end
 
 		last_displayed_players = quest_players;
@@ -1491,21 +2041,22 @@ damage_meter = function()
 
 	--draw
 	local position_on_screen = calculate_screen_coordinates(config.damage_meter_UI.position);
-
 	for _, player in ipairs(quest_players) do
-		if player.display.total_damage == 0 and not config.damage_meter_UI.show_player_if_player_damage_is_zero then
+		
+		if player.display.total_damage == 0 and config.damage_meter_UI.settings.hide_player_if_player_damage_is_zero then
 			goto continue1;
-		end
+		end	
+		
 		local player_damage_percentage = 0;
 		if total.display.total_damage ~= 0 then
 			player_damage_percentage = player.display.total_damage / total.display.total_damage;
 		end
 
-		if config.damage_meter_UI.highlighted_bar == "me" then
+		if config.damage_meter_UI.settings.highlighted_bar == "Me" then
 			if player.id == myself_player_id then
 				draw_bar(config.damage_meter_UI.highlighted_damage_bar, position_on_screen, player_damage_percentage);
 			end
-		elseif config.damage_meter_UI.highlighted_bar == "top damage" then
+		elseif config.damage_meter_UI.settings.highlighted_bar == "Top Damage" then
 			if player.display.total_damage == top_damage then
 				draw_bar(config.damage_meter_UI.highlighted_damage_bar, position_on_screen, player_damage_percentage);
 			end
@@ -1513,15 +2064,38 @@ damage_meter = function()
 			draw_bar(config.damage_meter_UI.damage_bar, position_on_screen, player_damage_percentage);
 		end
 
-		draw_label(config.damage_meter_UI.player_name_label, position_on_screen, player.hunter_rank, player.id, player.name)
+		local player_name_text = "";
+		local player_include = config.damage_meter_UI.player_name_label.include.others;
+		if player.id == myself_player_id then
+			player_include = config.damage_meter_UI.player_name_label.include.myself;
+		end
+
+		if player_include.hunter_rank then
+			player_name_text = string.format("[%d] ", player.hunter_rank);
+		end
+
+		if player_include.word_player then
+			player_name_text = player_name_text .. "Player ";
+		end
+
+		if player_include.player_id then
+			player_name_text = player_name_text .. string.format("%d ", player.id);
+		end
+
+		if player_include.player_name then
+			player_name_text = player_name_text .. player.name;
+		end
+
+		draw_label(config.damage_meter_UI.player_name_label, position_on_screen, player_name_text)
 		draw_label(config.damage_meter_UI.damage_value_label, position_on_screen, player.display.total_damage);
 		draw_label(config.damage_meter_UI.damage_percentage_label, position_on_screen, 100 * player_damage_percentage);
 
-		if config.damage_meter_UI.orientation == "horizontal" then
-			position_on_screen.x = position_on_screen.x + config.damage_meter_UI.spacing;
+		if config.damage_meter_UI.settings.orientation == "Horizontal" then
+			position_on_screen.x = position_on_screen.x + config.damage_meter_UI.settings.spacing;
 		else
-			position_on_screen.y = position_on_screen.y + config.damage_meter_UI.spacing;
+			position_on_screen.y = position_on_screen.y + config.damage_meter_UI.settings.spacing;
 		end
+
 		::continue1::
 
 	end
