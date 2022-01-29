@@ -8,12 +8,153 @@ local config = {
 		italic = false
 	},
 
-	monster_UI = {
+	small_monster_UI = {
+		enabled = true,
+	
+		settings =  {
+			spacing = 110,
+			orientation = "Horizontal"
+		},
+
+		dynamic_positioning = {
+			enabled = true,
+
+			viewport_offset = {
+				x = -50,
+				y = -100
+			},
+
+			max_distance = 15000,
+			opacity_falloff = true
+		},
+
+		sorting = {
+			type = "Normal",
+			reversed_order = false,
+		},
+		
+		position = {
+			x = 0,
+			y = 0,
+			anchor = "Top-Left"
+		},
+	
+		monster_name_label = {
+			visibility = true,
+			text = "%s",
+
+			offset = {
+				x = 5,
+				y = 0
+			},
+			color = 0xFFCCF4E1,
+	
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
+		},
+	
+		health_label = {
+			visibility = false,
+			text = "HP:",
+			offset = {
+				x = -25,
+				y = 12
+			},
+			color = 0xFFCCF4E1,
+	
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
+		},
+	
+		health_value_label = {
+			visibility = true,
+			text = "%.0f/%.0f", -- current_health/max_health
+			offset = {
+				x = 50,
+				y = 25
+			},
+			color = 0xFFCCF4E1,
+	
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
+		},
+	
+		health_percentage_label = {
+			visibility = false,
+			text = "%5.1f%%",
+			
+			offset = {
+				x = 55,
+				y = 0
+			},
+			color = 0xFFFFFFFF,
+	
+			shadow = {
+				visibility = true,
+				offset = {
+					x = 1,
+					y = 1
+				},
+				color = 0xFF000000
+			}
+		},
+	
+		health_bar = {
+			visibility = true,
+			offset = {
+				x = 0,
+				y = 17
+			},
+			
+			size = {
+				width = 100,
+				height = 7
+			},
+	
+			colors = {
+				foreground = 0xB9B2ff7E,
+				background = 0xB9000000,
+				capture_health = 0xB9CCCC33
+			},
+		}
+	},
+
+	large_monster_UI = {
 		enabled = true,
 	
 		settings =  {
 			spacing = 220,
 			orientation = "Horizontal"
+		},
+
+		dynamic_positioning = {
+			enabled = false,
+
+			viewport_offset = {
+				x = -100,
+				y = -200
+			},
+			
+			max_distance = 15000,
+			opacity_falloff = true
 		},
 
 		sorting = {
@@ -126,7 +267,7 @@ local config = {
 			},
 	
 			colors = {
-				foreground = 0xB974A652,
+				foreground = 0xB9B2ff7E,
 				background = 0xB9000000,
 				capture_health = 0xB9CCCC33
 			},
@@ -329,7 +470,7 @@ local config = {
 			},
 	
 			colors = {
-				foreground = 0xA7CCA3F4,
+				foreground = 0xD2CCA3F4,
 				background = 0xB9000000
 			},
 		},
@@ -347,7 +488,7 @@ local config = {
 			},
 	
 			colors = {
-				foreground = 0xA7F4D5A3,
+				foreground = 0xD2FFCD59,
 				background = 0xB9000000
 			},
 		}
@@ -382,9 +523,12 @@ local table_find_index;
 
 local draw_label;
 local draw_bar;
+local old_draw_label;
+local old_draw_bar;
 
 local update_monster;
-local monster_health;
+local small_monster_data;
+local large_monster_data;
 
 local quest_time;
 
@@ -515,10 +659,10 @@ init = function()
 
 	orientation_types = {"Horizontal", "Vertical"};
 
-	monster_UI_orientation_index = table_find_index(orientation_types, config.monster_UI.settings.orientation, false);
+	monster_UI_orientation_index = table_find_index(orientation_types, config.large_monster_UI.settings.orientation, false);
 
-	monster_UI_sort_types = {"Normal", "Health", "Health Percentage", "Distance"};
-	monster_UI_sort_type_index = table_find_index(monster_UI_sort_types, config.monster_UI.sorting.type, false);
+	monster_UI_sort_types = {"Normal", "Health", "Health Percentage"};
+	monster_UI_sort_type_index = table_find_index(monster_UI_sort_types, config.large_monster_UI.sorting.type, false);
 
 	damage_meter_UI_orientation_index = table_find_index(orientation_types, config.damage_meter_UI.settings.orientation, false);
 
@@ -626,6 +770,7 @@ end
 
 
 --------------------------D2D---------------------------
+--#region
 d2d.register(function()
     font = d2d.create_font(config.font.family, config.font.size, config.font.bold, config.font.italic);
 end,
@@ -634,8 +779,12 @@ function()
 	get_window_size();
 	init_singletons();
 
-	if config.monster_UI.enabled then
-		monster_health();
+	if config.small_monster_UI.enabled then
+		small_monster_data();
+	end
+
+	if config.large_monster_UI.enabled then
+		large_monster_data();
 	end
 
 	if config.time_UI.enabled then
@@ -645,7 +794,10 @@ function()
 	if config.damage_meter_UI.enabled then
 		damage_meter();
 	end
+
+	--d2d.text(font, "x: " .. tostring(x), 450, 50, 0xFFFFFFFF);
 end)
+--#endregion
 --------------------------D2D---------------------------
 
 
@@ -686,7 +838,7 @@ customization_ui = function()
 	end
 
 	if imgui.tree_node("Modules") then
-		changed, config.monster_UI.enabled = imgui.checkbox("Monster UI", config.monster_UI.enabled);
+		changed, config.large_monster_UI.enabled = imgui.checkbox("Monster UI", config.large_monster_UI.enabled);
 		config_changed = config_changed or changed;
 		imgui.same_line();
 
@@ -700,28 +852,45 @@ customization_ui = function()
 		imgui.tree_pop();
 	end
 
-	if imgui.tree_node("Monster UI") then
-		changed, config.monster_UI.enabled = imgui.checkbox("Enabled", config.monster_UI.enabled);
+	if imgui.tree_node("Small Monster UI") then
+		changed, config.small_monster_UI.enabled = imgui.checkbox("Enabled", config.small_monster_UI.enabled);
 		config_changed = config_changed or changed;
 
 		if imgui.tree_node("Settings") then
-			changed, config.monster_UI.settings.spacing = imgui.drag_float("Spacing", config.monster_UI.settings.spacing, 0.1, 0, screen_width, "%.1f");
+			changed, config.small_monster_UI.settings.spacing = imgui.drag_float("Spacing", config.small_monster_UI.settings.spacing, 0.1, 0, screen_width, "%.1f");
 			config_changed = config_changed or changed;
 
 			changed, monster_UI_orientation_index = imgui.combo("Orientation", monster_UI_orientation_index, orientation_types);
 			config_changed = config_changed or changed;
 			if changed then
-				config.monster_UI.settings.orientation = orientation_types[monster_UI_orientation_index];
+				config.small_monster_UI.settings.orientation = orientation_types[monster_UI_orientation_index];
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Dynamic Positioning") then
+			changed, config.small_monster_UI.dynamic_positioning.enabled = imgui.checkbox("Enabled", config.small_monster_UI.dynamic_positioning.enabled);
+			config_changed = config_changed or changed;
+
+			if imgui.tree_node("Viewport Offset") then
+				changed, config.small_monster_UI.dynamic_positioning.viewport_offset.x = imgui.drag_float("X", config.small_monster_UI.dynamic_positioning.viewport_offset.x, 0.1, 0, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+	
+				changed, config.small_monster_UI.dynamic_positioning.viewport_offset.y = imgui.drag_float("Y", config.small_monster_UI.dynamic_positioning.viewport_offset.y, 0.1, 0, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
 			end
 
 			imgui.tree_pop();
 		end
 
 		if imgui.tree_node("Position") then
-			changed, config.monster_UI.position.x = imgui.drag_float("X", config.monster_UI.position.x, 0.1, 0, screen_width, "%.1f");
+			changed, config.small_monster_UI.position.x = imgui.drag_float("X", config.small_monster_UI.position.x, 0.1, 0, screen_width, "%.1f");
 			config_changed = config_changed or changed;
 
-			changed, config.monster_UI.position.y = imgui.drag_float("Y", config.monster_UI.position.y, 0.1, 0, screen_height, "%.1f");
+			changed, config.small_monster_UI.position.y = imgui.drag_float("Y", config.small_monster_UI.position.y, 0.1, 0, screen_height, "%.1f");
 			config_changed = config_changed or changed;
 
 			imgui.tree_pop();
@@ -731,43 +900,24 @@ customization_ui = function()
 			changed, monster_UI_sort_type_index = imgui.combo("Type", monster_UI_sort_type_index, monster_UI_sort_types);
 			config_changed = config_changed or changed;
 			if changed then
-				config.monster_UI.sorting.type = monster_UI_sort_types[monster_UI_sort_type_index];
+				config.small_monster_UI.sorting.type = monster_UI_sort_types[monster_UI_sort_type_index];
 			end
 					
-			changed, config.monster_UI.reversed_order = imgui.checkbox("Reversed Order", config.monster_UI.reversed_order);
+			changed, config.small_monster_UI.reversed_order = imgui.checkbox("Reversed Order", config.small_monster_UI.reversed_order);
 			config_changed = config_changed or changed;
 
 			imgui.tree_pop();
 		end
 
 		if imgui.tree_node("Monster Name Label") then
-			changed, config.monster_UI.monster_name_label.visibility = imgui.checkbox("Visible", config.monster_UI.monster_name_label.visibility);
+			changed, config.small_monster_UI.monster_name_label.visibility = imgui.checkbox("Visible", config.small_monster_UI.monster_name_label.visibility);
 			config_changed = config_changed or changed;
 
-			if imgui.tree_node("Include") then
-				changed, config.monster_UI.monster_name_label.include.monster_name = imgui.checkbox("Monster Name", config.monster_UI.monster_name_label.include.monster_name);
-				config_changed = config_changed or changed;
-
-				changed, config.monster_UI.monster_name_label.include.crown = imgui.checkbox("Crown", config.monster_UI.monster_name_label.include.crown);
-				config_changed = config_changed or changed;
-
-				changed, config.monster_UI.monster_name_label.include.size = imgui.checkbox("Size", config.monster_UI.monster_name_label.include.size);
-				config_changed = config_changed or changed;
-
-				changed, config.monster_UI.monster_name_label.include.silver_crown_threshold = imgui.checkbox("Silver Crown Threshold", config.monster_UI.monster_name_label.include.silver_crown_threshold);
-				config_changed = config_changed or changed;
-
-				changed, config.monster_UI.monster_name_label.include.gold_crown_threshold = imgui.checkbox("Gold Crown Threshold", config.monster_UI.monster_name_label.include.gold_crown_threshold);
-				config_changed = config_changed or changed;
-	
-				imgui.tree_pop();
-			end
-
 			if imgui.tree_node("Offset") then
-				changed, config.monster_UI.monster_name_label.offset.x = imgui.drag_float("X", config.monster_UI.monster_name_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				changed, config.small_monster_UI.monster_name_label.offset.x = imgui.drag_float("X", config.small_monster_UI.monster_name_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
 				config_changed = config_changed or changed;
 
-				changed, config.monster_UI.monster_name_label.offset.y = imgui.drag_float("Y", config.monster_UI.monster_name_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				changed, config.small_monster_UI.monster_name_label.offset.y = imgui.drag_float("Y", config.small_monster_UI.monster_name_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
 				config_changed = config_changed or changed;
 	
 				imgui.tree_pop();
@@ -776,14 +926,14 @@ customization_ui = function()
 			--color picker?
 
 			if imgui.tree_node("Shadow") then
-				changed, config.monster_UI.monster_name_label.shadow.visibility = imgui.checkbox("Enable", config.monster_UI.monster_name_label.shadow.visibility);
+				changed, config.small_monster_UI.monster_name_label.shadow.visibility = imgui.checkbox("Enable", config.small_monster_UI.monster_name_label.shadow.visibility);
 				config_changed = config_changed or changed;
 
 				if imgui.tree_node("Offset") then
-					changed, config.monster_UI.monster_name_label.shadow.offset.x = imgui.drag_float("X", config.monster_UI.monster_name_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					changed, config.small_monster_UI.monster_name_label.shadow.offset.x = imgui.drag_float("X", config.small_monster_UI.monster_name_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
 					config_changed = config_changed or changed;
 
-					changed, config.monster_UI.monster_name_label.shadow.offset.y = imgui.drag_float("Y", config.monster_UI.monster_name_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					changed, config.small_monster_UI.monster_name_label.shadow.offset.y = imgui.drag_float("Y", config.small_monster_UI.monster_name_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
 					config_changed = config_changed or changed;
 
 					imgui.tree_pop();
@@ -798,16 +948,16 @@ customization_ui = function()
 		end
 
 		if imgui.tree_node("Health Label") then
-			changed, config.monster_UI.health_label.visibility = imgui.checkbox("Visible", config.monster_UI.health_label.visibility);
+			changed, config.small_monster_UI.health_label.visibility = imgui.checkbox("Visible", config.small_monster_UI.health_label.visibility);
 			config_changed = config_changed or changed;
 
 			-- add text format
 
 			if imgui.tree_node("Offset") then
-				changed, config.monster_UI.health_label.offset.x = imgui.drag_float("X", config.monster_UI.health_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				changed, config.small_monster_UI.health_label.offset.x = imgui.drag_float("X", config.small_monster_UI.health_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
 				config_changed = config_changed or changed;
 
-				changed, config.monster_UI.health_label.offset.y = imgui.drag_float("Y", config.monster_UI.health_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				changed, config.small_monster_UI.health_label.offset.y = imgui.drag_float("Y", config.small_monster_UI.health_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
 				config_changed = config_changed or changed;
 	
 				imgui.tree_pop();
@@ -816,14 +966,14 @@ customization_ui = function()
 			--color picker?
 
 			if imgui.tree_node("Shadow") then
-				changed, config.monster_UI.health_label.shadow.visibility = imgui.checkbox("Enable", config.monster_UI.health_label.shadow.visibility);
+				changed, config.small_monster_UI.health_label.shadow.visibility = imgui.checkbox("Enable", config.small_monster_UI.health_label.shadow.visibility);
 				config_changed = config_changed or changed;
 
 				if imgui.tree_node("Offset") then
-					changed, config.monster_UI.health_label.shadow.offset.x = imgui.drag_float("X", config.monster_UI.health_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					changed, config.small_monster_UI.health_label.shadow.offset.x = imgui.drag_float("X", config.small_monster_UI.health_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
 					config_changed = config_changed or changed;
 
-					changed, config.monster_UI.health_label.shadow.offset.y = imgui.drag_float("Y", config.monster_UI.health_label.shadow.offset.y, 0.1, -screen_width, screen_width, "%.1f");
+					changed, config.small_monster_UI.health_label.shadow.offset.y = imgui.drag_float("Y", config.small_monster_UI.health_label.shadow.offset.y, 0.1, -screen_width, screen_width, "%.1f");
 					config_changed = config_changed or changed;
 
 					imgui.tree_pop();
@@ -836,16 +986,16 @@ customization_ui = function()
 		end
 
 		if imgui.tree_node("Health Value Label") then
-			changed, config.monster_UI.health_value_label.visibility = imgui.checkbox("Visible", config.monster_UI.health_value_label.visibility);
+			changed, config.small_monster_UI.health_value_label.visibility = imgui.checkbox("Visible", config.small_monster_UI.health_value_label.visibility);
 			config_changed = config_changed or changed;
 
 			-- add text format
 
 			if imgui.tree_node("Offset") then
-				changed, config.monster_UI.health_value_label.offset.x = imgui.drag_float("X", config.monster_UI.health_value_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				changed, config.small_monster_UI.health_value_label.offset.x = imgui.drag_float("X", config.small_monster_UI.health_value_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
 				config_changed = config_changed or changed;
 
-				changed, config.monster_UI.health_value_label.offset.y = imgui.drag_float("Y", config.monster_UI.health_value_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				changed, config.small_monster_UI.health_value_label.offset.y = imgui.drag_float("Y", config.small_monster_UI.health_value_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
 				config_changed = config_changed or changed;
 	
 				imgui.tree_pop();
@@ -854,14 +1004,14 @@ customization_ui = function()
 			--color picker?
 
 			if imgui.tree_node("Shadow") then
-				changed, config.monster_UI.health_value_label.shadow.visibility = imgui.checkbox("Enable", config.monster_UI.health_value_label.shadow.visibility);
+				changed, config.small_monster_UI.health_value_label.shadow.visibility = imgui.checkbox("Enable", config.small_monster_UI.health_value_label.shadow.visibility);
 				config_changed = config_changed or changed;
 
 				if imgui.tree_node("Offset") then
-					changed, config.monster_UI.health_value_label.shadow.offset.x = imgui.drag_float("X", config.monster_UI.health_value_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					changed, config.small_monster_UI.health_value_label.shadow.offset.x = imgui.drag_float("X", config.small_monster_UI.health_value_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
 					config_changed = config_changed or changed;
 
-					changed, config.monster_UI.health_value_label.shadow.offset.y = imgui.drag_float("Y", config.monster_UI.health_value_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					changed, config.small_monster_UI.health_value_label.shadow.offset.y = imgui.drag_float("Y", config.small_monster_UI.health_value_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
 					config_changed = config_changed or changed;
 
 					imgui.tree_pop();
@@ -874,16 +1024,16 @@ customization_ui = function()
 		end
 
 		if imgui.tree_node("Health Percentage Label") then
-			changed, config.monster_UI.health_percentage_label.visibility = imgui.checkbox("Visible", config.monster_UI.health_percentage_label.visibility);
+			changed, config.small_monster_UI.health_percentage_label.visibility = imgui.checkbox("Visible", config.small_monster_UI.health_percentage_label.visibility);
 			config_changed = config_changed or changed;
 
 			-- add text format
 
 			if imgui.tree_node("Offset") then
-				changed, config.monster_UI.health_percentage_label.offset.x = imgui.drag_float("X", config.monster_UI.health_percentage_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				changed, config.small_monster_UI.health_percentage_label.offset.x = imgui.drag_float("X", config.small_monster_UI.health_percentage_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
 				config_changed = config_changed or changed;
 
-				changed, config.monster_UI.health_percentage_label.offset.y = imgui.drag_float("Y", config.monster_UI.health_percentage_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				changed, config.small_monster_UI.health_percentage_label.offset.y = imgui.drag_float("Y", config.small_monster_UI.health_percentage_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
 				config_changed = config_changed or changed;
 	
 				imgui.tree_pop();
@@ -892,14 +1042,14 @@ customization_ui = function()
 			--color picker?
 
 			if imgui.tree_node("Shadow") then
-				changed, config.monster_UI.health_percentage_label.shadow.visibility = imgui.checkbox("Enable", config.monster_UI.health_percentage_label.shadow.visibility);
+				changed, config.small_monster_UI.health_percentage_label.shadow.visibility = imgui.checkbox("Enable", config.small_monster_UI.health_percentage_label.shadow.visibility);
 				config_changed = config_changed or changed;
 
 				if imgui.tree_node("Offset") then
-					changed, config.monster_UI.health_percentage_label.shadow.offset.x = imgui.drag_float("X", config.monster_UI.health_percentage_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					changed, config.small_monster_UI.health_percentage_label.shadow.offset.x = imgui.drag_float("X", config.small_monster_UI.health_percentage_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
 					config_changed = config_changed or changed;
 
-					changed, config.monster_UI.health_percentage_label.shadow.offset.y = imgui.drag_float("Y", config.monster_UI.health_percentage_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					changed, config.small_monster_UI.health_percentage_label.shadow.offset.y = imgui.drag_float("Y", config.small_monster_UI.health_percentage_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
 					config_changed = config_changed or changed;
 
 					imgui.tree_pop();
@@ -912,24 +1062,288 @@ customization_ui = function()
 		end
 
 		if imgui.tree_node("Health Bar") then
-			changed, config.monster_UI.health_bar.visibility = imgui.checkbox("Visible", config.monster_UI.health_bar.visibility);
+			changed, config.small_monster_UI.health_bar.visibility = imgui.checkbox("Visible", config.small_monster_UI.health_bar.visibility);
 			config_changed = config_changed or changed;
 
 			if imgui.tree_node("Offset") then
-				changed, config.monster_UI.health_bar.offset.x = imgui.drag_float("X", config.monster_UI.health_bar.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				changed, config.small_monster_UI.health_bar.offset.x = imgui.drag_float("X", config.small_monster_UI.health_bar.offset.x, 0.1, -screen_width, screen_width, "%.1f");
 				config_changed = config_changed or changed;
 
-				changed, config.monster_UI.health_bar.offset.y = imgui.drag_float("Y", config.monster_UI.health_bar.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				changed, config.small_monster_UI.health_bar.offset.y = imgui.drag_float("Y", config.small_monster_UI.health_bar.offset.y, 0.1, -screen_height, screen_height, "%.1f");
 				config_changed = config_changed or changed;
 	
 				imgui.tree_pop();
 			end
 
 			if imgui.tree_node("Size") then
-				changed, config.monster_UI.health_bar.size.width = imgui.drag_float("Width", config.monster_UI.health_bar.size.width, 0.1, -screen_width, screen_width, "%.1f");
+				changed, config.small_monster_UI.health_bar.size.width = imgui.drag_float("Width", config.small_monster_UI.health_bar.size.width, 0.1, -screen_width, screen_width, "%.1f");
 				config_changed = config_changed or changed;
 
-				changed, config.monster_UI.health_bar.size.height = imgui.drag_float("Height", config.monster_UI.health_bar.size.height, 0.1, -screen_height, screen_height, "%.1f");
+				changed, config.small_monster_UI.health_bar.size.height = imgui.drag_float("Height", config.small_monster_UI.health_bar.size.height, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node("Colors") then
+				-- color pickers?
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		imgui.tree_pop();
+	end
+
+	if imgui.tree_node("Large Monster UI") then
+		changed, config.large_monster_UI.enabled = imgui.checkbox("Enabled", config.large_monster_UI.enabled);
+		config_changed = config_changed or changed;
+
+		if imgui.tree_node("Settings") then
+			changed, config.large_monster_UI.settings.spacing = imgui.drag_float("Spacing", config.large_monster_UI.settings.spacing, 0.1, 0, screen_width, "%.1f");
+			config_changed = config_changed or changed;
+
+			changed, monster_UI_orientation_index = imgui.combo("Orientation", monster_UI_orientation_index, orientation_types);
+			config_changed = config_changed or changed;
+			if changed then
+				config.large_monster_UI.settings.orientation = orientation_types[monster_UI_orientation_index];
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Dynamic Positioning") then
+			changed, config.large_monster_UI.dynamic_positioning.enabled = imgui.checkbox("Enabled", config.large_monster_UI.dynamic_positioning.enabled);
+			config_changed = config_changed or changed;
+
+			if imgui.tree_node("Viewport Offset") then
+				changed, config.large_monster_UI.dynamic_positioning.viewport_offset.x = imgui.drag_float("X", config.large_monster_UI.dynamic_positioning.viewport_offset.x, 0.1, 0, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+	
+				changed, config.large_monster_UI.dynamic_positioning.viewport_offset.y = imgui.drag_float("Y", config.large_monster_UI.dynamic_positioning.viewport_offset.y, 0.1, 0, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Position") then
+			changed, config.large_monster_UI.position.x = imgui.drag_float("X", config.large_monster_UI.position.x, 0.1, 0, screen_width, "%.1f");
+			config_changed = config_changed or changed;
+
+			changed, config.large_monster_UI.position.y = imgui.drag_float("Y", config.large_monster_UI.position.y, 0.1, 0, screen_height, "%.1f");
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+		
+		if imgui.tree_node("Sorting") then
+			changed, monster_UI_sort_type_index = imgui.combo("Type", monster_UI_sort_type_index, monster_UI_sort_types);
+			config_changed = config_changed or changed;
+			if changed then
+				config.large_monster_UI.sorting.type = monster_UI_sort_types[monster_UI_sort_type_index];
+			end
+					
+			changed, config.large_monster_UI.reversed_order = imgui.checkbox("Reversed Order", config.large_monster_UI.reversed_order);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Monster Name Label") then
+			changed, config.large_monster_UI.monster_name_label.visibility = imgui.checkbox("Visible", config.large_monster_UI.monster_name_label.visibility);
+			config_changed = config_changed or changed;
+
+			if imgui.tree_node("Include") then
+				changed, config.large_monster_UI.monster_name_label.include.monster_name = imgui.checkbox("Monster Name", config.large_monster_UI.monster_name_label.include.monster_name);
+				config_changed = config_changed or changed;
+
+				changed, config.large_monster_UI.monster_name_label.include.crown = imgui.checkbox("Crown", config.large_monster_UI.monster_name_label.include.crown);
+				config_changed = config_changed or changed;
+
+				changed, config.large_monster_UI.monster_name_label.include.size = imgui.checkbox("Size", config.large_monster_UI.monster_name_label.include.size);
+				config_changed = config_changed or changed;
+
+				changed, config.large_monster_UI.monster_name_label.include.silver_crown_threshold = imgui.checkbox("Silver Crown Threshold", config.large_monster_UI.monster_name_label.include.silver_crown_threshold);
+				config_changed = config_changed or changed;
+
+				changed, config.large_monster_UI.monster_name_label.include.gold_crown_threshold = imgui.checkbox("Gold Crown Threshold", config.large_monster_UI.monster_name_label.include.gold_crown_threshold);
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node("Offset") then
+				changed, config.large_monster_UI.monster_name_label.offset.x = imgui.drag_float("X", config.large_monster_UI.monster_name_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.large_monster_UI.monster_name_label.offset.y = imgui.drag_float("Y", config.large_monster_UI.monster_name_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.large_monster_UI.monster_name_label.shadow.visibility = imgui.checkbox("Enable", config.large_monster_UI.monster_name_label.shadow.visibility);
+				config_changed = config_changed or changed;
+
+				if imgui.tree_node("Offset") then
+					changed, config.large_monster_UI.monster_name_label.shadow.offset.x = imgui.drag_float("X", config.large_monster_UI.monster_name_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
+
+					changed, config.large_monster_UI.monster_name_label.shadow.offset.y = imgui.drag_float("Y", config.large_monster_UI.monster_name_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				--color picker
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Health Label") then
+			changed, config.large_monster_UI.health_label.visibility = imgui.checkbox("Visible", config.large_monster_UI.health_label.visibility);
+			config_changed = config_changed or changed;
+
+			-- add text format
+
+			if imgui.tree_node("Offset") then
+				changed, config.large_monster_UI.health_label.offset.x = imgui.drag_float("X", config.large_monster_UI.health_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.large_monster_UI.health_label.offset.y = imgui.drag_float("Y", config.large_monster_UI.health_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.large_monster_UI.health_label.shadow.visibility = imgui.checkbox("Enable", config.large_monster_UI.health_label.shadow.visibility);
+				config_changed = config_changed or changed;
+
+				if imgui.tree_node("Offset") then
+					changed, config.large_monster_UI.health_label.shadow.offset.x = imgui.drag_float("X", config.large_monster_UI.health_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
+
+					changed, config.large_monster_UI.health_label.shadow.offset.y = imgui.drag_float("Y", config.large_monster_UI.health_label.shadow.offset.y, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Health Value Label") then
+			changed, config.large_monster_UI.health_value_label.visibility = imgui.checkbox("Visible", config.large_monster_UI.health_value_label.visibility);
+			config_changed = config_changed or changed;
+
+			-- add text format
+
+			if imgui.tree_node("Offset") then
+				changed, config.large_monster_UI.health_value_label.offset.x = imgui.drag_float("X", config.large_monster_UI.health_value_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.large_monster_UI.health_value_label.offset.y = imgui.drag_float("Y", config.large_monster_UI.health_value_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.large_monster_UI.health_value_label.shadow.visibility = imgui.checkbox("Enable", config.large_monster_UI.health_value_label.shadow.visibility);
+				config_changed = config_changed or changed;
+
+				if imgui.tree_node("Offset") then
+					changed, config.large_monster_UI.health_value_label.shadow.offset.x = imgui.drag_float("X", config.large_monster_UI.health_value_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
+
+					changed, config.large_monster_UI.health_value_label.shadow.offset.y = imgui.drag_float("Y", config.large_monster_UI.health_value_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Health Percentage Label") then
+			changed, config.large_monster_UI.health_percentage_label.visibility = imgui.checkbox("Visible", config.large_monster_UI.health_percentage_label.visibility);
+			config_changed = config_changed or changed;
+
+			-- add text format
+
+			if imgui.tree_node("Offset") then
+				changed, config.large_monster_UI.health_percentage_label.offset.x = imgui.drag_float("X", config.large_monster_UI.health_percentage_label.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.large_monster_UI.health_percentage_label.offset.y = imgui.drag_float("Y", config.large_monster_UI.health_percentage_label.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			--color picker?
+
+			if imgui.tree_node("Shadow") then
+				changed, config.large_monster_UI.health_percentage_label.shadow.visibility = imgui.checkbox("Enable", config.large_monster_UI.health_percentage_label.shadow.visibility);
+				config_changed = config_changed or changed;
+
+				if imgui.tree_node("Offset") then
+					changed, config.large_monster_UI.health_percentage_label.shadow.offset.x = imgui.drag_float("X", config.large_monster_UI.health_percentage_label.shadow.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+					config_changed = config_changed or changed;
+
+					changed, config.large_monster_UI.health_percentage_label.shadow.offset.y = imgui.drag_float("Y", config.large_monster_UI.health_percentage_label.shadow.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+	
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node("Health Bar") then
+			changed, config.large_monster_UI.health_bar.visibility = imgui.checkbox("Visible", config.large_monster_UI.health_bar.visibility);
+			config_changed = config_changed or changed;
+
+			if imgui.tree_node("Offset") then
+				changed, config.large_monster_UI.health_bar.offset.x = imgui.drag_float("X", config.large_monster_UI.health_bar.offset.x, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.large_monster_UI.health_bar.offset.y = imgui.drag_float("Y", config.large_monster_UI.health_bar.offset.y, 0.1, -screen_height, screen_height, "%.1f");
+				config_changed = config_changed or changed;
+	
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node("Size") then
+				changed, config.large_monster_UI.health_bar.size.width = imgui.drag_float("Width", config.large_monster_UI.health_bar.size.width, 0.1, -screen_width, screen_width, "%.1f");
+				config_changed = config_changed or changed;
+
+				changed, config.large_monster_UI.health_bar.size.height = imgui.drag_float("Height", config.large_monster_UI.health_bar.size.height, 0.1, -screen_height, screen_height, "%.1f");
 				config_changed = config_changed or changed;
 	
 				imgui.tree_pop();
@@ -1423,6 +1837,8 @@ re.on_frame(function()
 	if is_customization_window_opened then
 		customization_ui();
 	end
+
+	--monster_health();
 end);
 
 get_window_size = function ()
@@ -1525,6 +1941,41 @@ draw_bar = function (bar, position, percentage)
 	--background
 	d2d.fill_rect(position.x + foreground_width + bar.offset.x, position.y + bar.offset.y, background_width, bar.size.height, bar.colors.background);
 end
+
+old_draw_label = function(label, position, ...)
+	if label == nil then
+		return;
+	end
+
+	if not label.visibility then
+		return;
+	end
+
+	local text = string.format(label.text, table.unpack({...}));
+	if label.shadow.visibility then
+		draw.text(text, position.x + label.offset.x + label.shadow.offset.x, position.y + label.offset.y + label.shadow.offset.y, label.shadow.color);
+	end
+	draw.text(text, position.x + label.offset.x, position.y + label.offset.y, label.color);
+end
+
+old_draw_bar = function (bar, position, percentage)
+	if bar == nil then
+		return;
+	end
+
+	if not bar.visibility then
+		return;
+	end
+
+	local foreground_width = bar.size.width * percentage;
+	local background_width = bar.size.width - foreground_width;
+
+	--foreground
+	draw.filled_rect(position.x + bar.offset.x, position.y + bar.offset.y, foreground_width, bar.size.height, bar.colors.foreground);
+
+	--background
+	draw.filled_rect(position.x + foreground_width + bar.offset.x, position.y + bar.offset.y, background_width, bar.size.height, bar.colors.background);
+end
 --#endregion
 ------------------------DRAW HELPERS-------------------------
 
@@ -1570,6 +2021,7 @@ update_monster = function (enemy)
 		return;
 	end
 
+
     local physical_param = enemy:get_field("<PhysicalParam>k__BackingField");
     if physical_param == nil then
         status = "No physical param";
@@ -1592,6 +2044,24 @@ update_monster = function (enemy)
 		health_percentage = health / max_health;
 	end
 
+	local enemy_game_object = enemy:call("get_GameObject");
+	if enemy_game_object == nil then
+		status = "No enemy game object";
+		return;
+	end
+
+	local enemy_transform = enemy_game_object:call("get_Transform");
+	if enemy_transform == nil then
+		status = "No enemy transform";
+		return;
+	end
+
+	local position = enemy_transform:call("get_Position");
+	if not position then
+		status = "No enemy position";
+		return;
+	end
+
 	local monster_list = large_monsters;
 	if not is_boss_enemy then
 		monster_list = small_monsters;
@@ -1612,17 +2082,19 @@ update_monster = function (enemy)
         local enemy_name = message_manager:call("getEnemyNameMessage", enemy_type);
         monster.name = enemy_name;
 
-		local size_info = enemy_manager:call("findEnemySizeInfo", enemy_type);
-		monster.small_border = size_info:call("get_SmallBorder");
-		monster.big_border = size_info:call("get_KingBorder");
-		monster.size = enemy:call("get_MonsterListRegisterScale");
+		if is_boss_enemy then
+			local size_info = enemy_manager:call("findEnemySizeInfo", enemy_type);
+			monster.small_border = size_info:call("get_SmallBorder");
+			monster.big_border = size_info:call("get_KingBorder");
+			monster.size = enemy:call("get_MonsterListRegisterScale");
 
-		if monster.size < monster.small_border then
-			monster.crown = "Silver";
-		elseif monster.size > monster.big_border then
-			monster.crown = "Gold";
-		else
-			monster.crown = "";
+			if monster.size < monster.small_border then
+				monster.crown = "Silver";
+			elseif monster.size > monster.big_border then
+				monster.crown = "Gold";
+			else
+				monster.crown = "";
+			end
 		end
     end
 
@@ -1631,6 +2103,7 @@ update_monster = function (enemy)
 	monster.health_percentage = health_percentage;
 	monster.missing_health = missing_health;
 	monster.capture_health = capture_health;
+	monster.position = position;
 
 end
 --#endregion
@@ -1640,13 +2113,129 @@ end
 
 
 
-----------------------LARGE MONSTER UI-----------------------
+----------------------SMALL MONSTER UI-----------------------
 --#region
-monster_health = function()
+small_monster_data = function()
 	if enemy_manager == nil then
 		status = "No enemy manager";
 		return;
 	end
+
+	local displayed_monsters = {};
+
+	local enemy_count = enemy_manager:call("getZakoEnemyCount");
+	if enemy_count == nil then
+		status = "No enemy count";
+		return;
+	end
+
+    for i = 0, enemy_count - 1 do
+        local enemy = enemy_manager:call("getZakoEnemy", i);
+        if enemy == nil then
+			status = "No enemy";
+            break;
+        end
+
+        local monster = small_monsters[enemy];
+        if monster == nil then
+            status = "No monster hp entry";
+            break;
+		end
+
+		table.insert(displayed_monsters, monster);
+    end
+
+	if not config.small_monster_UI.dynamic_positioning.enabled then
+		--sort here
+		if config.small_monster_UI.sorting.type == "Normal" and config.small_monster_UI.sorting.reversed_order then
+			local reversed_monsters = {};
+
+			for i = #displayed_monsters, 1, -1 do
+				table.insert(reversed_monsters, large_monsters[i]);
+			end
+			displayed_monsters = reversed_monsters;
+
+		elseif config.small_monster_UI.sorting.type == "Health" then
+			table.sort(displayed_monsters, function(left, right)
+				local result = left.health > right.health;
+
+				if config.small_monster_UI.sorting.reversed_order then
+					result = not result;
+				end
+
+				return result;
+			end);
+		elseif config.small_monster_UI.sorting.type == "Health Percentage" then
+			table.sort(displayed_monsters, function(left, right)
+				local result = left.health_percentage < right.health_percentage;
+
+				if config.small_monster_UI.sorting.reversed_order then
+					result = not result;
+				end
+
+				return result;
+			end);
+		end
+	end
+
+	local i = 0;
+	for _, monster in ipairs(displayed_monsters) do
+		local position_on_screen;
+
+		if config.small_monster_UI.dynamic_positioning.enabled then
+			position_on_screen = draw.world_to_screen(monster.position);
+			
+			if position_on_screen == nil then
+				goto continue;
+			end
+
+			position_on_screen.x = position_on_screen.x + config.small_monster_UI.dynamic_positioning.viewport_offset.x;
+			position_on_screen.y = position_on_screen.y + config.small_monster_UI.dynamic_positioning.viewport_offset.y;
+		else
+			position_on_screen = calculate_screen_coordinates(config.small_monster_UI.position);
+			if config.small_monster_UI.settings.orientation == "Horizontal" then
+				position_on_screen.x = position_on_screen.x + config.small_monster_UI.settings.spacing * i;
+
+			else
+				position_on_screen.y = position_on_screen.y + config.small_monster_UI.settings.spacing * i;
+			end
+		end
+		--do return end;
+		--remaining health
+		--[[
+		if monster.health <= monster.capture_health then
+			remaining_health_color = monster_UI.colors.health_bar.capture_health
+		else
+			remaining_health_color = monster_UI.colors.health_bar.remaining_health
+		end
+		--]]
+
+		draw_bar(config.small_monster_UI.health_bar, position_on_screen, monster.health_percentage);
+
+		draw_label(config.small_monster_UI.monster_name_label, position_on_screen, monster.name);
+		draw_label(config.small_monster_UI.health_label, position_on_screen);
+		draw_label(config.small_monster_UI.health_value_label, position_on_screen, monster.health, monster.max_health);
+		draw_label(config.small_monster_UI.health_percentage_label, position_on_screen, 100 * monster.health_percentage);
+
+		i = i + 1;
+		::continue::
+	end
+end
+--#endregion
+----------------------SMALL MONSTER UI-----------------------
+
+
+
+
+
+----------------------LARGE MONSTER UI-----------------------
+--#region
+large_monster_data = function()
+	if enemy_manager == nil then
+		status = "No enemy manager";
+		return;
+	end
+
 
 	local displayed_monsters = {};
 
@@ -1672,45 +2261,59 @@ monster_health = function()
 		table.insert(displayed_monsters, monster);
     end
 
-	--sort here
-	if config.monster_UI.sort_type == "Normal" and config.monster_UI.reversed_order then
-		local reversed_monsters = {};
+	if not config.large_monster_UI.dynamic_positioning.enabled then
+		--sort here
+		if config.large_monster_UI.sorting.type == "Normal" and config.large_monster_UI.sorting.reversed_order then
+			local reversed_monsters = {};
 
-		for i = #displayed_monsters, 1, -1 do
-			table.insert(reversed_monsters, large_monsters[i]);
+			for i = #displayed_monsters, 1, -1 do
+				table.insert(reversed_monsters, large_monsters[i]);
+			end
+			displayed_monsters = reversed_monsters;
+
+		elseif config.large_monster_UI.sorting.type == "Health" then
+			table.sort(displayed_monsters, function(left, right)
+				local result = left.health > right.health;
+
+				if config.large_monster_UI.sorting.reversed_order then
+					result = not result;
+				end
+
+				return result;
+			end);
+		elseif config.large_monster_UI.sorting.type == "Health Percentage" then
+			table.sort(displayed_monsters, function(left, right)
+				local result = left.health_percentage < right.health_percentage;
+
+				if config.large_monster_UI.sorting.reversed_order then
+					result = not result;
+				end
+
+				return result;
+			end);
 		end
-		displayed_monsters = reversed_monsters;
-
-	elseif config.monster_UI.sort_type == "Health" then
-		table.sort(displayed_monsters, function(left, right)
-			local result = left.health > right.health;
-
-			if config.monster_UI.reversed_order then
-				result = not result;
-			end
-
-			return result;
-		end);
-	elseif config.monster_UI.sort_type == "Health Percentage" then
-		table.sort(displayed_monsters, function(left, right)
-			local result = left.health_percentage < right.health_percentage;
-
-			if config.monster_UI.reversed_order then
-				result = not result;
-			end
-
-			return result;
-		end);
 	end
 
 	local i = 0;
 	for _, monster in ipairs(displayed_monsters) do
-		local position_on_screen = calculate_screen_coordinates(config.monster_UI.position);
+		local position_on_screen;
 
-		if config.monster_UI.settings.orientation == "Horizontal" then
-			position_on_screen.x = position_on_screen.x + config.monster_UI.settings.spacing * i;
+		if config.large_monster_UI.dynamic_positioning.enabled then
+			position_on_screen = draw.world_to_screen(monster.position);
+			
+			if position_on_screen == nil then
+				goto continue;
+			end
+
+			position_on_screen.x = position_on_screen.x + config.large_monster_UI.dynamic_positioning.viewport_offset.x;
+			position_on_screen.y = position_on_screen.y + config.large_monster_UI.dynamic_positioning.viewport_offset.y;
 		else
-			position_on_screen.y = position_on_screen.y + config.monster_UI.settings.spacing * i;
+			position_on_screen = calculate_screen_coordinates(config.large_monster_UI.position);
+			if config.large_monster_UI.settings.orientation == "Horizontal" then
+				position_on_screen.x = position_on_screen.x + config.large_monster_UI.settings.spacing * i;
+			else
+				position_on_screen.y = position_on_screen.y + config.large_monster_UI.settings.spacing * i;
+			end
 		end
 
 		--remaining health
@@ -1722,33 +2325,34 @@ monster_health = function()
 		end
 		--]]
 
-		draw_bar(config.monster_UI.health_bar, position_on_screen, monster.health_percentage);
+		draw_bar(config.large_monster_UI.health_bar, position_on_screen, monster.health_percentage);
 
 		local monster_name_text = "";
-		if config.monster_UI.monster_name_label.include.monster_name then
+		if config.large_monster_UI.monster_name_label.include.monster_name then
 			monster_name_text = string.format("%s ", monster.name);
 		end
-		if config.monster_UI.monster_name_label.include.crown and monster.crown ~= "" then
+		if config.large_monster_UI.monster_name_label.include.crown and monster.crown ~= "" then
 			monster_name_text = monster_name_text .. string.format("%s ", monster.crown);
 		end
-		if config.monster_UI.monster_name_label.include.size then
+		if config.large_monster_UI.monster_name_label.include.size then
 			monster_name_text = monster_name_text .. string.format("#%.0f ", 100 * monster.size);
 		end
 
-		if config.monster_UI.monster_name_label.include.silver_crown_threshold and config.monster_UI.monster_name_label.include.gold_crown_threshold then
+		if config.large_monster_UI.monster_name_label.include.silver_crown_threshold and config.large_monster_UI.monster_name_label.include.gold_crown_threshold then
 			monster_name_text = monster_name_text .. string.format("(Silver: <%.0f, Gold: >%.0f)", 100 * monster.small_border, 100 * monster.big_border);
-		elseif config.monster_UI.monster_name_label.include.silver_crown_threshold then
+		elseif config.large_monster_UI.monster_name_label.include.silver_crown_threshold then
 			monster_name_text = monster_name_text .. string.format("(Silver: <%.0f)", 100 * monster.small_border);
-		elseif config.monster_UI.monster_name_label.include.gold_crown_threshold then
+		elseif config.large_monster_UI.monster_name_label.include.gold_crown_threshold then
 			monster_name_text = monster_name_text .. string.format("(Gold: >%.0f)", 100 * monster.big_border);
 		end
 
-		draw_label(config.monster_UI.monster_name_label, position_on_screen, monster_name_text);
-		draw_label(config.monster_UI.health_label, position_on_screen);
-		draw_label(config.monster_UI.health_value_label, position_on_screen, monster.health, monster.max_health);
-		draw_label(config.monster_UI.health_percentage_label, position_on_screen, 100 * monster.health_percentage);
+		draw_label(config.large_monster_UI.monster_name_label, position_on_screen, monster_name_text);
+		draw_label(config.large_monster_UI.health_label, position_on_screen);
+		draw_label(config.large_monster_UI.health_value_label, position_on_screen, monster.health, monster.max_health);
+		draw_label(config.large_monster_UI.health_percentage_label, position_on_screen, 100 * monster.health_percentage);
 
 		i = i + 1;
+		::continue::
 	end
 end
 --#endregion
@@ -2177,14 +2781,10 @@ damage_meter = function()
 			player_damage_percentage = player.display.total_damage / total.display.total_damage;
 		end
 
-		if config.damage_meter_UI.settings.highlighted_bar == "Me" then
-			if player.id == myself_player_id then
-				draw_bar(config.damage_meter_UI.highlighted_damage_bar, position_on_screen, player_damage_percentage);
-			end
-		elseif config.damage_meter_UI.settings.highlighted_bar == "Top Damage" then
-			if player.display.total_damage == top_damage then
-				draw_bar(config.damage_meter_UI.highlighted_damage_bar, position_on_screen, player_damage_percentage);
-			end
+		if player.id == myself_player_id and config.damage_meter_UI.settings.highlighted_bar == "Me" then
+			draw_bar(config.damage_meter_UI.highlighted_damage_bar, position_on_screen, player_damage_percentage);
+		elseif config.damage_meter_UI.settings.highlighted_bar == "Top Damage" and player.display.total_damage == top_damage then
+			draw_bar(config.damage_meter_UI.highlighted_damage_bar, position_on_screen, player_damage_percentage);
 		else
 			draw_bar(config.damage_meter_UI.damage_bar, position_on_screen, player_damage_percentage);
 		end
