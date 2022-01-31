@@ -10,7 +10,8 @@ Features:
 4) Flexible Customization.
 
 # Dependencies:
-1) REFramework (https://www.nexusmods.com/monsterhunterrise/mods/26)
+1) REFramework v1.1.1 or above (https://www.nexusmods.com/monsterhunterrise/mods/26)
+2) REFramework v0.2.1 or above (https://www.nexusmods.com/monsterhunterrise/mods/134)
 
 # How to install:
 1) Install REFramework
