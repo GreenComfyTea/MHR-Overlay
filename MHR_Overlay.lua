@@ -297,7 +297,10 @@ local default_config = {
 			colors = {
 				foreground = 0xB974A652,
 				background = 0xB9000000,
-				capture_health = 0xB9CCCC33
+				capture ={
+					foreground = 0xB9CCCC33,
+					background = 0xB9000000
+				}
 			}
 		}
 	},
@@ -966,11 +969,15 @@ re.on_draw_ui(function()
 end);
 
 re.on_frame(function()
+	if not reframework:is_drawing_ui() then
+		is_customization_window_opened = false;
+	end
+
 	if is_customization_window_opened then
 		customization_ui();
 	end
 
-	--draw.text("x: " .. tostring(x), 450, 50, 0xFFFFFFFF);
+	draw.text("x: " .. tostring(x), 450, 50, 0xFFFFFFFF);
 end);
 -- #endregion
 --------------------------RE_IMGUI---------------------------
@@ -1253,7 +1260,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.small_monster_UI.monster_name_label.color = imgui.color_picker_argb("", config.small_monster_UI.monster_name_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.small_monster_UI.monster_name_label.shadow.visibility = imgui.checkbox("Enable",
@@ -1272,7 +1284,12 @@ customization_ui = function()
 					imgui.tree_pop();
 				end
 
-				-- color picker
+				if imgui.tree_node("Color") then
+					changed, config.small_monster_UI.monster_name_label.shadow.color = imgui.color_picker_argb("", config.small_monster_UI.monster_name_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
+					imgui.tree_pop();
+				end
 
 				imgui.tree_pop();
 			end
@@ -1301,7 +1318,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.small_monster_UI.health_label.color = imgui.color_picker_argb("", config.small_monster_UI.health_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.small_monster_UI.health_label.shadow.visibility =
@@ -1319,6 +1341,13 @@ customization_ui = function()
 							screen_size.width, "%.1f");
 					config_changed = config_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Color") then
+					changed, config.small_monster_UI.health_label.shadow.color = imgui.color_picker_argb("", config.small_monster_UI.health_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
 					imgui.tree_pop();
 				end
 
@@ -1349,7 +1378,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.small_monster_UI.health_value_label.color = imgui.color_picker_argb("", config.small_monster_UI.health_value_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.small_monster_UI.health_value_label.shadow.visibility = imgui.checkbox("Enable",
@@ -1365,6 +1399,13 @@ customization_ui = function()
 						config.small_monster_UI.health_value_label.shadow.offset.y, 0.1, -screen_size.height, screen_size.height, "%.1f");
 					config_changed = config_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Color") then
+					changed, config.small_monster_UI.health_value_label.shadow.color = imgui.color_picker_argb("", config.small_monster_UI.health_value_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
 					imgui.tree_pop();
 				end
 
@@ -1395,7 +1436,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.small_monster_UI.health_percentage_label.color = imgui.color_picker_argb("", config.small_monster_UI.health_percentage_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.small_monster_UI.health_percentage_label.shadow.visibility = imgui.checkbox("Enable",
@@ -1413,6 +1459,13 @@ customization_ui = function()
 						"%.1f");
 					config_changed = config_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Color") then
+					changed, config.small_monster_UI.health_percentage_label.shadow.color = imgui.color_picker_argb("", config.small_monster_UI.health_percentage_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
 					imgui.tree_pop();
 				end
 
@@ -1454,7 +1507,19 @@ customization_ui = function()
 			end
 
 			if imgui.tree_node("Colors") then
-				-- color pickers?
+				if imgui.tree_node("Foreground") then
+					changed, config.small_monster_UI.health_bar.colors.foreground = imgui.color_picker_argb("", config.small_monster_UI.health_bar.colors.foreground, 327680);
+					config_changed = config_changed or changed;
+					
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Background") then
+					changed, config.small_monster_UI.health_bar.colors.background = imgui.color_picker_argb("", config.small_monster_UI.health_bar.colors.background, 327680);
+					config_changed = config_changed or changed;
+					
+					imgui.tree_pop();
+				end
 
 				imgui.tree_pop();
 			end
@@ -1576,7 +1641,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.large_monster_UI.monster_name_label.color = imgui.color_picker_argb("", config.large_monster_UI.monster_name_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.large_monster_UI.monster_name_label.shadow.visibility = imgui.checkbox("Enable",
@@ -1595,7 +1665,12 @@ customization_ui = function()
 					imgui.tree_pop();
 				end
 
-				-- color picker
+				if imgui.tree_node("Color") then
+					changed, config.large_monster_UI.monster_name_label.shadow.color = imgui.color_picker_argb("", config.large_monster_UI.monster_name_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
+					imgui.tree_pop();
+				end
 
 				imgui.tree_pop();
 			end
@@ -1624,7 +1699,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.large_monster_UI.health_label.color = imgui.color_picker_argb("", config.large_monster_UI.health_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.large_monster_UI.health_label.shadow.visibility =
@@ -1642,6 +1722,13 @@ customization_ui = function()
 							screen_size.width, "%.1f");
 					config_changed = config_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Color") then
+					changed, config.large_monster_UI.health_label.shadow.color = imgui.color_picker_argb("", config.large_monster_UI.health_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
 					imgui.tree_pop();
 				end
 
@@ -1672,7 +1759,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.large_monster_UI.health_value_label.color = imgui.color_picker_argb("", config.large_monster_UI.health_value_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.large_monster_UI.health_value_label.shadow.visibility = imgui.checkbox("Enable",
@@ -1688,6 +1780,13 @@ customization_ui = function()
 						config.large_monster_UI.health_value_label.shadow.offset.y, 0.1, -screen_size.height, screen_size.height, "%.1f");
 					config_changed = config_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Color") then
+					changed, config.large_monster_UI.health_value_label.shadow.color = imgui.color_picker_argb("", config.large_monster_UI.health_value_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
 					imgui.tree_pop();
 				end
 
@@ -1718,7 +1817,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.large_monster_UI.health_percentage_label.color = imgui.color_picker_argb("", config.large_monster_UI.health_percentage_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.large_monster_UI.health_percentage_label.shadow.visibility = imgui.checkbox("Enable",
@@ -1736,6 +1840,13 @@ customization_ui = function()
 						"%.1f");
 					config_changed = config_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Color") then
+					changed, config.large_monster_UI.health_percentage_label.shadow.color = imgui.color_picker_argb("", config.large_monster_UI.health_percentage_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
 					imgui.tree_pop();
 				end
 
@@ -1777,6 +1888,36 @@ customization_ui = function()
 			end
 
 			if imgui.tree_node("Colors") then
+				if imgui.tree_node("Foreground") then
+					changed, config.large_monster_UI.health_bar.colors.foreground = imgui.color_picker_argb("", config.large_monster_UI.health_bar.colors.foreground, 327680);
+					config_changed = config_changed or changed;
+					
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Background") then
+					changed, config.large_monster_UI.health_bar.colors.background = imgui.color_picker_argb("", config.large_monster_UI.health_bar.colors.background, 327680);
+					config_changed = config_changed or changed;
+					
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Monster can be captured") then
+					if imgui.tree_node("Foreground") then
+						changed, config.large_monster_UI.health_bar.colors.capture.foreground = imgui.color_picker_argb("", config.large_monster_UI.health_bar.colors.capture.foreground, 327680);
+						config_changed = config_changed or changed;
+						
+						imgui.tree_pop();
+					end
+	
+					if imgui.tree_node("Background") then
+						changed, config.large_monster_UI.health_bar.colors.capture.background = imgui.color_picker_argb("", config.large_monster_UI.health_bar.colors.capture.background, 327680);
+						config_changed = config_changed or changed;
+						
+						imgui.tree_pop();
+					end
+				end
+
 				imgui.tree_pop();
 			end
 
@@ -1820,7 +1961,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.time_UI.time_label.color = imgui.color_picker_argb("", config.time_UI.time_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.time_UI.time_label.shadow.visibility = imgui.checkbox("Enable",
@@ -1836,6 +1982,13 @@ customization_ui = function()
 						config.time_UI.time_label.shadow.offset.y, 0.1, -screen_size.width, screen_size.width, "%.1f");
 					config_changed = config_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Color") then
+					changed, config.time_UI.time_label.shadow.color = imgui.color_picker_argb("", config.time_UI.time_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
 					imgui.tree_pop();
 				end
 
@@ -2054,7 +2207,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.damage_meter_UI.player_name_label.color = imgui.color_picker_argb("", config.damage_meter_UI.player_name_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.damage_meter_UI.player_name_label.shadow.visibility = imgui.checkbox("Enable",
@@ -2075,7 +2233,12 @@ customization_ui = function()
 					imgui.tree_pop();
 				end
 
-				-- color picker
+				if imgui.tree_node("Color") then
+					changed, config.damage_meter_UI.player_name_label.shadow.color = imgui.color_picker_argb("", config.damage_meter_UI.player_name_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
+					imgui.tree_pop();
+				end
 
 				imgui.tree_pop();
 			end
@@ -2104,7 +2267,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.damage_meter_UI.damage_value_label.color = imgui.color_picker_argb("", config.damage_meter_UI.damage_value_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.damage_meter_UI.damage_value_label.shadow.visibility = imgui.checkbox("Enable",
@@ -2122,6 +2290,13 @@ customization_ui = function()
 							screen_size.width, "%.1f");
 					config_changed = config_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Color") then
+					changed, config.damage_meter_UI.damage_value_label.shadow.color = imgui.color_picker_argb("", config.damage_meter_UI.damage_value_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
 					imgui.tree_pop();
 				end
 
@@ -2152,7 +2327,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.damage_meter_UI.damage_percentage_label.color = imgui.color_picker_argb("", config.damage_meter_UI.damage_percentage_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.damage_meter_UI.damage_percentage_label.shadow.visibility = imgui.checkbox("Enable",
@@ -2169,6 +2349,13 @@ customization_ui = function()
 						"%.1f");
 					config_changed = config_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Color") then
+					changed, config.damage_meter_UI.damage_percentage_label.shadow.color = imgui.color_picker_argb("", config.damage_meter_UI.damage_percentage_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
 					imgui.tree_pop();
 				end
 
@@ -2199,7 +2386,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.damage_meter_UI.total_damage_label.color = imgui.color_picker_argb("", config.damage_meter_UI.total_damage_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.damage_meter_UI.total_damage_label.shadow.visibility = imgui.checkbox("Enable",
@@ -2217,6 +2409,13 @@ customization_ui = function()
 							screen_size.height, "%.1f");
 					config_changed = config_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Color") then
+					changed, config.damage_meter_UI.total_damage_label.shadow.color = imgui.color_picker_argb("", config.damage_meter_UI.total_damage_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
 					imgui.tree_pop();
 				end
 
@@ -2247,7 +2446,12 @@ customization_ui = function()
 				imgui.tree_pop();
 			end
 
-			-- color picker?
+			if imgui.tree_node("Color") then
+				changed, config.damage_meter_UI.total_damage_value_label.color = imgui.color_picker_argb("", config.damage_meter_UI.total_damage_value_label.color, 327680);
+				config_changed = config_changed or changed;
+				
+				imgui.tree_pop();
+			end
 
 			if imgui.tree_node("Shadow") then
 				changed, config.damage_meter_UI.total_damage_value_label.shadow.visibility = imgui.checkbox("Enable",
@@ -2265,6 +2469,13 @@ customization_ui = function()
 						"%.1f");
 					config_changed = config_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Color") then
+					changed, config.damage_meter_UI.total_damage_value_label.shadow.color = imgui.color_picker_argb("", config.damage_meter_UI.total_damage_value_label.shadow.color, 327680);
+					config_changed = config_changed or changed;
+					
 					imgui.tree_pop();
 				end
 
@@ -2305,7 +2516,19 @@ customization_ui = function()
 			end
 
 			if imgui.tree_node("Colors") then
-				-- color pickers?
+				if imgui.tree_node("Foreground") then
+					changed, config.damage_meter_UI.damage_bar.colors.foreground = imgui.color_picker_argb("", config.damage_meter_UI.damage_bar.colors.foreground, 327680);
+					config_changed = config_changed or changed;
+					
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Background") then
+					changed, config.damage_meter_UI.damage_bar.colors.background = imgui.color_picker_argb("", config.damage_meter_UI.damage_bar.colors.background, 327680);
+					config_changed = config_changed or changed;
+					
+					imgui.tree_pop();
+				end
 
 				imgui.tree_pop();
 			end
@@ -2346,7 +2569,19 @@ customization_ui = function()
 			end
 
 			if imgui.tree_node("Colors") then
-				-- color pickers?
+				if imgui.tree_node("Foreground") then
+					changed, config.damage_meter_UI.highlighted_damage_bar.colors.foreground = imgui.color_picker_argb("", config.damage_meter_UI.highlighted_damage_bar.colors.foreground, 327680);
+					config_changed = config_changed or changed;
+					
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Background") then
+					changed, config.damage_meter_UI.highlighted_damage_bar.colors.background = imgui.color_picker_argb("", config.damage_meter_UI.highlighted_damage_bar.colors.background, 327680);
+					config_changed = config_changed or changed;
+					
+					imgui.tree_pop();
+				end
 
 				imgui.tree_pop();
 			end
@@ -2368,6 +2603,7 @@ end
 
 ------------------------DRAW HELPERS-------------------------
 -- #region
+
 draw_label = function(label, position, ...)
 	if label == nil then
 		return;
@@ -2652,11 +2888,11 @@ update_monster = function(enemy)
 				end
 
 				if monster.size <= monster.small_border then
-					monster.crown = "Silver";
+					monster.crown = "Mini";
 				elseif monster.size >= monster.king_border then
 					monster.crown = "Gold";
 				elseif monster.size >= monster.big_border then
-					monster.crown = "Mini";
+					monster.crown = "Silver";
 				end
 			end
 		end
@@ -2980,7 +3216,7 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 		return;
 	end
 
-	if not config.damage_meter_UI.tracked_monster_types.small_monsters and not is_boss_enemy then
+	if not config.damage_meter_UI.tracked_monster_types.small_monsters and is_boss_enemy then
 		return;
 	end
 
