@@ -2989,7 +2989,6 @@ small_monster_data = function()
 		end
 	end
 
-
 	local i = 0;
 	for _, monster in ipairs(displayed_monsters) do
 		local position_on_screen;
@@ -3012,15 +3011,6 @@ small_monster_data = function()
 				position_on_screen.y = position_on_screen.y + config.small_monster_UI.spacing.y * i;
 			end
 		end
-		-- do return end;
-		-- remaining health
-		--[[
-		if monster.health <= monster.capture_health then
-			remaining_health_color = monster_UI.colors.health_bar.capture_health
-		else
-			remaining_health_color = monster_UI.colors.health_bar.remaining_health
-		end
-		--]]
 
 		draw_bar(config.small_monster_UI.health_bar, position_on_screen, monster.health_percentage);
 
@@ -3126,16 +3116,12 @@ large_monster_data = function()
 			
 		end
 
-		-- remaining health
-		--[[
+		local health_bar = table_deep_copy(config.large_monster_UI.health_bar);
 		if monster.health <= monster.capture_health then
-			remaining_health_color = monster_UI.colors.health_bar.capture_health
-		else
-			remaining_health_color = monster_UI.colors.health_bar.remaining_health
+			health_bar.colors = health_bar.colors.capture;
 		end
-		--]]
 
-		draw_bar(config.large_monster_UI.health_bar, position_on_screen, monster.health_percentage);
+		draw_bar(health_bar, position_on_screen, monster.health_percentage);
 
 		local monster_name_text = "";
 		if config.large_monster_UI.monster_name_label.include.monster_name then
