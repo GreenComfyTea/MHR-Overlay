@@ -4537,14 +4537,6 @@ sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
 		return;
 	end
 
-	if not config.damage_meter_UI.tracked_monster_types.small_monsters and is_large_monster then
-		return;
-	end
-
-	if not config.damage_meter_UI.tracked_monster_types.large_monsters and not is_large_monster then
-		return;
-	end
-
 	local dead_or_captured = enemy:call("checkDie");
 	if dead_or_captured == nil then
 		return;
