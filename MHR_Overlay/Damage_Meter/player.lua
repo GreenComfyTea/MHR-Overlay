@@ -1,8 +1,9 @@
 local player = {};
-local config = require("MHR_Overlay.Misc.config");
-local table_helpers = require("MHR_Overlay.Misc.table_helpers");
-local singletons = require("MHR_Overlay.Game_Handler.singletons");
-local customization_menu = require("MHR_Overlay.UI.customization_menu");
+local config;
+local table_helpers;
+local singletons;
+local customization_menu;
+local damage_UI_entity;
 
 player.list = {};
 player.myself = nil;
@@ -95,6 +96,8 @@ function player.new(player_id, player_name, player_hunter_rank)
 	new_player.display.physical_damage = 0;
 	new_player.display.elemental_damage = 0;
 	new_player.display.ailment_damage = 0;
+
+	player.init_UI(new_player);
 
 	return new_player;
 end
@@ -249,11 +252,26 @@ function player.init_total()
 	player.total = player.new(0, "Total", 0);
 end
 
+function player.init_UI(_player)
+	_player.damage_UI = damage_UI_entity.new(
+		config.current_config.damage_meter_UI.damage_bar,
+		config.current_config.damage_meter_UI.highlighted_damage_bar,
+		config.current_config.damage_meter_UI.player_name_label,
+		config.current_config.damage_meter_UI.damage_value_label,
+		config.current_config.damage_meter_UI.damage_percentage_label
+	);
+end
+
+function player.draw(_player, position_on_screen, opacity_scale, top_damage)
+	damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage);
+end
+
 function player.init_module()
 	config = require("MHR_Overlay.Misc.config");
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
+	damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");
 
 	player.init_total();
 end

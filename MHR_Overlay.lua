@@ -1,7 +1,4 @@
-x = "1";
-
-local damage_hook = require("MHR_Overlay.Damage_Meter.damage_hook");
-local player = require("MHR_Overlay.Damage_Meter.player");
+x = "";
 
 local quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 local screen = require("MHR_Overlay.Game_Handler.screen");
@@ -10,39 +7,59 @@ local singletons = require("MHR_Overlay.Game_Handler.singletons");
 local config = require("MHR_Overlay.Misc.config");
 local table_helpers = require("MHR_Overlay.Misc.table_helpers");
 
+local player = require("MHR_Overlay.Damage_Meter.player");
+local damage_hook = require("MHR_Overlay.Damage_Meter.damage_hook");
+
+local body_part = require("MHR_Overlay.Monsters.body_part");
 local large_monster = require("MHR_Overlay.Monsters.large_monster");
 local monster_hook = require("MHR_Overlay.Monsters.monster_hook");
 local small_monster = require("MHR_Overlay.Monsters.small_monster");
 
+local damage_meter_UI = require("MHR_Overlay.UI.Modules.damage_meter_UI");
+local large_monster_UI = require("MHR_Overlay.UI.Modules.large_monster_UI");
+local small_monster_UI = require("MHR_Overlay.UI.Modules.small_monster_UI");
+local time_UI = require("MHR_Overlay.UI.Modules.time_UI");
+
+local body_part_UI_entity = require("MHR_Overlay.UI.UI_Entities.body_part_UI_entity");
+local damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");
+local health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
+local stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
+local rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
+
 local customization_menu = require("MHR_Overlay.UI.customization_menu");
-local damage_meter_UI = require("MHR_Overlay.UI.damage_meter_UI");
 local drawing = require("MHR_Overlay.UI.drawing");
-local large_monster_UI = require("MHR_Overlay.UI.large_monster_UI");
-local small_monster_UI = require("MHR_Overlay.UI.small_monster_UI");
-local time_UI = require("MHR_Overlay.UI.time_UI");
 
 ------------------------INIT MODULES-------------------------
 -- #region
+screen.init_module();
+singletons.init_module();
+table_helpers.init_module();
+
+config.init_module();
+quest_status.init_module();
+
+damage_UI_entity.init_module();
+health_UI_entity.init_module();
+stamina_UI_entity.init_module();
+rage_UI_entity.init_module();
+
 damage_hook.init_module();
 player.init_module();
 
-screen.init_module();
-singletons.init_module();
-quest_status.init_module();
-
-config.init_module();
-table_helpers.init_module();
-
+body_part.init_module();
 large_monster.init_module();
 monster_hook.init_module();
 small_monster.init_module();
 
 customization_menu.init_module();
+body_part_UI_entity.init_module();
 damage_meter_UI.init_module();
 drawing.init_module();
 large_monster_UI.init_module();
 small_monster_UI.init_module();
 time_UI.init_module();
+
+
 
 log.info("[MHR Overlay] loaded");
 -- #endregion
@@ -84,13 +101,12 @@ end, function()
 	singletons.init();
 	player.update_myself_position();
 	quest_status.update_is_online();
-	
 
 	if quest_status.index < 2 then
 		quest_status.update_is_training_area();
 
 		if quest_status.is_training_area then
-			if config.current_config.large_monster_UI.enabled and config.current_config.global_settings.module_visibility.training_area.large_monster_UI then
+			if (config.current_config.large_monster_UI.dynamic.enabled or config.current_config.large_monster_UI.static.enabled) and config.current_config.global_settings.module_visibility.training_area.large_monster_UI then
 				large_monster_UI.draw();
 			end
 	
@@ -104,7 +120,7 @@ end, function()
 			small_monster_UI.draw();
 		end
 
-		if config.current_config.large_monster_UI.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_UI then
+		if (config.current_config.large_monster_UI.dynamic.enabled or config.current_config.large_monster_UI.static.enabled) and config.current_config.global_settings.module_visibility.during_quest.large_monster_UI then
 			large_monster_UI.draw();
 		end
 

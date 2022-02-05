@@ -36,11 +36,6 @@ config.default_config = {
 	small_monster_UI = {
 		enabled = true,
 
-		spacing = {
-			x = 110,
-			y = 40
-		},
-
 		settings = {
 			orientation = "Horizontal"
 		},
@@ -62,12 +57,17 @@ config.default_config = {
 			}
 		},
 
-		sorting = {
+		static_spacing = {
+			x = 110,
+			y = 40
+		},
+
+		static_sorting = {
 			type = "Normal",
 			reversed_order = false
 		},
 
-		position = {
+		static_position = {
 			x = 0,
 			y = 0,
 			anchor = "Top-Left"
@@ -199,7 +199,7 @@ config.default_config = {
 					x = 15,
 					y = 54
 				},
-				color = 0xFFFFFFFF,
+				color = 0xFFA3F5F0,
 
 				shadow = {
 					visibility = true,
@@ -219,7 +219,7 @@ config.default_config = {
 					x = 55,
 					y = 64
 				},
-				color = 0xFFFFFFFF,
+				color = 0xFFA3F5F0,
 
 				shadow = {
 					visibility = true,
@@ -252,22 +252,14 @@ config.default_config = {
 	},
 
 	large_monster_UI = {
-		enabled = true,
-
-		spacing = {
-			x = 220,
-			y = 40,
-		},
-
-		settings = {
-			orientation = "Horizontal"
-		},
-
-		dynamic_positioning = {
+		dynamic = {
 			enabled = true,
-			max_distance = 300,
-			opacity_falloff = true,
-
+	
+			settings = {
+				max_distance = 300,
+				opacity_falloff = true
+			},
+	
 			world_offset = {
 				x = 0,
 				y = 6,
@@ -277,54 +269,22 @@ config.default_config = {
 			viewport_offset = {
 				x = -100,
 				y = 0
-			}
-		},
-
-		sorting = {
-			type = "Normal",
-			reversed_order = false
-		},
-
-		position = {
-			x = 525,
-			y = 125,--y = 44,
-			anchor = "Top-Left"
-		},
-
-		monster_name_label = {
-			visibility = true,
-			text = "%s",
-
-			include = {
-				monster_name = true,
-				crown = true,
-				size = true,
-				crown_thresholds = false
 			},
-
-			offset = {
-				x = 5,
-				y = 0
-			},
-			color = 0xFFCCF4E1,
-
-			shadow = {
+	
+			monster_name_label = {
 				visibility = true,
-				offset = {
-					x = 1,
-					y = 1
+				text = "%s",
+	
+				include = {
+					monster_name = true,
+					crown = true,
+					size = true,
+					crown_thresholds = false
 				},
-				color = 0xFF000000
-			}
-		},
-
-		health = {
-			text_label = {
-				visibility = false,
-				text = "HP:",
+	
 				offset = {
-					x = -25,
-					y = 19
+					x = 5,
+					y = 0
 				},
 				color = 0xFFCCF4E1,
 	
@@ -337,78 +297,399 @@ config.default_config = {
 					color = 0xFF000000
 				}
 			},
-
-			value_label = {
-				visibility = true,
-				text = "%.0f/%.0f", -- current_health/max_health
-				offset = {
-					x = 5,
-					y = 19
+	
+			health = {
+				text_label = {
+					visibility = false,
+					text = "HP:",
+					offset = {
+						x = -25,
+						y = 19
+					},
+					color = 0xFFCCF4E1,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-				color = 0xFFFFFFFF,
-
-				shadow = {
+	
+				value_label = {
+					visibility = true,
+					text = "%.0f/%.0f", -- current_health/max_health
+					offset = {
+						x = 5,
+						y = 19
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+				
+				percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+	
+					offset = {
+						x = 150,
+						y = 19
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
 					visibility = true,
 					offset = {
-						x = 1,
-						y = 1
+						x = 0,
+						y = 17
 					},
-					color = 0xFF000000
+	
+					size = {
+						width = 200,
+						height = 20
+					},
+	
+					colors = {
+						foreground = 0xB974A653,
+						background = 0xB9000000,
+						capture ={
+							foreground = 0xB9CCCC33,
+							background = 0x88000000
+						}
+					}
 				}
 			},
-			
-			percentage_label = {
-				visibility = true,
-				text = "%5.1f%%",
-
-				offset = {
-					x = 150,
-					y = 19
+	
+			stamina = {
+				text_label = {
+					visibility = true,
+					text = "Stamina:",
+					offset = {
+						x = 15,
+						y = 37
+					},
+					color = 0xFFA3F5F0,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-				color = 0xFFFFFFFF,
-
-				shadow = {
+	
+				value_label = {
+					visibility = true,
+					text = "%.0f/%.0f", -- current_health/max_health
+					offset = {
+						x = 55,
+						y = 54
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+				
+				percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+	
+					offset = {
+						x = 145,
+						y = 54
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
 					visibility = true,
 					offset = {
-						x = 1,
-						y = 1
+						x = 10,
+						y = 54
 					},
-					color = 0xFF000000
+	
+					size = {
+						width = 185,
+						height = 7
+					},
+	
+					colors = {
+						foreground = 0xB966CCC5,
+						background = 0x88000000
+					}
 				}
 			},
-
-			bar = {
-				visibility = true,
+	
+			rage = {
+				text_label = {
+					visibility = true,
+					text = "Rage:",
+					offset = {
+						x = 15,
+						y = 61
+					},
+					color = 0xFFFF9393,
+					
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				value_label = {
+					visibility = true,
+					text = "%.0f/%.0f", -- current_health/max_health
+					offset = {
+						x = 55,
+						y = 78
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+				
+				percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+	
+					offset = {
+						x = 145,
+						y = 78
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+					offset = {
+						x = 10,
+						y = 78
+					},
+	
+					size = {
+						width = 185,
+						height = 7
+					},
+	
+					colors = {
+						foreground = 0xB9CC6666,
+						background = 0x88000000
+					}
+				}
+			},
+	
+			parts = {
 				offset = {
 					x = 0,
-					y = 17
+					y = 50
 				},
-
-				size = {
-					width = 200,
-					height = 20
+	
+				
+				spacing = {
+					x = 0,
+					y = 24,
 				},
-
-				colors = {
-					foreground = 0xB974A653,
-					background = 0xB9000000,
-					capture ={
-						foreground = 0xB9CCCC33,
+	
+				part_name_label = {
+					visibility = false,
+					text = "%s",
+		
+					include = {
+						part_name = false,
+						break_count = true
+					},
+	
+					offset = {
+						x = 15,
+						y = 61
+					},
+					color = 0xF1F4A3CC,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				text_label = {
+					visibility = false,
+					text = "HP:",
+					offset = {
+						x = -15,
+						y = 71
+					},
+					color = 0xF1F4A3CC,
+					
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				value_label = {
+					visibility = false,
+					text = "%.0f/%.0f", -- current_health/max_health
+					offset = {
+						x = 55,
+						y = 78
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+				
+				percentage_label = {
+					visibility = false,
+					text = "%5.1f%%",
+	
+					offset = {
+						x = 145,
+						y = 78
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = false,
+					offset = {
+						x = 10,
+						y = 78
+					},
+	
+					size = {
+						width = 185,
+						height = 5
+					},
+	
+					colors = {
+						foreground = 0xF4D0A3CC,
 						background = 0x88000000
 					}
 				}
 			}
 		},
 
-		stamina = {
-			text_label = {
+		static = {
+			enabled = true,
+
+			spacing = {
+				x = 220,
+				y = 40,
+			},
+	
+			settings = {
+				orientation = "Horizontal"
+			},
+	
+			sorting = {
+				type = "Normal",
+				reversed_order = false
+			},
+	
+			position = {
+				x = 525,
+				y = 125,--y = 44,
+				anchor = "Top-Left"
+			},
+	
+			monster_name_label = {
 				visibility = true,
-				text = "Stamina:",
-				offset = {
-					x = 15,
-					y = 37
+				text = "%s",
+	
+				include = {
+					monster_name = true,
+					crown = true,
+					size = true,
+					crown_thresholds = false
 				},
-				color = 0xFFA3F5F0,
+	
+				offset = {
+					x = 5,
+					y = 0
+				},
+				color = 0xFFCCF4E1,
 	
 				shadow = {
 					visibility = true,
@@ -419,139 +700,356 @@ config.default_config = {
 					color = 0xFF000000
 				}
 			},
-
-			value_label = {
-				visibility = true,
-				text = "%.0f/%.0f", -- current_health/max_health
-				offset = {
-					x = 55,
-					y = 54
-				},
-				color = 0xFFFFFFFF,
-
-				shadow = {
-					visibility = true,
+	
+			health = {
+				text_label = {
+					visibility = false,
+					text = "HP:",
 					offset = {
-						x = 1,
-						y = 1
+						x = -25,
+						y = 19
 					},
-					color = 0xFF000000
-				}
-			},
-			
-			percentage_label = {
-				visibility = true,
-				text = "%5.1f%%",
-
-				offset = {
-					x = 145,
-					y = 54
+					color = 0xFFCCF4E1,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-				color = 0xFFFFFFFF,
-
-				shadow = {
+	
+				value_label = {
 					visibility = true,
+					text = "%.0f/%.0f", -- current_health/max_health
 					offset = {
-						x = 1,
-						y = 1
+						x = 5,
+						y = 19
 					},
-					color = 0xFF000000
-				}
-			},
-
-			bar = {
-				visibility = true,
-				offset = {
-					x = 10,
-					y = 54
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-
-				size = {
-					width = 185,
-					height = 7
-				},
-
-				colors = {
-					foreground = 0xB966CCC5,
-					background = 0x88000000
-				}
-			}
-		},
-
-		rage = {
-			text_label = {
-				visibility = true,
-				text = "Rage:",
-				offset = {
-					x = 15,
-					y = 61
-				},
-				color = 0xFFFF9393,
 				
-				shadow = {
+				percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+	
+					offset = {
+						x = 150,
+						y = 19
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
 					visibility = true,
 					offset = {
-						x = 1,
-						y = 1
+						x = 0,
+						y = 17
 					},
-					color = 0xFF000000
+	
+					size = {
+						width = 200,
+						height = 20
+					},
+	
+					colors = {
+						foreground = 0xB974A653,
+						background = 0xB9000000,
+						capture ={
+							foreground = 0xB9CCCC33,
+							background = 0x88000000
+						}
+					}
 				}
 			},
-
-			value_label = {
-				visibility = true,
-				text = "%.0f/%.0f", -- current_health/max_health
-				offset = {
-					x = 55,
-					y = 78
+	
+			stamina = {
+				text_label = {
+					visibility = true,
+					text = "Stamina:",
+					offset = {
+						x = 15,
+						y = 37
+					},
+					color = 0xFFA3F5F0,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-				color = 0xFFFFFFFF,
-
-				shadow = {
+	
+				value_label = {
+					visibility = true,
+					text = "%.0f/%.0f", -- current_health/max_health
+					offset = {
+						x = 55,
+						y = 54
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+				
+				percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+	
+					offset = {
+						x = 145,
+						y = 54
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
 					visibility = true,
 					offset = {
-						x = 1,
-						y = 1
+						x = 10,
+						y = 54
 					},
-					color = 0xFF000000
+	
+					size = {
+						width = 185,
+						height = 7
+					},
+	
+					colors = {
+						foreground = 0xB966CCC5,
+						background = 0x88000000
+					}
 				}
 			},
-			
-			percentage_label = {
-				visibility = true,
-				text = "%5.1f%%",
-
-				offset = {
-					x = 145,
-					y = 78
+	
+			rage = {
+				text_label = {
+					visibility = true,
+					text = "Rage:",
+					offset = {
+						x = 15,
+						y = 61
+					},
+					color = 0xFFFF9393,
+					
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-				color = 0xFFFFFFFF,
-
-				shadow = {
+	
+				value_label = {
+					visibility = true,
+					text = "%.0f/%.0f", -- current_health/max_health
+					offset = {
+						x = 55,
+						y = 78
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+				
+				percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+	
+					offset = {
+						x = 145,
+						y = 78
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
 					visibility = true,
 					offset = {
-						x = 1,
-						y = 1
+						x = 10,
+						y = 78
 					},
-					color = 0xFF000000
+	
+					size = {
+						width = 185,
+						height = 7
+					},
+	
+					colors = {
+						foreground = 0xB9CC6666,
+						background = 0x88000000
+					}
 				}
 			},
-
-			bar = {
-				visibility = true,
+	
+			parts = {
 				offset = {
-					x = 10,
-					y = 78
+					x = 0,
+					y = 50
 				},
-
-				size = {
-					width = 185,
-					height = 7
+	
+				
+				spacing = {
+					x = 0,
+					y = 24,
 				},
-
-				colors = {
-					foreground = 0xB9CC6666,
-					background = 0x88000000
+	
+				part_name_label = {
+					visibility = true,
+					text = "%s",
+		
+					include = {
+						part_name = false,
+						break_count = true
+					},
+	
+					offset = {
+						x = 15,
+						y = 61
+					},
+					color = 0xF1F4A3CC,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				text_label = {
+					visibility = false,
+					text = "HP:",
+					offset = {
+						x = -15,
+						y = 71
+					},
+					color = 0xF1F4A3CC,
+					
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				value_label = {
+					visibility = true,
+					text = "%.0f/%.0f", -- current_health/max_health
+					offset = {
+						x = 55,
+						y = 78
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+				
+				percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+	
+					offset = {
+						x = 145,
+						y = 78
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+					offset = {
+						x = 10,
+						y = 78
+					},
+	
+					size = {
+						width = 185,
+						height = 5
+					},
+	
+					colors = {
+						foreground = 0xF4D0A3CC,
+						background = 0x88000000
+					}
 				}
 			}
 		}

@@ -55,20 +55,33 @@ function drawing.scale_label_opacity(label, scale)
 	label.shadow.color = drawing.scale_color_opacity(label.shadow.color, scale);
 end
 
-function drawing.draw_label(label, position, ...)
+function drawing.draw_label(label, position, opacity_scale, ...)
 	if label == nil or not label.visibility then
 		return;
 	end
 	
 	local text = string.format(label.text, table.unpack({...}));
+	local position_x = position.x + label.offset.x;
+	local position_y = position.y + label.offset.y;
+	
 	if label.shadow.visibility then
-		d2d.text(drawing.font, text, position.x + label.offset.x + label.shadow.offset.x,
-			position.y + label.offset.y + label.shadow.offset.y, label.shadow.color);
+		local new_shadow_color = label.shadow.color;
+		
+		if opacity_scale < 1 then
+			new_shadow_color = drawing.scale_color_opacity(new_shadow_color, opacity_scale);
+		end
+
+		d2d.text(drawing.font, text, position_x + label.shadow.offset.x, position_y + label.shadow.offset.y, new_shadow_color);
 	end
-	d2d.text(drawing.font, text, position.x + label.offset.x, position.y + label.offset.y, label.color);
+
+	local new_color = label.color;
+	if opacity_scale < 1 then
+		new_color = drawing.scale_color_opacity(new_color, opacity_scale);
+	end
+	d2d.text(drawing.font, text, position_x, position_y, new_color);
 end
 
-function drawing.draw_bar(bar, position, percentage)
+function drawing.draw_bar(bar, position, opacity_scale, percentage)
 	if bar == nil then
 		return;
 	end
@@ -77,20 +90,27 @@ function drawing.draw_bar(bar, position, percentage)
 		return;
 	end
 
-	if percentage > 1 then 
+	if percentage > 1 then
 		percentage = 1;
 	end
 
+	local position_x = position.x + bar.offset.x;
+	local position_y = position.y + bar.offset.y;
 	local foreground_width = bar.size.width * percentage;
 	local background_width = bar.size.width - foreground_width;
 
-	-- foreground
-	d2d.fill_rect(position.x + bar.offset.x, position.y + bar.offset.y, foreground_width, bar.size.height,
-		bar.colors.foreground);
+	local new_foreground_color = bar.colors.foreground;
+	local new_background_color = bar.colors.background;
 
+	if opacity_scale < 1 then
+		new_foreground_color = drawing.scale_color_opacity(new_foreground_color, opacity_scale);
+		new_background_color = drawing.scale_color_opacity(new_background_color, opacity_scale);
+	end
+
+	-- foreground
+	d2d.fill_rect(position_x, position_y, foreground_width, bar.size.height, new_foreground_color);
 	-- background
-	d2d.fill_rect(position.x + foreground_width + bar.offset.x, position.y + bar.offset.y, background_width,
-		bar.size.height, bar.colors.background);
+	d2d.fill_rect(position_x + foreground_width, position_y, background_width, bar.size.height, new_background_color);
 end
 
 function drawing.init_module()

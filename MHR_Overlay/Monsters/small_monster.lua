@@ -1,33 +1,41 @@
 local small_monster = {};
 local singletons;
-local customization_menu; 
+local customization_menu;
+local config;
+local table_helpers;
+local health_UI_entity;
+local stamina_UI_entity;
+local screen;
+local drawing;
 
 small_monster.list = {};
+
 function small_monster.new(enemy)
-	local new_monster = {};
-	new_monster.is_large = false;
+	local monster = {};
+	monster.is_large = false;
 
-	new_monster.health = 0;
-	new_monster.max_health = 999999;
-	new_monster.health_percentage = 0;
-	new_monster.missing_health = 0;
-	new_monster.capture_health = 0;
+	monster.health = 0;
+	monster.max_health = 999999;
+	monster.health_percentage = 0;
+	monster.missing_health = 0;
+	monster.capture_health = 0;
 
-	new_monster.stamina = 0;
-	new_monster.max_stamina = 1000;
-	new_monster.stamina_percentage = 0;
-	new_monster.missing_stamina = 0;
+	monster.stamina = 0;
+	monster.max_stamina = 1000;
+	monster.stamina_percentage = 0;
+	monster.missing_stamina = 0;
 
-	new_monster.position = Vector3f.new(0, 0, 0);
-	new_monster.name = "Small Monster";
+	monster.position = Vector3f.new(0, 0, 0);
+	monster.name = "Small Monster";
 	
-	small_monster.init(new_monster, enemy);
+	small_monster.init(monster, enemy);
+	small_monster.init_UI(monster);
 
 	if small_monster.list[enemy] == nil then
-		small_monster.list[enemy] = new_monster;
+		small_monster.list[enemy] = monster;
 	end
 
-	return new_monster;
+	return monster;
 end
 
 function small_monster.get_monster(enemy)
@@ -49,6 +57,24 @@ function small_monster.init(monster, enemy)
 	if enemy_name ~= nil then
 		monster.name = enemy_name;
 	end
+end
+
+function small_monster.init_UI(monster)
+	monster.name_label = table_helpers.deep_copy(config.current_config.small_monster_UI.monster_name_label);
+
+	monster.health_UI = health_UI_entity.new(
+		config.current_config.small_monster_UI.health.bar,
+		config.current_config.small_monster_UI.health.text_label,
+		config.current_config.small_monster_UI.health.value_label,
+		config.current_config.small_monster_UI.health.percentage_label
+	);
+
+	monster.stamina_UI = stamina_UI_entity.new(
+		config.current_config.small_monster_UI.stamina.bar,
+		config.current_config.small_monster_UI.stamina.text_label,
+		config.current_config.small_monster_UI.stamina.value_label,
+		config.current_config.small_monster_UI.stamina.percentage_label
+	);
 end
 
 function small_monster.update(enemy)
@@ -147,6 +173,13 @@ function small_monster.update(enemy)
 	end
 end
 
+function small_monster.draw(monster, position_on_screen, opacity_scale)
+	drawing.draw_label(monster.name_label, position_on_screen, opacity_scale, monster.name);
+
+	health_UI_entity.draw(monster, monster.health_UI, position_on_screen, opacity_scale);
+	stamina_UI_entity.draw(monster, monster.stamina_UI, position_on_screen, opacity_scale);
+end
+
 function small_monster.init_list()
 	small_monster.list = {};
 end
@@ -154,6 +187,12 @@ end
 function small_monster.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
+	config = require("MHR_Overlay.Misc.config");
+	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
+	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
+	screen = require("MHR_Overlay.Game_Handler.screen");
+	drawing = require("MHR_Overlay.UI.drawing");
 end
 
 return small_monster;
