@@ -34,6 +34,7 @@ end
 
 function body_part.init_dynamic_UI(part)
 	part.body_part_dynamic_UI = body_part_UI_entity.new(
+		config.current_config.large_monster_UI.dynamic.parts.visibility,
 		config.current_config.large_monster_UI.dynamic.parts.bar,
 		config.current_config.large_monster_UI.dynamic.parts.part_name_label,
 		config.current_config.large_monster_UI.dynamic.parts.text_label,
@@ -44,6 +45,7 @@ end
 
 function body_part.init_static_UI(part)
 	part.body_part_static_UI = body_part_UI_entity.new(
+		config.current_config.large_monster_UI.static.parts.visibility,
 		config.current_config.large_monster_UI.static.parts.bar,
 		config.current_config.large_monster_UI.static.parts.part_name_label,
 		config.current_config.large_monster_UI.static.parts.text_label,

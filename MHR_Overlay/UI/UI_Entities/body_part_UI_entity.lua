@@ -3,9 +3,10 @@ local config;
 local table_helpers;
 local drawing;
 
-function body_part_UI_entity.new(bar, name_label, text_label, value_label, percentage_label)
+function body_part_UI_entity.new(visibility, bar, name_label, text_label, value_label, percentage_label)
 	local entity = {};
 
+	entity.visibility = visibility;
 	entity.bar = table_helpers.deep_copy(bar);
 	entity.name_label = table_helpers.deep_copy(name_label);
 	entity.text_label = table_helpers.deep_copy(text_label);
@@ -16,6 +17,9 @@ function body_part_UI_entity.new(bar, name_label, text_label, value_label, perce
 end
 
 function body_part_UI_entity.draw_dynamic(part, position_on_screen, opacity_scale)
+	if not part.body_part_dynamic_UI.visibility then
+		return;
+	end
 	
 	local part_name = "";
 	if config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.part_name then
@@ -34,6 +38,9 @@ function body_part_UI_entity.draw_dynamic(part, position_on_screen, opacity_scal
 end
 
 function body_part_UI_entity.draw_static(part, position_on_screen, opacity_scale)
+	if not part.body_part_static_UI.visibility then
+		return;
+	end
 	
 	local part_name = "";
 	if config.current_config.large_monster_UI.static.parts.part_name_label.include.part_name then

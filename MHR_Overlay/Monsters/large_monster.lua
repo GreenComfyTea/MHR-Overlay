@@ -56,6 +56,7 @@ function large_monster.new(enemy)
 	large_monster.init_static_UI(monster);
 	large_monster.init_dynamic_UI(monster);
 
+
 	if large_monster.list[enemy] == nil then
 		large_monster.list[enemy] = monster;
 	end
@@ -123,6 +124,7 @@ function large_monster.init_static_UI(monster)
 	monster.static_name_label = table_helpers.deep_copy(config.current_config.large_monster_UI.static.monster_name_label);
 	
 	monster.health_static_UI = health_UI_entity.new(
+		config.current_config.large_monster_UI.static.health.visibility,
 		config.current_config.large_monster_UI.static.health.bar,
 		config.current_config.large_monster_UI.static.health.text_label,
 		config.current_config.large_monster_UI.static.health.value_label,
@@ -130,6 +132,7 @@ function large_monster.init_static_UI(monster)
 	);
 
 	monster.stamina_static_UI = stamina_UI_entity.new(
+		config.current_config.large_monster_UI.static.stamina.visibility,
 		config.current_config.large_monster_UI.static.stamina.bar,
 		config.current_config.large_monster_UI.static.stamina.text_label,
 		config.current_config.large_monster_UI.static.stamina.value_label,
@@ -137,6 +140,7 @@ function large_monster.init_static_UI(monster)
 	);
 	
 	monster.rage_static_UI = rage_UI_entity.new(
+		config.current_config.large_monster_UI.static.rage.visibility,
 		config.current_config.large_monster_UI.static.rage.bar,
 		config.current_config.large_monster_UI.static.rage.text_label,
 		config.current_config.large_monster_UI.static.rage.value_label,
@@ -152,6 +156,7 @@ function large_monster.init_dynamic_UI(monster)
 	monster.dynamic_name_label = table_helpers.deep_copy(config.current_config.large_monster_UI.dynamic.monster_name_label);
 
 	monster.health_dynamic_UI = health_UI_entity.new(
+		config.current_config.large_monster_UI.dynamic.health.visibility,
 		config.current_config.large_monster_UI.dynamic.health.bar,
 		config.current_config.large_monster_UI.dynamic.health.text_label,
 		config.current_config.large_monster_UI.dynamic.health.value_label,
@@ -159,6 +164,7 @@ function large_monster.init_dynamic_UI(monster)
 	);
 
 	monster.stamina_dynamic_UI = stamina_UI_entity.new(
+		config.current_config.large_monster_UI.dynamic.stamina.visibility,
 		config.current_config.large_monster_UI.dynamic.stamina.bar,
 		config.current_config.large_monster_UI.dynamic.stamina.text_label,
 		config.current_config.large_monster_UI.dynamic.stamina.value_label,
@@ -166,6 +172,7 @@ function large_monster.init_dynamic_UI(monster)
 	);
 
 	monster.rage_dynamic_UI = rage_UI_entity.new(
+		config.current_config.large_monster_UI.dynamic.rage.visibility,
 		config.current_config.large_monster_UI.dynamic.rage.bar,
 		config.current_config.large_monster_UI.dynamic.rage.text_label,
 		config.current_config.large_monster_UI.dynamic.rage.value_label,
@@ -414,16 +421,56 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 	stamina_UI_entity.draw(monster, monster.stamina_dynamic_UI, position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_dynamic_UI, position_on_screen, opacity_scale);
 
-	local j = 0;
+	--sort parts here
+	local displayed_parts = {};
 	for REpart, part in pairs(monster.parts) do
+		if config.current_config.large_monster_UI.dynamic.parts.settings.hide_undamaged_parts and part.health == part.max_health and part.break_count == 0 then
+			goto continue;
+		end
+
+		table.insert(displayed_parts, part);
+		::continue::
+	end
+
+	if config.current_config.large_monster_UI.dynamic.parts.sorting.type == "Normal" then
+		if config.current_config.large_monster_UI.dynamic.parts.sorting.reversed_order then
+			table.sort(displayed_parts, function(left, right)
+				return left.id > right.id;
+			end);
+		else
+			table.sort(displayed_parts, function(left, right)
+				return left.id < right.id;
+			end);
+		end
+	elseif config.current_config.large_monster_UI.dynamic.parts.sorting.type == "Health" then
+		if config.current_config.large_monster_UI.dynamic.parts.sorting.reversed_order then
+			table.sort(displayed_parts, function(left, right)
+				return left.health > right.health;
+			end);
+		else
+			table.sort(displayed_parts, function(left, right)
+				return left.health < right.health;
+			end);
+		end
+	elseif config.current_config.large_monster_UI.dynamic.parts.sorting.type == "Health Percentage" then
+		if config.current_config.large_monster_UI.dynamic.parts.sorting.reversed_order then
+			table.sort(displayed_parts, function(left, right)
+				return left.health_percentage > right.health_percentage;
+			end);
+		else
+			table.sort(displayed_parts, function(left, right)
+				return left.health_percentage < right.health_percentage;
+			end);
+		end
+	end
+
+	for j, part in ipairs(displayed_parts) do
 		local part_position_on_screen = {
-			x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.parts.offset.x + config.current_config.large_monster_UI.dynamic.parts.spacing.x * j,
-			y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.parts.offset.y + config.current_config.large_monster_UI.dynamic.parts.spacing.y * j;
+			x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.parts.offset.x + config.current_config.large_monster_UI.dynamic.parts.spacing.x * (j - 1),
+			y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.parts.offset.y + config.current_config.large_monster_UI.dynamic.parts.spacing.y * (j - 1);
 		}
 		
 		body_part.draw_dynamic(part, part_position_on_screen, opacity_scale);
-
-		j = j + 1;
 	end
 end
 
@@ -451,16 +498,56 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 	stamina_UI_entity.draw(monster, monster.stamina_static_UI, position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_static_UI, position_on_screen, opacity_scale);
 
-	local j = 0;
+	--sort parts here
+	local displayed_parts = {};
 	for REpart, part in pairs(monster.parts) do
+		if config.current_config.large_monster_UI.static.parts.settings.hide_undamaged_parts and part.health == part.max_health and part.break_count == 0 then
+			goto continue;
+		end
+
+		table.insert(displayed_parts, part);
+		::continue::
+	end
+
+	if config.current_config.large_monster_UI.static.parts.sorting.type == "Normal" then
+		if config.current_config.large_monster_UI.static.parts.sorting.reversed_order then
+			table.sort(displayed_parts, function(left, right)
+				return left.id > right.id;
+			end);
+		else
+			table.sort(displayed_parts, function(left, right)
+				return left.id < right.id;
+			end);
+		end
+	elseif config.current_config.large_monster_UI.static.parts.sorting.type == "Health" then
+		if config.current_config.large_monster_UI.static.parts.sorting.reversed_order then
+			table.sort(displayed_parts, function(left, right)
+				return left.health > right.health;
+			end);
+		else
+			table.sort(displayed_parts, function(left, right)
+				return left.health < right.health;
+			end);
+		end
+	elseif config.current_config.large_monster_UI.static.parts.sorting.type == "Health Percentage" then
+		if config.current_config.large_monster_UI.static.parts.sorting.reversed_order then
+			table.sort(displayed_parts, function(left, right)
+				return left.health_percentage > right.health_percentage;
+			end);
+		else
+			table.sort(displayed_parts, function(left, right)
+				return left.health_percentage < right.health_percentage;
+			end);
+		end
+	end
+
+	for j, part in ipairs(displayed_parts) do
 		local part_position_on_screen = {
-			x = position_on_screen.x + config.current_config.large_monster_UI.static.parts.offset.x + config.current_config.large_monster_UI.static.parts.spacing.x * j,
-			y = position_on_screen.y + config.current_config.large_monster_UI.static.parts.offset.y + config.current_config.large_monster_UI.static.parts.spacing.y * j;
+			x = position_on_screen.x + config.current_config.large_monster_UI.static.parts.offset.x + config.current_config.large_monster_UI.static.parts.spacing.x * (j - 1),
+			y = position_on_screen.y + config.current_config.large_monster_UI.static.parts.offset.y + config.current_config.large_monster_UI.static.parts.spacing.y * (j - 1);
 		}
 
 		body_part.draw_static(part, part_position_on_screen, opacity_scale);
-
-		j = j + 1;
 	end
 end
 

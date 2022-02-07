@@ -56,9 +56,13 @@ function damage_meter_UI.draw()
 		myself_hunter_rank = 0;
 	end
 
+	x = singletons.lobby_manager:get_field("_myselfIndex");
+
 	if player.list[player.myself_id] == nil then
 		player.list[player.myself_id] = player.new(player.myself_id, myself_player_name, myself_hunter_rank);
 		player.myself = player.list[player.myself_id];
+	else
+
 	end
 
 	local quest_players = {};
@@ -87,7 +91,6 @@ function damage_meter_UI.draw()
 
 			local player_id = player_info:get_field("_memberIndex");
 			if player_id == nil then
-
 				goto continue
 			end
 
@@ -176,6 +179,10 @@ function damage_meter_UI.draw()
 	end
 
 	-- draw total damage
+	if config.current_config.damage_meter_UI.settings.hide_total_if_total_damage_is_zero and player.total.display.total_damage == 0 then
+		return;
+	end
+
 	if not config.current_config.damage_meter_UI.settings.total_damage_offset_is_relative then
 		position_on_screen = screen.calculate_absolute_coordinates(config.current_config.damage_meter_UI.position);
 	end

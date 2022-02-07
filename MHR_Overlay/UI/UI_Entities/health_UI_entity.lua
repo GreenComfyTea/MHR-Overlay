@@ -2,9 +2,10 @@ local health_UI_entity = {};
 local table_helpers;
 local drawing;
 
-function health_UI_entity.new(bar, text_label, value_label, percentage_label)
+function health_UI_entity.new(visibility, bar, text_label, value_label, percentage_label)
 	local entity = {};
 
+	entity.visibility = visibility;
 	entity.bar = table_helpers.deep_copy(bar);
 	entity.text_label = table_helpers.deep_copy(text_label);
 	entity.value_label = table_helpers.deep_copy(value_label);
@@ -14,6 +15,10 @@ function health_UI_entity.new(bar, text_label, value_label, percentage_label)
 end
 
 function health_UI_entity.draw(monster, health_UI, position_on_screen, opacity_scale)
+	if not health_UI.visibility then
+		x = health_UI.visibility
+		return;
+	end
 
 	drawing.draw_bar(health_UI.bar, position_on_screen, opacity_scale, monster.health_percentage);
 

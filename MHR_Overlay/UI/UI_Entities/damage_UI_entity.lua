@@ -7,6 +7,7 @@ local player;
 function damage_UI_entity.new(bar, highlighted_bar, player_name_label, value_label, percentage_label)
 	local entity = {};
 
+	--entity.visibility = visibility;
 	entity.bar = table_helpers.deep_copy(bar);
 	entity.highlighted_bar = table_helpers.deep_copy(highlighted_bar);
 	entity.player_name_label = table_helpers.deep_copy(player_name_label);
@@ -17,6 +18,7 @@ function damage_UI_entity.new(bar, highlighted_bar, player_name_label, value_lab
 end
 
 function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage)
+
 	local player_include = config.current_config.damage_meter_UI.player_name_label.include.others;
 	if _player.id == _player.myself_id then
 		player_include = config.current_config.damage_meter_UI.player_name_label.include.myself;

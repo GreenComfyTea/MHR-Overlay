@@ -15,7 +15,8 @@ customization_menu.color_picker_flags = 327680;
 customization_menu.orientation_types = {"Horizontal", "Vertical"};
 customization_menu.anchor_types = {"Top-left", "Top-Right", "Bottom-Left", "Bottom-Right"};
 
-customization_menu.monster_UI_sorting_types = {"Normal", "Health", "Health Percentage"};
+customization_menu.monster_UI_sorting_types = {"Normal", "Health", "Health Percentage", "Distance"};
+customization_menu.large_monster_UI_parts_sorting_types = {"Normal", "Health", "Health Percentage"};
 
 customization_menu.damage_meter_UI_highlighted_bar_types = {"Me", "Top Damage", "None"};
 customization_menu.damage_meter_UI_damage_bar_relative_types = {"Total Damage", "Top Damage"};
@@ -34,8 +35,14 @@ customization_menu.fonts = {"Arial", "Arial Black", "Bahnschrift", "Calibri", "C
                             "Segoe UI Symbol", "SimSun", "Sitka", "Sylfaen", "Symbol", "Tahoma", "Times New Roman",
                             "Trebuchet MS", "Verdana", "Webdings", "Wingdings", "Yu Gothic"};
 
-customization_menu.monster_UI_orientation_index = 0;
-customization_menu.monster_UI_sorting_type_index = 0;
+customization_menu.small_monster_UI_orientation_index = 0;
+customization_menu.small_monster_UI_sorting_type_index = 0;
+
+customization_menu.large_monster_UI_orientation_index = 0;
+customization_menu.large_monster_UI_sorting_type_index = 0;
+
+customization_menu.large_monster_dynamic_UI_parts_sorting_type_index = 0;
+customization_menu.large_monster_static_UI_parts_sorting_type_index = 0;
 
 customization_menu.damage_meter_UI_orientation_index = 0;
 customization_menu.damage_meter_UI_sorting_type_index = 0;
@@ -43,14 +50,25 @@ customization_menu.damage_meter_UI_highlighted_bar_index = 0;
 customization_menu.damage_meter_UI_damage_bar_relative_index = 0;
 customization_menu.damage_meter_UI_my_damage_bar_location_index = 0;
 
+customization_menu.small_monster_UI_anchor_index = 0;
+customization_menu.large_monster_UI_anchor_index = 0;
+customization_menu.time_UI_anchor_index = 0;
+customization_menu.damage_meter_UI_anchor_index = 0;
+
 customization_menu.selected_font_index = 9;
 
 function customization_menu.init()
-	customization_menu.monster_UI_orientation_index = table_helpers.find_index(customization_menu.orientation_types,
+	customization_menu.large_monster_UI_orientation_index = table_helpers.find_index(customization_menu.orientation_types,
 		config.current_config.large_monster_UI.static.settings.orientation, false);
 
-	customization_menu.monster_UI_sorting_type_index = table_helpers.find_index(
+	customization_menu.large_monster_UI_sorting_type_index = table_helpers.find_index(
 		customization_menu.monster_UI_sorting_types, config.current_config.large_monster_UI.static.sorting.type, false);
+
+	customization_menu.large_monster_dynamic_UI_parts_sorting_type_index = table_helpers.find_index(
+		customization_menu.large_monster_UI_parts_sorting_types, config.current_config.large_monster_UI.dynamic.parts.sorting.type, false);
+
+		customization_menu.large_monster_static_UI_parts_sorting_type_index = table_helpers.find_index(
+		customization_menu.large_monster_UI_parts_sorting_types, config.current_config.large_monster_UI.static.parts.sorting.type, false);
 
 	customization_menu.damage_meter_UI_orientation_index = table_helpers.find_index(customization_menu.orientation_types,
 		config.current_config.damage_meter_UI.settings.orientation, false);
@@ -72,6 +90,18 @@ function customization_menu.init()
 
 	customization_menu.selected_font_index = table_helpers.find_index(customization_menu.fonts,
 		config.current_config.global_settings.font.family, false);
+
+	customization_menu.small_monster_UI_anchor_index = table_helpers.find_index(customization_menu.anchor_types,
+	config.current_config.small_monster_UI.static_position.anchor, false);
+
+	customization_menu.large_monster_UI_anchor_index = table_helpers.find_index(customization_menu.anchor_types,
+	config.current_config.large_monster_UI.static.position.anchor, false);
+
+	customization_menu.time_UI_anchor_index = table_helpers.find_index(customization_menu.anchor_types,
+	config.current_config.time_UI.position.anchor, false);
+	
+	customization_menu.damage_meter_UI_anchor_index = table_helpers.find_index(customization_menu.anchor_types,
+	config.current_config.damage_meter_UI.position.anchor, false);
 end
 
 function customization_menu.draw()
@@ -91,14 +121,14 @@ function customization_menu.draw()
 		changed, config.current_config.small_monster_UI.enabled = imgui.checkbox("Small Monster UI", config.current_config
 			.small_monster_UI.enabled);
 		config_changed = config_changed or changed;
+
+		changed, config.current_config.large_monster_UI.dynamic.enabled =
+		imgui.checkbox("Large Monster Dynamic UI", config.current_config.large_monster_UI.dynamic.enabled);
+		config_changed = config_changed or changed;
 		imgui.same_line();
 
 		changed, config.current_config.large_monster_UI.static.enabled =
 			imgui.checkbox("Large Monster Static UI", config.current_config.large_monster_UI.static.enabled);
-		config_changed = config_changed or changed;
-
-		changed, config.current_config.large_monster_UI.static.enabled =
-			imgui.checkbox("Large Monster Dynamic UI", config.current_config.large_monster_UI.static.enabled);
 		config_changed = config_changed or changed;
 
 		changed, config.current_config.time_UI.enabled = imgui.checkbox("Time UI", config.current_config.time_UI.enabled);
@@ -119,10 +149,14 @@ function customization_menu.draw()
 				changed, config.current_config.global_settings.module_visibility.during_quest.small_monster_UI = imgui.checkbox(
 					"Small Monster UI", config.current_config.global_settings.module_visibility.during_quest.small_monster_UI);
 				config_changed = config_changed or changed;
+
+				changed, config.current_config.global_settings.module_visibility.during_quest.large_monster_dynamic_UI = imgui.checkbox(
+					"Large Monster Dynamic UI", config.current_config.global_settings.module_visibility.during_quest.large_monster_dynamic_UI);
+				config_changed = config_changed or changed;
 				imgui.same_line();
 
-				changed, config.current_config.global_settings.module_visibility.during_quest.large_monster_UI = imgui.checkbox(
-					"Large Monster UI", config.current_config.global_settings.module_visibility.during_quest.large_monster_UI);
+				changed, config.current_config.global_settings.module_visibility.during_quest.large_monster_static_UI = imgui.checkbox(
+					"Large Monster Static UI", config.current_config.global_settings.module_visibility.during_quest.large_monster_static_UI);
 				config_changed = config_changed or changed;
 
 				changed, config.current_config.global_settings.module_visibility.during_quest.time_UI = imgui.checkbox("Time UI",
@@ -138,24 +172,37 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node("Quest Summary Screen") then
-				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.time_UI = imgui.checkbox(
-					"Time UI", config.current_config.global_settings.module_visibility.quest_summary_screen.time_UI);
+				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.small_monster_UI = imgui.checkbox(
+					"Small Monster UI", config.current_config.global_settings.module_visibility.quest_summary_screen.small_monster_UI);
+				config_changed = config_changed or changed;
+
+				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_dynamic_UI = imgui.checkbox(
+					"Large Monster Dynamic UI", config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_dynamic_UI);
 				config_changed = config_changed or changed;
 				imgui.same_line();
 
-				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.damage_meter_UI =
-					imgui.checkbox("Damage Meter UI",
-						config.current_config.global_settings.module_visibility.quest_summary_screen.damage_meter_UI);
+				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_static_UI = imgui.checkbox("Large Monster Static UI", config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_static_UI);
+				config_changed = config_changed or changed;
+
+				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.time_UI = imgui.checkbox("Time UI", config.current_config.global_settings.module_visibility.quest_summary_screen.time_UI);
+				config_changed = config_changed or changed;
+				imgui.same_line();
+
+				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.damage_meter_UI = imgui.checkbox("Damage Meter UI", config.current_config.global_settings.module_visibility.quest_summary_screen.damage_meter_UI);
 				config_changed = config_changed or changed;
 
 				imgui.tree_pop();
 			end
 
 			if imgui.tree_node("Training Area") then
-				changed, config.current_config.global_settings.module_visibility.training_area.large_monster_UI = imgui.checkbox(
-					"Large Monster UI", config.current_config.global_settings.module_visibility.training_area.large_monster_UI);
+				changed, config.current_config.global_settings.module_visibility.training_area.large_monster_dynamic_UI = imgui.checkbox(
+					"Large Monster Dynamic UI", config.current_config.global_settings.module_visibility.training_area.large_monster_dynamic_UI);
 				config_changed = config_changed or changed;
 				imgui.same_line();
+
+				changed, config.current_config.global_settings.module_visibility.training_area.large_monster_static_UI = imgui.checkbox(
+					"Large Monster Static UI", config.current_config.global_settings.module_visibility.training_area.large_monster_static_UI);
+				config_changed = config_changed or changed;
 
 				changed, config.current_config.global_settings.module_visibility.training_area.damage_meter_UI = imgui.checkbox(
 					"Damage Meter UI", config.current_config.global_settings.module_visibility.training_area.damage_meter_UI);
@@ -202,12 +249,12 @@ function customization_menu.draw()
 		config_changed = config_changed or changed;
 
 		if imgui.tree_node("Settings") then
-			changed, customization_menu.monster_UI_orientation_index = imgui.combo("Static Orientation",
-				customization_menu.monster_UI_orientation_index, customization_menu.orientation_types);
+			changed, customization_menu.small_monster_UI_orientation_index = imgui.combo("Static Orientation",
+				customization_menu.small_monster_UI_orientation_index, customization_menu.orientation_types);
 			config_changed = config_changed or changed;
 			if changed then
 				config.current_config.small_monster_UI.settings.orientation =
-					customization_menu.orientation_types[customization_menu.monster_UI_orientation_index];
+					customization_menu.orientation_types[customization_menu.small_monster_UI_orientation_index];
 			end
 
 			imgui.tree_pop();
@@ -269,6 +316,14 @@ function customization_menu.draw()
 				imgui.drag_float("Y", config.current_config.small_monster_UI.static_position.y, 0.1, 0, screen.height, "%.1f");
 			config_changed = config_changed or changed;
 
+			changed, customization_menu.small_monster_UI_anchor_index = imgui.combo("Anchor",
+			customization_menu.small_monster_UI_anchor_index, customization_menu.anchor_types);
+			config_changed = config_changed or changed;
+			if changed then
+				config.current_config.small_monster_UI.static_position.anchor =
+					customization_menu.anchor_types[customization_menu.small_monster_UI_anchor_index];
+			end
+
 			imgui.tree_pop();
 		end
 
@@ -287,12 +342,12 @@ function customization_menu.draw()
 		end
 
 		if imgui.tree_node("Static Sorting") then
-			changed, customization_menu.monster_UI_sort_type_index = imgui.combo("Type",
-				customization_menu.monster_UI_sort_type_index, customization_menu.monster_UI_sorting_types);
+			changed, customization_menu.small_monster_UI_sorting_type_index = imgui.combo("Type",
+				customization_menu.small_monster_UI_sorting_type_index, customization_menu.monster_UI_sorting_types);
 			config_changed = config_changed or changed;
 			if changed then
 				config.current_config.small_monster_UI.static_sorting.type =
-					customization_menu.monster_UI_sorting_types[customization_menu.monster_UI_sort_type_index];
+					customization_menu.monster_UI_sorting_types[customization_menu.small_monster_UI_sorting_type_index];
 			end
 
 			changed, config.current_config.small_monster_UI.static_sorting.reversed_order =
@@ -367,6 +422,11 @@ function customization_menu.draw()
 		end
 
 		if imgui.tree_node("Health") then
+			changed, config.current_config.small_monster_UI.health.visibility = imgui.checkbox("Visible",
+			config.current_config.small_monster_UI.health.visibility);
+			config_changed = config_changed or changed;
+			small_monster_UI_changed = small_monster_UI_changed or changed;
+
 			if imgui.tree_node("Text Label") then
 				changed, config.current_config.small_monster_UI.health.text_label.visibility = imgui.checkbox("Visible",
 					config.current_config.small_monster_UI.health.text_label.visibility);
@@ -629,6 +689,11 @@ function customization_menu.draw()
 		end
 
 		if imgui.tree_node("Stamina (Pointless: small monsters don't get tired)") then
+			changed, config.current_config.small_monster_UI.stamina.visibility = imgui.checkbox("Visible",
+			config.current_config.small_monster_UI.stamina.visibility);
+			config_changed = config_changed or changed;
+			small_monster_UI_changed = small_monster_UI_changed or changed;
+
 			if imgui.tree_node("Text Label") then
 				changed, config.current_config.small_monster_UI.stamina.text_label.visibility = imgui.checkbox("Visible",
 					config.current_config.small_monster_UI.stamina.text_label.visibility);
@@ -1047,6 +1112,11 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node("Health") then
+				changed, config.current_config.large_monster_UI.dynamic.health.visibility = imgui.checkbox("Visible",
+				config.current_config.large_monster_UI.dynamic.health.visibility);
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
 				if imgui.tree_node("Text Label") then
 					changed, config.current_config.large_monster_UI.dynamic.health.text_label.visibility = imgui.checkbox("Visible",
 						config.current_config.large_monster_UI.dynamic.health.text_label.visibility);
@@ -1330,6 +1400,11 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node("Stamina") then
+				changed, config.current_config.large_monster_UI.dynamic.stamina.visibility = imgui.checkbox("Visible",
+				config.current_config.large_monster_UI.dynamic.stamina.visibility);
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
 				if imgui.tree_node("Text Label") then
 					changed, config.current_config.large_monster_UI.dynamic.stamina.text_label.visibility = imgui.checkbox("Visible",
 						config.current_config.large_monster_UI.dynamic.stamina.text_label.visibility);
@@ -1596,6 +1671,11 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node("Rage") then
+				changed, config.current_config.large_monster_UI.dynamic.rage.visibility = imgui.checkbox("Visible",
+				config.current_config.large_monster_UI.dynamic.rage.visibility);
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
 				if imgui.tree_node("Text Label") then
 					changed, config.current_config.large_monster_UI.dynamic.rage.text_label.visibility = imgui.checkbox("Visible",
 						config.current_config.large_monster_UI.dynamic.rage.text_label.visibility);
@@ -1860,6 +1940,11 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node("Body Parts") then
+				changed, config.current_config.large_monster_UI.dynamic.parts.visibility = imgui.checkbox(
+						"Visible", config.current_config.large_monster_UI.dynamic.parts.visibility);
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
 				if imgui.tree_node("Offset") then
 					changed, config.current_config.large_monster_UI.dynamic.parts.offset.x = imgui.drag_float("X",
 						config.current_config.large_monster_UI.dynamic.parts.offset.x, 0.1, -screen.width, screen.width, "%.1f");
@@ -1885,6 +1970,33 @@ function customization_menu.draw()
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Settings") then
+					changed, config.current_config.large_monster_UI.dynamic.parts.settings.hide_undamaged_parts =
+					imgui.checkbox("Hide Undamaged Parts", config.current_config.large_monster_UI.dynamic.parts.settings.hide_undamaged_parts);
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+	
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Sorting") then
+					changed, customization_menu.large_monster_dynamic_UI_parts_sorting_type_index = imgui.combo("Type",
+						customization_menu.large_monster_dynamic_UI_parts_sorting_type_index, customization_menu.large_monster_UI_parts_sorting_types);
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+					if changed then
+						config.current_config.large_monster_UI.dynamic.parts.sorting.type =
+							customization_menu.large_monster_UI_parts_sorting_types[customization_menu.large_monster_dynamic_UI_parts_sorting_type_index];
+					end
+
+					changed, config.current_config.large_monster_UI.dynamic.parts.sorting.reversed_order =
+					imgui.checkbox("Reversed Order", config.current_config.large_monster_UI.dynamic.parts.sorting.reversed_order);
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+	
 					imgui.tree_pop();
 				end
 
@@ -2239,6 +2351,7 @@ function customization_menu.draw()
 				end
 			end
 
+			imgui.tree_pop();
 		end
 
 		if imgui.tree_node("Statically Positioned") then
@@ -2251,13 +2364,13 @@ function customization_menu.draw()
 
 
 			if imgui.tree_node("Settings") then
-				changed, customization_menu.monster_UI_orientation_index = imgui.combo("Orientation",
-					customization_menu.monster_UI_orientation_index, customization_menu.orientation_types);
+				changed, customization_menu.large_monster_UI_orientation_index = imgui.combo("Orientation",
+					customization_menu.large_monster_UI_orientation_index, customization_menu.orientation_types);
 				config_changed = config_changed or changed;
 				large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 				if changed then
 					config.current_config.large_monster_UI.static.settings.orientation =
-						customization_menu.orientation_types[customization_menu.monster_UI_orientation_index];
+						customization_menu.orientation_types[customization_menu.large_monster_UI_orientation_index];
 				end
 
 				imgui.tree_pop();
@@ -2273,6 +2386,14 @@ function customization_menu.draw()
 					imgui.drag_float("Y", config.current_config.large_monster_UI.static.position.y, 0.1, 0, screen.height, "%.1f");
 				config_changed = config_changed or changed;
 				large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
+				changed, customization_menu.large_monster_UI_anchor_index = imgui.combo("Anchor",
+				customization_menu.large_monster_UI_anchor_index, customization_menu.anchor_types);
+				config_changed = config_changed or changed;
+				if changed then
+					config.current_config.large_monster_UI.static.position.anchor =
+						customization_menu.anchor_types[customization_menu.large_monster_UI_anchor_index];
+				end
 
 				imgui.tree_pop();
 			end
@@ -2403,6 +2524,11 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node("Health") then
+				changed, config.current_config.large_monster_UI.static.health.visibility = imgui.checkbox("Visible",
+				config.current_config.large_monster_UI.static.health.visibility);
+			config_changed = config_changed or changed;
+			large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
 				if imgui.tree_node("Text Label") then
 					changed, config.current_config.large_monster_UI.static.health.text_label.visibility = imgui.checkbox("Visible",
 						config.current_config.large_monster_UI.static.health.text_label.visibility);
@@ -2686,6 +2812,11 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node("Stamina") then
+				changed, config.current_config.large_monster_UI.static.stamina.visibility = imgui.checkbox("Visible",
+				config.current_config.large_monster_UI.static.stamina.visibility);
+			config_changed = config_changed or changed;
+			large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
 				if imgui.tree_node("Text Label") then
 					changed, config.current_config.large_monster_UI.static.stamina.text_label.visibility = imgui.checkbox("Visible",
 						config.current_config.large_monster_UI.static.stamina.text_label.visibility);
@@ -2951,6 +3082,11 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node("Rage") then
+				changed, config.current_config.large_monster_UI.static.rage.visibility = imgui.checkbox("Visible",
+				config.current_config.large_monster_UI.static.rage.visibility);
+			config_changed = config_changed or changed;
+			large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
 				if imgui.tree_node("Text Label") then
 					changed, config.current_config.large_monster_UI.static.rage.text_label.visibility = imgui.checkbox("Visible",
 						config.current_config.large_monster_UI.static.rage.text_label.visibility);
@@ -3214,6 +3350,11 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node("Body Parts") then
+				changed, config.current_config.large_monster_UI.static.parts.visibility = imgui.checkbox("Visible",
+				config.current_config.large_monster_UI.static.parts.visibility);
+			config_changed = config_changed or changed;
+			large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
 				if imgui.tree_node("Offset") then
 					changed, config.current_config.large_monster_UI.static.parts.offset.x = imgui.drag_float("X",
 						config.current_config.large_monster_UI.static.parts.offset.x, 0.1, -screen.width, screen.width, "%.1f");
@@ -3239,6 +3380,33 @@ function customization_menu.draw()
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Settings") then
+					changed, config.current_config.large_monster_UI.static.parts.settings.hide_undamaged_parts =
+					imgui.checkbox("Hide Undamaged Parts", config.current_config.large_monster_UI.static.parts.settings.hide_undamaged_parts);
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+	
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node("Sorting") then
+					changed, customization_menu.large_monster_static_UI_parts_sorting_type_index = imgui.combo("Type",
+						customization_menu.large_monster_static_UI_parts_sorting_type_index, customization_menu.large_monster_UI_parts_sorting_types);
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+					if changed then
+						config.current_config.large_monster_UI.static.parts.sorting.type =
+							customization_menu.large_monster_UI_parts_sorting_types[customization_menu.large_monster_static_UI_parts_sorting_type_index];
+					end
+
+					changed, config.current_config.large_monster_UI.static.parts.sorting.reversed_order =
+					imgui.checkbox("Reversed Order", config.current_config.large_monster_UI.static.parts.sorting.reversed_order);
+				config_changed = config_changed or changed;
+				large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+	
 					imgui.tree_pop();
 				end
 
@@ -3591,6 +3759,7 @@ function customization_menu.draw()
 				end
 			end
 
+			imgui.tree_pop();
 		end
 
 		imgui.tree_pop();
@@ -3608,6 +3777,14 @@ function customization_menu.draw()
 			changed, config.current_config.time_UI.position.y = imgui.drag_float("Y", config.current_config.time_UI.position.y,
 				0.1, 0, screen.height, "%.1f");
 			config_changed = config_changed or changed;
+
+			changed, customization_menu.time_UI_anchor_index = imgui.combo("Anchor",
+				customization_menu.time_UI_anchor_index, customization_menu.anchor_types);
+				config_changed = config_changed or changed;
+			if changed then
+				config.current_config.time_UI.position.anchor =
+					customization_menu.anchor_types[customization_menu.time_UI_anchor_index];
+			end
 
 			imgui.tree_pop();
 		end
@@ -3687,6 +3864,12 @@ function customization_menu.draw()
 				"Hide Player if Player Damage is 0",
 				config.current_config.damage_meter_UI.settings.hide_player_if_player_damage_is_zero);
 			config_changed = config_changed or changed;
+
+			changed, config.current_config.damage_meter_UI.settings.hide_total_if_total_damage_is_zero  = imgui.checkbox(
+				"Hide Total if Total Damage is 0",
+				config.current_config.damage_meter_UI.settings.hide_total_if_total_damage_is_zero);
+			config_changed = config_changed or changed;
+
 
 			changed, config.current_config.damage_meter_UI.settings.total_damage_offset_is_relative = imgui.checkbox(
 				"Total Damage Offset is Relative", config.current_config.damage_meter_UI.settings.total_damage_offset_is_relative);
@@ -3814,6 +3997,14 @@ function customization_menu.draw()
 			changed, config.current_config.damage_meter_UI.position.y =
 				imgui.drag_float("Y", config.current_config.damage_meter_UI.position.y, 0.1, 0, screen.height, "%.1f");
 			config_changed = config_changed or changed;
+
+			changed, customization_menu.damage_meter_UI_anchor_index = imgui.combo("Anchor",
+			customization_menu.damage_meter_UI_anchor_index, customization_menu.anchor_types);
+			config_changed = config_changed or changed;
+		if changed then
+			config.current_config.damage_meter_UI.position.anchor =
+				customization_menu.anchor_types[customization_menu.damage_meter_UI_anchor_index];
+		end
 
 			imgui.tree_pop();
 		end

@@ -9,18 +9,23 @@ config.default_config = {
 		module_visibility = {
 			during_quest = {
 				small_monster_UI = true,
-				large_monster_UI = true,
+				large_monster_dynamic_UI = true,
+				large_monster_static_UI = true,
 				time_UI = true,
 				damage_meter_UI = true
 			},
 	
-			quest_summary_Screen = {
+			quest_summary_screen = {
+				small_monster_UI = false,
+				large_monster_dynamic_UI = false,
+				large_monster_static_UI = true,
 				time_UI = true,
 				damage_meter_UI = true
 			},
 	
 			training_area = {
-				large_monster_UI = true,
+				large_monster_dynamic_UI = true,
+				large_monster_static_UI = true,
 				damage_meter_UI = true
 			}
 		},
@@ -94,6 +99,8 @@ config.default_config = {
 		},
 
 		health = {
+			visibility = true,
+
 			text_label = {
 				visibility = false,
 				text = "HP:",
@@ -173,8 +180,10 @@ config.default_config = {
 		},
 
 		stamina = {
+			visibility = true,
+
 			text_label = {
-				visibility = false,
+				visibility = true,
 				text = "Stamina:",
 				offset = {
 					x = 15,
@@ -193,7 +202,7 @@ config.default_config = {
 			},
 
 			value_label = {
-				visibility = false,
+				visibility = true,
 				text = "%.0f/%.0f", -- current_health/max_health
 				offset = {
 					x = 15,
@@ -232,7 +241,7 @@ config.default_config = {
 			},
 
 			bar = {
-				visibility = false,
+				visibility = true,
 				offset = {
 					x = 10,
 					y = 54
@@ -299,6 +308,8 @@ config.default_config = {
 			},
 	
 			health = {
+				visibility = true,
+				
 				text_label = {
 					visibility = false,
 					text = "HP:",
@@ -381,6 +392,8 @@ config.default_config = {
 			},
 	
 			stamina = {
+				visibility = true,
+
 				text_label = {
 					visibility = true,
 					text = "Stamina:",
@@ -459,6 +472,8 @@ config.default_config = {
 			},
 	
 			rage = {
+				visibility = true,
+
 				text_label = {
 					visibility = true,
 					text = "Rage:",
@@ -537,19 +552,29 @@ config.default_config = {
 			},
 	
 			parts = {
+				visibility = false,
+
 				offset = {
 					x = 0,
 					y = 50
 				},
-	
 				
 				spacing = {
 					x = 0,
 					y = 24,
 				},
+
+				settings = {
+					hide_undamaged_parts = true,
+				},
+
+				sorting = {
+					type = "Normal",
+					reversed_order = false
+				},
 	
 				part_name_label = {
-					visibility = false,
+					visibility = true,
 					text = "%s",
 		
 					include = {
@@ -593,7 +618,7 @@ config.default_config = {
 				},
 	
 				value_label = {
-					visibility = false,
+					visibility = true,
 					text = "%.0f/%.0f", -- current_health/max_health
 					offset = {
 						x = 55,
@@ -632,7 +657,7 @@ config.default_config = {
 				},
 	
 				bar = {
-					visibility = false,
+					visibility = true,
 					offset = {
 						x = 10,
 						y = 78
@@ -702,6 +727,8 @@ config.default_config = {
 			},
 	
 			health = {
+				visibility = true,
+
 				text_label = {
 					visibility = false,
 					text = "HP:",
@@ -784,6 +811,8 @@ config.default_config = {
 			},
 	
 			stamina = {
+				visibility = true,
+
 				text_label = {
 					visibility = true,
 					text = "Stamina:",
@@ -862,6 +891,8 @@ config.default_config = {
 			},
 	
 			rage = {
+				visibility = true,
+
 				text_label = {
 					visibility = true,
 					text = "Rage:",
@@ -940,15 +971,27 @@ config.default_config = {
 			},
 	
 			parts = {
+				visibility = true,
+
+
+
 				offset = {
 					x = 0,
 					y = 50
 				},
-	
 				
 				spacing = {
 					x = 0,
 					y = 24,
+				},
+
+				settings = {
+					hide_undamaged_parts = true,
+				},
+
+				sorting = {
+					type = "Normal",
+					reversed_order = false
 				},
 	
 				part_name_label = {
@@ -1111,6 +1154,7 @@ config.default_config = {
 
 			hide_module_if_total_damage_is_zero = false,
 			hide_player_if_player_damage_is_zero = false,
+			hide_total_if_total_damage_is_zero = false,
 			total_damage_offset_is_relative = true,
 
 			highlighted_bar = "Me",

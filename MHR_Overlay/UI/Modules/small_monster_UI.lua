@@ -110,12 +110,11 @@ function small_monster_UI.draw()
 			if distance > config.current_config.small_monster_UI.dynamic_positioning.max_distance then
 				goto continue;
 			end
-			
+					
 			if config.current_config.small_monster_UI.dynamic_positioning.opacity_falloff then
 				opacity_scale = 1 - (distance / config.current_config.small_monster_UI.dynamic_positioning.max_distance);
 			end
 		end
-
 
 		small_monster.draw(monster, position_on_screen, opacity_scale);
 		

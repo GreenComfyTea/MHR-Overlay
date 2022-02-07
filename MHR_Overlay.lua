@@ -85,7 +85,7 @@ re.on_frame(function()
 end);
 
 re.on_frame(function()
-	--draw.text("x: " .. tostring(x), 450, 50, 0xFFFFFFFF);
+	draw.text("x: " .. tostring(x), 450, 50, 0xFFFFFFFF);
 end);
 -- #endregion
 --------------------------RE_IMGUI---------------------------
@@ -106,8 +106,11 @@ end, function()
 		quest_status.update_is_training_area();
 
 		if quest_status.is_training_area then
-			if (config.current_config.large_monster_UI.dynamic.enabled or config.current_config.large_monster_UI.static.enabled) and config.current_config.global_settings.module_visibility.training_area.large_monster_UI then
-				large_monster_UI.draw();
+			local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and config.current_config.global_settings.module_visibility.training_area.large_monster_dynamic_UI;
+			local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.training_area.large_monster_static_UI;
+
+			if dynamic_enabled or static_enabled then
+				large_monster_UI.draw(dynamic_enabled, static_enabled);
 			end
 	
 			if config.current_config.damage_meter_UI.enabled and config.current_config.global_settings.module_visibility.training_area.damage_meter_UI then
@@ -120,8 +123,11 @@ end, function()
 			small_monster_UI.draw();
 		end
 
-		if (config.current_config.large_monster_UI.dynamic.enabled or config.current_config.large_monster_UI.static.enabled) and config.current_config.global_settings.module_visibility.during_quest.large_monster_UI then
-			large_monster_UI.draw();
+		local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_dynamic_UI;
+		local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_static_UI;
+
+		if dynamic_enabled or static_enabled then
+			large_monster_UI.draw(dynamic_enabled, static_enabled);
 		end
 
 		if config.current_config.time_UI.enabled and config.current_config.global_settings.module_visibility.during_quest.time_UI then
@@ -132,6 +138,17 @@ end, function()
 			damage_meter_UI.draw();
 		end
 	elseif quest_status.index > 2 then
+		if config.current_config.small_monster_UI.enabled and config.current_config.global_settings.module_visibility.quest_summary_screen.small_monster_UI then
+			small_monster_UI.draw();
+		end
+
+		local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_dynamic_UI;
+		local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_static_UI;
+
+		if dynamic_enabled or static_enabled then
+			large_monster_UI.draw(dynamic_enabled, static_enabled);
+		end
+		
 		if config.current_config.time_UI.enabled and config.current_config.global_settings.module_visibility.quest_summary_screen.time_UI then
 			time_UI.draw();
 		end

@@ -63,6 +63,7 @@ function small_monster.init_UI(monster)
 	monster.name_label = table_helpers.deep_copy(config.current_config.small_monster_UI.monster_name_label);
 
 	monster.health_UI = health_UI_entity.new(
+		config.current_config.small_monster_UI.health.visibility,
 		config.current_config.small_monster_UI.health.bar,
 		config.current_config.small_monster_UI.health.text_label,
 		config.current_config.small_monster_UI.health.value_label,
@@ -70,6 +71,7 @@ function small_monster.init_UI(monster)
 	);
 
 	monster.stamina_UI = stamina_UI_entity.new(
+		config.current_config.small_monster_UI.stamina.visibility,
 		config.current_config.small_monster_UI.stamina.bar,
 		config.current_config.small_monster_UI.stamina.text_label,
 		config.current_config.small_monster_UI.stamina.value_label,
@@ -176,6 +178,7 @@ end
 function small_monster.draw(monster, position_on_screen, opacity_scale)
 	drawing.draw_label(monster.name_label, position_on_screen, opacity_scale, monster.name);
 
+	
 	health_UI_entity.draw(monster, monster.health_UI, position_on_screen, opacity_scale);
 	stamina_UI_entity.draw(monster, monster.stamina_UI, position_on_screen, opacity_scale);
 end

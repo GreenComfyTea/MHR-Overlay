@@ -11,7 +11,7 @@ local health_UI_entity;
 local stamina_UI_entity;
 local rage_UI_entity;
 
-function large_monster_UI.draw()
+function large_monster_UI.draw(dynamic_enabled, static_enabled)
 	if singletons.enemy_manager == nil then
 		return;
 	end
@@ -39,7 +39,7 @@ function large_monster_UI.draw()
 		table.insert(displayed_monsters, monster);
 	end
 
-	if config.current_config.large_monster_UI.dynamic.enabled then
+	if dynamic_enabled then
 		local i = 0;
 		for _, monster in ipairs(displayed_monsters) do
 			
@@ -77,7 +77,7 @@ function large_monster_UI.draw()
 		end
 	end
 
-	if config.current_config.large_monster_UI.static.enabled then
+	if static_enabled then
 		-- sort here
 		if config.current_config.large_monster_UI.static.sorting.type == "Normal" and config.current_config.large_monster_UI.static.sorting.reversed_order then
 			local reversed_monsters = {};
