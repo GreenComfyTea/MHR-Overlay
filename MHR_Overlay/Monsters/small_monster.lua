@@ -25,7 +25,10 @@ function small_monster.new(enemy)
 	monster.stamina_percentage = 0;
 	monster.missing_stamina = 0;
 
+	monster.game_object = nil
+	monster.transform = nil
 	monster.position = Vector3f.new(0, 0, 0);
+
 	monster.name = "Small Monster";
 	
 	small_monster.init(monster, enemy);
@@ -77,60 +80,106 @@ function small_monster.init_UI(monster)
 	);
 end
 
+local enemy_character_base_type = sdk.find_type_definition("snow.enemy.EnemyCharacterBase")
+local physical_param_field = enemy_character_base_type:get_field("<PhysicalParam>k__BackingField");
+local status_param_field = enemy_character_base_type:get_field("<StatusParam>k__BackingField")
+local stamina_param_field = enemy_character_base_type:get_field("<StaminaParam>k__BackingField")
+
+local physical_param_type = physical_param_field:get_type()
+local get_vital_method = physical_param_type:get_method("getVital")
+local get_capture_hp_vital_method = physical_param_type:get_method("get_CaptureHpVital")
+
+local vital_param_type = get_vital_method:get_return_type()
+local get_current_method = vital_param_type:get_method("get_Current")
+local get_max_method = vital_param_type:get_method("get_Max")
+
+local stamina_param_type = stamina_param_field:get_type()
+local get_stamina_method = stamina_param_type:get_method("getStamina")
+local get_max_stamina_method = stamina_param_type:get_method("getMaxStamina")
+
+local get_gameobject_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject")
+local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform")
+local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position")
+
+function small_monster.update_position(enemy)
+	if not config.current_config.small_monster_UI.enabled then
+		return;
+	end
+
+	local monster = small_monster.get_monster(enemy);
+	if not monster then return end
+
+	-- cache off the game object and transform
+	-- as these are pretty much guaranteed to stay constant
+	-- as long as the enemy is alive
+	if monster.game_object == nil then
+		monster.game_object = get_gameobject_method:call(enemy)
+		if monster.game_object == nil then
+			customization_menu.status = "No enemy game object";
+			return;
+		end
+	end
+
+	if monster.transform == nil then
+		monster.transform = get_transform_method:call(monster.game_object)
+		if monster.transform == nil then
+			customization_menu.status = "No enemy transform";
+			return;
+		end
+	end
+
+	local position = get_position_method:call(monster.transform)
+	if not position then
+		customization_menu.status = "No enemy position";
+		return;
+	end
+
+	if position ~= nil then
+		monster.position = position;
+	end
+end
+
 function small_monster.update(enemy)
 	if enemy == nil then
 		return;
 	end
 
-	local physical_param = enemy:get_field("<PhysicalParam>k__BackingField");
+	if not config.current_config.small_monster_UI.enabled then
+		return;
+	end
+
+	local physical_param = physical_param_field:get_data(enemy)
 	if physical_param == nil then
 		customization_menu.status = "No physical param";
 		return;
 	end
 
-	local status_param = enemy:get_field("<StatusParam>k__BackingField");
+	local status_param = status_param_field:get_data(enemy)
 	if status_param == nil then
 		customization_menu.status = "No status param";
 		return;
 	end
 
-	local stamina_param = enemy:get_field("<StaminaParam>k__BackingField");
+	local stamina_param = stamina_param_field:get_data(enemy)
 	if stamina_param == nil then
 		customization_menu.status = "No stamina param";
 		return;
 	end
 
-	local vital_param = physical_param:call("getVital", 0, 0);
+	local vital_param = get_vital_method:call(physical_param, 0, 0);
 	if vital_param == nil then
 		customization_menu.status = "No vital param";
 		return;
 	end
 
-	local health = vital_param:call("get_Current");
-	local max_health = vital_param:call("get_Max");
-	local capture_health = physical_param:call("get_CaptureHpVital");
+	local health = get_current_method:call(vital_param)
+	local max_health = get_max_method:call(vital_param)
+	local capture_health = get_capture_hp_vital_method:call(physical_param)
 
-	local stamina = stamina_param:call("getStamina");
-	local max_stamina = stamina_param:call("getMaxStamina");
+	local stamina = get_stamina_method:call(stamina_param)
+	local max_stamina = get_max_stamina_method:call(stamina_param)
 
-
-	local enemy_game_object = enemy:call("get_GameObject");
-	if enemy_game_object == nil then
-		customization_menu.status = "No enemy game object";
-		return;
-	end
-
-	local enemy_transform = enemy_game_object:call("get_Transform");
-	if enemy_transform == nil then
-		customization_menu.status = "No enemy transform";
-		return;
-	end
-
-	local position = enemy_transform:call("get_Position");
-	if not position then
-		customization_menu.status = "No enemy position";
-		return;
-	end
+	small_monster.update_position(enemy)
 
 	local monster = small_monster.get_monster(enemy);
 
@@ -151,10 +200,6 @@ function small_monster.update(enemy)
 		if max_health ~= 0 then
 			monster.health_percentage = health / max_health;
 		end
-	end
-
-	if position ~= nil then
-		monster.position = position;
 	end
 
 	if stamina ~= nil then
