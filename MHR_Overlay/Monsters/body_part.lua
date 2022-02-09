@@ -9,10 +9,11 @@ local rage_UI_entity;
 local body_part_UI_entity;
 local screen;
 local drawing;
+local part_names;
 
 body_part.list = {};
 
-function body_part.new(REpart, id)
+function body_part.new(REpart, name, id)
 	local part = {};
 
 	part.REpart = REpart;
@@ -22,7 +23,7 @@ function body_part.new(REpart, id)
 	part.max_health = 99999;
 	part.health_percentage = 0;
 
-	part.name = "??";
+	part.name = name;
 	part.break_count = 0;
 
 	body_part.init_dynamic_UI(part);
@@ -90,6 +91,7 @@ function body_part.init_module()
 	body_part_UI_entity = require("MHR_Overlay.UI.UI_Entities.body_part_UI_entity");
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	drawing = require("MHR_Overlay.UI.drawing");
+	part_names = require("MHR_Overlay.Misc.part_names");
 end
 
 return body_part;

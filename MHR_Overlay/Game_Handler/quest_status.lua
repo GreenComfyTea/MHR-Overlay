@@ -12,6 +12,9 @@ quest_status.is_training_area = false;
 local quest_manager_type_definition = sdk.find_type_definition("snow.QuestManager");
 local on_changed_game_status = quest_manager_type_definition:get_method("onChangedGameStatus");
 
+local village_area_manager_type_def = sdk.find_type_definition("snow.VillageAreaManager");
+local check_current_area_training_area_method = village_area_manager_type_def:get_method("checkCurrentArea_TrainingArea");
+
 sdk.hook(on_changed_game_status, function(args)
 	local new_quest_status = sdk.to_int64(args[3]);
 	if new_quest_status ~= nil then
@@ -66,7 +69,7 @@ function quest_status.update_is_training_area()
 		return;
 	end
 
-	local _is_training_area = singletons.village_area_manager:call("checkCurrentArea_TrainingArea");
+	local _is_training_area = check_current_area_training_area_method:call(singletons.village_area_manager);
 	if _is_training_area == nil then
 		return;
 	end

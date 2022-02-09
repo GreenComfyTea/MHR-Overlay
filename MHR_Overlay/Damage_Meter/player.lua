@@ -177,8 +177,6 @@ function player.update_display(_player)
 		end
 	end
 
-
-
 	if config.current_config.damage_meter_UI.tracked_monster_types.large_monsters then
 		if config.current_config.damage_meter_UI.tracked_damage_types.player_damage then
 			player.merge_damage(_player.display, _player.large_monsters);
@@ -215,31 +213,38 @@ function player.merge_damage(first, second)
 	return first;
 end
 
+local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
+local find_master_player_method = player_manager_type_def:get_method("findMasterPlayer");
+
+local get_game_object_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject")
+local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform")
+local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position")
+
 function player.update_myself_position()
 	if singletons.player_manager == nil then 
 		customization_menu.status = "No player manager";
 		return;
 	end
 
-	local master_player = singletons.player_manager:call("findMasterPlayer")
+	local master_player = find_master_player_method:call(singletons.player_manager);
 	if master_player == nil then
 		customization_menu.status = "No master player";
 		return;
 	end
 
-	local master_player_game_object = master_player:call("get_GameObject")
+	local master_player_game_object = get_game_object_method:call(master_player);
 	if master_player_game_object == nil then
 		customization_menu.status = "No master player game object";
 		return;
 	end
-
-	local master_player_transform = master_player_game_object:call("get_Transform")
+	
+	local master_player_transform = get_transform_method:call(master_player_game_object);
 	if not master_player_transform then
 		customization_menu.status = "No master player transform";
 		return;
 	end
 
-	local master_player_position = master_player_transform:call("get_Position")
+	local master_player_position = get_position_method:call(master_player_transform);
 	if master_player_position == nil then
 		customization_menu.status = "No masterplayer position";
 		return;

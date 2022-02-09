@@ -16,7 +16,6 @@ end
 
 function health_UI_entity.draw(monster, health_UI, position_on_screen, opacity_scale)
 	if not health_UI.visibility then
-		x = health_UI.visibility
 		return;
 	end
 

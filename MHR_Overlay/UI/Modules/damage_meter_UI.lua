@@ -9,6 +9,28 @@ local drawing;
 
 damage_meter_UI.last_displayed_players = {};
 
+local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
+local my_hunter_info_field = lobby_manager_type_def:get_field("_myHunterInfo");
+local myself_index_field = lobby_manager_type_def:get_field("_myselfIndex");
+local myself_quest_index_field = lobby_manager_type_def:get_field("_myselfQuestIndex");
+
+local quest_hunter_info_field = lobby_manager_type_def:get_field("_questHunterInfo");
+
+local my_hunter_info_type_def = my_hunter_info_field:get_type();
+local name_field = my_hunter_info_type_def:get_field("_name");
+
+local quest_hunter_info_type_def = quest_hunter_info_field:get_type();
+local get_count_method = quest_hunter_info_type_def:get_method("get_Count");
+local get_item_method = quest_hunter_info_type_def:get_method("get_Item");
+
+local hunter_info_type_def = sdk.find_type_definition("snow.LobbyManager.HunterInfo");
+local member_index_field = hunter_info_type_def:get_field("_memberIndex");
+local hunter_rank_field = hunter_info_type_def:get_field("_hunterRank");
+--local name_field = hunter_info_type_def:get_field("_name");
+
+local progress_manager_type_def = sdk.find_type_definition("snow.progress.ProgressManager");
+local get_hunter_rank_method = progress_manager_type_def:get_method("get_HunterRank");
+
 function damage_meter_UI.draw()
 
 	if player.total.display.total_damage == 0 and config.current_config.damage_meter_UI.settings.hide_module_if_total_damage_is_zero then
@@ -24,39 +46,37 @@ function damage_meter_UI.draw()
 	end
 
 	-- myself player
-	local myself_player_info = singletons.lobby_manager:get_field("_myHunterInfo");
+	local myself_player_info = my_hunter_info_field:get_data(singletons.lobby_manager);
 	if myself_player_info == nil then
 		customization_menu.status = "No myself player info list";
 		return;
 	end
 
-	local myself_player_name = myself_player_info:get_field("_name");
+	local myself_player_name = name_field:get_data(myself_player_info);
 	if myself_player_name == nil then
 		customization_menu.status = "No myself player name";
 		return;
 	end
 
 	if quest_status.is_online then
-		player.myself_id = singletons.lobby_manager:get_field("_myselfQuestIndex");
+		player.myself_id = myself_quest_index_field:get_data(singletons.lobby_manager);
 		if player.myself_id == nil then
 			customization_menu.status = "No myself player id";
 			return;
 		end
 	else
-		player.myself_id = singletons.lobby_manager:get_field("_myselfIndex");
+		player.myself_id = myself_index_field:get_data(singletons.lobby_manager);
 		if player.myself_id == nil then
 			customization_menu.status = "No myself player id";
 			return;
 		end
 	end
 
-	local myself_hunter_rank = singletons.progress_manager:call("get_HunterRank");
+	local myself_hunter_rank = get_hunter_rank_method:call(singletons.progress_manager);
 	if myself_hunter_rank == nil then
 		customization_menu.status = "No myself hunter rank";
 		myself_hunter_rank = 0;
 	end
-
-	x = singletons.lobby_manager:get_field("_myselfIndex");
 
 	if player.list[player.myself_id] == nil then
 		player.list[player.myself_id] = player.new(player.myself_id, myself_player_name, myself_hunter_rank);
@@ -71,12 +91,12 @@ function damage_meter_UI.draw()
 		quest_players = damage_meter_UI.last_displayed_players;
 	else
 		-- other players
-		local player_info_list = singletons.lobby_manager:get_field("_questHunterInfo");
+		local player_info_list = quest_hunter_info_field:get_data(singletons.lobby_manager);
 		if player_info_list == nil then
 			customization_menu.status = "No player info list";
 		end
 
-		local count = player_info_list:call("get_Count");
+		local count = get_count_method:call(player_info_list);
 		if count == nil then
 			customization_menu.status = "No player info list count";
 			return;
@@ -84,17 +104,17 @@ function damage_meter_UI.draw()
 
 		for i = 0, count - 1 do
 			
-			local player_info = player_info_list:call("get_Item", i);
+			local player_info = get_item_method:call(player_info_list, i);
 			if player_info == nil then
 				goto continue
 			end
 
-			local player_id = player_info:get_field("_memberIndex");
+			local player_id = member_index_field:get_data(player_info)
 			if player_id == nil then
 				goto continue
 			end
 
-			local player_hunter_rank = player_info:get_field("_hunterRank");
+			local player_hunter_rank = hunter_rank_field:get_data(player_info);
 			if player_hunter_rank == nil then
 				goto continue
 			end
@@ -104,7 +124,7 @@ function damage_meter_UI.draw()
 				goto continue
 			end
 
-			local player_name = player_info:get_field("_name");
+			local player_name = name_field:get_data(player_info);
 			if player_name == nil then
 				goto continue
 			end

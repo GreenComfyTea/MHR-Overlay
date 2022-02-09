@@ -5,7 +5,9 @@ local screen = require("MHR_Overlay.Game_Handler.screen");
 local singletons = require("MHR_Overlay.Game_Handler.singletons");
 
 local config = require("MHR_Overlay.Misc.config");
+local language = require("MHR_Overlay.Misc.language");
 local table_helpers = require("MHR_Overlay.Misc.table_helpers");
+local part_names = require("MHR_Overlay.Misc.part_names");
 
 local player = require("MHR_Overlay.Damage_Meter.player");
 local damage_hook = require("MHR_Overlay.Damage_Meter.damage_hook");
@@ -35,8 +37,10 @@ screen.init_module();
 singletons.init_module();
 table_helpers.init_module();
 
+language.init_module();
 config.init_module();
 quest_status.init_module();
+part_names.init_module();
 
 damage_UI_entity.init_module();
 health_UI_entity.init_module();
@@ -85,7 +89,7 @@ re.on_frame(function()
 end);
 
 re.on_frame(function()
-	draw.text("x: " .. tostring(x), 450, 50, 0xFFFFFFFF);
+	--draw.text("x: " .. tostring(x), 450, 50, 0xFFFFFFFF);
 end);
 -- #endregion
 --------------------------RE_IMGUI---------------------------

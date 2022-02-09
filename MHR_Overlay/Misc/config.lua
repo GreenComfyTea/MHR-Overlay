@@ -1,11 +1,14 @@
 local config = {};
 local table_helpers;
+local language;
 
 config.current_config = nil;
 config.config_file_name = "MHR Overlay/config.json";
 
 config.default_config = {
 	global_settings = {
+		language = "en-us",
+
 		module_visibility = {
 			during_quest = {
 				small_monster_UI = true,
@@ -29,7 +32,7 @@ config.default_config = {
 				damage_meter_UI = true
 			}
 		},
-		
+
 		font = {
 			family = "Consolas",
 			size = 13,
@@ -552,7 +555,7 @@ config.default_config = {
 			},
 	
 			parts = {
-				visibility = false,
+				visibility = true,
 
 				offset = {
 					x = 0,
@@ -565,7 +568,7 @@ config.default_config = {
 				},
 
 				settings = {
-					hide_undamaged_parts = true,
+					hide_undamaged_parts = false,
 				},
 
 				sorting = {
@@ -578,7 +581,7 @@ config.default_config = {
 					text = "%s",
 		
 					include = {
-						part_name = false,
+						part_name = true,
 						break_count = true
 					},
 	
@@ -586,7 +589,7 @@ config.default_config = {
 						x = 15,
 						y = 61
 					},
-					color = 0xF1F4A3CC,
+					color = 0xFFf9d9ff,
 		
 					shadow = {
 						visibility = true,
@@ -603,7 +606,7 @@ config.default_config = {
 					text = "HP:",
 					offset = {
 						x = -15,
-						y = 71
+						y = 69
 					},
 					color = 0xF1F4A3CC,
 					
@@ -622,7 +625,7 @@ config.default_config = {
 					text = "%.0f/%.0f", -- current_health/max_health
 					offset = {
 						x = 55,
-						y = 78
+						y = 74
 					},
 					color = 0xFFFFFFFF,
 	
@@ -637,12 +640,12 @@ config.default_config = {
 				},
 				
 				percentage_label = {
-					visibility = false,
+					visibility = true,
 					text = "%5.1f%%",
 	
 					offset = {
 						x = 145,
-						y = 78
+						y = 74
 					},
 					color = 0xFFFFFFFF,
 	
@@ -660,7 +663,7 @@ config.default_config = {
 					visibility = true,
 					offset = {
 						x = 10,
-						y = 78
+						y = 75
 					},
 	
 					size = {
@@ -669,7 +672,7 @@ config.default_config = {
 					},
 	
 					colors = {
-						foreground = 0xF4D0A3CC,
+						foreground = 0xB9ca85cc,
 						background = 0x88000000
 					}
 				}
@@ -971,9 +974,7 @@ config.default_config = {
 			},
 	
 			parts = {
-				visibility = true,
-
-
+				visibility = false,
 
 				offset = {
 					x = 0,
@@ -999,7 +1000,7 @@ config.default_config = {
 					text = "%s",
 		
 					include = {
-						part_name = false,
+						part_name = true,
 						break_count = true
 					},
 	
@@ -1007,7 +1008,7 @@ config.default_config = {
 						x = 15,
 						y = 61
 					},
-					color = 0xF1F4A3CC,
+					color = 0xFFf9d9ff,
 		
 					shadow = {
 						visibility = true,
@@ -1024,7 +1025,7 @@ config.default_config = {
 					text = "HP:",
 					offset = {
 						x = -15,
-						y = 71
+						y = 69
 					},
 					color = 0xF1F4A3CC,
 					
@@ -1043,7 +1044,7 @@ config.default_config = {
 					text = "%.0f/%.0f", -- current_health/max_health
 					offset = {
 						x = 55,
-						y = 78
+						y = 74
 					},
 					color = 0xFFFFFFFF,
 	
@@ -1063,7 +1064,7 @@ config.default_config = {
 	
 					offset = {
 						x = 145,
-						y = 78
+						y = 74
 					},
 					color = 0xFFFFFFFF,
 	
@@ -1081,7 +1082,7 @@ config.default_config = {
 					visibility = true,
 					offset = {
 						x = 10,
-						y = 78
+						y = 75
 					},
 	
 					size = {
@@ -1090,7 +1091,7 @@ config.default_config = {
 					},
 	
 					colors = {
-						foreground = 0xF4D0A3CC,
+						foreground = 0xB9ca85cc,
 						background = 0x88000000
 					}
 				}
@@ -1347,7 +1348,10 @@ end
 
 function config.init_module()
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	language = require("MHR_Overlay.Misc.language");
+
 	config.load();
+	language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
 	config.current_config.version = "v1.7";
 end
 

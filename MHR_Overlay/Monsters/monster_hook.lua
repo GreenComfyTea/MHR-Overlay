@@ -5,13 +5,14 @@ local large_monster;
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_type_def_update_method = enemy_character_base_type_def:get_method("update");
 
+local is_boss_enemy_method = sdk.find_type_definition("snow.enemy.EnemyCharacterBase"):get_method("get_isBossEnemy");
+
 sdk.hook(enemy_character_base_type_def_update_method, function(args)
 	monster.update_monster(sdk.to_managed_object(args[2]));
 end, function(retval)
 	return retval;
 end);
 
-local is_boss_enemy_method = sdk.find_type_definition("snow.enemy.EnemyCharacterBase"):get_method("get_isBossEnemy");
 local tick_count = 0
 local last_update_tick = 0
 local recorded_monsters = {}
@@ -30,21 +31,18 @@ local MAX_UPDATES_PER_TICK = 2
 -- the reason for this is that the hooks on all the monsters' update functions
 -- causes a HUGE performance hit (adds ~3+ ms to UpdateBehavior and frame time)
 re.on_pre_application_entry("UpdateBehavior", function()
-    tick_count = tick_count + 1
-	updates_this_tick = 0
+    tick_count = tick_count + 1;
+	updates_this_tick = 0;
  
-    if num_known_monsters ~= 0 and 
-            num_updated_monsters >= num_known_monsters or 
-            tick_count >= num_known_monsters * 2 
-    then
-        recorded_monsters = {}
-        updated_monsters = {}
-		known_big_monsters = {}
-        last_update_tick = 0
-        tick_count = 0
-        num_known_monsters = 0
-        num_updated_monsters = 0
-		updates_this_tick = 0
+    if num_known_monsters ~= 0 and num_updated_monsters >= num_known_monsters or tick_count >= num_known_monsters * 2 then
+        recorded_monsters = {};
+        updated_monsters = {};
+		known_big_monsters = {};
+        last_update_tick = 0;
+        tick_count = 0;
+        num_known_monsters = 0;
+        num_updated_monsters = 0;
+		updates_this_tick = 0;
     end
 end)
 

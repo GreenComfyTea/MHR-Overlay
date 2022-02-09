@@ -10,6 +10,10 @@ local table_helpers;
 local health_UI_entity;
 local stamina_UI_entity;
 
+local enemy_manager_type_def = sdk.find_type_definition("snow.enemy.EnemyManager");
+local get_zako_enemy_count_method = enemy_manager_type_def:get_method("getZakoEnemyCount");
+local get_zako_enemy_method = enemy_manager_type_def:get_method("getZakoEnemy");
+
 function small_monster_UI.draw()
 	if singletons.enemy_manager == nil then
 		return;
@@ -17,14 +21,14 @@ function small_monster_UI.draw()
 
 	local displayed_monsters = {};
 
-	local enemy_count = singletons.enemy_manager:call("getZakoEnemyCount");
+	local enemy_count = get_zako_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
 		customization_menu.status = "No enemy count";
 		return;
 	end
 
 	for i = 0, enemy_count - 1 do
-		local enemy = singletons.enemy_manager:call("getZakoEnemy", i);
+		local enemy = get_zako_enemy_method:call(singletons.enemy_manager, i);
 		if enemy == nil then
 			customization_menu.status = "No enemy";
 			break

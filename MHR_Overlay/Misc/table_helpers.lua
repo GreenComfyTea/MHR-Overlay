@@ -62,82 +62,18 @@ function table_helpers.merge(...)
 end
 
 function table_helpers.tostring(table)
-	local cache, stack, output = {}, {}, {};
-	local depth = 1;
-	local output_string = "{\n";
-
-	while true do
-		local size = 0;
-		for key, value in pairs(table) do
-			size = size + 1;
-		end
-
-		local current_index = 1;
-		for key, value in pairs(table) do
-			if (cache[table] == nil) or (current_index >= cache[table]) then
-
-				if (string.find(output_string, "}", output_string:len())) then
-					output_string = output_string .. ",\n";
-				elseif not (string.find(output_string, "\n",output_string:len())) then
-					output_string = output_string .. "\n";
-				end
-
-				-- This is necessary for working with HUGE tables otherwise we run out of memory using concat on huge strings
-				table.insert(output, output_string);
-				output_string = "";
-
-				local key;
-				if (type(key) == "number" or type(key) == "boolean") then
-					key = "[" .. tostring(key) .. "]";
-				else
-					key = "['" .. tostring(key) .. "']";
-				end
-
-				if (type(value) == "number" or type(value) == "boolean") then
-					output_string = output_string .. string.rep('\t', depth) .. key .. " = " .. tostring(value);
-				elseif (type(value) == "table") then
-					output_string = output_string .. string.rep('\t', depth) .. key .. " = {\n";
-					table.insert(stack, table);
-					table.insert(stack, value);
-					cache[table] = current_index + 1;
-					break
-				else
-					output_string = output_string .. string.rep('\t', depth) .. key .. " = '" .. tostring(value) .. "'";
-				end
-
-				if (current_index == size) then
-					output_string = output_string .. "\n" .. string.rep('\t', depth - 1) .. "}";
-				else
-					output_string = output_string .. ",";
-				end
-			else
-				-- close the table
-				if (current_index == size) then
-					output_string = output_string .. "\n" .. string.rep('\t', depth - 1) .. "}";
-				end
+	if type(table) == 'table' then
+		local s = '{ \n';
+		for k,v in pairs(table) do
+			if type(k) ~= 'number' then
+				k = '"' .. k .. '"';
 			end
-
-			current_index = current_index + 1;
+			s = s .. '\t['..k..'] = ' .. table_helpers.tostring(v) .. ',\n';
 		end
-
-		if (size == 0) then
-			output_string = output_string .. "\n" .. string.rep('\t', depth - 1) .. "}";
-		end
-
-		if (#stack > 0) then
-			table = stack[#stack];
-			stack[#stack] = nil;
-			depth = cache[table] == nil and depth + 1 or depth - 1;
-		else
-			break;
-		end
+		return s .. '} \n';
+	else
+		return tostring(table);
 	end
-
-	-- This is necessary for working with HUGE tables otherwise we run out of memory using concat on huge strings
-	table.insert(output, output_string);
-	output_string = table.concat(output);
-
-	return output_string;
 end
 
 function table_helpers.init_module()

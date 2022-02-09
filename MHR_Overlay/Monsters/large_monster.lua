@@ -9,6 +9,7 @@ local rage_UI_entity;
 local screen;
 local drawing;
 local body_part;
+local part_names;
 
 large_monster.list = {};
 
@@ -213,7 +214,7 @@ local anger_param_get_timer_method = anger_param_type:get_method("get_Timer")
 local get_timer_anger_method = anger_param_type:get_method("get_TimerAnger")
 local get_count_anger_method = anger_param_type:get_method("get_CountAnger")
 
-local get_gameobject_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject")
+local get_game_object_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject")
 local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform")
 local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position")
 
@@ -230,7 +231,7 @@ function large_monster.update_position(enemy)
 	-- as these are pretty much guaranteed to stay constant
 	-- as long as the enemy is alive
 	if monster.game_object == nil then
-		monster.game_object = get_gameobject_method:call(enemy)
+		monster.game_object = get_game_object_method:call(enemy)
 		if monster.game_object == nil then
 			customization_menu.status = "No enemy game object";
 			return;
@@ -354,10 +355,6 @@ function large_monster.update(enemy)
 			goto continue;
 		end
 
-		if part_health == last_REpart_health then
-			break;
-		end
-
 		local part_max_health = REpart:call("get_Max");
 		if part_max_health == nil or part_max_health <= 0 then
 			goto continue;
@@ -365,8 +362,12 @@ function large_monster.update(enemy)
 
 		local part = monster.parts[REpart];
 		if part == nil then
-			part = body_part.new(REpart, part_id);
-			monster.parts[REpart] = part;
+			local part_name = part_names.get_part_name(monster.id, part_id);
+
+			if part_name ~= "" then
+				part = body_part.new(REpart, part_name, part_id);
+				monster.parts[REpart] = part;
+			end
 		end
 
 		body_part.update(part, part_health, part_max_health);
@@ -473,7 +474,7 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 				100 * monster.big_border, 100 * monster.king_border);
 	end
 
-	drawing.draw_label(monster.dynamic_name_label, position_on_screen, opacity_scale, monster_name_text .. " " .. tostring(monster.id));
+	drawing.draw_label(monster.dynamic_name_label, position_on_screen, opacity_scale, monster_name_text);
 
 	health_UI_entity.draw(monster, monster.health_dynamic_UI, position_on_screen, opacity_scale);
 	stamina_UI_entity.draw(monster, monster.stamina_dynamic_UI, position_on_screen, opacity_scale);
@@ -550,7 +551,7 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 				100 * monster.big_border, 100 * monster.king_border);
 	end
 
-	drawing.draw_label(monster.static_name_label, position_on_screen, opacity_scale, monster_name_text .. " " .. tostring(monster.id));
+	drawing.draw_label(monster.static_name_label, position_on_screen, opacity_scale, monster_name_text);
 
 	health_UI_entity.draw(monster, monster.health_static_UI, position_on_screen, opacity_scale);
 	stamina_UI_entity.draw(monster, monster.stamina_static_UI, position_on_screen, opacity_scale);
@@ -624,6 +625,7 @@ function large_monster.init_module()
 	rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	drawing = require("MHR_Overlay.UI.drawing");
+	part_names = require("MHR_Overlay.Misc.part_names");
 end
 
 return large_monster;

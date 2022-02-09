@@ -11,6 +11,10 @@ local health_UI_entity;
 local stamina_UI_entity;
 local rage_UI_entity;
 
+local enemy_manager_type_def = sdk.find_type_definition("snow.enemy.EnemyManager");
+local get_boss_enemy_count_method = enemy_manager_type_def:get_method("getBossEnemyCount");
+local get_boss_enemy_method = enemy_manager_type_def:get_method("getBossEnemy");
+
 function large_monster_UI.draw(dynamic_enabled, static_enabled)
 	if singletons.enemy_manager == nil then
 		return;
@@ -18,13 +22,13 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled)
 	
 	local displayed_monsters = {};
 
-	local enemy_count = singletons.enemy_manager:call("getBossEnemyCount");
+	local enemy_count = get_boss_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
 		return;
 	end
 	
 	for i = 0, enemy_count - 1 do
-		local enemy = singletons.enemy_manager:call("getBossEnemy", i);
+		local enemy = get_boss_enemy_method:call(singletons.enemy_manager, i);
 		if enemy == nil then
 			customization_menu.status = "No enemy";
 			break
