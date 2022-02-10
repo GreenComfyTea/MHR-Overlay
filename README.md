@@ -4,34 +4,35 @@ Link: https://www.nexusmods.com/monsterhunterrise/mods/50
 Built on https://www.nexusmods.com/monsterhunterrise/mods/43 and https://www.nexusmods.com/monsterhunterrise/mods/68
 
 Features:
-1) Large Monster Health;
-2) Quest Time;
-3) Damage Meter;
-4) Flexible Customization.
+1) Large monster health, stamina, rage, body parts;
+2) Small monster health;
+3) Quest Time;
+4) Damage Meter;
+5) Flexible Customization.
 
 # Dependencies:
-1) REFramework v1.1.1 or above (https://www.nexusmods.com/monsterhunterrise/mods/26)
-2) REFramework v0.2.1 or above (https://www.nexusmods.com/monsterhunterrise/mods/134)
+1) REFramework v1.1.2 or above (https://www.nexusmods.com/monsterhunterrise/mods/26)
+2) REFramework v0.4.0 or above (https://www.nexusmods.com/monsterhunterrise/mods/134)
 
 # How to install:
 1) Install REFramework
-2) Download monster_hunter_overlay.lua file
-3) Place the file to MonsterHunterRise/autorun folder (if autorun folder is not there, create it).
+2) Download the mod file
+3) Place the reframework folder to MonsterHunterRise root folder.
 
 # Customization:
-The beginning of the monster-hunter-rise-overlay.lua file is dedicated to Customization. Open it with any text editor, adjust and change values in Customization Section according to your preference.
+Mod features a convinient Customization Menu inside REFramework. Open REFramework (Insert key by default) -> Script Generated UI -> MHR Overlay.
+Your settings will be automatically saved and load.
 
-To simplify the customization process you can reload scripts in REFramework after each change. No need to restart the game each time. Press Insert Button to open REFramework window inside the game.
-REFramework -> ScriptRunner -> Reset Scripts.
+Default values are made for 1080p screen.
 
 Things that can be changed:
 
-1) Visibility of modules, elements, labels;
-2) Module positions, offsets;
-3) Bar sizes;
-4) Colors, shadows;
-5) Sorting.
-
+    Visibility of modules, elements, labels;
+    Module positions, offsets;
+    Bar size;
+    Colors, shadows;
+    Sorting.
+    Dynamic positioning for monster UIs.
 <img src="https://i.imgur.com/zgPlLqY.png" />
 
 # Support
