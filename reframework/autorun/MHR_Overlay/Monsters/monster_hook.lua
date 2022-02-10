@@ -1,6 +1,7 @@
 local monster = {};
 local small_monster;
 local large_monster;
+local config;
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_type_def_update_method = enemy_character_base_type_def:get_method("update");
@@ -13,16 +14,15 @@ end, function(retval)
 	return retval;
 end);
 
-local tick_count = 0
-local last_update_tick = 0
-local recorded_monsters = {}
-local updated_monsters = {}
-local known_big_monsters = {}
-local num_known_monsters = 0
-local num_updated_monsters = 0
+local tick_count = 0;
+local last_update_tick = 0;
+local recorded_monsters = {};
+local updated_monsters = {};
+local known_big_monsters = {};
+local num_known_monsters = 0;
+local num_updated_monsters = 0;
 
-local updates_this_tick = 0
-local MAX_UPDATES_PER_TICK = 2
+local updates_this_tick = 0;
 
 -- run every tick to keep track of msonsters
 -- whenever we've updated enough monsters to surpass how many we've seen,
@@ -73,26 +73,31 @@ function monster.update_monster(enemy)
 		-- due to how infrequently we update the monster(s).
 		if is_large then
 			large_monster.update_position(enemy);
+			if not config.current_config.global_settings.performance.prioritize_large_monsters then
+				return
+			end
 		else
 			small_monster.update_position(enemy);
+			return;
 		end
 
-		return
 	end
 
     -- only updates N monsters per tick to increase performance
     if tick_count == last_update_tick then
-		if updates_this_tick >= MAX_UPDATES_PER_TICK then
+		if updates_this_tick >= config.current_config.global_settings.performance.max_monster_updates_per_tick then
 			-- this is the VERY LEAST thing we should do all the time
 			-- so the position doesn't lag all over the place
 			-- due to how infrequently we update the monster(s).
 			if is_large then
 				large_monster.update_position(enemy);
+				if not config.current_config.global_settings.performance.prioritize_large_monsters then
+					return
+				end
 			else
 				small_monster.update_position(enemy);
+				return;
 			end
-
-        	return
 		end
     end
 
@@ -113,6 +118,7 @@ end
 function monster.init_module()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
+	config = require("MHR_Overlay.Misc.config");
 end
 
 return monster;

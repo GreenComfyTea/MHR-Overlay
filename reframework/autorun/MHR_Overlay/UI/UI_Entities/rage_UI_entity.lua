@@ -12,7 +12,7 @@ function rage_UI_entity.new(visibility, bar, text_label, value_label, percentage
 	entity.percentage_label = table_helpers.deep_copy(percentage_label);
 	entity.timer_label = table_helpers.deep_copy(percentage_label);
 
-	entity.timer_label.text = "%.0f:%04.1f";
+	entity.timer_label.text = "%.0f:%02.0f";
 	return entity;
 end
 

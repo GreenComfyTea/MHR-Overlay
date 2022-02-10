@@ -246,7 +246,7 @@ function player.update_myself_position()
 
 	local master_player_position = get_position_method:call(master_player_transform);
 	if master_player_position == nil then
-		customization_menu.status = "No masterplayer position";
+		customization_menu.status = "No master player position";
 		return;
 	end
 

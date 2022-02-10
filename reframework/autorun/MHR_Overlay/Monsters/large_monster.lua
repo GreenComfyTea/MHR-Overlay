@@ -2,12 +2,14 @@ local large_monster = {};
 local singletons;
 local customization_menu;
 local config;
+local language;
 local table_helpers;
 local health_UI_entity;
 local stamina_UI_entity;
 local rage_UI_entity;
 local screen;
 local drawing;
+
 local body_part;
 local part_names;
 
@@ -74,8 +76,23 @@ function large_monster.get_monster(enemy)
 	return large_monster.list[enemy];
 end
 
+local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
+local enemy_type_field = enemy_character_base_type_def:get_field("<EnemyType>k__BackingField");
+local get_monster_list_register_scale_method = enemy_character_base_type_def:get_method("get_MonsterListRegisterScale");
+
+local message_manager_type_def = sdk.find_type_definition("snow.gui.MessageManager");
+local get_enemy_name_message_method = message_manager_type_def:get_method("getEnemyNameMessage");
+
+local enemy_manager_type_def = sdk.find_type_definition("snow.enemy.EnemyManager");
+local find_enemy_size_info_method = enemy_manager_type_def:get_method("findEnemySizeInfo");
+
+local size_info_type = find_enemy_size_info_method:get_return_type();
+local get_small_border_method = size_info_type:get_method("get_SmallBorder");
+local get_big_border_method = size_info_type:get_method("get_BigBorder");
+local get_king_border_method = size_info_type:get_method("get_KingBorder");
+
 function large_monster.init(monster, enemy)
-	local enemy_type = enemy:get_field("<EnemyType>k__BackingField");
+	local enemy_type = enemy_type_field:get_data(enemy);
 	if enemy_type == nil then
 		customization_menu.status = "No enemy type";
 		return;
@@ -83,18 +100,18 @@ function large_monster.init(monster, enemy)
 
 	monster.id = enemy_type;
 
-	local enemy_name = singletons.message_manager:call("getEnemyNameMessage", enemy_type);
+	local enemy_name = get_enemy_name_message_method:call(singletons.message_manager, enemy_type);
 	if enemy_name ~= nil then
 		monster.name = enemy_name;
 	end
 
-	local size_info = singletons.enemy_manager:call("findEnemySizeInfo", enemy_type);
+	local size_info = find_enemy_size_info_method:call(singletons.enemy_manager, enemy_type);
 	if size_info ~= nil then
-		local small_border = size_info:call("get_SmallBorder");
-		local big_border = size_info:call("get_BigBorder");
-		local king_border = size_info:call("get_KingBorder");
+		local small_border = get_small_border_method:call(size_info);
+		local big_border = get_big_border_method:call(size_info);
+		local king_border = get_king_border_method:call(size_info);
 
-		local size = enemy:call("get_MonsterListRegisterScale");
+		local size = get_monster_list_register_scale_method:call(enemy);
 
 		if small_border ~= nil then
 			monster.small_border = small_border;
@@ -108,17 +125,16 @@ function large_monster.init(monster, enemy)
 			monster.king_border = king_border;
 		end
 
-
 		if size ~= nil then
 			monster.size = size;
 		end
 
 		if monster.size <= monster.small_border then
-			monster.crown = "Mini";
+			monster.crown = language.current_language.UI.mini;
 		elseif monster.size >= monster.king_border then
-			monster.crown = "Gold";
+			monster.crown = language.current_language.UI.gold;
 		elseif monster.size >= monster.big_border then
-			monster.crown = "Silver";
+			monster.crown = language.current_language.UI.silver;
 		end
 	end
 end
@@ -187,26 +203,25 @@ function large_monster.init_dynamic_UI(monster)
 	end
 end
 
-local enemy_character_base_type = sdk.find_type_definition("snow.enemy.EnemyCharacterBase")
-local physical_param_field = enemy_character_base_type:get_field("<PhysicalParam>k__BackingField");
-local status_param_field = enemy_character_base_type:get_field("<StatusParam>k__BackingField")
-local stamina_param_field = enemy_character_base_type:get_field("<StaminaParam>k__BackingField")
-local anger_param_field = enemy_character_base_type:get_field("<AngerParam>k__BackingField")
+local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
+local status_param_field = enemy_character_base_type_def:get_field("<StatusParam>k__BackingField")
+local stamina_param_field = enemy_character_base_type_def:get_field("<StaminaParam>k__BackingField")
+local anger_param_field = enemy_character_base_type_def:get_field("<AngerParam>k__BackingField")
 
-local physical_param_type = physical_param_field:get_type()
+local physical_param_type = physical_param_field:get_type();
 local get_vital_method = physical_param_type:get_method("getVital")
 local get_capture_hp_vital_method = physical_param_type:get_method("get_CaptureHpVital")
 local vital_list_field = physical_param_type:get_field("_VitalList")
 
-local vital_param_type = get_vital_method:get_return_type()
+local vital_param_type = get_vital_method:get_return_type();
 local get_current_method = vital_param_type:get_method("get_Current")
 local get_max_method = vital_param_type:get_method("get_Max")
 
-local stamina_param_type = stamina_param_field:get_type()
+local stamina_param_type = stamina_param_field:get_type();
 local get_stamina_method = stamina_param_type:get_method("getStamina")
 local get_max_stamina_method = stamina_param_type:get_method("getMaxStamina")
 
-local anger_param_type = anger_param_field:get_type()
+local anger_param_type = anger_param_field:get_type();
 local is_anger_method = anger_param_type:get_method("isAnger")
 local get_anger_point_method = anger_param_type:get_method("get_AngerPoint")
 local get_limit_anger_method = anger_param_type:get_method("get_LimitAnger")
@@ -225,7 +240,9 @@ function large_monster.update_position(enemy)
 	end
 
 	local monster = large_monster.get_monster(enemy);
-	if not monster then return end
+	if not monster then
+		return;
+	end
 
 	-- cache off the game object and transform
 	-- as these are pretty much guaranteed to stay constant
@@ -617,6 +634,7 @@ end
 function large_monster.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
+	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	body_part = require("MHR_Overlay.Monsters.body_part");

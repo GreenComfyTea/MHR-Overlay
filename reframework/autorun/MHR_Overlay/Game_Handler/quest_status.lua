@@ -4,6 +4,7 @@ local customization_menu;
 local player;
 local small_monster;
 local large_monster;
+local damage_meter_UI;
 
 quest_status.index = 0;
 quest_status.is_online = false;
@@ -25,6 +26,7 @@ sdk.hook(on_changed_game_status, function(args)
 			player.total = player.new(0, "Total", 0);
 			small_monster.list = {};
 			large_monster.list = {};
+			damage_meter_UI.freeze_displayed_players = false;
 		end
 
 		quest_status.index = new_quest_status;
@@ -60,6 +62,10 @@ function quest_status.update_is_online()
 		return;
 	end
 
+	if quest_status.is_online and not is_quest_online then
+		damage_meter_UI.freeze_displayed_players = true;
+	end
+
 	quest_status.is_online = is_quest_online;
 end
 
@@ -83,6 +89,7 @@ function quest_status.init_module()
 	player = require("MHR_Overlay.Damage_Meter.player");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
+	damage_meter_UI = require("MHR_Overlay.UI.Modules.damage_meter_UI");
 	
 	quest_status.init();
 end

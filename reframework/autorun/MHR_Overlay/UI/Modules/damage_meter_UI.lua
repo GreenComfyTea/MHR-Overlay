@@ -8,6 +8,7 @@ local screen;
 local drawing;
 
 damage_meter_UI.last_displayed_players = {};
+damage_meter_UI.freeze_displayed_players = false;
 
 local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
 local my_hunter_info_field = lobby_manager_type_def:get_field("_myHunterInfo");
@@ -26,7 +27,6 @@ local get_item_method = quest_hunter_info_type_def:get_method("get_Item");
 local hunter_info_type_def = sdk.find_type_definition("snow.LobbyManager.HunterInfo");
 local member_index_field = hunter_info_type_def:get_field("_memberIndex");
 local hunter_rank_field = hunter_info_type_def:get_field("_hunterRank");
---local name_field = hunter_info_type_def:get_field("_name");
 
 local progress_manager_type_def = sdk.find_type_definition("snow.progress.ProgressManager");
 local get_hunter_rank_method = progress_manager_type_def:get_method("get_HunterRank");
@@ -87,7 +87,7 @@ function damage_meter_UI.draw()
 
 	local quest_players = {};
 
-	if quest_status.index > 2 then
+	if damage_meter_UI.freeze_displayed_players then
 		quest_players = damage_meter_UI.last_displayed_players;
 	else
 		-- other players
