@@ -4,6 +4,7 @@ local table_helpers;
 language.language_folder = "MHR Overlay\\languages\\";
 
 language.default_language = {
+	font_name = "NotoSansKR-Bold.otf",
 	parts = {
 		head = "Head",
 		neck = "Neck",
@@ -62,7 +63,9 @@ language.default_language = {
 		rage = "Rage:",
 		gold = "Gold",
 		silver = "Silver",
-		mini = "Mini"
+		mini = "Mini",
+		total_damage = "Total Damage",
+		player = "Player"
 	},
 
 	customization_menu = {
@@ -89,9 +92,10 @@ language.default_language = {
 		max_monster_updates_per_tick = "Max Monster Updates per Tick",
 		prioritize_large_monsters = "Large Monsters on High Priority";
 
-		font_notice = "Any changes to the font require script reload!",
+		UI_font_notice = "Any changes to the font require script reload!",
 
-		font = "Font",
+		menu_font = "Menu Font",
+		UI_font = "UI Font",
 		family = "Family",
 		size = "Size",
 		bold = "Bold",
@@ -108,6 +112,8 @@ language.default_language = {
 		stamina = "Stamina",
 
 		static_orientation = "Static Orientation",
+
+		hide_dead_or_captured = "Hide dead or captured",
 
 		opacity_falloff = "Opacity Falloff",
 		max_distance = "Max Distance",
@@ -146,6 +152,8 @@ language.default_language = {
 		foreground = "Foreground",
 		background = "Background",
 
+		capture_line = "Capture Line",
+
 		dynamically_positioned = "Dynamically Positioned",
 		statically_positioned = "Statically Positioned",
 
@@ -168,6 +176,7 @@ language.default_language = {
 		spacing = "Spacing",
 		sorting = "Sorting",
 
+		timer_label = "Timer Label",
 		part_name_label = "Part Name Label",
 
 		time_label = "Time Label",
@@ -190,7 +199,7 @@ language.default_language = {
 		hide_total_if_total_damage_is_zero = "Hide Total if Total Damage is 0",
 		total_damage_offset_is_relative = "Total Damage Offset is Relative",
 
-		higlighted_bar = "Highlighted Bar",
+		highlighted_bar = "Highlighted Bar",
 		me = "Me",
 		top_damage = "Top Damage",
 		none = "None",
@@ -234,31 +243,37 @@ function language.load()
 		return;
 	end
 
-	for i, language_file in ipairs(language_files) do
-		local language_name = language_file:gsub(language.language_folder, ""):gsub(".json", "");
+	for i, language_file_name in ipairs(language_files) do
+		local language_name = language_file_name:gsub(language.language_folder, ""):gsub(".json", "");
 
-		-- v will be something like `my-cool-mod\config-file-1.json`;
-		local loaded_language = json.load_file(language_file);
+		-- language_file will be something like `my-cool-mod\config-file-1.json`;
+		local loaded_language = json.load_file(language_file_name);
 		if loaded_language ~= nil then
 			log.info("[MHR Overlay] " .. language_name .. ".json loaded successfully");
 			table.insert(language.language_names, language_name);
-			table.insert(language.languages, loaded_language);
+
+			local merged_language = table_helpers.merge(language.default_language, loaded_language);
+			table.insert(language.languages, merged_language);
+
+			language.save(language_file_name, merged_language);
+
 		else
 			log.error("[MHR Overlay] Failed to load " .. language_name .. ".json");
 		end
 	end
-
-   
 end
 
-function language.save_default()
-	-- save current config to disk, replacing any existing file
-	local success = json.dump_file(language.language_folder .. "en-us.json", language.default_language);
+function language.save(file_name, language_table)
+	local success = json.dump_file(file_name, language_table);
 	if success then
 		log.info('[MHR Overlay] en-us.json saved successfully');
 	else
 		log.error('[MHR Overlay] Failed to save en-us.json');
 	end
+end
+
+function language.save_default();
+	language.save(language.language_folder .. "en-us.json", language.default_language)
 end
 
 
@@ -271,7 +286,6 @@ function language.init_module()
 	language.save_default();
 	language.load();
 	language.current_language = table_helpers.deep_copy(language.default_language);
-
 end
 
 return language;

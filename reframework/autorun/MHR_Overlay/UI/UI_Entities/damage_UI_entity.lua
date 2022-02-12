@@ -3,6 +3,7 @@ local table_helpers;
 local drawing;
 local config;
 local player;
+local language;
 
 function damage_UI_entity.new(bar, highlighted_bar, player_name_label, value_label, percentage_label)
 	local entity = {};
@@ -30,7 +31,7 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 	end
 
 	if player_include.word_player then
-		player_name_text = player_name_text .. "Player ";
+		player_name_text = player_name_text .. language.current_config.UI.player .. " ";
 	end
 
 	if player_include.player_id then
@@ -48,7 +49,7 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 
 	local player_damage_bar_percentage = 0;
 	if config.current_config.damage_meter_UI.settings.damage_bar_relative_to == "Total Damage" then
-		if _player.total.display.total_damage ~= 0 then
+		if player.total.display.total_damage ~= 0 then
 			player_damage_bar_percentage = _player.display.total_damage / player.total.display.total_damage;
 		end
 	else
@@ -75,6 +76,7 @@ function damage_UI_entity.init_module()
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
 	player = require("MHR_Overlay.Damage_Meter.player");
+	language = require("MHR_Overlay.Misc.language");
 end
 
 return damage_UI_entity;

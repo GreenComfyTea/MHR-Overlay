@@ -31,21 +31,32 @@ function small_monster_UI.draw()
 		local enemy = get_zako_enemy_method:call(singletons.enemy_manager, i);
 		if enemy == nil then
 			customization_menu.status = "No enemy";
-			break
+			goto continue;
 		end
 
 		local monster = small_monster.list[enemy];
 		if monster == nil then
 			customization_menu.status = "No monster hp entry";
-			break
+			goto continue;
+		end
+
+		if monster.dead_or_captured and config.current_config.small_monster_UI.settings.hide_dead_or_captured then
+			goto continue;
 		end
 
 		table.insert(displayed_monsters, monster);
+		::continue::
+	end
+
+	if config.current_config.small_monster_UI.dynamic_positioning.enabled
+	or (not config.current_config.small_monster_UI.dynamic_positioning.enabled and config.current_config.small_monster_UI.static_sorting.type == "Distance") then
+		for _, monster in ipairs(displayed_monsters) do
+			monster.distance = (player.myself_position - monster.position):length();
+		end
 	end
 
 	if not config.current_config.small_monster_UI.dynamic_positioning.enabled then
 		-- sort here
-		
 		if config.current_config.small_monster_UI.static_sorting.type == "Normal" and config.current_config.small_monster_UI.static_sorting.reversed_order then
 			local reversed_monsters = {};
 			for i = #displayed_monsters, 1, -1 do
@@ -72,6 +83,16 @@ function small_monster_UI.draw()
 			else
 				table.sort(displayed_monsters, function(left, right)
 					return left.health_percentage < right.health_percentage;
+				end);
+			end
+		elseif config.current_config.small_monster_UI.static_sorting.type == "Distance" then
+			if config.current_config.small_monster_UI.static_sorting.reversed_order then
+				table.sort(displayed_monsters, function(left, right)
+					return left.distance > right.distance;
+				end);
+			else
+				table.sort(displayed_monsters, function(left, right)
+					return left.distance < right.distance;
 				end);
 			end
 		end
@@ -109,14 +130,12 @@ function small_monster_UI.draw()
 				return;
 			end
 
-			local distance = (player.myself_position - monster.position):length();
-
-			if distance > config.current_config.small_monster_UI.dynamic_positioning.max_distance then
+			if monster.distance > config.current_config.small_monster_UI.dynamic_positioning.max_distance then
 				goto continue;
 			end
 					
 			if config.current_config.small_monster_UI.dynamic_positioning.opacity_falloff then
-				opacity_scale = 1 - (distance / config.current_config.small_monster_UI.dynamic_positioning.max_distance);
+				opacity_scale = 1 - (monster.distance / config.current_config.small_monster_UI.dynamic_positioning.max_distance);
 			end
 		end
 

@@ -31,24 +31,34 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled)
 		local enemy = get_boss_enemy_method:call(singletons.enemy_manager, i);
 		if enemy == nil then
 			customization_menu.status = "No enemy";
-			break
+			goto continue;
 		end
 
 		local monster = large_monster.list[enemy];
 		if monster == nil then
 			customization_menu.status = "No monster hp entry";
-			break
+			goto continue;
 		end
 
 		table.insert(displayed_monsters, monster);
+		::continue::
+	end
+
+	if dynamic_enabled or config.current_config.large_monster_UI.static.sorting.type == "Distance" then
+		for _, monster in ipairs(displayed_monsters) do
+			monster.distance = (player.myself_position - monster.position):length();
+		end
 	end
 
 	if dynamic_enabled then
 		local i = 0;
 		for _, monster in ipairs(displayed_monsters) do
-			
 			if config.current_config.large_monster_UI.dynamic.settings.max_distance == 0 then
 				break;
+			end
+
+			if monster.dead_or_captured and config.current_config.large_monster_UI.dynamic.settings.hide_dead_or_captured then
+				goto continue;
 			end
 
 			local position_on_screen = {};
@@ -65,13 +75,12 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled)
 			position_on_screen.y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.viewport_offset.y;
 	
 			local opacity_scale = 1;
-			local distance = (player.myself_position - monster.position):length();
-			if distance > config.current_config.large_monster_UI.dynamic.settings.max_distance then
+			if monster.distance > config.current_config.large_monster_UI.dynamic.settings.max_distance then
 				goto continue;
 			end
 			
 			if config.current_config.large_monster_UI.dynamic.settings.opacity_falloff then
-				opacity_scale = 1 - (distance / config.current_config.large_monster_UI.dynamic.settings.max_distance);
+				opacity_scale = 1 - (monster.distance / config.current_config.large_monster_UI.dynamic.settings.max_distance);
 			end
 			
 			large_monster.draw_dynamic(monster, position_on_screen, opacity_scale);
@@ -111,12 +120,26 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled)
 					return left.health_percentage < right.health_percentage;
 				end);
 			end
+		elseif config.current_config.large_monster_UI.static.sorting.type == "Distance" then
+			if config.current_config.large_monster_UI.static.sorting.reversed_order then
+				table.sort(displayed_monsters, function(left, right)
+					return left.distance > right.distance;
+				end);
+			else
+				table.sort(displayed_monsters, function(left, right)
+					return left.distance < right.distance;
+				end);
+			end
 		end
 
 		local position_on_screen = screen.calculate_absolute_coordinates(config.current_config.large_monster_UI.static.position);
 
 		local i = 0;
 		for _, monster in ipairs(displayed_monsters) do
+			if monster.dead_or_captured and config.current_config.large_monster_UI.static.settings.hide_dead_or_captured then
+				goto continue;
+			end
+
 			local monster_position_on_screen = {
 				x = position_on_screen.x,
 				y = position_on_screen.y
@@ -131,6 +154,7 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled)
 			large_monster.draw_static(monster, monster_position_on_screen, 1);
 
 			i = i + 1;
+			::continue::
 		end
 	end
 end

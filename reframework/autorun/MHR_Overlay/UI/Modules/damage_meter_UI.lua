@@ -6,6 +6,7 @@ local player;
 local quest_status;
 local screen;
 local drawing;
+local language;
 
 damage_meter_UI.last_displayed_players = {};
 damage_meter_UI.freeze_displayed_players = false;
@@ -207,7 +208,7 @@ function damage_meter_UI.draw()
 		position_on_screen = screen.calculate_absolute_coordinates(config.current_config.damage_meter_UI.position);
 	end
 
-	drawing.draw_label(config.current_config.damage_meter_UI.total_damage_label, position_on_screen, 1);
+	drawing.draw_label(config.current_config.damage_meter_UI.total_damage_label, position_on_screen, 1, language.current_language.UI.total_damage);
 	drawing.draw_label(config.current_config.damage_meter_UI.total_damage_value_label, position_on_screen, 1, player.total.display.total_damage);
 
 end
@@ -220,6 +221,7 @@ function damage_meter_UI.init_module()
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	drawing = require("MHR_Overlay.UI.drawing");
+	language = require("MHR_Overlay.Misc.language");
 end
 
 return damage_meter_UI;

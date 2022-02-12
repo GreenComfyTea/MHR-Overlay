@@ -1,6 +1,7 @@
 local stamina_UI_entity = {};
 local table_helpers;
 local drawing;
+local language;
 
 function stamina_UI_entity.new(visibility, bar, text_label, value_label, percentage_label)
 	local entity = {};
@@ -21,7 +22,7 @@ function stamina_UI_entity.draw(monster, stamina_UI, position_on_screen, opacity
 
 	drawing.draw_bar(stamina_UI.bar, position_on_screen, opacity_scale, monster.stamina_percentage);
 
-	drawing.draw_label(stamina_UI.text_label, position_on_screen, opacity_scale);
+	drawing.draw_label(stamina_UI.text_label, position_on_screen, opacity_scale, language.current_language.UI.stamina);
 	drawing.draw_label(stamina_UI.value_label, position_on_screen, opacity_scale, monster.stamina, monster.max_stamina);
 	drawing.draw_label(stamina_UI.percentage_label, position_on_screen, opacity_scale, 100 * monster.stamina_percentage);
 end
@@ -29,6 +30,7 @@ end
 function stamina_UI_entity.init_module()
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	drawing = require("MHR_Overlay.UI.drawing");
+	language = require("MHR_Overlay.Misc.language");
 end
 
 return stamina_UI_entity;

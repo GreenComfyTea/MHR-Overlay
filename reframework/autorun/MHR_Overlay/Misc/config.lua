@@ -10,7 +10,7 @@ config.default_config = {};
 function config.init()
 	config.default_config = {
 		global_settings = {
-			language = "en-us",
+			language = "default",
 
 			performance = {
 				max_monster_updates_per_tick = 2,
@@ -40,8 +40,12 @@ function config.init()
 					damage_meter_UI = true
 				}
 			},
+
+			menu_font = {
+				size = 17
+			},
 	
-			font = {
+			UI_font = {
 				family = "Consolas",
 				size = 13,
 				bold = true,
@@ -53,6 +57,7 @@ function config.init()
 			enabled = true,
 	
 			settings = {
+				hide_dead_or_captured = true,
 				orientation = "Horizontal"
 			},
 	
@@ -114,7 +119,7 @@ function config.init()
 	
 				text_label = {
 					visibility = false,
-					text = language.current_language.UI.HP,
+					text = "%s",
 					offset = {
 						x = -25,
 						y = 12
@@ -195,7 +200,7 @@ function config.init()
 	
 				text_label = {
 					visibility = true,
-					text = language.current_language.UI.stamina,
+					text = "%s",
 					offset = {
 						x = 15,
 						y = 37
@@ -276,6 +281,7 @@ function config.init()
 				enabled = true,
 		
 				settings = {
+					hide_dead_or_captured = true,
 					max_distance = 300,
 					opacity_falloff = true
 				},
@@ -323,7 +329,7 @@ function config.init()
 					
 					text_label = {
 						visibility = false,
-						text = language.current_language.UI.HP,
+						text = "%s",
 						offset = {
 							x = -25,
 							y = 19
@@ -390,16 +396,32 @@ function config.init()
 							width = 200,
 							height = 20
 						},
-		
-						colors = {
+
+						normal_colors = {
 							foreground = 0xB974A653,
 							background = 0xB9000000,
-							capture ={
-								foreground = 0xB9CCCC33,
-								background = 0x88000000
-							}
+						},
+						
+						capture_colors = {
+							foreground = 0xB9CCCC33,
+							background = 0x88000000
+						},
+
+						capture_line = {
+							visibility = true,
+							offset = {
+								x = 0,
+								y = -3
+							},
+	
+							size = {
+								width = 2,
+								height = 8
+							},
+	
+							color = 0xB9000000
 						}
-					}
+					},
 				},
 		
 				stamina = {
@@ -407,7 +429,7 @@ function config.init()
 	
 					text_label = {
 						visibility = true,
-						text = language.current_language.UI.stamina,
+						text = "%s",
 						offset = {
 							x = 15,
 							y = 37
@@ -487,7 +509,7 @@ function config.init()
 	
 					text_label = {
 						visibility = true,
-						text = language.current_language.UI.rage,
+						text = "%s",
 						offset = {
 							x = 15,
 							y = 61
@@ -529,6 +551,26 @@ function config.init()
 		
 						offset = {
 							x = 145,
+							y = 78
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+
+					timer_label = {
+						visibility = true,
+						text = "%.0f:%02.0f",
+		
+						offset = {
+							x = 157,
 							y = 78
 						},
 						color = 0xFFFFFFFF,
@@ -696,6 +738,7 @@ function config.init()
 				},
 		
 				settings = {
+					hide_dead_or_captured = true,
 					orientation = "Horizontal"
 				},
 		
@@ -742,7 +785,7 @@ function config.init()
 	
 					text_label = {
 						visibility = false,
-						text = language.current_language.UI.HP,
+						text = "%s",
 						offset = {
 							x = -25,
 							y = 19
@@ -809,14 +852,30 @@ function config.init()
 							width = 200,
 							height = 20
 						},
-		
-						colors = {
+
+						normal_colors = {
 							foreground = 0xB974A653,
 							background = 0xB9000000,
-							capture ={
-								foreground = 0xB9CCCC33,
-								background = 0x88000000
-							}
+						},
+						
+						capture_colors = {
+							foreground = 0xB9CCCC33,
+							background = 0x88000000
+						},
+
+						capture_line = {
+							visibility = true,
+							offset = {
+								x = 0,
+								y = -3
+							},
+	
+							size = {
+								width = 2,
+								height = 8
+							},
+	
+							color = 0xB9000000
 						}
 					}
 				},
@@ -826,7 +885,7 @@ function config.init()
 	
 					text_label = {
 						visibility = true,
-						text = language.current_language.UI.stamina,
+						text = "%s",
 						offset = {
 							x = 15,
 							y = 37
@@ -906,7 +965,7 @@ function config.init()
 	
 					text_label = {
 						visibility = true,
-						text = language.current_language.UI.rage,
+						text = "%s",
 						offset = {
 							x = 15,
 							y = 61
@@ -948,6 +1007,26 @@ function config.init()
 		
 						offset = {
 							x = 145,
+							y = 78
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+
+					timer_label = {
+						visibility = true,
+						text = "%.0f:%02.0f",
+		
+						offset = {
+							x = 157,
 							y = 78
 						},
 						color = 0xFFFFFFFF,
@@ -1259,7 +1338,7 @@ function config.init()
 	
 			total_damage_label = {
 				visibility = true,
-				text = "Total Damage",
+				text = "%s",
 				offset = {
 					x = 5,
 					y = 0
@@ -1361,7 +1440,7 @@ function config.init_module()
 
 	config.init();
 	config.load();
-	config.current_config.version = "v1.7";
+	config.current_config.version = "v1.7.1";
 
 	language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
 

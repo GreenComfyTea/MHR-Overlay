@@ -24,7 +24,11 @@ function large_monster.new(enemy)
 	monster.max_health = 999999;
 	monster.health_percentage = 0;
 	monster.missing_health = 0;
+
 	monster.capture_health = 0;
+	monster.capture_percentage = 0;
+
+	monster.dead_or_captured = false;
 
 	monster.stamina = 0;
 	monster.max_stamina = 1000;
@@ -47,6 +51,7 @@ function large_monster.new(enemy)
 	monster.game_object = nil
 	monster.transform = nil
 	monster.position = Vector3f.new(0, 0, 0);
+	monster.distance = 0;
 
 	monster.name = "Large Monster";
 	monster.size = 1;
@@ -150,6 +155,8 @@ function large_monster.init_static_UI(monster)
 		config.current_config.large_monster_UI.static.health.percentage_label
 	);
 
+	monster.health_static_UI.bar.colors = config.current_config.large_monster_UI.static.health.bar.normal_colors;
+
 	monster.stamina_static_UI = stamina_UI_entity.new(
 		config.current_config.large_monster_UI.static.stamina.visibility,
 		config.current_config.large_monster_UI.static.stamina.bar,
@@ -163,7 +170,8 @@ function large_monster.init_static_UI(monster)
 		config.current_config.large_monster_UI.static.rage.bar,
 		config.current_config.large_monster_UI.static.rage.text_label,
 		config.current_config.large_monster_UI.static.rage.value_label,
-		config.current_config.large_monster_UI.static.rage.percentage_label
+		config.current_config.large_monster_UI.static.rage.percentage_label,
+		config.current_config.large_monster_UI.static.rage.timer_label
 	);
 	
 	for REpart, part in pairs(monster.parts) do
@@ -182,6 +190,9 @@ function large_monster.init_dynamic_UI(monster)
 		config.current_config.large_monster_UI.dynamic.health.percentage_label
 	);
 
+	monster.health_dynamic_UI.bar.colors = config.current_config.large_monster_UI.dynamic.health.bar.normal_colors;
+
+
 	monster.stamina_dynamic_UI = stamina_UI_entity.new(
 		config.current_config.large_monster_UI.dynamic.stamina.visibility,
 		config.current_config.large_monster_UI.dynamic.stamina.bar,
@@ -195,7 +206,8 @@ function large_monster.init_dynamic_UI(monster)
 		config.current_config.large_monster_UI.dynamic.rage.bar,
 		config.current_config.large_monster_UI.dynamic.rage.text_label,
 		config.current_config.large_monster_UI.dynamic.rage.value_label,
-		config.current_config.large_monster_UI.dynamic.rage.percentage_label
+		config.current_config.large_monster_UI.dynamic.rage.percentage_label,
+		config.current_config.large_monster_UI.static.rage.timer_label
 	);
 
 	for REpart, part in pairs(monster.parts) do
@@ -207,6 +219,7 @@ local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalP
 local status_param_field = enemy_character_base_type_def:get_field("<StatusParam>k__BackingField")
 local stamina_param_field = enemy_character_base_type_def:get_field("<StaminaParam>k__BackingField")
 local anger_param_field = enemy_character_base_type_def:get_field("<AngerParam>k__BackingField")
+local check_die_method = enemy_character_base_type_def:get_method("checkDie");
 
 local physical_param_type = physical_param_field:get_type();
 local get_vital_method = physical_param_type:get_method("getVital")
@@ -299,9 +312,14 @@ function large_monster.update(enemy)
 		return;
 	end
 
-	local health = get_current_method:call(vital_param)
-	local max_health = get_max_method:call(vital_param)
-	local capture_health = get_capture_hp_vital_method:call(physical_param)
+	local health = get_current_method:call(vital_param);
+	local max_health = get_max_method:call(vital_param);
+	local capture_health = get_capture_hp_vital_method:call(physical_param);
+
+	local dead_or_captured = check_die_method:call(enemy);
+	if dead_or_captured == nil then
+		return;
+	end
 
 	local stamina_param = stamina_param_field:get_data(enemy)
 	if stamina_param == nil then
@@ -309,23 +327,23 @@ function large_monster.update(enemy)
 		return;
 	end
 
-	local stamina = get_stamina_method:call(stamina_param)
-	local max_stamina = get_max_stamina_method:call(stamina_param)
+	local stamina = get_stamina_method:call(stamina_param);
+	local max_stamina = get_max_stamina_method:call(stamina_param);
 
-	local anger_param = anger_param_field:get_data(enemy)
+	local anger_param = anger_param_field:get_data(enemy);
 	if anger_param == nil then
 		customization_menu.status = "No anger param";
 		return;
 	end
 
-	local is_in_rage = is_anger_method:call(anger_param)
-	local rage_point = get_anger_point_method:call(anger_param)
-	local rage_limit = get_limit_anger_method:call(anger_param)
-	local rage_timer = anger_param_get_timer_method:call(anger_param)
-	local rage_duration = get_timer_anger_method:call(anger_param)
-	local rage_count = get_count_anger_method:call(anger_param)
+	local is_in_rage = is_anger_method:call(anger_param);
+	local rage_point = get_anger_point_method:call(anger_param);
+	local rage_limit = get_limit_anger_method:call(anger_param);
+	local rage_timer = anger_param_get_timer_method:call(anger_param);
+	local rage_duration = get_timer_anger_method:call(anger_param);
+	local rage_count = get_count_anger_method:call(anger_param);
 
-	local vital_list = vital_list_field:get_data(physical_param)
+	local vital_list = vital_list_field:get_data(physical_param);
 	if vital_list == nil then
 		customization_menu.status = "No vital list";
 		return;
@@ -348,7 +366,6 @@ function large_monster.update(enemy)
 		customization_menu.status = "No part list count";
 		return;
 	end
-
 
 	local last_REpart = part_list:call("get_Item",  part_list_count - 1);
 	local last_REpart_health = 9999999;
@@ -412,6 +429,16 @@ function large_monster.update(enemy)
 		if max_health ~= 0 then
 			monster.health_percentage = health / max_health;
 		end
+	end
+
+	if max_health ~= nil and capture_health ~= nil then
+		if max_health ~= 0 then
+			monster.capture_percentage = capture_health / max_health;
+		end
+	end
+
+	if dead_or_captured ~= nil then
+		monster.dead_or_captured = dead_or_captured;
 	end
 
 	if stamina ~= nil then
@@ -491,9 +518,17 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 				100 * monster.big_border, 100 * monster.king_border);
 	end
 
+	if monster.health < monster.capture_health then
+		monster.health_dynamic_UI.bar.colors = config.current_config.large_monster_UI.dynamic.health.bar.capture_colors;
+	else
+		monster.health_dynamic_UI.bar.colors = config.current_config.large_monster_UI.dynamic.health.bar.normal_colors;
+	end
+
 	drawing.draw_label(monster.dynamic_name_label, position_on_screen, opacity_scale, monster_name_text);
 
 	health_UI_entity.draw(monster, monster.health_dynamic_UI, position_on_screen, opacity_scale);
+	drawing.draw_capture_line(monster.health_dynamic_UI.bar, position_on_screen, opacity_scale, monster.capture_percentage);
+
 	stamina_UI_entity.draw(monster, monster.stamina_dynamic_UI, position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_dynamic_UI, position_on_screen, opacity_scale);
 
@@ -568,9 +603,18 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 				100 * monster.big_border, 100 * monster.king_border);
 	end
 
+	if monster.health < monster.capture_health then
+		monster.health_static_UI.bar.colors = config.current_config.large_monster_UI.static.health.bar.capture_colors;
+	else
+		monster.health_static_UI.bar.colors = config.current_config.large_monster_UI.static.health.bar.normal_colors;
+	end
+
 	drawing.draw_label(monster.static_name_label, position_on_screen, opacity_scale, monster_name_text);
 
+
 	health_UI_entity.draw(monster, monster.health_static_UI, position_on_screen, opacity_scale);
+	drawing.draw_capture_line(monster.health_static_UI.bar, position_on_screen, opacity_scale, monster.capture_percentage);
+
 	stamina_UI_entity.draw(monster, monster.stamina_static_UI, position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_static_UI, position_on_screen, opacity_scale);
 

@@ -107,6 +107,7 @@ end, function()
 	player.update_myself_position();
 	quest_status.update_is_online();
 
+
 	if quest_status.index < 2 then
 		quest_status.update_is_training_area();
 

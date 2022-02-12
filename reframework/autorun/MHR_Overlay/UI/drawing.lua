@@ -4,7 +4,7 @@ local config;
 drawing.font = nil;
 
 function drawing.init_font()
-	drawing.font = d2d.Font.new(config.current_config.global_settings.font.family, config.current_config.global_settings.font.size, config.current_config.global_settings.font.bold, config.current_config.global_settings.font.italic);
+	drawing.font = d2d.Font.new(config.current_config.global_settings.UI_font.family, config.current_config.global_settings.UI_font.size, config.current_config.global_settings.UI_font.bold, config.current_config.global_settings.UI_font.italic);
 end
 
 function drawing.color_to_argb(color)
@@ -30,11 +30,9 @@ function drawing.scale_color_opacity(color, scale)
 end
 
 function drawing.scale_bar_opacity(bar, scale)
-	if bar == nil or scale == nil then
-		return;
-	end
-
-	if not bar.visibility then
+	if bar == nil
+	or scale == nil
+	or not bar.visibility then
 		return;
 	end
 	
@@ -43,20 +41,19 @@ function drawing.scale_bar_opacity(bar, scale)
 end
 
 function drawing.scale_label_opacity(label, scale)
-	if label == nil or scale == nil then
+	if label == nil
+	or scale == nil
+	or not label.visibility then
 		return;
 	end
 
-	if not label.visibility then
-		return;
-	end
-	
 	label.color = drawing.scale_color_opacity(label.color, scale);
 	label.shadow.color = drawing.scale_color_opacity(label.shadow.color, scale);
 end
 
 function drawing.draw_label(label, position, opacity_scale, ...)
-	if label == nil or not label.visibility then
+	if label == nil
+	or not label.visibility then
 		return;
 	end
 	
@@ -82,11 +79,8 @@ function drawing.draw_label(label, position, opacity_scale, ...)
 end
 
 function drawing.draw_bar(bar, position, opacity_scale, percentage)
-	if bar == nil then
-		return;
-	end
-
-	if not bar.visibility then
+	if bar == nil
+	or not bar.visibility then
 		return;
 	end
 
@@ -111,6 +105,30 @@ function drawing.draw_bar(bar, position, opacity_scale, percentage)
 	d2d.fill_rect(position_x, position_y, foreground_width, bar.size.height, new_foreground_color);
 	-- background
 	d2d.fill_rect(position_x + foreground_width, position_y, background_width, bar.size.height, new_background_color);
+end
+
+function drawing.draw_capture_line(bar, position, opacity_scale, percentage)
+	if bar == nil
+	or bar.capture_line == nil
+	or not bar.visibility
+	or not bar.capture_line.visibility
+	or percentage >= 1
+	or percentage <= 0 then
+		return;
+	end
+
+	
+	local position_x = position.x + bar.offset.x + bar.capture_line.offset.x + bar.size.width * percentage;
+	local position_y = position.y + bar.offset.y + bar.capture_line.offset.y;
+
+	local color = bar.capture_line.color;
+
+	if opacity_scale < 1 then
+		color  = drawing.scale_color_opacity(color, opacity_scale);
+	end
+	
+	d2d.fill_rect(position_x, position_y, bar.capture_line.size.width, bar.capture_line.size.height, color);
+
 end
 
 function drawing.init_module()

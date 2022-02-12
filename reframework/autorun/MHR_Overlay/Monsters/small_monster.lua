@@ -28,6 +28,7 @@ function small_monster.new(enemy)
 	monster.game_object = nil
 	monster.transform = nil
 	monster.position = Vector3f.new(0, 0, 0);
+	monster.distance = 0;
 
 	monster.name = "Small Monster";
 	
@@ -82,10 +83,11 @@ function small_monster.init_UI(monster)
 	);
 end
 
-local enemy_character_base_type = sdk.find_type_definition("snow.enemy.EnemyCharacterBase")
-local physical_param_field = enemy_character_base_type:get_field("<PhysicalParam>k__BackingField");
-local status_param_field = enemy_character_base_type:get_field("<StatusParam>k__BackingField")
-local stamina_param_field = enemy_character_base_type:get_field("<StaminaParam>k__BackingField")
+local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase")
+local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
+local status_param_field = enemy_character_base_type_def:get_field("<StatusParam>k__BackingField")
+local stamina_param_field = enemy_character_base_type_def:get_field("<StaminaParam>k__BackingField")
+local check_die_method = enemy_character_base_type_def:get_method("checkDie");
 
 local physical_param_type = physical_param_field:get_type()
 local get_vital_method = physical_param_type:get_method("getVital")
@@ -181,6 +183,11 @@ function small_monster.update(enemy)
 	local stamina = get_stamina_method:call(stamina_param)
 	local max_stamina = get_max_stamina_method:call(stamina_param)
 
+	local dead_or_captured = check_die_method:call(enemy);
+	if dead_or_captured == nil then
+		return;
+	end
+
 	small_monster.update_position(enemy)
 
 	local monster = small_monster.get_monster(enemy);
@@ -202,6 +209,10 @@ function small_monster.update(enemy)
 		if max_health ~= 0 then
 			monster.health_percentage = health / max_health;
 		end
+	end
+
+	if dead_or_captured ~= nil then
+		monster.dead_or_captured = dead_or_captured;
 	end
 
 	if stamina ~= nil then

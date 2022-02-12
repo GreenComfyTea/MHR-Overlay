@@ -74,7 +74,7 @@ function monster.update_monster(enemy)
 		if is_large then
 			large_monster.update_position(enemy);
 			if not config.current_config.global_settings.performance.prioritize_large_monsters then
-				return
+				return;
 			end
 		else
 			small_monster.update_position(enemy);
@@ -101,16 +101,25 @@ function monster.update_monster(enemy)
 		end
     end
 
-	updates_this_tick = updates_this_tick + 1;
-    last_update_tick = tick_count;
-    num_updated_monsters = num_updated_monsters + 1;
-    updated_monsters[enemy] = true;
+	
 	
 	-- actually update the enemy now. we don't do this very often
 	-- due to how much CPU time it takes to update each monster.
 	if is_large then
+		if not config.current_config.global_settings.performance.prioritize_large_monsters then
+			updates_this_tick = updates_this_tick + 1;
+			last_update_tick = tick_count;
+			num_updated_monsters = num_updated_monsters + 1;
+			updated_monsters[enemy] = true;
+		end
+
 		large_monster.update(enemy);
 	else
+		updates_this_tick = updates_this_tick + 1;
+		last_update_tick = tick_count;
+		num_updated_monsters = num_updated_monsters + 1;
+		updated_monsters[enemy] = true;
+
 		small_monster.update(enemy);
 	end
 end
