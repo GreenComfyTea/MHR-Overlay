@@ -1440,7 +1440,7 @@ function config.init_module()
 
 	config.init();
 	config.load();
-	config.current_config.version = "v1.7.1";
+	config.current_config.version = "v1.8";
 
 	language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
 
