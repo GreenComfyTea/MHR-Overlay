@@ -116,51 +116,81 @@ end, function()
 			local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.training_area.large_monster_static_UI;
 
 			if dynamic_enabled or static_enabled then
-				large_monster_UI.draw(dynamic_enabled, static_enabled);
+				local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled);
+				if not success then
+					customization_menu.status = "Large monster drawing function threw an exception";
+				end
 			end
 	
 			if config.current_config.damage_meter_UI.enabled and config.current_config.global_settings.module_visibility.training_area.damage_meter_UI then
-				damage_meter_UI.draw();
+				local success = pcall(damage_meter_UI.draw);
+				if not success then
+					customization_menu.status = "Damage meter drawing function threw an exception";
+				end
 			end
 		end
 		
 	elseif quest_status.index == 2 then
 		if config.current_config.small_monster_UI.enabled and config.current_config.global_settings.module_visibility.during_quest.small_monster_UI then
-			small_monster_UI.draw();
+			local success = pcall(small_monster_UI.draw);
+			if not success then
+				customization_menu.status = "Small monster drawing function threw an exception";
+			end
 		end
 
 		local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_dynamic_UI;
 		local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_static_UI;
 
 		if dynamic_enabled or static_enabled then
-			large_monster_UI.draw(dynamic_enabled, static_enabled);
+			local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled);
+			if not success then
+				customization_menu.status = "Large monster drawing function threw an exception";
+			end
 		end
 
 		if config.current_config.time_UI.enabled and config.current_config.global_settings.module_visibility.during_quest.time_UI then
-			time_UI.draw();
+			local success = pcall(time_UI.draw);
+			if not success then
+				customization_menu.status = "Time drawing function threw an exception";
+			end
 		end
 
 		if config.current_config.damage_meter_UI.enabled and config.current_config.global_settings.module_visibility.during_quest.damage_meter_UI then
-			damage_meter_UI.draw();
+			local success = pcall(damage_meter_UI.draw);
+			if not success then
+				customization_menu.status = "Damage meter drawing function threw an exception";
+			end
 		end
 	elseif quest_status.index > 2 then
 		if config.current_config.small_monster_UI.enabled and config.current_config.global_settings.module_visibility.quest_summary_screen.small_monster_UI then
-			small_monster_UI.draw();
+			local success = pcall(small_monster_UI.draw);
+			if not success then
+				customization_menu.status = "Small monster drawing function threw an exception";
+			end
 		end
 
 		local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_dynamic_UI;
 		local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_static_UI;
 
 		if dynamic_enabled or static_enabled then
-			large_monster_UI.draw(dynamic_enabled, static_enabled);
+			local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled);
+			if not success then
+				customization_menu.status = "Large monster drawing function threw an exception";
+			end
 		end
 		
 		if config.current_config.time_UI.enabled and config.current_config.global_settings.module_visibility.quest_summary_screen.time_UI then
-			time_UI.draw();
+			local success = pcall(time_UI.draw);
+			if not success then
+				customization_menu.status = "Time drawing function threw an exception";
+			end
 		end
 
 		if config.current_config.damage_meter_UI.enabled and config.current_config.global_settings.module_visibility.quest_summary_screen.damage_meter_UI then
-			damage_meter_UI.draw();
+			local success = pcall(damage_meter_UI.draw);
+			if not success then
+				customization_menu.status = "Damage meter drawing function threw an exception";
+			end
 		end
 	end
 end);
