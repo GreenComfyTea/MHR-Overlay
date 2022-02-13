@@ -9,7 +9,7 @@ local enemy_character_base_type_def_update_method = enemy_character_base_type_de
 local is_boss_enemy_method = sdk.find_type_definition("snow.enemy.EnemyCharacterBase"):get_method("get_isBossEnemy");
 
 sdk.hook(enemy_character_base_type_def_update_method, function(args)
-	monster.update_monster(sdk.to_managed_object(args[2]));
+	pcall(monster.update_monster, sdk.to_managed_object(args[2]));
 end, function(retval)
 	return retval;
 end);

@@ -18,7 +18,7 @@ local get_elemental_damage_method = enemy_calc_damage_info_type_def:get_method("
 local get_condition_damage_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamage");
 
 sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
-	damage_hook.update_damage(args);
+	pcall(damage_hook.update_damage, args);
 end, function(retval)
 	return retval;
 end);

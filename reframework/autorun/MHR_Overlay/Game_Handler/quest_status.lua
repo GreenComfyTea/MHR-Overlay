@@ -17,6 +17,12 @@ local village_area_manager_type_def = sdk.find_type_definition("snow.VillageArea
 local check_current_area_training_area_method = village_area_manager_type_def:get_method("checkCurrentArea_TrainingArea");
 
 sdk.hook(on_changed_game_status, function(args)
+	pcall(quest_status.update(args));
+end, function(retval)
+	return retval;
+end);
+
+function quest_status.update(args)
 	local new_quest_status = sdk.to_int64(args[3]);
 	if new_quest_status ~= nil then
 		if (quest_status.index < 2 and new_quest_status == 2) or
@@ -31,10 +37,7 @@ sdk.hook(on_changed_game_status, function(args)
 
 		quest_status.index = new_quest_status;
 	end
-
-end, function(retval)
-	return retval;
-end);
+end
 
 function quest_status.init()
 	if singletons.quest_manager == nil then
