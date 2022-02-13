@@ -265,27 +265,29 @@ function customization_menu.draw()
 			end
 
 			changed = imgui.button("-");
+			config_changed = config_changed or changed;
 			imgui.same_line();
 
 			if changed then
 				config.current_config.global_settings.menu_font.size = config.current_config.global_settings.menu_font.size - 1;
 				if config.current_config.global_settings.menu_font.size < 5 then
 					config.current_config.global_settings.menu_font.size = 5;
-				end
-
-				customization_menu.reload_font(true);
+				else
+					customization_menu.reload_font(true);
+				end	
 			end
 
 			changed = imgui.button("+");
+			config_changed = config_changed or changed;
 			imgui.same_line();
 
 			if changed then
 				config.current_config.global_settings.menu_font.size = config.current_config.global_settings.menu_font.size + 1;
 				if config.current_config.global_settings.menu_font.size > 100 then
 					config.current_config.global_settings.menu_font.size = 100;
+				else
+					customization_menu.reload_font(true);
 				end
-
-				customization_menu.reload_font(true);
 			end
 
 			imgui.text(language.current_language.customization_menu.size);
