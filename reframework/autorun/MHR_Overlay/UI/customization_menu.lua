@@ -80,8 +80,23 @@ customization_menu.damage_meter_UI_anchor_index = 1;
 
 customization_menu.selected_UI_font_index = 9;
 
+function customization_menu.reload_font(pop_push)
+	local success, new_font = pcall(imgui.load_font, language.current_language.font_name, config.current_config.global_settings.menu_font.size, customization_menu.font_range);
+	if success then
+		if pop_push then
+			imgui.pop_font(customization_menu.font);
+		end
+
+		customization_menu.font = new_font;
+
+		if pop_push then
+			imgui.push_font(customization_menu.font);
+		end
+	end
+end
+
 function customization_menu.init()
-	customization_menu.font = imgui.load_font(language.current_language.font_name, config.current_config.global_settings.menu_font.size, customization_menu.font_range);
+	customization_menu.reload_font(false);
 
 	customization_menu.selected_language_index = table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false);
 
@@ -99,6 +114,7 @@ function customization_menu.init()
 
 
 
+
 	customization_menu.orientation_types = {language.default_language.customization_menu.horizontal, language.default_language.customization_menu.vertical};
 	customization_menu.anchor_types = {language.default_language.customization_menu.top_left, language.default_language.customization_menu.top_right, language.default_language.customization_menu.bottom_left, language.default_language.customization_menu.bottom_right};
 	
@@ -109,6 +125,18 @@ function customization_menu.init()
 	customization_menu.damage_meter_UI_damage_bar_relative_types = {language.default_language.customization_menu.total_damage, language.default_language.customization_menu.top_damage};
 	customization_menu.damage_meter_UI_my_damage_bar_location_types = {language.default_language.customization_menu.normal, language.default_language.customization_menu.first, language.default_language.customization_menu.last};
 	customization_menu.damage_meter_UI_sorting_types = {language.default_language.customization_menu.normal, language.default_language.customization_menu.damage};
+
+
+
+
+
+	customization_menu.selected_UI_font_index = table_helpers.find_index(customization_menu.fonts, config.current_config.global_settings.UI_font.family, false);
+
+	customization_menu.small_monster_UI_orientation_index = table_helpers.find_index(customization_menu.orientation_types,
+		config.current_config.small_monster_UI.settings.orientation, false);
+
+	customization_menu.small_monster_UI_sorting_type_index = table_helpers.find_index(customization_menu.monster_UI_sorting_types,
+	config.current_config.small_monster_UI.static_sorting.type, false);
 
 
 
@@ -233,9 +261,7 @@ function customization_menu.draw()
 			imgui.same_line();
 
 			if changed then
-				imgui.pop_font(customization_menu.font);
-				customization_menu.font = imgui.load_font(language.current_language.font_name, config.current_config.global_settings.menu_font.size, customization_menu.font_range);
-				imgui.push_font(customization_menu.font);
+				customization_menu.reload_font(true);
 			end
 
 			changed = imgui.button("-");
@@ -244,12 +270,10 @@ function customization_menu.draw()
 			if changed then
 				config.current_config.global_settings.menu_font.size = config.current_config.global_settings.menu_font.size - 1;
 				if config.current_config.global_settings.menu_font.size < 5 then
-					config.current_config.global_settings.menu_font.size = 10;
+					config.current_config.global_settings.menu_font.size = 5;
 				end
 
-				imgui.pop_font(customization_menu.font);
-				customization_menu.font = imgui.load_font(language.current_language.font_name, config.current_config.global_settings.menu_font.size, customization_menu.font_range);
-				imgui.push_font(customization_menu.font);
+				customization_menu.reload_font(true);
 			end
 
 			changed = imgui.button("+");
@@ -261,12 +285,9 @@ function customization_menu.draw()
 					config.current_config.global_settings.menu_font.size = 100;
 				end
 
-				imgui.pop_font(customization_menu.font);
-				customization_menu.font = imgui.load_font(language.current_language.font_name, config.current_config.global_settings.menu_font.size, customization_menu.font_range);
-				imgui.push_font(customization_menu.font);
+				customization_menu.reload_font(true);
 			end
 
-			
 			imgui.text(language.current_language.customization_menu.size);
 
 			imgui.tree_pop();
@@ -279,7 +300,7 @@ function customization_menu.draw()
 				customization_menu.fonts);
 			config_changed = config_changed or changed;
 			if changed then
-				config.current_config.global_settings.uUI_font.family = customization_menu.fonts[customization_menu.selected_UI_font_index];
+				config.current_config.global_settings.UI_font.family = customization_menu.fonts[customization_menu.selected_UI_font_index];
 			end
 
 			changed, config.current_config.global_settings.UI_font.size =
@@ -829,7 +850,7 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.background) then
-						--	changed, config.current_config.small_monster_UI.health.bar.colors.background = imgui.color_picker_argb("", config.current_config.small_monster_UI.health.bar.colors.background, customization_menu.color_picker_flags);
+						changed, config.current_config.small_monster_UI.health.bar.colors.background = imgui.color_picker_argb("", config.current_config.small_monster_UI.health.bar.colors.background, customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
 						small_monster_UI_changed = small_monster_UI_changed or changed;
 
@@ -1550,6 +1571,8 @@ function customization_menu.draw()
 
 								imgui.tree_pop();
 							end
+
+							imgui.tree_pop();
 						end
 
 						imgui.tree_pop();
@@ -2694,13 +2717,13 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node(language.current_language.customization_menu.sorting) then
-				changed, customization_menu.monster_UI_sort_type_index = imgui.combo(language.current_language.customization_menu.type,
-					customization_menu.monster_UI_sort_type_index, customization_menu.displayed_monster_UI_sorting_types);
+				changed, customization_menu.large_monster_UI_sorting_type_index = imgui.combo(language.current_language.customization_menu.type,
+					customization_menu.large_monster_UI_sorting_type_index, customization_menu.displayed_monster_UI_sorting_types);
 				config_changed = config_changed or changed;
 				large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 				if changed then
 					config.current_config.large_monster_UI.static.sorting.type =
-						customization_menu.monster_UI_sorting_types[customization_menu.monster_UI_sort_type_index];
+						customization_menu.monster_UI_sorting_types[customization_menu.large_monster_UI_sorting_type_index];
 				end
 
 				changed, config.current_config.large_monster_UI.static.sorting.reversed_order =
@@ -3079,6 +3102,8 @@ function customization_menu.draw()
 
 								imgui.tree_pop();
 							end
+
+							imgui.tree_pop();
 						end
 
 						imgui.tree_pop();
@@ -4425,13 +4450,13 @@ function customization_menu.draw()
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.sorting) then
-			changed, customization_menu.damage_meter_UI_sort_type_index = imgui.combo(language.current_language.customization_menu.type,
-				customization_menu.damage_meter_UI_sort_type_index, customization_menu.displayed_damage_meter_UI_sorting_types);
+			changed, customization_menu.damage_meter_UI_sorting_type_index = imgui.combo(language.current_language.customization_menu.type,
+			customization_menu.damage_meter_UI_sorting_type_index, customization_menu.displayed_damage_meter_UI_sorting_types);
 			config_changed = config_changed or changed;
 			damage_meter_UI_changed = damage_meter_UI_changed or changed;
 			if changed then
 				config.current_config.damage_meter_UI.sorting.type =
-					customization_menu.damage_meter_UI_sorting_types[customization_menu.damage_meter_UI_sort_type_index];
+					customization_menu.damage_meter_UI_sorting_types[customization_menu.damage_meter_UI_sorting_type_index];
 			end
 
 			changed, config.current_config.damage_meter_UI.sorting.reversed_order =
