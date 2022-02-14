@@ -262,6 +262,7 @@ function player.init_UI(_player)
 		config.current_config.damage_meter_UI.damage_bar,
 		config.current_config.damage_meter_UI.highlighted_damage_bar,
 		config.current_config.damage_meter_UI.player_name_label,
+		config.current_config.damage_meter_UI.hunter_rank_label,
 		config.current_config.damage_meter_UI.damage_value_label,
 		config.current_config.damage_meter_UI.damage_percentage_label
 	);

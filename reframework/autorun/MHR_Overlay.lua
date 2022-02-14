@@ -89,8 +89,8 @@ re.on_frame(function()
 end);
 
 re.on_frame(function()
-	--draw.text("x: " .. tostring(x), 451, 51, 0xFF000000);
-	--draw.text("x: " .. tostring(x), 450, 50, 0xFFFFFFFF);
+	draw.text("x: " .. tostring(x), 451, 51, 0xFF000000);
+	draw.text("x: " .. tostring(x), 450, 50, 0xFFFFFFFF);
 end);
 -- #endregion
 --------------------------RE_IMGUI---------------------------
@@ -114,9 +114,10 @@ end, function()
 		if quest_status.is_training_area then
 			local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and config.current_config.global_settings.module_visibility.training_area.large_monster_dynamic_UI;
 			local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.training_area.large_monster_static_UI;
+			local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and config.current_config.global_settings.module_visibility.training_area.large_monster_highlighted_UI;
 
-			if dynamic_enabled or static_enabled then
-				local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled);
+			if dynamic_enabled or static_enabled or highlighted_enabled then
+				local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
 				if not success then
 					customization_menu.status = "Large monster drawing function threw an exception";
 				end
@@ -140,9 +141,10 @@ end, function()
 
 		local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_dynamic_UI;
 		local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_static_UI;
+		local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_highlighted_UI;
 
-		if dynamic_enabled or static_enabled then
-			local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled);
+		if dynamic_enabled or static_enabled or highlighted_enabled then
+			local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
 			if not success then
 				customization_menu.status = "Large monster drawing function threw an exception";
 			end
@@ -171,9 +173,10 @@ end, function()
 
 		local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_dynamic_UI;
 		local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_static_UI;
+		local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_highlighted_UI;
 
-		if dynamic_enabled or static_enabled then
-			local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled);
+		if dynamic_enabled or static_enabled or highlighted_enabled then
+			local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
 			if not success then
 				customization_menu.status = "Large monster drawing function threw an exception";
 			end

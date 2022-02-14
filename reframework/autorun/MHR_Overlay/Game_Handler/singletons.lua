@@ -7,6 +7,7 @@ singletons.progress_manager = nil;
 singletons.quest_manager = nil;
 singletons.player_manager = nil;
 singletons.village_area_manager = nil;
+singletons.gui_manager = nil;
 
 function singletons.init()
 	singletons.init_message_manager();
@@ -16,6 +17,7 @@ function singletons.init()
 	singletons.init_quest_manager();
 	singletons.init_player_manager();
 	singletons.init_village_area_manager();
+	singletons.init_gui_manager();
 end
 
 function singletons.init_message_manager()
@@ -110,6 +112,20 @@ function singletons.init_village_area_manager()
 
 	return singletons.village_area_manager;
 end
+
+function singletons.init_gui_manager()
+	if singletons.gui_manager ~= nil then
+		return;
+	end
+
+	singletons.gui_manager = sdk.get_managed_singleton("snow.gui.GuiManager");
+	if singletons.gui_manager == nil then
+		log.error("[MHR Overlay] No gui manager");
+	end
+
+	return singletons.gui_manager;
+end
+
 
 function singletons.init_module()
 	singletons.init();

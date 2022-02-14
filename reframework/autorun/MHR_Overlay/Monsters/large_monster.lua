@@ -61,11 +61,11 @@ function large_monster.new(enemy)
 	monster.crown = "";
 
 	monster.parts = {};
-
+	
 	large_monster.init(monster, enemy);
 	large_monster.init_static_UI(monster);
 	large_monster.init_dynamic_UI(monster);
-
+	large_monster.init_highlighted_UI(monster);
 
 	if large_monster.list[enemy] == nil then
 		large_monster.list[enemy] = monster;
@@ -212,6 +212,41 @@ function large_monster.init_dynamic_UI(monster)
 
 	for REpart, part in pairs(monster.parts) do
 		body_part.init_dynamic_UI(part);
+	end
+end
+
+function large_monster.init_highlighted_UI(monster)
+	monster.highlighted_name_label = table_helpers.deep_copy(config.current_config.large_monster_UI.highlighted.monster_name_label);
+
+	monster.health_highlighted_UI = health_UI_entity.new(
+		config.current_config.large_monster_UI.highlighted.health.visibility,
+		config.current_config.large_monster_UI.highlighted.health.bar,
+		config.current_config.large_monster_UI.highlighted.health.text_label,
+		config.current_config.large_monster_UI.highlighted.health.value_label,
+		config.current_config.large_monster_UI.highlighted.health.percentage_label
+	);
+
+	monster.health_highlighted_UI.bar.colors = config.current_config.large_monster_UI.highlighted.health.bar.normal_colors;
+
+	monster.stamina_highlighted_UI = stamina_UI_entity.new(
+		config.current_config.large_monster_UI.highlighted.stamina.visibility,
+		config.current_config.large_monster_UI.highlighted.stamina.bar,
+		config.current_config.large_monster_UI.highlighted.stamina.text_label,
+		config.current_config.large_monster_UI.highlighted.stamina.value_label,
+		config.current_config.large_monster_UI.highlighted.stamina.percentage_label
+	);
+	
+	monster.rage_highlighted_UI = rage_UI_entity.new(
+		config.current_config.large_monster_UI.highlighted.rage.visibility,
+		config.current_config.large_monster_UI.highlighted.rage.bar,
+		config.current_config.large_monster_UI.highlighted.rage.text_label,
+		config.current_config.large_monster_UI.highlighted.rage.value_label,
+		config.current_config.large_monster_UI.highlighted.rage.percentage_label,
+		config.current_config.large_monster_UI.highlighted.rage.timer_label
+	);
+	
+	for REpart, part in pairs(monster.parts) do
+		body_part.init_highlighted_UI(part);
 	end
 end
 
@@ -668,6 +703,92 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 		}
 
 		body_part.draw_static(part, part_position_on_screen, opacity_scale);
+	end
+end
+
+function large_monster.draw_highlighted(monster, position_on_screen, opacity_scale)
+	local monster_name_text = "";
+	if config.current_config.large_monster_UI.highlighted.monster_name_label.include.monster_name then
+		monster_name_text = string.format("%s ", monster.name);
+	end
+
+	if config.current_config.large_monster_UI.highlighted.monster_name_label.include.crown and monster.crown ~= "" then
+		monster_name_text = monster_name_text .. string.format("%s ", monster.crown);
+	end
+	if config.current_config.large_monster_UI.highlighted.monster_name_label.include.size then
+		monster_name_text = monster_name_text .. string.format("#%.0f ", 100 * monster.size);
+	end
+
+	if config.current_config.large_monster_UI.highlighted.monster_name_label.include.scrown_thresholds then
+		monster_name_text = monster_name_text .. string.format("<=%.0f >=%.0f >=%.0f", 100 * monster.small_border,
+				100 * monster.big_border, 100 * monster.king_border);
+	end
+
+	if monster.health < monster.capture_health then
+		monster.health_highlighted_UI.bar.colors = config.current_config.large_monster_UI.highlighted.health.bar.capture_colors;
+	else
+		monster.health_highlighted_UI.bar.colors = config.current_config.large_monster_UI.highlighted.health.bar.normal_colors;
+	end
+
+	drawing.draw_label(monster.highlighted_name_label, position_on_screen, opacity_scale, monster_name_text);
+
+
+	health_UI_entity.draw(monster, monster.health_highlighted_UI, position_on_screen, opacity_scale);
+	drawing.draw_capture_line(monster.health_highlighted_UI.bar, position_on_screen, opacity_scale, monster.capture_percentage);
+
+	stamina_UI_entity.draw(monster, monster.stamina_highlighted_UI, position_on_screen, opacity_scale);
+	rage_UI_entity.draw(monster, monster.rage_highlighted_UI, position_on_screen, opacity_scale);
+
+	--sort parts here
+	local displayed_parts = {};
+	for REpart, part in pairs(monster.parts) do
+		if config.current_config.large_monster_UI.highlighted.parts.settings.hide_undamaged_parts and part.health == part.max_health and part.break_count == 0 then
+			goto continue;
+		end
+
+		table.insert(displayed_parts, part);
+		::continue::
+	end
+
+	if config.current_config.large_monster_UI.highlighted.parts.sorting.type == "Normal" then
+		if config.current_config.large_monster_UI.highlighted.parts.sorting.reversed_order then
+			table.sort(displayed_parts, function(left, right)
+				return left.id > right.id;
+			end);
+		else
+			table.sort(displayed_parts, function(left, right)
+				return left.id < right.id;
+			end);
+		end
+	elseif config.current_config.large_monster_UI.highlighted.parts.sorting.type == "Health" then
+		if config.current_config.large_monster_UI.highlighted.parts.sorting.reversed_order then
+			table.sort(displayed_parts, function(left, right)
+				return left.health > right.health;
+			end);
+		else
+			table.sort(displayed_parts, function(left, right)
+				return left.health < right.health;
+			end);
+		end
+	elseif config.current_config.large_monster_UI.highlighted.parts.sorting.type == "Health Percentage" then
+		if config.current_config.large_monster_UI.highlighted.parts.sorting.reversed_order then
+			table.sort(displayed_parts, function(left, right)
+				return left.health_percentage > right.health_percentage;
+			end);
+		else
+			table.sort(displayed_parts, function(left, right)
+				return left.health_percentage < right.health_percentage;
+			end);
+		end
+	end
+
+	for j, part in ipairs(displayed_parts) do
+		local part_position_on_screen = {
+			x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.parts.offset.x + config.current_config.large_monster_UI.highlighted.parts.spacing.x * (j - 1),
+			y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.parts.offset.y + config.current_config.large_monster_UI.highlighted.parts.spacing.y * (j - 1);
+		}
+
+		body_part.draw_highlighted(part, part_position_on_screen, opacity_scale);
 	end
 end
 

@@ -81,6 +81,7 @@ language.default_language = {
 
 		large_monster_dynamic_UI = "Large Monster Dynamic UI",
 		large_monster_static_UI = "Large Monster Static UI",
+		large_monster_highlighted_UI = "Large Monster Highlighted UI",
 
 		language = "Language",
 		module_visibility_on_different_screens = "Module Visibility on Different Screens",
@@ -156,6 +157,7 @@ language.default_language = {
 
 		dynamically_positioned = "Dynamically Positioned",
 		statically_positioned = "Statically Positioned",
+		highlighted = "Highlighted (targeted)",
 
 		include = "Include",
 		monster_name = "Monster Name",
@@ -185,6 +187,7 @@ language.default_language = {
 		tracked_damage_types = "Tracked Damage Types",
 
 		player_name_label = "Player Name Label",
+		hunter_rank_label = "Hunter Rank Label",
 		damage_value_label = "Damage Value Label",
 		damage_percentage_label = "Damage Percetange Label",
 		total_damage_label = "Total Damage Label",
@@ -199,6 +202,7 @@ language.default_language = {
 		hide_total_if_total_damage_is_zero = "Hide Total if Total Damage is 0",
 		total_damage_offset_is_relative = "Total Damage Offset is Relative",
 
+		enable_for = "Enable for",
 		highlighted_bar = "Highlighted Bar",
 		me = "Me",
 		top_damage = "Top Damage",

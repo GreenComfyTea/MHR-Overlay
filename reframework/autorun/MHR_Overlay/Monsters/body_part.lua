@@ -28,6 +28,7 @@ function body_part.new(REpart, name, id)
 
 	body_part.init_dynamic_UI(part);
 	body_part.init_static_UI(part);
+	body_part.init_highlighted_UI(part);
 
 	return part;
 end
@@ -55,6 +56,17 @@ function body_part.init_static_UI(part)
 	);
 end
 
+function body_part.init_highlighted_UI(part)
+	part.body_part_highlighted_UI = body_part_UI_entity.new(
+		config.current_config.large_monster_UI.highlighted.parts.visibility,
+		config.current_config.large_monster_UI.highlighted.parts.bar,
+		config.current_config.large_monster_UI.highlighted.parts.part_name_label,
+		config.current_config.large_monster_UI.highlighted.parts.text_label,
+		config.current_config.large_monster_UI.highlighted.parts.value_label,
+		config.current_config.large_monster_UI.highlighted.parts.percentage_label
+	);
+end
+
 function body_part.update(part, new_health, new_max_health)
 	if part == nil then
 		return;
@@ -78,6 +90,10 @@ end
 
 function body_part.draw_static(part, position_on_screen, opacity_scale)
 	body_part_UI_entity.draw_static(part, position_on_screen, opacity_scale);
+end
+
+function body_part.draw_highlighted(part, position_on_screen, opacity_scale)
+	body_part_UI_entity.draw_highlighted(part, position_on_screen, opacity_scale);
 end
 
 function body_part.init_module()

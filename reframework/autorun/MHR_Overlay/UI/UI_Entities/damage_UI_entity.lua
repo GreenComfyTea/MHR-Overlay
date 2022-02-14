@@ -5,13 +5,14 @@ local config;
 local player;
 local language;
 
-function damage_UI_entity.new(bar, highlighted_bar, player_name_label, value_label, percentage_label)
+function damage_UI_entity.new(bar, highlighted_bar, player_name_label, hunter_rank_label, value_label, percentage_label)
 	local entity = {};
 
 	--entity.visibility = visibility;
 	entity.bar = table_helpers.deep_copy(bar);
 	entity.highlighted_bar = table_helpers.deep_copy(highlighted_bar);
 	entity.player_name_label = table_helpers.deep_copy(player_name_label);
+	entity.hunter_rank_label = table_helpers.deep_copy(hunter_rank_label);
 	entity.value_label = table_helpers.deep_copy(value_label);
 	entity.percentage_label = table_helpers.deep_copy(percentage_label);
 
@@ -26,12 +27,9 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 	end
 	
 	local player_name_text = "";
-	if player_include.hunter_rank then
-		player_name_text = string.format("[%d] ", _player.hunter_rank);
-	end
 
 	if player_include.word_player then
-		player_name_text = player_name_text .. language.current_config.UI.player .. " ";
+		player_name_text = language.current_language.UI.player .. " ";
 	end
 
 	if player_include.player_id then
@@ -64,6 +62,14 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 		drawing.draw_bar(_player.damage_UI.highlighted_bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
 	else
 		drawing.draw_bar(_player.damage_UI.bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
+	end
+
+	if _player.id == player.myself_id then
+		if _player.damage_UI.hunter_rank_label.enable_for.me then
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, _player.hunter_rank);
+		end
+	elseif _player.damage_UI.hunter_rank_label.enable_for.other_players then
+		drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, _player.hunter_rank);
 	end
 
 	drawing.draw_label(_player.damage_UI.player_name_label, position_on_screen, opacity_scale, player_name_text);

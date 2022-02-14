@@ -15,18 +15,33 @@ local enemy_manager_type_def = sdk.find_type_definition("snow.enemy.EnemyManager
 local get_boss_enemy_count_method = enemy_manager_type_def:get_method("getBossEnemyCount");
 local get_boss_enemy_method = enemy_manager_type_def:get_method("getBossEnemy");
 
-function large_monster_UI.draw(dynamic_enabled, static_enabled)
+function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 	if singletons.enemy_manager == nil then
 		return;
 	end
 	
 	local displayed_monsters = {};
 
+	local highlighted_id = -1;
+	local highlighted_monster = nil;
+
+	if singletons.gui_manager ~= nil then
+		local gui_hud_target_camera = singletons.gui_manager:call("get_refGuiHud_TgCamera");
+		if gui_hud_target_camera ~= nil then
+			highlighted_id = gui_hud_target_camera:get_field("OldTargetingEmIndex");
+
+			if highlighted_id == nil then
+				highlighted_id = -1;
+			end
+		end
+	end
+
+
 	local enemy_count = get_boss_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
 		return;
 	end
-	
+
 	for i = 0, enemy_count - 1 do
 		local enemy = get_boss_enemy_method:call(singletons.enemy_manager, i);
 		if enemy == nil then
@@ -40,6 +55,10 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled)
 			goto continue;
 		end
 
+		if i == highlighted_id then
+			highlighted_monster = monster;
+		end
+
 		table.insert(displayed_monsters, monster);
 		::continue::
 	end
@@ -51,7 +70,21 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled)
 	end
 
 	if dynamic_enabled then
-		local i = 0;
+		large_monster_UI.draw_dynamic(displayed_monsters);
+	end
+
+	if highlighted_enabled then
+		large_monster_UI.draw_highlighted(highlighted_monster);
+	end
+
+	if static_enabled then
+		large_monster_UI.draw_static(displayed_monsters);
+	end
+
+end
+
+function large_monster_UI.draw_dynamic(displayed_monsters)
+	local i = 0;
 		for _, monster in ipairs(displayed_monsters) do
 			if config.current_config.large_monster_UI.dynamic.settings.max_distance == 0 then
 				break;
@@ -88,75 +121,88 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled)
 			i = i + 1;
 			::continue::
 		end
-	end
+end
 
-	if static_enabled then
-		-- sort here
-		if config.current_config.large_monster_UI.static.sorting.type == "Normal" and config.current_config.large_monster_UI.static.sorting.reversed_order then
-			local reversed_monsters = {};
-			for i = #displayed_monsters, 1, -1 do
-				table.insert(reversed_monsters, displayed_monsters[i]);
-			end
-			
-			displayed_monsters = reversed_monsters;
-
-		elseif config.current_config.large_monster_UI.static.sorting.type == "Health" then
-			if config.current_config.large_monster_UI.static.sorting.reversed_order then
-				table.sort(displayed_monsters, function(left, right)
-					return left.health > right.health;
-				end);
-			else
-				table.sort(displayed_monsters, function(left, right)
-					return left.health < right.health;
-				end);
-			end
-		elseif config.current_config.large_monster_UI.static.sorting.type == "Health Percentage" then
-			if config.current_config.large_monster_UI.static.sorting.reversed_order then
-				table.sort(displayed_monsters, function(left, right)
-					return left.health_percentage > right.health_percentage;
-				end);
-			else
-				table.sort(displayed_monsters, function(left, right)
-					return left.health_percentage < right.health_percentage;
-				end);
-			end
-		elseif config.current_config.large_monster_UI.static.sorting.type == "Distance" then
-			if config.current_config.large_monster_UI.static.sorting.reversed_order then
-				table.sort(displayed_monsters, function(left, right)
-					return left.distance > right.distance;
-				end);
-			else
-				table.sort(displayed_monsters, function(left, right)
-					return left.distance < right.distance;
-				end);
-			end
+function large_monster_UI.draw_static(displayed_monsters)
+	-- sort here
+	if config.current_config.large_monster_UI.static.sorting.type == "Normal" and config.current_config.large_monster_UI.static.sorting.reversed_order then
+		local reversed_monsters = {};
+		for i = #displayed_monsters, 1, -1 do
+			table.insert(reversed_monsters, displayed_monsters[i]);
 		end
+		
+		displayed_monsters = reversed_monsters;
 
-		local position_on_screen = screen.calculate_absolute_coordinates(config.current_config.large_monster_UI.static.position);
-
-		local i = 0;
-		for _, monster in ipairs(displayed_monsters) do
-			if monster.dead_or_captured and config.current_config.large_monster_UI.static.settings.hide_dead_or_captured then
-				goto continue;
-			end
-
-			local monster_position_on_screen = {
-				x = position_on_screen.x,
-				y = position_on_screen.y
-			}
-			
-			if config.current_config.large_monster_UI.static.settings.orientation == "Horizontal" then
-				monster_position_on_screen.x = monster_position_on_screen.x + config.current_config.large_monster_UI.static.spacing.x * i;
-			else
-				monster_position_on_screen.y = monster_position_on_screen.y + config.current_config.large_monster_UI.static.spacing.y * i;
-			end
-
-			large_monster.draw_static(monster, monster_position_on_screen, 1);
-
-			i = i + 1;
-			::continue::
+	elseif config.current_config.large_monster_UI.static.sorting.type == "Health" then
+		if config.current_config.large_monster_UI.static.sorting.reversed_order then
+			table.sort(displayed_monsters, function(left, right)
+				return left.health > right.health;
+			end);
+		else
+			table.sort(displayed_monsters, function(left, right)
+				return left.health < right.health;
+			end);
+		end
+	elseif config.current_config.large_monster_UI.static.sorting.type == "Health Percentage" then
+		if config.current_config.large_monster_UI.static.sorting.reversed_order then
+			table.sort(displayed_monsters, function(left, right)
+				return left.health_percentage > right.health_percentage;
+			end);
+		else
+			table.sort(displayed_monsters, function(left, right)
+				return left.health_percentage < right.health_percentage;
+			end);
+		end
+	elseif config.current_config.large_monster_UI.static.sorting.type == "Distance" then
+		if config.current_config.large_monster_UI.static.sorting.reversed_order then
+			table.sort(displayed_monsters, function(left, right)
+				return left.distance > right.distance;
+			end);
+		else
+			table.sort(displayed_monsters, function(left, right)
+				return left.distance < right.distance;
+			end);
 		end
 	end
+
+	local position_on_screen = screen.calculate_absolute_coordinates(config.current_config.large_monster_UI.static.position);
+
+	local i = 0;
+	for _, monster in ipairs(displayed_monsters) do
+		if monster.dead_or_captured and config.current_config.large_monster_UI.static.settings.hide_dead_or_captured then
+			goto continue;
+		end
+
+		local monster_position_on_screen = {
+			x = position_on_screen.x,
+			y = position_on_screen.y
+		}
+		
+		if config.current_config.large_monster_UI.static.settings.orientation == "Horizontal" then
+			monster_position_on_screen.x = monster_position_on_screen.x + config.current_config.large_monster_UI.static.spacing.x * i;
+		else
+			monster_position_on_screen.y = monster_position_on_screen.y + config.current_config.large_monster_UI.static.spacing.y * i;
+		end
+
+		large_monster.draw_static(monster, monster_position_on_screen, 1);
+
+		i = i + 1;
+		::continue::
+	end
+end
+
+function large_monster_UI.draw_highlighted(monster)
+	if monster == nil then
+		return;
+	end
+	
+	local position_on_screen = screen.calculate_absolute_coordinates(config.current_config.large_monster_UI.highlighted.position);
+
+	if monster.dead_or_captured and config.current_config.large_monster_UI.highlighted.settings.hide_dead_or_captured then
+		return;
+	end
+	
+	large_monster.draw_highlighted(monster, position_on_screen, 1);
 end
 
 function large_monster_UI.init_module()
