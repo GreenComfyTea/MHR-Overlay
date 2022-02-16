@@ -234,9 +234,18 @@ end
 function small_monster.draw(monster, position_on_screen, opacity_scale)
 	drawing.draw_label(monster.name_label, position_on_screen, opacity_scale, monster.name);
 
+	local health_position_on_screen = {
+		x = position_on_screen.x + config.current_config.small_monster_UI.health.offset.x,
+		y = position_on_screen.y + config.current_config.small_monster_UI.health.offset.y
+	};
+
+	local stamina_position_on_screen = {
+		x = position_on_screen.x + config.current_config.small_monster_UI.stamina.offset.x,
+		y = position_on_screen.y + config.current_config.small_monster_UI.stamina.offset.y
+	};
 	
-	health_UI_entity.draw(monster, monster.health_UI, position_on_screen, opacity_scale);
-	stamina_UI_entity.draw(monster, monster.stamina_UI, position_on_screen, opacity_scale);
+	health_UI_entity.draw(monster, monster.health_UI, health_position_on_screen, opacity_scale);
+	stamina_UI_entity.draw(monster, monster.stamina_UI, stamina_position_on_screen, opacity_scale);
 end
 
 function small_monster.init_list()

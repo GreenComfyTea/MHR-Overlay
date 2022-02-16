@@ -4,6 +4,7 @@ local table_helpers;
 local singletons;
 local customization_menu;
 local damage_UI_entity;
+local time;
 
 player.list = {};
 player.myself = nil;
@@ -16,6 +17,10 @@ function player.new(player_id, player_name, player_hunter_rank)
 	new_player.id = player_id;
 	new_player.name = player_name;
 	new_player.hunter_rank = player_hunter_rank;
+
+	new_player.join_time = time.total_elapsed_seconds;
+	new_player.first_hit_time = -1;
+	new_player.dps = 0;
 
 	new_player.small_monsters = {};
 
@@ -113,6 +118,10 @@ end
 function player.update_damage(_player, damage_source_type, is_large_monster, damage_object)
 	if _player == nil then
 		return;
+	end
+
+	if _player.first_hit_time == -1 then
+		_player.first_hit_time = time.total_elapsed_seconds;
 	end
 
 	local player_monster_type = _player.small_monsters;
@@ -262,14 +271,15 @@ function player.init_UI(_player)
 		config.current_config.damage_meter_UI.damage_bar,
 		config.current_config.damage_meter_UI.highlighted_damage_bar,
 		config.current_config.damage_meter_UI.player_name_label,
+		config.current_config.damage_meter_UI.dps_label,
 		config.current_config.damage_meter_UI.hunter_rank_label,
 		config.current_config.damage_meter_UI.damage_value_label,
 		config.current_config.damage_meter_UI.damage_percentage_label
 	);
 end
 
-function player.draw(_player, position_on_screen, opacity_scale, top_damage)
-	damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage);
+function player.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)
+	damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps);
 end
 
 function player.init_module()
@@ -278,6 +288,7 @@ function player.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");
+	time = require("MHR_Overlay.Game_Handler.time");
 
 	player.init_total();
 end

@@ -207,7 +207,7 @@ function large_monster.init_dynamic_UI(monster)
 		config.current_config.large_monster_UI.dynamic.rage.text_label,
 		config.current_config.large_monster_UI.dynamic.rage.value_label,
 		config.current_config.large_monster_UI.dynamic.rage.percentage_label,
-		config.current_config.large_monster_UI.static.rage.timer_label
+		config.current_config.large_monster_UI.dynamic.rage.timer_label
 	);
 
 	for REpart, part in pairs(monster.parts) do
@@ -561,11 +561,31 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 
 	drawing.draw_label(monster.dynamic_name_label, position_on_screen, opacity_scale, monster_name_text);
 
-	health_UI_entity.draw(monster, monster.health_dynamic_UI, position_on_screen, opacity_scale);
-	drawing.draw_capture_line(monster.health_dynamic_UI.bar, position_on_screen, opacity_scale, monster.capture_percentage);
+	local health_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.health.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.health.offset.y
+	};
 
-	stamina_UI_entity.draw(monster, monster.stamina_dynamic_UI, position_on_screen, opacity_scale);
-	rage_UI_entity.draw(monster, monster.rage_dynamic_UI, position_on_screen, opacity_scale);
+	local stamina_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.stamina.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.stamina.offset.y
+	};
+
+	local rage_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.rage.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.rage.offset.y
+	};
+
+	local parts_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.parts.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.parts.offset.y
+	};
+	
+	health_UI_entity.draw(monster, monster.health_dynamic_UI, health_position_on_screen, opacity_scale);
+	drawing.draw_capture_line(monster.health_dynamic_UI.bar, health_position_on_screen, opacity_scale, monster.capture_percentage);
+
+	stamina_UI_entity.draw(monster, monster.stamina_dynamic_UI, stamina_position_on_screen, opacity_scale);
+	rage_UI_entity.draw(monster, monster.rage_dynamic_UI, rage_position_on_screen, opacity_scale);
 
 	--sort parts here
 	local displayed_parts = {};
@@ -612,8 +632,8 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 
 	for j, part in ipairs(displayed_parts) do
 		local part_position_on_screen = {
-			x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.parts.offset.x + config.current_config.large_monster_UI.dynamic.parts.spacing.x * (j - 1),
-			y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.parts.offset.y + config.current_config.large_monster_UI.dynamic.parts.spacing.y * (j - 1);
+			x = parts_position_on_screen.x + config.current_config.large_monster_UI.dynamic.parts.spacing.x * (j - 1),
+			y = parts_position_on_screen.y + config.current_config.large_monster_UI.dynamic.parts.spacing.y * (j - 1);
 		}
 		
 		body_part.draw_dynamic(part, part_position_on_screen, opacity_scale);
@@ -646,12 +666,31 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 
 	drawing.draw_label(monster.static_name_label, position_on_screen, opacity_scale, monster_name_text);
 
+	local health_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.static.health.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.static.health.offset.y
+	};
 
-	health_UI_entity.draw(monster, monster.health_static_UI, position_on_screen, opacity_scale);
-	drawing.draw_capture_line(monster.health_static_UI.bar, position_on_screen, opacity_scale, monster.capture_percentage);
+	local stamina_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.static.stamina.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.static.stamina.offset.y
+	};
 
-	stamina_UI_entity.draw(monster, monster.stamina_static_UI, position_on_screen, opacity_scale);
-	rage_UI_entity.draw(monster, monster.rage_static_UI, position_on_screen, opacity_scale);
+	local rage_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.static.rage.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.static.rage.offset.y
+	};
+
+	local parts_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.static.parts.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.static.parts.offset.y
+	};
+
+	health_UI_entity.draw(monster, monster.health_static_UI, health_position_on_screen, opacity_scale);
+	drawing.draw_capture_line(monster.health_static_UI.bar, health_position_on_screen, opacity_scale, monster.capture_percentage);
+
+	stamina_UI_entity.draw(monster, monster.stamina_static_UI, stamina_position_on_screen, opacity_scale);
+	rage_UI_entity.draw(monster, monster.rage_static_UI, rage_position_on_screen, opacity_scale);
 
 	--sort parts here
 	local displayed_parts = {};
@@ -698,8 +737,8 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 
 	for j, part in ipairs(displayed_parts) do
 		local part_position_on_screen = {
-			x = position_on_screen.x + config.current_config.large_monster_UI.static.parts.offset.x + config.current_config.large_monster_UI.static.parts.spacing.x * (j - 1),
-			y = position_on_screen.y + config.current_config.large_monster_UI.static.parts.offset.y + config.current_config.large_monster_UI.static.parts.spacing.y * (j - 1);
+			x = parts_position_on_screen.x + config.current_config.large_monster_UI.static.parts.spacing.x * (j - 1),
+			y = parts_position_on_screen.y + config.current_config.large_monster_UI.static.parts.spacing.y * (j - 1);
 		}
 
 		body_part.draw_static(part, part_position_on_screen, opacity_scale);
@@ -732,12 +771,31 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 
 	drawing.draw_label(monster.highlighted_name_label, position_on_screen, opacity_scale, monster_name_text);
 
+	local health_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.health.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.health.offset.y
+	};
 
-	health_UI_entity.draw(monster, monster.health_highlighted_UI, position_on_screen, opacity_scale);
-	drawing.draw_capture_line(monster.health_highlighted_UI.bar, position_on_screen, opacity_scale, monster.capture_percentage);
+	local stamina_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.stamina.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.stamina.offset.y
+	};
 
-	stamina_UI_entity.draw(monster, monster.stamina_highlighted_UI, position_on_screen, opacity_scale);
-	rage_UI_entity.draw(monster, monster.rage_highlighted_UI, position_on_screen, opacity_scale);
+	local rage_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.rage.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.rage.offset.y
+	};
+
+	local parts_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.parts.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.parts.offset.y
+	};
+
+	health_UI_entity.draw(monster, monster.health_highlighted_UI, health_position_on_screen, opacity_scale);
+	drawing.draw_capture_line(monster.health_highlighted_UI.bar, health_position_on_screen, opacity_scale, monster.capture_percentage);
+
+	stamina_UI_entity.draw(monster, monster.stamina_highlighted_UI, stamina_position_on_screen, opacity_scale);
+	rage_UI_entity.draw(monster, monster.rage_highlighted_UI, rage_position_on_screen, opacity_scale);
 
 	--sort parts here
 	local displayed_parts = {};
@@ -784,8 +842,8 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 
 	for j, part in ipairs(displayed_parts) do
 		local part_position_on_screen = {
-			x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.parts.offset.x + config.current_config.large_monster_UI.highlighted.parts.spacing.x * (j - 1),
-			y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.parts.offset.y + config.current_config.large_monster_UI.highlighted.parts.spacing.y * (j - 1);
+			x = parts_position_on_screen.x + config.current_config.large_monster_UI.highlighted.parts.spacing.x * (j - 1),
+			y = parts_position_on_screen.y + config.current_config.large_monster_UI.highlighted.parts.spacing.y * (j - 1);
 		}
 
 		body_part.draw_highlighted(part, part_position_on_screen, opacity_scale);

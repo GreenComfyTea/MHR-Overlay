@@ -119,13 +119,18 @@ function config.init()
 	
 			health = {
 				visibility = true,
+
+				offset = {
+					x = 0,
+					y = 17
+				},
 	
 				text_label = {
 					visibility = false,
 					text = "%s",
 					offset = {
-						x = -25,
-						y = 12
+						x = -22,
+						y = -5
 					},
 					color = 0xFFCCF4E1,
 		
@@ -144,7 +149,7 @@ function config.init()
 					text = "%.0f/%.0f", -- current_health/max_health
 					offset = {
 						x = 50,
-						y = 25
+						y = 0
 					},
 					color = 0xFFCCF4E1,
 		
@@ -163,7 +168,7 @@ function config.init()
 					text = "%5.1f%%",
 		
 					offset = {
-						x = 55,
+						x = -5,
 						y = 0
 					},
 					color = 0xFFCCF4E1,
@@ -182,7 +187,7 @@ function config.init()
 					visibility = true,
 					offset = {
 						x = 0,
-						y = 17
+						y = 0
 					},
 		
 					size = {
@@ -200,13 +205,18 @@ function config.init()
 	
 			stamina = {
 				visibility = false,
+
+				offset = {
+					x = 10,
+					y = 30
+				},
 	
 				text_label = {
 					visibility = true,
 					text = "%s",
 					offset = {
-						x = 15,
-						y = 37
+						x = 5,
+						y = 0
 					},
 					color = 0xFFA3F5F0,
 		
@@ -224,8 +234,8 @@ function config.init()
 					visibility = true,
 					text = "%.0f/%.0f", -- current_health/max_health
 					offset = {
-						x = 15,
-						y = 54
+						x = 25,
+						y = 16
 					},
 					color = 0xFFA3F5F0,
 	
@@ -244,8 +254,8 @@ function config.init()
 					text = "%5.1f%%",
 	
 					offset = {
-						x = 55,
-						y = 64
+						x = 45,
+						y = 29
 					},
 					color = 0xFFA3F5F0,
 	
@@ -262,8 +272,8 @@ function config.init()
 				bar = {
 					visibility = true,
 					offset = {
-						x = 10,
-						y = 54
+						x = 0,
+						y = 17
 					},
 	
 					size = {
@@ -285,6 +295,8 @@ function config.init()
 		
 				settings = {
 					hide_dead_or_captured = true,
+					render_highlighted_monster = true,
+					render_not_highlighted_monsters = true,
 					max_distance = 300,
 					opacity_falloff = true
 				},
@@ -329,13 +341,18 @@ function config.init()
 		
 				health = {
 					visibility = true,
+
+					offset = {
+						x = 0,
+						y = 17
+					},
 					
 					text_label = {
 						visibility = false,
 						text = "%s",
 						offset = {
 							x = -25,
-							y = 19
+							y = 2
 						},
 						color = 0xFFCCF4E1,
 			
@@ -354,7 +371,7 @@ function config.init()
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
 							x = 5,
-							y = 19
+							y = 2
 						},
 						color = 0xFFFFFFFF,
 		
@@ -374,7 +391,7 @@ function config.init()
 		
 						offset = {
 							x = 150,
-							y = 19
+							y = 2
 						},
 						color = 0xFFFFFFFF,
 		
@@ -392,7 +409,7 @@ function config.init()
 						visibility = true,
 						offset = {
 							x = 0,
-							y = 17
+							y = 0
 						},
 		
 						size = {
@@ -429,13 +446,18 @@ function config.init()
 		
 				stamina = {
 					visibility = true,
+
+					offset = {
+						x = 10,
+						y = 37
+					},
 	
 					text_label = {
 						visibility = true,
 						text = "%s",
 						offset = {
-							x = 15,
-							y = 37
+							x = 15-10,
+							y = 0
 						},
 						color = 0xFFA3F5F0,
 			
@@ -453,8 +475,8 @@ function config.init()
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
-							x = 55,
-							y = 54
+							x = 55-10,
+							y = 17
 						},
 						color = 0xFFFFFFFF,
 		
@@ -473,8 +495,8 @@ function config.init()
 						text = "%5.1f%%",
 		
 						offset = {
-							x = 145,
-							y = 54
+							x = 145-10,
+							y = 17
 						},
 						color = 0xFFFFFFFF,
 		
@@ -491,8 +513,8 @@ function config.init()
 					bar = {
 						visibility = true,
 						offset = {
-							x = 10,
-							y = 54
+							x = 10-10,
+							y = 17
 						},
 		
 						size = {
@@ -509,13 +531,18 @@ function config.init()
 		
 				rage = {
 					visibility = true,
+
+					offset = {
+						x = 10,
+						y = 61
+					},
 	
 					text_label = {
 						visibility = true,
 						text = "%s",
 						offset = {
-							x = 15,
-							y = 61
+							x = 5,
+							y = 0
 						},
 						color = 0xFFFF9393,
 						
@@ -533,8 +560,8 @@ function config.init()
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
-							x = 55,
-							y = 78
+							x = 45,
+							y = 17
 						},
 						color = 0xFFFFFFFF,
 		
@@ -553,8 +580,8 @@ function config.init()
 						text = "%5.1f%%",
 		
 						offset = {
-							x = 145,
-							y = 78
+							x = 135,
+							y = 17
 						},
 						color = 0xFFFFFFFF,
 		
@@ -570,11 +597,11 @@ function config.init()
 
 					timer_label = {
 						visibility = true,
-						text = "%.0f:%02.0f",
+						text = "%2.0f:%02.0f",
 		
 						offset = {
-							x = 157,
-							y = 78
+							x = 140,
+							y = 17
 						},
 						color = 0xFFFFFFFF,
 		
@@ -591,8 +618,8 @@ function config.init()
 					bar = {
 						visibility = true,
 						offset = {
-							x = 10,
-							y = 78
+							x = 0,
+							y = 17
 						},
 		
 						size = {
@@ -611,8 +638,8 @@ function config.init()
 					visibility = false,
 	
 					offset = {
-						x = 0,
-						y = 50
+						x = 10,
+						y = 111
 					},
 					
 					spacing = {
@@ -639,8 +666,8 @@ function config.init()
 						},
 		
 						offset = {
-							x = 15,
-							y = 61
+							x = 5,
+							y = 0
 						},
 						color = 0xFFf9d9ff,
 			
@@ -658,8 +685,8 @@ function config.init()
 						visibility = false,
 						text = language.current_language.UI.HP,
 						offset = {
-							x = -15,
-							y = 69
+							x = -25,
+							y = 8
 						},
 						color = 0xF1F4A3CC,
 						
@@ -677,8 +704,8 @@ function config.init()
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
-							x = 55,
-							y = 74
+							x = 45,
+							y = 13
 						},
 						color = 0xFFFFFFFF,
 		
@@ -697,8 +724,8 @@ function config.init()
 						text = "%5.1f%%",
 		
 						offset = {
-							x = 145,
-							y = 74
+							x = 135,
+							y = 13
 						},
 						color = 0xFFFFFFFF,
 		
@@ -715,8 +742,8 @@ function config.init()
 					bar = {
 						visibility = true,
 						offset = {
-							x = 10,
-							y = 75
+							x = 0,
+							y = 14
 						},
 		
 						size = {
@@ -742,6 +769,9 @@ function config.init()
 		
 				settings = {
 					hide_dead_or_captured = true,
+					render_highlighted_monster = true,
+					render_not_highlighted_monsters = true,
+					highlighted_monster_location = "Normal",
 					orientation = "Horizontal"
 				},
 		
@@ -785,13 +815,18 @@ function config.init()
 		
 				health = {
 					visibility = true,
+
+					offset = {
+						x = 0,
+						y = 17
+					},
 	
 					text_label = {
 						visibility = false,
 						text = "%s",
 						offset = {
 							x = -25,
-							y = 19
+							y = 2
 						},
 						color = 0xFFCCF4E1,
 			
@@ -810,7 +845,7 @@ function config.init()
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
 							x = 5,
-							y = 19
+							y = 2
 						},
 						color = 0xFFFFFFFF,
 		
@@ -830,7 +865,7 @@ function config.init()
 		
 						offset = {
 							x = 150,
-							y = 19
+							y = 2
 						},
 						color = 0xFFFFFFFF,
 		
@@ -848,7 +883,7 @@ function config.init()
 						visibility = true,
 						offset = {
 							x = 0,
-							y = 17
+							y = 0
 						},
 		
 						size = {
@@ -885,13 +920,18 @@ function config.init()
 		
 				stamina = {
 					visibility = true,
+
+					offset = {
+						x = 0,
+						y = 37
+					},
 	
 					text_label = {
 						visibility = false,
 						text = "%s",
 						offset = {
 							x = 15,
-							y = 37
+							y = 0
 						},
 						color = 0xFFA3F5F0,
 			
@@ -910,7 +950,7 @@ function config.init()
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
 							x = 55,
-							y = 54
+							y = 17
 						},
 						color = 0xFFFFFFFF,
 		
@@ -930,7 +970,7 @@ function config.init()
 		
 						offset = {
 							x = 145,
-							y = 54
+							y = 17
 						},
 						color = 0xFFFFFFFF,
 		
@@ -948,7 +988,7 @@ function config.init()
 						visibility = true,
 						offset = {
 							x = 0,
-							y = 37
+							y = 0
 						},
 		
 						size = {
@@ -965,13 +1005,18 @@ function config.init()
 		
 				rage = {
 					visibility = true,
+
+					offset = {
+						x = 0,
+						y = 42
+					},
 	
 					text_label = {
 						visibility = false,
 						text = "%s",
 						offset = {
 							x = 15,
-							y = 61
+							y = 19
 						},
 						color = 0xFFFF9393,
 						
@@ -990,7 +1035,7 @@ function config.init()
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
 							x = 55,
-							y = 78
+							y = 36
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1010,7 +1055,7 @@ function config.init()
 		
 						offset = {
 							x = 150,
-							y = 33
+							y = -9
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1026,11 +1071,11 @@ function config.init()
 
 					timer_label = {
 						visibility = true,
-						text = "%.0f:%02.0f",
+						text = "%2.0f:%02.0f",
 		
 						offset = {
-							x = 150,
-							y = 33
+							x = 157,
+							y = -9
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1048,7 +1093,7 @@ function config.init()
 						visibility = true,
 						offset = {
 							x = 0,
-							y = 42
+							y = 0
 						},
 		
 						size = {
@@ -1067,7 +1112,7 @@ function config.init()
 					visibility = false,
 	
 					offset = {
-						x = 0,
+						x = 10,
 						y = 50
 					},
 					
@@ -1095,8 +1140,8 @@ function config.init()
 						},
 		
 						offset = {
-							x = 15,
-							y = 61
+							x = 5,
+							y = 0
 						},
 						color = 0xFFf9d9ff,
 			
@@ -1114,8 +1159,8 @@ function config.init()
 						visibility = false,
 						text = language.current_language.UI.HP,
 						offset = {
-							x = -15,
-							y = 69
+							x = -25,
+							y = 8
 						},
 						color = 0xF1F4A3CC,
 						
@@ -1133,8 +1178,8 @@ function config.init()
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
-							x = 55,
-							y = 74
+							x = 45,
+							y = 13
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1153,8 +1198,8 @@ function config.init()
 						text = "%5.1f%%",
 		
 						offset = {
-							x = 145,
-							y = 74
+							x = 135,
+							y = 13
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1171,8 +1216,8 @@ function config.init()
 					bar = {
 						visibility = true,
 						offset = {
-							x = 10,
-							y = 75
+							x = 0,
+							y = 14
 						},
 		
 						size = {
@@ -1230,13 +1275,18 @@ function config.init()
 		
 				health = {
 					visibility = true,
-	
+
+					offset = {
+						x = 0,
+						y = 17
+					},
+					
 					text_label = {
 						visibility = false,
 						text = "%s",
 						offset = {
 							x = -25,
-							y = 19
+							y = 2
 						},
 						color = 0xFFCCF4E1,
 			
@@ -1255,7 +1305,7 @@ function config.init()
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
 							x = 5,
-							y = 19
+							y = 2
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1275,7 +1325,7 @@ function config.init()
 		
 						offset = {
 							x = 150,
-							y = 19
+							y = 2
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1293,7 +1343,7 @@ function config.init()
 						visibility = true,
 						offset = {
 							x = 0,
-							y = 17
+							y = 0
 						},
 		
 						size = {
@@ -1325,18 +1375,23 @@ function config.init()
 	
 							color = 0xB9000000
 						}
-					}
+					},
 				},
 		
 				stamina = {
 					visibility = true,
+
+					offset = {
+						x = 10,
+						y = 37
+					},
 	
 					text_label = {
 						visibility = true,
 						text = "%s",
 						offset = {
-							x = 15,
-							y = 37
+							x = 15-10,
+							y = 0
 						},
 						color = 0xFFA3F5F0,
 			
@@ -1354,8 +1409,8 @@ function config.init()
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
-							x = 55,
-							y = 54
+							x = 55-10,
+							y = 17
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1374,8 +1429,8 @@ function config.init()
 						text = "%5.1f%%",
 		
 						offset = {
-							x = 145,
-							y = 54
+							x = 145-10,
+							y = 17
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1392,8 +1447,8 @@ function config.init()
 					bar = {
 						visibility = true,
 						offset = {
-							x = 10,
-							y = 54
+							x = 10-10,
+							y = 17
 						},
 		
 						size = {
@@ -1410,13 +1465,18 @@ function config.init()
 		
 				rage = {
 					visibility = true,
+
+					offset = {
+						x = 10,
+						y = 61
+					},
 	
 					text_label = {
 						visibility = true,
 						text = "%s",
 						offset = {
-							x = 15,
-							y = 61
+							x = 5,
+							y = 0
 						},
 						color = 0xFFFF9393,
 						
@@ -1434,8 +1494,8 @@ function config.init()
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
-							x = 55,
-							y = 78
+							x = 45,
+							y = 17
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1454,8 +1514,8 @@ function config.init()
 						text = "%5.1f%%",
 		
 						offset = {
-							x = 145,
-							y = 78
+							x = 135,
+							y = 17
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1471,11 +1531,11 @@ function config.init()
 
 					timer_label = {
 						visibility = true,
-						text = "%.0f:%02.0f",
+						text = "%2.0f:%02.0f",
 		
 						offset = {
-							x = 157,
-							y = 78
+							x = 140,
+							y = 17
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1492,8 +1552,8 @@ function config.init()
 					bar = {
 						visibility = true,
 						offset = {
-							x = 10,
-							y = 78
+							x = 0,
+							y = 17
 						},
 		
 						size = {
@@ -1512,8 +1572,8 @@ function config.init()
 					visibility = true,
 	
 					offset = {
-						x = 0,
-						y = 50
+						x = 10,
+						y = 111
 					},
 					
 					spacing = {
@@ -1540,8 +1600,8 @@ function config.init()
 						},
 		
 						offset = {
-							x = 15,
-							y = 61
+							x = 5,
+							y = 0
 						},
 						color = 0xFFf9d9ff,
 			
@@ -1559,8 +1619,8 @@ function config.init()
 						visibility = false,
 						text = language.current_language.UI.HP,
 						offset = {
-							x = -15,
-							y = 69
+							x = -25,
+							y = 8
 						},
 						color = 0xF1F4A3CC,
 						
@@ -1578,8 +1638,8 @@ function config.init()
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
-							x = 55,
-							y = 74
+							x = 45,
+							y = 13
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1598,8 +1658,8 @@ function config.init()
 						text = "%5.1f%%",
 		
 						offset = {
-							x = 145,
-							y = 74
+							x = 135,
+							y = 13
 						},
 						color = 0xFFFFFFFF,
 		
@@ -1616,8 +1676,8 @@ function config.init()
 					bar = {
 						visibility = true,
 						offset = {
-							x = 10,
-							y = 75
+							x = 0,
+							y = 14
 						},
 		
 						size = {
@@ -1681,7 +1741,7 @@ function config.init()
 			}, 
 	
 			spacing = {
-				x = 270,
+				x = 300,
 				y = 24
 			},
 	
@@ -1695,11 +1755,12 @@ function config.init()
 	
 				highlighted_bar = "Me",
 				damage_bar_relative_to = "Top Damage", -- "total damage" or "top damage"
-				my_damage_bar_location = "First" -- "normal" or "first" or "last"
+				my_damage_bar_location = "First", -- "normal" or "first" or "last"
+				dps_mode = "First Hit"
 			},
 	
 			sorting = {
-				type = "Damage", -- "normal" or "damage"
+				type = "Damage", -- "normal" or "damage" or "dps"
 				reversed_order = false
 			},
 	
@@ -1729,7 +1790,7 @@ function config.init()
 	
 				text = "%s",
 				offset = {
-					x = 5,
+					x = 45,
 					y = 0
 				},
 				color = 0xFFCCF4E1,
@@ -1806,6 +1867,26 @@ function config.init()
 					color = 0xFF000000
 				}
 			},
+
+			dps_label = {
+				visibility = true,
+				text = "%.1f",
+
+				offset = {
+					x = 265,
+					y = 0
+				},
+				color = 0xFFCCF4E1,
+	
+				shadow = {
+					visibility = true,
+					offset = {
+						x = 1,
+						y = 1
+					},
+					color = 0xFF000000
+				}
+			},
 	
 			total_damage_label = {
 				visibility = true,
@@ -1831,6 +1912,26 @@ function config.init()
 				text = "%.0f",
 				offset = {
 					x = 145,
+					y = 0
+				},
+				color = 0xFFFF7373,
+	
+				shadow = {
+					visibility = true,
+					offset = {
+						x = 1,
+						y = 1
+					},
+					color = 0xFF000000
+				}
+			},
+
+			total_dps_label = {
+				visibility = true,
+				text = "%.1f",
+
+				offset = {
+					x = 265,
 					y = 0
 				},
 				color = 0xFFFF7373,

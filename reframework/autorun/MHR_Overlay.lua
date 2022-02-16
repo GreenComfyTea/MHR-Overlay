@@ -3,6 +3,7 @@ x = "";
 local quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 local screen = require("MHR_Overlay.Game_Handler.screen");
 local singletons = require("MHR_Overlay.Game_Handler.singletons");
+local time = require("MHR_Overlay.Game_Handler.time");
 
 local config = require("MHR_Overlay.Misc.config");
 local language = require("MHR_Overlay.Misc.language");
@@ -36,6 +37,7 @@ local drawing = require("MHR_Overlay.UI.drawing");
 screen.init_module();
 singletons.init_module();
 table_helpers.init_module();
+time.init_module();
 
 language.init_module();
 config.init_module();
@@ -63,8 +65,6 @@ large_monster_UI.init_module();
 small_monster_UI.init_module();
 time_UI.init_module();
 
-
-
 log.info("[MHR Overlay] loaded");
 -- #endregion
 ------------------------INIT MODULES-------------------------
@@ -89,8 +89,8 @@ re.on_frame(function()
 end);
 
 re.on_frame(function()
-	draw.text("x: " .. tostring(x), 451, 51, 0xFF000000);
-	draw.text("x: " .. tostring(x), 450, 50, 0xFFFFFFFF);
+	--draw.text("x: " .. tostring(x), 451, 51, 0xFF000000);
+	--draw.text("x: " .. tostring(x), 450, 50, 0xFFFFFFFF);
 end);
 -- #endregion
 --------------------------RE_IMGUI---------------------------
@@ -106,7 +106,7 @@ end, function()
 	singletons.init();
 	player.update_myself_position();
 	quest_status.update_is_online();
-
+	time.tick();
 
 	if quest_status.index < 2 then
 		quest_status.update_is_training_area();
@@ -142,6 +142,8 @@ end, function()
 		local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_dynamic_UI;
 		local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_static_UI;
 		local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_highlighted_UI;
+
+
 
 		if dynamic_enabled or static_enabled or highlighted_enabled then
 			local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);

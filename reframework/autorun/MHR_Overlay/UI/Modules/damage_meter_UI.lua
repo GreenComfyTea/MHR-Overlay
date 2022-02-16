@@ -149,7 +149,17 @@ function damage_meter_UI.draw()
 				table.insert(reversed_quest_players, quest_players[i]);
 			end
 			quest_players = reversed_quest_players;
-		elseif config.current_config.damage_meter_UI.sorting.type == "Damage" then
+		elseif config.current_config.damage_meter_UI.sorting.type == "DPS" then
+			if config.current_config.damage_meter_UI.sorting.reversed_order then
+				table.sort(quest_players, function(left, right)
+					return left.dps < right.dps;
+				end);
+			else
+				table.sort(quest_players, function(left, right)
+					return left.dps > right.dps;
+				end);
+			end
+		else
 			if config.current_config.damage_meter_UI.sorting.reversed_order then
 				table.sort(quest_players, function(left, right)
 					return left.display.total_damage < right.display.total_damage;
@@ -173,9 +183,14 @@ function damage_meter_UI.draw()
 	end
 
 	local top_damage = 0;
+	local top_dps = 0;
 	for _, _player in ipairs(quest_players) do
 		if _player.display.total_damage > top_damage then
 			top_damage = _player.display.total_damage;
+		end
+
+		if _player.dps > top_dps then
+			top_dps = _player.dps;
 		end
 	end
 
@@ -187,7 +202,7 @@ function damage_meter_UI.draw()
 			goto continue1
 		end
 
-		player.draw(_player, position_on_screen, 1, top_damage);
+		player.draw(_player, position_on_screen, 1, top_damage, top_dps);
 
 		if config.current_config.damage_meter_UI.settings.orientation == "Horizontal" then
 			position_on_screen.x = position_on_screen.x + config.current_config.damage_meter_UI.spacing.x;
@@ -210,7 +225,7 @@ function damage_meter_UI.draw()
 
 	drawing.draw_label(config.current_config.damage_meter_UI.total_damage_label, position_on_screen, 1, language.current_language.UI.total_damage);
 	drawing.draw_label(config.current_config.damage_meter_UI.total_damage_value_label, position_on_screen, 1, player.total.display.total_damage);
-
+	drawing.draw_label(config.current_config.damage_meter_UI.total_dps_label, position_on_screen, 1, player.total.dps);
 end
 
 function damage_meter_UI.init_module()

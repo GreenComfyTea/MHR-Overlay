@@ -5,13 +5,14 @@ local config;
 local player;
 local language;
 
-function damage_UI_entity.new(bar, highlighted_bar, player_name_label, hunter_rank_label, value_label, percentage_label)
+function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label, hunter_rank_label, value_label, percentage_label)
 	local entity = {};
 
 	--entity.visibility = visibility;
 	entity.bar = table_helpers.deep_copy(bar);
 	entity.highlighted_bar = table_helpers.deep_copy(highlighted_bar);
 	entity.player_name_label = table_helpers.deep_copy(player_name_label);
+	entity.dps_label = table_helpers.deep_copy(dps_label);
 	entity.hunter_rank_label = table_helpers.deep_copy(hunter_rank_label);
 	entity.value_label = table_helpers.deep_copy(value_label);
 	entity.percentage_label = table_helpers.deep_copy(percentage_label);
@@ -19,7 +20,7 @@ function damage_UI_entity.new(bar, highlighted_bar, player_name_label, hunter_ra
 	return entity;
 end
 
-function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage)
+function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)
 
 	local player_include = config.current_config.damage_meter_UI.player_name_label.include.others;
 	if _player.id == _player.myself_id then
@@ -56,9 +57,13 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 		end
 	end
 
+	x = string.format("%s / %s", tostring(_player.dps), tostring(top_dps));
+
 	if _player.id == player.myself_id and config.current_config.damage_meter_UI.settings.highlighted_bar == "Me" then
 		drawing.draw_bar(_player.damage_UI.highlighted_bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
 	elseif config.current_config.damage_meter_UI.settings.highlighted_bar == "Top Damage" and _player.display.total_damage == top_damage then
+		drawing.draw_bar(_player.damage_UI.highlighted_bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
+	elseif config.current_config.damage_meter_UI.settings.highlighted_bar == "Top DPS" and _player.dps == top_dps then
 		drawing.draw_bar(_player.damage_UI.highlighted_bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
 	else
 		drawing.draw_bar(_player.damage_UI.bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
@@ -75,6 +80,7 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 	drawing.draw_label(_player.damage_UI.player_name_label, position_on_screen, opacity_scale, player_name_text);
 	drawing.draw_label(_player.damage_UI.value_label, position_on_screen, opacity_scale, _player.display.total_damage);
 	drawing.draw_label(_player.damage_UI.percentage_label, position_on_screen, opacity_scale, 100 * player_damage_percentage);
+	drawing.draw_label(_player.damage_UI.dps_label, position_on_screen, opacity_scale, _player.dps);
 end
 
 function damage_UI_entity.init_module()

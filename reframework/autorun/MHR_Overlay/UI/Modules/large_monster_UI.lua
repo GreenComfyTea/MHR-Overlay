@@ -70,7 +70,7 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 	end
 
 	if dynamic_enabled then
-		large_monster_UI.draw_dynamic(displayed_monsters);
+		large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster);
 	end
 
 	if highlighted_enabled then
@@ -78,12 +78,12 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 	end
 
 	if static_enabled then
-		large_monster_UI.draw_static(displayed_monsters);
+		large_monster_UI.draw_static(displayed_monsters, highlighted_monster);
 	end
 
 end
 
-function large_monster_UI.draw_dynamic(displayed_monsters)
+function large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster)
 	local i = 0;
 		for _, monster in ipairs(displayed_monsters) do
 			if config.current_config.large_monster_UI.dynamic.settings.max_distance == 0 then
@@ -92,6 +92,16 @@ function large_monster_UI.draw_dynamic(displayed_monsters)
 
 			if monster.dead_or_captured and config.current_config.large_monster_UI.dynamic.settings.hide_dead_or_captured then
 				goto continue;
+			end
+
+			if monster == highlighted_monster then
+				if not config.current_config.large_monster_UI.dynamic.settings.render_highlighted_monster then
+					goto continue;
+				end
+			else
+				if not config.current_config.large_monster_UI.dynamic.settings.render_not_highlighted_monsters then
+					goto continue;
+				end
 			end
 
 			local position_on_screen = {};
@@ -123,7 +133,7 @@ function large_monster_UI.draw_dynamic(displayed_monsters)
 		end
 end
 
-function large_monster_UI.draw_static(displayed_monsters)
+function large_monster_UI.draw_static(displayed_monsters, highlighted_monster)
 	-- sort here
 	if config.current_config.large_monster_UI.static.sorting.type == "Normal" and config.current_config.large_monster_UI.static.sorting.reversed_order then
 		local reversed_monsters = {};
@@ -171,6 +181,16 @@ function large_monster_UI.draw_static(displayed_monsters)
 	for _, monster in ipairs(displayed_monsters) do
 		if monster.dead_or_captured and config.current_config.large_monster_UI.static.settings.hide_dead_or_captured then
 			goto continue;
+		end
+
+		if monster == highlighted_monster then
+			if not config.current_config.large_monster_UI.static.settings.render_highlighted_monster then
+				goto continue;
+			end
+		else
+			if not config.current_config.large_monster_UI.static.settings.render_not_highlighted_monsters then
+				goto continue;
+			end
 		end
 
 		local monster_position_on_screen = {

@@ -114,7 +114,9 @@ language.default_language = {
 
 		static_orientation = "Static Orientation",
 
-		hide_dead_or_captured = "Hide dead or captured",
+		hide_dead_or_captured = "Hide Dead or Captured",
+		render_highlighted_monster = "Render Highlighted Monster",
+		render_not_highlighted_monsters = "Render Not Highlighted Monsters",
 
 		opacity_falloff = "Opacity Falloff",
 		max_distance = "Max Distance",
@@ -189,7 +191,9 @@ language.default_language = {
 		player_name_label = "Player Name Label",
 		hunter_rank_label = "Hunter Rank Label",
 		damage_value_label = "Damage Value Label",
-		damage_percentage_label = "Damage Percetange Label",
+		damage_percentage_label = "Damage Percentage Label",
+		dps_label = "DPS Label",
+		total_dps_label = "Total DPS Label",
 		total_damage_label = "Total Damage Label",
 		total_damage_value_label = "Total Damage Value Label",
 		damage_bar = "Damage Bar",
@@ -232,6 +236,16 @@ language.default_language = {
 		word_player = "Word \"Player\"";
 		player_id = "Player ID",
 		player_name = "Player Name",
+
+		dps_mode = "DPS Mode",
+		dps = "DPS",
+		top_dps = "Top DPS",
+		total_dps = "Total DPS",
+		first_hit = "First Hit",
+		quest_time = "Quest Time",
+		join_time = "Join Time",
+		fight_time = "Fight Time"
+
 	}
 };
 
