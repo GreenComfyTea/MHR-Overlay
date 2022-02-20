@@ -8,6 +8,7 @@ singletons.quest_manager = nil;
 singletons.player_manager = nil;
 singletons.village_area_manager = nil;
 singletons.gui_manager = nil;
+singletons.game_keyboard = nil;
 
 function singletons.init()
 	singletons.init_message_manager();
@@ -18,6 +19,7 @@ function singletons.init()
 	singletons.init_player_manager();
 	singletons.init_village_area_manager();
 	singletons.init_gui_manager();
+	singletons.init_game_keyboard()
 end
 
 function singletons.init_message_manager()
@@ -126,6 +128,18 @@ function singletons.init_gui_manager()
 	return singletons.gui_manager;
 end
 
+function singletons.init_game_keyboard()
+	if singletons.game_keyboard ~= nil then
+		return;
+	end
+
+	singletons.game_keyboard = sdk.get_managed_singleton("snow.GameKeyboard");
+	if singletons.game_keyboard == nil then
+		--log.error("[MHR Overlay] No game keyboard");
+	end
+
+	return singletons.ggame_keyboard;
+end
 
 function singletons.init_module()
 	singletons.init();

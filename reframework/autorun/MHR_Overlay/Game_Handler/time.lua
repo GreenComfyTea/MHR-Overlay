@@ -43,9 +43,12 @@ function time.tick()
 end
 
 function time.update_players_dps()
-	
 	local new_total_dps = 0;
 	for _, _player in pairs(player.list) do
+		if _player.join_time == -1 then
+			_player.join_time = time.total_elapsed_seconds;
+		end
+
 		if config.current_config.damage_meter_UI.settings.dps_mode == "Quest Time" then
 			if time.total_elapsed_seconds > 0 then
 				_player.dps = _player.display.total_damage / time.total_elapsed_seconds;

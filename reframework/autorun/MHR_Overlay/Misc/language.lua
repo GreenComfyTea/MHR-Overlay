@@ -86,7 +86,7 @@ language.default_language = {
 		language = "Language",
 		module_visibility_on_different_screens = "Module Visibility on Different Screens",
 		during_quest = "During Quest",
-		quest_summary_screen = "Quest Summary Screen",
+		quest_result_screen = "Quest Result Screen",
 		training_area = "Training Area",
 
 		performance = "Performance",
@@ -170,7 +170,7 @@ language.default_language = {
 		body_parts = "Body Parts",
 		hide_undamaged_parts = "Hide Undamaged Parts",
 		part_name = "Part Name",
-		break_count = "Break Count",
+		flinch_count = "Flinch Count",
 
 		orientation = "Orientation",
 		horizontal = "Horizontal",
@@ -244,8 +244,16 @@ language.default_language = {
 		first_hit = "First Hit",
 		quest_time = "Quest Time",
 		join_time = "Join Time",
-		fight_time = "Fight Time"
+		fight_time = "Fight Time",
 
+		modifiers = "Modifiers",
+		global_scale_modifier = "Global Scale Modifier",
+		global_position_modifier = "Global Position Modifier",
+
+		hotkeys = "Hotkeys",
+		all_UI = "All UI",
+		assign_new_key = "Assign new key",
+		press_any_key = "Press any key..."
 	}
 };
 
@@ -264,7 +272,6 @@ function language.load()
 	for i, language_file_name in ipairs(language_files) do
 		local language_name = language_file_name:gsub(language.language_folder, ""):gsub(".json", "");
 
-		-- language_file will be something like `my-cool-mod\config-file-1.json`;
 		local loaded_language = json.load_file(language_file_name);
 		if loaded_language ~= nil then
 			log.info("[MHR Overlay] " .. language_name .. ".json loaded successfully");

@@ -23,6 +23,7 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 	local displayed_monsters = {};
 
 	local highlighted_id = -1;
+	local monster_id_shift = 0;
 	local highlighted_monster = nil;
 
 	if singletons.gui_manager ~= nil then
@@ -35,7 +36,6 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 			end
 		end
 	end
-
 
 	local enemy_count = get_boss_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
@@ -55,7 +55,9 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 			goto continue;
 		end
 
-		if i == highlighted_id then
+		if monster.dead_or_captured then
+			monster_id_shift = monster_id_shift + 1;
+		elseif i == highlighted_id + monster_id_shift then
 			highlighted_monster = monster;
 		end
 
@@ -114,8 +116,8 @@ function large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster)
 				goto continue;
 			end
 			
-			position_on_screen.x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.viewport_offset.x;
-			position_on_screen.y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.viewport_offset.y;
+			position_on_screen.x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.viewport_offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
+			position_on_screen.y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.viewport_offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
 	
 			local opacity_scale = 1;
 			if monster.distance > config.current_config.large_monster_UI.dynamic.settings.max_distance then
@@ -199,9 +201,9 @@ function large_monster_UI.draw_static(displayed_monsters, highlighted_monster)
 		}
 		
 		if config.current_config.large_monster_UI.static.settings.orientation == "Horizontal" then
-			monster_position_on_screen.x = monster_position_on_screen.x + config.current_config.large_monster_UI.static.spacing.x * i;
+			monster_position_on_screen.x = monster_position_on_screen.x + config.current_config.large_monster_UI.static.spacing.x * i * config.current_config.global_settings.modifiers.global_scale_modifier;
 		else
-			monster_position_on_screen.y = monster_position_on_screen.y + config.current_config.large_monster_UI.static.spacing.y * i;
+			monster_position_on_screen.y = monster_position_on_screen.y + config.current_config.large_monster_UI.static.spacing.y * i  * config.current_config.global_settings.modifiers.global_scale_modifier;
 		end
 
 		large_monster.draw_static(monster, monster_position_on_screen, 1);

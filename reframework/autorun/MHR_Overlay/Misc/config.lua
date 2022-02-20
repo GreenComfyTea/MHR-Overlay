@@ -12,6 +12,22 @@ function config.init()
 		global_settings = {
 			language = "default",
 
+			menu_font = {
+				size = 17
+			},
+	
+			UI_font = {
+				family = "Consolas",
+				size = 13,
+				bold = true,
+				italic = false
+			},
+
+			modifiers = {
+				global_position_modifier = 2,
+				global_scale_modifier = 2
+			},
+
 			performance = {
 				max_monster_updates_per_tick = 2,
 				prioritize_large_monsters = false,
@@ -27,7 +43,7 @@ function config.init()
 					damage_meter_UI = true
 				},
 		
-				quest_summary_screen = {
+				quest_result_screen = {
 					small_monster_UI = false,
 					large_monster_dynamic_UI = false,
 					large_monster_static_UI = true,
@@ -44,16 +60,16 @@ function config.init()
 				}
 			},
 
-			menu_font = {
-				size = 17
-			},
-	
-			UI_font = {
-				family = "Consolas",
-				size = 13,
-				bold = true,
-				italic = false
-			},
+			hotkeys = {
+				all_UI = 0,
+				small_monster_UI = 0,
+				large_monster_UI = 0,
+				large_monster_dynamic_UI = 0,
+				large_monster_static_UI = 0,
+				large_monster_highlighted_UI = 0,
+				time_UI = 0,
+				damage_meter_UI = 0,
+			}
 		},
 	
 		small_monster_UI = {
@@ -662,7 +678,7 @@ function config.init()
 			
 						include = {
 							part_name = true,
-							break_count = true
+							flinch_count = true
 						},
 		
 						offset = {
@@ -1136,7 +1152,7 @@ function config.init()
 			
 						include = {
 							part_name = true,
-							break_count = true
+							flinch_count = true
 						},
 		
 						offset = {
@@ -1235,10 +1251,6 @@ function config.init()
 
 			highlighted = {
 				enabled = true,
-		
-				settings = {
-					hide_dead_or_captured = true
-				},
 		
 				position = {
 					x = 615,
@@ -1596,7 +1608,7 @@ function config.init()
 			
 						include = {
 							part_name = true,
-							break_count = true
+							flinch_count = true
 						},
 		
 						offset = {
@@ -1776,12 +1788,14 @@ function config.init()
 	
 				include = {
 					myself = {
+						hunter_rank = true,
 						word_player = false,
 						player_id = false,
 						player_name = true
 					},
 	
 					others = {
+						hunter_rank = true,
 						word_player = false,
 						player_id = false,
 						player_name = true
@@ -1790,7 +1804,7 @@ function config.init()
 	
 				text = "%s",
 				offset = {
-					x = 45,
+					x = 5,
 					y = 0
 				},
 				color = 0xFFCCF4E1,
@@ -1806,7 +1820,7 @@ function config.init()
 			},
 
 			hunter_rank_label = {
-				visibility = true,
+				visibility = false,
 	
 				enable_for = {
 					me = true,
@@ -1815,7 +1829,7 @@ function config.init()
 	
 				text = "[%d]",
 				offset = {
-					x = 5,
+					x = -35,
 					y = 0
 				},
 				color = 0xFFCCF4E1,
@@ -2012,7 +2026,7 @@ function config.init_module()
 
 	config.init();
 	config.load();
-	config.current_config.version = "v1.8";
+	config.current_config.version = "v1.9";
 
 	language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
 

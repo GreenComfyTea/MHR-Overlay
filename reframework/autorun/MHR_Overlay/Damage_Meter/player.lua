@@ -5,10 +5,12 @@ local singletons;
 local customization_menu;
 local damage_UI_entity;
 local time;
+local quest_status;
+local drawing;
+local language;
 
 player.list = {};
 player.myself = nil;
-player.myself_id = nil;
 player.myself_position = Vector3f.new(0, 0, 0);
 player.total = nil;
 
@@ -18,7 +20,7 @@ function player.new(player_id, player_name, player_hunter_rank)
 	new_player.name = player_name;
 	new_player.hunter_rank = player_hunter_rank;
 
-	new_player.join_time = time.total_elapsed_seconds;
+	new_player.join_time = -1;
 	new_player.first_hit_time = -1;
 	new_player.dps = 0;
 
@@ -102,16 +104,17 @@ function player.new(player_id, player_name, player_hunter_rank)
 	new_player.display.elemental_damage = 0;
 	new_player.display.ailment_damage = 0;
 
-	player.init_UI(new_player);
+	if player_name == "Total" then
+		player.init_total_UI(new_player);
+	else
+		player.init_UI(new_player);
+	end
+	
 
 	return new_player;
 end
 
 function player.get_player(player_id)
-	if player.list[player_id] == nil then
-		return nil;
-	end
-
 	return player.list[player_id];
 end
 
@@ -262,8 +265,194 @@ function player.update_myself_position()
 	player.myself_position = master_player_position;
 end
 
-function player.init_total()
+function player.init()
+	player.list = {};
 	player.total = player.new(0, "Total", 0);
+	player.myself = player.new(-1, "Dummy", -1);
+end
+
+local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
+local my_hunter_info_field = lobby_manager_type_def:get_field("_myHunterInfo");
+local myself_index_field = lobby_manager_type_def:get_field("_myselfIndex");
+local myself_quest_index_field = lobby_manager_type_def:get_field("_myselfQuestIndex");
+
+local quest_hunter_info_field = lobby_manager_type_def:get_field("_questHunterInfo");
+local hunter_info_field = lobby_manager_type_def:get_field("_hunterInfo");
+
+local my_hunter_info_type_def = my_hunter_info_field:get_type();
+local name_field = my_hunter_info_type_def:get_field("_name");
+local member_index_field = my_hunter_info_type_def:get_field("_memberIndex");
+local hunter_rank_field = my_hunter_info_type_def:get_field("_hunterRank");
+
+local hunter_info_type_def = hunter_info_field:get_type();
+local get_count_method = hunter_info_type_def:get_method("get_Count");
+local get_item_method = hunter_info_type_def:get_method("get_Item");
+
+local progress_manager_type_def = sdk.find_type_definition("snow.progress.ProgressManager");
+local get_hunter_rank_method = progress_manager_type_def:get_method("get_HunterRank");
+
+function player.update_player_list_in_village()
+	if singletons.lobby_manager == nil then
+		return;
+	end
+	
+	if singletons.progress_manager == nil then
+		return;
+	end
+
+	-- myself player
+	local myself_player_info = my_hunter_info_field:get_data(singletons.lobby_manager);
+	if myself_player_info == nil then
+		customization_menu.status = "No myself player info list";
+		return;
+	end
+
+	local myself_player_name = name_field:get_data(myself_player_info);
+	if myself_player_name == nil then
+		customization_menu.status = "No myself player name";
+		return;
+	end
+
+	local myself_hunter_rank = get_hunter_rank_method:call(singletons.progress_manager);
+	if myself_hunter_rank == nil then
+		customization_menu.status = "No myself hunter rank";
+		myself_hunter_rank = 0;
+	end
+		
+	local myself_id = myself_index_field:get_data(singletons.lobby_manager);
+	if myself_id == nil then
+		customization_menu.status = "No myself player id";
+	elseif player.myself == nil or myself_id ~= player.myself.id then
+		player.myself = player.new(myself_id, myself_player_name, myself_hunter_rank);
+		player.list[myself_id] = player.myself;
+	end
+
+	-- other players
+	local player_info_list = hunter_info_field:get_data(singletons.lobby_manager);
+	if player_info_list == nil then
+		customization_menu.status = "No player info list";
+		return;
+	end
+
+	local count = get_count_method:call(player_info_list);
+	if count == nil then
+		customization_menu.status = "No player info list count";
+		return;
+	end
+
+	for i = 0, count - 1 do
+		local player_info = get_item_method:call(player_info_list, i);
+		if player_info == nil then
+			goto continue
+		end
+
+		local player_id = member_index_field:get_data(player_info);
+		if player_id == nil then
+			goto continue
+		end
+
+		local player_hunter_rank = hunter_rank_field:get_data(player_info);
+		if player_hunter_rank == nil then
+			goto continue
+		end
+
+		local player_name = name_field:get_data(player_info);
+		if player_name == nil then
+			goto continue
+		end
+
+		if player.myself.id == player_id then
+			player.list[player_id] = player.myself;
+		elseif player.list[player_id] == nil or player.list[player_id].name ~= player_name then
+			player.list[player_id] = player.new(player_id, player_name, player_hunter_rank);
+		end
+
+		::continue::
+	end
+end
+
+function player.update_player_list_on_quest()
+	if singletons.lobby_manager == nil then
+		return;
+	end
+	
+	if singletons.progress_manager == nil then
+		return;
+	end
+
+	-- myself player
+	local myself_player_info = my_hunter_info_field:get_data(singletons.lobby_manager);
+	if myself_player_info == nil then
+		customization_menu.status = "No myself player info list";
+		return;
+	end
+
+	local myself_player_name = name_field:get_data(myself_player_info);
+	if myself_player_name == nil then
+		customization_menu.status = "No myself player name";
+		return;
+	end
+
+	local myself_hunter_rank = get_hunter_rank_method:call(singletons.progress_manager);
+	if myself_hunter_rank == nil then
+		customization_menu.status = "No myself hunter rank";
+		myself_hunter_rank = 0;
+	end
+
+	local myself_id = myself_quest_index_field:get_data(singletons.lobby_manager);
+	if myself_id == nil then
+		customization_menu.status = "No myself player quest id";
+	elseif player.myself == nil or myself_id ~= player.myself.id then
+			player.myself = player.new(myself_id, myself_player_name, myself_hunter_rank);
+		player.list[myself_id] = player.myself;
+	end
+
+	
+	-- other players
+	local player_info_list = quest_hunter_info_field:get_data(singletons.lobby_manager);
+	if player_info_list == nil then
+		customization_menu.status = "No player info list";
+		return;
+	end
+
+	local count = get_count_method:call(player_info_list);
+	if count == nil then
+		customization_menu.status = "No player info list count";
+		return;
+	end
+
+	for i = 0, count - 1 do
+		local player_info = get_item_method:call(player_info_list, i);
+		if player_info == nil then
+			goto continue
+		end
+
+
+		local player_id = member_index_field:get_data(player_info);
+		
+		x = player_info
+		if player_id == nil then
+			goto continue
+		end
+
+		local player_hunter_rank = hunter_rank_field:get_data(player_info);
+		if player_hunter_rank == nil then
+			goto continue
+		end
+
+		local player_name = name_field:get_data(player_info);
+		if player_name == nil then
+			goto continue
+		end
+
+		if player.myself.id == player_id then
+			player.list[player_id] = player.myself;
+		elseif player.list[player_id] == nil or player.list[player_id].name ~= player_name then
+			player.list[player_id] = player.new(player_id, player_name, player_hunter_rank);
+		end
+
+		::continue::
+	end
 end
 
 function player.init_UI(_player)
@@ -278,8 +467,31 @@ function player.init_UI(_player)
 	);
 end
 
+function player.init_total_UI(_player)
+	_player.damage_UI = {
+		total_damage_label = table_helpers.deep_copy(config.current_config.damage_meter_UI.total_damage_label),
+		damage_value_label = table_helpers.deep_copy(config.current_config.damage_meter_UI.total_damage_value_label),
+		total_damage_value_label = table_helpers.deep_copy(config.current_config.damage_meter_UI.total_dps_label)
+	};
+
+	_player.damage_UI.total_damage_label.offset.x = _player.damage_UI.total_damage_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
+	_player.damage_UI.total_damage_label.offset.y = _player.damage_UI.total_damage_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+
+	_player.damage_UI.damage_value_label.offset.x = _player.damage_UI.damage_value_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
+	_player.damage_UI.damage_value_label.offset.y = _player.damage_UI.damage_value_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+
+	_player.damage_UI.total_damage_value_label.offset.x = _player.damage_UI.total_damage_value_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
+	_player.damage_UI.total_damage_value_label.offset.y = _player.damage_UI.total_damage_value_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+end
+
 function player.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)
 	damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps);
+end
+
+function player.draw_total(position_on_screen, opacity_scale)
+	drawing.draw_label(player.total.damage_UI.total_damage_label, position_on_screen, opacity_scale, language.current_language.UI.total_damage);
+	drawing.draw_label(player.total.damage_UI.total_damage_value_label, position_on_screen, opacity_scale, player.total.display.total_damage);
+	drawing.draw_label(player.total.damage_UI.total_dps_label, position_on_screen, opacity_scale, player.total.dps);
 end
 
 function player.init_module()
@@ -289,8 +501,11 @@ function player.init_module()
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");
 	time = require("MHR_Overlay.Game_Handler.time");
+	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
+	drawing = require("MHR_Overlay.UI.drawing");
+	language = require("MHR_Overlay.Misc.language");
 
-	player.init_total();
+	player.init();
 end
 
 return player;

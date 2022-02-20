@@ -5,10 +5,12 @@ local player;
 local small_monster;
 local large_monster;
 local damage_meter_UI;
+local time;
 
 quest_status.index = 0;
 quest_status.is_online = false;
 quest_status.is_training_area = false;
+quest_status.update_is_result_screen = false;
 
 local quest_manager_type_definition = sdk.find_type_definition("snow.QuestManager");
 local on_changed_game_status = quest_manager_type_definition:get_method("onChangedGameStatus");
@@ -25,14 +27,15 @@ end);
 function quest_status.update(args)
 	local new_quest_status = sdk.to_int64(args[3]);
 	if new_quest_status ~= nil then
-		if (quest_status.index < 2 and new_quest_status == 2) or
-		new_quest_status < 2 then
+		if (quest_status.index < 2 and new_quest_status == 2)
+		or new_quest_status < 2 then
 
-			player.list = {};
-			player.total = player.new(0, "Total", 0);
+			player.init();
 			small_monster.list = {};
 			large_monster.list = {};
 			damage_meter_UI.freeze_displayed_players = false;
+			damage_meter_UI.last_displayed_players = {};
+			time.last_whole_seconds = 0;
 		end
 
 		quest_status.index = new_quest_status;
@@ -53,6 +56,7 @@ function quest_status.init()
 	quest_status.index = new_quest_status;
 	quest_status.update_is_online();
 	quest_status.update_is_training_area();
+	quest_status.update_is_result_screen();
 end
 
 function quest_status.update_is_online()
@@ -86,6 +90,20 @@ function quest_status.update_is_training_area()
 	quest_status.is_training_area = _is_training_area;
 end
 
+function quest_status.update_is_result_screen()
+	if singletons.quest_manager == nil then
+		customization_menu.status = "No quest manager";
+		return;
+	end
+
+	local is_result_demo_play_start = singletons.quest_manager:call("isResultDemoPlayStart");
+	if is_result_demo_play_start == nil then
+		return;
+	end
+
+	quest_status.is_result_screen = is_result_demo_play_start;
+end
+
 function quest_status.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -93,7 +111,8 @@ function quest_status.init_module()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	damage_meter_UI = require("MHR_Overlay.UI.Modules.damage_meter_UI");
-	
+	time = require("MHR_Overlay.Game_Handler.time");
+
 	quest_status.init();
 end
 

@@ -24,7 +24,7 @@ function body_part.new(REpart, name, id)
 	part.health_percentage = 0;
 
 	part.name = name;
-	part.break_count = 0;
+	part.flinch_count = 0;
 
 	body_part.init_dynamic_UI(part);
 	body_part.init_static_UI(part);
@@ -73,7 +73,7 @@ function body_part.update(part, new_health, new_max_health)
 	end
 
 	if new_health > part.health then
-		part.break_count = part.break_count + 1;
+		part.flinch_count = part.flinch_count + 1;
 	end
 	
 	part.health = new_health;

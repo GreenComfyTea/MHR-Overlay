@@ -8,6 +8,8 @@ local large_monster;
 local small_monster;
 local language;
 local part_names;
+local time_UI;
+local keyboard;
 
 customization_menu.font = nil;
 customization_menu.font_range = { 0x1, 0xFFFF, 0 };
@@ -83,6 +85,20 @@ customization_menu.time_UI_anchor_index = 1;
 customization_menu.damage_meter_UI_anchor_index = 1;
 
 customization_menu.selected_UI_font_index = 9;
+
+
+
+customization_menu.all_UI_waiting_for_key = false;
+
+customization_menu.small_monster_UI_waiting_for_key = false;
+
+customization_menu.large_monster_UI_waiting_for_key = false;
+customization_menu.large_monster_dynamic_UI_waiting_for_key = false;
+customization_menu.large_monster_static_UI_waiting_for_key = false;
+customization_menu.large_monster_highlighted_UI_waiting_for_key = false;
+
+customization_menu.time_UI_waiting_for_key = false;
+customization_menu.damage_meter_UI_waiting_for_key = false;
 
 function customization_menu.reload_font(pop_push)
 	local success, new_font = pcall(imgui.load_font, language.current_language.font_name, config.current_config.global_settings.menu_font.size, customization_menu.font_range);
@@ -218,6 +234,15 @@ function customization_menu.draw()
 	local config_changed = false;
 	local changed = false;
 
+	local modifiers_changed = false;
+	local small_monster_UI_changed = false;
+	local large_monster_dynamic_UI_changed = false;
+	local large_monster_static_UI_changed = false;
+	local large_monster_highlighted_UI_changed = false;
+	local time_UI_changed = false;
+
+	local damage_meter_UI_changed = false;
+
 	local status_string = tostring(customization_menu.status);
 	imgui.text(language.current_language.customization_menu.status .. ": " .. status_string);
 
@@ -229,23 +254,227 @@ function customization_menu.draw()
 		changed, config.current_config.large_monster_UI.dynamic.enabled =
 			imgui.checkbox(language.current_language.customization_menu.large_monster_dynamic_UI, config.current_config.large_monster_UI.dynamic.enabled);
 		config_changed = config_changed or changed;
-		imgui.same_line();
+
+		
 
 		changed, config.current_config.large_monster_UI.static.enabled =
 			imgui.checkbox(language.current_language.customization_menu.large_monster_static_UI, config.current_config.large_monster_UI.static.enabled);
 		config_changed = config_changed or changed;
 
+		
 		changed, config.current_config.large_monster_UI.highlighted.enabled =
 			imgui.checkbox(language.current_language.customization_menu.large_monster_highlighted_UI, config.current_config.large_monster_UI.highlighted.enabled);
 		config_changed = config_changed or changed;
 
+	
+
 		changed, config.current_config.time_UI.enabled = imgui.checkbox(language.current_language.customization_menu.time_UI, config.current_config.time_UI.enabled);
 		config_changed = config_changed or changed;
-		imgui.same_line();
 
 		changed, config.current_config.damage_meter_UI.enabled = imgui.checkbox(language.current_language.customization_menu.damage_meter_UI,
 			config.current_config.damage_meter_UI.enabled);
 		config_changed = config_changed or changed;
+
+		imgui.tree_pop();
+	end
+
+	
+
+	if imgui.tree_node(language.current_language.customization_menu.hotkeys) then
+		if customization_menu.all_UI_waiting_for_key then
+			if imgui.button(language.current_language.customization_menu.press_any_key) then
+				config.current_config.global_settings.hotkeys.all_UI = 0;
+				customization_menu.all_UI_waiting_for_key = false;
+			end
+		elseif imgui.button(language.current_language.customization_menu.all_UI) then
+			local is_any_other_waiting = customization_menu.small_monster_UI_waiting_for_key
+			or customization_menu.large_monster_UI_waiting_for_key
+			or customization_menu.large_monster_dynamic_UI_waiting_for_key
+			or customization_menu.large_monster_static_UI_waiting_for_key
+			or customization_menu.large_monster_highlighted_UI_waiting_for_key
+			or customization_menu.time_UI_waiting_for_key
+			or customization_menu.damage_meter_UI_waiting_for_key;
+
+			if not is_any_other_waiting then 
+				customization_menu.all_UI_waiting_for_key = true;
+			end
+		end
+
+		imgui.same_line();
+		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.all_UI]);
+
+
+
+		if customization_menu.small_monster_UI_waiting_for_key then
+			if imgui.button(language.current_language.customization_menu.press_any_key) then
+				config.current_config.global_settings.hotkeys.small_monster_UI = 0;
+				customization_menu.small_monster_UI_waiting_for_key = false;
+			end
+		elseif imgui.button(language.current_language.customization_menu.small_monster_UI) then
+			local is_any_other_waiting = customization_menu.all_UI_waiting_for_key
+			or customization_menu.large_monster_UI_waiting_for_key
+			or customization_menu.large_monster_dynamic_UI_waiting_for_key
+			or customization_menu.large_monster_static_UI_waiting_for_key
+			or customization_menu.large_monster_highlighted_UI_waiting_for_key
+			or customization_menu.time_UI_waiting_for_key
+			or customization_menu.damage_meter_UI_waiting_for_key;
+
+			
+
+			if not is_any_other_waiting then
+				customization_menu.small_monster_UI_waiting_for_key = true;
+			end
+		end
+
+		imgui.same_line();
+		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.small_monster_UI]);
+
+
+
+		if customization_menu.large_monster_UI_waiting_for_key then
+			if imgui.button(language.current_language.customization_menu.press_any_key) then
+				config.current_config.global_settings.hotkeys.large_monster_UI = 0;
+				customization_menu.large_monster_UI_waiting_for_key = false;
+			end
+		elseif imgui.button(language.current_language.customization_menu.large_monster_UI) then
+			local is_any_other_waiting = customization_menu.all_UI_waiting_for_key
+			or customization_menu.small_monster_UI_waiting_for_key
+			or customization_menu.large_monster_dynamic_UI_waiting_for_key
+			or customization_menu.large_monster_static_UI_waiting_for_key
+			or customization_menu.large_monster_highlighted_UI_waiting_for_key
+			or customization_menu.time_UI_waiting_for_key
+			or customization_menu.damage_meter_UI_waiting_for_key;
+
+			if not is_any_other_waiting then 
+				customization_menu.large_monster_UI_waiting_for_key = true;
+			end
+		end
+
+		imgui.same_line();
+		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.large_monster_UI]);
+
+
+
+		if customization_menu.large_monster_dynamic_UI_waiting_for_key then
+			if imgui.button(language.current_language.customization_menu.press_any_key) then
+				config.current_config.global_settings.hotkeys.large_monster_dynamic_UI = 0;
+				customization_menu.large_monster_dynamic_UI_waiting_for_key = false;
+			end
+		elseif imgui.button(language.current_language.customization_menu.large_monster_dynamic_UI) then
+			local is_any_other_waiting = customization_menu.all_UI_waiting_for_key
+			or customization_menu.small_monster_UI_waiting_for_key
+			or customization_menu.large_monster_UI_waiting_for_key
+			or customization_menu.large_monster_static_UI_waiting_for_key
+			or customization_menu.large_monster_highlighted_UI_waiting_for_key
+			or customization_menu.time_UI_waiting_for_key
+			or customization_menu.damage_meter_UI_waiting_for_key;
+
+			if not is_any_other_waiting then 
+				customization_menu.large_monster_dynamic_UI_waiting_for_key = true;
+			end
+		end
+
+		imgui.same_line();
+		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.large_monster_dynamic_UI]);
+
+
+
+		if customization_menu.large_monster_static_UI_waiting_for_key then
+			if imgui.button(language.current_language.customization_menu.press_any_key) then
+				config.current_config.global_settings.hotkeys.large_monster_static_UI = 0;
+				customization_menu.large_monster_static_UI_waiting_for_key = false;
+			end
+		elseif imgui.button(language.current_language.customization_menu.large_monster_static_UI) then
+			local is_any_other_waiting = customization_menu.all_UI_waiting_for_key
+			or customization_menu.small_monster_UI_waiting_for_key
+			or customization_menu.large_monster_UI_waiting_for_key
+			or customization_menu.large_monster_dynamic_UI_waiting_for_key
+			or customization_menu.large_monster_highlighted_UI_waiting_for_key
+			or customization_menu.time_UI_waiting_for_key
+			or customization_menu.damage_meter_UI_waiting_for_key;
+
+			if not is_any_other_waiting then 
+				customization_menu.large_monster_static_UI_waiting_for_key = true;
+			end
+		end
+
+		imgui.same_line();
+		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.large_monster_static_UI]);
+
+
+
+		if customization_menu.large_monster_highlighted_UI_waiting_for_key then
+			if imgui.button(language.current_language.customization_menu.press_any_key) then
+				config.current_config.global_settings.hotkeys.large_monster_highlighted_UI = 0;
+				customization_menu.large_monster_highlighted_UI_waiting_for_key = false;
+			end
+		elseif imgui.button(language.current_language.customization_menu.large_monster_highlighted_UI) then
+			local is_any_other_waiting = customization_menu.all_UI_waiting_for_key
+			or customization_menu.small_monster_UI_waiting_for_key
+			or customization_menu.large_monster_UI_waiting_for_key
+			or customization_menu.large_monster_dynamic_UI_waiting_for_key
+			or customization_menu.large_monster_static_UI_waiting_for_key
+			or customization_menu.time_UI_waiting_for_key
+			or customization_menu.damage_meter_UI_waiting_for_key;
+
+			if not is_any_other_waiting then 
+				customization_menu.large_monster_highlighted_UI_waiting_for_key = true;
+			end
+		end
+
+		imgui.same_line();
+		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.large_monster_highlighted_UI]);
+
+
+
+		if customization_menu.time_UI_waiting_for_key then
+			if imgui.button(language.current_language.customization_menu.press_any_key) then
+				config.current_config.global_settings.hotkeys.time_UI = 0;
+				customization_menu.time_UI_waiting_for_key = false;
+			end
+		elseif imgui.button(language.current_language.customization_menu.time_UI) then
+			local is_any_other_waiting = customization_menu.all_UI_waiting_for_key
+			or customization_menu.small_monster_UI_waiting_for_key
+			or customization_menu.large_monster_UI_waiting_for_key
+			or customization_menu.large_monster_dynamic_UI_waiting_for_key
+			or customization_menu.large_monster_static_UI_waiting_for_key
+			or customization_menu.large_monster_highlighted_UI_waiting_for_key
+			or customization_menu.damage_meter_UI_waiting_for_key;
+
+			if not is_any_other_waiting then 
+				customization_menu.time_UI_waiting_for_key = true;
+			end
+		end
+
+		imgui.same_line();
+		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.time_UI]);
+
+
+
+		if customization_menu.damage_meter_UI_waiting_for_key then
+			if imgui.button(language.current_language.customization_menu.press_any_key) then
+				config.current_config.global_settings.hotkeys.damage_meter_UI = 0;
+				customization_menu.damage_meter_UI_waiting_for_key = false;
+			end
+		elseif imgui.button(language.current_language.customization_menu.damage_meter_UI) then
+			local is_any_other_waiting = customization_menu.all_UI_waiting_for_key
+			or customization_menu.small_monster_UI_waiting_for_key
+			or customization_menu.large_monster_UI_waiting_for_key
+			or customization_menu.large_monster_dynamic_UI_waiting_for_key
+			or customization_menu.large_monster_static_UI_waiting_for_key
+			or customization_menu.large_monster_highlighted_UI_waiting_for_key
+			or customization_menu.time_UI_waiting_for_key;
+
+			if not is_any_other_waiting then 
+				customization_menu.damage_meter_UI_waiting_for_key = true;
+			end
+		end
+
+		imgui.same_line();
+		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.damage_meter_UI]);
+
+
+
 
 		imgui.tree_pop();
 	end
@@ -338,7 +567,21 @@ function customization_menu.draw()
 
 			imgui.tree_pop();
 		end
+		
+		if imgui.tree_node(language.current_language.customization_menu.modifiers) then
+			changed, config.current_config.global_settings.modifiers.global_position_modifier =
+			imgui.drag_float(language.current_language.customization_menu.global_position_modifier, config.current_config.global_settings.modifiers.global_position_modifier, 0.01, 0.01, 10, "%.1f");
+			config_changed = config_changed or changed;
+			modifiers_changed = modifiers_changed or changed;
 
+			changed, config.current_config.global_settings.modifiers.global_scale_modifier =
+			imgui.drag_float(language.current_language.customization_menu.global_scale_modifier, config.current_config.global_settings.modifiers.global_scale_modifier, 0.01, 0.01, 10, "%.1f");
+			config_changed = config_changed or changed;
+			modifiers_changed = modifiers_changed or changed;
+
+			imgui.tree_pop();
+		end
+	
 		if imgui.tree_node(language.current_language.customization_menu.performance) then
 			changed, config.current_config.global_settings.performance.max_monster_updates_per_tick =
 				imgui.slider_int(language.current_language.customization_menu.max_monster_updates_per_tick, config.current_config.global_settings.performance.max_monster_updates_per_tick, 1, 150);
@@ -350,6 +593,7 @@ function customization_menu.draw()
 
 			imgui.tree_pop();
 		end
+		
 
 		if imgui.tree_node(language.current_language.customization_menu.module_visibility_on_different_screens) then
 
@@ -386,36 +630,36 @@ function customization_menu.draw()
 				imgui.tree_pop();
 			end
 
-			if imgui.tree_node(language.current_language.customization_menu.quest_summary_screen) then
-				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.small_monster_UI =
+			if imgui.tree_node(language.current_language.customization_menu.quest_result_screen) then
+				changed, config.current_config.global_settings.module_visibility.quest_result_screen.small_monster_UI =
 					imgui.checkbox(language.current_language.customization_menu.small_monster_UI,
-						config.current_config.global_settings.module_visibility.quest_summary_screen.small_monster_UI);
+						config.current_config.global_settings.module_visibility.quest_result_screen.small_monster_UI);
 				config_changed = config_changed or changed;
 
-				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_dynamic_UI =
+				changed, config.current_config.global_settings.module_visibility.quest_result_screen.large_monster_dynamic_UI =
 					imgui.checkbox(language.current_language.customization_menu.large_monster_dynamic_UI, config.current_config.global_settings.module_visibility
-						.quest_summary_screen.large_monster_dynamic_UI);
+						.quest_result_screen.large_monster_dynamic_UI);
 				config_changed = config_changed or changed;
 				imgui.same_line();
 
-				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_static_UI =
+				changed, config.current_config.global_settings.module_visibility.quest_result_screen.large_monster_static_UI =
 					imgui.checkbox(language.current_language.customization_menu.large_monster_static_UI, config.current_config.global_settings.module_visibility
-						.quest_summary_screen.large_monster_static_UI);
+						.quest_result_screen.large_monster_static_UI);
 				config_changed = config_changed or changed;
 
-				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.large_monster_highlighted_UI =
+				changed, config.current_config.global_settings.module_visibility.quest_result_screen.large_monster_highlighted_UI =
 					imgui.checkbox(language.current_language.customization_menu.large_monster_highlighted_UI, config.current_config.global_settings.module_visibility
-						.quest_summary_screen.large_monster_highlighted_UI);
+						.quest_result_screen.large_monster_highlighted_UI);
 				config_changed = config_changed or changed;
 
-				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.time_UI = imgui.checkbox(
-					language.current_language.customization_menu.time_UI, config.current_config.global_settings.module_visibility.quest_summary_screen.time_UI);
+				changed, config.current_config.global_settings.module_visibility.quest_result_screen.time_UI = imgui.checkbox(
+					language.current_language.customization_menu.time_UI, config.current_config.global_settings.module_visibility.quest_result_screen.time_UI);
 				config_changed = config_changed or changed;
 				imgui.same_line();
 
-				changed, config.current_config.global_settings.module_visibility.quest_summary_screen.damage_meter_UI =
+				changed, config.current_config.global_settings.module_visibility.quest_result_screen.damage_meter_UI =
 					imgui.checkbox(language.current_language.customization_menu.damage_meter_UI,
-						config.current_config.global_settings.module_visibility.quest_summary_screen.damage_meter_UI);
+						config.current_config.global_settings.module_visibility.quest_result_screen.damage_meter_UI);
 				config_changed = config_changed or changed;
 
 				imgui.tree_pop();
@@ -447,7 +691,6 @@ function customization_menu.draw()
 	end
 
 	if imgui.tree_node(language.current_language.customization_menu.small_monster_UI) then
-		local small_monster_UI_changed = false;
 		changed, config.current_config.small_monster_UI.enabled = imgui.checkbox(language.current_language.customization_menu.enabled, config.current_config
 			.small_monster_UI.enabled);
 		config_changed = config_changed or changed;
@@ -1175,8 +1418,6 @@ function customization_menu.draw()
 
 	if imgui.tree_node(language.current_language.customization_menu.large_monster_UI) then
 		if imgui.tree_node(language.current_language.customization_menu.dynamically_positioned) then
-			local large_monster_dynamic_UI_changed = false;
-
 			changed, config.current_config.large_monster_UI.dynamic.enabled =
 				imgui.checkbox(language.current_language.customization_menu.enabled, config.current_config.large_monster_UI.dynamic.enabled);
 			config_changed = config_changed or changed;
@@ -2398,9 +2639,9 @@ function customization_menu.draw()
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.break_count =
-							imgui.checkbox(language.current_language.customization_menu.break_count,
-								config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.break_count);
+						changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.flinch_count =
+							imgui.checkbox(language.current_language.customization_menu.flinch_count,
+								config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.flinch_count);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
@@ -2731,18 +2972,10 @@ function customization_menu.draw()
 				imgui.tree_pop();
 			end
 
-			if large_monster_dynamic_UI_changed then
-				for _, monster in pairs(large_monster.list) do
-					large_monster.init_dynamic_UI(monster);
-				end
-			end
-
 			imgui.tree_pop();
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.statically_positioned) then
-			local large_monster_static_UI_changed = false;
-
 			changed, config.current_config.large_monster_UI.static.enabled =
 				imgui.checkbox(language.current_language.customization_menu.enabled, config.current_config.large_monster_UI.static.enabled);
 			config_changed = config_changed or changed;
@@ -3996,8 +4229,8 @@ function customization_menu.draw()
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.static.parts.part_name_label.include.break_count = imgui.checkbox(
-							language.current_language.customization_menu.break_count, config.current_config.large_monster_UI.static.parts.part_name_label.include.break_count);
+						changed, config.current_config.large_monster_UI.static.parts.part_name_label.include.flinch_count = imgui.checkbox(
+							language.current_language.customization_menu.flinch_count, config.current_config.large_monster_UI.static.parts.part_name_label.include.flinch_count);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
@@ -4327,30 +4560,14 @@ function customization_menu.draw()
 				imgui.tree_pop();
 			end
 
-			if large_monster_static_UI_changed then
-				for _, monster in pairs(large_monster.list) do
-					large_monster.init_static_UI(monster);
-				end
-			end
-
 			imgui.tree_pop();
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.highlighted) then
-			local large_monster_highlighted_UI_changed = false;
-
 			changed, config.current_config.large_monster_UI.highlighted.enabled =
 				imgui.checkbox(language.current_language.customization_menu.enabled, config.current_config.large_monster_UI.highlighted.enabled);
 			config_changed = config_changed or changed;
 			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			if imgui.tree_node(language.current_language.customization_menu.settings) then
-				changed, config.current_config.large_monster_UI.highlighted.settings.hide_dead_or_captured = imgui.checkbox(language.current_language.customization_menu.hide_dead_or_captured, config.current_config.
-				large_monster_UI.highlighted.settings.hide_dead_or_captured);
-				config_changed = config_changed or changed;
-
-				imgui.tree_pop();
-			end
 
 			if imgui.tree_node(language.current_language.customization_menu.position) then
 				changed, config.current_config.large_monster_UI.highlighted.position.x =
@@ -5528,8 +5745,8 @@ function customization_menu.draw()
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.break_count = imgui.checkbox(
-							language.current_language.customization_menu.break_count, config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.break_count);
+						changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.flinch_count = imgui.checkbox(
+							language.current_language.customization_menu.flinch_count, config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.flinch_count);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
@@ -5859,12 +6076,6 @@ function customization_menu.draw()
 				imgui.tree_pop();
 			end
 
-			if large_monster_highlighted_UI_changed then
-				for _, monster in pairs(large_monster.list) do
-					large_monster.init_highlighted_UI(monster);
-				end
-			end
-
 			imgui.tree_pop();
 		end
 
@@ -5899,6 +6110,7 @@ function customization_menu.draw()
 			changed, config.current_config.time_UI.time_label.visibility =
 				imgui.checkbox(language.current_language.customization_menu.visible, config.current_config.time_UI.time_label.visibility);
 			config_changed = config_changed or changed;
+			time_UI_changed = time_UI_changed or changed;
 
 			-- add text format
 
@@ -5906,10 +6118,12 @@ function customization_menu.draw()
 				changed, config.current_config.time_UI.time_label.offset.x =
 					imgui.drag_float(language.current_language.customization_menu.x, config.current_config.time_UI.time_label.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 				config_changed = config_changed or changed;
+				time_UI_changed = time_UI_changed or changed;
 
 				changed, config.current_config.time_UI.time_label.offset.y =
 					imgui.drag_float(language.current_language.customization_menu.y, config.current_config.time_UI.time_label.offset.y, 0.1, -screen.height, screen.height, "%.1f");
 				config_changed = config_changed or changed;
+				time_UI_changed = time_UI_changed or changed;
 
 				imgui.tree_pop();
 			end
@@ -5917,6 +6131,7 @@ function customization_menu.draw()
 			if imgui.tree_node(language.current_language.customization_menu.color) then
 				changed, config.current_config.time_UI.time_label.color = imgui.color_picker_argb("", config.current_config.time_UI.time_label.color, customization_menu.color_picker_flags);
 				config_changed = config_changed or changed;
+				time_UI_changed = time_UI_changed or changed;
 
 				imgui.tree_pop();
 			end
@@ -5925,17 +6140,20 @@ function customization_menu.draw()
 				changed, config.current_config.time_UI.time_label.shadow.visibility =
 					imgui.checkbox(language.current_language.customization_menu.visible, config.current_config.time_UI.time_label.shadow.visibility);
 				config_changed = config_changed or changed;
+				time_UI_changed = time_UI_changed or changed;
 
 				if imgui.tree_node(language.current_language.customization_menu.offset) then
 					changed, config.current_config.time_UI.time_label.shadow.offset.x =
 						imgui.drag_float(language.current_language.customization_menu.x, config.current_config.time_UI.time_label.shadow.offset.x, 0.1, -screen.width, screen.width,
 							"%.1f");
 					config_changed = config_changed or changed;
+					time_UI_changed = time_UI_changed or changed;
 
 					changed, config.current_config.time_UI.time_label.shadow.offset.y =
 						imgui.drag_float(language.current_language.customization_menu.y, config.current_config.time_UI.time_label.shadow.offset.y, 0.1, -screen.height,
 							screen.height, "%.1f");
 					config_changed = config_changed or changed;
+					time_UI_changed = time_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -5943,6 +6161,7 @@ function customization_menu.draw()
 				if imgui.tree_node(language.current_language.customization_menu.color) then
 					changed, config.current_config.time_UI.time_label.shadow.color = imgui.color_picker_argb("", config.current_config.time_UI.time_label.shadow.color, customization_menu.color_picker_flags);
 					config_changed = config_changed or changed;
+					time_UI_changed = time_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -5956,8 +6175,6 @@ function customization_menu.draw()
 	end
 
 	if imgui.tree_node(language.current_language.customization_menu.damage_meter_UI) then
-		local damage_meter_UI_changed = false;
-
 		changed, config.current_config.damage_meter_UI.enabled = imgui.checkbox(language.current_language.customization_menu.enabled,
 			config.current_config.damage_meter_UI.enabled);
 		config_changed = config_changed or changed;
@@ -6173,6 +6390,11 @@ function customization_menu.draw()
 
 			if imgui.tree_node(language.current_language.customization_menu.include) then
 				if imgui.tree_node(language.current_language.customization_menu.me) then
+					changed, config.current_config.damage_meter_UI.player_name_label.include.myself.hunter_rank = imgui.checkbox(
+						language.current_language.customization_menu.hunter_rank, config.current_config.damage_meter_UI.player_name_label.include.myself.hunter_rank);
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
 					changed, config.current_config.damage_meter_UI.player_name_label.include.myself.word_player = imgui.checkbox(
 						language.current_language.customization_menu.word_player, config.current_config.damage_meter_UI.player_name_label.include.myself.word_player);
 					config_changed = config_changed or changed;
@@ -6192,6 +6414,11 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.other_players) then
+					changed, config.current_config.damage_meter_UI.player_name_label.include.others.hunter_rank = imgui.checkbox(
+						language.current_language.customization_menu.hunter_rank, config.current_config.damage_meter_UI.player_name_label.include.others.hunter_rank);
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
 					changed, config.current_config.damage_meter_UI.player_name_label.include.others.word_player = imgui.checkbox(
 						language.current_language.customization_menu.word_player, config.current_config.damage_meter_UI.player_name_label.include.others.word_player);
 					config_changed = config_changed or changed;
@@ -6858,17 +7085,40 @@ function customization_menu.draw()
 			imgui.tree_pop();
 		end
 
-		if damage_meter_UI_changed then
-			for _, _player in pairs(player.list) do
-				player.init_UI(_player);
-			end
-		end
-
 		imgui.tree_pop();
 	end
 
 	imgui.end_window();
 	imgui.pop_font(customization_menu.font);
+
+	if large_monster_dynamic_UI_changed or modifiers_changed then
+		for _, monster in pairs(large_monster.list) do
+			large_monster.init_dynamic_UI(monster);
+		end
+	end
+
+	if large_monster_static_UI_changed or modifiers_changed then
+		for _, monster in pairs(large_monster.list) do
+			large_monster.init_static_UI(monster);
+		end
+	end
+
+	if large_monster_highlighted_UI_changed or modifiers_changed then
+		for _, monster in pairs(large_monster.list) do
+			large_monster.init_highlighted_UI(monster);
+		end
+	end
+
+	if time_UI_changed or modifiers_changed then
+		time_UI.init_UI();
+	end
+
+	if damage_meter_UI_changed or modifiers_changed then
+		for _, _player in pairs(player.list) do
+			player.init_UI(_player);
+			player.init_total_UI(player.total);
+		end
+	end
 
 	if config_changed then
 		config.save();
@@ -6884,6 +7134,8 @@ function customization_menu.init_module()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	part_names = require("MHR_Overlay.Misc.part_names");
+	time_UI = require("MHR_Overlay.UI.Modules.time_UI");
+	keyboard = require("MHR_Overlay.Game_Handler.keyboard");
 
 	customization_menu.init();
 end

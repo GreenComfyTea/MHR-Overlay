@@ -66,6 +66,9 @@ end
 function small_monster.init_UI(monster)
 	monster.name_label = table_helpers.deep_copy(config.current_config.small_monster_UI.monster_name_label);
 
+	monster.name_label.offset.x = monster.name_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
+	monster.name_label.offset.y = monster.name_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+
 	monster.health_UI = health_UI_entity.new(
 		config.current_config.small_monster_UI.health.visibility,
 		config.current_config.small_monster_UI.health.bar,
@@ -235,13 +238,13 @@ function small_monster.draw(monster, position_on_screen, opacity_scale)
 	drawing.draw_label(monster.name_label, position_on_screen, opacity_scale, monster.name);
 
 	local health_position_on_screen = {
-		x = position_on_screen.x + config.current_config.small_monster_UI.health.offset.x,
-		y = position_on_screen.y + config.current_config.small_monster_UI.health.offset.y
+		x = position_on_screen.x + config.current_config.small_monster_UI.health.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.small_monster_UI.health.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
 
 	local stamina_position_on_screen = {
-		x = position_on_screen.x + config.current_config.small_monster_UI.stamina.offset.x,
-		y = position_on_screen.y + config.current_config.small_monster_UI.stamina.offset.y
+		x = position_on_screen.x + config.current_config.small_monster_UI.stamina.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.small_monster_UI.stamina.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
 	
 	health_UI_entity.draw(monster, monster.health_UI, health_position_on_screen, opacity_scale);

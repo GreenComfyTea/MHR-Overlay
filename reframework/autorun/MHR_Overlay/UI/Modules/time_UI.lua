@@ -3,6 +3,9 @@ local time;
 local screen;
 local config;
 local drawing;
+local table_helpers;
+
+time_UI.label = nil;
 
 function time_UI.draw()
 	local elapsed_minutes = time.elapsed_minutes;
@@ -14,7 +17,14 @@ function time_UI.draw()
 
 	local position_on_screen = screen.calculate_absolute_coordinates(config.current_config.time_UI.position);
 	
-	drawing.draw_label(config.current_config.time_UI.time_label, position_on_screen, 1, elapsed_minutes, elapsed_seconds);
+	drawing.draw_label(time_UI.label , position_on_screen, 1, elapsed_minutes, elapsed_seconds);
+end
+
+function time_UI.init_UI()
+	time_UI.label = table_helpers.deep_copy(config.current_config.time_UI.time_label);
+
+	time_UI.label.offset.x = time_UI.label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
+	time_UI.label.offset.y = time_UI.label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
 end
 
 function time_UI.init_module()
@@ -22,6 +32,9 @@ function time_UI.init_module()
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	config = require("MHR_Overlay.Misc.config");
 	drawing = require("MHR_Overlay.UI.drawing");
+	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+
+	time_UI.init_UI()
 end
 
 return time_UI;
