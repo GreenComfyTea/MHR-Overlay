@@ -283,7 +283,10 @@ function customization_menu.draw()
 	if imgui.tree_node(language.current_language.customization_menu.hotkeys) then
 		if customization_menu.all_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
-				config.current_config.global_settings.hotkeys.all_UI = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.all_UI.key = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.all_UI.ctrl = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.all_UI.shift = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.all_UI.alt = false;
 				customization_menu.all_UI_waiting_for_key = false;
 			end
 		elseif imgui.button(language.current_language.customization_menu.all_UI) then
@@ -301,13 +304,16 @@ function customization_menu.draw()
 		end
 
 		imgui.same_line();
-		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.all_UI]);
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.all_UI));
 
 
 
 		if customization_menu.small_monster_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
-				config.current_config.global_settings.hotkeys.small_monster_UI = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI.key = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI.ctrl = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI.shift = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI.alt = false;
 				customization_menu.small_monster_UI_waiting_for_key = false;
 			end
 		elseif imgui.button(language.current_language.customization_menu.small_monster_UI) then
@@ -327,13 +333,16 @@ function customization_menu.draw()
 		end
 
 		imgui.same_line();
-		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.small_monster_UI]);
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI));
 
 
 
 		if customization_menu.large_monster_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
-				config.current_config.global_settings.hotkeys.large_monster_UI = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI.key = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI.ctrl = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI.shift = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI.alt = false;
 				customization_menu.large_monster_UI_waiting_for_key = false;
 			end
 		elseif imgui.button(language.current_language.customization_menu.large_monster_UI) then
@@ -351,13 +360,16 @@ function customization_menu.draw()
 		end
 
 		imgui.same_line();
-		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.large_monster_UI]);
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI));
 
 
 
 		if customization_menu.large_monster_dynamic_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
-				config.current_config.global_settings.hotkeys.large_monster_dynamic_UI = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI.key = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI.ctrl = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI.shift = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI.alt = false;
 				customization_menu.large_monster_dynamic_UI_waiting_for_key = false;
 			end
 		elseif imgui.button(language.current_language.customization_menu.large_monster_dynamic_UI) then
@@ -375,13 +387,16 @@ function customization_menu.draw()
 		end
 
 		imgui.same_line();
-		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.large_monster_dynamic_UI]);
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI));
 
 
 
 		if customization_menu.large_monster_static_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
-				config.current_config.global_settings.hotkeys.large_monster_static_UI = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI.key = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI.ctrl = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI.shift = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI.alt = false;
 				customization_menu.large_monster_static_UI_waiting_for_key = false;
 			end
 		elseif imgui.button(language.current_language.customization_menu.large_monster_static_UI) then
@@ -399,13 +414,16 @@ function customization_menu.draw()
 		end
 
 		imgui.same_line();
-		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.large_monster_static_UI]);
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI));
 
 
 
 		if customization_menu.large_monster_highlighted_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
-				config.current_config.global_settings.hotkeys.large_monster_highlighted_UI = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI.key = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI.ctrl = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI.shift = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI.alt = false;
 				customization_menu.large_monster_highlighted_UI_waiting_for_key = false;
 			end
 		elseif imgui.button(language.current_language.customization_menu.large_monster_highlighted_UI) then
@@ -423,13 +441,16 @@ function customization_menu.draw()
 		end
 
 		imgui.same_line();
-		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.large_monster_highlighted_UI]);
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI));
 
 
 
 		if customization_menu.time_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
-				config.current_config.global_settings.hotkeys.time_UI = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.time_UI.key = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.time_UI.ctrl = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.time_UI.shift = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.time_UI.alt = false;
 				customization_menu.time_UI_waiting_for_key = false;
 			end
 		elseif imgui.button(language.current_language.customization_menu.time_UI) then
@@ -447,13 +468,16 @@ function customization_menu.draw()
 		end
 
 		imgui.same_line();
-		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.time_UI]);
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.time_UI));
 
 
 
 		if customization_menu.damage_meter_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
-				config.current_config.global_settings.hotkeys.damage_meter_UI = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.key = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.ctrl = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.shift = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.alt = false;
 				customization_menu.damage_meter_UI_waiting_for_key = false;
 			end
 		elseif imgui.button(language.current_language.customization_menu.damage_meter_UI) then
@@ -471,7 +495,7 @@ function customization_menu.draw()
 		end
 
 		imgui.same_line();
-		imgui.text(keyboard.keys[config.current_config.global_settings.hotkeys.damage_meter_UI]);
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI));
 
 
 

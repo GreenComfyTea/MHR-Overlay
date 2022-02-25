@@ -299,8 +299,9 @@ local get_transform_method = sdk.find_type_definition("via.GameObject"):get_meth
 local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position")
 
 function large_monster.update_position(enemy)
-	if not config.current_config.large_monster_UI.dynamic.enabled and
-		not config.current_config.large_monster_UI.static.enabled then
+	if not config.current_config.large_monster_UI.dynamic.enabled
+	and not config.current_config.large_monster_UI.static.enabled
+	and not config.current_config.large_monster_UI.highlighted.enabled then
 		return;
 	end
 
@@ -341,8 +342,9 @@ end
 
 function large_monster.update(enemy)
 	-- maybe more checks are needed here i'm not fully aware of how the code flows here
-	if not config.current_config.large_monster_UI.dynamic.enabled and
-		not config.current_config.large_monster_UI.static.enabled then
+	if not config.current_config.large_monster_UI.dynamic.enabled
+	and not config.current_config.large_monster_UI.static.enabled
+	and not config.current_config.large_monster_UI.highlighted.enabled then
 		return;
 	end
 

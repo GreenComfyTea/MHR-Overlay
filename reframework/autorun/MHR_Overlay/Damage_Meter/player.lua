@@ -430,7 +430,6 @@ function player.update_player_list_on_quest()
 
 		local player_id = member_index_field:get_data(player_info);
 		
-		x = player_info
 		if player_id == nil then
 			goto continue
 		end
@@ -470,18 +469,18 @@ end
 function player.init_total_UI(_player)
 	_player.damage_UI = {
 		total_damage_label = table_helpers.deep_copy(config.current_config.damage_meter_UI.total_damage_label),
-		damage_value_label = table_helpers.deep_copy(config.current_config.damage_meter_UI.total_damage_value_label),
-		total_damage_value_label = table_helpers.deep_copy(config.current_config.damage_meter_UI.total_dps_label)
+		total_damage_value_label = table_helpers.deep_copy(config.current_config.damage_meter_UI.total_damage_value_label),
+		total_dps_label = table_helpers.deep_copy(config.current_config.damage_meter_UI.total_dps_label)
 	};
 
 	_player.damage_UI.total_damage_label.offset.x = _player.damage_UI.total_damage_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
 	_player.damage_UI.total_damage_label.offset.y = _player.damage_UI.total_damage_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
 
-	_player.damage_UI.damage_value_label.offset.x = _player.damage_UI.damage_value_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	_player.damage_UI.damage_value_label.offset.y = _player.damage_UI.damage_value_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
-
 	_player.damage_UI.total_damage_value_label.offset.x = _player.damage_UI.total_damage_value_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
 	_player.damage_UI.total_damage_value_label.offset.y = _player.damage_UI.total_damage_value_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+
+	_player.damage_UI.total_dps_label.offset.x = _player.damage_UI.total_dps_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
+	_player.damage_UI.total_dps_label.offset.y = _player.damage_UI.total_dps_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
 end
 
 function player.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)

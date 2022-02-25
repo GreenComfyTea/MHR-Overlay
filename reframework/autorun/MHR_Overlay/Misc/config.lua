@@ -24,8 +24,8 @@ function config.init()
 			},
 
 			modifiers = {
-				global_position_modifier = 2,
-				global_scale_modifier = 2
+				global_position_modifier = 1,
+				global_scale_modifier = 1
 			},
 
 			performance = {
@@ -60,15 +60,62 @@ function config.init()
 				}
 			},
 
-			hotkeys = {
-				all_UI = 0,
-				small_monster_UI = 0,
-				large_monster_UI = 0,
-				large_monster_dynamic_UI = 0,
-				large_monster_static_UI = 0,
-				large_monster_highlighted_UI = 0,
-				time_UI = 0,
-				damage_meter_UI = 0,
+			hotkeys_with_modifiers = {
+				all_UI = {
+					shift = false,
+					ctrl = false,
+					alt = false,
+					key = 0
+				},
+
+				small_monster_UI = {
+					shift = false,
+					ctrl = false,
+					alt = false,
+					key = 0
+				},
+
+				large_monster_UI = {
+					shift = false,
+					ctrl = false,
+					alt = false,
+					key = 0
+				},
+
+				large_monster_dynamic_UI = {
+					shift = false,
+					ctrl = false,
+					alt = false,
+					key = 0
+				},
+
+				large_monster_static_UI = {
+					shift = false,
+					ctrl = false,
+					alt = false,
+					key = 0
+				},
+
+				large_monster_highlighted_UI = {
+					shift = false,
+					ctrl = false,
+					alt = false,
+					key = 0
+				},
+
+				time_UI = {
+					shift = false,
+					ctrl = false,
+					alt = false,
+					key = 0
+				},
+
+				damage_meter_UI = {
+					shift = false,
+					ctrl = false,
+					alt = false,
+					key = 0
+				}
 			}
 		},
 	
@@ -2026,7 +2073,7 @@ function config.init_module()
 
 	config.init();
 	config.load();
-	config.current_config.version = "v1.9";
+	config.current_config.version = "v1.9.1";
 
 	language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
 
