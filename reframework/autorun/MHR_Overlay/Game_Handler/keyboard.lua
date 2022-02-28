@@ -317,6 +317,8 @@ function keyboard.update()
 
 	local new_hotkey_registered = keyboard.register_hotkey(hard_keyboard);
 
+
+
 	if new_hotkey_registered then
 		config.save();
 	else
@@ -435,13 +437,16 @@ function keyboard.register_hotkey(hard_keyboard)
 			end
 		end
 	end
+
+	return false;
 end
 
 function keyboard.check_hotkeys(hard_keyboard)
 	if not (config.current_config.global_settings.hotkeys_with_modifiers.all_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.all_UI.shift and not keyboard.hotkey_modifiers_down.shift)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.all_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
-		if get_release_method:call(hard_keyboard, config.current_config.global_settings.hotkeys_with_modifiers.all_UI.key)then
+		if get_release_method:call(hard_keyboard, math.tointeger(config.current_config.global_settings.hotkeys_with_modifiers.all_UI.key)) then
+
 			local is_any_enabled = config.current_config.time_UI.enabled
 			or config.current_config.small_monster_UI.enabled
 			or config.current_config.large_monster_UI.dynamic.enabled
@@ -461,7 +466,7 @@ function keyboard.check_hotkeys(hard_keyboard)
 	if not (config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI.shift and not keyboard.hotkey_modifiers_down.shift)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
-		if get_release_method:call(hard_keyboard, config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI.key) then
+		if get_release_method:call(hard_keyboard, math.tointeger(config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI.key)) then
 			config.current_config.small_monster_UI.enabled = not config.current_config.small_monster_UI.enabled;
 		end
 	end
@@ -469,7 +474,7 @@ function keyboard.check_hotkeys(hard_keyboard)
 	if not (config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI.shift and not keyboard.hotkey_modifiers_down.shift)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
-		if get_release_method:call(hard_keyboard, config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI.key) then
+		if get_release_method:call(hard_keyboard, math.tointeger(config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI.key)) then
 			local is_any_enabled = config.current_config.large_monster_UI.dynamic.enabled
 				or config.current_config.large_monster_UI.static.enabled
 				or config.current_config.large_monster_UI.highlighted.enabled;
@@ -483,7 +488,7 @@ function keyboard.check_hotkeys(hard_keyboard)
 	if not (config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI.shift and not keyboard.hotkey_modifiers_down.shift)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
-		if get_release_method:call(hard_keyboard, config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI.key) then
+		if get_release_method:call(hard_keyboard, math.tointeger(config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI.key)) then
 			config.current_config.large_monster_UI.dynamic.enabled = not config.current_config.large_monster_UI.dynamic.enabled;
 		end
 	end
@@ -491,7 +496,7 @@ function keyboard.check_hotkeys(hard_keyboard)
 	if not (config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI.shift and not keyboard.hotkey_modifiers_down.shift)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
-		if get_release_method:call(hard_keyboard, config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI.key) then
+		if get_release_method:call(hard_keyboard, math.tointeger(config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI.key)) then
 			config.current_config.large_monster_UI.static.enabled = not config.current_config.large_monster_UI.static.enabled;
 		end
 	end
@@ -499,7 +504,7 @@ function keyboard.check_hotkeys(hard_keyboard)
 	if not (config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI.shift and not keyboard.hotkey_modifiers_down.shift)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
-		if get_release_method:call(hard_keyboard, config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI.key) then
+		if get_release_method:call(hard_keyboard, math.tointeger(config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI.key)) then
 			config.current_config.large_monster_UI.highlighted.enabled = not config.current_config.large_monster_UI.highlighted.enabled;
 		end
 	end
@@ -507,7 +512,7 @@ function keyboard.check_hotkeys(hard_keyboard)
 	if not (config.current_config.global_settings.hotkeys_with_modifiers.time_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.time_UI.shift and not keyboard.hotkey_modifiers_down.shift)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.time_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
-		if get_release_method:call(hard_keyboard, config.current_config.global_settings.hotkeys_with_modifiers.time_UI.key) then
+		if get_release_method:call(hard_keyboard, math.tointeger(config.current_config.global_settings.hotkeys_with_modifiers.time_UI.key)) then
 			config.current_config.time_UI.enabled = not config.current_config.time_UI.enabled;
 		end
 	end
@@ -515,7 +520,7 @@ function keyboard.check_hotkeys(hard_keyboard)
 	if not (config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.shift and not keyboard.hotkey_modifiers_down.shift)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
-		if get_release_method:call(hard_keyboard, config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.key) then
+		if get_release_method:call(hard_keyboard, math.tointeger(config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.key)) then
 			config.current_config.damage_meter_UI.enabled = not config.current_config.damage_meter_UI.enabled;
 		end
 	end
