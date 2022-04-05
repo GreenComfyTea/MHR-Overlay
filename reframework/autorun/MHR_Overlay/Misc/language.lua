@@ -228,6 +228,8 @@ language.default_language = {
 		installation_damage = "Installation Damage",
 		otomo_damage = "Otomo Damage",
 		monster_damage = "Monster Damage",
+		poison_damage = "Poison Damage",
+		blast_damage = "Blast Damage",
 
 		damage = "Damage",
 		
@@ -253,7 +255,7 @@ language.default_language = {
 		hotkeys = "Hotkeys",
 		all_UI = "All UI",
 		assign_new_key = "Assign new key",
-		press_any_key = "Press any key..."
+		press_any_key = "Press any key...",
 	}
 };
 

@@ -6341,6 +6341,18 @@ function customization_menu.draw()
 			damage_meter_UI_changed = damage_meter_UI_changed or changed;
 			tracked_damage_types_changed = tracked_damage_types_changed or changed;
 
+			changed, config.current_config.damage_meter_UI.tracked_damage_types.poison_damage =
+				imgui.checkbox(language.current_language.customization_menu.poison_damage, config.current_config.damage_meter_UI.tracked_damage_types.poison_damage);
+			config_changed = config_changed or changed;
+			damage_meter_UI_changed = damage_meter_UI_changed or changed;
+			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+
+			changed, config.current_config.damage_meter_UI.tracked_damage_types.blast_damage =
+				imgui.checkbox(language.current_language.customization_menu.blast_damage, config.current_config.damage_meter_UI.tracked_damage_types.blast_damage);
+			config_changed = config_changed or changed;
+			damage_meter_UI_changed = damage_meter_UI_changed or changed;
+			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+
 			if tracked_damage_types_changed then
 				for player_id, _player in pairs(player.list) do
 					player.update_display(_player);

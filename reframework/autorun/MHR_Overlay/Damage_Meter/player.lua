@@ -61,6 +61,18 @@ function player.new(player_id, player_name, player_hunter_rank)
 	new_player.small_monsters.monster.elemental_damage = 0;
 	new_player.small_monsters.monster.ailment_damage = 0;
 
+	new_player.small_monsters.poison = {};
+	new_player.small_monsters.poison.total_damage = 0;
+	new_player.small_monsters.poison.physical_damage = 0;
+	new_player.small_monsters.poison.elemental_damage = 0;
+	new_player.small_monsters.poison.ailment_damage = 0;
+
+	new_player.small_monsters.blast = {};
+	new_player.small_monsters.blast.total_damage = 0;
+	new_player.small_monsters.blast.physical_damage = 0;
+	new_player.small_monsters.blast.elemental_damage = 0;
+	new_player.small_monsters.blast.ailment_damage = 0;
+
 	new_player.large_monsters = {};
 
 	new_player.large_monsters.total_damage = 0;
@@ -97,6 +109,18 @@ function player.new(player_id, player_name, player_hunter_rank)
 	new_player.large_monsters.monster.physical_damage = 0;
 	new_player.large_monsters.monster.elemental_damage = 0;
 	new_player.large_monsters.monster.ailment_damage = 0;
+
+	new_player.large_monsters.poison = {};
+	new_player.large_monsters.poison.total_damage = 0;
+	new_player.large_monsters.poison.physical_damage = 0;
+	new_player.large_monsters.poison.elemental_damage = 0;
+	new_player.large_monsters.poison.ailment_damage = 0;
+
+	new_player.large_monsters.blast = {};
+	new_player.large_monsters.blast.total_damage = 0;
+	new_player.large_monsters.blast.physical_damage = 0;
+	new_player.large_monsters.blast.elemental_damage = 0;
+	new_player.large_monsters.blast.ailment_damage = 0;
 
 	new_player.display = {};
 	new_player.display.total_damage = 0;
@@ -146,8 +170,12 @@ function player.update_damage(_player, damage_source_type, is_large_monster, dam
 		player.merge_damage(player_monster_type.otomo, damage_object);
 	elseif damage_source_type == "monster" then
 		player.merge_damage(player_monster_type.monster, damage_object);
+	elseif damage_source_type == "poison" then
+		player.merge_damage(player_monster_type.poison, damage_object);
+	elseif damage_source_type == "blast" then
+		player.merge_damage(player_monster_type.blast, damage_object);
 	else
-		player.merge_damage(_player, damage_object);
+		player.merge_damage(player_monster_type, damage_object);
 	end
 
 	player.update_display(_player);
@@ -187,6 +215,14 @@ function player.update_display(_player)
 		if config.current_config.damage_meter_UI.tracked_damage_types.monster_damage then
 			player.merge_damage(_player.display, _player.small_monsters.monster);
 		end
+
+		if config.current_config.damage_meter_UI.tracked_damage_types.poison_damage then
+			player.merge_damage(_player.display, _player.small_monsters.poison);
+		end
+
+		if config.current_config.damage_meter_UI.tracked_damage_types.blast_damage then
+			player.merge_damage(_player.display, _player.small_monsters.blast);
+		end
 	end
 
 	if config.current_config.damage_meter_UI.tracked_monster_types.large_monsters then
@@ -212,6 +248,14 @@ function player.update_display(_player)
 	
 		if config.current_config.damage_meter_UI.tracked_damage_types.monster_damage then
 			player.merge_damage(_player.display, _player.large_monsters.monster);
+		end
+
+		if config.current_config.damage_meter_UI.tracked_damage_types.poison_damage then
+			player.merge_damage(_player.display, _player.large_monsters.poison);
+		end
+
+		if config.current_config.damage_meter_UI.tracked_damage_types.blast_damage then
+			player.merge_damage(_player.display, _player.large_monsters.blast);
 		end
 	end
 end
@@ -273,8 +317,6 @@ end
 
 local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
 local my_hunter_info_field = lobby_manager_type_def:get_field("_myHunterInfo");
-local myself_index_field = lobby_manager_type_def:get_field("_myselfIndex");
-local myself_quest_index_field = lobby_manager_type_def:get_field("_myselfQuestIndex");
 
 local quest_hunter_info_field = lobby_manager_type_def:get_field("_questHunterInfo");
 local hunter_info_field = lobby_manager_type_def:get_field("_hunterInfo");
@@ -290,6 +332,9 @@ local get_item_method = hunter_info_type_def:get_method("get_Item");
 
 local progress_manager_type_def = sdk.find_type_definition("snow.progress.ProgressManager");
 local get_hunter_rank_method = progress_manager_type_def:get_method("get_HunterRank");
+
+local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
+local get_master_player_id_method = player_manager_type_def:get_method("getMasterPlayerID");
 
 function player.update_player_list_in_village()
 	if singletons.lobby_manager == nil then
@@ -318,12 +363,12 @@ function player.update_player_list_in_village()
 		customization_menu.status = "No myself hunter rank";
 		myself_hunter_rank = 0;
 	end
-		
-	local myself_id = myself_index_field:get_data(singletons.lobby_manager);
+
+	local myself_id = get_master_player_id_method:call(singletons.player_manager);
 	if myself_id == nil then
 		customization_menu.status = "No myself player id";
 	elseif player.myself == nil or myself_id ~= player.myself.id then
-		player.myself = player.new(myself_id, myself_player_name, myself_hunter_rank);
+			player.myself = player.new(myself_id, myself_player_name, myself_hunter_rank);
 		player.list[myself_id] = player.myself;
 	end
 
@@ -399,14 +444,13 @@ function player.update_player_list_on_quest()
 		myself_hunter_rank = 0;
 	end
 
-	local myself_id = myself_quest_index_field:get_data(singletons.lobby_manager);
+	local myself_id = get_master_player_id_method:call(singletons.player_manager);
 	if myself_id == nil then
-		customization_menu.status = "No myself player quest id";
+		customization_menu.status = "No myself player id";
 	elseif player.myself == nil or myself_id ~= player.myself.id then
 			player.myself = player.new(myself_id, myself_player_name, myself_hunter_rank);
 		player.list[myself_id] = player.myself;
 	end
-
 	
 	-- other players
 	local player_info_list = quest_hunter_info_field:get_data(singletons.lobby_manager);
@@ -426,7 +470,6 @@ function player.update_player_list_on_quest()
 		if player_info == nil then
 			goto continue
 		end
-
 
 		local player_id = member_index_field:get_data(player_info);
 		

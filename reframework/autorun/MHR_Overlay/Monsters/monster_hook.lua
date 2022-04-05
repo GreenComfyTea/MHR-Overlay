@@ -67,42 +67,33 @@ function monster.update_monster(enemy)
 		return;
 	end
 
+	-- this is the VERY LEAST thing we should do all the time
+	-- so the position doesn't lag all over the place
+	-- due to how infrequently we update the monster(s).
+	if is_large then
+		large_monster.update_position(enemy);
+		large_monster.update_ailments(enemy);
+	else
+		small_monster.update_position(enemy);
+		small_monster.update_ailments(enemy);
+	end
+
 	if updated_monsters[enemy] then
-		-- this is the VERY LEAST thing we should do all the time
-		-- so the position doesn't lag all over the place
-		-- due to how infrequently we update the monster(s).
 		if is_large then
-			large_monster.update_position(enemy);
 			if not config.current_config.global_settings.performance.prioritize_large_monsters then
 				return;
 			end
-		else
-			small_monster.update_position(enemy);
+		else	
 			return;
 		end
-
 	end
 
-    -- only updates N monsters per tick to increase performance
-    if tick_count == last_update_tick then
-		if updates_this_tick >= config.current_config.global_settings.performance.max_monster_updates_per_tick then
-			-- this is the VERY LEAST thing we should do all the time
-			-- so the position doesn't lag all over the place
-			-- due to how infrequently we update the monster(s).
-			if is_large then
-				large_monster.update_position(enemy);
-				if not config.current_config.global_settings.performance.prioritize_large_monsters then
-					return
-				end
-			else
-				small_monster.update_position(enemy);
-				return;
-			end
-		end
-    end
+	-- is it old tick?
+	-- is update limit reached?
+	if tick_count == last_update_tick and updates_this_tick >= config.current_config.global_settings.performance.max_monster_updates_per_tick then
+		return;
+	end
 
-	
-	
 	-- actually update the enemy now. we don't do this very often
 	-- due to how much CPU time it takes to update each monster.
 	if is_large then

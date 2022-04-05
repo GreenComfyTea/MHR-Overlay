@@ -87,6 +87,10 @@ function quest_status.update_is_training_area()
 		return;
 	end
 
+	if quest_status.is_training_area == true and _is_training_area == false then
+		player.init();
+	end
+
 	quest_status.is_training_area = _is_training_area;
 end
 

@@ -9,6 +9,8 @@ local stamina_UI_entity;
 local rage_UI_entity;
 local screen;
 local drawing;
+local ailments;
+local player;
 
 local body_part;
 local part_names;
@@ -18,7 +20,9 @@ large_monster.list = {};
 function large_monster.new(enemy)
 	local monster = {};
 	monster.is_large = true;
+
 	monster.id = 0;
+	monster.unique_id = 0;
 
 	monster.health = 0;
 	monster.max_health = 999999;
@@ -61,7 +65,20 @@ function large_monster.new(enemy)
 	monster.crown = "";
 
 	monster.parts = {};
-	
+
+	monster.ailment = {};
+	monster.ailment[ailments.poison_id] = {};
+	monster.ailment[ailments.poison_id].buildup = {};
+	monster.ailment[ailments.poison_id].share = {};
+	monster.ailment[ailments.poison_id].activate_count = 0;
+
+	monster.ailment[ailments.blast_id] = {};
+	monster.ailment[ailments.blast_id].buildup = {};
+	monster.ailment[ailments.blast_id].share = {};
+	monster.ailment[ailments.blast_id].activate_count = 0;
+
+	monster.rider_id = -1;
+
 	large_monster.init(monster, enemy);
 	large_monster.init_static_UI(monster);
 	large_monster.init_dynamic_UI(monster);
@@ -76,7 +93,6 @@ end
 function large_monster.get_monster(enemy)
 	if large_monster.list[enemy] == nil then
 		return large_monster.new(enemy);
-		
 	end
 	return large_monster.list[enemy];
 end
@@ -96,6 +112,11 @@ local get_small_border_method = size_info_type:get_method("get_SmallBorder");
 local get_big_border_method = size_info_type:get_method("get_BigBorder");
 local get_king_border_method = size_info_type:get_method("get_KingBorder");
 
+local get_set_info_method = enemy_character_base_type_def:get_method("get_SetInfo");
+
+local set_info_type = get_set_info_method:get_return_type();
+local get_unique_id_method = set_info_type:get_method("get_UniqueId");
+
 function large_monster.init(monster, enemy)
 	local enemy_type = enemy_type_field:get_data(enemy);
 	if enemy_type == nil then
@@ -108,6 +129,14 @@ function large_monster.init(monster, enemy)
 	local enemy_name = get_enemy_name_message_method:call(singletons.message_manager, enemy_type);
 	if enemy_name ~= nil then
 		monster.name = enemy_name;
+	end
+
+	local set_info = get_set_info_method:call(enemy);
+	if set_info ~= nil then
+		local unique_id = get_unique_id_method:call(set_info);
+		if unique_id ~= nil then
+			monster.unique_id = unique_id;
+		end
 	end
 
 	local size_info = find_enemy_size_info_method:call(singletons.enemy_manager, enemy_type);
@@ -268,37 +297,58 @@ function large_monster.init_highlighted_UI(monster)
 end
 
 local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
-local status_param_field = enemy_character_base_type_def:get_field("<StatusParam>k__BackingField")
-local stamina_param_field = enemy_character_base_type_def:get_field("<StaminaParam>k__BackingField")
-local anger_param_field = enemy_character_base_type_def:get_field("<AngerParam>k__BackingField")
+local stamina_param_field = enemy_character_base_type_def:get_field("<StaminaParam>k__BackingField");
+local anger_param_field = enemy_character_base_type_def:get_field("<AngerParam>k__BackingField");
+local damage_param_field = enemy_character_base_type_def:get_field("<DamageParam>k__BackingField");
 local check_die_method = enemy_character_base_type_def:get_method("checkDie");
 
 local physical_param_type = physical_param_field:get_type();
-local get_vital_method = physical_param_type:get_method("getVital")
-local get_capture_hp_vital_method = physical_param_type:get_method("get_CaptureHpVital")
-local vital_list_field = physical_param_type:get_field("_VitalList")
+local get_vital_method = physical_param_type:get_method("getVital");
+local get_capture_hp_vital_method = physical_param_type:get_method("get_CaptureHpVital");
+local vital_list_field = physical_param_type:get_field("_VitalList");
 
 local vital_param_type = get_vital_method:get_return_type();
-local get_current_method = vital_param_type:get_method("get_Current")
-local get_max_method = vital_param_type:get_method("get_Max")
+local get_current_method = vital_param_type:get_method("get_Current");
+local get_max_method = vital_param_type:get_method("get_Max");
 
 local stamina_param_type = stamina_param_field:get_type();
-local get_stamina_method = stamina_param_type:get_method("getStamina")
-local get_max_stamina_method = stamina_param_type:get_method("getMaxStamina")
+local get_stamina_method = stamina_param_type:get_method("getStamina");
+local get_max_stamina_method = stamina_param_type:get_method("getMaxStamina");
 
 local anger_param_type = anger_param_field:get_type();
-local is_anger_method = anger_param_type:get_method("isAnger")
-local get_anger_point_method = anger_param_type:get_method("get_AngerPoint")
-local get_limit_anger_method = anger_param_type:get_method("get_LimitAnger")
-local anger_param_get_timer_method = anger_param_type:get_method("get_Timer")
-local get_timer_anger_method = anger_param_type:get_method("get_TimerAnger")
-local get_count_anger_method = anger_param_type:get_method("get_CountAnger")
+local is_anger_method = anger_param_type:get_method("isAnger");
+local get_anger_point_method = anger_param_type:get_method("get_AngerPoint");
+local get_limit_anger_method = anger_param_type:get_method("get_LimitAnger");
+local anger_param_get_timer_method = anger_param_type:get_method("get_Timer");
+local get_timer_anger_method = anger_param_type:get_method("get_TimerAnger");
+local get_count_anger_method = anger_param_type:get_method("get_CountAnger");
 
-local get_game_object_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject")
-local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform")
-local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position")
+local damage_param_type = damage_param_field:get_type();
+local poison_param_field = damage_param_type:get_field("_PoisonParam");
+local blast_param_field = damage_param_type:get_field("_BlastParam");
+
+local poison_param_type = poison_param_field:get_type();
+local poison_get_activate_count_method = poison_param_type:get_method("get_ActivateCount");
+local poison_damage_field = poison_param_type:get_field("<Damage>k__BackingField");
+local poison_get_is_damage_method = poison_param_type:get_method("get_IsDamage");
+
+local blast_param_type = blast_param_field:get_type();
+local blast_get_activate_count_method = blast_param_type:get_method("get_ActivateCount");
+local blast_damage_method = blast_param_type:get_method("get_BlastDamage");
+local blast_adjust_rate_method = blast_param_type:get_method("get_BlastDamageAdjustRateByEnemyLv");
+
+local mario_param_field = enemy_character_base_type_def:get_field("<MarioParam>k__BackingField");
+
+local mario_param_type = mario_param_field:get_type();
+local get_is_marionette_method = mario_param_type:get_method("get_IsMarionette");
+local get_mario_player_index_method = mario_param_type:get_method("get_MarioPlayerIndex");
+
+local get_game_object_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject");
+local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform");
+local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position");
 
 function large_monster.update_position(enemy)
+
 	if not config.current_config.large_monster_UI.dynamic.enabled
 	and not config.current_config.large_monster_UI.static.enabled
 	and not config.current_config.large_monster_UI.highlighted.enabled then
@@ -340,8 +390,71 @@ function large_monster.update_position(enemy)
 	end
 end
 
+-- Code by coavins
+function large_monster.update_all_riders()
+	for enemy, monster in pairs(large_monster.list) do
+		-- get marionette rider
+		local mario_param = enemy:get_field("<MarioParam>k__BackingField");
+		if mario_param ~= nil then
+			local is_marionette = get_is_marionette_method:call(mario_param);
+			if is_marionette then
+				local player_id = get_mario_player_index_method:call(mario_param);
+				if monster.rider_id ~= player_id then
+					monster.rider_id = player_id;
+				end
+			end
+		end
+	end
+	
+end
+
+-- Code by coavins
+function large_monster.update_ailments(enemy)
+	if enemy == nil then
+		return;
+	end
+
+	local monster = large_monster.get_monster(enemy);
+
+	local damage_param = damage_param_field:get_data(enemy);
+	if damage_param ~= nil then
+
+		local poison_param = poison_param_field:get_data(damage_param);
+		if poison_param ~= nil then
+			-- if applied, then calculate share for poison
+			local activate_count = poison_get_activate_count_method:call(poison_param):get_element(0):get_field("mValue");
+			if activate_count > monster.ailment[ailments.poison_id].activate_count then
+				monster.ailment[ailments.poison_id].activate_count = activate_count;
+				ailments.calculate_ailment_contribution(monster, ailments.poison_id);
+			end
+			-- if poison tick, apply damage
+			local poison_damage = poison_damage_field:get_data(poison_param);
+			local is_damage = poison_get_is_damage_method:call(poison_param);
+
+			if is_damage then
+				ailments.apply_ailment_damage(monster, ailments.poison_id, poison_damage);
+			end
+		end
+
+		local blast_param = blast_param_field:get_data(damage_param);
+		if blast_param ~= nil then
+			-- if applied, then calculate share for blast and apply damage
+			local activate_count = blast_get_activate_count_method:call(blast_param):get_element(0):get_field("mValue");
+
+			if activate_count > monster.ailment[ailments.blast_id].activate_count then
+				monster.ailment[ailments.blast_id].activate_count = activate_count;
+				ailments.calculate_ailment_contribution(monster, ailments.blast_id);
+
+				local blast_damage = blast_damage_method:call(blast_param);
+				local blast_adjust_rate = blast_adjust_rate_method:call(blast_param);
+				
+				ailments.apply_ailment_damage(monster, ailments.blast_id, blast_damage * blast_adjust_rate);
+			end
+		end
+	end
+end
+
 function large_monster.update(enemy)
-	-- maybe more checks are needed here i'm not fully aware of how the code flows here
 	if not config.current_config.large_monster_UI.dynamic.enabled
 	and not config.current_config.large_monster_UI.static.enabled
 	and not config.current_config.large_monster_UI.highlighted.enabled then
@@ -464,7 +577,7 @@ function large_monster.update(enemy)
 		::continue::
 	end
 
-	large_monster.update_position(enemy);
+	--large_monster.update_position(enemy);
 
 	if health ~= nil then
 		monster.health = health;
@@ -710,7 +823,7 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 
 	stamina_UI_entity.draw(monster, monster.stamina_static_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_static_UI, rage_position_on_screen, opacity_scale);
-
+	
 	--sort parts here
 	local displayed_parts = {};
 	for REpart, part in pairs(monster.parts) do
@@ -886,6 +999,8 @@ function large_monster.init_module()
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	drawing = require("MHR_Overlay.UI.drawing");
 	part_names = require("MHR_Overlay.Misc.part_names");
+	ailments = require("MHR_Overlay.Damage_Meter.ailments");
+	player = require("MHR_Overlay.Damage_Meter.player");
 end
 
 return large_monster;
