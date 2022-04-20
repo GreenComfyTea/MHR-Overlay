@@ -57,6 +57,30 @@ language.default_language = {
 		rock = "Rock"
 	},
 
+	ailments = {
+		paralysis = "Paralysis",
+		sleep = "Sleep",
+		stun = "Stun",
+		flash = "Flash",
+		poison = "Poison",
+		blast = "Blast",
+		exhaust ="Exhaust",
+		mount = "Mount",
+		waterblight = "Waterblight",
+		fireblight = "Fireblight",
+		iceblight = "Iceblight",
+		thunderblight = "Thunderblight",
+
+		fall_trap = "Fall Trap",
+		shock_trap = "Shock Trap",
+		tranq_bomb = "Tranq Bomb",
+		dung_bomb = "Dung Bomb",
+		steel_fang = "Steel Fang",
+		quick_sand = "Quick Sand",
+		fall_otomo_trap = "Fall Otomo Trap",
+		shock_otomo_trap = "Shock Otomo Trap"
+	},
+
 	UI = {
 		HP = "HP:",
 		stamina = "Stamina:",
@@ -65,7 +89,8 @@ language.default_language = {
 		silver = "Silver",
 		mini = "Mini",
 		total_damage = "Total Damage",
-		player = "Player"
+		player = "Player",
+		buildup = "Buildup:"
 	},
 
 	customization_menu = {
@@ -256,6 +281,22 @@ language.default_language = {
 		all_UI = "All UI",
 		assign_new_key = "Assign new key",
 		press_any_key = "Press any key...",
+
+		buildup = "Buildup",
+		buildup_percentage = "Buildup Percentage",
+
+		ailments = "Ailments",
+		hide_ailments_with_zero_buildup = "Hide Ailments when Buildup is 0",
+		hide_inactive_ailments_with_no_buildup_support = "Hide Inactive Ailments with no Buildup Support",
+		hide_all_inactive_ailments = "Hide All Inactive Ailments",
+		hide_all_active_ailments = "Hide All Active Ailments",
+		hide_disabled_ailments = "Hide Disabled Ailments",
+		offset_is_relative_to_parts = "Offset is Relative to Parts",
+		time_limit = "Time Limit (seconds)",
+		ailment_name_label = "Ailment Name Label",
+		ailment_name = "Ailment Name",
+		activation_count = "Activation Count"
+
 	}
 };
 

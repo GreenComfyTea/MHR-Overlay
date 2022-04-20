@@ -7,10 +7,12 @@ local table_helpers;
 local health_UI_entity;
 local stamina_UI_entity;
 local rage_UI_entity;
+local ailment_UI_entity;
 local screen;
 local drawing;
 local ailments;
 local player;
+local time;
 
 local body_part;
 local part_names;
@@ -66,16 +68,7 @@ function large_monster.new(enemy)
 
 	monster.parts = {};
 
-	monster.ailment = {};
-	monster.ailment[ailments.poison_id] = {};
-	monster.ailment[ailments.poison_id].buildup = {};
-	monster.ailment[ailments.poison_id].share = {};
-	monster.ailment[ailments.poison_id].activate_count = 0;
-
-	monster.ailment[ailments.blast_id] = {};
-	monster.ailment[ailments.blast_id].buildup = {};
-	monster.ailment[ailments.blast_id].share = {};
-	monster.ailment[ailments.blast_id].activate_count = 0;
+	monster.ailments = ailments.init_ailments();
 
 	monster.rider_id = -1;
 
@@ -130,7 +123,6 @@ function large_monster.init(monster, enemy)
 	if enemy_name ~= nil then
 		monster.name = enemy_name;
 	end
-
 	local set_info = get_set_info_method:call(enemy);
 	if set_info ~= nil then
 		local unique_id = get_unique_id_method:call(set_info);
@@ -171,6 +163,56 @@ function large_monster.init(monster, enemy)
 			monster.crown = language.current_language.UI.silver;
 		end
 	end
+end
+
+function large_monster.init_dynamic_UI(monster)
+	monster.dynamic_name_label = table_helpers.deep_copy(config.current_config.large_monster_UI.dynamic.monster_name_label);
+
+	monster.health_dynamic_UI = health_UI_entity.new(
+		config.current_config.large_monster_UI.dynamic.health.visibility,
+		config.current_config.large_monster_UI.dynamic.health.bar,
+		config.current_config.large_monster_UI.dynamic.health.text_label,
+		config.current_config.large_monster_UI.dynamic.health.value_label,
+		config.current_config.large_monster_UI.dynamic.health.percentage_label
+	);
+
+	monster.health_dynamic_UI.bar.capture_line.offset.x = monster.health_dynamic_UI.bar.capture_line.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
+	monster.health_dynamic_UI.bar.capture_line.offset.y = monster.health_dynamic_UI.bar.capture_line.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	monster.health_dynamic_UI.bar.capture_line.size.width = monster.health_dynamic_UI.bar.capture_line.size.width * config.current_config.global_settings.modifiers.global_scale_modifier;
+	monster.health_dynamic_UI.bar.capture_line.size.height = monster.health_dynamic_UI.bar.capture_line.size.height * config.current_config.global_settings.modifiers.global_scale_modifier;
+
+	monster.health_dynamic_UI.bar.colors = config.current_config.large_monster_UI.dynamic.health.bar.normal_colors;
+
+	monster.stamina_dynamic_UI = stamina_UI_entity.new(
+		config.current_config.large_monster_UI.dynamic.stamina.visibility,
+		config.current_config.large_monster_UI.dynamic.stamina.bar,
+		config.current_config.large_monster_UI.dynamic.stamina.text_label,
+		config.current_config.large_monster_UI.dynamic.stamina.value_label,
+		config.current_config.large_monster_UI.dynamic.stamina.percentage_label
+	);
+
+	monster.rage_dynamic_UI = rage_UI_entity.new(
+		config.current_config.large_monster_UI.dynamic.rage.visibility,
+		config.current_config.large_monster_UI.dynamic.rage.bar,
+		config.current_config.large_monster_UI.dynamic.rage.text_label,
+		config.current_config.large_monster_UI.dynamic.rage.value_label,
+		config.current_config.large_monster_UI.dynamic.rage.percentage_label,
+		config.current_config.large_monster_UI.dynamic.rage.timer_label
+	);
+
+	for REpart, part in pairs(monster.parts) do
+		body_part.init_dynamic_UI(part);
+	end
+
+	monster.ailment_dynamic_UI = ailment_UI_entity.new(
+		config.current_config.large_monster_UI.dynamic.ailments.visibility,
+		config.current_config.large_monster_UI.dynamic.ailments.bar,
+		config.current_config.large_monster_UI.dynamic.ailments.ailment_name_label,
+		config.current_config.large_monster_UI.dynamic.ailments.text_label,
+		config.current_config.large_monster_UI.dynamic.ailments.value_label,
+		config.current_config.large_monster_UI.dynamic.ailments.percentage_label,
+		config.current_config.large_monster_UI.dynamic.ailments.timer_label
+	);
 end
 
 function large_monster.init_static_UI(monster)
@@ -214,46 +256,16 @@ function large_monster.init_static_UI(monster)
 	for REpart, part in pairs(monster.parts) do
 		body_part.init_static_UI(part);
 	end
-end
 
-function large_monster.init_dynamic_UI(monster)
-	monster.dynamic_name_label = table_helpers.deep_copy(config.current_config.large_monster_UI.dynamic.monster_name_label);
-
-	monster.health_dynamic_UI = health_UI_entity.new(
-		config.current_config.large_monster_UI.dynamic.health.visibility,
-		config.current_config.large_monster_UI.dynamic.health.bar,
-		config.current_config.large_monster_UI.dynamic.health.text_label,
-		config.current_config.large_monster_UI.dynamic.health.value_label,
-		config.current_config.large_monster_UI.dynamic.health.percentage_label
+	monster.ailment_static_UI = ailment_UI_entity.new(
+		config.current_config.large_monster_UI.static.ailments.visibility,
+		config.current_config.large_monster_UI.static.ailments.bar,
+		config.current_config.large_monster_UI.static.ailments.ailment_name_label,
+		config.current_config.large_monster_UI.static.ailments.text_label,
+		config.current_config.large_monster_UI.static.ailments.value_label,
+		config.current_config.large_monster_UI.static.ailments.percentage_label,
+		config.current_config.large_monster_UI.static.ailments.timer_label
 	);
-
-	monster.health_dynamic_UI.bar.capture_line.offset.x = monster.health_dynamic_UI.bar.capture_line.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	monster.health_dynamic_UI.bar.capture_line.offset.y = monster.health_dynamic_UI.bar.capture_line.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
-	monster.health_dynamic_UI.bar.capture_line.size.width = monster.health_dynamic_UI.bar.capture_line.size.width * config.current_config.global_settings.modifiers.global_scale_modifier;
-	monster.health_dynamic_UI.bar.capture_line.size.height = monster.health_dynamic_UI.bar.capture_line.size.height * config.current_config.global_settings.modifiers.global_scale_modifier;
-
-	monster.health_dynamic_UI.bar.colors = config.current_config.large_monster_UI.dynamic.health.bar.normal_colors;
-
-	monster.stamina_dynamic_UI = stamina_UI_entity.new(
-		config.current_config.large_monster_UI.dynamic.stamina.visibility,
-		config.current_config.large_monster_UI.dynamic.stamina.bar,
-		config.current_config.large_monster_UI.dynamic.stamina.text_label,
-		config.current_config.large_monster_UI.dynamic.stamina.value_label,
-		config.current_config.large_monster_UI.dynamic.stamina.percentage_label
-	);
-
-	monster.rage_dynamic_UI = rage_UI_entity.new(
-		config.current_config.large_monster_UI.dynamic.rage.visibility,
-		config.current_config.large_monster_UI.dynamic.rage.bar,
-		config.current_config.large_monster_UI.dynamic.rage.text_label,
-		config.current_config.large_monster_UI.dynamic.rage.value_label,
-		config.current_config.large_monster_UI.dynamic.rage.percentage_label,
-		config.current_config.large_monster_UI.dynamic.rage.timer_label
-	);
-
-	for REpart, part in pairs(monster.parts) do
-		body_part.init_dynamic_UI(part);
-	end
 end
 
 function large_monster.init_highlighted_UI(monster)
@@ -294,12 +306,21 @@ function large_monster.init_highlighted_UI(monster)
 	for REpart, part in pairs(monster.parts) do
 		body_part.init_highlighted_UI(part);
 	end
+
+	monster.ailment_highlighted_UI = ailment_UI_entity.new(
+		config.current_config.large_monster_UI.highlighted.ailments.visibility,
+		config.current_config.large_monster_UI.highlighted.ailments.bar,
+		config.current_config.large_monster_UI.highlighted.ailments.ailment_name_label,
+		config.current_config.large_monster_UI.highlighted.ailments.text_label,
+		config.current_config.large_monster_UI.highlighted.ailments.value_label,
+		config.current_config.large_monster_UI.highlighted.ailments.percentage_label,
+		config.current_config.large_monster_UI.highlighted.ailments.timer_label
+	);
 end
 
 local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
 local stamina_param_field = enemy_character_base_type_def:get_field("<StaminaParam>k__BackingField");
 local anger_param_field = enemy_character_base_type_def:get_field("<AngerParam>k__BackingField");
-local damage_param_field = enemy_character_base_type_def:get_field("<DamageParam>k__BackingField");
 local check_die_method = enemy_character_base_type_def:get_method("checkDie");
 
 local physical_param_type = physical_param_field:get_type();
@@ -322,20 +343,6 @@ local get_limit_anger_method = anger_param_type:get_method("get_LimitAnger");
 local anger_param_get_timer_method = anger_param_type:get_method("get_Timer");
 local get_timer_anger_method = anger_param_type:get_method("get_TimerAnger");
 local get_count_anger_method = anger_param_type:get_method("get_CountAnger");
-
-local damage_param_type = damage_param_field:get_type();
-local poison_param_field = damage_param_type:get_field("_PoisonParam");
-local blast_param_field = damage_param_type:get_field("_BlastParam");
-
-local poison_param_type = poison_param_field:get_type();
-local poison_get_activate_count_method = poison_param_type:get_method("get_ActivateCount");
-local poison_damage_field = poison_param_type:get_field("<Damage>k__BackingField");
-local poison_get_is_damage_method = poison_param_type:get_method("get_IsDamage");
-
-local blast_param_type = blast_param_field:get_type();
-local blast_get_activate_count_method = blast_param_type:get_method("get_ActivateCount");
-local blast_damage_method = blast_param_type:get_method("get_BlastDamage");
-local blast_adjust_rate_method = blast_param_type:get_method("get_BlastDamageAdjustRateByEnemyLv");
 
 local mario_param_field = enemy_character_base_type_def:get_field("<MarioParam>k__BackingField");
 
@@ -406,52 +413,6 @@ function large_monster.update_all_riders()
 		end
 	end
 	
-end
-
--- Code by coavins
-function large_monster.update_ailments(enemy)
-	if enemy == nil then
-		return;
-	end
-
-	local monster = large_monster.get_monster(enemy);
-
-	local damage_param = damage_param_field:get_data(enemy);
-	if damage_param ~= nil then
-
-		local poison_param = poison_param_field:get_data(damage_param);
-		if poison_param ~= nil then
-			-- if applied, then calculate share for poison
-			local activate_count = poison_get_activate_count_method:call(poison_param):get_element(0):get_field("mValue");
-			if activate_count > monster.ailment[ailments.poison_id].activate_count then
-				monster.ailment[ailments.poison_id].activate_count = activate_count;
-				ailments.calculate_ailment_contribution(monster, ailments.poison_id);
-			end
-			-- if poison tick, apply damage
-			local poison_damage = poison_damage_field:get_data(poison_param);
-			local is_damage = poison_get_is_damage_method:call(poison_param);
-
-			if is_damage then
-				ailments.apply_ailment_damage(monster, ailments.poison_id, poison_damage);
-			end
-		end
-
-		local blast_param = blast_param_field:get_data(damage_param);
-		if blast_param ~= nil then
-			-- if applied, then calculate share for blast and apply damage
-			local activate_count = blast_get_activate_count_method:call(blast_param):get_element(0):get_field("mValue");
-
-			if activate_count > monster.ailment[ailments.blast_id].activate_count then
-				monster.ailment[ailments.blast_id].activate_count = activate_count;
-				ailments.calculate_ailment_contribution(monster, ailments.blast_id);
-
-				local blast_damage = blast_damage_method:call(blast_param);
-				local blast_adjust_rate = blast_adjust_rate_method:call(blast_param);
-				
-				ailments.apply_ailment_damage(monster, ailments.blast_id, blast_damage * blast_adjust_rate);
-			end
-		end
-	end
 end
 
 function large_monster.update(enemy)
@@ -577,8 +538,6 @@ function large_monster.update(enemy)
 		::continue::
 	end
 
-	--large_monster.update_position(enemy);
-
 	if health ~= nil then
 		monster.health = health;
 	end
@@ -665,6 +624,8 @@ function large_monster.update(enemy)
 	if rage_count ~= nil then
 		monster.rage_count = rage_count;
 	end
+
+	ailments.update_ailments(enemy, monster);
 end
 
 function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
@@ -712,6 +673,11 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.parts.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
 		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.parts.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
+
+	local ailments_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.ailments.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+	};
 	
 	health_UI_entity.draw(monster, monster.health_dynamic_UI, health_position_on_screen, opacity_scale);
 	drawing.draw_capture_line(monster.health_dynamic_UI.bar, health_position_on_screen, opacity_scale, monster.capture_percentage);
@@ -719,57 +685,17 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 	stamina_UI_entity.draw(monster, monster.stamina_dynamic_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_dynamic_UI, rage_position_on_screen, opacity_scale);
 
-	--sort parts here
-	local displayed_parts = {};
-	for REpart, part in pairs(monster.parts) do
-		if config.current_config.large_monster_UI.dynamic.parts.settings.hide_undamaged_parts and part.health == part.max_health and part.flinch_count == 0 then
-			goto continue;
-		end
+	local last_part_position_on_screen = body_part.draw_dynamic(monster, parts_position_on_screen, opacity_scale);
 
-		table.insert(displayed_parts, part);
-		::continue::
-	end
-
-	if config.current_config.large_monster_UI.dynamic.parts.sorting.type == "Normal" then
-		if config.current_config.large_monster_UI.dynamic.parts.sorting.reversed_order then
-			table.sort(displayed_parts, function(left, right)
-				return left.id > right.id;
-			end);
+	if config.current_config.large_monster_UI.dynamic.ailments.settings.offset_is_relative_to_parts then
+		if last_part_position_on_screen == nil then
+			ailments_position_on_screen = parts_position_on_screen;
 		else
-			table.sort(displayed_parts, function(left, right)
-				return left.id < right.id;
-			end);
-		end
-	elseif config.current_config.large_monster_UI.dynamic.parts.sorting.type == "Health" then
-		if config.current_config.large_monster_UI.dynamic.parts.sorting.reversed_order then
-			table.sort(displayed_parts, function(left, right)
-				return left.health > right.health;
-			end);
-		else
-			table.sort(displayed_parts, function(left, right)
-				return left.health < right.health;
-			end);
-		end
-	elseif config.current_config.large_monster_UI.dynamic.parts.sorting.type == "Health Percentage" then
-		if config.current_config.large_monster_UI.dynamic.parts.sorting.reversed_order then
-			table.sort(displayed_parts, function(left, right)
-				return left.health_percentage > right.health_percentage;
-			end);
-		else
-			table.sort(displayed_parts, function(left, right)
-				return left.health_percentage < right.health_percentage;
-			end);
+			ailments_position_on_screen.y = last_part_position_on_screen.y + config.current_config.large_monster_UI.dynamic.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
 		end
 	end
 
-	for j, part in ipairs(displayed_parts) do
-		local part_position_on_screen = {
-			x = parts_position_on_screen.x + config.current_config.large_monster_UI.dynamic.parts.spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = parts_position_on_screen.y + config.current_config.large_monster_UI.dynamic.parts.spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
-		}
-		
-		body_part.draw_dynamic(part, part_position_on_screen, opacity_scale);
-	end
+	ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_scale);
 end
 
 function large_monster.draw_static(monster, position_on_screen, opacity_scale)
@@ -818,66 +744,32 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 		y = position_on_screen.y + config.current_config.large_monster_UI.static.parts.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
 
+	local ailments_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.static.ailments.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.large_monster_UI.static.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+	};
+
 	health_UI_entity.draw(monster, monster.health_static_UI, health_position_on_screen, opacity_scale);
 	drawing.draw_capture_line(monster.health_static_UI.bar, health_position_on_screen, opacity_scale, monster.capture_percentage);
 
 	stamina_UI_entity.draw(monster, monster.stamina_static_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_static_UI, rage_position_on_screen, opacity_scale);
 	
-	--sort parts here
-	local displayed_parts = {};
-	for REpart, part in pairs(monster.parts) do
-		if config.current_config.large_monster_UI.static.parts.settings.hide_undamaged_parts and part.health == part.max_health and part.flinch_count == 0 then
-			goto continue;
-		end
+	local last_part_position_on_screen = body_part.draw_static(monster, parts_position_on_screen, opacity_scale);
 
-		table.insert(displayed_parts, part);
-		::continue::
-	end
-
-	if config.current_config.large_monster_UI.static.parts.sorting.type == "Normal" then
-		if config.current_config.large_monster_UI.static.parts.sorting.reversed_order then
-			table.sort(displayed_parts, function(left, right)
-				return left.id > right.id;
-			end);
+	if config.current_config.large_monster_UI.static.ailments.settings.offset_is_relative_to_parts then
+		if last_part_position_on_screen == nil then
+			ailments_position_on_screen = parts_position_on_screen;
 		else
-			table.sort(displayed_parts, function(left, right)
-				return left.id < right.id;
-			end);
-		end
-	elseif config.current_config.large_monster_UI.static.parts.sorting.type == "Health" then
-		if config.current_config.large_monster_UI.static.parts.sorting.reversed_order then
-			table.sort(displayed_parts, function(left, right)
-				return left.health > right.health;
-			end);
-		else
-			table.sort(displayed_parts, function(left, right)
-				return left.health < right.health;
-			end);
-		end
-	elseif config.current_config.large_monster_UI.static.parts.sorting.type == "Health Percentage" then
-		if config.current_config.large_monster_UI.static.parts.sorting.reversed_order then
-			table.sort(displayed_parts, function(left, right)
-				return left.health_percentage > right.health_percentage;
-			end);
-		else
-			table.sort(displayed_parts, function(left, right)
-				return left.health_percentage < right.health_percentage;
-			end);
+			ailments_position_on_screen.y = last_part_position_on_screen.y + config.current_config.large_monster_UI.static.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
 		end
 	end
 
-	for j, part in ipairs(displayed_parts) do
-		local part_position_on_screen = {
-			x = parts_position_on_screen.x + config.current_config.large_monster_UI.static.parts.spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = parts_position_on_screen.y + config.current_config.large_monster_UI.static.parts.spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
-		}
-
-		body_part.draw_static(part, part_position_on_screen, opacity_scale);
-	end
+	ailments.draw_static(monster, ailments_position_on_screen, opacity_scale);
 end
 
 function large_monster.draw_highlighted(monster, position_on_screen, opacity_scale)
+	
 	local monster_name_text = "";
 	if config.current_config.large_monster_UI.highlighted.monster_name_label.include.monster_name then
 		monster_name_text = string.format("%s ", monster.name);
@@ -923,63 +815,33 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.parts.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
 
+	local ailments_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailments.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+	};
+
 	health_UI_entity.draw(monster, monster.health_highlighted_UI, health_position_on_screen, opacity_scale);
 	drawing.draw_capture_line(monster.health_highlighted_UI.bar, health_position_on_screen, opacity_scale, monster.capture_percentage);
 
 	stamina_UI_entity.draw(monster, monster.stamina_highlighted_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_highlighted_UI, rage_position_on_screen, opacity_scale);
 
-	--sort parts here
-	local displayed_parts = {};
-	for REpart, part in pairs(monster.parts) do
-		if config.current_config.large_monster_UI.highlighted.parts.settings.hide_undamaged_parts and part.health == part.max_health and part.flinch_count == 0 then
-			goto continue;
-		end
+	local last_part_position_on_screen = body_part.draw_highlighted(monster, parts_position_on_screen, opacity_scale);
 
-		table.insert(displayed_parts, part);
-		::continue::
-	end
+	if config.current_config.large_monster_UI.highlighted.ailments.settings.offset_is_relative_to_parts then
 
-	if config.current_config.large_monster_UI.highlighted.parts.sorting.type == "Normal" then
-		if config.current_config.large_monster_UI.highlighted.parts.sorting.reversed_order then
-			table.sort(displayed_parts, function(left, right)
-				return left.id > right.id;
-			end);
+		
+		if last_part_position_on_screen == nil then
+			ailments_position_on_screen = {
+				x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailments.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+				y = parts_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+			};
 		else
-			table.sort(displayed_parts, function(left, right)
-				return left.id < right.id;
-			end);
-		end
-	elseif config.current_config.large_monster_UI.highlighted.parts.sorting.type == "Health" then
-		if config.current_config.large_monster_UI.highlighted.parts.sorting.reversed_order then
-			table.sort(displayed_parts, function(left, right)
-				return left.health > right.health;
-			end);
-		else
-			table.sort(displayed_parts, function(left, right)
-				return left.health < right.health;
-			end);
-		end
-	elseif config.current_config.large_monster_UI.highlighted.parts.sorting.type == "Health Percentage" then
-		if config.current_config.large_monster_UI.highlighted.parts.sorting.reversed_order then
-			table.sort(displayed_parts, function(left, right)
-				return left.health_percentage > right.health_percentage;
-			end);
-		else
-			table.sort(displayed_parts, function(left, right)
-				return left.health_percentage < right.health_percentage;
-			end);
+			ailments_position_on_screen.y = last_part_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
 		end
 	end
 
-	for j, part in ipairs(displayed_parts) do
-		local part_position_on_screen = {
-			x = parts_position_on_screen.x + config.current_config.large_monster_UI.highlighted.parts.spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = parts_position_on_screen.y + config.current_config.large_monster_UI.highlighted.parts.spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
-		}
-
-		body_part.draw_highlighted(part, part_position_on_screen, opacity_scale);
-	end
+	ailments.draw_highlighted(monster, ailments_position_on_screen, opacity_scale);
 end
 
 function large_monster.init_list()
@@ -996,11 +858,13 @@ function large_monster.init_module()
 	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
+	ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	drawing = require("MHR_Overlay.UI.drawing");
 	part_names = require("MHR_Overlay.Misc.part_names");
-	ailments = require("MHR_Overlay.Damage_Meter.ailments");
+	ailments = require("MHR_Overlay.Monsters.ailments");
 	player = require("MHR_Overlay.Damage_Meter.player");
+	time = require("MHR_Overlay.Game_Handler.time");
 end
 
 return large_monster;

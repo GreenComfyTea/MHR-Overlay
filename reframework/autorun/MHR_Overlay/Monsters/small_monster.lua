@@ -8,6 +8,7 @@ local stamina_UI_entity;
 local screen;
 local drawing;
 local ailments;
+local ailment_UI_entity;
 
 small_monster.list = {};
 
@@ -33,16 +34,7 @@ function small_monster.new(enemy)
 
 	monster.name = "Small Monster";
 
-	monster.ailment = {};
-	monster.ailment[ailments.poison_id] = {};
-	monster.ailment[ailments.poison_id].buildup = {};
-	monster.ailment[ailments.poison_id].share = {};
-	monster.ailment[ailments.poison_id].activate_count = 0;
-
-	monster.ailment[ailments.blast_id] = {};
-	monster.ailment[ailments.blast_id].buildup = {};
-	monster.ailment[ailments.blast_id].share = {};
-	monster.ailment[ailments.blast_id].activate_count = 0;
+	monster.ailments = ailments.init_ailments();
 	
 	small_monster.init(monster, enemy);
 	small_monster.init_UI(monster);
@@ -96,13 +88,22 @@ function small_monster.init_UI(monster)
 		config.current_config.small_monster_UI.stamina.value_label,
 		config.current_config.small_monster_UI.stamina.percentage_label
 	);
+
+	monster.ailment_UI = ailment_UI_entity.new(
+		config.current_config.small_monster_UI.ailments.visibility,
+		config.current_config.small_monster_UI.ailments.bar,
+		config.current_config.small_monster_UI.ailments.ailment_name_label,
+		config.current_config.small_monster_UI.ailments.text_label,
+		config.current_config.small_monster_UI.ailments.value_label,
+		config.current_config.small_monster_UI.ailments.percentage_label,
+		config.current_config.small_monster_UI.ailments.timer_label
+	);
 end
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
 local status_param_field = enemy_character_base_type_def:get_field("<StatusParam>k__BackingField");
 local stamina_param_field = enemy_character_base_type_def:get_field("<StaminaParam>k__BackingField");
-local damage_param_field = enemy_character_base_type_def:get_field("<DamageParam>k__BackingField");
 local check_die_method = enemy_character_base_type_def:get_method("checkDie");
 
 local physical_param_type = physical_param_field:get_type();
@@ -116,20 +117,6 @@ local get_max_method = vital_param_type:get_method("get_Max");
 local stamina_param_type = stamina_param_field:get_type();
 local get_stamina_method = stamina_param_type:get_method("getStamina");
 local get_max_stamina_method = stamina_param_type:get_method("getMaxStamina");
-
-local damage_param_type = damage_param_field:get_type();
-local poison_param_field = damage_param_type:get_field("_PoisonParam");
-local blast_param_field = damage_param_type:get_field("_BlastParam");
-
-local poison_param_type = poison_param_field:get_type();
-local poison_get_activate_count_method = poison_param_type:get_method("get_ActivateCount");
-local poison_damage_field = poison_param_type:get_field("<Damage>k__BackingField");
-local poison_get_is_damage_method = poison_param_type:get_method("get_IsDamage");
-
-local blast_param_type = blast_param_field:get_type();
-local blast_get_activate_count_method = blast_param_type:get_method("get_ActivateCount");
-local blast_damage_method = blast_param_type:get_method("get_BlastDamage");
-local blast_adjust_rate_method = blast_param_type:get_method("get_BlastDamageAdjustRateByEnemyLv");
 
 local get_gameobject_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject");
 local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform");
@@ -170,53 +157,6 @@ function small_monster.update_position(enemy)
 
 	if position ~= nil then
 		monster.position = position;
-	end
-end
-
--- Code by coavins
-function small_monster.update_ailments(enemy)
-	if enemy == nil then
-		return;
-	end
-
-	local monster = small_monster.get_monster(enemy);
-
-	local damage_param = damage_param_field:get_data(enemy);
-	if damage_param ~= nil then
-
-		local poison_param = poison_param_field:get_data(damage_param);
-		if poison_param ~= nil then
-			-- if applied, then calculate share for poison
-			local activate_count = poison_get_activate_count_method:call(poison_param):get_element(0):get_field("mValue");
-			if activate_count > monster.ailment[ailments.poison_id].activate_count then
-				monster.ailment[ailments.poison_id].activate_count = activate_count;
-				ailments.calculate_ailment_contribution(monster, ailments.poison_id);
-			end
-			-- if poison tick, apply damage
-			local poison_damage = poison_damage_field:get_data(poison_param);
-			local is_damage = poison_get_is_damage_method:call(poison_param);
-
-			if is_damage then
-				ailments.apply_ailment_damage(monster, ailments.poison_id, poison_damage);
-			end
-		end
-
-		--xy = "test"
-		local blast_param = blast_param_field:get_data(damage_param);
-		if blast_param ~= nil then
-			-- if applied, then calculate share for blast and apply damage
-			local activate_count = blast_get_activate_count_method:call(blast_param):get_element(0):get_field("mValue");
-
-			if activate_count > monster.ailment[ailments.blast_id].activate_count then
-				monster.ailment[ailments.blast_id].activate_count = activate_count;
-				ailments.calculate_ailment_contribution(monster, ailments.blast_id);
-
-				local blast_damage = blast_damage_method:call(blast_param);
-				local blast_adjust_rate = blast_adjust_rate_method:call(blast_param);
-				
-				ailments.apply_ailment_damage(monster, ailments.blast_id, blast_damage * blast_adjust_rate);
-			end
-		end
 	end
 end
 
@@ -306,6 +246,8 @@ function small_monster.update(enemy)
 			monster.stamina_percentage = stamina / max_stamina;
 		end
 	end
+
+	ailments.update_ailments(enemy, monster)
 end
 
 function small_monster.draw(monster, position_on_screen, opacity_scale)
@@ -320,9 +262,16 @@ function small_monster.draw(monster, position_on_screen, opacity_scale)
 		x = position_on_screen.x + config.current_config.small_monster_UI.stamina.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
 		y = position_on_screen.y + config.current_config.small_monster_UI.stamina.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
+
+	local ailments_position_on_screen = {
+		x = position_on_screen.x + config.current_config.small_monster_UI.ailments.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.small_monster_UI.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+	};
 	
 	health_UI_entity.draw(monster, monster.health_UI, health_position_on_screen, opacity_scale);
 	stamina_UI_entity.draw(monster, monster.stamina_UI, stamina_position_on_screen, opacity_scale);
+
+	ailments.draw_small(monster, ailments_position_on_screen, opacity_scale);
 end
 
 function small_monster.init_list()
@@ -338,7 +287,8 @@ function small_monster.init_module()
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	drawing = require("MHR_Overlay.UI.drawing");
-	ailments = require("MHR_Overlay.Damage_Meter.ailments");
+	ailments = require("MHR_Overlay.Monsters.ailments");
+	ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
 end
 
 return small_monster;

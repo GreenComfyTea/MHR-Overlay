@@ -349,6 +349,155 @@ function config.init()
 						background = 0x88000000
 					}
 				}
+			},
+
+			ailments = {
+				visibility = false,
+
+				offset = {
+					x = 10,
+					y = 75
+				},
+				
+				spacing = {
+					x = 0,
+					y = 24,
+				},
+
+				settings = {
+					hide_ailments_with_zero_buildup = true,
+					hide_inactive_ailments_with_no_buildup_support = true,
+					hide_all_inactive_ailments = false,
+					hide_all_active_ailments = false,
+					hide_disabled_ailments = true,
+					time_limit = 15
+				},
+
+				sorting = {
+					type = "Normal",
+					reversed_order = false
+				},
+	
+				ailment_name_label = {
+					visibility = true,
+					text = "%s",
+		
+					include = {
+						ailment_name = true,
+						activation_count = true
+					},
+	
+					offset = {
+						x = 5,
+						y = 0
+					},
+					color = 0xFFffb2e2,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				text_label = {
+					visibility = false,
+					text = language.current_language.UI.buildup,
+					offset = {
+						x = -60,
+						y = 6
+					},
+					color = 0xF1F4A3CC,
+					
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				value_label = {
+					visibility = true,
+					text = "%.0f/%.0f", -- current_buildup/max_buildup
+					offset = {
+						x = 60,
+						y = 13
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+				
+				percentage_label = {
+					visibility = false,
+					text = "%5.1f%%",
+	
+					offset = {
+						x = 0,
+						y = 13
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+
+				timer_label = {
+					visibility = true,
+					text = "%2.0f:%02.0f",
+	
+					offset = {
+						x = 140,
+						y = 13
+					},
+					color = 0xFFFFFFFF,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+					offset = {
+						x = 0,
+						y = 14
+					},
+	
+					size = {
+						width = 90,
+						height = 4
+					},
+	
+					colors = {
+						foreground = 0xA7ff80ce,
+						background = 0xA7000000
+					}
+				}
 			}
 		},
 	
@@ -361,7 +510,8 @@ function config.init()
 					render_highlighted_monster = true,
 					render_not_highlighted_monsters = true,
 					max_distance = 300,
-					opacity_falloff = true
+					opacity_falloff = true,
+					time_limit = 15
 				},
 		
 				world_offset = {
@@ -712,6 +862,7 @@ function config.init()
 	
 					settings = {
 						hide_undamaged_parts = true,
+						time_limit = 15
 					},
 	
 					sorting = {
@@ -819,6 +970,156 @@ function config.init()
 							background = 0x88000000
 						}
 					}
+				},
+
+				ailments = {
+					visibility = false,
+	
+					offset = {
+						x = 10,
+						y = 45
+					},
+					
+					spacing = {
+						x = 0,
+						y = 24,
+					},
+	
+					settings = {
+						hide_ailments_with_zero_buildup = true,
+						hide_inactive_ailments_with_no_buildup_support = true,
+						hide_all_inactive_ailments = false,
+						hide_all_active_ailments = false,
+						hide_disabled_ailments = true,
+						offset_is_relative_to_parts = true,
+						time_limit = 15
+					},
+	
+					sorting = {
+						type = "Normal",
+						reversed_order = false
+					},
+		
+					ailment_name_label = {
+						visibility = true,
+						text = "%s",
+			
+						include = {
+							ailment_name = true,
+							activation_count = true
+						},
+		
+						offset = {
+							x = 5,
+							y = 0
+						},
+						color = 0xFFffb2e2,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+		
+					text_label = {
+						visibility = false,
+						text = language.current_language.UI.buildup,
+						offset = {
+							x = -60,
+							y = 7
+						},
+						color = 0xFFffb2e2,
+						
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+		
+					value_label = {
+						visibility = true,
+						text = "%.0f/%.0f", -- current_buildup/max_buildup
+						offset = {
+							x = 45,
+							y = 13
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+					
+					percentage_label = {
+						visibility = true,
+						text = "%5.1f%%",
+		
+						offset = {
+							x = 135,
+							y = 13
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+
+					timer_label = {
+						visibility = true,
+						text = "%2.0f:%02.0f",
+		
+						offset = {
+							x = 140,
+							y = 13
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+		
+					bar = {
+						visibility = true,
+						offset = {
+							x = 0,
+							y = 14
+						},
+		
+						size = {
+							width = 185,
+							height = 5
+						},
+		
+						colors = {
+							foreground = 0xA7ff80ce,
+							background = 0xA7000000
+						}
+					}
 				}
 			},
 	
@@ -826,7 +1127,7 @@ function config.init()
 				enabled = true,
 	
 				spacing = {
-					x = 220,
+					x = 250,
 					y = 40,
 				},
 		
@@ -835,7 +1136,8 @@ function config.init()
 					render_highlighted_monster = true,
 					render_not_highlighted_monsters = true,
 					highlighted_monster_location = "Normal",
-					orientation = "Horizontal"
+					orientation = "Horizontal",
+					time_limit = 15
 				},
 		
 				sorting = {
@@ -1176,7 +1478,7 @@ function config.init()
 	
 					offset = {
 						x = 10,
-						y = 50
+						y = 73
 					},
 					
 					spacing = {
@@ -1186,6 +1488,7 @@ function config.init()
 	
 					settings = {
 						hide_undamaged_parts = true,
+						time_limit = 15
 					},
 	
 					sorting = {
@@ -1291,6 +1594,157 @@ function config.init()
 						colors = {
 							foreground = 0xB9ca85cc,
 							background = 0x88000000
+						}
+					}
+				},
+
+				ailments = {
+					visibility = true,
+	
+					offset = {
+						x = 10,
+						y = 45
+					},
+					
+					spacing = {
+						x = 0,
+						y = 24,
+					},
+	
+					settings = {
+						hide_ailments_with_zero_buildup = true,
+						hide_inactive_ailments_with_no_buildup_support = true,
+						hide_all_inactive_ailments = false,
+						hide_all_active_ailments = false,
+						hide_disabled_ailments = true,
+						
+						offset_is_relative_to_parts = true,
+						time_limit = 15
+					},
+	
+					sorting = {
+						type = "Normal",
+						reversed_order = false
+					},
+		
+					ailment_name_label = {
+						visibility = true,
+						text = "%s",
+			
+						include = {
+							ailment_name = true,
+							activation_count = true
+						},
+		
+						offset = {
+							x = 5,
+							y = 0
+						},
+						color = 0xFFffb2e2,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+		
+					text_label = {
+						visibility = false,
+						text = language.current_language.UI.buildup,
+						offset = {
+							x = -60,
+							y = 7
+						},
+						color = 0xFFffb2e2,
+						
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+		
+					value_label = {
+						visibility = true,
+						text = "%.0f/%.0f", -- current_buildup/max_buildup
+						offset = {
+							x = 45,
+							y = 13
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+					
+					percentage_label = {
+						visibility = true,
+						text = "%5.1f%%",
+		
+						offset = {
+							x = 135,
+							y = 13
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+
+					timer_label = {
+						visibility = true,
+						text = "%2.0f:%02.0f",
+		
+						offset = {
+							x = 140,
+							y = 13
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+		
+					bar = {
+						visibility = true,
+						offset = {
+							x = 0,
+							y = 14
+						},
+		
+						size = {
+							width = 185,
+							height = 5
+						},
+		
+						colors = {
+							foreground = 0xA7ff80ce,
+							background = 0xA7000000
 						}
 					}
 				}
@@ -1642,6 +2096,7 @@ function config.init()
 	
 					settings = {
 						hide_undamaged_parts = true,
+						time_limit = 15
 					},
 	
 					sorting = {
@@ -1747,6 +2202,156 @@ function config.init()
 						colors = {
 							foreground = 0xB9ca85cc,
 							background = 0x88000000
+						}
+					}
+				},
+
+				ailments = {
+					visibility = true,
+	
+					offset = {
+						x = 10,
+						y = 45
+					},
+					
+					spacing = {
+						x = 0,
+						y = 24,
+					},
+	
+					settings = {
+						hide_ailments_with_zero_buildup = true,
+						hide_inactive_ailments_with_no_buildup_support = true,
+						hide_all_inactive_ailments = false,
+						hide_all_active_ailments = false,
+						hide_disabled_ailments = true,
+						offset_is_relative_to_parts = true,
+						time_limit = 0
+					},
+	
+					sorting = {
+						type = "Normal",
+						reversed_order = false
+					},
+		
+					ailment_name_label = {
+						visibility = true,
+						text = "%s",
+			
+						include = {
+							ailment_name = true,
+							activation_count = true
+						},
+		
+						offset = {
+							x = 5,
+							y = 0
+						},
+						color = 0xFFffb2e2,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+		
+					text_label = {
+						visibility = false,
+						text = language.current_language.UI.buildup,
+						offset = {
+							x = -60,
+							y = 7
+						},
+						color = 0xFFffb2e2,
+						
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+		
+					value_label = {
+						visibility = true,
+						text = "%.0f/%.0f", -- current_buildup/max_buildup
+						offset = {
+							x = 45,
+							y = 13
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+					
+					percentage_label = {
+						visibility = true,
+						text = "%5.1f%%",
+		
+						offset = {
+							x = 135,
+							y = 13
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+
+					timer_label = {
+						visibility = true,
+						text = "%2.0f:%02.0f",
+		
+						offset = {
+							x = 140,
+							y = 13
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+		
+					bar = {
+						visibility = true,
+						offset = {
+							x = 0,
+							y = 14
+						},
+		
+						size = {
+							width = 185,
+							height = 5
+						},
+		
+						colors = {
+							foreground = 0xA7ff80ce,
+							background = 0xA7000000
 						}
 					}
 				}
@@ -1892,12 +2497,32 @@ function config.init()
 					color = 0xFF000000
 				}
 			},
+
+			dps_label = {
+				visibility = true,
+				text = "%.1f",
+
+				offset = {
+					x = 155,
+					y = 0
+				},
+				color = 0xFFCCF4E1,
+	
+				shadow = {
+					visibility = true,
+					offset = {
+						x = 1,
+						y = 1
+					},
+					color = 0xFF000000
+				}
+			},
 	
 			damage_value_label = {
 				visibility = true,
 				text = "%.0f",
 				offset = {
-					x = 145,
+					x = 205,
 					y = 0
 				},
 				color = 0xFFCCF4E1,
@@ -1916,27 +2541,7 @@ function config.init()
 				visibility = true,
 				text = "%5.1f%%",
 				offset = {
-					x = 205,
-					y = 0
-				},
-				color = 0xFFCCF4E1,
-	
-				shadow = {
-					visibility = true,
-					offset = {
-						x = 1,
-						y = 1
-					},
-					color = 0xFF000000
-				}
-			},
-
-			dps_label = {
-				visibility = true,
-				text = "%.1f",
-
-				offset = {
-					x = 265,
+					x = 262,
 					y = 0
 				},
 				color = 0xFFCCF4E1,
@@ -1969,12 +2574,13 @@ function config.init()
 					color = 0xFF000000
 				}
 			},
-	
-			total_damage_value_label = {
+
+			total_dps_label = {
 				visibility = true,
-				text = "%.0f",
+				text = "%.1f",
+
 				offset = {
-					x = 145,
+					x = 155,
 					y = 0
 				},
 				color = 0xFFFF7373,
@@ -1988,13 +2594,12 @@ function config.init()
 					color = 0xFF000000
 				}
 			},
-
-			total_dps_label = {
+	
+			total_damage_value_label = {
 				visibility = true,
-				text = "%.1f",
-
+				text = "%.0f",
 				offset = {
-					x = 265,
+					x = 205,
 					y = 0
 				},
 				color = 0xFFFF7373,
@@ -2017,7 +2622,7 @@ function config.init()
 				},
 	
 				size = {
-					width = 250,
+					width = 310,
 					height = 5
 				},
 	
@@ -2035,7 +2640,7 @@ function config.init()
 				},
 	
 				size = {
-					width = 250,
+					width = 310,
 					height = 5
 				},
 	

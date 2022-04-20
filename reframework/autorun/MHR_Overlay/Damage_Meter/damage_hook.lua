@@ -141,7 +141,7 @@ function damage_hook.init_module()
 	player = require("MHR_Overlay.Damage_Meter.player");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
-	ailments = require("MHR_Overlay.Damage_Meter.ailments");
+	ailments = require("MHR_Overlay.Monsters.ailments");
 end
 
 return damage_hook;

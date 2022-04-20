@@ -11,7 +11,7 @@ local language = require("MHR_Overlay.Misc.language");
 local table_helpers = require("MHR_Overlay.Misc.table_helpers");
 local part_names = require("MHR_Overlay.Misc.part_names");
 
-local ailments = require("MHR_Overlay.Damage_Meter.ailments");
+local ailments = require("MHR_Overlay.Monsters.ailments");
 local player = require("MHR_Overlay.Damage_Meter.player");
 local damage_hook = require("MHR_Overlay.Damage_Meter.damage_hook");
 
@@ -30,6 +30,7 @@ local damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");
 local health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 local stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 local rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
+local ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
 
 local customization_menu = require("MHR_Overlay.UI.customization_menu");
 local drawing = require("MHR_Overlay.UI.drawing");
@@ -50,6 +51,7 @@ damage_UI_entity.init_module();
 health_UI_entity.init_module();
 stamina_UI_entity.init_module();
 rage_UI_entity.init_module();
+ailment_UI_entity.init_module();
 
 damage_hook.init_module();
 player.init_module();

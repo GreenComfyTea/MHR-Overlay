@@ -2,6 +2,7 @@ local monster = {};
 local small_monster;
 local large_monster;
 local config;
+local ailments;
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_type_def_update_method = enemy_character_base_type_def:get_method("update");
@@ -66,26 +67,30 @@ function monster.update_monster(enemy)
 	if is_large == nil then
 		return;
 	end
+	
+	ailments.update_poison_blast(enemy, is_large);
+
+	if is_large then
+		monster.update_large_monster(enemy);
+	else
+		monster.update_small_monster(enemy);
+	end
+end
+
+function monster.update_large_monster(enemy)
+	if not config.current_config.large_monster_UI.dynamic.enabled and
+	not config.current_config.large_monster_UI.static.enabled and
+	not config.current_config.large_monster_UI.highlighted.enabled then
+		return;
+	end
 
 	-- this is the VERY LEAST thing we should do all the time
 	-- so the position doesn't lag all over the place
 	-- due to how infrequently we update the monster(s).
-	if is_large then
-		large_monster.update_position(enemy);
-		large_monster.update_ailments(enemy);
-	else
-		small_monster.update_position(enemy);
-		small_monster.update_ailments(enemy);
-	end
+	large_monster.update_position(enemy);
 
-	if updated_monsters[enemy] then
-		if is_large then
-			if not config.current_config.global_settings.performance.prioritize_large_monsters then
-				return;
-			end
-		else	
-			return;
-		end
+	if not config.current_config.global_settings.performance.prioritize_large_monsters and updated_monsters[enemy] then
+		return;
 	end
 
 	-- is it old tick?
@@ -96,29 +101,51 @@ function monster.update_monster(enemy)
 
 	-- actually update the enemy now. we don't do this very often
 	-- due to how much CPU time it takes to update each monster.
-	if is_large then
-		if not config.current_config.global_settings.performance.prioritize_large_monsters then
-			updates_this_tick = updates_this_tick + 1;
-			last_update_tick = tick_count;
-			num_updated_monsters = num_updated_monsters + 1;
-			updated_monsters[enemy] = true;
-		end
-
-		large_monster.update(enemy);
-	else
+	if not config.current_config.global_settings.performance.prioritize_large_monsters then
 		updates_this_tick = updates_this_tick + 1;
 		last_update_tick = tick_count;
 		num_updated_monsters = num_updated_monsters + 1;
 		updated_monsters[enemy] = true;
-
-		small_monster.update(enemy);
 	end
+
+	large_monster.update(enemy);
+end
+
+function monster.update_small_monster(enemy)
+	if not config.current_config.small_monster_UI.enabled then
+		return;
+	end
+
+	-- this is the VERY LEAST thing we should do all the time
+	-- so the position doesn't lag all over the place
+	-- due to how infrequently we update the monster(s).
+	small_monster.update_position(enemy);
+
+	if updated_monsters[enemy] then
+		return;
+	end
+
+	-- is it old tick?
+	-- is update limit reached?
+	if tick_count == last_update_tick and updates_this_tick >= config.current_config.global_settings.performance.max_monster_updates_per_tick then
+		return;
+	end
+
+	-- actually update the enemy now. we don't do this very often
+	-- due to how much CPU time it takes to update each monster.
+	updates_this_tick = updates_this_tick + 1;
+	last_update_tick = tick_count;
+	num_updated_monsters = num_updated_monsters + 1;
+	updated_monsters[enemy] = true;
+
+	small_monster.update(enemy);
 end
 
 function monster.init_module()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	config = require("MHR_Overlay.Misc.config");
+	ailments = require("MHR_Overlay.Monsters.ailments");
 end
 
 return monster;
