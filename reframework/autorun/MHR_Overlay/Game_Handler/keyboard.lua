@@ -436,6 +436,17 @@ function keyboard.register_hotkey(hard_keyboard)
 				return true;
 			end
 		end
+	elseif customization_menu.endemic_life_UI_waiting_for_key then
+		for key, key_name in pairs(keyboard.keys) do
+			if get_release_method:call(hard_keyboard, key) then
+				config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.ctrl = keyboard.hotkey_modifiers_down.ctrl;
+				config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.shift = keyboard.hotkey_modifiers_down.shift;
+				config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.alt = keyboard.hotkey_modifiers_down.alt;
+				config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.key = key;
+				customization_menu.endemic_life_UI_waiting_for_key = false;
+				return true;
+			end
+		end
 	end
 
 	return false;
@@ -522,6 +533,14 @@ function keyboard.check_hotkeys(hard_keyboard)
 	and not (config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
 		if get_release_method:call(hard_keyboard, math.tointeger(config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.key)) then
 			config.current_config.damage_meter_UI.enabled = not config.current_config.damage_meter_UI.enabled;
+		end
+	end
+
+	if not (config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
+	and not (config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.shift and not keyboard.hotkey_modifiers_down.shift)
+	and not (config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
+		if get_release_method:call(hard_keyboard, math.tointeger(config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.key)) then
+			config.current_config.endemic_life_UI.enabled = not config.current_config.endemic_life_UI.enabled;
 		end
 	end
 end

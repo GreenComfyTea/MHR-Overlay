@@ -40,7 +40,8 @@ function config.init()
 					large_monster_static_UI = true,
 					large_monster_highlighted_UI = true,
 					time_UI = true,
-					damage_meter_UI = true
+					damage_meter_UI = true,
+					endemic_life_UI = true,
 				},
 		
 				quest_result_screen = {
@@ -49,14 +50,16 @@ function config.init()
 					large_monster_static_UI = true,
 					large_monster_highlighted_UI = true,
 					time_UI = true,
-					damage_meter_UI = true
+					damage_meter_UI = true,
+					endemic_life_UI = false
 				},
 		
 				training_area = {
 					large_monster_dynamic_UI = true,
 					large_monster_static_UI = true,
 					large_monster_highlighted_UI = true,
-					damage_meter_UI = true
+					damage_meter_UI = true,
+					endemic_life_UI = true
 				}
 			},
 
@@ -111,6 +114,13 @@ function config.init()
 				},
 
 				damage_meter_UI = {
+					shift = false,
+					ctrl = false,
+					alt = false,
+					key = 0
+				},
+
+				endemic_life_UI = {
 					shift = false,
 					ctrl = false,
 					alt = false,
@@ -977,6 +987,11 @@ function config.init()
 	
 					offset = {
 						x = 10,
+						y = 111
+					},
+
+					relative_offset = {
+						x = 0,
 						y = 45
 					},
 					
@@ -1603,6 +1618,11 @@ function config.init()
 	
 					offset = {
 						x = 10,
+						y = 73
+					},
+
+					relative_offset = {
+						x = 0,
 						y = 45
 					},
 					
@@ -2211,6 +2231,11 @@ function config.init()
 	
 					offset = {
 						x = 10,
+						y = 111
+					},
+
+					relative_offset = {
+						x = 0,
 						y = 45
 					},
 					
@@ -2226,7 +2251,7 @@ function config.init()
 						hide_all_active_ailments = false,
 						hide_disabled_ailments = true,
 						offset_is_relative_to_parts = true,
-						time_limit = 0
+						time_limit = 15
 					},
 	
 					sorting = {
@@ -2649,6 +2674,47 @@ function config.init()
 					background = 0xA7000000
 				}
 			}
+		},
+
+		endemic_life_UI = {
+			enabled = true,
+	
+			settings = {
+				hide_inactive_creatures = true,
+				max_distance = 300,
+				opacity_falloff = true,
+			},
+	
+			world_offset = {
+				x = 0,
+				y = 1,
+				z = 0
+			},
+
+			viewport_offset = {
+				x = 0,
+				y = 0
+			},
+	
+			creature_name_label = {
+				visibility = true,
+				text = "%s",
+	
+				offset = {
+					x = 0,
+					y = 0
+				},
+				color = 0xFFf4f3ab,
+	
+				shadow = {
+					visibility = true,
+					offset = {
+						x = 1,
+						y = 1
+					},
+					color = 0xFF000000
+				}
+			},
 		}
 	};
 end

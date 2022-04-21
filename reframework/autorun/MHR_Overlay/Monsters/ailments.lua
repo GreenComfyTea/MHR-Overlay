@@ -61,6 +61,9 @@ function ailments.new(_ailments, ailment_id)
 	_ailments[ailment_id].duration = 100000;
 	_ailments[ailment_id].timer_percentage = 0;
 
+	_ailments[ailment_id].minutes_left = 0;
+	_ailments[ailment_id].seconds_left = 0;
+
 	_ailments[ailment_id].is_active = false;
 	_ailments[ailment_id].activate_count = 0;
 
@@ -205,18 +208,34 @@ function ailments.update_ailments(enemy, monster)
 		local is_active = get_is_active_method:call(ailment_param);
 		
 		if is_enable ~= nil then
+			if is_enable ~= monster.ailments[id].is_enable then
+				ailments.update_last_change_time(monster, id);
+			end
+
 			monster.ailments[id].is_enable = is_enable;
 		end
 
 		if activate_count ~= nil then
+			if activate_count ~= monster.ailments[id].activate_count then
+				ailments.update_last_change_time(monster, id);
+			end
+
 			monster.ailments[id].activate_count = activate_count;
 		end
 
 		if buildup ~= nil then
+			if buildup ~= monster.ailments[id].total_buildup then
+				ailments.update_last_change_time(monster, id);
+			end
+
 			monster.ailments[id].total_buildup = buildup;
 		end
 
 		if buildup_limit ~= nil then
+			if buildup_limit ~= monster.ailments[id].buildup_limit then
+				ailments.update_last_change_time(monster, id);
+			end
+
 			monster.ailments[id].buildup_limit = buildup_limit;
 		end
 
@@ -225,23 +244,62 @@ function ailments.update_ailments(enemy, monster)
 		end
 
 		if timer ~= nil then
+			if timer ~= monster.ailments[id].timer then
+				ailments.update_last_change_time(monster, id);
+			end
+
 			monster.ailments[id].timer = timer;
 		end
 
-		if duration ~= nil then
+		if is_active ~= nil then
+			if is_active ~= monster.ailments[id].is_active then
+				ailments.update_last_change_time(monster, id);
+			end
+
+			monster.ailments[id].is_active = is_active;
+		end
+
+		if duration ~= nil and not monster.ailments[id].is_active then
+			if duration ~= monster.ailments[id].duration then
+				xy = tostring(monster.ailments[id].is_active) .. " " .. tostring(monster.ailments[id].duration) .. " -> " .. tostring(duration);
+				ailments.update_last_change_time(monster, id);
+			end
+
 			monster.ailments[id].duration = duration;
 		end
 
-		if timer ~= nil and duration ~= nil then
-			if duration ~= 0 then
-				monster.ailments[id].timer_percentage = timer / duration;
+		if duration ~= 0 then
+			monster.ailments[id].timer_percentage = timer / monster.ailments[id].duration;
+		end
+
+		if is_active then
+			if timer < 0 then
+				timer = 0;
 			end
+
+			local minutes_left = math.floor(timer / 60);
+			local seconds_left = timer - 60 * minutes_left;
+
+			if duration ~= 0 then
+				monster.ailments[id].timer_percentage = timer / monster.ailments[id].duration;
+			end
+
+			monster.ailments[id].minutes_left = minutes_left;
+			monster.ailments[id].seconds_left = seconds_left;
 		end
 
 		if is_active ~= nil then
+			if is_active ~= monster.ailments[id].is_active then
+				ailments.update_last_change_time(monster, id);
+			end
+
 			monster.ailments[id].is_active = is_active;
 		end
 	end
+end
+
+function ailments.update_last_change_time(monster, id)
+	monster.ailments[id].last_change_time = time.total_elapsed_seconds;
 end
 
 -- Code by coavins
@@ -301,11 +359,11 @@ function ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_sca
 	--sort parts here
 	local displayed_ailments = {};
 	for REpart, ailment in pairs(monster.ailments) do
-		if config.current_config.large_monster_UI.dynamic.ailments.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 then
+		if config.current_config.large_monster_UI.dynamic.ailments.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.dynamic.ailments.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 then
+		if config.current_config.large_monster_UI.dynamic.ailments.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
 			goto continue;
 		end
 
@@ -321,7 +379,7 @@ function ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_sca
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.dynamic.ailments.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > config.current_config.large_monster_UI.dynamic.ailments.settings.time_limit then
+		if config.current_config.large_monster_UI.dynamic.ailments.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > config.current_config.large_monster_UI.dynamic.ailments.settings.time_limit and not ailment.is_active then
 			goto continue;
 		end
 
@@ -374,14 +432,15 @@ function ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_sca
 end
 
 function ailments.draw_static(monster, ailments_position_on_screen, opacity_scale)
+
 	--sort parts here
 	local displayed_ailments = {};
 	for REpart, ailment in pairs(monster.ailments) do
-		if config.current_config.large_monster_UI.static.ailments.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 then
+		if config.current_config.large_monster_UI.static.ailments.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.static.ailments.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 then
+		if config.current_config.large_monster_UI.static.ailments.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
 			goto continue;
 		end
 
@@ -397,7 +456,7 @@ function ailments.draw_static(monster, ailments_position_on_screen, opacity_scal
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.static.ailments.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > config.current_config.large_monster_UI.static.ailments.settings.time_limit then
+		if config.current_config.large_monster_UI.static.ailments.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > config.current_config.large_monster_UI.static.ailments.settings.time_limit and not ailment.is_active then
 			goto continue;
 		end
 
@@ -452,11 +511,11 @@ function ailments.draw_highlighted(monster, ailments_position_on_screen, opacity
 	--sort parts here
 	local displayed_ailments = {};
 	for id, ailment in pairs(monster.ailments) do
-		if config.current_config.large_monster_UI.highlighted.ailments.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 then
+		if config.current_config.large_monster_UI.highlighted.ailments.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.highlighted.ailments.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 then
+		if config.current_config.large_monster_UI.highlighted.ailments.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
 			goto continue;
 		end
 
@@ -472,7 +531,7 @@ function ailments.draw_highlighted(monster, ailments_position_on_screen, opacity
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.highlighted.ailments.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > config.current_config.large_monster_UI.highlighted.ailments.settings.time_limit then
+		if config.current_config.large_monster_UI.highlighted.ailments.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > config.current_config.large_monster_UI.highlighted.ailments.settings.time_limit and not ailment.is_active then
 			goto continue;
 		end
 
@@ -526,11 +585,11 @@ function ailments.draw_small(monster, ailments_position_on_screen, opacity_scale
 	--sort parts here
 	local displayed_ailments = {};
 	for REpart, ailment in pairs(monster.ailments) do
-		if config.current_config.small_monster_UI.ailments.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 then
+		if config.current_config.small_monster_UI.ailments.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.small_monster_UI.ailments.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 then
+		if config.current_config.small_monster_UI.ailments.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
 			goto continue;
 		end
 
@@ -546,7 +605,7 @@ function ailments.draw_small(monster, ailments_position_on_screen, opacity_scale
 			goto continue;
 		end
 
-		if config.current_config.small_monster_UI.ailments.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > config.current_config.small_monster_UI.ailments.settings.time_limit then
+		if config.current_config.small_monster_UI.ailments.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > config.current_config.small_monster_UI.ailments.settings.time_limit and not ailment.is_active then
 			goto continue;
 		end
 

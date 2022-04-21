@@ -56,7 +56,7 @@ function ailment_UI_entity.draw_dynamic(ailment, ailment_UI, position_on_screen,
 		
 		drawing.draw_label(ailment_UI.name_label, position_on_screen, opacity_scale, ailment_name);
 		drawing.draw_label(ailment_UI.text_label, position_on_screen, opacity_scale, language.current_language.UI.buildup);
-		drawing.draw_label(ailment_UI.timer_label, position_on_screen, opacity_scale, 0, ailment.timer);
+		drawing.draw_label(ailment_UI.timer_label, position_on_screen, opacity_scale, ailment.minutes_left, ailment.seconds_left);
 	else
 		drawing.draw_bar(ailment_UI.bar, position_on_screen, opacity_scale, ailment.buildup_percentage);
 
@@ -85,7 +85,7 @@ function ailment_UI_entity.draw_static(ailment, ailment_UI, position_on_screen, 
 		
 		drawing.draw_label(ailment_UI.name_label, position_on_screen, opacity_scale, ailment_name);
 		drawing.draw_label(ailment_UI.text_label, position_on_screen, opacity_scale, language.current_language.UI.buildup);
-		drawing.draw_label(ailment_UI.timer_label, position_on_screen, opacity_scale, 0, ailment.timer);
+		drawing.draw_label(ailment_UI.timer_label, position_on_screen, opacity_scale, ailment.minutes_left, ailment.seconds_left);
 	else
 		drawing.draw_bar(ailment_UI.bar, position_on_screen, opacity_scale, ailment.buildup_percentage);
 
@@ -114,7 +114,7 @@ function ailment_UI_entity.draw_highlighted(ailment, ailment_UI, position_on_scr
 		
 		drawing.draw_label(ailment_UI.name_label, position_on_screen, opacity_scale, ailment_name);
 		drawing.draw_label(ailment_UI.text_label, position_on_screen, opacity_scale, language.current_language.UI.buildup);
-		drawing.draw_label(ailment_UI.timer_label, position_on_screen, opacity_scale, 0, ailment.timer);
+		drawing.draw_label(ailment_UI.timer_label, position_on_screen, opacity_scale, ailment.minutes_left, ailment.seconds_left);
 	else
 		drawing.draw_bar(ailment_UI.bar, position_on_screen, opacity_scale, ailment.buildup_percentage);
 
@@ -143,7 +143,7 @@ function ailment_UI_entity.draw_small(ailment, ailment_UI, position_on_screen, o
 		
 		drawing.draw_label(ailment_UI.name_label, position_on_screen, opacity_scale, ailment_name);
 		drawing.draw_label(ailment_UI.text_label, position_on_screen, opacity_scale, language.current_language.UI.buildup);
-		drawing.draw_label(ailment_UI.timer_label, position_on_screen, opacity_scale, 0, ailment.timer);
+		drawing.draw_label(ailment_UI.timer_label, position_on_screen, opacity_scale, ailment.minutes_left, ailment.seconds_left);
 	else
 		drawing.draw_bar(ailment_UI.bar, position_on_screen, opacity_scale, ailment.buildup_percentage);
 

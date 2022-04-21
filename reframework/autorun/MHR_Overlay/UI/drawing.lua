@@ -88,6 +88,10 @@ function drawing.draw_bar(bar, position, opacity_scale, percentage)
 		percentage = 1;
 	end
 
+	if percentage < 0 then
+		percentage = 0;
+	end
+
 	local position_x = position.x + bar.offset.x;
 	local position_y = position.y + bar.offset.y;
 	local foreground_width = bar.size.width * percentage;

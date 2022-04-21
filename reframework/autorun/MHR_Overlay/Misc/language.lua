@@ -103,6 +103,7 @@ language.default_language = {
 		large_monster_UI = "Large Monster UI",
 		time_UI = "Time UI",
 		damage_meter_UI = "Damage Meter UI",
+		endemic_life_UI = "Endemic Life UI",
 
 		large_monster_dynamic_UI = "Large Monster Dynamic UI",
 		large_monster_static_UI = "Large Monster Static UI",
@@ -295,8 +296,12 @@ language.default_language = {
 		time_limit = "Time Limit (seconds)",
 		ailment_name_label = "Ailment Name Label",
 		ailment_name = "Ailment Name",
-		activation_count = "Activation Count"
+		activation_count = "Activation Count",
 
+		creature_name_label = "Creature Name Label",
+		hide_inactive_creatures = "Hide Inactive Creatures",
+
+		relative_offset = "Relative Offset"
 	}
 };
 

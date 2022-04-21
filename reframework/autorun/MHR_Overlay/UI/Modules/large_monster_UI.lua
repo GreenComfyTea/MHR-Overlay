@@ -15,6 +15,12 @@ local enemy_manager_type_def = sdk.find_type_definition("snow.enemy.EnemyManager
 local get_boss_enemy_count_method = enemy_manager_type_def:get_method("getBossEnemyCount");
 local get_boss_enemy_method = enemy_manager_type_def:get_method("getBossEnemy");
 
+local gui_manager_type_def = sdk.find_type_definition("snow.gui.GuiManager");
+local get_tg_camera_method = gui_manager_type_def:get_method("get_refGuiHud_TgCamera");
+
+local tg_camera_type = get_tg_camera_method:get_return_type();
+local get_targeting_enemy_index_field = tg_camera_type:get_field("OldTargetingEmIndex");
+
 function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 	if singletons.enemy_manager == nil then
 		return;
@@ -27,9 +33,9 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 	local highlighted_monster = nil;
 
 	if singletons.gui_manager ~= nil then
-		local gui_hud_target_camera = singletons.gui_manager:call("get_refGuiHud_TgCamera");
+		local gui_hud_target_camera = get_tg_camera_method:call(singletons.gui_manager);
 		if gui_hud_target_camera ~= nil then
-			highlighted_id = gui_hud_target_camera:get_field("OldTargetingEmIndex");
+			highlighted_id = get_targeting_enemy_index_field:get_data(gui_hud_target_camera);
 
 			if highlighted_id == nil then
 				highlighted_id = -1;
@@ -37,6 +43,7 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 		end
 	end
 
+	
 	local enemy_count = get_boss_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
 		return;

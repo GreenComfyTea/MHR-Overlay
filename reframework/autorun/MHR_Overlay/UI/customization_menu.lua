@@ -6,6 +6,7 @@ local screen;
 local player;
 local large_monster;
 local small_monster;
+local env_creature;
 local language;
 local part_names;
 local time_UI;
@@ -105,6 +106,7 @@ customization_menu.large_monster_highlighted_UI_waiting_for_key = false;
 
 customization_menu.time_UI_waiting_for_key = false;
 customization_menu.damage_meter_UI_waiting_for_key = false;
+customization_menu.endemic_life_UI_waiting_for_key = false;
 
 function customization_menu.reload_font(pop_push)
 	local success, new_font = pcall(imgui.load_font, language.current_language.font_name, config.current_config.global_settings.menu_font.size, customization_menu.font_range);
@@ -266,8 +268,8 @@ function customization_menu.draw()
 	local large_monster_static_UI_changed = false;
 	local large_monster_highlighted_UI_changed = false;
 	local time_UI_changed = false;
-
 	local damage_meter_UI_changed = false;
+	local endemic_life_UI_changed = false;
 
 	local status_string = tostring(customization_menu.status);
 	imgui.text(language.current_language.customization_menu.status .. ": " .. status_string);
@@ -301,6 +303,10 @@ function customization_menu.draw()
 			config.current_config.damage_meter_UI.enabled);
 		config_changed = config_changed or changed;
 
+		changed, config.current_config.endemic_life_UI.enabled = imgui.checkbox(language.current_language.customization_menu.endemic_life_UI,
+			config.current_config.endemic_life_UI.enabled);
+		config_changed = config_changed or changed;
+
 		imgui.tree_pop();
 	end
 
@@ -320,7 +326,8 @@ function customization_menu.draw()
 			or customization_menu.large_monster_static_UI_waiting_for_key
 			or customization_menu.large_monster_highlighted_UI_waiting_for_key
 			or customization_menu.time_UI_waiting_for_key
-			or customization_menu.damage_meter_UI_waiting_for_key;
+			or customization_menu.damage_meter_UI_waiting_for_key
+			or customization_menu.endemic_life_UI_waiting_for_key;
 
 			if not is_any_other_waiting then 
 				customization_menu.all_UI_waiting_for_key = true;
@@ -347,7 +354,8 @@ function customization_menu.draw()
 			or customization_menu.large_monster_static_UI_waiting_for_key
 			or customization_menu.large_monster_highlighted_UI_waiting_for_key
 			or customization_menu.time_UI_waiting_for_key
-			or customization_menu.damage_meter_UI_waiting_for_key;
+			or customization_menu.damage_meter_UI_waiting_for_key
+			or customization_menu.endemic_life_UI_waiting_for_key;
 
 			
 
@@ -376,7 +384,8 @@ function customization_menu.draw()
 			or customization_menu.large_monster_static_UI_waiting_for_key
 			or customization_menu.large_monster_highlighted_UI_waiting_for_key
 			or customization_menu.time_UI_waiting_for_key
-			or customization_menu.damage_meter_UI_waiting_for_key;
+			or customization_menu.damage_meter_UI_waiting_for_key
+			or customization_menu.endemic_life_UI_waiting_for_key;
 
 			if not is_any_other_waiting then 
 				customization_menu.large_monster_UI_waiting_for_key = true;
@@ -403,7 +412,8 @@ function customization_menu.draw()
 			or customization_menu.large_monster_static_UI_waiting_for_key
 			or customization_menu.large_monster_highlighted_UI_waiting_for_key
 			or customization_menu.time_UI_waiting_for_key
-			or customization_menu.damage_meter_UI_waiting_for_key;
+			or customization_menu.damage_meter_UI_waiting_for_key
+			or customization_menu.endemic_life_UI_waiting_for_key;
 
 			if not is_any_other_waiting then 
 				customization_menu.large_monster_dynamic_UI_waiting_for_key = true;
@@ -430,7 +440,8 @@ function customization_menu.draw()
 			or customization_menu.large_monster_dynamic_UI_waiting_for_key
 			or customization_menu.large_monster_highlighted_UI_waiting_for_key
 			or customization_menu.time_UI_waiting_for_key
-			or customization_menu.damage_meter_UI_waiting_for_key;
+			or customization_menu.damage_meter_UI_waiting_for_key
+			or customization_menu.endemic_life_UI_waiting_for_key;
 
 			if not is_any_other_waiting then 
 				customization_menu.large_monster_static_UI_waiting_for_key = true;
@@ -457,7 +468,8 @@ function customization_menu.draw()
 			or customization_menu.large_monster_dynamic_UI_waiting_for_key
 			or customization_menu.large_monster_static_UI_waiting_for_key
 			or customization_menu.time_UI_waiting_for_key
-			or customization_menu.damage_meter_UI_waiting_for_key;
+			or customization_menu.damage_meter_UI_waiting_for_key
+			or customization_menu.endemic_life_UI_waiting_for_key;
 
 			if not is_any_other_waiting then 
 				customization_menu.large_monster_highlighted_UI_waiting_for_key = true;
@@ -484,7 +496,8 @@ function customization_menu.draw()
 			or customization_menu.large_monster_dynamic_UI_waiting_for_key
 			or customization_menu.large_monster_static_UI_waiting_for_key
 			or customization_menu.large_monster_highlighted_UI_waiting_for_key
-			or customization_menu.damage_meter_UI_waiting_for_key;
+			or customization_menu.damage_meter_UI_waiting_for_key
+			or customization_menu.endemic_life_UI_waiting_for_key;
 
 			if not is_any_other_waiting then 
 				customization_menu.time_UI_waiting_for_key = true;
@@ -511,7 +524,8 @@ function customization_menu.draw()
 			or customization_menu.large_monster_dynamic_UI_waiting_for_key
 			or customization_menu.large_monster_static_UI_waiting_for_key
 			or customization_menu.large_monster_highlighted_UI_waiting_for_key
-			or customization_menu.time_UI_waiting_for_key;
+			or customization_menu.time_UI_waiting_for_key
+			or customization_menu.endemic_life_UI_waiting_for_key;
 
 			if not is_any_other_waiting then 
 				customization_menu.damage_meter_UI_waiting_for_key = true;
@@ -521,6 +535,33 @@ function customization_menu.draw()
 		imgui.same_line();
 		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI));
 
+
+
+		if customization_menu.endemic_life_UI_waiting_for_key then
+			if imgui.button(language.current_language.customization_menu.press_any_key) then
+				config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.key = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.ctrl = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.shift = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.alt = false;
+				customization_menu.endemic_life_UI_waiting_for_key = false;
+			end
+		elseif imgui.button(language.current_language.customization_menu.endemic_life_UI) then
+			local is_any_other_waiting = customization_menu.all_UI_waiting_for_key
+			or customization_menu.small_monster_UI_waiting_for_key
+			or customization_menu.large_monster_UI_waiting_for_key
+			or customization_menu.large_monster_dynamic_UI_waiting_for_key
+			or customization_menu.large_monster_static_UI_waiting_for_key
+			or customization_menu.large_monster_highlighted_UI_waiting_for_key
+			or customization_menu.time_UI_waiting_for_key
+			or customization_menu.endemic_life_UI_waiting_for_key;
+
+			if not is_any_other_waiting then 
+				customization_menu.endemic_life_UI_waiting_for_key = true;
+			end
+		end
+
+		imgui.same_line();
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI));
 
 
 
@@ -675,6 +716,11 @@ function customization_menu.draw()
 					language.current_language.customization_menu.damage_meter_UI, config.current_config.global_settings.module_visibility.during_quest.damage_meter_UI);
 				config_changed = config_changed or changed;
 
+				changed, config.current_config.global_settings.module_visibility.during_quest.endemic_life_UI = imgui.checkbox(
+					language.current_language.customization_menu.endemic_life_UI, config.current_config.global_settings.module_visibility.during_quest.endemic_life_UI);
+				config_changed = config_changed or changed;
+
+
 				imgui.tree_pop();
 			end
 
@@ -710,6 +756,10 @@ function customization_menu.draw()
 						config.current_config.global_settings.module_visibility.quest_result_screen.damage_meter_UI);
 				config_changed = config_changed or changed;
 
+				changed, config.current_config.global_settings.module_visibility.during_quest.endemic_life_UI = imgui.checkbox(
+					language.current_language.customization_menu.endemic_life_UI, config.current_config.global_settings.module_visibility.during_quest.endemic_life_UI);
+				config_changed = config_changed or changed;
+
 				imgui.tree_pop();
 			end
 
@@ -727,6 +777,10 @@ function customization_menu.draw()
 
 				changed, config.current_config.global_settings.module_visibility.training_area.damage_meter_UI = imgui.checkbox(
 					language.current_language.customization_menu.damage_meter_UI, config.current_config.global_settings.module_visibility.training_area.damage_meter_UI);
+				config_changed = config_changed or changed;
+
+				changed, config.current_config.global_settings.module_visibility.during_quest.endemic_life_UI = imgui.checkbox(
+					language.current_language.customization_menu.endemic_life_UI, config.current_config.global_settings.module_visibility.during_quest.endemic_life_UI);
 				config_changed = config_changed or changed;
 
 				imgui.tree_pop();
@@ -3531,6 +3585,20 @@ function customization_menu.draw()
 	
 					imgui.tree_pop();
 				end
+
+				if imgui.tree_node(language.current_language.customization_menu.relative_offset) then
+					changed, config.current_config.large_monster_UI.dynamic.ailments.relative_offset.x = imgui.drag_float(language.current_language.customization_menu.x,
+						config.current_config.large_monster_UI.dynamic.ailments.relative_offset.x, 0.1, -screen.width, screen.width, "%.1f");
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+	
+					changed, config.current_config.large_monster_UI.dynamic.ailments.relative_offset.y = imgui.drag_float(language.current_language.customization_menu.y,
+						config.current_config.large_monster_UI.dynamic.ailments.relative_offset.y, 0.1, -screen.height, screen.height, "%.1f");
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+	
+					imgui.tree_pop();
+				end
 	
 				if imgui.tree_node(language.current_language.customization_menu.spacing) then
 					changed, config.current_config.large_monster_UI.dynamic.ailments.spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
@@ -5622,6 +5690,20 @@ function customization_menu.draw()
 	
 					imgui.tree_pop();
 				end
+
+				if imgui.tree_node(language.current_language.customization_menu.relative_offset) then
+					changed, config.current_config.large_monster_UI.static.ailments.relative_offset.x = imgui.drag_float(language.current_language.customization_menu.x,
+						config.current_config.large_monster_UI.static.ailments.relative_offset.x, 0.1, -screen.width, screen.width, "%.1f");
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+	
+					changed, config.current_config.large_monster_UI.static.ailments.relative_offset.y = imgui.drag_float(language.current_language.customization_menu.y,
+						config.current_config.large_monster_UI.static.ailments.relative_offset.y, 0.1, -screen.height, screen.height, "%.1f");
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+	
+					imgui.tree_pop();
+				end
 	
 				if imgui.tree_node(language.current_language.customization_menu.spacing) then
 					changed, config.current_config.large_monster_UI.static.ailments.spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
@@ -7641,6 +7723,20 @@ function customization_menu.draw()
 	
 					imgui.tree_pop();
 				end
+
+				if imgui.tree_node(language.current_language.customization_menu.relative_offset) then
+					changed, config.current_config.large_monster_UI.highlighted.ailments.relative_offset.x = imgui.drag_float(language.current_language.customization_menu.x,
+						config.current_config.large_monster_UI.highlighted.ailments.relative_offset.x, 0.1, -screen.width, screen.width, "%.1f");
+					config_changed = config_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+	
+					changed, config.current_config.large_monster_UI.highlighted.ailments.relative_offset.y = imgui.drag_float(language.current_language.customization_menu.y,
+						config.current_config.large_monster_UI.highlighted.ailments.relative_offset.y, 0.1, -screen.height, screen.height, "%.1f");
+					config_changed = config_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+	
+					imgui.tree_pop();
+				end
 	
 				if imgui.tree_node(language.current_language.customization_menu.spacing) then
 					changed, config.current_config.large_monster_UI.highlighted.ailments.spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
@@ -9149,6 +9245,133 @@ function customization_menu.draw()
 		imgui.tree_pop();
 	end
 
+	if imgui.tree_node(language.current_language.customization_menu.endemic_life_UI) then
+		changed, config.current_config.endemic_life_UI.enabled =
+			imgui.checkbox(language.current_language.customization_menu.enabled, config.current_config.endemic_life_UI.enabled);
+		config_changed = config_changed or changed;
+		endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+		if imgui.tree_node(language.current_language.customization_menu.settings) then
+			changed, config.current_config.endemic_life_UI.settings.hide_inactive_creatures = imgui.checkbox(language.current_language.customization_menu.hide_inactive_creatures, config.current_config.
+			endemic_life_UI.settings.hide_inactive_creatures);
+			config_changed = config_changed or changed;
+
+			changed, config.current_config.endemic_life_UI.settings.opacity_falloff =
+				imgui.checkbox(language.current_language.customization_menu.opacity_falloff, config.current_config.endemic_life_UI.settings.opacity_falloff);
+			config_changed = config_changed or changed;
+			endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+			changed, config.current_config.endemic_life_UI.settings.max_distance =
+				imgui.drag_float(language.current_language.customization_menu.max_distance, config.current_config.endemic_life_UI.settings.max_distance, 1, 0, 10000,
+					"%.0f");
+			config_changed = config_changed or changed;
+			endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.world_offset) then
+			changed, config.current_config.endemic_life_UI.world_offset.x = imgui.drag_float(language.current_language.customization_menu.x,
+				config.current_config.endemic_life_UI.world_offset.x, 0.1, -100, 100, "%.1f");
+			config_changed = config_changed or changed;
+			endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+			changed, config.current_config.endemic_life_UI.world_offset.y = imgui.drag_float(language.current_language.customization_menu.y,
+				config.current_config.endemic_life_UI.world_offset.y, 0.1, -100, 100, "%.1f");
+			config_changed = config_changed or changed;
+			endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+			changed, config.current_config.endemic_life_UI.world_offset.z = imgui.drag_float(language.current_language.customization_menu.z,
+				config.current_config.endemic_life_UI.world_offset.z, 0.1, -100, 100, "%.1f");
+			config_changed = config_changed or changed;
+			endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.viewport_offset) then
+			changed, config.current_config.endemic_life_UI.viewport_offset.x = imgui.drag_float(language.current_language.customization_menu.x,
+				config.current_config.endemic_life_UI.viewport_offset.x, 0.1, -screen.width, screen.width, "%.1f");
+			config_changed = config_changed or changed;
+			endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+			changed, config.current_config.endemic_life_UI.viewport_offset.y = imgui.drag_float(language.current_language.customization_menu.y,
+				config.current_config.endemic_life_UI.viewport_offset.y, 0.1, -screen.height, screen.height, "%.1f");
+			config_changed = config_changed or changed;
+			endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.creature_name_label) then
+			changed, config.current_config.endemic_life_UI.creature_name_label.visibility = imgui.checkbox(language.current_language.customization_menu.visible,
+				config.current_config.endemic_life_UI.creature_name_label.visibility);
+			config_changed = config_changed or changed;
+			endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+			if imgui.tree_node(language.current_language.customization_menu.offset) then
+				changed, config.current_config.endemic_life_UI.creature_name_label.offset.x = imgui.drag_float(language.current_language.customization_menu.x,
+					config.current_config.endemic_life_UI.creature_name_label.offset.x, 0.1, -screen.width, screen.width,
+					"%.1f");
+				config_changed = config_changed or changed;
+				endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+				changed, config.current_config.endemic_life_UI.creature_name_label.offset.y = imgui.drag_float(language.current_language.customization_menu.y,
+					config.current_config.endemic_life_UI.creature_name_label.offset.y, 0.1, -screen.height, screen.height,
+					"%.1f");
+				config_changed = config_changed or changed;
+				endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.color) then
+				changed, config.current_config.endemic_life_UI.creature_name_label.color = imgui.color_picker_argb("", config.current_config.endemic_life_UI.creature_name_label.color, customization_menu.color_picker_flags);
+				config_changed = config_changed or changed;
+				endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.shadow) then
+				changed, config.current_config.endemic_life_UI.creature_name_label.shadow.visibility = imgui.checkbox(
+					language.current_language.customization_menu.visible, config.current_config.endemic_life_UI.creature_name_label.shadow.visibility);
+				config_changed = config_changed or changed;
+				endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+				if imgui.tree_node(language.current_language.customization_menu.offset) then
+					changed, config.current_config.endemic_life_UI.creature_name_label.shadow.offset.x = imgui.drag_float(language.current_language.customization_menu.x,
+						config.current_config.endemic_life_UI.creature_name_label.shadow.offset.x, 0.1, -screen.width,
+						screen.width, "%.1f");
+					config_changed = config_changed or changed;
+					endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+					changed, config.current_config.endemic_life_UI.creature_name_label.shadow.offset.y = imgui.drag_float(language.current_language.customization_menu.y,
+						config.current_config.endemic_life_UI.creature_name_label.shadow.offset.y, 0.1, -screen.height,
+						screen.height, "%.1f");
+					config_changed = config_changed or changed;
+					endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node(language.current_language.customization_menu.color) then
+					changed, config.current_config.endemic_life_UI.creature_name_label.shadow.color = imgui.color_picker_argb("", config.current_config.endemic_life_UI.creature_name_label.shadow.color, customization_menu.color_picker_flags);
+					config_changed = config_changed or changed;
+					endemic_life_UI_changed = endemic_life_UI_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		imgui.tree_pop();
+	end
+
 	imgui.end_window();
 	imgui.pop_font(customization_menu.font);
 
@@ -9187,6 +9410,13 @@ function customization_menu.draw()
 		end
 	end
 
+	if endemic_life_UI_changed or modifiers_changed then
+		for _, creature in pairs(env_creature.list) do
+			env_creature.init_UI(creature);
+		end
+	end
+
+
 	if config_changed then
 		config.save();
 	end
@@ -9200,6 +9430,7 @@ function customization_menu.init_module()
 	player = require("MHR_Overlay.Damage_Meter.player");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
+	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
 	part_names = require("MHR_Overlay.Misc.part_names");
 	time_UI = require("MHR_Overlay.UI.Modules.time_UI");
 	keyboard = require("MHR_Overlay.Game_Handler.keyboard");

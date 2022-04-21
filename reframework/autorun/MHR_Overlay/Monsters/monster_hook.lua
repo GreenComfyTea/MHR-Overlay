@@ -1,16 +1,16 @@
-local monster = {};
+local monster_hook = {};
 local small_monster;
 local large_monster;
 local config;
 local ailments;
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
-local enemy_character_base_type_def_update_method = enemy_character_base_type_def:get_method("update");
+local enemy_character_base_update_method = enemy_character_base_type_def:get_method("update");
 
 local is_boss_enemy_method = sdk.find_type_definition("snow.enemy.EnemyCharacterBase"):get_method("get_isBossEnemy");
 
-sdk.hook(enemy_character_base_type_def_update_method, function(args)
-	pcall(monster.update_monster, sdk.to_managed_object(args[2]));
+sdk.hook(enemy_character_base_update_method, function(args)
+	pcall(monster_hook.update_monster, sdk.to_managed_object(args[2]));
 end, function(retval)
 	return retval;
 end);
@@ -47,7 +47,7 @@ re.on_pre_application_entry("UpdateBehavior", function()
     end
 end)
 
-function monster.update_monster(enemy)
+function monster_hook.update_monster(enemy)
 	if enemy == nil then
 		return;
 	end
@@ -71,13 +71,13 @@ function monster.update_monster(enemy)
 	ailments.update_poison_blast(enemy, is_large);
 
 	if is_large then
-		monster.update_large_monster(enemy);
+		monster_hook.update_large_monster(enemy);
 	else
-		monster.update_small_monster(enemy);
+		monster_hook.update_small_monster(enemy);
 	end
 end
 
-function monster.update_large_monster(enemy)
+function monster_hook.update_large_monster(enemy)
 	if not config.current_config.large_monster_UI.dynamic.enabled and
 	not config.current_config.large_monster_UI.static.enabled and
 	not config.current_config.large_monster_UI.highlighted.enabled then
@@ -111,7 +111,7 @@ function monster.update_large_monster(enemy)
 	large_monster.update(enemy);
 end
 
-function monster.update_small_monster(enemy)
+function monster_hook.update_small_monster(enemy)
 	if not config.current_config.small_monster_UI.enabled then
 		return;
 	end
@@ -141,11 +141,11 @@ function monster.update_small_monster(enemy)
 	small_monster.update(enemy);
 end
 
-function monster.init_module()
+function monster_hook.init_module()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	config = require("MHR_Overlay.Misc.config");
 	ailments = require("MHR_Overlay.Monsters.ailments");
 end
 
-return monster;
+return monster_hook;

@@ -27,8 +27,8 @@ function small_monster.new(enemy)
 	monster.stamina_percentage = 0;
 	monster.missing_stamina = 0;
 
-	monster.game_object = nil
-	monster.transform = nil
+	monster.game_object = nil;
+	monster.transform = nil;
 	monster.position = Vector3f.new(0, 0, 0);
 	monster.distance = 0;
 
@@ -54,14 +54,22 @@ function small_monster.get_monster(enemy)
 	return small_monster.list[enemy];
 end
 
+local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
+local enemy_type_field = enemy_character_base_type_def:get_field("<EnemyType>k__BackingField");
+
+local message_manager_type_def = sdk.find_type_definition("snow.gui.MessageManager");
+local get_enemy_name_message_method = message_manager_type_def:get_method("getEnemyNameMessage");
+
 function small_monster.init(monster, enemy)
-	local enemy_type = enemy:get_field("<EnemyType>k__BackingField");
+	local enemy_type = enemy_type_field:get_data(enemy);
 	if enemy_type == nil then
 		customization_menu.status = "No enemy type";
 		return;
 	end
 
-	local enemy_name = singletons.message_manager:call("getEnemyNameMessage", enemy_type);
+	monster.id = enemy_type;
+
+	local enemy_name = get_enemy_name_message_method:call(singletons.message_manager, enemy_type);
 	if enemy_name ~= nil then
 		monster.name = enemy_name;
 	end

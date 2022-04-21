@@ -54,8 +54,8 @@ function large_monster.new(enemy)
 	monster.rage_seconds_left = 0;
 	monster.rage_timer_percentage = 0;
 
-	monster.game_object = nil
-	monster.transform = nil
+	monster.game_object = nil;
+	monster.transform = nil;
 	monster.position = Vector3f.new(0, 0, 0);
 	monster.distance = 0;
 
@@ -123,6 +123,7 @@ function large_monster.init(monster, enemy)
 	if enemy_name ~= nil then
 		monster.name = enemy_name;
 	end
+	
 	local set_info = get_set_info_method:call(enemy);
 	if set_info ~= nil then
 		local unique_id = get_unique_id_method:call(set_info);
@@ -371,7 +372,7 @@ function large_monster.update_position(enemy)
 	-- as these are pretty much guaranteed to stay constant
 	-- as long as the enemy is alive
 	if monster.game_object == nil then
-		monster.game_object = get_game_object_method:call(enemy)
+		monster.game_object = get_game_object_method:call(enemy);
 		if monster.game_object == nil then
 			customization_menu.status = "No enemy game object";
 			return;
@@ -379,14 +380,14 @@ function large_monster.update_position(enemy)
 	end
 
 	if monster.transform == nil then
-		monster.transform = get_transform_method:call(monster.game_object)
+		monster.transform = get_transform_method:call(monster.game_object);
 		if monster.transform == nil then
 			customization_menu.status = "No enemy transform";
 			return;
 		end
 	end
 
-	local position = get_position_method:call(monster.transform)
+	local position = get_position_method:call(monster.transform);
 	if not position then
 		customization_menu.status = "No enemy position";
 		return;
@@ -688,10 +689,11 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 	local last_part_position_on_screen = body_part.draw_dynamic(monster, parts_position_on_screen, opacity_scale);
 
 	if config.current_config.large_monster_UI.dynamic.ailments.settings.offset_is_relative_to_parts then
-		if last_part_position_on_screen == nil then
-			ailments_position_on_screen = parts_position_on_screen;
-		else
-			ailments_position_on_screen.y = last_part_position_on_screen.y + config.current_config.large_monster_UI.dynamic.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+		if last_part_position_on_screen ~= nil then
+			ailments_position_on_screen = {
+				x = last_part_position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailments.relative_offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+				y = last_part_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailments.relative_offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+			};
 		end
 	end
 
@@ -699,6 +701,7 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 end
 
 function large_monster.draw_static(monster, position_on_screen, opacity_scale)
+	
 	local monster_name_text = "";
 	if config.current_config.large_monster_UI.static.monster_name_label.include.monster_name then
 		monster_name_text = string.format("%s ", monster.name);
@@ -721,6 +724,7 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 	else
 		monster.health_static_UI.bar.colors = config.current_config.large_monster_UI.static.health.bar.normal_colors;
 	end
+	
 
 	drawing.draw_label(monster.static_name_label, position_on_screen, opacity_scale, monster_name_text);
 
@@ -758,10 +762,11 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 	local last_part_position_on_screen = body_part.draw_static(monster, parts_position_on_screen, opacity_scale);
 
 	if config.current_config.large_monster_UI.static.ailments.settings.offset_is_relative_to_parts then
-		if last_part_position_on_screen == nil then
-			ailments_position_on_screen = parts_position_on_screen;
-		else
-			ailments_position_on_screen.y = last_part_position_on_screen.y + config.current_config.large_monster_UI.static.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+		if last_part_position_on_screen ~= nil then
+			ailments_position_on_screen = {
+				x = last_part_position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailments.relative_offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+				y = last_part_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailments.relative_offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+			};
 		end
 	end
 
@@ -829,15 +834,11 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 	local last_part_position_on_screen = body_part.draw_highlighted(monster, parts_position_on_screen, opacity_scale);
 
 	if config.current_config.large_monster_UI.highlighted.ailments.settings.offset_is_relative_to_parts then
-
-		
-		if last_part_position_on_screen == nil then
+		if last_part_position_on_screen ~= nil then
 			ailments_position_on_screen = {
-				x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailments.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
-				y = parts_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+				x = last_part_position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailments.relative_offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+				y = last_part_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailments.relative_offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 			};
-		else
-			ailments_position_on_screen.y = last_part_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
 		end
 	end
 

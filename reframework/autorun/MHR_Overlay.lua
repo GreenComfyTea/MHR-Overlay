@@ -15,6 +15,9 @@ local ailments = require("MHR_Overlay.Monsters.ailments");
 local player = require("MHR_Overlay.Damage_Meter.player");
 local damage_hook = require("MHR_Overlay.Damage_Meter.damage_hook");
 
+local env_creature_hook = require("MHR_Overlay.Endemic_Life.env_creature_hook");
+local env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
+
 local body_part = require("MHR_Overlay.Monsters.body_part");
 local large_monster = require("MHR_Overlay.Monsters.large_monster");
 local monster_hook = require("MHR_Overlay.Monsters.monster_hook");
@@ -31,6 +34,7 @@ local health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 local stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 local rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
 local ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
+local env_creature_UI = require("MHR_Overlay.UI.Modules.env_creature_UI");
 
 local customization_menu = require("MHR_Overlay.UI.customization_menu");
 local drawing = require("MHR_Overlay.UI.drawing");
@@ -52,15 +56,18 @@ health_UI_entity.init_module();
 stamina_UI_entity.init_module();
 rage_UI_entity.init_module();
 ailment_UI_entity.init_module();
-
 damage_hook.init_module();
 player.init_module();
-ailments.init_module();
+
+env_creature_hook.init_module();
+env_creature.init_module();
 
 body_part.init_module();
+ailments.init_module();
 large_monster.init_module();
 monster_hook.init_module();
 small_monster.init_module();
+
 
 customization_menu.init_module();
 body_part_UI_entity.init_module();
@@ -69,6 +76,7 @@ drawing.init_module();
 large_monster_UI.init_module();
 small_monster_UI.init_module();
 time_UI.init_module();
+env_creature_UI.init_module();
 
 keyboard.init_module();
 
@@ -144,6 +152,13 @@ end, function()
 					customization_menu.status = "Damage meter drawing function threw an exception";
 				end
 			end
+
+			if config.current_config.endemic_life_UI.enabled and config.current_config.global_settings.module_visibility.training_area.endemic_life_UI then
+				local success = pcall(env_creature_UI.draw);
+				if not success then
+					customization_menu.status = "Endemic life drawing function threw an exception";
+				end
+			end
 		end
 	elseif quest_status.is_result_screen then
 		if config.current_config.small_monster_UI.enabled and config.current_config.global_settings.module_visibility.quest_result_screen.small_monster_UI then
@@ -175,6 +190,13 @@ end, function()
 			local success = pcall(damage_meter_UI.draw);
 			if not success then
 				customization_menu.status = "Damage meter drawing function threw an exception";
+			end
+		end
+
+		if config.current_config.endemic_life_UI.enabled and config.current_config.global_settings.module_visibility.quest_result_screen.endemic_life_UI then
+			local success = pcall(env_creature_UI.draw);
+			if not success then
+				customization_menu.status = "Endemic life drawing function threw an exception";
 			end
 		end
 	elseif quest_status.index == 2 then
@@ -210,6 +232,13 @@ end, function()
 			local success = pcall(damage_meter_UI.draw);
 			if not success then
 				customization_menu.status = "Damage meter drawing function threw an exception";
+			end
+		end
+
+		if config.current_config.endemic_life_UI.enabled and config.current_config.global_settings.module_visibility.during_quest.endemic_life_UI then
+			local success = pcall(env_creature_UI.draw);
+			if not success then
+				customization_menu.status = "Endemic life drawing function threw an exception";
 			end
 		end
 	end
