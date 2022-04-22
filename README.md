@@ -27,7 +27,7 @@
 **praydog2** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26). Contributed huge improvements to the performance of the mod.  
 **coavins** - creator of [coavins damage meter](https://www.nexusmods.com/monsterhunterrise/mods/68) mod.  
   
-**neatnet** - Korean translation.
+**neatnet** - Korean translation.  
 **s9000008** - Chinese translation.
 ***
 # Support
