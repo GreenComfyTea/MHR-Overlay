@@ -1,6 +1,13 @@
 # Monster Hunter Rise Overlay Mod
-Nexus Mods: [link](https://www.nexusmods.com/monsterhunterrise/mods/50)  
-Wiki: [link](https://github.com/GreenComfyTea/MHR-Overlay/wiki)
+**This mod is solely intended to empower players with means of self-improvement. Please don't use the information provided by this tool to make hurtful comments and actions toward other players.**
+
+# Links
+* **[Nexus Mods](https://www.nexusmods.com/monsterhunterrise/mods/50)**  
+* **[Wiki](https://github.com/GreenComfyTea/MHR-Overlay/wiki)**  
+* **[FAQ](https://github.com/GreenComfyTea/MHR-Overlay/wiki/FAQ)**  
+* **[Requirements and Installation](https://github.com/GreenComfyTea/MHR-Overlay/wiki/Requirements-and-Installation)**  
+* **[Features](https://github.com/GreenComfyTea/MHR-Overlay/wiki/Features)**  
+* **[Troubleshooting](https://github.com/GreenComfyTea/MHR-Overlay/wiki/Troubleshooting)**  
 
 # Requirements
 1. [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26)﻿ (v1.1.4 or above);
@@ -14,6 +21,15 @@ Wiki: [link](https://github.com/GreenComfyTea/MHR-Overlay/wiki)
     * Nightly builds are available in [this repo](https://github.com/GreenComfyTea/MHR-Overlay) and can contain broken functionality, debugging info on screen, bugs and might require the latest [nightly build](https://github.com/praydog/REFramework-nightly/releases) of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26). Use with caution!
 4. Extract the mod from the archive and place it in MonsterHunterRise folder. Refer to [FAQ](https://github.com/GreenComfyTea/MHR-Overlay/wiki/FAQ) to verify how the file hierarchy should look like if everything is done correctly.
 
+# Credits
+**GreenComfyTea** - creator of the mod and it's main contributor, Russian translation.  
+**cursecat** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26), [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134) plugin and [Monster Has HP Bar](https://www.nexusmods.com/monsterhunterrise/mods/43) mod, which provided an example on how to retrieve monster HP data.  
+**praydog2** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26). Contributed huge improvements to the performance of the mod.  
+**coavins** - creator of [coavins damage meter](https://www.nexusmods.com/monsterhunterrise/mods/68) mod.  
+  
+**neatnet** - Korean translation.
+**s9000008** - Chinese translation.
+***
 # Support
 
 You can support me by donating! I would appreciate it! But anyway, thank you for using this mod!
