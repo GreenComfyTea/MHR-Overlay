@@ -1,39 +1,18 @@
 # Monster Hunter Rise Overlay Mod
-Link: https://www.nexusmods.com/monsterhunterrise/mods/50
+Nexus Mods: [link](https://www.nexusmods.com/monsterhunterrise/mods/50)  
+Wiki: [link](https://github.com/GreenComfyTea/MHR-Overlay/wiki)
 
-Built on https://www.nexusmods.com/monsterhunterrise/mods/43 and https://www.nexusmods.com/monsterhunterrise/mods/68
-
-Features:
-1) Large monster health, stamina, rage, body parts;
-2) Small monster health;
-3) Quest Time;
-4) Damage Meter;
-5) Flexible Customization.
-
-# Dependencies:
-1) REFramework v1.1.2 or above (https://www.nexusmods.com/monsterhunterrise/mods/26)
-2) REFramework v0.4.0 or above (https://www.nexusmods.com/monsterhunterrise/mods/134)
+# Requirements
+1. [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26)﻿ (v1.1.4 or above);
+2. [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134) (v0.4.0 or above).
 
 # How to install:
-1) Install REFramework
-2) Download the mod file
-3) Place the reframework folder to MonsterHunterRise root folder.
-
-# Customization:
-Mod features a convinient Customization Menu inside REFramework. Open REFramework (Insert key by default) -> Script Generated UI -> MHR Overlay.
-Your settings will be automatically saved and load.
-
-Default values are made for 1080p screen.
-
-Things that can be changed:
-
-    Visibility of modules, elements, labels;
-    Module positions, offsets;
-    Bar size;
-    Colors, shadows;
-    Sorting.
-    Dynamic positioning for monster UIs.
-<img src="https://i.imgur.com/zgPlLqY.png" />
+1. Install [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26)﻿;
+2. Install [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134);
+3. Download the mod:
+    * Official release can be downloaded from [Nexus Mods](https://www.nexusmods.com/monsterhunterrise/mods/50);
+    * Nightly builds are available in [this repo](https://github.com/GreenComfyTea/MHR-Overlay) and can contain broken functionality, debugging info on screen, bugs and might require the latest [nightly build](https://github.com/praydog/REFramework-nightly/releases) of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26). Use with caution!
+4. Extract the mod from the archive and place it in MonsterHunterRise folder. Refer to [FAQ](https://github.com/GreenComfyTea/MHR-Overlay/wiki/FAQ) to verify how the file hierarchy should look like if everything is done correctly.
 
 # Support
 
