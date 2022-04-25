@@ -14,9 +14,14 @@ quest_status.update_is_result_screen = false;
 
 local quest_manager_type_definition = sdk.find_type_definition("snow.QuestManager");
 local on_changed_game_status = quest_manager_type_definition:get_method("onChangedGameStatus");
+local get_status_method = quest_manager_type_definition:get_method("getStatus");
+local is_result_demo_play_start_method = quest_manager_type_definition:get_method("isResultDemoPlayStart");
 
 local village_area_manager_type_def = sdk.find_type_definition("snow.VillageAreaManager");
 local check_current_area_training_area_method = village_area_manager_type_def:get_method("checkCurrentArea_TrainingArea");
+
+local lobby_manager_type_definition = sdk.find_type_definition("snow.LobbyManager");
+local is_quest_online_method = lobby_manager_type_definition:get_method("IsQuestOnline");
 
 sdk.hook(on_changed_game_status, function(args)
 	pcall(quest_status.update(args));
@@ -47,7 +52,7 @@ function quest_status.init()
 		return;
 	end
 
-	local new_quest_status = singletons.quest_manager:call("getStatus");
+	local new_quest_status = get_status_method:call(singletons.quest_manager);
 	if new_quest_status == nil then
 		customization_menu.status = "No quest status";
 		return;
@@ -64,7 +69,7 @@ function quest_status.update_is_online()
 		return;
 	end
 
-	local is_quest_online = singletons.lobby_manager:call("IsQuestOnline");
+	local is_quest_online = is_quest_online_method:call(singletons.lobby_manager);
 	if is_quest_online == nil then
 		return;
 	end
@@ -100,7 +105,7 @@ function quest_status.update_is_result_screen()
 		return;
 	end
 
-	local is_result_demo_play_start = singletons.quest_manager:call("isResultDemoPlayStart");
+	local is_result_demo_play_start = is_result_demo_play_start_method:call(singletons.quest_manager);
 	if is_result_demo_play_start == nil then
 		return;
 	end

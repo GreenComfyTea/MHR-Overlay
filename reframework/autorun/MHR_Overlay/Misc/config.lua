@@ -2677,7 +2677,7 @@ function config.init()
 		},
 
 		endemic_life_UI = {
-			enabled = true,
+			enabled = false,
 	
 			settings = {
 				hide_inactive_creatures = true,

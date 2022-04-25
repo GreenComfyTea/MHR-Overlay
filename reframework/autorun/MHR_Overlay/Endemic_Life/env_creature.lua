@@ -44,6 +44,8 @@ local creature_is_inactive_field = environment_creature_base_type_def:get_field(
 local message_manager_type_def = sdk.find_type_definition("snow.gui.MessageManager");
 local get_env_creature_name_message_method = message_manager_type_def:get_method("getEnvCreatureNameMessage");
 
+local get_pos_method = environment_creature_base_type_def:get_method("get_Pos");
+
 function env_creature.init(creature, REcreature)
 	local creature_type = creature_type_field:get_data(REcreature);
 	if creature_type == nil then
@@ -64,17 +66,23 @@ function env_creature.init_UI(creature)
 	creature.name_label.offset.y = creature.name_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
 end
 
-local get_game_object_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject");
-local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform");
-local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position");
+--local get_game_object_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject");
+--local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform");
+--local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position");
 
 function env_creature.update(REcreature)
-	if REcreature == nil then
+	if not config.current_config.endemic_life_UI.enabled then
 		return;
 	end
 
 	local creature = env_creature.get_creature(REcreature);
 
+	local position = get_pos_method:call(REcreature);
+	if position ~= nil then
+		creature.position = position;
+	end
+
+	--[[
 	if creature.game_object == nil then
 		creature.game_object = get_game_object_method:call(REcreature);
 		
@@ -99,11 +107,13 @@ function env_creature.update(REcreature)
 	end
 
 	creature.position = position;
+	--]]
 
 	local is_inactive = creature_is_inactive_field:get_data(REcreature);
 	if is_inactive ~= nil then
 		creature.is_inactive = is_inactive;
 	end
+	
 end
 
 function env_creature.draw(creature, position_on_screen, opacity_scale)

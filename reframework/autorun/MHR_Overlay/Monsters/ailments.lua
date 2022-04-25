@@ -33,7 +33,7 @@ ailments.flash_id =    3;
 ailments.poison_id =   4;
 ailments.blast_id =    5;
 ailments.exhaust_id =  6;
-ailments.mount_id =    7;
+ailments.ride_id =    7;
 ailments.water_id =    8;
 ailments.fire_id =     9;
 ailments.ice_id =     10;
@@ -83,8 +83,8 @@ function ailments.new(_ailments, ailment_id)
 		_ailments[ailment_id].name = language.current_language.ailments.blast;
 	elseif ailment_id == ailments.exhaust_id then
 		_ailments[ailment_id].name = language.current_language.ailments.exhaust;
-	elseif ailment_id == ailments.mount_id then
-		_ailments[ailment_id].name = language.current_language.ailments.mount;
+	elseif ailment_id == ailments.ride_id then
+		_ailments[ailment_id].name = language.current_language.ailments.ride;
 	elseif ailment_id == ailments.water_id then
 		_ailments[ailment_id].name = language.current_language.ailments.waterblight;
 	elseif ailment_id == ailments.fire_id then
@@ -122,7 +122,7 @@ function ailments.init_ailments()
 	ailments.new(_ailments, ailments.poison_id);
 	ailments.new(_ailments, ailments.blast_id);
 	ailments.new(_ailments, ailments.exhaust_id);
-	ailments.new(_ailments, ailments.mount_id);
+	ailments.new(_ailments, ailments.ride_id);
 	ailments.new(_ailments, ailments.water_id);
 	ailments.new(_ailments, ailments.fire_id);
 	ailments.new(_ailments, ailments.ice_id);
@@ -261,7 +261,6 @@ function ailments.update_ailments(enemy, monster)
 
 		if duration ~= nil and not monster.ailments[id].is_active then
 			if duration ~= monster.ailments[id].duration then
-				xy = tostring(monster.ailments[id].is_active) .. " " .. tostring(monster.ailments[id].duration) .. " -> " .. tostring(duration);
 				ailments.update_last_change_time(monster, id);
 			end
 
@@ -303,54 +302,33 @@ function ailments.update_last_change_time(monster, id)
 end
 
 -- Code by coavins
-function ailments.update_poison_blast(enemy, is_large)
-	if enemy == nil then
+function ailments.update_poison_blast(monster, poison_param, blast_param)
+	if monster == nil then
 		return;
 	end
 
-	local monster;
-	if is_large then
-		monster	= large_monster.get_monster(enemy);
-	else
-		monster	= small_monster.get_monster(enemy);
-	end 
-
-	local damage_param = damage_param_field:get_data(enemy);
-	if damage_param ~= nil then
-
-		local poison_param = poison_param_field:get_data(damage_param);
-		if poison_param ~= nil then
-			-- if applied, then calculate share for poison
-			local activate_count = get_activate_count_method:call(poison_param):get_element(0):get_field("mValue");
-
-			if activate_count > monster.ailments[ailments.poison_id].activate_count then
-				monster.ailments[ailments.poison_id].activate_count = activate_count;
-				ailments.calculate_ailment_contribution(monster, ailments.poison_id);
-			end
-
-			-- if poison tick, apply damage
+	if poison_param ~= nil then
+		--if poison tick, apply damage
+		local is_damage = poison_get_is_damage_method:call(poison_param);
+		if is_damage then
 			local poison_damage = poison_damage_field:get_data(poison_param);
-			local is_damage = poison_get_is_damage_method:call(poison_param);
-
-			if is_damage then
-				ailments.apply_ailment_damage(monster, ailments.poison_id, poison_damage);
-			end
+			
+			ailments.apply_ailment_damage(monster, ailments.poison_id, poison_damage);
 		end
+	end
 
-		local blast_param = blast_param_field:get_data(damage_param);
-		if blast_param ~= nil then
-			-- if applied, then calculate share for blast and apply damage
-			local activate_count = get_activate_count_method:call(blast_param):get_element(0):get_field("mValue");
+	if blast_param ~= nil then
+		-- if applied, then calculate share for blast and apply damage
+		local activate_count = get_activate_count_method:call(blast_param):get_element(0):get_field("mValue");
 
-			if activate_count > monster.ailments[ailments.blast_id].activate_count then
-				monster.ailments[ailments.blast_id].activate_count = activate_count;
-				ailments.calculate_ailment_contribution(monster, ailments.blast_id);
+		if activate_count > monster.ailments[ailments.blast_id].activate_count then
+			monster.ailments[ailments.blast_id].activate_count = activate_count;
+			ailments.calculate_ailment_contribution(monster, ailments.blast_id);
 
-				local blast_damage = blast_damage_method:call(blast_param);
-				local blast_adjust_rate = blast_adjust_rate_method:call(blast_param);
-				
-				ailments.apply_ailment_damage(monster, ailments.blast_id, blast_damage * blast_adjust_rate);
-			end
+			local blast_damage = blast_damage_method:call(blast_param);
+			local blast_adjust_rate = blast_adjust_rate_method:call(blast_param);
+			
+			ailments.apply_ailment_damage(monster, ailments.blast_id, blast_damage * blast_adjust_rate);
 		end
 	end
 end

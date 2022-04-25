@@ -1,6 +1,7 @@
 local env_creature_hook = {};
 local env_creature;
 local config;
+local time;
 
 local environment_creature_base_type_def = sdk.find_type_definition("snow.envCreature.EnvironmentCreatureBase");
 local environment_creature_base_update_method = environment_creature_base_type_def:get_method("update");
@@ -21,6 +22,7 @@ end
 function env_creature_hook.init_module()
 	config = require("MHR_Overlay.Misc.config");
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
+	time = require("MHR_Overlay.Game_Handler.time");
 end
 
 return env_creature_hook;

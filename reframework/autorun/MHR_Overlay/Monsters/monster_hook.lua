@@ -7,7 +7,7 @@ local ailments;
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_update_method = enemy_character_base_type_def:get_method("update");
 
-local is_boss_enemy_method = sdk.find_type_definition("snow.enemy.EnemyCharacterBase"):get_method("get_isBossEnemy");
+local is_boss_enemy_method = enemy_character_base_type_def:get_method("get_isBossEnemy");
 
 sdk.hook(enemy_character_base_update_method, function(args)
 	pcall(monster_hook.update_monster, sdk.to_managed_object(args[2]));
@@ -68,8 +68,6 @@ function monster_hook.update_monster(enemy)
 		return;
 	end
 	
-	ailments.update_poison_blast(enemy, is_large);
-
 	if is_large then
 		monster_hook.update_large_monster(enemy);
 	else

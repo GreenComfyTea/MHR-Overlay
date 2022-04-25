@@ -62,7 +62,7 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 			goto continue;
 		end
 
-		if monster.dead_or_captured then
+		if monster.dead_or_captured or not monster.is_disp_icon_mini_map then
 			monster_id_shift = monster_id_shift + 1;
 		elseif i == highlighted_id + monster_id_shift then
 			highlighted_monster = monster;

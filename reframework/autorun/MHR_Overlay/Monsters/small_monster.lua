@@ -118,26 +118,34 @@ local physical_param_type = physical_param_field:get_type();
 local get_vital_method = physical_param_type:get_method("getVital");
 local get_capture_hp_vital_method = physical_param_type:get_method("get_CaptureHpVital");
 
-local vital_param_type = get_vital_method:get_return_type();
-local get_current_method = vital_param_type:get_method("get_Current");
-local get_max_method = vital_param_type:get_method("get_Max");
+local get_hp_vital_method = enemy_character_base_type_def:get_method("getHpVital");
+local get_hp_max_vital_method = enemy_character_base_type_def:get_method("getHpMaxVital");
+
 
 local stamina_param_type = stamina_param_field:get_type();
 local get_stamina_method = stamina_param_type:get_method("getStamina");
 local get_max_stamina_method = stamina_param_type:get_method("getMaxStamina");
 
-local get_gameobject_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject");
-local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform");
-local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position");
+local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
+
+--local get_gameobject_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject");
+--local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform");
+--local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position");
 
 function small_monster.update_position(enemy)
-	if not config.current_config.small_monster_UI.enabled then
+	if not config.current_config.small_monster_UI.enabled or not config.current_config.small_monster_UI.dynamic_positioning.enabled then
 		return;
 	end
 
 	local monster = small_monster.get_monster(enemy);
 	if not monster then return end
 
+	local position = get_pos_field:call(enemy);
+	if position ~= nil then
+		monster.position = position;
+	end
+
+	--[[
 	-- cache off the game object and transform
 	-- as these are pretty much guaranteed to stay constant
 	-- as long as the enemy is alive
@@ -166,6 +174,7 @@ function small_monster.update_position(enemy)
 	if position ~= nil then
 		monster.position = position;
 	end
+	--]]
 end
 
 function small_monster.update(enemy)
@@ -201,19 +210,17 @@ function small_monster.update(enemy)
 		return;
 	end
 
-	local health = get_current_method:call(vital_param)
-	local max_health = get_max_method:call(vital_param)
-	local capture_health = get_capture_hp_vital_method:call(physical_param)
+	local health = get_hp_vital_method:call(enemy);
+	local max_health = get_hp_max_vital_method:call(enemy);
+	local capture_health = get_capture_hp_vital_method:call(physical_param);
 
-	local stamina = get_stamina_method:call(stamina_param)
-	local max_stamina = get_max_stamina_method:call(stamina_param)
+	local stamina = get_stamina_method:call(stamina_param);
+	local max_stamina = get_max_stamina_method:call(stamina_param);
 
 	local dead_or_captured = check_die_method:call(enemy);
 	if dead_or_captured == nil then
 		return;
 	end
-
-	small_monster.update_position(enemy)
 
 	local monster = small_monster.get_monster(enemy);
 
@@ -255,7 +262,7 @@ function small_monster.update(enemy)
 		end
 	end
 
-	ailments.update_ailments(enemy, monster)
+	ailments.update_ailments(enemy, monster);
 end
 
 function small_monster.draw(monster, position_on_screen, opacity_scale)

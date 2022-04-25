@@ -35,6 +35,7 @@ function large_monster.new(enemy)
 	monster.capture_percentage = 0;
 
 	monster.dead_or_captured = false;
+	monster.is_disp_icon_mini_map = true;
 
 	monster.stamina = 0;
 	monster.max_stamina = 1000;
@@ -323,6 +324,7 @@ local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalP
 local stamina_param_field = enemy_character_base_type_def:get_field("<StaminaParam>k__BackingField");
 local anger_param_field = enemy_character_base_type_def:get_field("<AngerParam>k__BackingField");
 local check_die_method = enemy_character_base_type_def:get_method("checkDie");
+local is_disp_icon_mini_map_method = enemy_character_base_type_def:get_method("isDispIconMiniMap");
 
 local physical_param_type = physical_param_field:get_type();
 local get_vital_method = physical_param_type:get_method("getVital");
@@ -351,15 +353,15 @@ local mario_param_type = mario_param_field:get_type();
 local get_is_marionette_method = mario_param_type:get_method("get_IsMarionette");
 local get_mario_player_index_method = mario_param_type:get_method("get_MarioPlayerIndex");
 
-local get_game_object_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject");
-local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform");
-local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position");
+local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
+
+--local get_game_object_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject");
+--local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform");
+--local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position");
 
 function large_monster.update_position(enemy)
 
-	if not config.current_config.large_monster_UI.dynamic.enabled
-	and not config.current_config.large_monster_UI.static.enabled
-	and not config.current_config.large_monster_UI.highlighted.enabled then
+	if not config.current_config.large_monster_UI.dynamic.enabled then
 		return;
 	end
 
@@ -368,6 +370,13 @@ function large_monster.update_position(enemy)
 		return;
 	end
 
+	local position = get_pos_field:call(enemy);
+	if position ~= nil then
+		monster.position = position;
+	end
+
+	--[[
+	-- cac
 	-- cache off the game object and transform
 	-- as these are pretty much guaranteed to stay constant
 	-- as long as the enemy is alive
@@ -395,7 +404,7 @@ function large_monster.update_position(enemy)
 
 	if position ~= nil then
 		monster.position = position;
-	end
+	end--]]
 end
 
 -- Code by coavins
@@ -444,11 +453,8 @@ function large_monster.update(enemy)
 	local health = get_current_method:call(vital_param);
 	local max_health = get_max_method:call(vital_param);
 	local capture_health = get_capture_hp_vital_method:call(physical_param);
-
 	local dead_or_captured = check_die_method:call(enemy);
-	if dead_or_captured == nil then
-		return;
-	end
+	local is_disp_icon_mini_map = is_disp_icon_mini_map_method:call(enemy);
 
 	local stamina_param = stamina_param_field:get_data(enemy)
 	if stamina_param == nil then
@@ -566,6 +572,9 @@ function large_monster.update(enemy)
 
 	if dead_or_captured ~= nil then
 		monster.dead_or_captured = dead_or_captured;
+	end
+	if is_disp_icon_mini_map ~= nil then
+		monster.is_disp_icon_mini_map = is_disp_icon_mini_map;
 	end
 
 	if stamina ~= nil then
@@ -832,6 +841,8 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 	rage_UI_entity.draw(monster, monster.rage_highlighted_UI, rage_position_on_screen, opacity_scale);
 
 	local last_part_position_on_screen = body_part.draw_highlighted(monster, parts_position_on_screen, opacity_scale);
+
+
 
 	if config.current_config.large_monster_UI.highlighted.ailments.settings.offset_is_relative_to_parts then
 		if last_part_position_on_screen ~= nil then

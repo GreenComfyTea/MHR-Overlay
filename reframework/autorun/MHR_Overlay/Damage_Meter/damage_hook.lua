@@ -49,7 +49,7 @@ function damage_hook.update_damage(args)
 		return;
 	end
 
-	local enemy_calc_damage_info = sdk.to_managed_object(args[3]); -- snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide
+	local enemy_calc_damage_info = sdk.to_managed_object(args[3]); -- snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide -- snow.hit.DamageFlowInfoBase calcDamageResult?
 	local attacker_id = get_attacker_id_method:call(enemy_calc_damage_info);
 	local attacker_type = get_damage_attacker_type_method:call(enemy_calc_damage_info);
 	local is_marionette_attack = is_marionette_attack_method:call(enemy_calc_damage_info)

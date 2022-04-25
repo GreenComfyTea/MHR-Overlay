@@ -11,7 +11,7 @@ local language = require("MHR_Overlay.Misc.language");
 local table_helpers = require("MHR_Overlay.Misc.table_helpers");
 local part_names = require("MHR_Overlay.Misc.part_names");
 
-local ailments = require("MHR_Overlay.Monsters.ailments");
+
 local player = require("MHR_Overlay.Damage_Meter.player");
 local damage_hook = require("MHR_Overlay.Damage_Meter.damage_hook");
 
@@ -22,6 +22,8 @@ local body_part = require("MHR_Overlay.Monsters.body_part");
 local large_monster = require("MHR_Overlay.Monsters.large_monster");
 local monster_hook = require("MHR_Overlay.Monsters.monster_hook");
 local small_monster = require("MHR_Overlay.Monsters.small_monster");
+local ailments = require("MHR_Overlay.Monsters.ailments");
+local ailment_hook = require("MHR_Overlay.Monsters.ailment_hook");
 
 local damage_meter_UI = require("MHR_Overlay.UI.Modules.damage_meter_UI");
 local large_monster_UI = require("MHR_Overlay.UI.Modules.large_monster_UI");
@@ -67,7 +69,7 @@ ailments.init_module();
 large_monster.init_module();
 monster_hook.init_module();
 small_monster.init_module();
-
+ailment_hook.init_module();
 
 customization_menu.init_module();
 body_part_UI_entity.init_module();
@@ -105,8 +107,8 @@ re.on_frame(function()
 end);
 
 re.on_frame(function()
-	draw.text("xy: " .. tostring(xy), 551, 11, 0xFF000000);
-	draw.text("xy: " .. tostring(xy), 550, 10, 0xFFFFFFFF);
+	--draw.text("xy: " .. tostring(xy), 551, 11, 0xFF000000);
+	--draw.text("xy: " .. tostring(xy), 550, 10, 0xFFFFFFFF);
 end);
 -- #endregion
 --------------------------RE_IMGUI---------------------------
