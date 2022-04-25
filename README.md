@@ -22,7 +22,7 @@
 4. Extract the mod from the archive and place it in MonsterHunterRise folder. Refer to [FAQ](https://github.com/GreenComfyTea/MHR-Overlay/wiki/FAQ) to verify how the file hierarchy should look like if everything is done correctly.
 
 # Credits
-**GreenComfyTea** - creator of the mod and it's main contributor, Russian translation.  
+**GreenComfyTea** - creator of the mod and it's main contributor.
 **cursecat** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26), [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134) plugin and [Monster Has HP Bar](https://www.nexusmods.com/monsterhunterrise/mods/43) mod, which provided an example on how to retrieve monster HP data.  
 **praydog2** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26). Contributed huge improvements to the performance of the mod.  
 **coavins** - creator of [coavins damage meter](https://www.nexusmods.com/monsterhunterrise/mods/68) mod.  
