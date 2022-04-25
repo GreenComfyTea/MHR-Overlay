@@ -3199,6 +3199,11 @@ function customization_menu.draw()
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
+					changed, config.current_config.large_monster_UI.dynamic.parts.settings.time_limit = imgui.drag_float(language.current_language.customization_menu.time_limit,
+					config.current_config.large_monster_UI.dynamic.parts.settings.time_limit, 0.1, 0, 99999, "%.1f");
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
 					imgui.tree_pop();
 				end
 
@@ -5306,6 +5311,11 @@ function customization_menu.draw()
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
+					changed, config.current_config.large_monster_UI.static.parts.settings.time_limit = imgui.drag_float(language.current_language.customization_menu.time_limit,
+					config.current_config.large_monster_UI.static.parts.settings.time_limit, 0.1, 0, 99999, "%.1f");
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
 					imgui.tree_pop();
 				end
 
@@ -7336,6 +7346,11 @@ function customization_menu.draw()
 				if imgui.tree_node(language.current_language.customization_menu.settings) then
 					changed, config.current_config.large_monster_UI.highlighted.parts.settings.hide_undamaged_parts = imgui.checkbox(
 						language.current_language.customization_menu.hide_undamaged_parts, config.current_config.large_monster_UI.highlighted.parts.settings.hide_undamaged_parts);
+					config_changed = config_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.highlighted.parts.settings.time_limit = imgui.drag_float(language.current_language.customization_menu.time_limit,
+					config.current_config.large_monster_UI.highlighted.parts.settings.time_limit, 0.1, 0, 99999, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
