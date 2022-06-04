@@ -24,11 +24,13 @@ local monster_hook = require("MHR_Overlay.Monsters.monster_hook");
 local small_monster = require("MHR_Overlay.Monsters.small_monster");
 local ailments = require("MHR_Overlay.Monsters.ailments");
 local ailment_hook = require("MHR_Overlay.Monsters.ailment_hook");
+local ailment_buildup = require("MHR_Overlay.Monsters.ailment_buildup");
 
 local damage_meter_UI = require("MHR_Overlay.UI.Modules.damage_meter_UI");
 local large_monster_UI = require("MHR_Overlay.UI.Modules.large_monster_UI");
 local small_monster_UI = require("MHR_Overlay.UI.Modules.small_monster_UI");
 local time_UI = require("MHR_Overlay.UI.Modules.time_UI");
+local env_creature_UI = require("MHR_Overlay.UI.Modules.env_creature_UI");
 
 local body_part_UI_entity = require("MHR_Overlay.UI.UI_Entities.body_part_UI_entity");
 local damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");
@@ -36,7 +38,7 @@ local health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 local stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 local rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
 local ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
-local env_creature_UI = require("MHR_Overlay.UI.Modules.env_creature_UI");
+local ailment_buildup_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_buildup_UI_entity");
 
 local customization_menu = require("MHR_Overlay.UI.customization_menu");
 local drawing = require("MHR_Overlay.UI.drawing");
@@ -58,6 +60,9 @@ health_UI_entity.init_module();
 stamina_UI_entity.init_module();
 rage_UI_entity.init_module();
 ailment_UI_entity.init_module();
+ailment_buildup_UI_entity.init_module();
+body_part_UI_entity.init_module();
+
 damage_hook.init_module();
 player.init_module();
 
@@ -70,9 +75,10 @@ large_monster.init_module();
 monster_hook.init_module();
 small_monster.init_module();
 ailment_hook.init_module();
+ailment_buildup.init_module();
 
 customization_menu.init_module();
-body_part_UI_entity.init_module();
+
 damage_meter_UI.init_module();
 drawing.init_module();
 large_monster_UI.init_module();
@@ -107,8 +113,8 @@ re.on_frame(function()
 end);
 
 re.on_frame(function()
-	--draw.text("xy: " .. tostring(xy), 551, 11, 0xFF000000);
-	--draw.text("xy: " .. tostring(xy), 550, 10, 0xFFFFFFFF);
+	draw.text("xy: " .. tostring(xy), 551, 11, 0xFF000000);
+	draw.text("xy: " .. tostring(xy), 550, 10, 0xFFFFFFFF);
 end);
 -- #endregion
 --------------------------RE_IMGUI---------------------------

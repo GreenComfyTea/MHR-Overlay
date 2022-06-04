@@ -120,15 +120,11 @@ function damage_hook.update_damage(args)
 		monster = small_monster.get_monster(enemy);
 	end
 
-	--xy =
-	--	"type:             " .. tostring(damage_source_type) .. "\n" .. 
-	--	"total damage:     " .. tostring(damage_object.total_damage) .. "\n" ..
-	--	"physical damage:  " .. tostring(damage_object.physical_damage) .. "\n" ..
-	--	"elemental damage: " .. tostring(damage_object.elemental_damage) .. "\n" ..
-	--	"condition damage: " .. tostring(condition_damage) .. "\n" ..
-	--	"condition type:   " .. tostring(condition_type) .. "\n" ..
-	--	"is mario attack:  " .. tostring(is_marionette_attack) .. "\n" ..
-	--	"attacker id:      " .. tostring(attacker_id) .. "\n";
+	local stun_damage = enemy_calc_damage_info:get_field("<StunDamage>k__BackingField");
+	if stun_damage ~= 0 and stun_damage ~= nil then
+		ailments.apply_ailment_buildup(monster, attacker_id, ailments.stun_id, stun_damage);
+	end
+	
 
 	ailments.apply_ailment_buildup(monster, attacker_id, condition_type, condition_damage);
 

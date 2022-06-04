@@ -90,7 +90,8 @@ language.default_language = {
 		mini = "Mini",
 		total_damage = "Total Damage",
 		player = "Player",
-		buildup = "Buildup:"
+		buildup = "Buildup:",
+		total_buildup = "Total Buildup"
 	},
 
 	customization_menu = {
@@ -301,7 +302,22 @@ language.default_language = {
 		creature_name_label = "Creature Name Label",
 		hide_inactive_creatures = "Hide Inactive Creatures",
 
-		relative_offset = "Relative Offset"
+		relative_offset = "Relative Offset",
+
+		ailment_buildups = "Ailment Buildups",
+		players_spacing = "Player Spacing",
+		ailments_spacing = "Ailment Spacing",
+		buildup_value_label = "Buildup Value Label",
+		buildup_percentage_label = "Buildup Percentage Label",
+		total_buildup_label = "Total Buildup Label",
+		total_buildup_value_label = "Total Buildup Value Label",
+		buildup_bar = "Buildup Bar",
+		highlighted_buildup_bar = "Highlighted Buildup Bar",
+
+		filter = "Filter",
+		top_buildup = "Top Buildup",
+		total_buildup = "Total Buildup",
+		buildup_bars_are_relative_to = "Buildup Bars are relative to"
 	}
 };
 

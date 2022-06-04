@@ -54,7 +54,8 @@ function ailment_hook.poison_proc(poison_param)
 		monster = small_monster.get_monster(enemy);
 	end
 
-	ailments.calculate_ailment_contribution(monster, ailments.poison_id);
+	monster.ailments[ailments.poison_id].cashed_buildup_share = monster.ailments[ailments.poison_id].buildup_share;
+	ailments.clear_ailment_contribution(monster, ailments.poison_id);
 end
 
 function ailment_hook.stock_damage()

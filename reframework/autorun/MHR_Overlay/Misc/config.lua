@@ -508,7 +508,200 @@ function config.init()
 						background = 0xA7000000
 					}
 				}
-			}
+			},
+
+			ailment_buildups = {
+				visibility = false,
+		
+				offset = {
+					x = 220,
+					y = 17
+				},
+
+				players_spacing = {
+					x = 0,
+					y = 24
+				},
+
+				ailments_spacing = {
+					x = 0,
+					y = 17
+				},
+		
+				settings = {
+					buildup_bar_relative_to = "Top Buildup",
+					highlighted_bar = "Me",
+					time_limit = 15
+				},
+
+				filter = {
+					stun = true,
+					poison = true,
+					blast = true,
+				},
+		
+				sorting = {
+					type = "Buildup",
+					reversed_order = false
+				},
+
+				ailment_name_label = {
+					visibility = true,
+		
+					include = {
+						ailment_name = true,
+						activation_count = true
+					},
+
+					text = "%s",
+					offset = {
+						x = 5,
+						y = -17
+					},
+					color = 0xFF7cdbff,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+		
+				player_name_label = {
+					visibility = true,
+		
+					text = "%s",
+					offset = {
+						x = 5,
+						y = 0
+					},
+					color = 0xFFb5dded,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+		
+				buildup_value_label = {
+					visibility = true,
+					text = "%.0f",
+					offset = {
+						x = 115,
+						y = 0
+					},
+					color = 0xFFb5dded,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+		
+				buildup_percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+					offset = {
+						x = 152,
+						y = 0
+					},
+					color = 0xFFb5dded,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+		
+				total_buildup_label = {
+					visibility = true,
+					text = "%s",
+					offset = {
+						x = 5,
+						y = 0
+					},
+					color = 0xFFFF9393,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+		
+				total_buildup_value_label = {
+					visibility = true,
+					text = "%.0f",
+					offset = {
+						x = 115,
+						y = 0
+					},
+					color = 0xFFFF9393,
+		
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+		
+				buildup_bar = {
+					visibility = true,
+					offset = {
+						x = 0,
+						y = 17
+					},
+		
+					size = {
+						width = 200,
+						height = 5
+					},
+		
+					colors = {
+						foreground = 0xA796cfe5,
+						background = 0xA7000000
+					}
+				},
+
+				highlighted_buildup_bar = {
+					visibility = true,
+					offset = {
+						x = 0,
+						y = 17
+					},
+		
+					size = {
+						width = 200,
+						height = 5
+					},
+		
+					colors = {
+						foreground = 0xA7F4D5A3,
+						background = 0xA7000000
+					}
+				}
+			},
 		},
 	
 		large_monster_UI = {
@@ -1135,7 +1328,200 @@ function config.init()
 							background = 0xA7000000
 						}
 					}
-				}
+				},
+
+				ailment_buildups = {
+					visibility = false,
+			
+					offset = {
+						x = 220,
+						y = 17
+					},
+
+					players_spacing = {
+						x = 0,
+						y = 24
+					},
+
+					ailments_spacing = {
+						x = 0,
+						y = 17
+					},
+			
+					settings = {
+						buildup_bar_relative_to = "Top Buildup",
+						highlighted_bar = "Me",
+						time_limit = 15
+					},
+
+					filter = {
+						stun = true,
+						poison = true,
+						blast = true,
+					},
+			
+					sorting = {
+						type = "Buildup",
+						reversed_order = false
+					},
+
+					ailment_name_label = {
+						visibility = true,
+			
+						include = {
+							ailment_name = true,
+							activation_count = true
+						},
+
+						text = "%s",
+						offset = {
+							x = 5,
+							y = -17
+						},
+						color = 0xFF7cdbff,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					player_name_label = {
+						visibility = true,
+			
+						text = "%s",
+						offset = {
+							x = 5,
+							y = 0
+						},
+						color = 0xFFb5dded,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					buildup_value_label = {
+						visibility = true,
+						text = "%.0f",
+						offset = {
+							x = 115,
+							y = 0
+						},
+						color = 0xFFb5dded,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					buildup_percentage_label = {
+						visibility = true,
+						text = "%5.1f%%",
+						offset = {
+							x = 152,
+							y = 0
+						},
+						color = 0xFFb5dded,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					total_buildup_label = {
+						visibility = true,
+						text = "%s",
+						offset = {
+							x = 5,
+							y = 0
+						},
+						color = 0xFFFF9393,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					total_buildup_value_label = {
+						visibility = true,
+						text = "%.0f",
+						offset = {
+							x = 115,
+							y = 0
+						},
+						color = 0xFFFF9393,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					buildup_bar = {
+						visibility = true,
+						offset = {
+							x = 0,
+							y = 17
+						},
+			
+						size = {
+							width = 200,
+							height = 5
+						},
+			
+						colors = {
+							foreground = 0xA796cfe5,
+							background = 0xA7000000
+						}
+					},
+
+					highlighted_buildup_bar = {
+						visibility = true,
+						offset = {
+							x = 0,
+							y = 17
+						},
+			
+						size = {
+							width = 200,
+							height = 5
+						},
+			
+						colors = {
+							foreground = 0xA7F4D5A3,
+							background = 0xA7000000
+						}
+					}
+				},
 			},
 	
 			static = {
@@ -1767,7 +2153,200 @@ function config.init()
 							background = 0xA7000000
 						}
 					}
-				}
+				},
+
+				ailment_buildups = {
+					visibility = false,
+			
+					offset = {
+						x = 220,
+						y = 17
+					},
+
+					players_spacing = {
+						x = 0,
+						y = 24
+					},
+
+					ailments_spacing = {
+						x = 0,
+						y = 17
+					},
+			
+					settings = {
+						buildup_bar_relative_to = "Top Buildup",
+						highlighted_bar = "Me",
+						time_limit = 15
+					},
+
+					filter = {
+						stun = true,
+						poison = true,
+						blast = true,
+					},
+			
+					sorting = {
+						type = "Buildup",
+						reversed_order = false
+					},
+
+					ailment_name_label = {
+						visibility = true,
+			
+						include = {
+							ailment_name = true,
+							activation_count = true
+						},
+
+						text = "%s",
+						offset = {
+							x = 5,
+							y = -17
+						},
+						color = 0xFF7cdbff,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					player_name_label = {
+						visibility = true,
+			
+						text = "%s",
+						offset = {
+							x = 5,
+							y = 0
+						},
+						color = 0xFFb5dded,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					buildup_value_label = {
+						visibility = true,
+						text = "%.0f",
+						offset = {
+							x = 115,
+							y = 0
+						},
+						color = 0xFFb5dded,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					buildup_percentage_label = {
+						visibility = true,
+						text = "%5.1f%%",
+						offset = {
+							x = 152,
+							y = 0
+						},
+						color = 0xFFb5dded,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					total_buildup_label = {
+						visibility = true,
+						text = "%s",
+						offset = {
+							x = 5,
+							y = 0
+						},
+						color = 0xFFFF9393,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					total_buildup_value_label = {
+						visibility = true,
+						text = "%.0f",
+						offset = {
+							x = 115,
+							y = 0
+						},
+						color = 0xFFFF9393,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					buildup_bar = {
+						visibility = true,
+						offset = {
+							x = 0,
+							y = 17
+						},
+			
+						size = {
+							width = 200,
+							height = 5
+						},
+			
+						colors = {
+							foreground = 0xA796cfe5,
+							background = 0xA7000000
+						}
+					},
+
+					highlighted_buildup_bar = {
+						visibility = true,
+						offset = {
+							x = 0,
+							y = 17
+						},
+			
+						size = {
+							width = 200,
+							height = 5
+						},
+			
+						colors = {
+							foreground = 0xA7F4D5A3,
+							background = 0xA7000000
+						}
+					}
+				},
 			},
 
 			highlighted = {
@@ -2379,7 +2958,200 @@ function config.init()
 							background = 0xA7000000
 						}
 					}
-				}
+				},
+
+				ailment_buildups = {
+					visibility = false,
+			
+					offset = {
+						x = 220,
+						y = 167
+					},
+
+					players_spacing = {
+						x = 0,
+						y = 24
+					},
+
+					ailments_spacing = {
+						x = 0,
+						y = 17
+					},
+			
+					settings = {
+						buildup_bar_relative_to = "Top Buildup",
+						highlighted_bar = "Me",
+						time_limit = 15
+					},
+
+					filter = {
+						stun = true,
+						poison = true,
+						blast = true,
+					},
+			
+					sorting = {
+						type = "Buildup",
+						reversed_order = false
+					},
+
+					ailment_name_label = {
+						visibility = true,
+			
+						include = {
+							ailment_name = true,
+							activation_count = true
+						},
+
+						text = "%s",
+						offset = {
+							x = 5,
+							y = -17
+						},
+						color = 0xFF7cdbff,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					player_name_label = {
+						visibility = true,
+			
+						text = "%s",
+						offset = {
+							x = 5,
+							y = 0
+						},
+						color = 0xFFb5dded,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					buildup_value_label = {
+						visibility = true,
+						text = "%.0f",
+						offset = {
+							x = 115,
+							y = 0
+						},
+						color = 0xFFb5dded,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					buildup_percentage_label = {
+						visibility = true,
+						text = "%5.1f%%",
+						offset = {
+							x = 152,
+							y = 0
+						},
+						color = 0xFFb5dded,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					total_buildup_label = {
+						visibility = true,
+						text = "%s",
+						offset = {
+							x = 5,
+							y = 0
+						},
+						color = 0xFFFF9393,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					total_buildup_value_label = {
+						visibility = true,
+						text = "%.0f",
+						offset = {
+							x = 115,
+							y = 0
+						},
+						color = 0xFFFF9393,
+			
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+			
+					buildup_bar = {
+						visibility = true,
+						offset = {
+							x = 0,
+							y = 17
+						},
+			
+						size = {
+							width = 200,
+							height = 5
+						},
+			
+						colors = {
+							foreground = 0xA796cfe5,
+							background = 0xA7000000
+						}
+					},
+
+					highlighted_buildup_bar = {
+						visibility = true,
+						offset = {
+							x = 0,
+							y = 17
+						},
+			
+						size = {
+							width = 200,
+							height = 5
+						},
+			
+						colors = {
+							foreground = 0xA7F4D5A3,
+							background = 0xA7000000
+						}
+					}
+				},
 			}
 		},
 	
@@ -2746,7 +3518,7 @@ function config.init_module()
 
 	config.init();
 	config.load();
-	config.current_config.version = "v1.10";
+	config.current_config.version = "v1.11";
 
 	language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
 

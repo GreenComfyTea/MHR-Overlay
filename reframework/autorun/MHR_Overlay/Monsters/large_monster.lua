@@ -8,6 +8,7 @@ local health_UI_entity;
 local stamina_UI_entity;
 local rage_UI_entity;
 local ailment_UI_entity;
+local ailment_buildup;
 local screen;
 local drawing;
 local ailments;
@@ -688,6 +689,11 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.ailments.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
 		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
+
+	local ailment_buildups_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.ailment_buildups.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.ailment_buildups.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+	};
 	
 	health_UI_entity.draw(monster, monster.health_dynamic_UI, health_position_on_screen, opacity_scale);
 	drawing.draw_capture_line(monster.health_dynamic_UI.bar, health_position_on_screen, opacity_scale, monster.capture_percentage);
@@ -707,6 +713,7 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 	end
 
 	ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_scale);
+	ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_screen, opacity_scale);
 end
 
 function large_monster.draw_static(monster, position_on_screen, opacity_scale)
@@ -762,6 +769,11 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 		y = position_on_screen.y + config.current_config.large_monster_UI.static.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
 
+	local ailment_buildups_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.static.ailment_buildups.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.large_monster_UI.static.ailment_buildups.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+	};
+
 	health_UI_entity.draw(monster, monster.health_static_UI, health_position_on_screen, opacity_scale);
 	drawing.draw_capture_line(monster.health_static_UI.bar, health_position_on_screen, opacity_scale, monster.capture_percentage);
 
@@ -773,13 +785,14 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 	if config.current_config.large_monster_UI.static.ailments.settings.offset_is_relative_to_parts then
 		if last_part_position_on_screen ~= nil then
 			ailments_position_on_screen = {
-				x = last_part_position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailments.relative_offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
-				y = last_part_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailments.relative_offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+				x = last_part_position_on_screen.x + config.current_config.large_monster_UI.static.ailments.relative_offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+				y = last_part_position_on_screen.y + config.current_config.large_monster_UI.static.ailments.relative_offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 			};
 		end
 	end
 
 	ailments.draw_static(monster, ailments_position_on_screen, opacity_scale);
+	ailment_buildup.draw_static(monster, ailment_buildups_position_on_screen, opacity_scale);
 end
 
 function large_monster.draw_highlighted(monster, position_on_screen, opacity_scale)
@@ -834,6 +847,11 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
 
+	local ailment_buildups_position_on_screen = {
+		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailment_buildups.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailment_buildups.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+	};
+
 	health_UI_entity.draw(monster, monster.health_highlighted_UI, health_position_on_screen, opacity_scale);
 	drawing.draw_capture_line(monster.health_highlighted_UI.bar, health_position_on_screen, opacity_scale, monster.capture_percentage);
 
@@ -841,8 +859,6 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 	rage_UI_entity.draw(monster, monster.rage_highlighted_UI, rage_position_on_screen, opacity_scale);
 
 	local last_part_position_on_screen = body_part.draw_highlighted(monster, parts_position_on_screen, opacity_scale);
-
-
 
 	if config.current_config.large_monster_UI.highlighted.ailments.settings.offset_is_relative_to_parts then
 		if last_part_position_on_screen ~= nil then
@@ -854,6 +870,7 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 	end
 
 	ailments.draw_highlighted(monster, ailments_position_on_screen, opacity_scale);
+	ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_screen, opacity_scale);
 end
 
 function large_monster.init_list()
@@ -877,6 +894,7 @@ function large_monster.init_module()
 	ailments = require("MHR_Overlay.Monsters.ailments");
 	player = require("MHR_Overlay.Damage_Meter.player");
 	time = require("MHR_Overlay.Game_Handler.time");
+	ailment_buildup = require("MHR_Overlay.Monsters.ailment_buildup");
 end
 
 return large_monster;

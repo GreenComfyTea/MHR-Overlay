@@ -3,6 +3,7 @@ local player;
 local language;
 local config;
 local ailment_UI_entity;
+local ailment_buildup_UI_entity;
 local time;
 local small_monster;
 local large_monster;
@@ -139,11 +140,63 @@ function ailments.init_ailments()
 
 	_ailments[ailments.poison_id].buildup = {};
 	_ailments[ailments.poison_id].buildup_share = {};
+	_ailments[ailments.poison_id].cashed_buildup_share = {};
 
 	_ailments[ailments.blast_id].buildup = {};
 	_ailments[ailments.blast_id].buildup_share = {};
 
+	_ailments[ailments.stun_id].buildup = {};
+	_ailments[ailments.stun_id].buildup_share = {};
+
+	ailments.init_ailment_buildup_UI(_ailments);
+
 	return _ailments;
+end
+
+function ailments.init_ailment_buildup_UI(_ailments)
+	_ailments[ailments.stun_id].ailment_buildup_dynamic_UI = ailment_buildup_UI_entity.new(
+		config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar,
+		config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar,
+		config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label,
+		config.current_config.large_monster_UI.dynamic.ailment_buildups.player_name_label,
+		config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_value_label,
+		config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_percentage_label,
+		config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_label,
+		config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_value_label
+	);
+
+	_ailments[ailments.stun_id].ailment_buildup_static_UI = ailment_buildup_UI_entity.new(
+		config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar,
+		config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar,
+		config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label,
+		config.current_config.large_monster_UI.static.ailment_buildups.player_name_label,
+		config.current_config.large_monster_UI.static.ailment_buildups.buildup_value_label,
+		config.current_config.large_monster_UI.static.ailment_buildups.buildup_percentage_label,
+		config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_label,
+		config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_value_label
+	);
+
+	_ailments[ailments.stun_id].ailment_buildup_highlighted_UI = ailment_buildup_UI_entity.new(
+		config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar,
+		config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar,
+		config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_name_label,
+		config.current_config.large_monster_UI.highlighted.ailment_buildups.player_name_label,
+		config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_value_label,
+		config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_percentage_label,
+		config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_label,
+		config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_value_label
+	);
+
+	_ailments[ailments.stun_id].ailment_buildup_small_UI = ailment_buildup_UI_entity.new(
+		config.current_config.small_monster_UI.ailment_buildups.buildup_bar,
+		config.current_config.small_monster_UI.ailment_buildups.highlighted_buildup_bar,
+		config.current_config.small_monster_UI.ailment_buildups.ailment_name_label,
+		config.current_config.small_monster_UI.ailment_buildups.player_name_label,
+		config.current_config.small_monster_UI.ailment_buildups.buildup_value_label,
+		config.current_config.small_monster_UI.ailment_buildups.buildup_percentage_label,
+		config.current_config.small_monster_UI.ailment_buildups.total_buildup_label,
+		config.current_config.small_monster_UI.ailment_buildups.total_buildup_value_label
+	);
 end
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
@@ -218,6 +271,10 @@ function ailments.update_ailments(enemy, monster)
 		if activate_count ~= nil then
 			if activate_count ~= monster.ailments[id].activate_count then
 				ailments.update_last_change_time(monster, id);
+
+				if id == ailments.stun_id then
+					ailments.clear_ailment_contribution(monster, ailments.stun_id);
+				end
 			end
 
 			monster.ailments[id].activate_count = activate_count;
@@ -267,7 +324,7 @@ function ailments.update_ailments(enemy, monster)
 			monster.ailments[id].duration = duration;
 		end
 
-		if duration ~= 0 then
+		if duration ~= 0 and duration ~= nil then
 			monster.ailments[id].timer_percentage = timer / monster.ailments[id].duration;
 		end
 
@@ -285,14 +342,6 @@ function ailments.update_ailments(enemy, monster)
 
 			monster.ailments[id].minutes_left = minutes_left;
 			monster.ailments[id].seconds_left = seconds_left;
-		end
-
-		if is_active ~= nil then
-			if is_active ~= monster.ailments[id].is_active then
-				ailments.update_last_change_time(monster, id);
-			end
-
-			monster.ailments[id].is_active = is_active;
 		end
 	end
 end
@@ -323,12 +372,11 @@ function ailments.update_poison_blast(monster, poison_param, blast_param)
 
 		if activate_count > monster.ailments[ailments.blast_id].activate_count then
 			monster.ailments[ailments.blast_id].activate_count = activate_count;
-			ailments.calculate_ailment_contribution(monster, ailments.blast_id);
-
 			local blast_damage = blast_damage_method:call(blast_param);
 			local blast_adjust_rate = blast_adjust_rate_method:call(blast_param);
 			
 			ailments.apply_ailment_damage(monster, ailments.blast_id, blast_damage * blast_adjust_rate);
+			ailments.clear_ailment_contribution(monster, ailments.blast_id);
 		end
 	end
 end
@@ -643,7 +691,8 @@ function ailments.draw_small(monster, ailments_position_on_screen, opacity_scale
 end
 
 function ailments.apply_ailment_buildup(monster, attacker_id, ailment_type, ailment_buildup)
-	if monster == nil or player == nil or (ailment_type ~= ailments.poison_id and ailment_type ~= ailments.blast_id) then
+
+	if monster == nil or player == nil or (ailment_type ~= ailments.poison_id and ailment_type ~= ailments.blast_id and ailment_type ~= ailments.stun_id) then
 		return;
 	end
 
@@ -654,6 +703,8 @@ function ailments.apply_ailment_buildup(monster, attacker_id, ailment_type, ailm
 	
 	-- accumulate this buildup for this attacker
 	monster.ailments[ailment_type].buildup[attacker_id] = (monster.ailments[ailment_type].buildup[attacker_id] or 0) + ailment_buildup;
+
+	ailments.calculate_ailment_contribution(monster, ailment_type);
 end
 
 -- Code by coavins
@@ -667,8 +718,12 @@ function ailments.calculate_ailment_contribution(monster, ailment_type)
 	for attacker_id, player_buildup in pairs(monster.ailments[ailment_type].buildup) do
 		-- update ratio for this attacker
 		monster.ailments[ailment_type].buildup_share[attacker_id] = player_buildup / total;
-		-- clear accumulated buildup for this attacker
-		-- they have to start over to earn a share of next ailment trigger
+	end
+end
+
+function ailments.clear_ailment_contribution(monster, ailment_type)
+	for attacker_id, player_buildup in pairs(monster.ailments[ailment_type].buildup) do
+		monster.ailments[ailment_type].buildup_share[attacker_id] = 0;
 		monster.ailments[ailment_type].buildup[attacker_id] = 0;
 	end
 end
@@ -681,8 +736,10 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 	end
 
 	local damage_source_type = "";
+	local buildup_share = monster.ailments[ailment_type].buildup_share;
 	if ailment_type == ailments.poison_id then
 		damage_source_type = "poison";
+		buildup_share = monster.ailments[ailment_type]._cached_buildup_share;
 	elseif ailment_type == ailments.blast_id then
 		damage_source_type = "blast";
 	else
@@ -693,7 +750,7 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 
 
 	-- split up damage according to ratio of buildup on boss for this type
-	for attacker_id, percentage in pairs(monster.ailments[ailment_type].buildup_share) do
+	for attacker_id, percentage in pairs(buildup_share) do
 		local damage_portion = damage * percentage;
 		
 		local damage_object = {};
@@ -719,6 +776,7 @@ function ailments.init_module()
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
+	ailment_buildup_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_buildup_UI_entity");
 	time = require("MHR_Overlay.Game_Handler.time");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");

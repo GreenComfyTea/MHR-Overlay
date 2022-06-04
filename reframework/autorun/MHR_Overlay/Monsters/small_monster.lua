@@ -9,6 +9,7 @@ local screen;
 local drawing;
 local ailments;
 local ailment_UI_entity;
+local ailment_buildup;
 
 small_monster.list = {};
 
@@ -282,11 +283,18 @@ function small_monster.draw(monster, position_on_screen, opacity_scale)
 		x = position_on_screen.x + config.current_config.small_monster_UI.ailments.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
 		y = position_on_screen.y + config.current_config.small_monster_UI.ailments.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
+
+	local ailment_buildups_position_on_screen = {
+		x = position_on_screen.x + config.current_config.small_monster_UI.ailment_buildups.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.small_monster_UI.ailment_buildups.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+	};
 	
 	health_UI_entity.draw(monster, monster.health_UI, health_position_on_screen, opacity_scale);
 	stamina_UI_entity.draw(monster, monster.stamina_UI, stamina_position_on_screen, opacity_scale);
 
 	ailments.draw_small(monster, ailments_position_on_screen, opacity_scale);
+	ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen, opacity_scale);
+
 end
 
 function small_monster.init_list()
@@ -304,6 +312,7 @@ function small_monster.init_module()
 	drawing = require("MHR_Overlay.UI.drawing");
 	ailments = require("MHR_Overlay.Monsters.ailments");
 	ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
+	ailment_buildup = require("MHR_Overlay.Monsters.ailment_buildup");
 end
 
 return small_monster;
