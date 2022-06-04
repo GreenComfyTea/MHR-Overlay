@@ -2073,7 +2073,7 @@ function customization_menu.draw()
 
 		if imgui.tree_node(language.current_language.customization_menu.ailment_buildups) then
 			changed, config.current_config.small_monster_UI.ailment_buildups.visibility = imgui.checkbox(language.current_language.customization_menu.visible,
-				config.current_config.small_monster_UI.ailments.visibility);
+				config.current_config.small_monster_UI.ailment_buildups.visibility);
 			config_changed = config_changed or changed;
 			small_monster_UI_changed = small_monster_UI_changed or changed;
 
@@ -4803,7 +4803,7 @@ function customization_menu.draw()
 
 			if imgui.tree_node(language.current_language.customization_menu.ailment_buildups) then
 				changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.visibility = imgui.checkbox(language.current_language.customization_menu.visible,
-					config.current_config.large_monster_UI.dynamic.ailments.visibility);
+					config.current_config.large_monster_UI.dynamic.ailment_buildups.visibility);
 				config_changed = config_changed or changed;
 				large_monster_UI_changed = large_monster_UI_changed or changed;
 	
@@ -7561,7 +7561,7 @@ function customization_menu.draw()
 
 			if imgui.tree_node(language.current_language.customization_menu.ailment_buildups) then
 				changed, config.current_config.large_monster_UI.static.ailment_buildups.visibility = imgui.checkbox(language.current_language.customization_menu.visible,
-					config.current_config.large_monster_UI.static.ailments.visibility);
+					config.current_config.large_monster_UI.static.ailment_buildups.visibility);
 				config_changed = config_changed or changed;
 				large_monster_UI_changed = large_monster_UI_changed or changed;
 	
@@ -10248,7 +10248,7 @@ function customization_menu.draw()
 
 			if imgui.tree_node(language.current_language.customization_menu.ailment_buildups) then
 				changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.visibility = imgui.checkbox(language.current_language.customization_menu.visible,
-					config.current_config.large_monster_UI.highlighted.ailments.visibility);
+					config.current_config.large_monster_UI.highlighted.ailment_buildups.visibility);
 				config_changed = config_changed or changed;
 				large_monster_UI_changed = large_monster_UI_changed or changed;
 	

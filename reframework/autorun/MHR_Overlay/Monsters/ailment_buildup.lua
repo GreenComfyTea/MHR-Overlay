@@ -11,7 +11,7 @@ local table_helpers;
 local drawing;
 
 function ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_screen, opacity_scale)
-	if not config.current_config.large_monster_UI.dynamic.ailment_buildups.enabled then
+	if not config.current_config.large_monster_UI.dynamic.ailment_buildups.visibility then
 		return;
 	end
 
@@ -139,7 +139,7 @@ function ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_scre
 end
 
 function ailment_buildup.draw_static(monster, ailment_buildups_position_on_screen, opacity_scale)
-	if not config.current_config.large_monster_UI.static.ailment_buildups.enabled then
+	if not config.current_config.large_monster_UI.static.ailment_buildups.visibility then
 		return;
 	end
 
@@ -264,7 +264,7 @@ function ailment_buildup.draw_static(monster, ailment_buildups_position_on_scree
 end
 
 function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_screen, opacity_scale)
-	if not config.current_config.large_monster_UI.highlighted.ailment_buildups.enabled then
+	if not config.current_config.large_monster_UI.highlighted.ailment_buildups.visibility then
 		return;
 	end
 
@@ -389,7 +389,7 @@ function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_
 end
 
 function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen, opacity_scale)
-	if not config.current_config.small_monster_UI.ailment_buildups.enabled then
+	if not config.current_config.small_monster_UI.ailment_buildups.visibility then
 		return;
 	end
 
