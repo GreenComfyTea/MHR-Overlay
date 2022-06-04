@@ -107,8 +107,8 @@ function ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_scre
 		local last_j = 0;
 		for j, _player in ipairs(displayed_players) do
 			local ailment_buildup_position_on_screen = {
-				x = ailment_buildups_position_on_screen.x + config.current_config.large_monster_UI.dynamic.ailment_buildups.players_spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
-				y = ailment_buildups_position_on_screen.y + config.current_config.large_monster_UI.dynamic.ailment_buildups.players_spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
+				x = ailment_buildups_position_on_screen.x + config.current_config.large_monster_UI.dynamic.ailment_buildups.player_spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
+				y = ailment_buildups_position_on_screen.y + config.current_config.large_monster_UI.dynamic.ailment_buildups.player_spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
 			};
 
 			ailment_buildup_UI_entity.draw_dynamic(_player, monster.ailments[ailments.stun_id].ailment_buildup_dynamic_UI, ailment_buildup_position_on_screen, opacity_scale, top_buildup);
@@ -119,8 +119,8 @@ function ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_scre
 		
 
 		local total_buildup_position_on_screen = {
-			x = ailment_buildups_position_on_screen.x + config.current_config.large_monster_UI.dynamic.ailment_buildups.players_spacing.x * last_j * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = ailment_buildups_position_on_screen.y + config.current_config.large_monster_UI.dynamic.ailment_buildups.players_spacing.y * last_j * config.current_config.global_settings.modifiers.global_scale_modifier;
+			x = ailment_buildups_position_on_screen.x + config.current_config.large_monster_UI.dynamic.ailment_buildups.player_spacing.x * last_j * config.current_config.global_settings.modifiers.global_scale_modifier,
+			y = ailment_buildups_position_on_screen.y + config.current_config.large_monster_UI.dynamic.ailment_buildups.player_spacing.y * last_j * config.current_config.global_settings.modifiers.global_scale_modifier;
 		};
 
 		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_dynamic_UI.total_buildup_label, total_buildup_position_on_screen, opacity_scale, language.current_language.UI.total_buildup);
@@ -128,8 +128,8 @@ function ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_scre
 		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_dynamic_UI.total_buildup_value_label, total_buildup_position_on_screen, opacity_scale, total_buildup);
 
 		ailment_buildups_position_on_screen = {
-			x = total_buildup_position_on_screen.x + config.current_config.large_monster_UI.dynamic.ailment_buildups.ailments_spacing.x * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = total_buildup_position_on_screen.y + 17 + config.current_config.large_monster_UI.dynamic.ailment_buildups.ailments_spacing.y * config.current_config.global_settings.modifiers.global_scale_modifier
+			x = total_buildup_position_on_screen.x + config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_spacing.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+			y = total_buildup_position_on_screen.y + 17 + config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_spacing.y * config.current_config.global_settings.modifiers.global_scale_modifier
 		};
 
 		::continue::
@@ -234,8 +234,8 @@ function ailment_buildup.draw_static(monster, ailment_buildups_position_on_scree
 		local last_j = 0;
 		for j, _player in ipairs(displayed_players) do
 			local ailment_buildup_position_on_screen = {
-				x = ailment_buildups_position_on_screen.x + config.current_config.large_monster_UI.static.ailment_buildups.players_spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
-				y = ailment_buildups_position_on_screen.y + config.current_config.large_monster_UI.static.ailment_buildups.players_spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
+				x = ailment_buildups_position_on_screen.x + config.current_config.large_monster_UI.static.ailment_buildups.player_spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
+				y = ailment_buildups_position_on_screen.y + config.current_config.large_monster_UI.static.ailment_buildups.player_spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
 			};
 
 			ailment_buildup_UI_entity.draw_static(_player, monster.ailments[ailments.stun_id].ailment_buildup_static_UI, ailment_buildup_position_on_screen, opacity_scale, top_buildup);
@@ -244,8 +244,8 @@ function ailment_buildup.draw_static(monster, ailment_buildups_position_on_scree
 		end
 
 		local total_buildup_position_on_screen = {
-			x = ailment_buildups_position_on_screen.x + config.current_config.large_monster_UI.static.ailment_buildups.players_spacing.x * last_j * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = ailment_buildups_position_on_screen.y + config.current_config.large_monster_UI.static.ailment_buildups.players_spacing.y * last_j * config.current_config.global_settings.modifiers.global_scale_modifier;
+			x = ailment_buildups_position_on_screen.x + config.current_config.large_monster_UI.static.ailment_buildups.player_spacing.x * last_j * config.current_config.global_settings.modifiers.global_scale_modifier,
+			y = ailment_buildups_position_on_screen.y + config.current_config.large_monster_UI.static.ailment_buildups.player_spacing.y * last_j * config.current_config.global_settings.modifiers.global_scale_modifier;
 		};
 
 		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_static_UI.total_buildup_label, total_buildup_position_on_screen, opacity_scale, language.current_language.UI.total_buildup);
@@ -253,8 +253,8 @@ function ailment_buildup.draw_static(monster, ailment_buildups_position_on_scree
 		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_static_UI.total_buildup_value_label, total_buildup_position_on_screen, opacity_scale, total_buildup);
 
 		ailment_buildups_position_on_screen = {
-			x = total_buildup_position_on_screen.x + config.current_config.large_monster_UI.static.ailment_buildups.ailments_spacing.x * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = total_buildup_position_on_screen.y + 17 + config.current_config.large_monster_UI.static.ailment_buildups.ailments_spacing.y * config.current_config.global_settings.modifiers.global_scale_modifier
+			x = total_buildup_position_on_screen.x + config.current_config.large_monster_UI.static.ailment_buildups.ailment_spacing.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+			y = total_buildup_position_on_screen.y + 17 + config.current_config.large_monster_UI.static.ailment_buildups.ailment_spacing.y * config.current_config.global_settings.modifiers.global_scale_modifier
 		};
 
 		::continue::
@@ -359,8 +359,8 @@ function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_
 		local last_j = 0;
 		for j, _player in ipairs(displayed_players) do
 			local ailment_buildup_position_on_screen = {
-				x = ailment_buildups_position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailment_buildups.players_spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
-				y = ailment_buildups_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailment_buildups.players_spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
+				x = ailment_buildups_position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailment_buildups.player_spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
+				y = ailment_buildups_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailment_buildups.player_spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
 			};
 
 			ailment_buildup_UI_entity.draw_highlighted(_player, monster.ailments[ailments.stun_id].ailment_buildup_highlighted_UI, ailment_buildup_position_on_screen, opacity_scale, top_buildup);
@@ -369,8 +369,8 @@ function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_
 		end
 
 		local total_buildup_position_on_screen = {
-			x = ailment_buildups_position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailment_buildups.players_spacing.x * last_j * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = ailment_buildups_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailment_buildups.players_spacing.y * last_j * config.current_config.global_settings.modifiers.global_scale_modifier;
+			x = ailment_buildups_position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailment_buildups.player_spacing.x * last_j * config.current_config.global_settings.modifiers.global_scale_modifier,
+			y = ailment_buildups_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailment_buildups.player_spacing.y * last_j * config.current_config.global_settings.modifiers.global_scale_modifier;
 		};
 
 		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_highlighted_UI.total_buildup_label, total_buildup_position_on_screen, opacity_scale, language.current_language.UI.total_buildup);
@@ -378,8 +378,8 @@ function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_
 		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_highlighted_UI.total_buildup_value_label, total_buildup_position_on_screen, opacity_scale, total_buildup);
 
 		ailment_buildups_position_on_screen = {
-			x = total_buildup_position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailment_buildups.ailments_spacing.x * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = total_buildup_position_on_screen.y + 17 + config.current_config.large_monster_UI.highlighted.ailment_buildups.ailments_spacing.y * config.current_config.global_settings.modifiers.global_scale_modifier
+			x = total_buildup_position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_spacing.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+			y = total_buildup_position_on_screen.y + 17 + config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_spacing.y * config.current_config.global_settings.modifiers.global_scale_modifier
 		};
 
 		::continue::
@@ -484,8 +484,8 @@ function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen
 		local last_j = 0;
 		for j, _player in ipairs(displayed_players) do
 			local ailment_buildup_position_on_screen = {
-				x = ailment_buildups_position_on_screen.x + config.current_config.small_monster_UI.ailment_buildups.players_spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
-				y = ailment_buildups_position_on_screen.y + config.current_config.small_monster_UI.ailment_buildups.players_spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
+				x = ailment_buildups_position_on_screen.x + config.current_config.small_monster_UI.ailment_buildups.player_spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
+				y = ailment_buildups_position_on_screen.y + config.current_config.small_monster_UI.ailment_buildups.player_spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
 			};
 
 			ailment_buildup_UI_entity.draw_small(_player, monster.ailments[ailments.stun_id].ailment_buildup_small_UI, ailment_buildup_position_on_screen, opacity_scale, top_buildup);
@@ -494,8 +494,8 @@ function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen
 		end
 
 		local total_buildup_position_on_screen = {
-			x = ailment_buildups_position_on_screen.x + config.current_config.small_monster_UI.ailment_buildups.players_spacing.x * last_j * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = ailment_buildups_position_on_screen.y + config.current_config.small_monster_UI.ailment_buildups.players_spacing.y * last_j * config.current_config.global_settings.modifiers.global_scale_modifier;
+			x = ailment_buildups_position_on_screen.x + config.current_config.small_monster_UI.ailment_buildups.player_spacing.x * last_j * config.current_config.global_settings.modifiers.global_scale_modifier,
+			y = ailment_buildups_position_on_screen.y + config.current_config.small_monster_UI.ailment_buildups.player_spacing.y * last_j * config.current_config.global_settings.modifiers.global_scale_modifier;
 		};
 
 		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_small_UI.total_buildup_label, total_buildup_position_on_screen, opacity_scale, language.current_language.UI.total_buildup);
@@ -503,8 +503,8 @@ function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen
 		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_small_UI.total_buildup_value_label, total_buildup_position_on_screen, opacity_scale, total_buildup);
 
 		ailment_buildups_position_on_screen = {
-			x = total_buildup_position_on_screen.x + config.current_config.small_monster_UI.ailment_buildups.ailments_spacing.x * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = total_buildup_position_on_screen.y + 17 + config.current_config.small_monster_UI.ailment_buildups.ailments_spacing.y * config.current_config.global_settings.modifiers.global_scale_modifier
+			x = total_buildup_position_on_screen.x + config.current_config.small_monster_UI.ailment_buildups.ailment_spacing.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+			y = total_buildup_position_on_screen.y + 17 + config.current_config.small_monster_UI.ailment_buildups.ailment_spacing.y * config.current_config.global_settings.modifiers.global_scale_modifier
 		};
 
 		::continue::

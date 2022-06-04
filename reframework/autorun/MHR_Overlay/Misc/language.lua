@@ -305,8 +305,8 @@ language.default_language = {
 		relative_offset = "Relative Offset",
 
 		ailment_buildups = "Ailment Buildups",
-		players_spacing = "Player Spacing",
-		ailments_spacing = "Ailment Spacing",
+		player_spacing = "Player Spacing",
+		ailment_spacing = "Ailment Spacing",
 		buildup_value_label = "Buildup Value Label",
 		buildup_percentage_label = "Buildup Percentage Label",
 		total_buildup_label = "Total Buildup Label",

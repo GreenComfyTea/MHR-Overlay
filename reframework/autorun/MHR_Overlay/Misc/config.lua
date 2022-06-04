@@ -518,12 +518,12 @@ function config.init()
 					y = 17
 				},
 
-				players_spacing = {
+				player_spacing = {
 					x = 0,
 					y = 24
 				},
 
-				ailments_spacing = {
+				ailment_spacing = {
 					x = 0,
 					y = 17
 				},
@@ -1338,12 +1338,12 @@ function config.init()
 						y = 17
 					},
 
-					players_spacing = {
+					player_spacing = {
 						x = 0,
 						y = 24
 					},
 
-					ailments_spacing = {
+					ailment_spacing = {
 						x = 0,
 						y = 17
 					},
@@ -2163,12 +2163,12 @@ function config.init()
 						y = 17
 					},
 
-					players_spacing = {
+					player_spacing = {
 						x = 0,
 						y = 24
 					},
 
-					ailments_spacing = {
+					ailment_spacing = {
 						x = 0,
 						y = 17
 					},
@@ -2968,12 +2968,12 @@ function config.init()
 						y = 167
 					},
 
-					players_spacing = {
+					player_spacing = {
 						x = 0,
 						y = 24
 					},
 
-					ailments_spacing = {
+					ailment_spacing = {
 						x = 0,
 						y = 17
 					},

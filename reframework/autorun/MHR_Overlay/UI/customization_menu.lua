@@ -2091,28 +2091,28 @@ function customization_menu.draw()
 				imgui.tree_pop();
 			end
 
-			if imgui.tree_node(language.current_language.customization_menu.players_spacing) then
-				changed, config.current_config.small_monster_UI.ailment_buildups.players_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
-					config.current_config.small_monster_UI.ailment_buildups.players_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
+			if imgui.tree_node(language.current_language.customization_menu.player_spacing) then
+				changed, config.current_config.small_monster_UI.ailment_buildups.player_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
+					config.current_config.small_monster_UI.ailment_buildups.player_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
 				config_changed = config_changed or changed;
 				small_monster_UI_changed = small_monster_UI_changed or changed;
 
-				changed, config.current_config.small_monster_UI.ailment_buildups.players_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
-					config.current_config.small_monster_UI.ailment_buildups.players_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
+				changed, config.current_config.small_monster_UI.ailment_buildups.player_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
+					config.current_config.small_monster_UI.ailment_buildups.player_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
 				config_changed = config_changed or changed;
 				small_monster_UI_changed = small_monster_UI_changed or changed;
 
 				imgui.tree_pop();
 			end
 
-			if imgui.tree_node(language.current_language.customization_menu.ailments_spacing) then
-				changed, config.current_config.small_monster_UI.ailment_buildups.ailments_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
-					config.current_config.small_monster_UI.ailment_buildups.ailments_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
+			if imgui.tree_node(language.current_language.customization_menu.ailment_spacing) then
+				changed, config.current_config.small_monster_UI.ailment_buildups.ailment_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
+					config.current_config.small_monster_UI.ailment_buildups.ailment_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
 				config_changed = config_changed or changed;
 				small_monster_UI_changed = small_monster_UI_changed or changed;
 
-				changed, config.current_config.small_monster_UI.ailment_buildups.ailments_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
-					config.current_config.small_monster_UI.ailment_buildups.ailments_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
+				changed, config.current_config.small_monster_UI.ailment_buildups.ailment_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
+					config.current_config.small_monster_UI.ailment_buildups.ailment_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
 				config_changed = config_changed or changed;
 				small_monster_UI_changed = small_monster_UI_changed or changed;
 
@@ -4821,28 +4821,28 @@ function customization_menu.draw()
 					imgui.tree_pop();
 				end
 	
-				if imgui.tree_node(language.current_language.customization_menu.players_spacing) then
-					changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.players_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
-						config.current_config.large_monster_UI.dynamic.ailment_buildups.players_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
+				if imgui.tree_node(language.current_language.customization_menu.player_spacing) then
+					changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.player_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
+						config.current_config.large_monster_UI.dynamic.ailment_buildups.player_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
-					changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.players_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
-						config.current_config.large_monster_UI.dynamic.ailment_buildups.players_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
+					changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.player_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
+						config.current_config.large_monster_UI.dynamic.ailment_buildups.player_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
 					imgui.tree_pop();
 				end
 	
-				if imgui.tree_node(language.current_language.customization_menu.ailments_spacing) then
-					changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.ailments_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
-						config.current_config.large_monster_UI.dynamic.ailment_buildups.ailments_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
+				if imgui.tree_node(language.current_language.customization_menu.ailment_spacing) then
+					changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
+						config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
-					changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.ailments_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
-						config.current_config.large_monster_UI.dynamic.ailment_buildups.ailments_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
+					changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
+						config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
@@ -7579,28 +7579,28 @@ function customization_menu.draw()
 					imgui.tree_pop();
 				end
 	
-				if imgui.tree_node(language.current_language.customization_menu.players_spacing) then
-					changed, config.current_config.large_monster_UI.static.ailment_buildups.players_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
-						config.current_config.large_monster_UI.static.ailment_buildups.players_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
+				if imgui.tree_node(language.current_language.customization_menu.player_spacing) then
+					changed, config.current_config.large_monster_UI.static.ailment_buildups.player_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
+						config.current_config.large_monster_UI.static.ailment_buildups.player_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
-					changed, config.current_config.large_monster_UI.static.ailment_buildups.players_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
-						config.current_config.large_monster_UI.static.ailment_buildups.players_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
+					changed, config.current_config.large_monster_UI.static.ailment_buildups.player_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
+						config.current_config.large_monster_UI.static.ailment_buildups.player_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
 					imgui.tree_pop();
 				end
 	
-				if imgui.tree_node(language.current_language.customization_menu.ailments_spacing) then
-					changed, config.current_config.large_monster_UI.static.ailment_buildups.ailments_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
-						config.current_config.large_monster_UI.static.ailment_buildups.ailments_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
+				if imgui.tree_node(language.current_language.customization_menu.ailment_spacing) then
+					changed, config.current_config.large_monster_UI.static.ailment_buildups.ailment_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
+						config.current_config.large_monster_UI.static.ailment_buildups.ailment_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
-					changed, config.current_config.large_monster_UI.static.ailment_buildups.ailments_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
-						config.current_config.large_monster_UI.static.ailment_buildups.ailments_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
+					changed, config.current_config.large_monster_UI.static.ailment_buildups.ailment_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
+						config.current_config.large_monster_UI.static.ailment_buildups.ailment_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
@@ -10266,28 +10266,28 @@ function customization_menu.draw()
 					imgui.tree_pop();
 				end
 	
-				if imgui.tree_node(language.current_language.customization_menu.players_spacing) then
-					changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.players_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
-						config.current_config.large_monster_UI.highlighted.ailment_buildups.players_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
+				if imgui.tree_node(language.current_language.customization_menu.player_spacing) then
+					changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.player_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
+						config.current_config.large_monster_UI.highlighted.ailment_buildups.player_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
-					changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.players_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
-						config.current_config.large_monster_UI.highlighted.ailment_buildups.players_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
+					changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.player_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
+						config.current_config.large_monster_UI.highlighted.ailment_buildups.player_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
 					imgui.tree_pop();
 				end
 	
-				if imgui.tree_node(language.current_language.customization_menu.ailments_spacing) then
-					changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.ailments_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
-						config.current_config.large_monster_UI.highlighted.ailment_buildups.ailments_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
+				if imgui.tree_node(language.current_language.customization_menu.ailment_spacing) then
+					changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_spacing.x = imgui.drag_float(language.current_language.customization_menu.x,
+						config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_spacing.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
-					changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.ailments_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
-						config.current_config.large_monster_UI.highlighted.ailment_buildups.ailments_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
+					changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_spacing.y = imgui.drag_float(language.current_language.customization_menu.y,
+						config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_spacing.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
