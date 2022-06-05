@@ -1644,7 +1644,7 @@ function customization_menu.draw()
 			if imgui.tree_node(language.current_language.customization_menu.sorting) then
 				changed, customization_menu.small_monster_UI_ailments_sorting_type_index = imgui.combo(language.current_language.customization_menu.type,
 					customization_menu.small_monster_UI_ailments_sorting_type_index,
-					customization_menu.ailments_sorting_types);
+					customization_menu.displayed_ailments_sorting_types);
 				config_changed = config_changed or changed;
 				small_monster_UI_changed = small_monster_UI_changed or changed;
 				if changed then
