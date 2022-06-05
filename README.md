@@ -28,7 +28,8 @@
 **coavins** - creator of [coavins damage meter](https://www.nexusmods.com/monsterhunterrise/mods/68) mod.  
   
 **neatnet** - Korean translation.  
-**s9000008** - Chinese translation.
+**s9000008** - Traditional Chinese translation.
+**etnAtker** - Simplified Chinese translation.
 ***
 # Support
 
