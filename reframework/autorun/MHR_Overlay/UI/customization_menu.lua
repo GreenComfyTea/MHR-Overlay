@@ -2168,7 +2168,7 @@ function customization_menu.draw()
 			if imgui.tree_node(language.current_language.customization_menu.sorting) then
 				changed, customization_menu.small_monster_UI_ailment_buildups_sorting_type_index = imgui.combo(language.current_language.customization_menu.type,
 					customization_menu.small_monster_UI_ailment_buildups_sorting_type_index,
-					customization_menu.ailment_buildups_sorting_types);
+					customization_menu.displayed_ailment_buildups_sorting_types);
 				config_changed = config_changed or changed;
 				small_monster_UI_changed = small_monster_UI_changed or changed;
 
@@ -4374,7 +4374,7 @@ function customization_menu.draw()
 				if imgui.tree_node(language.current_language.customization_menu.sorting) then
 					changed, customization_menu.small_monster_UI_ailments_sorting_type_index = imgui.combo(language.current_language.customization_menu.type,
 						customization_menu.small_monster_UI_ailments_sorting_type_index,
-						customization_menu.ailments_sorting_types);
+						customization_menu.displayed_ailments_sorting_types);
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 					if changed then
@@ -4897,7 +4897,7 @@ function customization_menu.draw()
 				if imgui.tree_node(language.current_language.customization_menu.sorting) then
 					changed, customization_menu.large_monster_dynamic_UI_ailment_buildups_sorting_type_index = imgui.combo(language.current_language.customization_menu.type,
 						customization_menu.large_monster_dynamic_UI_ailment_buildups_sorting_type_index,
-						customization_menu.ailment_buildups_sorting_types);
+						customization_menu.displayed_ailment_buildups_sorting_types);
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
@@ -7132,7 +7132,7 @@ function customization_menu.draw()
 				if imgui.tree_node(language.current_language.customization_menu.sorting) then
 					changed, customization_menu.small_monster_UI_ailments_sorting_type_index = imgui.combo(language.current_language.customization_menu.type,
 						customization_menu.small_monster_UI_ailments_sorting_type_index,
-						customization_menu.ailments_sorting_types);
+						customization_menu.displayed_ailments_sorting_types);
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 					if changed then
@@ -7656,7 +7656,7 @@ function customization_menu.draw()
 				if imgui.tree_node(language.current_language.customization_menu.sorting) then
 					changed, customization_menu.large_monster_static_UI_ailment_buildups_sorting_type_index = imgui.combo(language.current_language.customization_menu.type,
 						customization_menu.large_monster_static_UI_ailment_buildups_sorting_type_index,
-						customization_menu.ailment_buildups_sorting_types);
+						customization_menu.displayed_ailment_buildups_sorting_types);
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
@@ -9819,7 +9819,7 @@ function customization_menu.draw()
 				if imgui.tree_node(language.current_language.customization_menu.sorting) then
 					changed, customization_menu.small_monster_UI_ailments_sorting_type_index = imgui.combo(language.current_language.customization_menu.type,
 						customization_menu.small_monster_UI_ailments_sorting_type_index,
-						customization_menu.ailments_sorting_types);
+						customization_menu.displayed_ailments_sorting_types);
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 					if changed then
@@ -10343,7 +10343,7 @@ function customization_menu.draw()
 				if imgui.tree_node(language.current_language.customization_menu.sorting) then
 					changed, customization_menu.large_monster_highlighted_UI_ailment_buildups_sorting_type_index = imgui.combo(language.current_language.customization_menu.type,
 						customization_menu.large_monster_highlighted_UI_ailment_buildups_sorting_type_index,
-						customization_menu.ailment_buildups_sorting_types);
+						customization_menu.displayed_ailment_buildups_sorting_types);
 					config_changed = config_changed or changed;
 					large_monster_UI_changed = large_monster_UI_changed or changed;
 	
