@@ -154,6 +154,13 @@ function ailments.init_ailments()
 end
 
 function ailments.init_ailment_buildup_UI(_ailments)
+	ailments.init_ailment_buildup_dynamic_UI(_ailments);
+	ailments.init_ailment_buildup_static_UI(_ailments);
+	ailments.init_ailment_buildup_highlighted_UI(_ailments);
+	ailments.init_ailment_buildup_small_UI(_ailments);
+end
+
+function ailments.init_ailment_buildup_dynamic_UI(_ailments)
 	_ailments[ailments.stun_id].ailment_buildup_dynamic_UI = ailment_buildup_UI_entity.new(
 		config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar,
 		config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar,
@@ -164,7 +171,9 @@ function ailments.init_ailment_buildup_UI(_ailments)
 		config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_label,
 		config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_value_label
 	);
+end
 
+function ailments.init_ailment_buildup_static_UI(_ailments)
 	_ailments[ailments.stun_id].ailment_buildup_static_UI = ailment_buildup_UI_entity.new(
 		config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar,
 		config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar,
@@ -175,7 +184,9 @@ function ailments.init_ailment_buildup_UI(_ailments)
 		config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_label,
 		config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_value_label
 	);
+end
 
+function ailments.init_ailment_buildup_highlighted_UI(_ailments)
 	_ailments[ailments.stun_id].ailment_buildup_highlighted_UI = ailment_buildup_UI_entity.new(
 		config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar,
 		config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar,
@@ -186,7 +197,9 @@ function ailments.init_ailment_buildup_UI(_ailments)
 		config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_label,
 		config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_value_label
 	);
+end
 
+function ailments.init_ailment_buildup_small_UI(_ailments)
 	_ailments[ailments.stun_id].ailment_buildup_small_UI = ailment_buildup_UI_entity.new(
 		config.current_config.small_monster_UI.ailment_buildups.buildup_bar,
 		config.current_config.small_monster_UI.ailment_buildups.highlighted_buildup_bar,

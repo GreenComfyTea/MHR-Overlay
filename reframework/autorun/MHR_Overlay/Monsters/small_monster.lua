@@ -107,6 +107,8 @@ function small_monster.init_UI(monster)
 		config.current_config.small_monster_UI.ailments.percentage_label,
 		config.current_config.small_monster_UI.ailments.timer_label
 	);
+
+	ailments.init_ailment_buildup_small_UI(monster.ailments);
 end
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");

@@ -216,6 +216,8 @@ function large_monster.init_dynamic_UI(monster)
 		config.current_config.large_monster_UI.dynamic.ailments.percentage_label,
 		config.current_config.large_monster_UI.dynamic.ailments.timer_label
 	);
+
+	ailments.init_ailment_buildup_dynamic_UI(monster.ailments);
 end
 
 function large_monster.init_static_UI(monster)
@@ -269,6 +271,8 @@ function large_monster.init_static_UI(monster)
 		config.current_config.large_monster_UI.static.ailments.percentage_label,
 		config.current_config.large_monster_UI.static.ailments.timer_label
 	);
+
+	ailments.init_ailment_buildup_static_UI(monster.ailments);
 end
 
 function large_monster.init_highlighted_UI(monster)
@@ -319,6 +323,8 @@ function large_monster.init_highlighted_UI(monster)
 		config.current_config.large_monster_UI.highlighted.ailments.percentage_label,
 		config.current_config.large_monster_UI.highlighted.ailments.timer_label
 	);
+
+	ailments.init_ailment_buildup_highlighted_UI(monster.ailments);
 end
 
 local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
