@@ -23,12 +23,6 @@ local check_current_area_training_area_method = village_area_manager_type_def:ge
 local lobby_manager_type_definition = sdk.find_type_definition("snow.LobbyManager");
 local is_quest_online_method = lobby_manager_type_definition:get_method("IsQuestOnline");
 
-sdk.hook(on_changed_game_status, function(args)
-	pcall(quest_status.update(args));
-end, function(retval)
-	return retval;
-end);
-
 function quest_status.update(args)
 	local new_quest_status = sdk.to_int64(args[3]);
 	if new_quest_status ~= nil then
@@ -46,6 +40,10 @@ function quest_status.update(args)
 		quest_status.index = new_quest_status;
 	end
 end
+
+sdk.hook(on_changed_game_status, function(args)
+	pcall(quest_status.update, args);
+end, function(retval) return retval; end);
 
 function quest_status.init()
 	if singletons.quest_manager == nil then

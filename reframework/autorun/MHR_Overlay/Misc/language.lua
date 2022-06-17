@@ -91,7 +91,9 @@ language.default_language = {
 		total_damage = "Total Damage",
 		player = "Player",
 		buildup = "Buildup:",
-		total_buildup = "Total Buildup"
+		total_buildup = "Total Buildup",
+		part_break = "Break",
+		part_sever = "Sever"
 	},
 
 	customization_menu = {
@@ -198,6 +200,8 @@ language.default_language = {
 		hide_undamaged_parts = "Hide Undamaged Parts",
 		part_name = "Part Name",
 		flinch_count = "Flinch Count",
+		break_count = "Break Count",
+		break_max_count = "Break Max Count",
 
 		orientation = "Orientation",
 		horizontal = "Horizontal",
@@ -317,7 +321,13 @@ language.default_language = {
 		filter = "Filter",
 		top_buildup = "Top Buildup",
 		total_buildup = "Total Buildup",
-		buildup_bars_are_relative_to = "Buildup Bars are relative to"
+		buildup_bars_are_relative_to = "Buildup Bars are relative to",
+
+		part_health = "Part Health",
+		break_health = "Break Health",
+		break_health_percentage = "Break Health Percentage",
+		loss_health = "Sever Health",
+		loss_health_percentage = "Sever Health Percentage"
 	}
 };
 

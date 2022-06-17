@@ -9,6 +9,7 @@ singletons.player_manager = nil;
 singletons.village_area_manager = nil;
 singletons.gui_manager = nil;
 singletons.game_keyboard = nil;
+singletons.scene_manager = nil;
 
 function singletons.init()
 	singletons.init_message_manager();
@@ -19,7 +20,8 @@ function singletons.init()
 	singletons.init_player_manager();
 	singletons.init_village_area_manager();
 	singletons.init_gui_manager();
-	singletons.init_game_keyboard()
+	singletons.init_game_keyboard();
+	singletons.init_scene_manager();
 end
 
 function singletons.init_message_manager()
@@ -139,6 +141,19 @@ function singletons.init_game_keyboard()
 	end
 
 	return singletons.ggame_keyboard;
+end
+
+function singletons.init_scene_manager()
+	if singletons.scene_manager ~= nil then
+		return;
+	end
+
+	singletons.scene_manager = sdk.get_native_singleton("via.SceneManager");
+	if singletons.scene_manager == nil then
+		--log.error("[MHR Overlay] No enemy manager");
+	end
+
+	return singletons.scene_manager;
 end
 
 function singletons.init_module()

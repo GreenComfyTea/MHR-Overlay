@@ -7,6 +7,17 @@ function drawing.init_font()
 	drawing.font = d2d.Font.new(config.current_config.global_settings.UI_font.family, config.current_config.global_settings.UI_font.size, config.current_config.global_settings.UI_font.bold, config.current_config.global_settings.UI_font.italic);
 end
 
+function drawing.argb_color_to_abgr_color(argb_color)
+	local alpha = (argb_color >> 24) & 0xFF;
+	local red = (argb_color >> 16) & 0xFF;
+	local green = (argb_color >> 8) & 0xFF;
+	local blue = argb_color & 0xFF;
+
+	local abgr_color = 0x1000000 * alpha + 0x10000 * blue + 0x100 * green + red;
+
+	return abgr_color;
+end
+
 function drawing.color_to_argb(color)
 	local alpha = (color >> 24) & 0xFF;
 	local red = (color >> 16) & 0xFF;
@@ -68,14 +79,26 @@ function drawing.draw_label(label, position, opacity_scale, ...)
 			new_shadow_color = drawing.scale_color_opacity(new_shadow_color, opacity_scale);
 		end
 
-		d2d.text(drawing.font, text, position_x + label.shadow.offset.x, position_y + label.shadow.offset.y, new_shadow_color);
+		if d2d ~= nil then
+			d2d.text(drawing.font, text, position_x + label.shadow.offset.x, position_y + label.shadow.offset.y, new_shadow_color);
+		else
+			new_shadow_color = drawing.argb_color_to_abgr_color(new_shadow_color);
+			draw.text(text, position_x + label.shadow.offset.x, position_y + label.shadow.offset.y, new_shadow_color);
+		end
 	end
 
 	local new_color = label.color;
 	if opacity_scale < 1 then
 		new_color = drawing.scale_color_opacity(new_color, opacity_scale);
 	end
-	d2d.text(drawing.font, text, position_x, position_y, new_color);
+
+	if d2d ~= nil then
+		d2d.text(drawing.font, text, position_x, position_y, new_color);
+	else
+		new_color = drawing.argb_color_to_abgr_color(new_color);
+		draw.text(text, position_x, position_y, new_color);
+	end
+	
 end
 
 function drawing.draw_bar(bar, position, opacity_scale, percentage)
@@ -106,9 +129,20 @@ function drawing.draw_bar(bar, position, opacity_scale, percentage)
 	end
 
 	-- foreground
-	d2d.fill_rect(position_x, position_y, foreground_width, bar.size.height, new_foreground_color);
+	if d2d ~= nil then
+		d2d.fill_rect(position_x, position_y, foreground_width, bar.size.height, new_foreground_color);
+	else
+		new_foreground_color = drawing.argb_color_to_abgr_color(new_foreground_color);
+		draw.filled_rect(position_x, position_y, foreground_width, bar.size.height, new_foreground_color)
+	end
+	
 	-- background
-	d2d.fill_rect(position_x + foreground_width, position_y, background_width, bar.size.height, new_background_color);
+	if d2d ~= nil then
+		d2d.fill_rect(position_x + foreground_width, position_y, background_width, bar.size.height, new_background_color);
+	else
+		new_background_color = drawing.argb_color_to_abgr_color(new_background_color);
+		draw.filled_rect(position_x + foreground_width, position_y, background_width, bar.size.height, new_background_color)
+	end
 end
 
 function drawing.draw_capture_line(bar, position, opacity_scale, percentage)
@@ -130,9 +164,13 @@ function drawing.draw_capture_line(bar, position, opacity_scale, percentage)
 	if opacity_scale < 1 then
 		color  = drawing.scale_color_opacity(color, opacity_scale);
 	end
-	
-	d2d.fill_rect(position_x, position_y, bar.capture_line.size.width, bar.capture_line.size.height, color);
 
+	if d2d ~= nil then
+		d2d.fill_rect(position_x, position_y, bar.capture_line.size.width, bar.capture_line.size.height, color);
+	else
+		color = drawing.argb_color_to_abgr_color(color);
+		draw.filled_rect(position_x, position_y, bar.capture_line.size.width, bar.capture_line.size.height, color)
+	end
 end
 
 function drawing.init_module()

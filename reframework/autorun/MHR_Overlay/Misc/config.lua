@@ -1060,7 +1060,7 @@ function config.init()
 					
 					spacing = {
 						x = 0,
-						y = 24,
+						y = 33,
 					},
 	
 					settings = {
@@ -1072,14 +1072,16 @@ function config.init()
 						type = "Normal",
 						reversed_order = false
 					},
-		
+
 					part_name_label = {
 						visibility = true,
 						text = "%s",
 			
 						include = {
 							part_name = true,
-							flinch_count = true
+							flinch_count = false,
+							break_count = true,
+							break_max_count = true
 						},
 		
 						offset = {
@@ -1097,82 +1099,264 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
-					text_label = {
-						visibility = false,
-						text = language.current_language.UI.HP,
-						offset = {
-							x = -25,
-							y = 8
-						},
-						color = 0xF1F4A3CC,
-						
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-		
-					value_label = {
+
+					part_health = {
 						visibility = true,
-						text = "%.0f/%.0f", -- current_health/max_health
-						offset = {
-							x = 45,
-							y = 13
-						},
-						color = 0xFFFFFFFF,
-		
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-					
-					percentage_label = {
-						visibility = true,
-						text = "%5.1f%%",
-		
-						offset = {
-							x = 135,
-							y = 13
-						},
-						color = 0xFFFFFFFF,
-		
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-		
-					bar = {
-						visibility = true,
+
 						offset = {
 							x = 0,
-							y = 14
+							y = 9
 						},
-		
-						size = {
-							width = 185,
-							height = 5
+			
+						text_label = {
+							visibility = false,
+							text = language.current_language.UI.HP,
+							offset = {
+								x = 100,
+								y = -5
+							},
+							color = 0xFFF4A3CC,
+							
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
 						},
-		
-						colors = {
-							foreground = 0xB9ca85cc,
-							background = 0x88000000
+			
+						value_label = {
+							visibility = true,
+							text = "%9s", -- current_health/max_health
+							offset = {
+								x = 114,
+								y = -5
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+						
+						percentage_label = {
+							visibility = false,
+							text = "%5.1f%%",
+			
+							offset = {
+								x = 190,
+								y = -5
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+
+						bar = {
+							visibility = true,
+							offset = {
+								x = 0,
+								y = 6
+							},
+			
+							size = {
+								width = 185,
+								height = 5
+							},
+			
+							colors = {
+								foreground = 0xB9ca85cc,
+								background = 0x88000000
+							}
 						}
-					}
+					},
+		
+					part_break = {
+						visibility = true,
+
+						offset = {
+							x = 0,
+							y = 15
+						},
+			
+						text_label = {
+							visibility = false,
+							text = language.current_language.UI.part_break,
+							offset = {
+								x = -42,
+								y = 6
+							},
+							color = 0xFFb2d0ff,
+							
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						value_label = {
+							visibility = true,
+							text = "%-9s",
+							offset = {
+								x = 5,
+								y = 6
+								
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+						
+						percentage_label = {
+							visibility = false,
+							text = "%5.1f%%",
+			
+							offset = {
+								x = 5,
+								y = 17
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						bar = {
+							visibility = true,
+							offset = {
+								x = 0,
+								y = 7
+							},
+			
+							size = {
+								width = 92,
+								height = 5
+							},
+			
+							colors = {
+								foreground = 0xB999bfff,
+								background = 0x88000000
+							}
+						}
+					},
+
+					part_loss = {
+						visibility = true,
+
+						offset = {
+							x = 94,
+							y = 15
+						},
+			
+						text_label = {
+							visibility = false,
+							text = language.current_language.UI.part_sever,
+							offset = {
+								x = 97,
+								y = 5
+							},
+							color = 0xFFff8095,
+							
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						value_label = {
+							visibility = true,
+							text = "%9s",
+							offset = {
+								x = 20,
+								y = 6
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+						
+						percentage_label = {
+							visibility = false,
+							text = "%5.1f%%",
+			
+							offset = {
+								x = 41,
+								y = 17
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						bar = {
+							visibility = true,
+							offset = {
+								x = 0,
+								y = 7
+							},
+			
+							size = {
+								width = 91,
+								height = 5
+							},
+			
+							colors = {
+								foreground = 0xB9e57386,
+								background = 0x88000000
+							}
+						}
+					},
+
 				},
 
 				ailments = {
@@ -1879,12 +2063,12 @@ function config.init()
 	
 					offset = {
 						x = 10,
-						y = 73
+						y = 60
 					},
 					
 					spacing = {
 						x = 0,
-						y = 24,
+						y = 33,
 					},
 	
 					settings = {
@@ -1896,14 +2080,16 @@ function config.init()
 						type = "Normal",
 						reversed_order = false
 					},
-		
+
 					part_name_label = {
 						visibility = true,
 						text = "%s",
 			
 						include = {
 							part_name = true,
-							flinch_count = true
+							flinch_count = false,
+							break_count = true,
+							break_max_count = true
 						},
 		
 						offset = {
@@ -1921,86 +2107,268 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
-					text_label = {
-						visibility = false,
-						text = language.current_language.UI.HP,
-						offset = {
-							x = -25,
-							y = 8
-						},
-						color = 0xF1F4A3CC,
-						
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-		
-					value_label = {
+
+					part_health = {
 						visibility = true,
-						text = "%.0f/%.0f", -- current_health/max_health
-						offset = {
-							x = 45,
-							y = 13
-						},
-						color = 0xFFFFFFFF,
-		
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-					
-					percentage_label = {
-						visibility = true,
-						text = "%5.1f%%",
-		
-						offset = {
-							x = 135,
-							y = 13
-						},
-						color = 0xFFFFFFFF,
-		
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-		
-					bar = {
-						visibility = true,
+
 						offset = {
 							x = 0,
-							y = 14
+							y = 9
 						},
-		
-						size = {
-							width = 185,
-							height = 5
+			
+						text_label = {
+							visibility = false,
+							text = language.current_language.UI.HP,
+							offset = {
+								x = 100,
+								y = -5
+							},
+							color = 0xFFF4A3CC,
+							
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
 						},
-		
-						colors = {
-							foreground = 0xB9ca85cc,
-							background = 0x88000000
+			
+						value_label = {
+							visibility = true,
+							text = "%9s", -- current_health/max_health
+							offset = {
+								x = 114,
+								y = -5
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+						
+						percentage_label = {
+							visibility = false,
+							text = "%5.1f%%",
+			
+							offset = {
+								x = 190,
+								y = -5
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+
+						bar = {
+							visibility = true,
+							offset = {
+								x = 0,
+								y = 6
+							},
+			
+							size = {
+								width = 185,
+								height = 5
+							},
+			
+							colors = {
+								foreground = 0xB9ca85cc,
+								background = 0x88000000
+							}
 						}
-					}
+					},
+		
+					part_break = {
+						visibility = true,
+
+						offset = {
+							x = 0,
+							y = 15
+						},
+			
+						text_label = {
+							visibility = false,
+							text = language.current_language.UI.part_break,
+							offset = {
+								x = -42,
+								y = 6
+							},
+							color = 0xFFb2d0ff,
+							
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						value_label = {
+							visibility = true,
+							text = "%-9s",
+							offset = {
+								x = 5,
+								y = 6
+								
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+						
+						percentage_label = {
+							visibility = false,
+							text = "%5.1f%%",
+			
+							offset = {
+								x = 5,
+								y = 17
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						bar = {
+							visibility = true,
+							offset = {
+								x = 0,
+								y = 7
+							},
+			
+							size = {
+								width = 92,
+								height = 5
+							},
+			
+							colors = {
+								foreground = 0xB999bfff,
+								background = 0x88000000
+							}
+						}
+					},
+
+					part_loss = {
+						visibility = true,
+
+						offset = {
+							x = 94,
+							y = 15
+						},
+			
+						text_label = {
+							visibility = false,
+							text = language.current_language.UI.part_sever,
+							offset = {
+								x = 97,
+								y = 5
+							},
+							color = 0xFFff8095,
+							
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						value_label = {
+							visibility = true,
+							text = "%9s",
+							offset = {
+								x = 20,
+								y = 6
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+						
+						percentage_label = {
+							visibility = false,
+							text = "%5.1f%%",
+			
+							offset = {
+								x = 41,
+								y = 17
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						bar = {
+							visibility = true,
+							offset = {
+								x = 0,
+								y = 7
+							},
+			
+							size = {
+								width = 91,
+								height = 5
+							},
+			
+							colors = {
+								foreground = 0xB9e57386,
+								background = 0x88000000
+							}
+						}
+					},
+
 				},
 
 				ailments = {
-					visibility = true,
+					visibility = false,
 	
 					offset = {
 						x = 10,
@@ -2690,7 +3058,7 @@ function config.init()
 					
 					spacing = {
 						x = 0,
-						y = 24,
+						y = 33,
 					},
 	
 					settings = {
@@ -2702,14 +3070,16 @@ function config.init()
 						type = "Normal",
 						reversed_order = false
 					},
-		
+
 					part_name_label = {
 						visibility = true,
 						text = "%s",
 			
 						include = {
 							part_name = true,
-							flinch_count = true
+							flinch_count = false,
+							break_count = true,
+							break_max_count = true
 						},
 		
 						offset = {
@@ -2727,82 +3097,263 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
-					text_label = {
-						visibility = false,
-						text = language.current_language.UI.HP,
-						offset = {
-							x = -25,
-							y = 8
-						},
-						color = 0xF1F4A3CC,
-						
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-		
-					value_label = {
+
+					part_health = {
 						visibility = true,
-						text = "%.0f/%.0f", -- current_health/max_health
-						offset = {
-							x = 45,
-							y = 13
-						},
-						color = 0xFFFFFFFF,
-		
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-					
-					percentage_label = {
-						visibility = true,
-						text = "%5.1f%%",
-		
-						offset = {
-							x = 135,
-							y = 13
-						},
-						color = 0xFFFFFFFF,
-		
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-		
-					bar = {
-						visibility = true,
+
 						offset = {
 							x = 0,
-							y = 14
+							y = 9
 						},
-		
-						size = {
-							width = 185,
-							height = 5
+			
+						text_label = {
+							visibility = false,
+							text = language.current_language.UI.HP,
+							offset = {
+								x = 100,
+								y = -5
+							},
+							color = 0xFFF4A3CC,
+							
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
 						},
-		
-						colors = {
-							foreground = 0xB9ca85cc,
-							background = 0x88000000
+			
+						value_label = {
+							visibility = true,
+							text = "%9s", -- current_health/max_health
+							offset = {
+								x = 114,
+								y = -5
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+						
+						percentage_label = {
+							visibility = false,
+							text = "%5.1f%%",
+			
+							offset = {
+								x = 190,
+								y = -5
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						bar = {
+							visibility = true,
+							offset = {
+								x = 0,
+								y = 6
+							},
+			
+							size = {
+								width = 185,
+								height = 5
+							},
+			
+							colors = {
+								foreground = 0xB9ca85cc,
+								background = 0x88000000
+							}
 						}
-					}
+					},
+		
+					part_break = {
+						visibility = true,
+
+						offset = {
+							x = 0,
+							y = 15
+						},
+			
+						text_label = {
+							visibility = false,
+							text = language.current_language.UI.part_break,
+							offset = {
+								x = -42,
+								y = 6
+							},
+							color = 0xFFb2d0ff,
+							
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						value_label = {
+							visibility = true,
+							text = "%-9s",
+							offset = {
+								x = 5,
+								y = 6
+								
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+						
+						percentage_label = {
+							visibility = false,
+							text = "%5.1f%%",
+			
+							offset = {
+								x = 5,
+								y = 17
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						bar = {
+							visibility = true,
+							offset = {
+								x = 0,
+								y = 7
+							},
+			
+							size = {
+								width = 92,
+								height = 5
+							},
+			
+							colors = {
+								foreground = 0xB999bfff,
+								background = 0x88000000
+							}
+						}
+					},
+
+					part_loss = {
+						visibility = true,
+
+						offset = {
+							x = 94,
+							y = 15
+						},
+			
+						text_label = {
+							visibility = false,
+							text = language.current_language.UI.part_sever,
+							offset = {
+								x = 97,
+								y = 5
+							},
+							color = 0xFFff8095,
+							
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						value_label = {
+							visibility = true,
+							text = "%9s",
+							offset = {
+								x = 20,
+								y = 6
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+						
+						percentage_label = {
+							visibility = false,
+							text = "%5.1f%%",
+			
+							offset = {
+								x = 41,
+								y = 17
+							},
+							color = 0xFFFFFFFF,
+			
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+			
+						bar = {
+							visibility = true,
+							offset = {
+								x = 0,
+								y = 7
+							},
+			
+							size = {
+								width = 91,
+								height = 5
+							},
+			
+							colors = {
+								foreground = 0xB9e57386,
+								background = 0x88000000
+							}
+						}
+					},
+
 				},
 
 				ailments = {

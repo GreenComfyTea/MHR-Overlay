@@ -1,12 +1,20 @@
-local config = require "MHR_Overlay.Misc.config"
 local screen = {};
+
 local config;
+local singletons;
 
 screen.width = 1920;
 screen.height = 1080;
 
 function screen.update_window_size()
-	local width, height = d2d.surface_size();
+	local width;
+	local height;
+
+	if d2d ~= nil then
+		width, height = d2d.surface_size();
+	else
+		width, height = screen.get_game_window_size();
+	end
 	
 	if width ~= nil then
 		screen.width = width;
@@ -15,6 +23,45 @@ function screen.update_window_size()
 	if height ~= nil then
 		screen.height = height;
 	end
+end
+
+local scene_view;
+local scene_view_type = sdk.find_type_definition("via.SceneView");
+local get_size_method = scene_view_type:get_method("get_Size");
+
+local size_type = get_size_method:get_return_type();
+local width_field = size_type:get_field("w");
+local height_field = size_type:get_field("h");
+
+function screen.get_game_window_size()
+	if scene_view == nil then
+		scene_view = sdk.call_native_func(singletons.scene_manager, sdk.find_type_definition("via.SceneManager"), "get_MainView");
+
+		if scene_view == nil then
+			--log.error("[MHR_Overlay.lua] No scene view");
+			return;
+		end
+	end
+
+	local size = get_size_method:call(scene_view);
+	if size == nil then
+		--log.error("[MHR_Overlay.lua] No scene view size");
+		return;
+	end
+
+	local screen_width = width_field:get_data(size);
+	if screen_width == nil then
+		--log.error("[MHR_Overlay.lua] No screen width");
+		return;
+	end
+
+	local screen_height = height_field:get_data(size);
+	if  screen_height == nil then
+		--log.error("[MHR_Overlay.lua] No screen height");
+		return;
+	end
+
+	return screen_width, screen_height;
 end
 
 function screen.calculate_absolute_coordinates(position)
@@ -52,6 +99,7 @@ end
 
 function screen.init_module()
 	config = require("MHR_Overlay.Misc.config");
+	singletons = require("MHR_Overlay.Game_Handler.singletons");
 end
 
 return screen;

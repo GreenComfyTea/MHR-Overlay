@@ -219,8 +219,10 @@ local damage_param_field = enemy_character_base_type_def:get_field("<DamageParam
 local damage_param_type = damage_param_field:get_type();
 local get_condition_param_method = damage_param_type:get_method("get_ConditionParam");
 
+local stun_param_field = damage_param_type:get_field("_StunParam");
 local poison_param_field = damage_param_type:get_field("_PoisonParam");
 local blast_param_field = damage_param_type:get_field("_BlastParam");
+
 
 local poison_param_type = poison_param_field:get_type();
 local blast_param_type = blast_param_field:get_type();
@@ -250,6 +252,18 @@ function ailments.update_ailments(enemy, monster)
 		return;
 	end
 
+	ailments.update_stun_poison_blast_ailments(monster, damage_param);
+
+	if not config.current_config.large_monster_UI.dynamic.ailments.visibility
+	and not config.current_config.large_monster_UI.static.ailments.visibility
+	and not config.current_config.large_monster_UI.highlighted.ailments.visibility
+	and not config.current_config.small_monster_UI.ailments.visibility
+	and not config.current_config.large_monster_UI.dynamic.ailment_buildups.visibility
+	and not config.current_config.large_monster_UI.static.ailment_buildups.visibility
+	and not config.current_config.small_monster_UI.ailment_buildups.visibility then
+		return;
+	end
+
 	local condition_param = get_condition_param_method:call(damage_param);
 
 	if condition_param == nil then
@@ -264,7 +278,34 @@ function ailments.update_ailments(enemy, monster)
 
 	for index, ailment_param in ipairs(condition_param_table) do
 		local id = index - 1;
+		if id == ailments.stun_id or id == ailments.poison_id or id == ailments.blast_id then
+			goto continue;
+		end
 
+		ailments.update_ailment(monster, ailment_param, id);
+
+		::continue::
+	end
+end
+
+function ailments.update_stun_poison_blast_ailments(monster, damage_param)
+	local stun_param = stun_param_field:get_data(damage_param);
+	if stun_param ~= nil then
+		ailments.update_ailment(monster, stun_param, ailments.stun_id);
+	end
+
+	local poison_param = poison_param_field:get_data(damage_param);
+	if poison_param ~= nil then
+		ailments.update_ailment(monster, poison_param, ailments.poison_id);
+	end
+
+	local blast_param = blast_param_field:get_data(damage_param);
+	if blast_param ~= nil then
+		ailments.update_ailment(monster, blast_param, ailments.blast_id);
+	end
+end
+
+function ailments.update_ailment(monster, ailment_param, id)
 		local is_enable = get_is_enable_method:call(ailment_param);
 		local activate_count = get_activate_count_method:call(ailment_param):get_element(0):get_field("mValue");
 		local buildup = get_stock_method:call(ailment_param):get_element(0):get_field("mValue");
@@ -356,7 +397,6 @@ function ailments.update_ailments(enemy, monster)
 			monster.ailments[id].minutes_left = minutes_left;
 			monster.ailments[id].seconds_left = seconds_left;
 		end
-	end
 end
 
 function ailments.update_last_change_time(monster, id)

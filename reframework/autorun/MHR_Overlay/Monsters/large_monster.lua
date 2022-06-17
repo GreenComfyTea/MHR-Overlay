@@ -22,6 +22,7 @@ large_monster.list = {};
 
 function large_monster.new(enemy)
 	local monster = {};
+	monster.enemy = enemy;
 	monster.is_large = true;
 
 	monster.id = 0;
@@ -330,6 +331,8 @@ end
 local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
 local stamina_param_field = enemy_character_base_type_def:get_field("<StaminaParam>k__BackingField");
 local anger_param_field = enemy_character_base_type_def:get_field("<AngerParam>k__BackingField");
+local damage_param_field = enemy_character_base_type_def:get_field("<DamageParam>k__BackingField");
+
 local check_die_method = enemy_character_base_type_def:get_method("checkDie");
 local is_disp_icon_mini_map_method = enemy_character_base_type_def:get_method("isDispIconMiniMap");
 
@@ -457,6 +460,12 @@ function large_monster.update(enemy)
 		return;
 	end
 
+	local damage_param = damage_param_field:get_data(enemy);
+	if damage_param == nil then
+		customization_menu.status = "No damage param";
+		return;
+	end
+
 	local health = get_current_method:call(vital_param);
 	local max_health = get_max_method:call(vital_param);
 	local capture_health = get_capture_hp_vital_method:call(physical_param);
@@ -490,7 +499,7 @@ function large_monster.update(enemy)
 		customization_menu.status = "No vital list";
 		return;
 	end
-	
+
 	local vital_list_count = vital_list:call("get_Count");
 	if  vital_list_count == nil or vital_list_count < 2 then
 		customization_menu.status = "No vital list count";
@@ -509,53 +518,79 @@ function large_monster.update(enemy)
 		return;
 	end
 
-	local last_REpart = part_list:call("get_Item",  part_list_count - 1);
-	local last_REpart_health = 9999999;
-	if last_REpart ~= nil then
-		local _last_REpart_health = last_REpart:call("get_Current");
-		if last_REpart_health ~= nil then
-			last_REpart_health = _last_REpart_health;
-		end
+	local enemy_parts_damage_info = damage_param:get_field("_EnemyPartsDamageInfo");
+	local enemy_parts_info_array;
+	if enemy_parts_damage_info ~= nil then
+		enemy_parts_info_array = enemy_parts_damage_info:call("get_PartsInfo");
 	end
-	
+
 	local part_id = 1;
 	for i = 0, part_list_count - 1 do
-
-		local REpart = part_list:call("get_Item", i);
-		if REpart == nil then
-			goto continue;
+		local enemy_parts_info;
+		if enemy_parts_info_array ~= nil then
+			enemy_parts_info = enemy_parts_info_array[i];
 		end
-			
-		local part_health = REpart:call("get_Current");
-		if part_health == nil then
-			goto continue;
-		end
-
-		local part_max_health = REpart:call("get_Max");
-		if part_max_health == nil or part_max_health <= 0 then
-			goto continue;
-		end
-
-		local part = monster.parts[REpart];
+		
+		local part = monster.parts[part_id];
 		if part == nil then
 			local part_name = part_names.get_part_name(monster.id, part_id);
-
-			if part_name ~= "" then
-				part = body_part.new(REpart, part_name, part_id);
-				monster.parts[REpart] = part;
+			
+			if part_name == "" then
+				goto continue;
+			else
+				part = body_part.new(part_id, part_name);
+				monster.parts[part_id] = part;
 			end
 		end
+		
+		local part_vital = physical_param:call("getVital", 1, i);
+		local part_current = -1;
+		local part_max = -1;
 
-		body_part.update(part, part_health, part_max_health);
+		if part_vital ~= nil then
+			part_current = part_vital:call("get_Current") or -1;
+			part_max = part_vital:call("get_Max") or -1;
+		end
+
+		local part_break_vital = physical_param:call("getVital", 2, i);
+		local part_break_current = -1;
+		local part_break_max = -1;
+
+		if part_break_vital ~= nil then
+			part_break_current = part_break_vital:call("get_Current") or -1;
+			part_break_max = part_break_vital:call("get_Max") or -1;
+		
+		end
+
+		local part_loss_vital = physical_param:call("getVital", 3, i);
+		local part_loss_current = -1;
+		local part_loss_max = -1;
+
+		if part_loss_vital ~= nil then
+			part_loss_current = part_loss_vital:call("get_Current") or -1;
+			part_loss_max = part_loss_vital:call("get_Max") or -1;
+		end
+
+		local part_break_count = -1;
+		local part_break_max_count = -1;
+		local is_severed = false;
+
+		if enemy_parts_info ~= nil then
+			part_break_count = enemy_parts_info:call("get_PartsBreakDamageLevel") or -1;
+			part_break_max_count = enemy_parts_info:call("get_PartsBreakDamageMaxLevel") or -1;
+			is_severed = enemy_parts_info:call("get_PartsLossState") or false;
+		end
+
+		body_part.update(part, part_current, part_max, part_break_current, part_break_max, part_loss_current, part_loss_max, part_break_count, part_break_max_count, is_severed);
 		
 		part_id = part_id + 1;
 		::continue::
 	end
 
+
 	if health ~= nil then
 		monster.health = health;
 	end
-
 	if max_health ~= nil then
 		monster.max_health = max_health;
 	end
@@ -747,7 +782,6 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 		monster.health_static_UI.bar.colors = config.current_config.large_monster_UI.static.health.bar.normal_colors;
 	end
 	
-
 	drawing.draw_label(monster.static_name_label, position_on_screen, opacity_scale, monster_name_text);
 
 	local health_position_on_screen = {
@@ -894,6 +928,7 @@ function large_monster.init_module()
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
 	ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
+
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	drawing = require("MHR_Overlay.UI.drawing");
 	part_names = require("MHR_Overlay.Misc.part_names");
