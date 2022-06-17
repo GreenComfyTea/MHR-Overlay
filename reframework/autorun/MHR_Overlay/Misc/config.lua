@@ -3048,7 +3048,7 @@ function config.init()
 					}
 				},
 		
-				parts = {
+				body_parts = {
 					visibility = true,
 	
 					offset = {

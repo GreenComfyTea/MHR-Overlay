@@ -722,8 +722,8 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 	};
 
 	local parts_position_on_screen = {
-		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.parts.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
-		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.parts.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.body_parts.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.body_parts.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
 
 	local ailments_position_on_screen = {
@@ -800,8 +800,8 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 	};
 
 	local parts_position_on_screen = {
-		x = position_on_screen.x + config.current_config.large_monster_UI.static.parts.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
-		y = position_on_screen.y + config.current_config.large_monster_UI.static.parts.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+		x = position_on_screen.x + config.current_config.large_monster_UI.static.body_parts.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.large_monster_UI.static.body_parts.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
 
 	local ailments_position_on_screen = {
@@ -878,8 +878,8 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 	};
 
 	local parts_position_on_screen = {
-		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.parts.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
-		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.parts.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
+		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.body_parts.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier,
+		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.body_parts.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier
 	};
 
 	local ailments_position_on_screen = {

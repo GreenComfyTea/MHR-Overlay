@@ -270,15 +270,15 @@ function customization_menu.init()
 
 	customization_menu.large_monster_dynamic_UI_parts_sorting_type_index = table_helpers.find_index(
 		customization_menu.large_monster_UI_parts_sorting_types,
-		config.current_config.large_monster_UI.dynamic.parts.sorting.type, false);
+		config.current_config.large_monster_UI.dynamic.body_parts.sorting.type, false);
 
 	customization_menu.large_monster_static_UI_parts_sorting_type_index = table_helpers.find_index(
 		customization_menu.large_monster_UI_parts_sorting_types,
-		config.current_config.large_monster_UI.static.parts.sorting.type, false);
+		config.current_config.large_monster_UI.static.body_parts.sorting.type, false);
 
 	customization_menu.large_monster_highlighted_UI_parts_sorting_type_index = table_helpers.find_index(
 		customization_menu.large_monster_UI_parts_sorting_types,
-		config.current_config.large_monster_UI.highlighted.parts.sorting.type, false);
+		config.current_config.large_monster_UI.highlighted.body_parts.sorting.type, false);
 
 
 
@@ -4375,22 +4375,22 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node(language.current_language.customization_menu.body_parts) then
-				changed, config.current_config.large_monster_UI.dynamic.parts.visibility = imgui.checkbox(language.current_language.customization_menu
+				changed, config.current_config.large_monster_UI.dynamic.body_parts.visibility = imgui.checkbox(language.current_language.customization_menu
 					.visible,
-					config.current_config.large_monster_UI.dynamic.parts.visibility);
+					config.current_config.large_monster_UI.dynamic.body_parts.visibility);
 				config_changed = config_changed or changed;
 				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 				if imgui.tree_node(language.current_language.customization_menu.offset) then
-					changed, config.current_config.large_monster_UI.dynamic.parts.offset.x = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.offset.x = imgui.drag_float(language.current_language
 						.customization_menu.x,
-						config.current_config.large_monster_UI.dynamic.parts.offset.x, 0.1, -screen.width, screen.width, "%.1f");
+						config.current_config.large_monster_UI.dynamic.body_parts.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-					changed, config.current_config.large_monster_UI.dynamic.parts.offset.y = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.offset.y = imgui.drag_float(language.current_language
 						.customization_menu.y,
-						config.current_config.large_monster_UI.dynamic.parts.offset.y, 0.1, -screen.height, screen.height, "%.1f");
+						config.current_config.large_monster_UI.dynamic.body_parts.offset.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
@@ -4398,15 +4398,15 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.spacing) then
-					changed, config.current_config.large_monster_UI.dynamic.parts.spacing.x = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.spacing.x = imgui.drag_float(language.current_language
 						.customization_menu.x,
-						config.current_config.large_monster_UI.dynamic.parts.spacing.x, 0.1, -screen.width, screen.width, "%.1f");
+						config.current_config.large_monster_UI.dynamic.body_parts.spacing.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-					changed, config.current_config.large_monster_UI.dynamic.parts.spacing.y = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.spacing.y = imgui.drag_float(language.current_language
 						.customization_menu.y,
-						config.current_config.large_monster_UI.dynamic.parts.spacing.y, 0.1, -screen.height, screen.height, "%.1f");
+						config.current_config.large_monster_UI.dynamic.body_parts.spacing.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
@@ -4414,15 +4414,15 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.settings) then
-					changed, config.current_config.large_monster_UI.dynamic.parts.settings.hide_undamaged_parts = imgui.checkbox(
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.settings.hide_undamaged_parts = imgui.checkbox(
 						language.current_language.customization_menu.hide_undamaged_parts,
-						config.current_config.large_monster_UI.dynamic.parts.settings.hide_undamaged_parts);
+						config.current_config.large_monster_UI.dynamic.body_parts.settings.hide_undamaged_parts);
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-					changed, config.current_config.large_monster_UI.dynamic.parts.settings.time_limit = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.settings.time_limit = imgui.drag_float(language.current_language
 						.customization_menu.time_limit,
-						config.current_config.large_monster_UI.dynamic.parts.settings.time_limit, 0.1, 0, 99999, "%.1f");
+						config.current_config.large_monster_UI.dynamic.body_parts.settings.time_limit, 0.1, 0, 99999, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
@@ -4437,13 +4437,13 @@ function customization_menu.draw()
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 					if changed then
-						config.current_config.large_monster_UI.dynamic.parts.sorting.type = customization_menu.large_monster_UI_parts_sorting_types
+						config.current_config.large_monster_UI.dynamic.body_parts.sorting.type = customization_menu.large_monster_UI_parts_sorting_types
 							[customization_menu.large_monster_dynamic_UI_parts_sorting_type_index];
 					end
 
-					changed, config.current_config.large_monster_UI.dynamic.parts.sorting.reversed_order = imgui.checkbox(
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.sorting.reversed_order = imgui.checkbox(
 						language.current_language.customization_menu.reversed_order,
-						config.current_config.large_monster_UI.dynamic.parts.sorting.reversed_order);
+						config.current_config.large_monster_UI.dynamic.body_parts.sorting.reversed_order);
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
@@ -4451,34 +4451,34 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.part_name_label) then
-					changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.visibility = imgui.checkbox(language
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.visibility = imgui.checkbox(language
 						.current_language.customization_menu.visible,
-						config.current_config.large_monster_UI.dynamic.parts.part_name_label.visibility);
+						config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.visibility);
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.include) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.part_name = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.part_name = imgui.checkbox(
 							language.current_language.customization_menu.part_name,
-							config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.part_name);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.part_name);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.flinch_count = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.flinch_count = imgui.checkbox(
 							language.current_language.customization_menu.flinch_count,
-							config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.flinch_count);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.flinch_count);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.break_count = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.break_count = imgui.checkbox(
 							language.current_language.customization_menu.break_count,
-							config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.break_count);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.break_count);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.break_max_count = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.break_max_count = imgui.checkbox(
 							language.current_language.customization_menu.break_max_count,
-							config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.break_max_count);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.break_max_count);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
@@ -4487,17 +4487,17 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.offset.x = imgui.drag_float(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.offset.x = imgui.drag_float(language
 							.current_language.customization_menu.x,
-							config.current_config.large_monster_UI.dynamic.parts.part_name_label.offset.x, 0.1, -screen.width,
+							config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.offset.x, 0.1, -screen.width,
 							screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.offset.y = imgui.drag_float(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
-							config.current_config.large_monster_UI.dynamic.parts.part_name_label.offset.y, 0.1, -screen.height,
+							config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.offset.y, 0.1, -screen.height,
 							screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
@@ -4507,8 +4507,8 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.color) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.color = imgui.color_picker_argb(""
-							, config.current_config.large_monster_UI.dynamic.parts.part_name_label.color,
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.color = imgui.color_picker_argb(""
+							, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4517,23 +4517,23 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.shadow) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.shadow.visibility = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.shadow.visibility = imgui.checkbox(
 							language.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_name_label.shadow.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.shadow.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.shadow.offset.x = imgui.drag_float(
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.shadow.offset.x = imgui.drag_float(
 								language.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_name_label.shadow.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.shadow.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.shadow.offset.y = imgui.drag_float(
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.shadow.offset.y = imgui.drag_float(
 								language.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_name_label.shadow.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.shadow.offset.y, 0.1, -screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4542,8 +4542,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_name_label.shadow.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.dynamic.parts.part_name_label.shadow.color,
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.shadow.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.shadow.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4558,23 +4558,23 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.part_health) then
-					changed, config.current_config.large_monster_UI.dynamic.parts.part_health.visibility = imgui.checkbox(language.current_language
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.visibility = imgui.checkbox(language.current_language
 						.customization_menu.visible,
-						config.current_config.large_monster_UI.dynamic.parts.part_health.visibility);
+						config.current_config.large_monster_UI.dynamic.body_parts.part_health.visibility);
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_health.offset.x = imgui.drag_float(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.offset.x = imgui.drag_float(language
 							.current_language.customization_menu.x,
-							config.current_config.large_monster_UI.dynamic.parts.part_health.offset.x, 0.1, -screen.width, screen.width,
+							config.current_config.large_monster_UI.dynamic.body_parts.part_health.offset.x, 0.1, -screen.width, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_health.offset.y = imgui.drag_float(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
-							config.current_config.large_monster_UI.dynamic.parts.part_health.offset.y, 0.1, -screen.height, screen.height
+							config.current_config.large_monster_UI.dynamic.body_parts.part_health.offset.y, 0.1, -screen.height, screen.height
 							, "%.1f");
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4583,25 +4583,25 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.text_label) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -4611,8 +4611,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.color,
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4621,25 +4621,25 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.shadow.visibility);
+									config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.shadow.offset.x = imgui
 									.drag_float(language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.shadow.offset.y = imgui
 									.drag_float(language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -4649,8 +4649,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.dynamic.parts.part_health.text_label.shadow.color,
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.dynamic.body_parts.part_health.text_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4665,26 +4665,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.value_label) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.offset.x, 0.1, -screen.width,
 								screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -4694,8 +4694,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.color,
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4704,25 +4704,25 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.shadow.visibility);
+									config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.shadow.offset.x = imgui
 									.drag_float(language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.shadow.offset.y = imgui
 									.drag_float(language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -4732,8 +4732,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.dynamic.parts.part_health.value_label.shadow.color,
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.dynamic.body_parts.part_health.value_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4748,26 +4748,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.percentage_label) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.visibility = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.visibility = imgui.checkbox(
 							language.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.offset.x, 0.1,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.offset.x, 0.1,
 								-screen.width, screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.offset.y, 0.1,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.offset.y, 0.1,
 								-screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
@@ -4777,8 +4777,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.color,
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4787,27 +4787,27 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.shadow.visibility);
+									config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.shadow.offset.x = imgui
 									.drag_float(
 										language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.shadow.offset.y = imgui
 									.drag_float(
 										language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -4817,9 +4817,9 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.shadow.color = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.shadow.color = imgui
 									.color_picker_argb("",
-										config.current_config.large_monster_UI.dynamic.parts.part_health.percentage_label.shadow.color,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_health.percentage_label.shadow.color,
 										customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4834,23 +4834,23 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.bar) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_health.bar.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_health.bar.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.bar.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_health.bar.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.bar.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_health.bar.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.offset.y, 0.1, -screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4859,15 +4859,15 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.size) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.bar.size.width = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.size.width = imgui.drag_float(language
 								.current_language.customization_menu.width,
-								config.current_config.large_monster_UI.dynamic.parts.part_health.bar.size.width, 0.1, 0, screen.width, "%.1f");
+								config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.size.width, 0.1, 0, screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_health.bar.size.height = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.size.height = imgui.drag_float(language
 								.current_language.customization_menu.height,
-								config.current_config.large_monster_UI.dynamic.parts.part_health.bar.size.height, 0.1, 0, screen.height,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.size.height, 0.1, 0, screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4877,8 +4877,8 @@ function customization_menu.draw()
 
 						if imgui.tree_node(language.current_language.customization_menu.colors) then
 							if imgui.tree_node(language.current_language.customization_menu.foreground) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_health.bar.colors.foreground = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.dynamic.parts.part_health.bar.colors.foreground,
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.colors.foreground = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.colors.foreground,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4887,8 +4887,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.background) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_health.bar.colors.background = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.dynamic.parts.part_health.bar.colors.background,
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.colors.background = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.dynamic.body_parts.part_health.bar.colors.background,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4906,23 +4906,23 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.break_health) then
-					changed, config.current_config.large_monster_UI.dynamic.parts.part_break.visibility = imgui.checkbox(language.current_language
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.visibility = imgui.checkbox(language.current_language
 						.customization_menu.visible,
-						config.current_config.large_monster_UI.dynamic.parts.part_break.visibility);
+						config.current_config.large_monster_UI.dynamic.body_parts.part_break.visibility);
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_break.offset.x = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.offset.x = imgui.drag_float(language.current_language
 							.customization_menu.x,
-							config.current_config.large_monster_UI.dynamic.parts.part_break.offset.x, 0.1, -screen.width, screen.width,
+							config.current_config.large_monster_UI.dynamic.body_parts.part_break.offset.x, 0.1, -screen.width, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_break.offset.y = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.offset.y = imgui.drag_float(language.current_language
 							.customization_menu.y,
-							config.current_config.large_monster_UI.dynamic.parts.part_break.offset.y, 0.1, -screen.height, screen.height,
+							config.current_config.large_monster_UI.dynamic.body_parts.part_break.offset.y, 0.1, -screen.height, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4931,25 +4931,25 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.text_label) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -4959,8 +4959,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.color,
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -4969,25 +4969,25 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.shadow.visibility);
+									config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.shadow.offset.x = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.shadow.offset.x = imgui.drag_float(language
 									.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.shadow.offset.x, 0.1,
+									config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.shadow.offset.x, 0.1,
 									-screen.width,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.shadow.offset.y = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.shadow.offset.y = imgui.drag_float(language
 									.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.shadow.offset.y, 0.1,
+									config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.shadow.offset.y, 0.1,
 									-screen.height,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -4997,8 +4997,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.dynamic.parts.part_break.text_label.shadow.color,
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.dynamic.body_parts.part_break.text_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5013,26 +5013,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.value_label) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.offset.x, 0.1, -screen.width,
 								screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -5042,8 +5042,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.color,
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5052,25 +5052,25 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.shadow.visibility);
+									config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.shadow.offset.x = imgui
 									.drag_float(language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.shadow.offset.y = imgui
 									.drag_float(language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -5080,8 +5080,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.dynamic.parts.part_break.value_label.shadow.color,
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.dynamic.body_parts.part_break.value_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5096,26 +5096,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.percentage_label) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.visibility = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.visibility = imgui.checkbox(
 							language.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.offset.x, 0.1, -
+								config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.offset.x, 0.1, -
 								screen.width, screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.offset.y, 0.1,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.offset.y, 0.1,
 								-screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
@@ -5125,8 +5125,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.color,
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5135,27 +5135,27 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.shadow.visibility);
+									config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.shadow.offset.x = imgui
 									.drag_float(
 										language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.shadow.offset.y = imgui
 									.drag_float(
 										language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -5165,9 +5165,9 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.shadow.color = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.shadow.color = imgui
 									.color_picker_argb("",
-										config.current_config.large_monster_UI.dynamic.parts.part_break.percentage_label.shadow.color,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_break.percentage_label.shadow.color,
 										customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5182,23 +5182,23 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.bar) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_break.bar.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_break.bar.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.bar.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_break.bar.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.bar.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_break.bar.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.offset.y, 0.1, -screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5207,15 +5207,15 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.size) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.bar.size.width = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.size.width = imgui.drag_float(language
 								.current_language.customization_menu.width,
-								config.current_config.large_monster_UI.dynamic.parts.part_break.bar.size.width, 0.1, 0, screen.width, "%.1f");
+								config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.size.width, 0.1, 0, screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_break.bar.size.height = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.size.height = imgui.drag_float(language
 								.current_language.customization_menu.height,
-								config.current_config.large_monster_UI.dynamic.parts.part_break.bar.size.height, 0.1, 0, screen.height,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.size.height, 0.1, 0, screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5225,8 +5225,8 @@ function customization_menu.draw()
 
 						if imgui.tree_node(language.current_language.customization_menu.colors) then
 							if imgui.tree_node(language.current_language.customization_menu.foreground) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_break.bar.colors.foreground = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.dynamic.parts.part_break.bar.colors.foreground,
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.colors.foreground = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.colors.foreground,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5235,8 +5235,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.background) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_break.bar.colors.background = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.dynamic.parts.part_break.bar.colors.background,
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.colors.background = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.dynamic.body_parts.part_break.bar.colors.background,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5254,23 +5254,23 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.loss_health) then
-					changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.visibility = imgui.checkbox(language.current_language
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.visibility = imgui.checkbox(language.current_language
 						.customization_menu.visible,
-						config.current_config.large_monster_UI.dynamic.parts.part_loss.visibility);
+						config.current_config.large_monster_UI.dynamic.body_parts.part_loss.visibility);
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.offset.x = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.offset.x = imgui.drag_float(language.current_language
 							.customization_menu.x,
-							config.current_config.large_monster_UI.dynamic.parts.part_loss.offset.x, 0.1, -screen.width, screen.width,
+							config.current_config.large_monster_UI.dynamic.body_parts.part_loss.offset.x, 0.1, -screen.width, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.offset.y = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.offset.y = imgui.drag_float(language.current_language
 							.customization_menu.y,
-							config.current_config.large_monster_UI.dynamic.parts.part_loss.offset.y, 0.1, -screen.height, screen.height,
+							config.current_config.large_monster_UI.dynamic.body_parts.part_loss.offset.y, 0.1, -screen.height, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5279,25 +5279,25 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.text_label) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -5307,8 +5307,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.color,
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5317,24 +5317,24 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.shadow.visibility = imgui.checkbox(
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.shadow.visibility = imgui.checkbox(
 								language.current_language.customization_menu.visible,
-								config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.shadow.visibility);
+								config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.shadow.offset.x = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.shadow.offset.x = imgui.drag_float(language
 									.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.shadow.offset.x, 0.1,
+									config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.shadow.offset.x, 0.1,
 									-screen.width,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.shadow.offset.y = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.shadow.offset.y = imgui.drag_float(language
 									.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.shadow.offset.y, 0.1,
+									config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.shadow.offset.y, 0.1,
 									-screen.height,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -5344,8 +5344,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.dynamic.parts.part_loss.text_label.shadow.color,
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.text_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5360,26 +5360,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.value_label) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.offset.x, 0.1, -screen.width,
 								screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -5389,8 +5389,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.color,
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5399,25 +5399,25 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.shadow.visibility);
+									config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.shadow.offset.x = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.shadow.offset.x = imgui.drag_float(language
 									.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.shadow.offset.x, 0.1,
+									config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.shadow.offset.x, 0.1,
 									-screen.width,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.shadow.offset.y = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.shadow.offset.y = imgui.drag_float(language
 									.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.shadow.offset.y, 0.1,
+									config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.shadow.offset.y, 0.1,
 									-screen.height,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -5427,8 +5427,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.dynamic.parts.part_loss.value_label.shadow.color,
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.value_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5443,26 +5443,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.percentage_label) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.visibility = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.visibility = imgui.checkbox(
 							language.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.offset.x, 0.1, -screen.width
+								config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.offset.x, 0.1, -screen.width
 								, screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.offset.y, 0.1, -
+								config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.offset.y, 0.1, -
 								screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
@@ -5472,8 +5472,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.color,
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5482,27 +5482,27 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.shadow.visibility);
+									config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.shadow.offset.x = imgui
 									.drag_float(
 										language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.shadow.offset.y = imgui
 									.drag_float(
 										language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -5512,9 +5512,9 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.shadow.color = imgui
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.shadow.color = imgui
 									.color_picker_argb("",
-										config.current_config.large_monster_UI.dynamic.parts.part_loss.percentage_label.shadow.color,
+										config.current_config.large_monster_UI.dynamic.body_parts.part_loss.percentage_label.shadow.color,
 										customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5529,23 +5529,23 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.bar) then
-						changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.visibility);
+							config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.visibility);
 						config_changed = config_changed or changed;
 						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.offset.x, 0.1, -screen.width, screen.width
+								config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.offset.x, 0.1, -screen.width, screen.width
 								, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.offset.y, 0.1, -screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5554,15 +5554,15 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.size) then
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.size.width = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.size.width = imgui.drag_float(language
 								.current_language.customization_menu.width,
-								config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.size.width, 0.1, 0, screen.width, "%.1f");
+								config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.size.width, 0.1, 0, screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.size.height = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.size.height = imgui.drag_float(language
 								.current_language.customization_menu.height,
-								config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.size.height, 0.1, 0, screen.height, "%.1f");
+								config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.size.height, 0.1, 0, screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
@@ -5571,8 +5571,8 @@ function customization_menu.draw()
 
 						if imgui.tree_node(language.current_language.customization_menu.colors) then
 							if imgui.tree_node(language.current_language.customization_menu.foreground) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.colors.foreground = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.colors.foreground,
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.colors.foreground = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.colors.foreground,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -5581,8 +5581,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.background) then
-								changed, config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.colors.background = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.dynamic.parts.part_loss.bar.colors.background,
+								changed, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.colors.background = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.dynamic.body_parts.part_loss.bar.colors.background,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
@@ -8347,22 +8347,22 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node(language.current_language.customization_menu.body_parts) then
-				changed, config.current_config.large_monster_UI.static.parts.visibility = imgui.checkbox(language.current_language.customization_menu
+				changed, config.current_config.large_monster_UI.static.body_parts.visibility = imgui.checkbox(language.current_language.customization_menu
 					.visible,
-					config.current_config.large_monster_UI.static.parts.visibility);
+					config.current_config.large_monster_UI.static.body_parts.visibility);
 				config_changed = config_changed or changed;
 				large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 				if imgui.tree_node(language.current_language.customization_menu.offset) then
-					changed, config.current_config.large_monster_UI.static.parts.offset.x = imgui.drag_float(language.current_language.customization_menu
+					changed, config.current_config.large_monster_UI.static.body_parts.offset.x = imgui.drag_float(language.current_language.customization_menu
 						.x,
-						config.current_config.large_monster_UI.static.parts.offset.x, 0.1, -screen.width, screen.width, "%.1f");
+						config.current_config.large_monster_UI.static.body_parts.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-					changed, config.current_config.large_monster_UI.static.parts.offset.y = imgui.drag_float(language.current_language.customization_menu
+					changed, config.current_config.large_monster_UI.static.body_parts.offset.y = imgui.drag_float(language.current_language.customization_menu
 						.y,
-						config.current_config.large_monster_UI.static.parts.offset.y, 0.1, -screen.height, screen.height, "%.1f");
+						config.current_config.large_monster_UI.static.body_parts.offset.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
@@ -8370,15 +8370,15 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.spacing) then
-					changed, config.current_config.large_monster_UI.static.parts.spacing.x = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.static.body_parts.spacing.x = imgui.drag_float(language.current_language
 						.customization_menu.x,
-						config.current_config.large_monster_UI.static.parts.spacing.x, 0.1, -screen.width, screen.width, "%.1f");
+						config.current_config.large_monster_UI.static.body_parts.spacing.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-					changed, config.current_config.large_monster_UI.static.parts.spacing.y = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.static.body_parts.spacing.y = imgui.drag_float(language.current_language
 						.customization_menu.y,
-						config.current_config.large_monster_UI.static.parts.spacing.y, 0.1, -screen.height, screen.height, "%.1f");
+						config.current_config.large_monster_UI.static.body_parts.spacing.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
@@ -8386,15 +8386,15 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.settings) then
-					changed, config.current_config.large_monster_UI.static.parts.settings.hide_undamaged_parts = imgui.checkbox(
+					changed, config.current_config.large_monster_UI.static.body_parts.settings.hide_undamaged_parts = imgui.checkbox(
 						language.current_language.customization_menu.hide_undamaged_parts,
-						config.current_config.large_monster_UI.static.parts.settings.hide_undamaged_parts);
+						config.current_config.large_monster_UI.static.body_parts.settings.hide_undamaged_parts);
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-					changed, config.current_config.large_monster_UI.static.parts.settings.time_limit = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.static.body_parts.settings.time_limit = imgui.drag_float(language.current_language
 						.customization_menu.time_limit,
-						config.current_config.large_monster_UI.static.parts.settings.time_limit, 0.1, 0, 99999, "%.1f");
+						config.current_config.large_monster_UI.static.body_parts.settings.time_limit, 0.1, 0, 99999, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
@@ -8409,13 +8409,13 @@ function customization_menu.draw()
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 					if changed then
-						config.current_config.large_monster_UI.static.parts.sorting.type = customization_menu.large_monster_UI_parts_sorting_types
+						config.current_config.large_monster_UI.static.body_parts.sorting.type = customization_menu.large_monster_UI_parts_sorting_types
 							[customization_menu.large_monster_static_UI_parts_sorting_type_index];
 					end
 
-					changed, config.current_config.large_monster_UI.static.parts.sorting.reversed_order = imgui.checkbox(
+					changed, config.current_config.large_monster_UI.static.body_parts.sorting.reversed_order = imgui.checkbox(
 						language.current_language.customization_menu.reversed_order,
-						config.current_config.large_monster_UI.static.parts.sorting.reversed_order);
+						config.current_config.large_monster_UI.static.body_parts.sorting.reversed_order);
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
@@ -8423,34 +8423,34 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.part_name_label) then
-					changed, config.current_config.large_monster_UI.static.parts.part_name_label.visibility = imgui.checkbox(language.current_language
+					changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.visibility = imgui.checkbox(language.current_language
 						.customization_menu.visible,
-						config.current_config.large_monster_UI.static.parts.part_name_label.visibility);
+						config.current_config.large_monster_UI.static.body_parts.part_name_label.visibility);
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.include) then
-						changed, config.current_config.large_monster_UI.static.parts.part_name_label.include.part_name = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.include.part_name = imgui.checkbox(
 							language.current_language.customization_menu.part_name,
-							config.current_config.large_monster_UI.static.parts.part_name_label.include.part_name);
+							config.current_config.large_monster_UI.static.body_parts.part_name_label.include.part_name);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.static.parts.part_name_label.include.flinch_count = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.include.flinch_count = imgui.checkbox(
 							language.current_language.customization_menu.flinch_count,
-							config.current_config.large_monster_UI.static.parts.part_name_label.include.flinch_count);
+							config.current_config.large_monster_UI.static.body_parts.part_name_label.include.flinch_count);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.static.parts.part_name_label.include.break_count = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.include.break_count = imgui.checkbox(
 							language.current_language.customization_menu.break_count,
-							config.current_config.large_monster_UI.static.parts.part_name_label.include.break_count);
+							config.current_config.large_monster_UI.static.body_parts.part_name_label.include.break_count);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.static.parts.part_name_label.include.break_max_count = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.include.break_max_count = imgui.checkbox(
 							language.current_language.customization_menu.break_max_count,
-							config.current_config.large_monster_UI.static.parts.part_name_label.include.break_max_count);
+							config.current_config.large_monster_UI.static.body_parts.part_name_label.include.break_max_count);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
@@ -8459,16 +8459,16 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
-						changed, config.current_config.large_monster_UI.static.parts.part_name_label.offset.x = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.offset.x = imgui.drag_float(language.current_language
 							.customization_menu.x,
-							config.current_config.large_monster_UI.static.parts.part_name_label.offset.x, 0.1, -screen.width, screen.width,
+							config.current_config.large_monster_UI.static.body_parts.part_name_label.offset.x, 0.1, -screen.width, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.static.parts.part_name_label.offset.y = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.offset.y = imgui.drag_float(language.current_language
 							.customization_menu.y,
-							config.current_config.large_monster_UI.static.parts.part_name_label.offset.y, 0.1, -screen.height, screen.height,
+							config.current_config.large_monster_UI.static.body_parts.part_name_label.offset.y, 0.1, -screen.height, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8477,8 +8477,8 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.color) then
-						changed, config.current_config.large_monster_UI.static.parts.part_name_label.color = imgui.color_picker_argb("",
-							config.current_config.large_monster_UI.static.parts.part_name_label.color, customization_menu.color_picker_flags);
+						changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.color = imgui.color_picker_argb("",
+							config.current_config.large_monster_UI.static.body_parts.part_name_label.color, customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
@@ -8486,23 +8486,23 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.shadow) then
-						changed, config.current_config.large_monster_UI.static.parts.part_name_label.shadow.visibility = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.shadow.visibility = imgui.checkbox(
 							language.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_name_label.shadow.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_name_label.shadow.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_name_label.shadow.offset.x = imgui.drag_float(
+							changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.shadow.offset.x = imgui.drag_float(
 								language.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_name_label.shadow.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_name_label.shadow.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_name_label.shadow.offset.y = imgui.drag_float(
+							changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.shadow.offset.y = imgui.drag_float(
 								language.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_name_label.shadow.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.static.body_parts.part_name_label.shadow.offset.y, 0.1, -screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8511,8 +8511,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.static.parts.part_name_label.shadow.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.static.parts.part_name_label.shadow.color,
+							changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.shadow.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.static.body_parts.part_name_label.shadow.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8527,22 +8527,22 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.part_health) then
-					changed, config.current_config.large_monster_UI.static.parts.part_health.visibility = imgui.checkbox(language.current_language
+					changed, config.current_config.large_monster_UI.static.body_parts.part_health.visibility = imgui.checkbox(language.current_language
 						.customization_menu.visible,
-						config.current_config.large_monster_UI.static.parts.part_health.visibility);
+						config.current_config.large_monster_UI.static.body_parts.part_health.visibility);
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
-						changed, config.current_config.large_monster_UI.static.parts.part_health.offset.x = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_health.offset.x = imgui.drag_float(language.current_language
 							.customization_menu.x,
-							config.current_config.large_monster_UI.static.parts.part_health.offset.x, 0.1, -screen.width, screen.width, "%.1f");
+							config.current_config.large_monster_UI.static.body_parts.part_health.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.static.parts.part_health.offset.y = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_health.offset.y = imgui.drag_float(language.current_language
 							.customization_menu.y,
-							config.current_config.large_monster_UI.static.parts.part_health.offset.y, 0.1, -screen.height, screen.height,
+							config.current_config.large_monster_UI.static.body_parts.part_health.offset.y, 0.1, -screen.height, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8551,25 +8551,25 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.text_label) then
-						changed, config.current_config.large_monster_UI.static.parts.part_health.text_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_health.text_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_health.text_label.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_health.text_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_health.text_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.text_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_health.text_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_health.text_label.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_health.text_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.text_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_health.text_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.static.body_parts.part_health.text_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -8579,8 +8579,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.static.parts.part_health.text_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.static.parts.part_health.text_label.color,
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.text_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.static.body_parts.part_health.text_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8589,23 +8589,23 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.static.parts.part_health.text_label.shadow.visibility = imgui.checkbox(
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.text_label.shadow.visibility = imgui.checkbox(
 								language.current_language.customization_menu.visible,
-								config.current_config.large_monster_UI.static.parts.part_health.text_label.shadow.visibility);
+								config.current_config.large_monster_UI.static.body_parts.part_health.text_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.static.parts.part_health.text_label.shadow.offset.x = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.static.body_parts.part_health.text_label.shadow.offset.x = imgui.drag_float(language
 									.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.static.parts.part_health.text_label.shadow.offset.x, 0.1, -screen.width,
+									config.current_config.large_monster_UI.static.body_parts.part_health.text_label.shadow.offset.x, 0.1, -screen.width,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.static.parts.part_health.text_label.shadow.offset.y = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.static.body_parts.part_health.text_label.shadow.offset.y = imgui.drag_float(language
 									.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.static.parts.part_health.text_label.shadow.offset.y, 0.1, -screen.height
+									config.current_config.large_monster_UI.static.body_parts.part_health.text_label.shadow.offset.y, 0.1, -screen.height
 									,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -8615,8 +8615,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.static.parts.part_health.text_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_health.text_label.shadow.color,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_health.text_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_health.text_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8631,26 +8631,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.value_label) then
-						changed, config.current_config.large_monster_UI.static.parts.part_health.value_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_health.value_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_health.value_label.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_health.value_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_health.value_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.value_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_health.value_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_health.value_label.offset.x, 0.1, -screen.width,
 								screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_health.value_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.value_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_health.value_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.static.body_parts.part_health.value_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -8660,8 +8660,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.static.parts.part_health.value_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.static.parts.part_health.value_label.color,
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.value_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.static.body_parts.part_health.value_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8670,24 +8670,24 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.static.parts.part_health.value_label.shadow.visibility = imgui.checkbox(
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.value_label.shadow.visibility = imgui.checkbox(
 								language.current_language.customization_menu.visible,
-								config.current_config.large_monster_UI.static.parts.part_health.value_label.shadow.visibility);
+								config.current_config.large_monster_UI.static.body_parts.part_health.value_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.static.parts.part_health.value_label.shadow.offset.x = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.static.body_parts.part_health.value_label.shadow.offset.x = imgui.drag_float(language
 									.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.static.parts.part_health.value_label.shadow.offset.x, 0.1, -screen.width
+									config.current_config.large_monster_UI.static.body_parts.part_health.value_label.shadow.offset.x, 0.1, -screen.width
 									,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.static.parts.part_health.value_label.shadow.offset.y = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.static.body_parts.part_health.value_label.shadow.offset.y = imgui.drag_float(language
 									.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.static.parts.part_health.value_label.shadow.offset.y, 0.1, -
+									config.current_config.large_monster_UI.static.body_parts.part_health.value_label.shadow.offset.y, 0.1, -
 									screen.height,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -8697,8 +8697,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.static.parts.part_health.value_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_health.value_label.shadow.color,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_health.value_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_health.value_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8713,26 +8713,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.percentage_label) then
-						changed, config.current_config.large_monster_UI.static.parts.part_health.percentage_label.visibility = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.visibility = imgui.checkbox(
 							language.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_health.percentage_label.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_health.percentage_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_health.percentage_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.offset.x, 0.1, -screen.width,
 								screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_health.percentage_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_health.percentage_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.offset.y, 0.1, -screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8741,8 +8741,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.static.parts.part_health.percentage_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.static.parts.part_health.percentage_label.color,
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8751,27 +8751,27 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.static.parts.part_health.percentage_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.static.parts.part_health.percentage_label.shadow.visibility);
+									config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.static.parts.part_health.percentage_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.shadow.offset.x = imgui
 									.drag_float(
 										language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.static.parts.part_health.percentage_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.static.parts.part_health.percentage_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.shadow.offset.y = imgui
 									.drag_float(
 										language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.static.parts.part_health.percentage_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -8781,8 +8781,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.static.parts.part_health.percentage_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_health.percentage_label.shadow.color,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_health.percentage_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8797,23 +8797,23 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.bar) then
-						changed, config.current_config.large_monster_UI.static.parts.part_health.bar.visibility = imgui.checkbox(language.current_language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_health.bar.visibility = imgui.checkbox(language.current_language
 							.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_health.bar.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_health.bar.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_health.bar.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.bar.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_health.bar.offset.x, 0.1, -screen.width, screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_health.bar.offset.x, 0.1, -screen.width, screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_health.bar.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.bar.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_health.bar.offset.y, 0.1, -screen.height, screen.height
+								config.current_config.large_monster_UI.static.body_parts.part_health.bar.offset.y, 0.1, -screen.height, screen.height
 								, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8822,15 +8822,15 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.size) then
-							changed, config.current_config.large_monster_UI.static.parts.part_health.bar.size.width = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.bar.size.width = imgui.drag_float(language
 								.current_language.customization_menu.width,
-								config.current_config.large_monster_UI.static.parts.part_health.bar.size.width, 0.1, 0, screen.width, "%.1f");
+								config.current_config.large_monster_UI.static.body_parts.part_health.bar.size.width, 0.1, 0, screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_health.bar.size.height = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_health.bar.size.height = imgui.drag_float(language
 								.current_language.customization_menu.height,
-								config.current_config.large_monster_UI.static.parts.part_health.bar.size.height, 0.1, 0, screen.height, "%.1f");
+								config.current_config.large_monster_UI.static.body_parts.part_health.bar.size.height, 0.1, 0, screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
@@ -8839,8 +8839,8 @@ function customization_menu.draw()
 
 						if imgui.tree_node(language.current_language.customization_menu.colors) then
 							if imgui.tree_node(language.current_language.customization_menu.foreground) then
-								changed, config.current_config.large_monster_UI.static.parts.part_health.bar.colors.foreground = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_health.bar.colors.foreground,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_health.bar.colors.foreground = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_health.bar.colors.foreground,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8849,8 +8849,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.background) then
-								changed, config.current_config.large_monster_UI.static.parts.part_health.bar.colors.background = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_health.bar.colors.background,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_health.bar.colors.background = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_health.bar.colors.background,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8868,22 +8868,22 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.break_health) then
-					changed, config.current_config.large_monster_UI.static.parts.part_break.visibility = imgui.checkbox(language.current_language
+					changed, config.current_config.large_monster_UI.static.body_parts.part_break.visibility = imgui.checkbox(language.current_language
 						.customization_menu.visible,
-						config.current_config.large_monster_UI.static.parts.part_break.visibility);
+						config.current_config.large_monster_UI.static.body_parts.part_break.visibility);
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
-						changed, config.current_config.large_monster_UI.static.parts.part_break.offset.x = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_break.offset.x = imgui.drag_float(language.current_language
 							.customization_menu.x,
-							config.current_config.large_monster_UI.static.parts.part_break.offset.x, 0.1, -screen.width, screen.width, "%.1f");
+							config.current_config.large_monster_UI.static.body_parts.part_break.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.static.parts.part_break.offset.y = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_break.offset.y = imgui.drag_float(language.current_language
 							.customization_menu.y,
-							config.current_config.large_monster_UI.static.parts.part_break.offset.y, 0.1, -screen.height, screen.height,
+							config.current_config.large_monster_UI.static.body_parts.part_break.offset.y, 0.1, -screen.height, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8892,25 +8892,25 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.text_label) then
-						changed, config.current_config.large_monster_UI.static.parts.part_break.text_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_break.text_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_break.text_label.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_break.text_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_break.text_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.text_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_break.text_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_break.text_label.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_break.text_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.text_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_break.text_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.static.body_parts.part_break.text_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -8920,8 +8920,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.static.parts.part_break.text_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.static.parts.part_break.text_label.color,
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.text_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.static.body_parts.part_break.text_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8930,23 +8930,23 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.static.parts.part_break.text_label.shadow.visibility = imgui.checkbox(
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.text_label.shadow.visibility = imgui.checkbox(
 								language.current_language.customization_menu.visible,
-								config.current_config.large_monster_UI.static.parts.part_break.text_label.shadow.visibility);
+								config.current_config.large_monster_UI.static.body_parts.part_break.text_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.static.parts.part_break.text_label.shadow.offset.x = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.static.body_parts.part_break.text_label.shadow.offset.x = imgui.drag_float(language
 									.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.static.parts.part_break.text_label.shadow.offset.x, 0.1, -screen.width,
+									config.current_config.large_monster_UI.static.body_parts.part_break.text_label.shadow.offset.x, 0.1, -screen.width,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.static.parts.part_break.text_label.shadow.offset.y = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.static.body_parts.part_break.text_label.shadow.offset.y = imgui.drag_float(language
 									.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.static.parts.part_break.text_label.shadow.offset.y, 0.1, -screen.height,
+									config.current_config.large_monster_UI.static.body_parts.part_break.text_label.shadow.offset.y, 0.1, -screen.height,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8955,8 +8955,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.static.parts.part_break.text_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_break.text_label.shadow.color,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_break.text_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_break.text_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -8971,26 +8971,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.value_label) then
-						changed, config.current_config.large_monster_UI.static.parts.part_break.value_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_break.value_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_break.value_label.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_break.value_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_break.value_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.value_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_break.value_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_break.value_label.offset.x, 0.1, -screen.width,
 								screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_break.value_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.value_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_break.value_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.static.body_parts.part_break.value_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -9000,8 +9000,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.static.parts.part_break.value_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.static.parts.part_break.value_label.color,
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.value_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.static.body_parts.part_break.value_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9010,23 +9010,23 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.static.parts.part_break.value_label.shadow.visibility = imgui.checkbox(
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.value_label.shadow.visibility = imgui.checkbox(
 								language.current_language.customization_menu.visible,
-								config.current_config.large_monster_UI.static.parts.part_break.value_label.shadow.visibility);
+								config.current_config.large_monster_UI.static.body_parts.part_break.value_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.static.parts.part_break.value_label.shadow.offset.x = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.static.body_parts.part_break.value_label.shadow.offset.x = imgui.drag_float(language
 									.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.static.parts.part_break.value_label.shadow.offset.x, 0.1, -screen.width,
+									config.current_config.large_monster_UI.static.body_parts.part_break.value_label.shadow.offset.x, 0.1, -screen.width,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.static.parts.part_break.value_label.shadow.offset.y = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.static.body_parts.part_break.value_label.shadow.offset.y = imgui.drag_float(language
 									.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.static.parts.part_break.value_label.shadow.offset.y, 0.1, -screen.height
+									config.current_config.large_monster_UI.static.body_parts.part_break.value_label.shadow.offset.y, 0.1, -screen.height
 									,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -9036,8 +9036,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.static.parts.part_break.value_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_break.value_label.shadow.color,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_break.value_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_break.value_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9052,26 +9052,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.percentage_label) then
-						changed, config.current_config.large_monster_UI.static.parts.part_break.percentage_label.visibility = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.visibility = imgui.checkbox(
 							language.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_break.percentage_label.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_break.percentage_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_break.percentage_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.offset.x, 0.1, -screen.width,
 								screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_break.percentage_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_break.percentage_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.offset.y, 0.1, -screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9080,8 +9080,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.static.parts.part_break.percentage_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.static.parts.part_break.percentage_label.color,
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9090,27 +9090,27 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.static.parts.part_break.percentage_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.static.parts.part_break.percentage_label.shadow.visibility);
+									config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.static.parts.part_break.percentage_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.shadow.offset.x = imgui
 									.drag_float(
 										language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.static.parts.part_break.percentage_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.static.parts.part_break.percentage_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.shadow.offset.y = imgui
 									.drag_float(
 										language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.static.parts.part_break.percentage_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -9120,8 +9120,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.static.parts.part_break.percentage_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_break.percentage_label.shadow.color,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_break.percentage_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9136,23 +9136,23 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.bar) then
-						changed, config.current_config.large_monster_UI.static.parts.part_break.bar.visibility = imgui.checkbox(language.current_language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_break.bar.visibility = imgui.checkbox(language.current_language
 							.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_break.bar.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_break.bar.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_break.bar.offset.x = imgui.drag_float(language.current_language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.bar.offset.x = imgui.drag_float(language.current_language
 								.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_break.bar.offset.x, 0.1, -screen.width, screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_break.bar.offset.x, 0.1, -screen.width, screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_break.bar.offset.y = imgui.drag_float(language.current_language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.bar.offset.y = imgui.drag_float(language.current_language
 								.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_break.bar.offset.y, 0.1, -screen.height, screen.height,
+								config.current_config.large_monster_UI.static.body_parts.part_break.bar.offset.y, 0.1, -screen.height, screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9161,15 +9161,15 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.size) then
-							changed, config.current_config.large_monster_UI.static.parts.part_break.bar.size.width = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.bar.size.width = imgui.drag_float(language
 								.current_language.customization_menu.width,
-								config.current_config.large_monster_UI.static.parts.part_break.bar.size.width, 0.1, 0, screen.width, "%.1f");
+								config.current_config.large_monster_UI.static.body_parts.part_break.bar.size.width, 0.1, 0, screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_break.bar.size.height = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_break.bar.size.height = imgui.drag_float(language
 								.current_language.customization_menu.height,
-								config.current_config.large_monster_UI.static.parts.part_break.bar.size.height, 0.1, 0, screen.height, "%.1f");
+								config.current_config.large_monster_UI.static.body_parts.part_break.bar.size.height, 0.1, 0, screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
@@ -9178,8 +9178,8 @@ function customization_menu.draw()
 
 						if imgui.tree_node(language.current_language.customization_menu.colors) then
 							if imgui.tree_node(language.current_language.customization_menu.foreground) then
-								changed, config.current_config.large_monster_UI.static.parts.part_break.bar.colors.foreground = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_break.bar.colors.foreground,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_break.bar.colors.foreground = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_break.bar.colors.foreground,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9188,8 +9188,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.background) then
-								changed, config.current_config.large_monster_UI.static.parts.part_break.bar.colors.background = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_break.bar.colors.background,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_break.bar.colors.background = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_break.bar.colors.background,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9207,22 +9207,22 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.loss_health) then
-					changed, config.current_config.large_monster_UI.static.parts.part_loss.visibility = imgui.checkbox(language.current_language
+					changed, config.current_config.large_monster_UI.static.body_parts.part_loss.visibility = imgui.checkbox(language.current_language
 						.customization_menu.visible,
-						config.current_config.large_monster_UI.static.parts.part_loss.visibility);
+						config.current_config.large_monster_UI.static.body_parts.part_loss.visibility);
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
-						changed, config.current_config.large_monster_UI.static.parts.part_loss.offset.x = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_loss.offset.x = imgui.drag_float(language.current_language
 							.customization_menu.x,
-							config.current_config.large_monster_UI.static.parts.part_loss.offset.x, 0.1, -screen.width, screen.width, "%.1f");
+							config.current_config.large_monster_UI.static.body_parts.part_loss.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.static.parts.part_loss.offset.y = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_loss.offset.y = imgui.drag_float(language.current_language
 							.customization_menu.y,
-							config.current_config.large_monster_UI.static.parts.part_loss.offset.y, 0.1, -screen.height, screen.height, "%.1f");
+							config.current_config.large_monster_UI.static.body_parts.part_loss.offset.y, 0.1, -screen.height, screen.height, "%.1f");
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
@@ -9230,25 +9230,25 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.text_label) then
-						changed, config.current_config.large_monster_UI.static.parts.part_loss.text_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_loss.text_label.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.text_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_loss.text_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.text_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_loss.text_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -9258,8 +9258,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.text_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.static.parts.part_loss.text_label.color,
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9268,23 +9268,23 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.text_label.shadow.visibility = imgui.checkbox(
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.shadow.visibility = imgui.checkbox(
 								language.current_language.customization_menu.visible,
-								config.current_config.large_monster_UI.static.parts.part_loss.text_label.shadow.visibility);
+								config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.static.parts.part_loss.text_label.shadow.offset.x = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.shadow.offset.x = imgui.drag_float(language
 									.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.static.parts.part_loss.text_label.shadow.offset.x, 0.1, -screen.width,
+									config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.shadow.offset.x, 0.1, -screen.width,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.static.parts.part_loss.text_label.shadow.offset.y = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.shadow.offset.y = imgui.drag_float(language
 									.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.static.parts.part_loss.text_label.shadow.offset.y, 0.1, -screen.height,
+									config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.shadow.offset.y, 0.1, -screen.height,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9293,8 +9293,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.static.parts.part_loss.text_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_loss.text_label.shadow.color,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_loss.text_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9309,26 +9309,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.value_label) then
-						changed, config.current_config.large_monster_UI.static.parts.part_loss.value_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_loss.value_label.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.value_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_loss.value_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.offset.x, 0.1, -screen.width,
 								screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.value_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_loss.value_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -9338,8 +9338,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.value_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.static.parts.part_loss.value_label.color,
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9348,23 +9348,23 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.value_label.shadow.visibility = imgui.checkbox(
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.shadow.visibility = imgui.checkbox(
 								language.current_language.customization_menu.visible,
-								config.current_config.large_monster_UI.static.parts.part_loss.value_label.shadow.visibility);
+								config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.static.parts.part_loss.value_label.shadow.offset.x = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.shadow.offset.x = imgui.drag_float(language
 									.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.static.parts.part_loss.value_label.shadow.offset.x, 0.1, -screen.width,
+									config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.shadow.offset.x, 0.1, -screen.width,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.static.parts.part_loss.value_label.shadow.offset.y = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.shadow.offset.y = imgui.drag_float(language
 									.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.static.parts.part_loss.value_label.shadow.offset.y, 0.1, -screen.height,
+									config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.shadow.offset.y, 0.1, -screen.height,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9373,8 +9373,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.static.parts.part_loss.value_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_loss.value_label.shadow.color,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_loss.value_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9389,26 +9389,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.percentage_label) then
-						changed, config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.visibility = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.visibility = imgui.checkbox(
 							language.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.offset.x, 0.1, -screen.width,
 								screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.offset.y, 0.1, -screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9417,8 +9417,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.color,
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9427,25 +9427,25 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.shadow.visibility);
+									config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.shadow.offset.x = imgui.drag_float(
+								changed, config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.shadow.offset.x = imgui.drag_float(
 									language.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.shadow.offset.x, 0.1,
+									config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.shadow.offset.x, 0.1,
 									-screen.width,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.shadow.offset.y = imgui.drag_float(
+								changed, config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.shadow.offset.y = imgui.drag_float(
 									language.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.shadow.offset.y, 0.1,
+									config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.shadow.offset.y, 0.1,
 									-screen.height,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -9455,8 +9455,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_loss.percentage_label.shadow.color,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_loss.percentage_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9471,23 +9471,23 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.bar) then
-						changed, config.current_config.large_monster_UI.static.parts.part_loss.bar.visibility = imgui.checkbox(language.current_language
+						changed, config.current_config.large_monster_UI.static.body_parts.part_loss.bar.visibility = imgui.checkbox(language.current_language
 							.customization_menu.visible,
-							config.current_config.large_monster_UI.static.parts.part_loss.bar.visibility);
+							config.current_config.large_monster_UI.static.body_parts.part_loss.bar.visibility);
 						config_changed = config_changed or changed;
 						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.bar.offset.x = imgui.drag_float(language.current_language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.bar.offset.x = imgui.drag_float(language.current_language
 								.customization_menu.x,
-								config.current_config.large_monster_UI.static.parts.part_loss.bar.offset.x, 0.1, -screen.width, screen.width,
+								config.current_config.large_monster_UI.static.body_parts.part_loss.bar.offset.x, 0.1, -screen.width, screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.bar.offset.y = imgui.drag_float(language.current_language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.bar.offset.y = imgui.drag_float(language.current_language
 								.customization_menu.y,
-								config.current_config.large_monster_UI.static.parts.part_loss.bar.offset.y, 0.1, -screen.height, screen.height,
+								config.current_config.large_monster_UI.static.body_parts.part_loss.bar.offset.y, 0.1, -screen.height, screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9496,15 +9496,15 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.size) then
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.bar.size.width = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.bar.size.width = imgui.drag_float(language
 								.current_language.customization_menu.width,
-								config.current_config.large_monster_UI.static.parts.part_loss.bar.size.width, 0.1, 0, screen.width, "%.1f");
+								config.current_config.large_monster_UI.static.body_parts.part_loss.bar.size.width, 0.1, 0, screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.static.parts.part_loss.bar.size.height = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.static.body_parts.part_loss.bar.size.height = imgui.drag_float(language
 								.current_language.customization_menu.height,
-								config.current_config.large_monster_UI.static.parts.part_loss.bar.size.height, 0.1, 0, screen.height, "%.1f");
+								config.current_config.large_monster_UI.static.body_parts.part_loss.bar.size.height, 0.1, 0, screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
@@ -9513,8 +9513,8 @@ function customization_menu.draw()
 
 						if imgui.tree_node(language.current_language.customization_menu.colors) then
 							if imgui.tree_node(language.current_language.customization_menu.foreground) then
-								changed, config.current_config.large_monster_UI.static.parts.part_loss.bar.colors.foreground = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_loss.bar.colors.foreground,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_loss.bar.colors.foreground = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_loss.bar.colors.foreground,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -9523,8 +9523,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.background) then
-								changed, config.current_config.large_monster_UI.static.parts.part_loss.bar.colors.background = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.static.parts.part_loss.bar.colors.background,
+								changed, config.current_config.large_monster_UI.static.body_parts.part_loss.bar.colors.background = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.static.body_parts.part_loss.bar.colors.background,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
@@ -12228,22 +12228,22 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node(language.current_language.customization_menu.body_parts) then
-				changed, config.current_config.large_monster_UI.highlighted.parts.visibility = imgui.checkbox(language.current_language
+				changed, config.current_config.large_monster_UI.highlighted.body_parts.visibility = imgui.checkbox(language.current_language
 					.customization_menu.visible,
-					config.current_config.large_monster_UI.highlighted.parts.visibility);
+					config.current_config.large_monster_UI.highlighted.body_parts.visibility);
 				config_changed = config_changed or changed;
 				large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 				if imgui.tree_node(language.current_language.customization_menu.offset) then
-					changed, config.current_config.large_monster_UI.highlighted.parts.offset.x = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.offset.x = imgui.drag_float(language.current_language
 						.customization_menu.x,
-						config.current_config.large_monster_UI.highlighted.parts.offset.x, 0.1, -screen.width, screen.width, "%.1f");
+						config.current_config.large_monster_UI.highlighted.body_parts.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-					changed, config.current_config.large_monster_UI.highlighted.parts.offset.y = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.offset.y = imgui.drag_float(language.current_language
 						.customization_menu.y,
-						config.current_config.large_monster_UI.highlighted.parts.offset.y, 0.1, -screen.height, screen.height, "%.1f");
+						config.current_config.large_monster_UI.highlighted.body_parts.offset.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
@@ -12251,15 +12251,15 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.spacing) then
-					changed, config.current_config.large_monster_UI.highlighted.parts.spacing.x = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.spacing.x = imgui.drag_float(language.current_language
 						.customization_menu.x,
-						config.current_config.large_monster_UI.highlighted.parts.spacing.x, 0.1, -screen.width, screen.width, "%.1f");
+						config.current_config.large_monster_UI.highlighted.body_parts.spacing.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-					changed, config.current_config.large_monster_UI.highlighted.parts.spacing.y = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.spacing.y = imgui.drag_float(language.current_language
 						.customization_menu.y,
-						config.current_config.large_monster_UI.highlighted.parts.spacing.y, 0.1, -screen.height, screen.height, "%.1f");
+						config.current_config.large_monster_UI.highlighted.body_parts.spacing.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
@@ -12267,15 +12267,15 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.settings) then
-					changed, config.current_config.large_monster_UI.highlighted.parts.settings.hide_undamaged_parts = imgui.checkbox(
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.settings.hide_undamaged_parts = imgui.checkbox(
 						language.current_language.customization_menu.hide_undamaged_parts,
-						config.current_config.large_monster_UI.highlighted.parts.settings.hide_undamaged_parts);
+						config.current_config.large_monster_UI.highlighted.body_parts.settings.hide_undamaged_parts);
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-					changed, config.current_config.large_monster_UI.highlighted.parts.settings.time_limit = imgui.drag_float(language.current_language
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.settings.time_limit = imgui.drag_float(language.current_language
 						.customization_menu.time_limit,
-						config.current_config.large_monster_UI.highlighted.parts.settings.time_limit, 0.1, 0, 99999, "%.1f");
+						config.current_config.large_monster_UI.highlighted.body_parts.settings.time_limit, 0.1, 0, 99999, "%.1f");
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
@@ -12290,13 +12290,13 @@ function customization_menu.draw()
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 					if changed then
-						config.current_config.large_monster_UI.highlighted.parts.sorting.type = customization_menu.large_monster_UI_parts_sorting_types
+						config.current_config.large_monster_UI.highlighted.body_parts.sorting.type = customization_menu.large_monster_UI_parts_sorting_types
 							[customization_menu.large_monster_highlighted_UI_parts_sorting_type_index];
 					end
 
-					changed, config.current_config.large_monster_UI.highlighted.parts.sorting.reversed_order = imgui.checkbox(
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.sorting.reversed_order = imgui.checkbox(
 						language.current_language.customization_menu.reversed_order,
-						config.current_config.large_monster_UI.highlighted.parts.sorting.reversed_order);
+						config.current_config.large_monster_UI.highlighted.body_parts.sorting.reversed_order);
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
@@ -12304,34 +12304,34 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.part_name_label) then
-					changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.visibility = imgui.checkbox(language
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.visibility = imgui.checkbox(language
 						.current_language.customization_menu.visible,
-						config.current_config.large_monster_UI.highlighted.parts.part_name_label.visibility);
+						config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.visibility);
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.include) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.part_name = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.part_name = imgui.checkbox(
 							language.current_language.customization_menu.part_name,
-							config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.part_name);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.part_name);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.flinch_count = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.flinch_count = imgui.checkbox(
 							language.current_language.customization_menu.flinch_count,
-							config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.flinch_count);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.flinch_count);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.break_count = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.break_count = imgui.checkbox(
 							language.current_language.customization_menu.break_count,
-							config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.break_count);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.break_count);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.break_max_count = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.break_max_count = imgui.checkbox(
 							language.current_language.customization_menu.break_max_count,
-							config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.break_max_count);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.break_max_count);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
@@ -12340,17 +12340,17 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.offset.x = imgui.drag_float(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.offset.x = imgui.drag_float(language
 							.current_language.customization_menu.x,
-							config.current_config.large_monster_UI.highlighted.parts.part_name_label.offset.x, 0.1, -screen.width,
+							config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.offset.x, 0.1, -screen.width,
 							screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.offset.y = imgui.drag_float(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
-							config.current_config.large_monster_UI.highlighted.parts.part_name_label.offset.y, 0.1, -screen.height,
+							config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.offset.y, 0.1, -screen.height,
 							screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
@@ -12360,8 +12360,8 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.color) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.color = imgui.color_picker_argb(""
-							, config.current_config.large_monster_UI.highlighted.parts.part_name_label.color,
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.color = imgui.color_picker_argb(""
+							, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12370,23 +12370,23 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.shadow) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.shadow.visibility = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.shadow.visibility = imgui.checkbox(
 							language.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_name_label.shadow.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.shadow.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.shadow.offset.x = imgui.drag_float(
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.shadow.offset.x = imgui.drag_float(
 								language.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_name_label.shadow.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.shadow.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.shadow.offset.y = imgui.drag_float(
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.shadow.offset.y = imgui.drag_float(
 								language.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_name_label.shadow.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.shadow.offset.y, 0.1, -screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12395,8 +12395,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_name_label.shadow.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.highlighted.parts.part_name_label.shadow.color,
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.shadow.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.shadow.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12411,23 +12411,23 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.part_health) then
-					changed, config.current_config.large_monster_UI.highlighted.parts.part_health.visibility = imgui.checkbox(language.current_language
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.visibility = imgui.checkbox(language.current_language
 						.customization_menu.visible,
-						config.current_config.large_monster_UI.highlighted.parts.part_health.visibility);
+						config.current_config.large_monster_UI.highlighted.body_parts.part_health.visibility);
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_health.offset.x = imgui.drag_float(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.offset.x = imgui.drag_float(language
 							.current_language.customization_menu.x,
-							config.current_config.large_monster_UI.highlighted.parts.part_health.offset.x, 0.1, -screen.width, screen.width,
+							config.current_config.large_monster_UI.highlighted.body_parts.part_health.offset.x, 0.1, -screen.width, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_health.offset.y = imgui.drag_float(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
-							config.current_config.large_monster_UI.highlighted.parts.part_health.offset.y, 0.1, -screen.height, screen.height
+							config.current_config.large_monster_UI.highlighted.body_parts.part_health.offset.y, 0.1, -screen.height, screen.height
 							, "%.1f");
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12436,25 +12436,25 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.text_label) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -12464,8 +12464,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.color,
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12474,25 +12474,25 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.shadow.visibility);
+									config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.shadow.offset.x = imgui
 									.drag_float(language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.shadow.offset.y = imgui
 									.drag_float(language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -12502,8 +12502,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.highlighted.parts.part_health.text_label.shadow.color,
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.highlighted.body_parts.part_health.text_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12518,26 +12518,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.value_label) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.offset.x, 0.1, -screen.width,
 								screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -12547,8 +12547,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.color,
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12557,25 +12557,25 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.shadow.visibility);
+									config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.shadow.offset.x = imgui
 									.drag_float(language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.shadow.offset.y = imgui
 									.drag_float(language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -12585,8 +12585,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.highlighted.parts.part_health.value_label.shadow.color,
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.highlighted.body_parts.part_health.value_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12601,26 +12601,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.percentage_label) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.visibility = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.visibility = imgui.checkbox(
 							language.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.offset.x, 0.1,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.offset.x, 0.1,
 								-screen.width, screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.offset.y, 0.1,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.offset.y, 0.1,
 								-screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
@@ -12630,8 +12630,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.color,
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12640,27 +12640,27 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.shadow.visibility);
+									config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.shadow.offset.x = imgui
 									.drag_float(
 										language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.shadow.offset.y = imgui
 									.drag_float(
 										language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -12670,9 +12670,9 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.shadow.color = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.shadow.color = imgui
 									.color_picker_argb("",
-										config.current_config.large_monster_UI.highlighted.parts.part_health.percentage_label.shadow.color,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_health.percentage_label.shadow.color,
 										customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12687,23 +12687,23 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.bar) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_health.bar.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_health.bar.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.bar.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_health.bar.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.bar.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_health.bar.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.offset.y, 0.1, -screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12712,15 +12712,15 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.size) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.bar.size.width = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.size.width = imgui.drag_float(language
 								.current_language.customization_menu.width,
-								config.current_config.large_monster_UI.highlighted.parts.part_health.bar.size.width, 0.1, 0, screen.width, "%.1f");
+								config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.size.width, 0.1, 0, screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_health.bar.size.height = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.size.height = imgui.drag_float(language
 								.current_language.customization_menu.height,
-								config.current_config.large_monster_UI.highlighted.parts.part_health.bar.size.height, 0.1, 0, screen.height,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.size.height, 0.1, 0, screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12730,8 +12730,8 @@ function customization_menu.draw()
 
 						if imgui.tree_node(language.current_language.customization_menu.colors) then
 							if imgui.tree_node(language.current_language.customization_menu.foreground) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_health.bar.colors.foreground = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.highlighted.parts.part_health.bar.colors.foreground,
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.colors.foreground = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.colors.foreground,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12740,8 +12740,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.background) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_health.bar.colors.background = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.highlighted.parts.part_health.bar.colors.background,
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.colors.background = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.highlighted.body_parts.part_health.bar.colors.background,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12759,23 +12759,23 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.break_health) then
-					changed, config.current_config.large_monster_UI.highlighted.parts.part_break.visibility = imgui.checkbox(language.current_language
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.visibility = imgui.checkbox(language.current_language
 						.customization_menu.visible,
-						config.current_config.large_monster_UI.highlighted.parts.part_break.visibility);
+						config.current_config.large_monster_UI.highlighted.body_parts.part_break.visibility);
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_break.offset.x = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.offset.x = imgui.drag_float(language.current_language
 							.customization_menu.x,
-							config.current_config.large_monster_UI.highlighted.parts.part_break.offset.x, 0.1, -screen.width, screen.width,
+							config.current_config.large_monster_UI.highlighted.body_parts.part_break.offset.x, 0.1, -screen.width, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_break.offset.y = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.offset.y = imgui.drag_float(language.current_language
 							.customization_menu.y,
-							config.current_config.large_monster_UI.highlighted.parts.part_break.offset.y, 0.1, -screen.height, screen.height,
+							config.current_config.large_monster_UI.highlighted.body_parts.part_break.offset.y, 0.1, -screen.height, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12784,25 +12784,25 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.text_label) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -12812,8 +12812,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.color,
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12822,25 +12822,25 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.shadow.visibility);
+									config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.shadow.offset.x = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.shadow.offset.x = imgui.drag_float(language
 									.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.shadow.offset.x, 0.1,
+									config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.shadow.offset.x, 0.1,
 									-screen.width,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.shadow.offset.y = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.shadow.offset.y = imgui.drag_float(language
 									.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.shadow.offset.y, 0.1,
+									config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.shadow.offset.y, 0.1,
 									-screen.height,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -12850,8 +12850,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.highlighted.parts.part_break.text_label.shadow.color,
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.highlighted.body_parts.part_break.text_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12866,26 +12866,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.value_label) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.offset.x, 0.1, -screen.width,
 								screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -12895,8 +12895,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.color,
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12905,25 +12905,25 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.shadow.visibility);
+									config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.shadow.offset.x = imgui
 									.drag_float(language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.shadow.offset.y = imgui
 									.drag_float(language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -12933,8 +12933,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.highlighted.parts.part_break.value_label.shadow.color,
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.highlighted.body_parts.part_break.value_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12949,26 +12949,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.percentage_label) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.visibility = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.visibility = imgui.checkbox(
 							language.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.offset.x, 0.1, -
+								config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.offset.x, 0.1, -
 								screen.width, screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.offset.y, 0.1,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.offset.y, 0.1,
 								-screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
@@ -12978,8 +12978,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.color,
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -12988,27 +12988,27 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.shadow.visibility);
+									config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.shadow.offset.x = imgui
 									.drag_float(
 										language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.shadow.offset.y = imgui
 									.drag_float(
 										language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -13018,9 +13018,9 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.shadow.color = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.shadow.color = imgui
 									.color_picker_argb("",
-										config.current_config.large_monster_UI.highlighted.parts.part_break.percentage_label.shadow.color,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_break.percentage_label.shadow.color,
 										customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13035,23 +13035,23 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.bar) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_break.bar.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_break.bar.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.bar.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_break.bar.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.bar.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_break.bar.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.offset.y, 0.1, -screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13060,15 +13060,15 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.size) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.bar.size.width = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.size.width = imgui.drag_float(language
 								.current_language.customization_menu.width,
-								config.current_config.large_monster_UI.highlighted.parts.part_break.bar.size.width, 0.1, 0, screen.width, "%.1f");
+								config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.size.width, 0.1, 0, screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_break.bar.size.height = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.size.height = imgui.drag_float(language
 								.current_language.customization_menu.height,
-								config.current_config.large_monster_UI.highlighted.parts.part_break.bar.size.height, 0.1, 0, screen.height,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.size.height, 0.1, 0, screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13078,8 +13078,8 @@ function customization_menu.draw()
 
 						if imgui.tree_node(language.current_language.customization_menu.colors) then
 							if imgui.tree_node(language.current_language.customization_menu.foreground) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_break.bar.colors.foreground = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.highlighted.parts.part_break.bar.colors.foreground,
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.colors.foreground = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.colors.foreground,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13088,8 +13088,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.background) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_break.bar.colors.background = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.highlighted.parts.part_break.bar.colors.background,
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.colors.background = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.highlighted.body_parts.part_break.bar.colors.background,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13107,23 +13107,23 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.loss_health) then
-					changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.visibility = imgui.checkbox(language.current_language
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.visibility = imgui.checkbox(language.current_language
 						.customization_menu.visible,
-						config.current_config.large_monster_UI.highlighted.parts.part_loss.visibility);
+						config.current_config.large_monster_UI.highlighted.body_parts.part_loss.visibility);
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.offset.x = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.offset.x = imgui.drag_float(language.current_language
 							.customization_menu.x,
-							config.current_config.large_monster_UI.highlighted.parts.part_loss.offset.x, 0.1, -screen.width, screen.width,
+							config.current_config.large_monster_UI.highlighted.body_parts.part_loss.offset.x, 0.1, -screen.width, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.offset.y = imgui.drag_float(language.current_language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.offset.y = imgui.drag_float(language.current_language
 							.customization_menu.y,
-							config.current_config.large_monster_UI.highlighted.parts.part_loss.offset.y, 0.1, -screen.height, screen.height,
+							config.current_config.large_monster_UI.highlighted.body_parts.part_loss.offset.y, 0.1, -screen.height, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13132,25 +13132,25 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.text_label) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.offset.x, 0.1, -screen.width,
 								screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -13160,8 +13160,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.color,
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13170,24 +13170,24 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.shadow.visibility = imgui.checkbox(
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.shadow.visibility = imgui.checkbox(
 								language.current_language.customization_menu.visible,
-								config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.shadow.visibility);
+								config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.shadow.offset.x = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.shadow.offset.x = imgui.drag_float(language
 									.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.shadow.offset.x, 0.1,
+									config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.shadow.offset.x, 0.1,
 									-screen.width,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.shadow.offset.y = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.shadow.offset.y = imgui.drag_float(language
 									.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.shadow.offset.y, 0.1,
+									config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.shadow.offset.y, 0.1,
 									-screen.height,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -13197,8 +13197,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.highlighted.parts.part_loss.text_label.shadow.color,
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.text_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13213,26 +13213,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.value_label) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.offset.x, 0.1, -screen.width,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.offset.x, 0.1, -screen.width,
 								screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.offset.y, 0.1, -screen.height,
 								screen.height,
 								"%.1f");
 							config_changed = config_changed or changed;
@@ -13242,8 +13242,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.color,
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13252,25 +13252,25 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.shadow.visibility);
+									config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.shadow.offset.x = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.shadow.offset.x = imgui.drag_float(language
 									.current_language.customization_menu.x,
-									config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.shadow.offset.x, 0.1,
+									config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.shadow.offset.x, 0.1,
 									-screen.width,
 									screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.shadow.offset.y = imgui.drag_float(language
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.shadow.offset.y = imgui.drag_float(language
 									.current_language.customization_menu.y,
-									config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.shadow.offset.y, 0.1,
+									config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.shadow.offset.y, 0.1,
 									-screen.height,
 									screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -13280,8 +13280,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.shadow.color = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.highlighted.parts.part_loss.value_label.shadow.color,
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.shadow.color = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.value_label.shadow.color,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13296,26 +13296,26 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.percentage_label) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.visibility = imgui.checkbox(
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.visibility = imgui.checkbox(
 							language.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						-- add text format
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.offset.x, 0.1, -screen.width
+								config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.offset.x, 0.1, -screen.width
 								, screen.width,
 								"%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.offset.y, 0.1, -
+								config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.offset.y, 0.1, -
 								screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
@@ -13325,8 +13325,8 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.color) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.color = imgui.color_picker_argb(""
-								, config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.color,
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.color = imgui.color_picker_argb(""
+								, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13335,27 +13335,27 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.shadow) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.shadow.visibility = imgui
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.shadow.visibility = imgui
 								.checkbox(
 									language.current_language.customization_menu.visible,
-									config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.shadow.visibility);
+									config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.shadow.visibility);
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							if imgui.tree_node(language.current_language.customization_menu.offset) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.shadow.offset.x = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.shadow.offset.x = imgui
 									.drag_float(
 										language.current_language.customization_menu.x,
-										config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.shadow.offset.x, 0.1,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.shadow.offset.x, 0.1,
 										-screen.width,
 										screen.width, "%.1f");
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.shadow.offset.y = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.shadow.offset.y = imgui
 									.drag_float(
 										language.current_language.customization_menu.y,
-										config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.shadow.offset.y, 0.1,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.shadow.offset.y, 0.1,
 										-screen.height,
 										screen.height, "%.1f");
 								config_changed = config_changed or changed;
@@ -13365,9 +13365,9 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.color) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.shadow.color = imgui
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.shadow.color = imgui
 									.color_picker_argb("",
-										config.current_config.large_monster_UI.highlighted.parts.part_loss.percentage_label.shadow.color,
+										config.current_config.large_monster_UI.highlighted.body_parts.part_loss.percentage_label.shadow.color,
 										customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13382,23 +13382,23 @@ function customization_menu.draw()
 					end
 
 					if imgui.tree_node(language.current_language.customization_menu.bar) then
-						changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.visibility = imgui.checkbox(language
+						changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.visibility = imgui.checkbox(language
 							.current_language.customization_menu.visible,
-							config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.visibility);
+							config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.visibility);
 						config_changed = config_changed or changed;
 						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.offset.x = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.offset.x = imgui.drag_float(language
 								.current_language.customization_menu.x,
-								config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.offset.x, 0.1, -screen.width, screen.width
+								config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.offset.x, 0.1, -screen.width, screen.width
 								, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.offset.y = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.offset.y = imgui.drag_float(language
 								.current_language.customization_menu.y,
-								config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.offset.y, 0.1, -screen.height,
+								config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.offset.y, 0.1, -screen.height,
 								screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13407,15 +13407,15 @@ function customization_menu.draw()
 						end
 
 						if imgui.tree_node(language.current_language.customization_menu.size) then
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.size.width = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.size.width = imgui.drag_float(language
 								.current_language.customization_menu.width,
-								config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.size.width, 0.1, 0, screen.width, "%.1f");
+								config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.size.width, 0.1, 0, screen.width, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
-							changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.size.height = imgui.drag_float(language
+							changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.size.height = imgui.drag_float(language
 								.current_language.customization_menu.height,
-								config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.size.height, 0.1, 0, screen.height, "%.1f");
+								config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.size.height, 0.1, 0, screen.height, "%.1f");
 							config_changed = config_changed or changed;
 							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
@@ -13424,8 +13424,8 @@ function customization_menu.draw()
 
 						if imgui.tree_node(language.current_language.customization_menu.colors) then
 							if imgui.tree_node(language.current_language.customization_menu.foreground) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.colors.foreground = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.colors.foreground,
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.colors.foreground = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.colors.foreground,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
@@ -13434,8 +13434,8 @@ function customization_menu.draw()
 							end
 
 							if imgui.tree_node(language.current_language.customization_menu.background) then
-								changed, config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.colors.background = imgui.color_picker_argb(""
-									, config.current_config.large_monster_UI.highlighted.parts.part_loss.bar.colors.background,
+								changed, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.colors.background = imgui.color_picker_argb(""
+									, config.current_config.large_monster_UI.highlighted.body_parts.part_loss.bar.colors.background,
 									customization_menu.color_picker_flags);
 								config_changed = config_changed or changed;
 								large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;

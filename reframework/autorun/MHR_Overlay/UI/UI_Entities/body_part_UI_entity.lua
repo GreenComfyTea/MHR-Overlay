@@ -85,22 +85,22 @@ function body_part_UI_entity.draw_dynamic(part, position_on_screen, opacity_scal
 	end
 	
 	local part_name = "";
-	if config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.part_name then
+	if config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.part_name then
 		part_name = part.name .. " ";
 	end
-	if config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.flinch_count and part.flinch_count ~= 0 then
+	if config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.flinch_count and part.flinch_count ~= 0 then
 		part_name = part_name .. "x" .. tostring(part.flinch_count) .. " ";
 	end
 
 	if part.break_max_count ~= 0 then
-		if config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.break_count then
-			if config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.break_max_count then
+		if config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.break_count then
+			if config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.break_max_count then
 				part_name = part_name .. tostring(part.break_count) .. "/" .. tostring(part.break_max_count);
 	
 			elseif part.flinch_count ~= 0 then
 				part_name = part_name .. "x" .. tostring(part.break_count);
 			end
-		elseif config.current_config.large_monster_UI.dynamic.parts.part_name_label.include.break_max_count then
+		elseif config.current_config.large_monster_UI.dynamic.body_parts.part_name_label.include.break_max_count then
 			part_name = part_name .. "/" .. tostring(part.break_max_count);
 		end	
 	end
@@ -110,20 +110,20 @@ function body_part_UI_entity.draw_dynamic(part, position_on_screen, opacity_scal
 	local loss_health_string = string.format("%.0f/%.0f", part.loss_health, part.loss_max_health);
 	
 	local flinch_position_on_screen = {
-		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.parts.part_health.offset.x,
-		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.parts.part_health.offset.y,
+		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.body_parts.part_health.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.body_parts.part_health.offset.y,
 		visibility = part.body_part_dynamic_UI.flinch_visibility
 	};
 
 	local break_position_on_screen = {
-		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.parts.part_break.offset.x,
-		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.parts.part_break.offset.y,
+		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.body_parts.part_break.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.body_parts.part_break.offset.y,
 		visibility = part.body_part_dynamic_UI.flinch_visibility
 	};
 
 	local loss_position_on_screen = {
-		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.parts.part_loss.offset.x, 
-		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.parts.part_loss.offset.y,
+		x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.body_parts.part_loss.offset.x, 
+		y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.body_parts.part_loss.offset.y,
 		
 
 	};
@@ -167,22 +167,22 @@ function body_part_UI_entity.draw_static(part, position_on_screen, opacity_scale
 	end
 	
 	local part_name = "";
-	if config.current_config.large_monster_UI.static.parts.part_name_label.include.part_name then
+	if config.current_config.large_monster_UI.static.body_parts.part_name_label.include.part_name then
 		part_name = part.name .. " ";
 	end
-	if config.current_config.large_monster_UI.static.parts.part_name_label.include.flinch_count and part.flinch_count ~= 0 then
+	if config.current_config.large_monster_UI.static.body_parts.part_name_label.include.flinch_count and part.flinch_count ~= 0 then
 		part_name = part_name .. "x" .. tostring(part.flinch_count) .. " ";
 	end
 
 	if part.break_max_count ~= 0 then
-		if config.current_config.large_monster_UI.static.parts.part_name_label.include.break_count then
-			if config.current_config.large_monster_UI.static.parts.part_name_label.include.break_max_count then
+		if config.current_config.large_monster_UI.static.body_parts.part_name_label.include.break_count then
+			if config.current_config.large_monster_UI.static.body_parts.part_name_label.include.break_max_count then
 				part_name = part_name .. tostring(part.break_count) .. "/" .. tostring(part.break_max_count);
 	
 			elseif part.flinch_count ~= 0 then
 				part_name = part_name .. "x" .. tostring(part.break_count);
 			end
-		elseif config.current_config.large_monster_UI.static.parts.part_name_label.include.break_max_count then
+		elseif config.current_config.large_monster_UI.static.body_parts.part_name_label.include.break_max_count then
 			part_name = part_name .. "/" .. tostring(part.break_max_count);
 		end	
 	end
@@ -192,20 +192,20 @@ function body_part_UI_entity.draw_static(part, position_on_screen, opacity_scale
 	local loss_health_string = string.format("%.0f/%.0f", part.loss_health, part.loss_max_health);
 	
 	local flinch_position_on_screen = {
-		x = position_on_screen.x + config.current_config.large_monster_UI.static.parts.part_health.offset.x,
-		y = position_on_screen.y + config.current_config.large_monster_UI.static.parts.part_health.offset.y,
+		x = position_on_screen.x + config.current_config.large_monster_UI.static.body_parts.part_health.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.static.body_parts.part_health.offset.y,
 		visibility = part.body_part_static_UI.flinch_visibility
 	};
 
 	local break_position_on_screen = {
-		x = position_on_screen.x + config.current_config.large_monster_UI.static.parts.part_break.offset.x,
-		y = position_on_screen.y + config.current_config.large_monster_UI.static.parts.part_break.offset.y,
+		x = position_on_screen.x + config.current_config.large_monster_UI.static.body_parts.part_break.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.static.body_parts.part_break.offset.y,
 		visibility = part.body_part_static_UI.flinch_visibility
 	};
 
 	local loss_position_on_screen = {
-		x = position_on_screen.x + config.current_config.large_monster_UI.static.parts.part_loss.offset.x, 
-		y = position_on_screen.y + config.current_config.large_monster_UI.static.parts.part_loss.offset.y,
+		x = position_on_screen.x + config.current_config.large_monster_UI.static.body_parts.part_loss.offset.x, 
+		y = position_on_screen.y + config.current_config.large_monster_UI.static.body_parts.part_loss.offset.y,
 		
 
 	};
@@ -249,22 +249,22 @@ function body_part_UI_entity.draw_highlighted(part, position_on_screen, opacity_
 	end
 	
 	local part_name = "";
-	if config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.part_name then
+	if config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.part_name then
 		part_name = part.name .. " ";
 	end
-	if config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.flinch_count and part.flinch_count ~= 0 then
+	if config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.flinch_count and part.flinch_count ~= 0 then
 		part_name = part_name .. "x" .. tostring(part.flinch_count) .. " ";
 	end
 
 	if part.break_max_count ~= 0 then
-		if config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.break_count then
-			if config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.break_max_count then
+		if config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.break_count then
+			if config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.break_max_count then
 				part_name = part_name .. tostring(part.break_count) .. "/" .. tostring(part.break_max_count);
 	
 			elseif part.flinch_count ~= 0 then
 				part_name = part_name .. "x" .. tostring(part.break_count);
 			end
-		elseif config.current_config.large_monster_UI.highlighted.parts.part_name_label.include.break_max_count then
+		elseif config.current_config.large_monster_UI.highlighted.body_parts.part_name_label.include.break_max_count then
 			part_name = part_name .. "/" .. tostring(part.break_max_count);
 		end	
 	end
@@ -274,20 +274,20 @@ function body_part_UI_entity.draw_highlighted(part, position_on_screen, opacity_
 	local loss_health_string = string.format("%.0f/%.0f", part.loss_health, part.loss_max_health);
 	
 	local flinch_position_on_screen = {
-		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.parts.part_health.offset.x,
-		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.parts.part_health.offset.y,
+		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.body_parts.part_health.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.body_parts.part_health.offset.y,
 		visibility = part.body_part_highlighted_UI.flinch_visibility
 	};
 
 	local break_position_on_screen = {
-		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.parts.part_break.offset.x,
-		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.parts.part_break.offset.y,
+		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.body_parts.part_break.offset.x,
+		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.body_parts.part_break.offset.y,
 		visibility = part.body_part_highlighted_UI.flinch_visibility
 	};
 
 	local loss_position_on_screen = {
-		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.parts.part_loss.offset.x, 
-		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.parts.part_loss.offset.y,
+		x = position_on_screen.x + config.current_config.large_monster_UI.highlighted.body_parts.part_loss.offset.x, 
+		y = position_on_screen.y + config.current_config.large_monster_UI.highlighted.body_parts.part_loss.offset.y,
 		
 
 	};
