@@ -19,7 +19,7 @@ function part_names.init()
 				language.current_language.parts.torso,
 				language.current_language.parts.tail
 			},
-		[107] = -- Kulu-Ya-Ku+ 107 boulders are cut out
+		[107] =
 			{
 				language.current_language.parts.head,
 				language.current_language.parts.arms,
@@ -34,7 +34,7 @@ function part_names.init()
 				language.current_language.parts.torso,
 				language.current_language.parts.tail
 			},
-		[60] = -- Arzuros+ 60 Unknown parts
+		[60] = -- Arzuros+ 60
 			{
 				language.current_language.parts.head,
 				language.current_language.parts.upper_body,
@@ -85,7 +85,13 @@ function part_names.init()
 				language.current_language.parts.arms,
 				language.current_language.parts.left_leg,
 				language.current_language.parts.right_leg,
-				language.current_language.parts.tail
+				language.current_language.parts.tail,
+				language.current_language.parts.head_mud,
+				language.current_language.parts.body_mud,
+				language.current_language.parts.arms_mud,
+				language.current_language.parts.left_leg_mud,
+				language.current_language.parts.right_leg_mud,
+				language.current_language.parts.tail_mud
 			},
 		[3] = -- Khezu+ 3
 			{
@@ -129,7 +135,7 @@ function part_names.init()
 				language.current_language.parts.right_leg,
 				language.current_language.parts.tail
 			},
-		[108] = -- Jyuratodus+ 108 missing mud parts
+		[108] = -- Jyuratodus+ 108
 			{
 				language.current_language.parts.head,
 				language.current_language.parts.torso,
@@ -137,6 +143,9 @@ function part_names.init()
 				language.current_language.parts.right_leg,
 				language.current_language.parts.tail,
 				language.current_language.parts.head_mud,
+				language.current_language.parts.torso_mud,
+				language.current_language.parts.left_leg_mud,
+				language.current_language.parts.right_leg_mud,
 				language.current_language.parts.tail_mud
 			},
 		[4] = -- Basarios+ 4
@@ -200,7 +209,7 @@ function part_names.init()
 				language.current_language.parts.tail,
 				language.current_language.parts.legs
 			},
-		[100] = -- Anjanath+ 100 (missing parts)
+		[100] = -- Anjanath+ 100
 			{
 				language.current_language.parts.head,
 				language.current_language.parts.body,
@@ -299,7 +308,7 @@ function part_names.init()
 				language.current_language.parts.right_leg,
 				language.current_language.parts.tail
 			},
-		[94] = -- Rakna-Kadaki+ 94 (?)
+		[94] = -- Rakna-Kadaki+ 94
 			{
 				language.current_language.parts.head,
 				language.current_language.parts.claw,
@@ -309,7 +318,12 @@ function part_names.init()
 				language.current_language.parts.right_leg,
 				language.current_language.parts.abdomen,
 				language.current_language.parts.left_arm,
-				language.current_language.parts.right_arm -- mb abdomen_cocooned)
+				language.current_language.parts.right_arm,
+				language.current_language.parts.left_leg,
+				language.current_language.parts.right_leg,
+				language.current_language.parts.abdomen,
+				language.current_language.parts.abdomen,
+
 			},
 		[24] = -- Kushala Daora+ 24
 			{
@@ -359,7 +373,7 @@ function part_names.init()
 				language.current_language.parts.right_wing,
 				language.current_language.parts.tail
 			},
-		[96] = -- Wind Serpent Ibushi+ 96 (missing parts)
+		[96] = -- Wind Serpent Ibushi+ 96
 			{ 
 				language.current_language.parts.head,
 				language.current_language.parts.right_arm,
@@ -447,22 +461,38 @@ function part_names.init()
 				language.current_language.parts.left_leg,
 				language.current_language.parts.right_leg,
 				language.current_language.parts.tail
+			},
+		[81] = -- Astalos+ 81
+			{
+				language.current_language.parts.head,
+				language.current_language.parts.body,
+				language.current_language.parts.right_wing,
+				language.current_language.parts.left_wing,
+				language.current_language.parts.right_leg,
+				language.current_language.parts.left_leg,
+				language.current_language.parts.tail,
+				language.current_language.parts.tail_tip
+			},
+		[132] = -- Malzeno+ 132
+			{
+				language.current_language.parts.head,
+				language.current_language.parts.body,
+				language.current_language.parts.left_arm,
+				language.current_language.parts.right_arm,
+				language.current_language.parts.legs,
+				language.current_language.parts.wings,
+				language.current_language.parts.tail,
 			}
 	};
 end
 
 function part_names.get_part_name(monster_id, part_id)
-	
 	local monster_parts = part_names.list[monster_id];
 	if monster_parts == nil then
-		return "";
+		return "?";
 	end
 
 	local part_name = monster_parts[part_id];
-	if part_name == nil then
-		return "";
-	end
-
 	return part_name;
 end
 
