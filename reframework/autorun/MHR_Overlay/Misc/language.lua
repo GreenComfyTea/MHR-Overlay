@@ -41,6 +41,11 @@ language.default_language = {
 		right_cutwing = "Cutwing R",
 
 		head_mud = "Head (Mud)",
+		body_mud = "Body (Mud)",
+		arms_mud = "Arms (Mud)",
+		torso_mud = "Torso (Mud)",
+		left_leg_mud = "Leg L (Mud)",
+		right_leg_mud = "Leg R (Mud)",
 		tail_mud = "Tail (Mud)",
 		
 		tail_windsac = "Tail (Windsac)",
@@ -54,7 +59,9 @@ language.default_language = {
 		dorsal_fin = "Dorsal Fin",
 		carapace = "Carapace",
 		spinning = "Spinning",
-		rock = "Rock"
+		rock = "Rock",
+
+		tail_tip = "Tail Tip"
 	},
 
 	ailments = {
@@ -327,7 +334,9 @@ language.default_language = {
 		break_health = "Break Health",
 		break_health_percentage = "Break Health Percentage",
 		loss_health = "Sever Health",
-		loss_health_percentage = "Sever Health Percentage"
+		loss_health_percentage = "Sever Health Percentage",
+
+		monster_id = "Monster ID"
 	}
 };
 

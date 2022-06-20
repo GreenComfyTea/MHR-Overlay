@@ -93,58 +93,64 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 end
 
 function large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster)
+	local cached_config = config.current_config.large_monster_UI.dynamic;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
 	local i = 0;
-		for _, monster in ipairs(displayed_monsters) do
-			if config.current_config.large_monster_UI.dynamic.settings.max_distance == 0 then
-				break;
-			end
-
-			if monster.dead_or_captured and config.current_config.large_monster_UI.dynamic.settings.hide_dead_or_captured then
-				goto continue;
-			end
-
-			if monster == highlighted_monster then
-				if not config.current_config.large_monster_UI.dynamic.settings.render_highlighted_monster then
-					goto continue;
-				end
-			else
-				if not config.current_config.large_monster_UI.dynamic.settings.render_not_highlighted_monsters then
-					goto continue;
-				end
-			end
-
-			local position_on_screen = {};
-	
-			local world_offset = Vector3f.new(config.current_config.large_monster_UI.dynamic.world_offset.x, config.current_config.large_monster_UI.dynamic.world_offset.y, config.current_config.large_monster_UI.dynamic.world_offset.z);
-			
-			position_on_screen = draw.world_to_screen(monster.position + world_offset);
-			
-			if position_on_screen == nil then
-				goto continue;
-			end
-			
-			position_on_screen.x = position_on_screen.x + config.current_config.large_monster_UI.dynamic.viewport_offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-			position_on_screen.y = position_on_screen.y + config.current_config.large_monster_UI.dynamic.viewport_offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
-	
-			local opacity_scale = 1;
-			if monster.distance > config.current_config.large_monster_UI.dynamic.settings.max_distance then
-				goto continue;
-			end
-			
-			if config.current_config.large_monster_UI.dynamic.settings.opacity_falloff then
-				opacity_scale = 1 - (monster.distance / config.current_config.large_monster_UI.dynamic.settings.max_distance);
-			end
-			
-			large_monster.draw_dynamic(monster, position_on_screen, opacity_scale);
-	
-			i = i + 1;
-			::continue::
+	for _, monster in ipairs(displayed_monsters) do
+		if cached_config.settings.max_distance == 0 then
+			break;
 		end
+
+		if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
+			goto continue;
+		end
+
+		if monster == highlighted_monster then
+			if not cached_config.settings.render_highlighted_monster then
+				goto continue;
+			end
+		else
+			if not cached_config.settings.render_not_highlighted_monsters then
+				goto continue;
+			end
+		end
+
+		local position_on_screen = {};
+
+		local world_offset = Vector3f.new(cached_config.world_offset.x, cached_config.world_offset.y, cached_config.world_offset.z);
+		
+		position_on_screen = draw.world_to_screen(monster.position + world_offset);
+		
+		if position_on_screen == nil then
+			goto continue;
+		end
+		
+		position_on_screen.x = position_on_screen.x + cached_config.viewport_offset.x * global_scale_modifier;
+		position_on_screen.y = position_on_screen.y + cached_config.viewport_offset.y * global_scale_modifier;
+
+		local opacity_scale = 1;
+		if monster.distance > cached_config.settings.max_distance then
+			goto continue;
+		end
+		
+		if cached_config.settings.opacity_falloff then
+			opacity_scale = 1 - (monster.distance / cached_config.settings.max_distance);
+		end
+		
+		large_monster.draw_dynamic(monster, position_on_screen, opacity_scale);
+
+		i = i + 1;
+		::continue::
+	end
 end
 
 function large_monster_UI.draw_static(displayed_monsters, highlighted_monster)
+	local cached_config = config.current_config.large_monster_UI.static;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+	
 	-- sort here
-	if config.current_config.large_monster_UI.static.sorting.type == "Normal" and config.current_config.large_monster_UI.static.sorting.reversed_order then
+	if cached_config.sorting.type == "Normal" and cached_config.sorting.reversed_order then
 		local reversed_monsters = {};
 		for i = #displayed_monsters, 1, -1 do
 			table.insert(reversed_monsters, displayed_monsters[i]);
@@ -152,8 +158,8 @@ function large_monster_UI.draw_static(displayed_monsters, highlighted_monster)
 		
 		displayed_monsters = reversed_monsters;
 
-	elseif config.current_config.large_monster_UI.static.sorting.type == "Health" then
-		if config.current_config.large_monster_UI.static.sorting.reversed_order then
+	elseif cached_config.sorting.type == "Health" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_monsters, function(left, right)
 				return left.health > right.health;
 			end);
@@ -162,8 +168,8 @@ function large_monster_UI.draw_static(displayed_monsters, highlighted_monster)
 				return left.health < right.health;
 			end);
 		end
-	elseif config.current_config.large_monster_UI.static.sorting.type == "Health Percentage" then
-		if config.current_config.large_monster_UI.static.sorting.reversed_order then
+	elseif cached_config.sorting.type == "Health Percentage" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_monsters, function(left, right)
 				return left.health_percentage > right.health_percentage;
 			end);
@@ -172,8 +178,8 @@ function large_monster_UI.draw_static(displayed_monsters, highlighted_monster)
 				return left.health_percentage < right.health_percentage;
 			end);
 		end
-	elseif config.current_config.large_monster_UI.static.sorting.type == "Distance" then
-		if config.current_config.large_monster_UI.static.sorting.reversed_order then
+	elseif cached_config.sorting.type == "Distance" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_monsters, function(left, right)
 				return left.distance > right.distance;
 			end);
@@ -184,20 +190,20 @@ function large_monster_UI.draw_static(displayed_monsters, highlighted_monster)
 		end
 	end
 
-	local position_on_screen = screen.calculate_absolute_coordinates(config.current_config.large_monster_UI.static.position);
+	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 
 	local i = 0;
 	for _, monster in ipairs(displayed_monsters) do
-		if monster.dead_or_captured and config.current_config.large_monster_UI.static.settings.hide_dead_or_captured then
+		if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
 			goto continue;
 		end
 
 		if monster == highlighted_monster then
-			if not config.current_config.large_monster_UI.static.settings.render_highlighted_monster then
+			if not cached_config.settings.render_highlighted_monster then
 				goto continue;
 			end
 		else
-			if not config.current_config.large_monster_UI.static.settings.render_not_highlighted_monsters then
+			if not cached_config.settings.render_not_highlighted_monsters then
 				goto continue;
 			end
 		end
@@ -207,10 +213,10 @@ function large_monster_UI.draw_static(displayed_monsters, highlighted_monster)
 			y = position_on_screen.y
 		}
 		
-		if config.current_config.large_monster_UI.static.settings.orientation == "Horizontal" then
-			monster_position_on_screen.x = monster_position_on_screen.x + config.current_config.large_monster_UI.static.spacing.x * i * config.current_config.global_settings.modifiers.global_scale_modifier;
+		if cached_config.settings.orientation == "Horizontal" then
+			monster_position_on_screen.x = monster_position_on_screen.x + cached_config.spacing.x * i * global_scale_modifier;
 		else
-			monster_position_on_screen.y = monster_position_on_screen.y + config.current_config.large_monster_UI.static.spacing.y * i  * config.current_config.global_settings.modifiers.global_scale_modifier;
+			monster_position_on_screen.y = monster_position_on_screen.y + cached_config.spacing.y * i  * global_scale_modifier;
 		end
 
 		large_monster.draw_static(monster, monster_position_on_screen, 1);
@@ -221,13 +227,15 @@ function large_monster_UI.draw_static(displayed_monsters, highlighted_monster)
 end
 
 function large_monster_UI.draw_highlighted(monster)
+	local cached_config = config.current_config.large_monster_UI.highlighted;
+
 	if monster == nil then
 		return;
 	end
 	
-	local position_on_screen = screen.calculate_absolute_coordinates(config.current_config.large_monster_UI.highlighted.position);
+	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 
-	if monster.dead_or_captured and config.current_config.large_monster_UI.highlighted.settings.hide_dead_or_captured then
+	if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
 		return;
 	end
 	

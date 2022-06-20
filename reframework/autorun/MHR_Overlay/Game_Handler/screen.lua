@@ -65,9 +65,11 @@ function screen.get_game_window_size()
 end
 
 function screen.calculate_absolute_coordinates(position)
+	local global_position_modifier = config.current_config.global_settings.modifiers.global_position_modifier;
+
 	local _position = {
-		x = position.x * config.current_config.global_settings.modifiers.global_position_modifier;
-		y = position.y * config.current_config.global_settings.modifiers.global_position_modifier;
+		x = position.x * global_position_modifier;
+		y = position.y * global_position_modifier;
 	}
 	
 	-- top left

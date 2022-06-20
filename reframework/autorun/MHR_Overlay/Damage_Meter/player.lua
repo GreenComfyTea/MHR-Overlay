@@ -191,70 +191,72 @@ function player.update_display(_player)
 	_player.display.elemental_damage = 0;
 	_player.display.ailment_damage = 0;
 
-	if config.current_config.damage_meter_UI.tracked_monster_types.small_monsters then
-		if config.current_config.damage_meter_UI.tracked_damage_types.player_damage then
+	local cached_config = config.current_config.damage_meter_UI;
+
+	if cached_config.tracked_monster_types.small_monsters then
+		if cached_config.tracked_damage_types.player_damage then
 			player.merge_damage(_player.display, _player.small_monsters);
 		end
 		
-		if config.current_config.damage_meter_UI.tracked_damage_types.bomb_damage then
+		if cached_config.tracked_damage_types.bomb_damage then
 			player.merge_damage(_player.display, _player.small_monsters.bombs);
 		end
 		
-		if config.current_config.damage_meter_UI.tracked_damage_types.kunai_damage then
+		if cached_config.tracked_damage_types.kunai_damage then
 			player.merge_damage(_player.display, _player.small_monsters.kunai);
 		end
 		
-		if config.current_config.damage_meter_UI.tracked_damage_types.installation_damage then
+		if cached_config.tracked_damage_types.installation_damage then
 			player.merge_damage(_player.display, _player.small_monsters.installations);
 		end
 		
-		if config.current_config.damage_meter_UI.tracked_damage_types.otomo_damage then
+		if cached_config.tracked_damage_types.otomo_damage then
 			player.merge_damage(_player.display, _player.small_monsters.otomo);
 		end
 		
-		if config.current_config.damage_meter_UI.tracked_damage_types.monster_damage then
+		if cached_config.tracked_damage_types.monster_damage then
 			player.merge_damage(_player.display, _player.small_monsters.monster);
 		end
 
-		if config.current_config.damage_meter_UI.tracked_damage_types.poison_damage then
+		if cached_config.tracked_damage_types.poison_damage then
 			player.merge_damage(_player.display, _player.small_monsters.poison);
 		end
 
-		if config.current_config.damage_meter_UI.tracked_damage_types.blast_damage then
+		if cached_config.tracked_damage_types.blast_damage then
 			player.merge_damage(_player.display, _player.small_monsters.blast);
 		end
 	end
 
-	if config.current_config.damage_meter_UI.tracked_monster_types.large_monsters then
-		if config.current_config.damage_meter_UI.tracked_damage_types.player_damage then
+	if cached_config.tracked_monster_types.large_monsters then
+		if cached_config.tracked_damage_types.player_damage then
 			player.merge_damage(_player.display, _player.large_monsters);
 		end
 	
-		if config.current_config.damage_meter_UI.tracked_damage_types.bomb_damage then
+		if cached_config.tracked_damage_types.bomb_damage then
 			player.merge_damage(_player.display, _player.large_monsters.bombs);
 		end
 	
-		if config.current_config.damage_meter_UI.tracked_damage_types.kunai_damage then
+		if cached_config.tracked_damage_types.kunai_damage then
 			player.merge_damage(_player.display, _player.large_monsters.kunai);
 		end
 	
-		if config.current_config.damage_meter_UI.tracked_damage_types.installation_damage then
+		if cached_config.tracked_damage_types.installation_damage then
 			player.merge_damage(_player.display, _player.large_monsters.installations);
 		end
 	
-		if config.current_config.damage_meter_UI.tracked_damage_types.otomo_damage then
+		if cached_config.tracked_damage_types.otomo_damage then
 			player.merge_damage(_player.display, _player.large_monsters.otomo);
 		end
 	
-		if config.current_config.damage_meter_UI.tracked_damage_types.monster_damage then
+		if cached_config.tracked_damage_types.monster_damage then
 			player.merge_damage(_player.display, _player.large_monsters.monster);
 		end
 
-		if config.current_config.damage_meter_UI.tracked_damage_types.poison_damage then
+		if cached_config.tracked_damage_types.poison_damage then
 			player.merge_damage(_player.display, _player.large_monsters.poison);
 		end
 
-		if config.current_config.damage_meter_UI.tracked_damage_types.blast_damage then
+		if cached_config.tracked_damage_types.blast_damage then
 			player.merge_damage(_player.display, _player.large_monsters.blast);
 		end
 	end
@@ -498,32 +500,37 @@ function player.update_player_list_on_quest()
 end
 
 function player.init_UI(_player)
+	local cached_config = config.current_config.damage_meter_UI;
+
 	_player.damage_UI = damage_UI_entity.new(
-		config.current_config.damage_meter_UI.damage_bar,
-		config.current_config.damage_meter_UI.highlighted_damage_bar,
-		config.current_config.damage_meter_UI.player_name_label,
-		config.current_config.damage_meter_UI.dps_label,
-		config.current_config.damage_meter_UI.hunter_rank_label,
-		config.current_config.damage_meter_UI.damage_value_label,
-		config.current_config.damage_meter_UI.damage_percentage_label
+		cached_config.damage_bar,
+		cached_config.highlighted_damage_bar,
+		cached_config.player_name_label,
+		cached_config.dps_label,
+		cached_config.hunter_rank_label,
+		cached_config.damage_value_label,
+		cached_config.damage_percentage_label
 	);
 end
 
 function player.init_total_UI(_player)
+	local cached_config = config.current_config.damage_meter_UI;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
 	_player.damage_UI = {
-		total_damage_label = table_helpers.deep_copy(config.current_config.damage_meter_UI.total_damage_label),
-		total_damage_value_label = table_helpers.deep_copy(config.current_config.damage_meter_UI.total_damage_value_label),
-		total_dps_label = table_helpers.deep_copy(config.current_config.damage_meter_UI.total_dps_label)
+		total_damage_label = table_helpers.deep_copy(cached_config.total_damage_label),
+		total_damage_value_label = table_helpers.deep_copy(cached_config.total_damage_value_label),
+		total_dps_label = table_helpers.deep_copy(cached_config.total_dps_label)
 	};
 
-	_player.damage_UI.total_damage_label.offset.x = _player.damage_UI.total_damage_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	_player.damage_UI.total_damage_label.offset.y = _player.damage_UI.total_damage_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	_player.damage_UI.total_damage_label.offset.x = _player.damage_UI.total_damage_label.offset.x * global_scale_modifier;
+	_player.damage_UI.total_damage_label.offset.y = _player.damage_UI.total_damage_label.offset.y * global_scale_modifier;
 
-	_player.damage_UI.total_damage_value_label.offset.x = _player.damage_UI.total_damage_value_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	_player.damage_UI.total_damage_value_label.offset.y = _player.damage_UI.total_damage_value_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	_player.damage_UI.total_damage_value_label.offset.x = _player.damage_UI.total_damage_value_label.offset.x * global_scale_modifier;
+	_player.damage_UI.total_damage_value_label.offset.y = _player.damage_UI.total_damage_value_label.offset.y * global_scale_modifier;
 
-	_player.damage_UI.total_dps_label.offset.x = _player.damage_UI.total_dps_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	_player.damage_UI.total_dps_label.offset.y = _player.damage_UI.total_dps_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	_player.damage_UI.total_dps_label.offset.x = _player.damage_UI.total_dps_label.offset.x * global_scale_modifier;
+	_player.damage_UI.total_dps_label.offset.y = _player.damage_UI.total_dps_label.offset.y * global_scale_modifier;
 end
 
 function player.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)

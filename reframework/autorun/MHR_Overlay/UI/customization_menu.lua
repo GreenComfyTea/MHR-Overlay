@@ -3156,6 +3156,12 @@ function customization_menu.draw()
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
+					changed, config.current_config.large_monster_UI.dynamic.monster_name_label.include.monster_id = imgui.checkbox(
+						language.current_language.customization_menu.monster_id,
+						config.current_config.large_monster_UI.dynamic.monster_name_label.include.monster_id);
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
 					changed, config.current_config.large_monster_UI.dynamic.monster_name_label.include.crown = imgui.checkbox(language.current_language
 						.customization_menu.crown,
 						config.current_config.large_monster_UI.dynamic.monster_name_label.include.crown);
@@ -6206,21 +6212,21 @@ function customization_menu.draw()
 					.customization_menu.visible,
 					config.current_config.large_monster_UI.dynamic.ailment_buildups.visibility);
 				config_changed = config_changed or changed;
-				large_monster_UI_changed = large_monster_UI_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 				if imgui.tree_node(language.current_language.customization_menu.offset) then
 					changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.offset.x = imgui.drag_float(language.current_language
 						.customization_menu.x,
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.offset.y = imgui.drag_float(language.current_language
 						.customization_menu.y,
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.offset.y, 0.1, -screen.height, screen.height,
 						"%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -6231,14 +6237,14 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.player_spacing.x, 0.1, -screen.width, screen.width
 						, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.player_spacing.y = imgui.drag_float(language
 						.current_language.customization_menu.y,
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.player_spacing.y, 0.1, -screen.height,
 						screen.height, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -6249,14 +6255,14 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_spacing.x, 0.1, -screen.width, screen.width
 						, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_spacing.y = imgui.drag_float(language
 						.current_language.customization_menu.y,
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_spacing.y, 0.1, -screen.height,
 						screen.height, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -6265,7 +6271,7 @@ function customization_menu.draw()
 						.customization_menu.highlighted_bar, customization_menu.large_monster_dynamic_UI_highlighted_buildup_bar_index,
 						customization_menu.displayed_highlighted_buildup_bar_types);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 					if changed then
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.settings.highlighted_bar = customization_menu.highlighted_buildup_bar_types
 							[customization_menu.large_monster_dynamic_UI_highlighted_buildup_bar_index];
@@ -6276,7 +6282,7 @@ function customization_menu.draw()
 						customization_menu.large_monster_dynamic_UI_buildup_bar_relative_index,
 						customization_menu.displayed_buildup_bar_relative_types);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					if changed then
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.settings.buildup_bar_relative_to = customization_menu
@@ -6287,7 +6293,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.time_limit,
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.settings.time_limit, 0.1, 0, 99999, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -6306,7 +6312,7 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.filter.blast);
 
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -6317,7 +6323,7 @@ function customization_menu.draw()
 						customization_menu.large_monster_dynamic_UI_ailment_buildups_sorting_type_index,
 						customization_menu.displayed_ailment_buildups_sorting_types);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					if changed then
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.sorting.type = customization_menu.ailment_buildups_sorting_types
@@ -6328,7 +6334,7 @@ function customization_menu.draw()
 						language.current_language.customization_menu.reversed_order,
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.sorting.reversed_order);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -6338,7 +6344,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.include) then
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label.include.ailment_name = imgui
@@ -6346,7 +6352,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.ailment_name,
 								config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label.include.ailment_name);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						changed,
 							config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label.include.activation_count = imgui
@@ -6354,7 +6360,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.activation_count,
 								config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label.include.activation_count);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6366,7 +6372,7 @@ function customization_menu.draw()
 							screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
@@ -6374,7 +6380,7 @@ function customization_menu.draw()
 							screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6384,7 +6390,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6395,7 +6401,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label.shadow.offset.x = imgui
@@ -6405,7 +6411,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label.shadow.offset.y = imgui
 								.drag_float(
@@ -6414,7 +6420,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6424,7 +6430,7 @@ function customization_menu.draw()
 								, config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label.shadow.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6440,7 +6446,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.player_name_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.player_name_label.offset.x = imgui.drag_float(language
@@ -6449,7 +6455,7 @@ function customization_menu.draw()
 							screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.player_name_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
@@ -6457,7 +6463,7 @@ function customization_menu.draw()
 							screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6467,7 +6473,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.dynamic.ailment_buildups.player_name_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6478,7 +6484,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.dynamic.ailment_buildups.player_name_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.player_name_label.shadow.offset.x = imgui
@@ -6488,7 +6494,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.player_name_label.shadow.offset.y = imgui
 								.drag_float(
@@ -6497,7 +6503,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6507,7 +6513,7 @@ function customization_menu.draw()
 								, config.current_config.large_monster_UI.dynamic.ailment_buildups.player_name_label.shadow.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6523,7 +6529,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_value_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					-- add text format
 
@@ -6534,7 +6540,7 @@ function customization_menu.draw()
 							screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_value_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
@@ -6542,7 +6548,7 @@ function customization_menu.draw()
 							, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6552,7 +6558,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_value_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6563,7 +6569,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_value_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_value_label.shadow.offset.x = imgui
@@ -6572,7 +6578,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_value_label.shadow.offset.y = imgui
 								.drag_float(language.current_language.customization_menu.y,
@@ -6580,7 +6586,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6591,7 +6597,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_value_label.shadow.color,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6608,7 +6614,7 @@ function customization_menu.draw()
 							language.current_language.customization_menu.visible,
 							config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_percentage_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					-- add text format
 
@@ -6619,7 +6625,7 @@ function customization_menu.draw()
 								-screen.width, screen.width,
 								"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_percentage_label.offset.y = imgui
 							.drag_float(language.current_language.customization_menu.y,
@@ -6627,7 +6633,7 @@ function customization_menu.draw()
 								-screen.height,
 								screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6637,7 +6643,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_percentage_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6648,7 +6654,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_percentage_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_percentage_label.shadow.offset.x = imgui
@@ -6658,7 +6664,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_percentage_label.shadow.offset.y = imgui
 								.drag_float(
@@ -6667,7 +6673,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6678,7 +6684,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_percentage_label.shadow.color,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6694,7 +6700,7 @@ function customization_menu.draw()
 						language.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					-- add text format
 
@@ -6705,7 +6711,7 @@ function customization_menu.draw()
 							screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
@@ -6713,7 +6719,7 @@ function customization_menu.draw()
 							,
 							screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6723,7 +6729,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6734,7 +6740,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_label.shadow.offset.x = imgui
@@ -6744,7 +6750,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_label.shadow.offset.y = imgui
 								.drag_float(
@@ -6753,7 +6759,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6764,7 +6770,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_label.shadow.color,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6781,7 +6787,7 @@ function customization_menu.draw()
 							language.current_language.customization_menu.visible,
 							config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_value_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					-- add text format
 
@@ -6792,7 +6798,7 @@ function customization_menu.draw()
 								-screen.width, screen.width,
 								"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_value_label.offset.y = imgui
 							.drag_float(language.current_language.customization_menu.y,
@@ -6800,7 +6806,7 @@ function customization_menu.draw()
 								-screen.height,
 								screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6810,7 +6816,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_value_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6822,7 +6828,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_value_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_value_label.shadow.offset.x = imgui
@@ -6832,7 +6838,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_value_label.shadow.offset.y = imgui
 								.drag_float(
@@ -6841,7 +6847,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6852,7 +6858,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_label.shadow.color,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6868,7 +6874,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar.offset.x = imgui.drag_float(language
@@ -6876,14 +6882,14 @@ function customization_menu.draw()
 							config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar.offset.x, 0.1, -screen.width,
 							screen.width, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
 							config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar.offset.y, 0.1, -screen.height,
 							screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6894,14 +6900,14 @@ function customization_menu.draw()
 							config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar.size.width, 0.1, 0, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar.size.height = imgui.drag_float(language
 							.current_language.customization_menu.height,
 							config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar.size.height, 0.1, 0, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6912,7 +6918,7 @@ function customization_menu.draw()
 								, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar.colors.foreground,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6922,7 +6928,7 @@ function customization_menu.draw()
 								, config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar.colors.background,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6938,7 +6944,7 @@ function customization_menu.draw()
 						.checkbox(language.current_language.customization_menu.visible,
 							config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar.offset.x = imgui.drag_float(language
@@ -6946,14 +6952,14 @@ function customization_menu.draw()
 							config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar.offset.x, 0.1,
 							-screen.width, screen.width, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
 							config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar.offset.y, 0.1,
 							-screen.height, screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6964,14 +6970,14 @@ function customization_menu.draw()
 								config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar.size.width, 0.1, 0,
 								screen.width, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar.size.height = imgui
 							.drag_float(language.current_language.customization_menu.height,
 								config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar.size.height, 0.1, 0,
 								screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -6983,7 +6989,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar.colors.foreground,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -6994,7 +7000,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar.colors.background,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -7128,6 +7134,12 @@ function customization_menu.draw()
 					changed, config.current_config.large_monster_UI.static.monster_name_label.include.monster_name = imgui.checkbox(
 						language.current_language.customization_menu.monster_name,
 						config.current_config.large_monster_UI.static.monster_name_label.include.monster_name);
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.static.monster_name_label.include.monster_id = imgui.checkbox(
+						language.current_language.customization_menu.monster_id,
+						config.current_config.large_monster_UI.static.monster_name_label.include.monster_id);
 					config_changed = config_changed or changed;
 					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
@@ -10148,20 +10160,20 @@ function customization_menu.draw()
 					.customization_menu.visible,
 					config.current_config.large_monster_UI.static.ailment_buildups.visibility);
 				config_changed = config_changed or changed;
-				large_monster_UI_changed = large_monster_UI_changed or changed;
+				large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 				if imgui.tree_node(language.current_language.customization_menu.offset) then
 					changed, config.current_config.large_monster_UI.static.ailment_buildups.offset.x = imgui.drag_float(language.current_language
 						.customization_menu.x,
 						config.current_config.large_monster_UI.static.ailment_buildups.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					changed, config.current_config.large_monster_UI.static.ailment_buildups.offset.y = imgui.drag_float(language.current_language
 						.customization_menu.y,
 						config.current_config.large_monster_UI.static.ailment_buildups.offset.y, 0.1, -screen.height, screen.height, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -10172,14 +10184,14 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.static.ailment_buildups.player_spacing.x, 0.1, -screen.width, screen.width,
 						"%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					changed, config.current_config.large_monster_UI.static.ailment_buildups.player_spacing.y = imgui.drag_float(language
 						.current_language.customization_menu.y,
 						config.current_config.large_monster_UI.static.ailment_buildups.player_spacing.y, 0.1, -screen.height, screen.height
 						, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -10190,14 +10202,14 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.static.ailment_buildups.ailment_spacing.x, 0.1, -screen.width, screen.width
 						, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					changed, config.current_config.large_monster_UI.static.ailment_buildups.ailment_spacing.y = imgui.drag_float(language
 						.current_language.customization_menu.y,
 						config.current_config.large_monster_UI.static.ailment_buildups.ailment_spacing.y, 0.1, -screen.height,
 						screen.height, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -10207,7 +10219,7 @@ function customization_menu.draw()
 						.customization_menu.highlighted_bar, customization_menu.large_monster_static_UI_highlighted_buildup_bar_index,
 						customization_menu.displayed_highlighted_buildup_bar_types);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 					if changed then
 						config.current_config.large_monster_UI.static.ailment_buildups.settings.highlighted_bar = customization_menu.highlighted_buildup_bar_types
 							[customization_menu.large_monster_static_UI_highlighted_buildup_bar_index];
@@ -10218,7 +10230,7 @@ function customization_menu.draw()
 						customization_menu.large_monster_static_UI_buildup_bar_relative_index,
 						customization_menu.displayed_buildup_bar_relative_types);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					if changed then
 						config.current_config.large_monster_UI.static.ailment_buildups.settings.buildup_bar_relative_to = customization_menu
@@ -10229,7 +10241,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.time_limit,
 						config.current_config.large_monster_UI.static.ailment_buildups.settings.time_limit, 0.1, 0, 99999, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -10248,7 +10260,7 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.static.ailment_buildups.filter.blast);
 
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -10259,7 +10271,7 @@ function customization_menu.draw()
 						customization_menu.large_monster_static_UI_ailment_buildups_sorting_type_index,
 						customization_menu.displayed_ailment_buildups_sorting_types);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					if changed then
 						config.current_config.large_monster_UI.static.ailment_buildups.sorting.type = customization_menu.ailment_buildups_sorting_types
@@ -10270,7 +10282,7 @@ function customization_menu.draw()
 						language.current_language.customization_menu.reversed_order,
 						config.current_config.large_monster_UI.static.ailment_buildups.sorting.reversed_order);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -10280,7 +10292,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.include) then
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label.include.ailment_name = imgui
@@ -10288,14 +10300,14 @@ function customization_menu.draw()
 								language.current_language.customization_menu.ailment_name,
 								config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label.include.ailment_name);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label.include.activation_count = imgui
 							.checkbox(
 								language.current_language.customization_menu.activation_count,
 								config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label.include.activation_count);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10307,7 +10319,7 @@ function customization_menu.draw()
 							screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
@@ -10315,7 +10327,7 @@ function customization_menu.draw()
 							screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10325,7 +10337,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10336,7 +10348,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label.shadow.offset.x = imgui
@@ -10346,7 +10358,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label.shadow.offset.y = imgui
 								.drag_float(
@@ -10355,7 +10367,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10365,7 +10377,7 @@ function customization_menu.draw()
 								, config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label.shadow.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10381,7 +10393,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.static.ailment_buildups.player_name_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.player_name_label.offset.x = imgui.drag_float(language
@@ -10390,7 +10402,7 @@ function customization_menu.draw()
 							screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.player_name_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
@@ -10398,7 +10410,7 @@ function customization_menu.draw()
 							screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10408,7 +10420,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.static.ailment_buildups.player_name_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10419,7 +10431,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.static.ailment_buildups.player_name_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.static.ailment_buildups.player_name_label.shadow.offset.x = imgui
@@ -10429,7 +10441,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.static.ailment_buildups.player_name_label.shadow.offset.y = imgui
 								.drag_float(
@@ -10438,7 +10450,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10448,7 +10460,7 @@ function customization_menu.draw()
 								, config.current_config.large_monster_UI.static.ailment_buildups.player_name_label.shadow.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10464,7 +10476,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.static.ailment_buildups.buildup_value_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					-- add text format
 
@@ -10475,7 +10487,7 @@ function customization_menu.draw()
 							screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.buildup_value_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
@@ -10483,7 +10495,7 @@ function customization_menu.draw()
 							screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10493,7 +10505,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.static.ailment_buildups.buildup_value_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10504,7 +10516,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.static.ailment_buildups.buildup_value_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.static.ailment_buildups.buildup_value_label.shadow.offset.x = imgui
@@ -10513,7 +10525,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.static.ailment_buildups.buildup_value_label.shadow.offset.y = imgui
 								.drag_float(language.current_language.customization_menu.y,
@@ -10521,7 +10533,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10531,7 +10543,7 @@ function customization_menu.draw()
 								, config.current_config.large_monster_UI.static.ailment_buildups.buildup_value_label.shadow.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10548,7 +10560,7 @@ function customization_menu.draw()
 							language.current_language.customization_menu.visible,
 							config.current_config.large_monster_UI.static.ailment_buildups.buildup_percentage_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					-- add text format
 
@@ -10559,7 +10571,7 @@ function customization_menu.draw()
 							-screen.width, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.buildup_percentage_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
@@ -10567,7 +10579,7 @@ function customization_menu.draw()
 							-screen.height,
 							screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10577,7 +10589,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.static.ailment_buildups.buildup_percentage_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10588,7 +10600,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.static.ailment_buildups.buildup_percentage_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.static.ailment_buildups.buildup_percentage_label.shadow.offset.x = imgui
@@ -10598,7 +10610,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.static.ailment_buildups.buildup_percentage_label.shadow.offset.y = imgui
 								.drag_float(
@@ -10607,7 +10619,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10618,7 +10630,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.static.ailment_buildups.buildup_percentage_label.shadow.color,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10634,7 +10646,7 @@ function customization_menu.draw()
 						language.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					-- add text format
 
@@ -10645,14 +10657,14 @@ function customization_menu.draw()
 							screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
 							config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_label.offset.y, 0.1, -screen.height,
 							screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10662,7 +10674,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10673,7 +10685,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_label.shadow.offset.x = imgui
@@ -10683,7 +10695,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_label.shadow.offset.y = imgui
 								.drag_float(
@@ -10692,7 +10704,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10702,7 +10714,7 @@ function customization_menu.draw()
 								, config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_label.shadow.color,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10719,7 +10731,7 @@ function customization_menu.draw()
 							language.current_language.customization_menu.visible,
 							config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_value_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					-- add text format
 
@@ -10730,7 +10742,7 @@ function customization_menu.draw()
 								-screen.width, screen.width,
 								"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_value_label.offset.y = imgui
 							.drag_float(language.current_language.customization_menu.y,
@@ -10738,7 +10750,7 @@ function customization_menu.draw()
 								-screen.height,
 								screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10748,7 +10760,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_value_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10759,7 +10771,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_value_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_value_label.shadow.offset.x = imgui
@@ -10769,7 +10781,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_value_label.shadow.offset.y = imgui
 								.drag_float(
@@ -10778,7 +10790,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10789,7 +10801,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_label.shadow.color,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10805,7 +10817,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar.offset.x = imgui.drag_float(language
@@ -10813,14 +10825,14 @@ function customization_menu.draw()
 							config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar.offset.x, 0.1, -screen.width,
 							screen.width, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
 							config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar.offset.y, 0.1, -screen.height,
 							screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10831,14 +10843,14 @@ function customization_menu.draw()
 							config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar.size.width, 0.1, 0, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar.size.height = imgui.drag_float(language
 							.current_language.customization_menu.height,
 							config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar.size.height, 0.1, 0, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10849,7 +10861,7 @@ function customization_menu.draw()
 								, config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar.colors.foreground,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10859,7 +10871,7 @@ function customization_menu.draw()
 								, config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar.colors.background,
 								customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10875,7 +10887,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar.offset.x = imgui.drag_float(language
@@ -10883,14 +10895,14 @@ function customization_menu.draw()
 							config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar.offset.x, 0.1,
 							-screen.width, screen.width, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
 							config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar.offset.y, 0.1,
 							-screen.height, screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10901,14 +10913,14 @@ function customization_menu.draw()
 								config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar.size.width, 0.1, 0,
 								screen.width, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar.size.height = imgui
 							.drag_float(language.current_language.customization_menu.height,
 								config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar.size.height, 0.1, 0,
 								screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -10920,7 +10932,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar.colors.foreground,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10931,7 +10943,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar.colors.background,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -10990,6 +11002,13 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.highlighted.monster_name_label.include.monster_name);
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.highlighted.monster_name_label.include.monster_id = imgui.checkbox(
+						language.current_language.customization_menu.monster_id,
+						config.current_config.large_monster_UI.highlighted.monster_name_label.include.monster_id);
+					config_changed = config_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+
 
 					changed, config.current_config.large_monster_UI.highlighted.monster_name_label.include.crown = imgui.checkbox(language
 						.current_language.customization_menu.crown,
@@ -14074,7 +14093,7 @@ function customization_menu.draw()
 					.customization_menu.visible,
 					config.current_config.large_monster_UI.highlighted.ailment_buildups.visibility);
 				config_changed = config_changed or changed;
-				large_monster_UI_changed = large_monster_UI_changed or changed;
+				large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 				if imgui.tree_node(language.current_language.customization_menu.offset) then
 					changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.offset.x = imgui.drag_float(language.current_language
@@ -14082,14 +14101,14 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.offset.x, 0.1, -screen.width, screen.width,
 						"%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.offset.y = imgui.drag_float(language.current_language
 						.customization_menu.y,
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.offset.y, 0.1, -screen.height, screen.height,
 						"%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -14100,14 +14119,14 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.player_spacing.x, 0.1, -screen.width,
 						screen.width, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.player_spacing.y = imgui.drag_float(language
 						.current_language.customization_menu.y,
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.player_spacing.y, 0.1, -screen.height,
 						screen.height, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -14118,14 +14137,14 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_spacing.x, 0.1, -screen.width,
 						screen.width, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_spacing.y = imgui.drag_float(language
 						.current_language.customization_menu.y,
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_spacing.y, 0.1, -screen.height,
 						screen.height, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -14136,7 +14155,7 @@ function customization_menu.draw()
 						,
 						customization_menu.displayed_highlighted_buildup_bar_types);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 					if changed then
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.settings.highlighted_bar = customization_menu.highlighted_buildup_bar_types
 							[customization_menu.large_monster_highlighted_UI_highlighted_buildup_bar_index];
@@ -14147,7 +14166,7 @@ function customization_menu.draw()
 						customization_menu.large_monster_highlighted_UI_buildup_bar_relative_index,
 						customization_menu.displayed_buildup_bar_relative_types);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					if changed then
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.settings.buildup_bar_relative_to = customization_menu
@@ -14158,7 +14177,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.time_limit,
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.settings.time_limit, 0.1, 0, 99999, "%.1f");
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -14177,7 +14196,7 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.filter.blast);
 
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -14188,7 +14207,7 @@ function customization_menu.draw()
 						customization_menu.large_monster_highlighted_UI_ailment_buildups_sorting_type_index,
 						customization_menu.displayed_ailment_buildups_sorting_types);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					if changed then
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.sorting.type = customization_menu.ailment_buildups_sorting_types
@@ -14199,7 +14218,7 @@ function customization_menu.draw()
 						language.current_language.customization_menu.reversed_order,
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.sorting.reversed_order);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					imgui.tree_pop();
 				end
@@ -14209,7 +14228,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_name_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.include) then
 						changed,
@@ -14218,7 +14237,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.ailment_name,
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_name_label.include.ailment_name);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						changed,
 							config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_name_label.include.activation_count = imgui
@@ -14226,7 +14245,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.activation_count,
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_name_label.include.activation_count);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14238,7 +14257,7 @@ function customization_menu.draw()
 							-screen.width, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_name_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
@@ -14246,7 +14265,7 @@ function customization_menu.draw()
 							-screen.height, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14256,7 +14275,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_name_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14267,7 +14286,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_name_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_name_label.shadow.offset.x = imgui
@@ -14277,7 +14296,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_name_label.shadow.offset.y = imgui
 								.drag_float(
@@ -14286,7 +14305,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14297,7 +14316,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_name_label.shadow.color,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14313,7 +14332,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.player_name_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.player_name_label.offset.x = imgui.drag_float(language
@@ -14322,7 +14341,7 @@ function customization_menu.draw()
 							screen.width, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.player_name_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
@@ -14330,7 +14349,7 @@ function customization_menu.draw()
 							-screen.height, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14340,7 +14359,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.highlighted.ailment_buildups.player_name_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14351,7 +14370,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.player_name_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.player_name_label.shadow.offset.x = imgui
@@ -14361,7 +14380,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.player_name_label.shadow.offset.y = imgui
 								.drag_float(
@@ -14370,7 +14389,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14381,7 +14400,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.highlighted.ailment_buildups.player_name_label.shadow.color,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14397,7 +14416,7 @@ function customization_menu.draw()
 						.checkbox(language.current_language.customization_menu.visible,
 							config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_value_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					-- add text format
 
@@ -14408,7 +14427,7 @@ function customization_menu.draw()
 							-screen.width, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_value_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
@@ -14416,7 +14435,7 @@ function customization_menu.draw()
 							-screen.height, screen.height,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14426,7 +14445,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_value_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14437,7 +14456,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_value_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_value_label.shadow.offset.x = imgui
@@ -14446,7 +14465,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_value_label.shadow.offset.y = imgui
 								.drag_float(language.current_language.customization_menu.y,
@@ -14454,7 +14473,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14465,7 +14484,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_value_label.shadow.color,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14482,7 +14501,7 @@ function customization_menu.draw()
 							language.current_language.customization_menu.visible,
 							config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_percentage_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					-- add text format
 
@@ -14493,7 +14512,7 @@ function customization_menu.draw()
 								-screen.width, screen.width,
 								"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_percentage_label.offset.y = imgui
 							.drag_float(language.current_language.customization_menu.y,
@@ -14501,7 +14520,7 @@ function customization_menu.draw()
 								-screen.height,
 								screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14512,7 +14531,7 @@ function customization_menu.draw()
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_percentage_label.color,
 								customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14524,7 +14543,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_percentage_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed,
@@ -14535,7 +14554,7 @@ function customization_menu.draw()
 									0.1, -screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							changed,
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_percentage_label.shadow.offset.y = imgui
@@ -14545,7 +14564,7 @@ function customization_menu.draw()
 									0.1, -screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14556,7 +14575,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_percentage_label.shadow.color,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14573,7 +14592,7 @@ function customization_menu.draw()
 							language.current_language.customization_menu.visible,
 							config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					-- add text format
 
@@ -14584,7 +14603,7 @@ function customization_menu.draw()
 							-screen.width, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_label.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
@@ -14592,7 +14611,7 @@ function customization_menu.draw()
 							-screen.height,
 							screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14602,7 +14621,7 @@ function customization_menu.draw()
 							, config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_label.color,
 							customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14613,7 +14632,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_label.shadow.offset.x = imgui
@@ -14623,7 +14642,7 @@ function customization_menu.draw()
 									-screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_label.shadow.offset.y = imgui
 								.drag_float(
@@ -14632,7 +14651,7 @@ function customization_menu.draw()
 									-screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14643,7 +14662,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_label.shadow.color,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14660,7 +14679,7 @@ function customization_menu.draw()
 							language.current_language.customization_menu.visible,
 							config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_value_label.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					-- add text format
 
@@ -14671,7 +14690,7 @@ function customization_menu.draw()
 								-screen.width, screen.width,
 								"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_value_label.offset.y = imgui
 							.drag_float(language.current_language.customization_menu.y,
@@ -14679,7 +14698,7 @@ function customization_menu.draw()
 								-screen.height,
 								screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14690,7 +14709,7 @@ function customization_menu.draw()
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_value_label.color,
 								customization_menu.color_picker_flags);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14702,7 +14721,7 @@ function customization_menu.draw()
 								language.current_language.customization_menu.visible,
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_value_label.shadow.visibility);
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						if imgui.tree_node(language.current_language.customization_menu.offset) then
 							changed,
@@ -14713,7 +14732,7 @@ function customization_menu.draw()
 									0.1, -screen.width,
 									screen.width, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							changed,
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_value_label.shadow.offset.y = imgui
@@ -14723,7 +14742,7 @@ function customization_menu.draw()
 									0.1, -screen.height,
 									screen.height, "%.1f");
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14735,7 +14754,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_label.shadow.color,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14751,7 +14770,7 @@ function customization_menu.draw()
 						.current_language.customization_menu.visible,
 						config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar.offset.x = imgui.drag_float(language
@@ -14759,14 +14778,14 @@ function customization_menu.draw()
 							config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar.offset.x, 0.1, -screen.width,
 							screen.width, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar.offset.y = imgui.drag_float(language
 							.current_language.customization_menu.y,
 							config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar.offset.y, 0.1, -screen.height,
 							screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14777,14 +14796,14 @@ function customization_menu.draw()
 							config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar.size.width, 0.1, 0, screen.width,
 							"%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar.size.height = imgui.drag_float(language
 							.current_language.customization_menu.height,
 							config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar.size.height, 0.1, 0, screen.height
 							, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14796,7 +14815,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar.colors.foreground,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14807,7 +14826,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar.colors.background,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14823,7 +14842,7 @@ function customization_menu.draw()
 						.checkbox(language.current_language.customization_menu.visible,
 							config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar.visibility);
 					config_changed = config_changed or changed;
-					large_monster_UI_changed = large_monster_UI_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 					if imgui.tree_node(language.current_language.customization_menu.offset) then
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar.offset.x = imgui
@@ -14831,14 +14850,14 @@ function customization_menu.draw()
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar.offset.x, 0.1,
 								-screen.width, screen.width, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar.offset.y = imgui
 							.drag_float(language.current_language.customization_menu.y,
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar.offset.y, 0.1,
 								-screen.height, screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14849,14 +14868,14 @@ function customization_menu.draw()
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar.size.width, 0.1, 0,
 								screen.width, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						changed, config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar.size.height = imgui
 							.drag_float(language.current_language.customization_menu.height,
 								config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar.size.height, 0.1, 0,
 								screen.height, "%.1f");
 						config_changed = config_changed or changed;
-						large_monster_UI_changed = large_monster_UI_changed or changed;
+						large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 						imgui.tree_pop();
 					end
@@ -14869,7 +14888,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar.colors.foreground,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end
@@ -14881,7 +14900,7 @@ function customization_menu.draw()
 									config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar.colors.background,
 									customization_menu.color_picker_flags);
 							config_changed = config_changed or changed;
-							large_monster_UI_changed = large_monster_UI_changed or changed;
+							large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
 
 							imgui.tree_pop();
 						end

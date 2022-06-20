@@ -23,8 +23,10 @@ end
 function time_UI.init_UI()
 	time_UI.label = table_helpers.deep_copy(config.current_config.time_UI.time_label);
 
-	time_UI.label.offset.x = time_UI.label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	time_UI.label.offset.y = time_UI.label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
+	time_UI.label.offset.x = time_UI.label.offset.x * global_scale_modifier;
+	time_UI.label.offset.y = time_UI.label.offset.y * global_scale_modifier;
 end
 
 function time_UI.init_module()

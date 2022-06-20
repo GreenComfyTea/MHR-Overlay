@@ -140,7 +140,7 @@ function ailments.init_ailments()
 
 	_ailments[ailments.poison_id].buildup = {};
 	_ailments[ailments.poison_id].buildup_share = {};
-	_ailments[ailments.poison_id].cashed_buildup_share = {};
+	_ailments[ailments.poison_id].cached_buildup_share = {};
 
 	_ailments[ailments.blast_id].buildup = {};
 	_ailments[ailments.blast_id].buildup_share = {};
@@ -161,54 +161,62 @@ function ailments.init_ailment_buildup_UI(_ailments)
 end
 
 function ailments.init_ailment_buildup_dynamic_UI(_ailments)
+	local cached_config = config.current_config.large_monster_UI.dynamic.ailment_buildups;
+
 	_ailments[ailments.stun_id].ailment_buildup_dynamic_UI = ailment_buildup_UI_entity.new(
-		config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_bar,
-		config.current_config.large_monster_UI.dynamic.ailment_buildups.highlighted_buildup_bar,
-		config.current_config.large_monster_UI.dynamic.ailment_buildups.ailment_name_label,
-		config.current_config.large_monster_UI.dynamic.ailment_buildups.player_name_label,
-		config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_value_label,
-		config.current_config.large_monster_UI.dynamic.ailment_buildups.buildup_percentage_label,
-		config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_label,
-		config.current_config.large_monster_UI.dynamic.ailment_buildups.total_buildup_value_label
+		cached_config.buildup_bar,
+		cached_config.highlighted_buildup_bar,
+		cached_config.ailment_name_label,
+		cached_config.player_name_label,
+		cached_config.buildup_value_label,
+		cached_config.buildup_percentage_label,
+		cached_config.total_buildup_label,
+		cached_config.total_buildup_value_label
 	);
 end
 
 function ailments.init_ailment_buildup_static_UI(_ailments)
+	local cached_config = config.current_config.large_monster_UI.static.ailment_buildups;
+
 	_ailments[ailments.stun_id].ailment_buildup_static_UI = ailment_buildup_UI_entity.new(
-		config.current_config.large_monster_UI.static.ailment_buildups.buildup_bar,
-		config.current_config.large_monster_UI.static.ailment_buildups.highlighted_buildup_bar,
-		config.current_config.large_monster_UI.static.ailment_buildups.ailment_name_label,
-		config.current_config.large_monster_UI.static.ailment_buildups.player_name_label,
-		config.current_config.large_monster_UI.static.ailment_buildups.buildup_value_label,
-		config.current_config.large_monster_UI.static.ailment_buildups.buildup_percentage_label,
-		config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_label,
-		config.current_config.large_monster_UI.static.ailment_buildups.total_buildup_value_label
+		cached_config.buildup_bar,
+		cached_config.highlighted_buildup_bar,
+		cached_config.ailment_name_label,
+		cached_config.player_name_label,
+		cached_config.buildup_value_label,
+		cached_config.buildup_percentage_label,
+		cached_config.total_buildup_label,
+		cached_config.total_buildup_value_label
 	);
 end
 
 function ailments.init_ailment_buildup_highlighted_UI(_ailments)
+	local cached_config = config.current_config.large_monster_UI.highlighted.ailment_buildups;
+
 	_ailments[ailments.stun_id].ailment_buildup_highlighted_UI = ailment_buildup_UI_entity.new(
-		config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_bar,
-		config.current_config.large_monster_UI.highlighted.ailment_buildups.highlighted_buildup_bar,
-		config.current_config.large_monster_UI.highlighted.ailment_buildups.ailment_name_label,
-		config.current_config.large_monster_UI.highlighted.ailment_buildups.player_name_label,
-		config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_value_label,
-		config.current_config.large_monster_UI.highlighted.ailment_buildups.buildup_percentage_label,
-		config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_label,
-		config.current_config.large_monster_UI.highlighted.ailment_buildups.total_buildup_value_label
+		cached_config.buildup_bar,
+		cached_config.highlighted_buildup_bar,
+		cached_config.ailment_name_label,
+		cached_config.player_name_label,
+		cached_config.buildup_value_label,
+		cached_config.buildup_percentage_label,
+		cached_config.total_buildup_label,
+		cached_config.total_buildup_value_label
 	);
 end
 
 function ailments.init_ailment_buildup_small_UI(_ailments)
+	local cached_config = config.current_config.small_monster_UI.ailment_buildups;
+
 	_ailments[ailments.stun_id].ailment_buildup_small_UI = ailment_buildup_UI_entity.new(
-		config.current_config.small_monster_UI.ailment_buildups.buildup_bar,
-		config.current_config.small_monster_UI.ailment_buildups.highlighted_buildup_bar,
-		config.current_config.small_monster_UI.ailment_buildups.ailment_name_label,
-		config.current_config.small_monster_UI.ailment_buildups.player_name_label,
-		config.current_config.small_monster_UI.ailment_buildups.buildup_value_label,
-		config.current_config.small_monster_UI.ailment_buildups.buildup_percentage_label,
-		config.current_config.small_monster_UI.ailment_buildups.total_buildup_label,
-		config.current_config.small_monster_UI.ailment_buildups.total_buildup_value_label
+		cached_config.buildup_bar,
+		cached_config.highlighted_buildup_bar,
+		cached_config.ailment_name_label,
+		cached_config.player_name_label,
+		cached_config.buildup_value_label,
+		cached_config.buildup_percentage_label,
+		cached_config.total_buildup_label,
+		cached_config.total_buildup_value_label
 	);
 end
 
@@ -253,7 +261,7 @@ function ailments.update_ailments(enemy, monster)
 	end
 
 	ailments.update_stun_poison_blast_ailments(monster, damage_param);
-
+	
 	if not config.current_config.large_monster_UI.dynamic.ailments.visibility
 	and not config.current_config.large_monster_UI.static.ailments.visibility
 	and not config.current_config.large_monster_UI.highlighted.ailments.visibility
@@ -275,6 +283,7 @@ function ailments.update_ailments(enemy, monster)
 	if condition_param == nil then
 		return;
 	end
+
 
 	for index, ailment_param in ipairs(condition_param_table) do
 		local id = index - 1;
@@ -307,7 +316,7 @@ end
 
 function ailments.update_ailment(monster, ailment_param, id)
 		local is_enable = get_is_enable_method:call(ailment_param);
-		local activate_count = get_activate_count_method:call(ailment_param):get_element(0):get_field("mValue");
+		local activate_count = get_activate_count_method:call(ailment_param):get_element(0):get_field("mValue") or 0;
 		local buildup = get_stock_method:call(ailment_param):get_element(0):get_field("mValue");
 		local buildup_limit = get_limit_method:call(ailment_param):get_element(0):get_field("mValue");
 		local timer = get_active_timer_method:call(ailment_param);
@@ -315,12 +324,15 @@ function ailments.update_ailment(monster, ailment_param, id)
 		local is_active = get_is_active_method:call(ailment_param);
 		
 		if is_enable ~= nil then
-			if is_enable ~= monster.ailments[id].is_enable then
-				ailments.update_last_change_time(monster, id);
-			end
-
-			monster.ailments[id].is_enable = is_enable;
+			is_enable = true;
 		end
+
+
+		if is_enable ~= monster.ailments[id].is_enable then
+			ailments.update_last_change_time(monster, id);
+		end
+
+		monster.ailments[id].is_enable = is_enable;
 
 		if activate_count ~= nil then
 			if activate_count ~= monster.ailments[id].activate_count then
@@ -435,30 +447,33 @@ function ailments.update_poison_blast(monster, poison_param, blast_param)
 end
 
 function ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_scale)
+	local cached_config = config.current_config.large_monster_UI.dynamic.ailments;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
 	--sort parts here
 	local displayed_ailments = {};
 	for REpart, ailment in pairs(monster.ailments) do
-		if config.current_config.large_monster_UI.dynamic.ailments.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
+		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.dynamic.ailments.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
+		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.dynamic.ailments.settings.hide_all_inactive_ailments and not ailment.is_active then
+		if cached_config.settings.hide_all_inactive_ailments and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.dynamic.ailments.settings.hide_all_active_ailments and ailment.is_active then
+		if cached_config.settings.hide_all_active_ailments and ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.dynamic.ailments.settings.hide_disabled_ailments and not ailment.is_enable then
+		if cached_config.settings.hide_disabled_ailments and not ailment.is_enable then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.dynamic.ailments.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > config.current_config.large_monster_UI.dynamic.ailments.settings.time_limit and not ailment.is_active then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
 			goto continue;
 		end
 
@@ -467,8 +482,8 @@ function ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_sca
 	end
 	
 
-	if config.current_config.large_monster_UI.dynamic.ailments.sorting.type == "Normal" then
-		if config.current_config.large_monster_UI.dynamic.ailments.sorting.reversed_order then
+	if cached_config.sorting.type == "Normal" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
 				return left.id > right.id;
 			end);
@@ -477,8 +492,8 @@ function ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_sca
 				return left.id < right.id;
 			end);
 		end
-	elseif config.current_config.large_monster_UI.dynamic.ailments.sorting.type == "Buildup" then
-		if config.current_config.large_monster_UI.dynamic.ailments.sorting.reversed_order then
+	elseif cached_config.sorting.type == "Buildup" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
 				return left.total_buildup > right.total_buildup;
 			end);
@@ -487,8 +502,8 @@ function ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_sca
 				return left.total_buildup < right.total_buildup;
 			end);
 		end
-	elseif config.current_config.large_monster_UI.dynamic.ailments.sorting.type == "Buildup Percentage" then
-		if config.current_config.large_monster_UI.dynamic.ailments.sorting.reversed_order then
+	elseif cached_config.sorting.type == "Buildup Percentage" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
 				return left.buildup_percentage > right.buildup_percentage;
 			end);
@@ -501,8 +516,8 @@ function ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_sca
 
 	for j, ailment in ipairs(displayed_ailments) do
 		local ailment_position_on_screen = {
-			x = ailments_position_on_screen.x + config.current_config.large_monster_UI.dynamic.ailments.spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = ailments_position_on_screen.y + config.current_config.large_monster_UI.dynamic.ailments.spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
+			x = ailments_position_on_screen.x + cached_config.spacing.x * (j - 1) * global_scale_modifier,
+			y = ailments_position_on_screen.y + cached_config.spacing.y * (j - 1) * global_scale_modifier;
 		}
 		ailment_UI_entity.draw_dynamic(ailment, monster.ailment_dynamic_UI, ailment_position_on_screen, opacity_scale);
 	end
@@ -511,31 +526,33 @@ function ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_sca
 end
 
 function ailments.draw_static(monster, ailments_position_on_screen, opacity_scale)
+	local cached_config = config.current_config.large_monster_UI.static.ailments;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
 	--sort parts here
 	local displayed_ailments = {};
 	for REpart, ailment in pairs(monster.ailments) do
-		if config.current_config.large_monster_UI.static.ailments.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
+		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.static.ailments.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
+		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.static.ailments.settings.hide_all_inactive_ailments and not ailment.is_active then
+		if cached_config.settings.hide_all_inactive_ailments and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.static.ailments.settings.hide_all_active_ailments and ailment.is_active then
+		if cached_config.settings.hide_all_active_ailments and ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.static.ailments.settings.hide_disabled_ailments and not ailment.is_enable then
+		if cached_config.settings.hide_disabled_ailments and not ailment.is_enable then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.static.ailments.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > config.current_config.large_monster_UI.static.ailments.settings.time_limit and not ailment.is_active then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
 			goto continue;
 		end
 
@@ -544,8 +561,8 @@ function ailments.draw_static(monster, ailments_position_on_screen, opacity_scal
 	end
 	
 
-	if config.current_config.large_monster_UI.static.ailments.sorting.type == "Normal" then
-		if config.current_config.large_monster_UI.static.ailments.sorting.reversed_order then
+	if cached_config.sorting.type == "Normal" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
 				return left.id > right.id;
 			end);
@@ -554,8 +571,8 @@ function ailments.draw_static(monster, ailments_position_on_screen, opacity_scal
 				return left.id < right.id;
 			end);
 		end
-	elseif config.current_config.large_monster_UI.static.ailments.sorting.type == "Buildup" then
-		if config.current_config.large_monster_UI.static.ailments.sorting.reversed_order then
+	elseif cached_config.sorting.type == "Buildup" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
 				return left.total_buildup > right.total_buildup;
 			end);
@@ -564,8 +581,8 @@ function ailments.draw_static(monster, ailments_position_on_screen, opacity_scal
 				return left.total_buildup < right.total_buildup;
 			end);
 		end
-	elseif config.current_config.large_monster_UI.static.ailments.sorting.type == "Buildup Percentage" then
-		if config.current_config.large_monster_UI.static.ailments.sorting.reversed_order then
+	elseif cached_config.sorting.type == "Buildup Percentage" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
 				return left.buildup_percentage > right.buildup_percentage;
 			end);
@@ -578,8 +595,8 @@ function ailments.draw_static(monster, ailments_position_on_screen, opacity_scal
 
 	for j, ailment in ipairs(displayed_ailments) do
 		local ailment_position_on_screen = {
-			x = ailments_position_on_screen.x + config.current_config.large_monster_UI.static.ailments.spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = ailments_position_on_screen.y + config.current_config.large_monster_UI.static.ailments.spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
+			x = ailments_position_on_screen.x + cached_config.spacing.x * (j - 1) * global_scale_modifier,
+			y = ailments_position_on_screen.y + cached_config.spacing.y * (j - 1) * global_scale_modifier;
 		}
 		
 		ailment_UI_entity.draw_static(ailment, monster.ailment_static_UI, ailment_position_on_screen, opacity_scale);
@@ -587,30 +604,33 @@ function ailments.draw_static(monster, ailments_position_on_screen, opacity_scal
 end
 
 function ailments.draw_highlighted(monster, ailments_position_on_screen, opacity_scale)
+	local cached_config = config.current_config.large_monster_UI.highlighted.ailments;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
 	--sort parts here
 	local displayed_ailments = {};
 	for id, ailment in pairs(monster.ailments) do
-		if config.current_config.large_monster_UI.highlighted.ailments.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
+		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.highlighted.ailments.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
+		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.highlighted.ailments.settings.hide_all_inactive_ailments and not ailment.is_active then
+		if cached_config.settings.hide_all_inactive_ailments and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.highlighted.ailments.settings.hide_all_active_ailments and ailment.is_active then
+		if cached_config.settings.hide_all_active_ailments and ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.highlighted.ailments.settings.hide_disabled_ailments and not ailment.is_enable then
+		if cached_config.settings.hide_disabled_ailments and not ailment.is_enable then
 			goto continue;
 		end
 
-		if config.current_config.large_monster_UI.highlighted.ailments.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > config.current_config.large_monster_UI.highlighted.ailments.settings.time_limit and not ailment.is_active then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
 			goto continue;
 		end
 
@@ -618,8 +638,8 @@ function ailments.draw_highlighted(monster, ailments_position_on_screen, opacity
 		::continue::
 	end
 	
-	if config.current_config.large_monster_UI.highlighted.ailments.sorting.type == "Normal" then
-		if config.current_config.large_monster_UI.highlighted.ailments.sorting.reversed_order then
+	if cached_config.sorting.type == "Normal" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
 				return left.id > right.id;
 			end);
@@ -628,8 +648,8 @@ function ailments.draw_highlighted(monster, ailments_position_on_screen, opacity
 				return left.id < right.id;
 			end);
 		end
-	elseif config.current_config.large_monster_UI.highlighted.ailments.sorting.type == "Buildup" then
-		if config.current_config.large_monster_UI.highlighted.ailments.sorting.reversed_order then
+	elseif cached_config.sorting.type == "Buildup" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
 				return left.total_buildup > right.total_buildup;
 			end);
@@ -638,8 +658,8 @@ function ailments.draw_highlighted(monster, ailments_position_on_screen, opacity
 				return left.total_buildup < right.total_buildup;
 			end);
 		end
-	elseif config.current_config.large_monster_UI.highlighted.ailments.sorting.type == "Buildup Percentage" then
-		if config.current_config.large_monster_UI.highlighted.ailments.sorting.reversed_order then
+	elseif cached_config.sorting.type == "Buildup Percentage" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
 				return left.buildup_percentage > right.buildup_percentage;
 			end);
@@ -652,8 +672,8 @@ function ailments.draw_highlighted(monster, ailments_position_on_screen, opacity
 
 	for j, ailment in ipairs(displayed_ailments) do
 		local ailment_position_on_screen = {
-			x = ailments_position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailments.spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = ailments_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailments.spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
+			x = ailments_position_on_screen.x + cached_config.spacing.x * (j - 1) * global_scale_modifier,
+			y = ailments_position_on_screen.y + cached_config.spacing.y * (j - 1) * global_scale_modifier;
 		}
 		
 		ailment_UI_entity.draw_highlighted(ailment, monster.ailment_highlighted_UI, ailment_position_on_screen, opacity_scale);
@@ -661,30 +681,33 @@ function ailments.draw_highlighted(monster, ailments_position_on_screen, opacity
 end
 
 function ailments.draw_small(monster, ailments_position_on_screen, opacity_scale)
+	local cached_config = config.current_config.small_monster_UI.ailments;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
 	--sort parts here
 	local displayed_ailments = {};
 	for REpart, ailment in pairs(monster.ailments) do
-		if config.current_config.small_monster_UI.ailments.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
+		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.small_monster_UI.ailments.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
+		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.small_monster_UI.ailments.settings.hide_all_inactive_ailments and not ailment.is_active then
+		if cached_config.settings.hide_all_inactive_ailments and not ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.small_monster_UI.ailments.settings.hide_all_active_ailments and ailment.is_active then
+		if cached_config.settings.hide_all_active_ailments and ailment.is_active then
 			goto continue;
 		end
 
-		if config.current_config.small_monster_UI.ailments.settings.hide_disabled_ailments and not ailment.is_enable then
+		if cached_config.settings.hide_disabled_ailments and not ailment.is_enable then
 			goto continue;
 		end
 
-		if config.current_config.small_monster_UI.ailments.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > config.current_config.small_monster_UI.ailments.settings.time_limit and not ailment.is_active then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
 			goto continue;
 		end
 
@@ -693,39 +716,39 @@ function ailments.draw_small(monster, ailments_position_on_screen, opacity_scale
 	end
 	
 
-	if config.current_config.small_monster_UI.ailments.sorting.type == "Normal" then
-		if config.current_config.small_monster_UI.ailments.sorting.reversed_order then
+	if cached_config.sorting.type == "Normal" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
-				if config.current_config.small_monster_UI.ailments.settings.prioritize_active_ailments and left.is_active then return false; end
+				if cached_config.settings.prioritize_active_ailments and left.is_active then return false; end
 				return left.id > right.id;
 			end);
 		else
 			table.sort(displayed_ailments, function(left, right)
-				if config.current_config.small_monster_UI.ailments.settings.prioritize_active_ailments and left.is_active then return true; end
+				if cached_config.settings.prioritize_active_ailments and left.is_active then return true; end
 				return left.id < right.id;
 			end);
 		end
-	elseif config.current_config.small_monster_UI.ailments.sorting.type == "Buildup" then
-		if config.current_config.small_monster_UI.ailments.sorting.reversed_order then
+	elseif cached_config.sorting.type == "Buildup" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
-				if config.current_config.small_monster_UI.ailments.settings.prioritize_active_ailments and left.is_active then return false; end
+				if cached_config.settings.prioritize_active_ailments and left.is_active then return false; end
 				return left.total_buildup > right.total_buildup;
 			end);
 		else
 			table.sort(displayed_ailments, function(left, right)
-				if config.current_config.small_monster_UI.ailments.settings.prioritize_active_ailments and left.is_active then return true; end
+				if cached_config.settings.prioritize_active_ailments and left.is_active then return true; end
 				return left.total_buildup < right.total_buildup;
 			end);
 		end
-	elseif config.current_config.small_monster_UI.ailments.sorting.type == "Buildup Percentage" then
-		if config.current_config.small_monster_UI.ailments.sorting.reversed_order then
+	elseif cached_config.sorting.type == "Buildup Percentage" then
+		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
-				if config.current_config.small_monster_UI.ailments.settings.prioritize_active_ailments and left.is_active then return false; end
+				if cached_config.settings.prioritize_active_ailments and left.is_active then return false; end
 				return left.buildup_percentage > right.buildup_percentage;
 			end);
 		else
 			table.sort(displayed_ailments, function(left, right)
-				if config.current_config.small_monster_UI.ailments.settings.prioritize_active_ailments and left.is_active then return true; end
+				if cached_config.settings.prioritize_active_ailments and left.is_active then return true; end
 				return left.buildup_percentage < right.buildup_percentage;
 			end);
 		end
@@ -733,8 +756,8 @@ function ailments.draw_small(monster, ailments_position_on_screen, opacity_scale
 
 	for j, ailment in ipairs(displayed_ailments) do
 		local ailment_position_on_screen = {
-			x = ailments_position_on_screen.x + config.current_config.small_monster_UI.ailments.spacing.x * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier,
-			y = ailments_position_on_screen.y + config.current_config.small_monster_UI.ailments.spacing.y * (j - 1) * config.current_config.global_settings.modifiers.global_scale_modifier;
+			x = ailments_position_on_screen.x + cached_config.spacing.x * (j - 1) * global_scale_modifier,
+			y = ailments_position_on_screen.y + cached_config.spacing.y * (j - 1) * global_scale_modifier;
 		}
 
 

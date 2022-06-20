@@ -19,6 +19,8 @@ function small_monster_UI.draw()
 		return;
 	end
 
+	local cached_config = config.current_config.small_monster_UI;
+
 	local displayed_monsters = {};
 
 	local enemy_count = get_zako_enemy_count_method:call(singletons.enemy_manager);
@@ -40,7 +42,7 @@ function small_monster_UI.draw()
 			goto continue;
 		end
 
-		if monster.dead_or_captured and config.current_config.small_monster_UI.settings.hide_dead_or_captured then
+		if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
 			goto continue;
 		end
 
@@ -48,24 +50,24 @@ function small_monster_UI.draw()
 		::continue::
 	end
 
-	if config.current_config.small_monster_UI.dynamic_positioning.enabled
-	or (not config.current_config.small_monster_UI.dynamic_positioning.enabled and config.current_config.small_monster_UI.static_sorting.type == "Distance") then
+	if cached_config.dynamic_positioning.enabled
+	or (not cached_config.dynamic_positioning.enabled and cached_config.static_sorting.type == "Distance") then
 		for _, monster in ipairs(displayed_monsters) do
 			monster.distance = (player.myself_position - monster.position):length();
 		end
 	end
 
-	if not config.current_config.small_monster_UI.dynamic_positioning.enabled then
+	if not cached_config.dynamic_positioning.enabled then
 		-- sort here
-		if config.current_config.small_monster_UI.static_sorting.type == "Normal" and config.current_config.small_monster_UI.static_sorting.reversed_order then
+		if cached_config.static_sorting.type == "Normal" and cached_config.static_sorting.reversed_order then
 			local reversed_monsters = {};
 			for i = #displayed_monsters, 1, -1 do
 				table.insert(reversed_monsters, displayed_monsters[i]);
 			end
 			displayed_monsters = reversed_monsters;
 
-		elseif config.current_config.small_monster_UI.static_sorting.type == "Health" then
-			if config.current_config.small_monster_UI.static_sorting.reversed_order then
+		elseif cached_config.static_sorting.type == "Health" then
+			if cached_config.static_sorting.reversed_order then
 				table.sort(displayed_monsters, function(left, right)
 					return left.health > right.health;
 				end);
@@ -75,8 +77,8 @@ function small_monster_UI.draw()
 				end);
 			end
 
-		elseif config.current_config.small_monster_UI.static_sorting.type == "Health Percentage" then
-			if config.current_config.small_monster_UI.static_sorting.reversed_order then
+		elseif cached_config.static_sorting.type == "Health Percentage" then
+			if cached_config.static_sorting.reversed_order then
 				table.sort(displayed_monsters, function(left, right)
 					return left.health_percentage > right.health_percentage;
 				end);
@@ -85,8 +87,8 @@ function small_monster_UI.draw()
 					return left.health_percentage < right.health_percentage;
 				end);
 			end
-		elseif config.current_config.small_monster_UI.static_sorting.type == "Distance" then
-			if config.current_config.small_monster_UI.static_sorting.reversed_order then
+		elseif cached_config.static_sorting.type == "Distance" then
+			if cached_config.static_sorting.reversed_order then
 				table.sort(displayed_monsters, function(left, right)
 					return left.distance > right.distance;
 				end);
@@ -102,8 +104,8 @@ function small_monster_UI.draw()
 	for _, monster in ipairs(displayed_monsters) do
 		local position_on_screen;
 
-		if config.current_config.small_monster_UI.dynamic_positioning.enabled then
-			local world_offset = Vector3f.new(config.current_config.small_monster_UI.dynamic_positioning.world_offset.x, config.current_config.small_monster_UI.dynamic_positioning.world_offset.y, config.current_config.small_monster_UI.dynamic_positioning.world_offset.z);
+		if cached_config.dynamic_positioning.enabled then
+			local world_offset = Vector3f.new(cached_config.dynamic_positioning.world_offset.x, cached_config.dynamic_positioning.world_offset.y, cached_config.dynamic_positioning.world_offset.z);
 
 			position_on_screen = draw.world_to_screen(monster.position + world_offset);
 
@@ -111,31 +113,31 @@ function small_monster_UI.draw()
 				goto continue
 			end
 
-			position_on_screen.x = position_on_screen.x + config.current_config.small_monster_UI.dynamic_positioning.viewport_offset.x;
-			position_on_screen.y = position_on_screen.y + config.current_config.small_monster_UI.dynamic_positioning.viewport_offset.y;
+			position_on_screen.x = position_on_screen.x + cached_config.dynamic_positioning.viewport_offset.x;
+			position_on_screen.y = position_on_screen.y + cached_config.dynamic_positioning.viewport_offset.y;
 		else
-			position_on_screen = screen.calculate_absolute_coordinates(config.current_config.small_monster_UI.static_position);
-			if config.current_config.small_monster_UI.settings.orientation == "Horizontal" then
-				position_on_screen.x = position_on_screen.x + config.current_config.small_monster_UI.static_spacing.x * i;
+			position_on_screen = screen.calculate_absolute_coordinates(cached_config.static_position);
+			if cached_config.settings.orientation == "Horizontal" then
+				position_on_screen.x = position_on_screen.x + cached_config.static_spacing.x * i;
 
 			else
-				position_on_screen.y = position_on_screen.y + config.current_config.small_monster_UI.static_spacing.y * i;
+				position_on_screen.y = position_on_screen.y + cached_config.static_spacing.y * i;
 			end
 		end
 
 	
 		local opacity_scale = 1;
-		if config.current_config.small_monster_UI.dynamic_positioning.enabled then
-			if config.current_config.small_monster_UI.dynamic_positioning.max_distance == 0 then
+		if cached_config.dynamic_positioning.enabled then
+			if cached_config.dynamic_positioning.max_distance == 0 then
 				return;
 			end
 
-			if monster.distance > config.current_config.small_monster_UI.dynamic_positioning.max_distance then
+			if monster.distance > cached_config.dynamic_positioning.max_distance then
 				goto continue;
 			end
 					
-			if config.current_config.small_monster_UI.dynamic_positioning.opacity_falloff then
-				opacity_scale = 1 - (monster.distance / config.current_config.small_monster_UI.dynamic_positioning.max_distance);
+			if cached_config.dynamic_positioning.opacity_falloff then
+				opacity_scale = 1 - (monster.distance / cached_config.dynamic_positioning.max_distance);
 			end
 		end
 

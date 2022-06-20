@@ -21,19 +21,22 @@ function env_creature_UI.draw()
 		return;
 	end
 
+	local cached_config = config.current_config.endemic_life_UI;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
 	for _, creature in pairs(env_creature.list) do
 				
-		if config.current_config.endemic_life_UI.settings.max_distance == 0 then
+		if cached_config.settings.max_distance == 0 then
 			break;
 		end
 		
-		if config.current_config.endemic_life_UI.settings.hide_inactive_creatures and creature.is_inactive then
+		if cached_config.settings.hide_inactive_creatures and creature.is_inactive then
 			goto continue;
 		end
 
 		local position_on_screen = {};
 
-		local world_offset = Vector3f.new(config.current_config.endemic_life_UI.world_offset.x, config.current_config.endemic_life_UI.world_offset.y, config.current_config.endemic_life_UI.world_offset.z);
+		local world_offset = Vector3f.new(cached_config.world_offset.x, cached_config.world_offset.y, cached_config.world_offset.z);
 	
 		position_on_screen = draw.world_to_screen(creature.position + world_offset);
 		
@@ -41,19 +44,19 @@ function env_creature_UI.draw()
 			goto continue;
 		end
 
-		position_on_screen.x = position_on_screen.x + config.current_config.endemic_life_UI.viewport_offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-		position_on_screen.y = position_on_screen.y + config.current_config.endemic_life_UI.viewport_offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+		position_on_screen.x = position_on_screen.x + cached_config.viewport_offset.x * global_scale_modifier;
+		position_on_screen.y = position_on_screen.y + cached_config.viewport_offset.y * global_scale_modifier;
 
 		
 		creature.distance = (player.myself_position - creature.position):length();
 
 		local opacity_scale = 1;
-		if creature.distance > config.current_config.endemic_life_UI.settings.max_distance then
+		if creature.distance > cached_config.settings.max_distance then
 			goto continue;
 		end
 		
-		if config.current_config.endemic_life_UI.settings.opacity_falloff then
-			opacity_scale = 1 - (creature.distance / config.current_config.endemic_life_UI.settings.max_distance);
+		if cached_config.settings.opacity_falloff then
+			opacity_scale = 1 - (creature.distance / cached_config.settings.max_distance);
 		end
 
 

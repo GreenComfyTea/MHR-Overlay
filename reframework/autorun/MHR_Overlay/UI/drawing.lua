@@ -4,7 +4,8 @@ local config;
 drawing.font = nil;
 
 function drawing.init_font()
-	drawing.font = d2d.Font.new(config.current_config.global_settings.UI_font.family, config.current_config.global_settings.UI_font.size, config.current_config.global_settings.UI_font.bold, config.current_config.global_settings.UI_font.italic);
+	local cached_config = config.current_config.global_settings.UI_font;
+	drawing.font = d2d.Font.new(cached_config.family, cached_config.size, cached_config.bold, cached_config.italic);
 end
 
 function drawing.argb_color_to_abgr_color(argb_color)

@@ -23,6 +23,8 @@ local hunter_info_type_def = sdk.find_type_definition("snow.LobbyManager.HunterI
 local member_index_field = hunter_info_type_def:get_field("_memberIndex");
 
 function damage_meter_UI.get_players(player_info_list)
+	local cached_config = config.current_config.damage_meter_UI;
+
 	-- other players
 	if player_info_list == nil then
 		customization_menu.status = "No player info list";
@@ -52,7 +54,7 @@ function damage_meter_UI.get_players(player_info_list)
 		
 		local _player = player.get_player(player_id);
 		if _player ~= nil then
-			if player_id == player.myself.id and config.current_config.damage_meter_UI.settings.my_damage_bar_location ~= "Normal" then
+			if player_id == player.myself.id and cached_config.settings.my_damage_bar_location ~= "Normal" then
 				goto continue;
 			end
 			table.insert(quest_players, _player);
@@ -65,10 +67,14 @@ function damage_meter_UI.get_players(player_info_list)
 end
 
 function damage_meter_UI.draw()
+	local cached_config = config.current_config.damage_meter_UI;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
-	if player.total.display.total_damage == 0 and config.current_config.damage_meter_UI.settings.hide_module_if_total_damage_is_zero then
+	if player.total.display.total_damage == 0 and cached_config.settings.hide_module_if_total_damage_is_zero then
 		return;
 	end
+
+	
 
 	local quest_players = {};
 	if damage_meter_UI.freeze_displayed_players and damage_meter_UI.last_displayed_players ~= {} then
@@ -84,15 +90,15 @@ function damage_meter_UI.draw()
 	if not damage_meter_UI.freeze_displayed_players then
 		if #quest_players ~= 0 then
 			-- sort here
-			if config.current_config.damage_meter_UI.sorting.type == "Normal" and config.current_config.damage_meter_UI.sorting.reversed_order then
+			if cached_config.sorting.type == "Normal" and cached_config.sorting.reversed_order then
 	
 				local reversed_quest_players = {};
 				for i = #quest_players, 1, -1 do
 					table.insert(reversed_quest_players, quest_players[i]);
 				end
 				quest_players = reversed_quest_players;
-			elseif config.current_config.damage_meter_UI.sorting.type == "DPS" then
-				if config.current_config.damage_meter_UI.sorting.reversed_order then
+			elseif cached_config.sorting.type == "DPS" then
+				if cached_config.sorting.reversed_order then
 					table.sort(quest_players, function(left, right)
 						return left.dps < right.dps;
 					end);
@@ -102,7 +108,7 @@ function damage_meter_UI.draw()
 					end);
 				end
 			else
-				if config.current_config.damage_meter_UI.sorting.reversed_order then
+				if cached_config.sorting.reversed_order then
 					table.sort(quest_players, function(left, right)
 						return left.display.total_damage < right.display.total_damage;
 					end);
@@ -114,9 +120,9 @@ function damage_meter_UI.draw()
 			end
 		end
 
-		if config.current_config.damage_meter_UI.settings.my_damage_bar_location == "First" then
+		if cached_config.settings.my_damage_bar_location == "First" then
 			table.insert(quest_players, 1, player.myself);
-		elseif config.current_config.damage_meter_UI.settings.my_damage_bar_location == "Last" then
+		elseif cached_config.settings.my_damage_bar_location == "Last" then
 			table.insert(quest_players, #quest_players + 1, player.myself);
 		elseif #player.list == 0 then
 			table.insert(quest_players, player.myself);
@@ -137,19 +143,19 @@ function damage_meter_UI.draw()
 	end
 	
 	-- draw
-	local position_on_screen = screen.calculate_absolute_coordinates(config.current_config.damage_meter_UI.position);
+	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 	for _, _player in ipairs(quest_players) do
 		
-		if _player.display.total_damage == 0 and config.current_config.damage_meter_UI.settings.hide_player_if_player_damage_is_zero then
+		if _player.display.total_damage == 0 and cached_config.settings.hide_player_if_player_damage_is_zero then
 			goto continue1
 		end
 
 		player.draw(_player, position_on_screen, 1, top_damage, top_dps);
 
-		if config.current_config.damage_meter_UI.settings.orientation == "Horizontal" then
-			position_on_screen.x = position_on_screen.x + config.current_config.damage_meter_UI.spacing.x * config.current_config.global_settings.modifiers.global_scale_modifier;
+		if cached_config.settings.orientation == "Horizontal" then
+			position_on_screen.x = position_on_screen.x + cached_config.spacing.x * global_scale_modifier;
 		else
-			position_on_screen.y = position_on_screen.y + config.current_config.damage_meter_UI.spacing.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+			position_on_screen.y = position_on_screen.y + cached_config.spacing.y * global_scale_modifier;
 		end
 
 		::continue1::
@@ -157,12 +163,12 @@ function damage_meter_UI.draw()
 	end
 
 	-- draw total damage
-	if config.current_config.damage_meter_UI.settings.hide_total_if_total_damage_is_zero and player.total.display.total_damage == 0 then
+	if cached_config.settings.hide_total_if_total_damage_is_zero and player.total.display.total_damage == 0 then
 		return;
 	end
 
-	if not config.current_config.damage_meter_UI.settings.total_damage_offset_is_relative then
-		position_on_screen = screen.calculate_absolute_coordinates(config.current_config.damage_meter_UI.position);
+	if not cached_config.settings.total_damage_offset_is_relative then
+		position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 	end
 
 	player.draw_total(position_on_screen, 1);

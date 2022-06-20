@@ -7,25 +7,27 @@ local config;
 function stamina_UI_entity.new(visibility, bar, text_label, value_label, percentage_label)
 	local entity = {};
 
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
 	entity.visibility = visibility;
 	entity.bar = table_helpers.deep_copy(bar);
 	entity.text_label = table_helpers.deep_copy(text_label);
 	entity.value_label = table_helpers.deep_copy(value_label);
 	entity.percentage_label = table_helpers.deep_copy(percentage_label);
 
-	entity.bar.offset.x = entity.bar.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.bar.offset.y = entity.bar.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.bar.size.width = entity.bar.size.width * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.bar.size.height = entity.bar.size.height * config.current_config.global_settings.modifiers.global_scale_modifier;
+	entity.bar.offset.x = entity.bar.offset.x * global_scale_modifier;
+	entity.bar.offset.y = entity.bar.offset.y * global_scale_modifier;
+	entity.bar.size.width = entity.bar.size.width * global_scale_modifier;
+	entity.bar.size.height = entity.bar.size.height * global_scale_modifier;
 
-	entity.text_label.offset.x = entity.text_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.text_label.offset.y = entity.text_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	entity.text_label.offset.x = entity.text_label.offset.x * global_scale_modifier;
+	entity.text_label.offset.y = entity.text_label.offset.y * global_scale_modifier;
 
-	entity.value_label.offset.x = entity.value_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.value_label.offset.y = entity.value_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	entity.value_label.offset.x = entity.value_label.offset.x * global_scale_modifier;
+	entity.value_label.offset.y = entity.value_label.offset.y * global_scale_modifier;
 
-	entity.percentage_label.offset.x = entity.percentage_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.percentage_label.offset.y = entity.percentage_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	entity.percentage_label.offset.x = entity.percentage_label.offset.x * global_scale_modifier;
+	entity.percentage_label.offset.y = entity.percentage_label.offset.y * global_scale_modifier;
 
 	return entity;
 end

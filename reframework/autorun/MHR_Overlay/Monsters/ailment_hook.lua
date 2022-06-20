@@ -20,18 +20,6 @@ local stock_damage_method = enemy_damage_param_type_def:get_method("stockDamage"
 local poison_param_field = enemy_damage_param_type_def:get_field("_PoisonParam");
 local blast_param_field = enemy_damage_param_type_def:get_field("_BlastParam");
 
-sdk.hook(stock_damage_method, function(args)
-	pcall(ailment_hook.stock_damage);
-end, function(retval)
-	return retval;
-end);
-
-sdk.hook(on_poison_activate_proc_method, function(args)
-	pcall(ailment_hook.poison_proc, sdk.to_managed_object(args[2]));
-end, function(retval)
-	return retval;
-end);
-
 function ailment_hook.poison_proc(poison_param)
 	if poison_param == nil then
 		return;
@@ -54,7 +42,7 @@ function ailment_hook.poison_proc(poison_param)
 		monster = small_monster.get_monster(enemy);
 	end
 
-	monster.ailments[ailments.poison_id].cashed_buildup_share = monster.ailments[ailments.poison_id].buildup_share;
+	monster.ailments[ailments.poison_id].cached_buildup_share = monster.ailments[ailments.poison_id].buildup_share;
 	ailments.clear_ailment_contribution(monster, ailments.poison_id);
 end
 
@@ -92,6 +80,18 @@ function ailment_hook.init_module()
 	config = require("MHR_Overlay.Misc.config");
 	ailments = require("MHR_Overlay.Monsters.ailments");
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+
+	sdk.hook(stock_damage_method, function(args)
+		pcall(ailment_hook.stock_damage);
+	end, function(retval)
+		return retval;
+	end);
+	
+	sdk.hook(on_poison_activate_proc_method, function(args)
+		pcall(ailment_hook.poison_proc, sdk.to_managed_object(args[2]));
+	end, function(retval)
+		return retval;
+	end);
 end
 
 return ailment_hook;

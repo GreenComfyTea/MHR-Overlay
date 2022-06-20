@@ -22,12 +22,6 @@ local get_elemental_damage_method = enemy_calc_damage_info_type_def:get_method("
 local get_condition_damage_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamage");
 local get_condition_type_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamageType");
 
-sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
-	pcall(damage_hook.update_damage, args);
-end, function(retval)
-	return retval;
-end);
-
 function damage_hook.update_damage(args)
 	local enemy = sdk.to_managed_object(args[2]);
 	if enemy == nil then
@@ -109,9 +103,6 @@ function damage_hook.update_damage(args)
 	end
 
 	local attacking_player = player.get_player(attacker_id);
-	if attacking_player == nil then
-		--return;
-	end
 
 	local monster;
 	if is_large_monster then
@@ -138,6 +129,12 @@ function damage_hook.init_module()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	ailments = require("MHR_Overlay.Monsters.ailments");
+
+	sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
+		pcall(damage_hook.update_damage, args);
+	end, function(retval)
+		return retval;
+	end);
 end
 
 return damage_hook;

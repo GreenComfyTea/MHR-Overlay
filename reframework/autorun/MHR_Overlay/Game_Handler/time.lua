@@ -43,21 +43,23 @@ function time.tick()
 end
 
 function time.update_players_dps()
+	local cached_config = config.current_config.damage_meter_UI.settings;
+
 	local new_total_dps = 0;
 	for _, _player in pairs(player.list) do
 		if _player.join_time == -1 then
 			_player.join_time = time.total_elapsed_seconds;
 		end
 
-		if config.current_config.damage_meter_UI.settings.dps_mode == "Quest Time" then
+		if cached_config.dps_mode == "Quest Time" then
 			if time.total_elapsed_seconds > 0 then
 				_player.dps = _player.display.total_damage / time.total_elapsed_seconds;
 			end
-		elseif config.current_config.damage_meter_UI.settings.dps_mode == "Join Time" then
+		elseif cached_config.dps_mode == "Join Time" then
 			if time.total_elapsed_seconds - _player.join_time > 0 then
 				_player.dps = _player.display.total_damage / (time.total_elapsed_seconds - _player.join_time);
 			end
-		elseif config.current_config.damage_meter_UI.settings.dps_mode == "First Hit" then
+		elseif cached_config.dps_mode == "First Hit" then
 			if time.total_elapsed_seconds - _player.first_hit_time > 0 then
 				_player.dps = _player.display.total_damage / (time.total_elapsed_seconds - _player.first_hit_time);
 			end

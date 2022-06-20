@@ -8,6 +8,8 @@ local language;
 function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label, hunter_rank_label, value_label, percentage_label)
 	local entity = {};
 
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
 	--entity.visibility = visibility;
 	entity.bar = table_helpers.deep_copy(bar);
 	entity.highlighted_bar = table_helpers.deep_copy(highlighted_bar);
@@ -17,39 +19,40 @@ function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label
 	entity.value_label = table_helpers.deep_copy(value_label);
 	entity.percentage_label = table_helpers.deep_copy(percentage_label);
 
-	entity.bar.offset.x = entity.bar.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.bar.offset.y = entity.bar.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.bar.size.width = entity.bar.size.width * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.bar.size.height = entity.bar.size.height * config.current_config.global_settings.modifiers.global_scale_modifier;
+	entity.bar.offset.x = entity.bar.offset.x * global_scale_modifier;
+	entity.bar.offset.y = entity.bar.offset.y * global_scale_modifier;
+	entity.bar.size.width = entity.bar.size.width * global_scale_modifier;
+	entity.bar.size.height = entity.bar.size.height * global_scale_modifier;
 
-	entity.highlighted_bar.offset.x = entity.highlighted_bar.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.highlighted_bar.offset.y = entity.highlighted_bar.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.highlighted_bar.size.width = entity.highlighted_bar.size.width * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.highlighted_bar.size.height = entity.highlighted_bar.size.height * config.current_config.global_settings.modifiers.global_scale_modifier;
+	entity.highlighted_bar.offset.x = entity.highlighted_bar.offset.x * global_scale_modifier;
+	entity.highlighted_bar.offset.y = entity.highlighted_bar.offset.y * global_scale_modifier;
+	entity.highlighted_bar.size.width = entity.highlighted_bar.size.width * global_scale_modifier;
+	entity.highlighted_bar.size.height = entity.highlighted_bar.size.height * global_scale_modifier;
 
-	entity.player_name_label.offset.x = entity.player_name_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.player_name_label.offset.y = entity.player_name_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	entity.player_name_label.offset.x = entity.player_name_label.offset.x * global_scale_modifier;
+	entity.player_name_label.offset.y = entity.player_name_label.offset.y * global_scale_modifier;
 
-	entity.dps_label.offset.x = entity.dps_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.dps_label.offset.y = entity.dps_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	entity.dps_label.offset.x = entity.dps_label.offset.x * global_scale_modifier;
+	entity.dps_label.offset.y = entity.dps_label.offset.y * global_scale_modifier;
 
-	entity.hunter_rank_label.offset.x = entity.hunter_rank_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.hunter_rank_label.offset.y = entity.hunter_rank_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	entity.hunter_rank_label.offset.x = entity.hunter_rank_label.offset.x * global_scale_modifier;
+	entity.hunter_rank_label.offset.y = entity.hunter_rank_label.offset.y * global_scale_modifier;
 
-	entity.value_label.offset.x = entity.value_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.value_label.offset.y = entity.value_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	entity.value_label.offset.x = entity.value_label.offset.x * global_scale_modifier;
+	entity.value_label.offset.y = entity.value_label.offset.y * global_scale_modifier;
 
-	entity.percentage_label.offset.x = entity.percentage_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	entity.percentage_label.offset.y = entity.percentage_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
+	entity.percentage_label.offset.x = entity.percentage_label.offset.x * global_scale_modifier;
+	entity.percentage_label.offset.y = entity.percentage_label.offset.y * global_scale_modifier;
 
 	return entity;
 end
 
 function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)
+	local cached_config = config.current_config.damage_meter_UI;
 
-	local player_include = config.current_config.damage_meter_UI.player_name_label.include.others;
+	local player_include = cached_config.player_name_label.include.others;
 	if _player.id == player.myself.id then
-		player_include = config.current_config.damage_meter_UI.player_name_label.include.myself;
+		player_include = cached_config.player_name_label.include.myself;
 	end
 	
 	local player_name_text = "";
@@ -76,7 +79,7 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 	end
 
 	local player_damage_bar_percentage = 0;
-	if config.current_config.damage_meter_UI.settings.damage_bar_relative_to == "Total Damage" then
+	if cached_config.settings.damage_bar_relative_to == "Total Damage" then
 		if player.total.display.total_damage ~= 0 then
 			player_damage_bar_percentage = _player.display.total_damage / player.total.display.total_damage;
 		end
@@ -86,11 +89,11 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 		end
 	end
 
-	if _player.id == player.myself.id and config.current_config.damage_meter_UI.settings.highlighted_bar == "Me" then
+	if _player.id == player.myself.id and cached_config.settings.highlighted_bar == "Me" then
 		drawing.draw_bar(_player.damage_UI.highlighted_bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
-	elseif config.current_config.damage_meter_UI.settings.highlighted_bar == "Top Damage" and _player.display.total_damage == top_damage then
+	elseif cached_config.settings.highlighted_bar == "Top Damage" and _player.display.total_damage == top_damage then
 		drawing.draw_bar(_player.damage_UI.highlighted_bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
-	elseif config.current_config.damage_meter_UI.settings.highlighted_bar == "Top DPS" and _player.dps == top_dps then
+	elseif cached_config.settings.highlighted_bar == "Top DPS" and _player.dps == top_dps then
 		drawing.draw_bar(_player.damage_UI.highlighted_bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
 	else
 		drawing.draw_bar(_player.damage_UI.bar, position_on_screen, opacity_scale, player_damage_bar_percentage);

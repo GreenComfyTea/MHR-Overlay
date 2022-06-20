@@ -41,10 +41,6 @@ function quest_status.update(args)
 	end
 end
 
-sdk.hook(on_changed_game_status, function(args)
-	pcall(quest_status.update, args);
-end, function(retval) return retval; end);
-
 function quest_status.init()
 	if singletons.quest_manager == nil then
 		return;
@@ -121,6 +117,10 @@ function quest_status.init_module()
 	time = require("MHR_Overlay.Game_Handler.time");
 
 	quest_status.init();
+	
+	sdk.hook(on_changed_game_status, function(args)
+		pcall(quest_status.update, args);
+	end, function(retval) return retval; end);
 end
 
 return quest_status;

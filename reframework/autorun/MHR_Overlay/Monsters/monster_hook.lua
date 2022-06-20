@@ -9,12 +9,6 @@ local enemy_character_base_update_method = enemy_character_base_type_def:get_met
 
 local is_boss_enemy_method = enemy_character_base_type_def:get_method("get_isBossEnemy");
 
-sdk.hook(enemy_character_base_update_method, function(args)
-	pcall(monster_hook.update_monster, sdk.to_managed_object(args[2]));
-end, function(retval)
-	return retval;
-end);
-
 local tick_count = 0;
 local last_update_tick = 0;
 local recorded_monsters = {};
@@ -53,8 +47,8 @@ function monster_hook.update_monster(enemy)
 	end
 
     if not recorded_monsters[enemy] then
-        num_known_monsters = num_known_monsters + 1
-        recorded_monsters[enemy] = true
+        num_known_monsters = num_known_monsters + 1;
+        recorded_monsters[enemy] = true;
     end
 
 	-- saves on a method call.
@@ -76,9 +70,11 @@ function monster_hook.update_monster(enemy)
 end
 
 function monster_hook.update_large_monster(enemy)
-	if not config.current_config.large_monster_UI.dynamic.enabled and
-	not config.current_config.large_monster_UI.static.enabled and
-	not config.current_config.large_monster_UI.highlighted.enabled then
+	local cached_config = config.current_config.large_monster_UI;
+
+	if not cached_config.dynamic.enabled and
+	not cached_config.static.enabled and
+	not cached_config.highlighted.enabled then
 		return;
 	end
 
@@ -144,6 +140,12 @@ function monster_hook.init_module()
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	config = require("MHR_Overlay.Misc.config");
 	ailments = require("MHR_Overlay.Monsters.ailments");
+
+	sdk.hook(enemy_character_base_update_method, function(args)
+		pcall(monster_hook.update_monster, sdk.to_managed_object(args[2]));
+	end, function(retval)
+		return retval;
+	end);
 end
 
 return monster_hook;

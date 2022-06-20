@@ -734,6 +734,7 @@ function config.init()
 		
 					include = {
 						monster_name = true,
+						monster_id = false,
 						crown = true,
 						size = true,
 						crown_thresholds = false
@@ -1050,7 +1051,7 @@ function config.init()
 					}
 				},
 		
-				parts = {
+				body_parts = {
 					visibility = false,
 	
 					offset = {
@@ -1742,6 +1743,7 @@ function config.init()
 		
 					include = {
 						monster_name = true,
+						monster_id = false,
 						crown = true,
 						size = true,
 						crown_thresholds = false
@@ -2058,7 +2060,7 @@ function config.init()
 					}
 				},
 		
-				parts = {
+				body_parts = {
 					visibility = false,
 	
 					offset = {
@@ -2732,6 +2734,7 @@ function config.init()
 		
 					include = {
 						monster_name = true,
+						monster_id = false,
 						crown = true,
 						size = true,
 						crown_thresholds = false

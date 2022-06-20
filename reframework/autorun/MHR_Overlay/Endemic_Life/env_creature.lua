@@ -62,13 +62,11 @@ end
 function env_creature.init_UI(creature)
 	creature.name_label = table_helpers.deep_copy(config.current_config.endemic_life_UI.creature_name_label);
 
-	creature.name_label.offset.x = creature.name_label.offset.x * config.current_config.global_settings.modifiers.global_scale_modifier;
-	creature.name_label.offset.y = creature.name_label.offset.y * config.current_config.global_settings.modifiers.global_scale_modifier;
-end
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
---local get_game_object_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject");
---local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform");
---local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position");
+	creature.name_label.offset.x = creature.name_label.offset.x * global_scale_modifier;
+	creature.name_label.offset.y = creature.name_label.offset.y * global_scale_modifier;
+end
 
 function env_creature.update(REcreature)
 	if not config.current_config.endemic_life_UI.enabled then
@@ -81,33 +79,6 @@ function env_creature.update(REcreature)
 	if position ~= nil then
 		creature.position = position;
 	end
-
-	--[[
-	if creature.game_object == nil then
-		creature.game_object = get_game_object_method:call(REcreature);
-		
-		if creature.game_object == nil then
-			customization_menu.status = "No enemy game object";
-			return;
-		end
-	end
-
-	if creature.transform == nil then
-		creature.transform = get_transform_method:call(creature.game_object);
-		if creature.transform == nil then
-			customization_menu.status = "No enemy transform";
-			return;
-		end
-	end
-
-	local position = get_position_method:call(creature.transform);
-	if position == nil then
-		customization_menu.status = "No enemy position";
-		return;
-	end
-
-	creature.position = position;
-	--]]
 
 	local is_inactive = creature_is_inactive_field:get_data(REcreature);
 	if is_inactive ~= nil then
