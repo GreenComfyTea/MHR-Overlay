@@ -15,7 +15,8 @@
 
 # How to install:
 1. Install [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26)﻿;
-2. Install [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134);
+2. (Windows only) Install [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134);
+>**:pushpin: NOTE:**  Skip this step if you are using Steam Deck/Proton/Wine/Linux. REFramework Direct2D **must not** be installed for the mod to work.
 3. Download the mod:
     * Official release can be downloaded from [Nexus Mods](https://www.nexusmods.com/monsterhunterrise/mods/50);
     * Nightly builds are available in [this repo](https://github.com/GreenComfyTea/MHR-Overlay) and can contain broken functionality, debugging info on screen, bugs and might require the latest [nightly build](https://github.com/praydog/REFramework-nightly/releases) of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26). Use with caution!
