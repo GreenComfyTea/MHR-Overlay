@@ -90,13 +90,14 @@ function damage_meter_UI.draw()
 	if not damage_meter_UI.freeze_displayed_players then
 		if #quest_players ~= 0 then
 			-- sort here
-			if cached_config.sorting.type == "Normal" and cached_config.sorting.reversed_order then
-	
-				local reversed_quest_players = {};
-				for i = #quest_players, 1, -1 do
-					table.insert(reversed_quest_players, quest_players[i]);
+			if cached_config.sorting.type == "Normal" then
+				if cached_config.sorting.reversed_order then
+					local reversed_quest_players = {};
+					for i = #quest_players, 1, -1 do
+						table.insert(reversed_quest_players, quest_players[i]);
+					end
+					quest_players = reversed_quest_players;
 				end
-				quest_players = reversed_quest_players;
 			elseif cached_config.sorting.type == "DPS" then
 				if cached_config.sorting.reversed_order then
 					table.sort(quest_players, function(left, right)

@@ -24,6 +24,7 @@ customization_menu.window_size = Vector2f.new(720, 720);
 customization_menu.window_flags = 0x10120;
 
 customization_menu.color_picker_flags = 327680;
+customization_menu.decimal_input_flags = 33;
 
 customization_menu.selected_language_index = 1;
 
@@ -129,25 +130,20 @@ customization_menu.time_UI_waiting_for_key = false;
 customization_menu.damage_meter_UI_waiting_for_key = false;
 customization_menu.endemic_life_UI_waiting_for_key = false;
 
+customization_menu.menu_font_changed = false;
+
 function customization_menu.reload_font(pop_push)
-	local success, new_font = pcall(imgui.load_font, language.current_language.font_name,
-		config.current_config.global_settings.menu_font.size, customization_menu.font_range);
-	if success then
-		if pop_push then
-			imgui.pop_font(customization_menu.font);
-		end
+	customization_menu.font = imgui.load_font(language.current_language.font_name, config.current_config.global_settings.menu_font.size, customization_menu.font_range);
 
-		customization_menu.font = new_font;
-
-		if pop_push then
-			imgui.push_font(customization_menu.font);
-		end
+	if pop_push then
+		imgui.pop_font();
+		imgui.push_font(customization_menu.font);
 	end
+
+
 end
 
 function customization_menu.init()
-	customization_menu.reload_font(false);
-
 	customization_menu.selected_language_index = table_helpers.find_index(language.language_names,
 		config.current_config.global_settings.language, false);
 
@@ -393,6 +389,8 @@ function customization_menu.draw()
 	local time_UI_changed = false;
 	local damage_meter_UI_changed = false;
 	local endemic_life_UI_changed = false;
+
+	local apply_font_requested = false;
 
 	local status_string = tostring(customization_menu.status);
 	imgui.text(language.current_language.customization_menu.status .. ": " .. status_string);
@@ -696,16 +694,18 @@ function customization_menu.draw()
 	end
 
 	if imgui.tree_node(language.current_language.customization_menu.global_settings) then
-		changed, customization_menu.selected_language_index = imgui.combo(language.current_language.customization_menu.language
+		imgui.text(language.current_language.customization_menu.menu_font_change_disclaimer);
+
+		changed, customization_menu.selected_language_index = imgui.combo(language.current_language.customization_menu.language .. "*"
 			, customization_menu.selected_language_index, language.language_names);
 		config_changed = config_changed or changed;
 		if changed then
 			config.current_config.global_settings.language = language.language_names[customization_menu.selected_language_index];
 			language.update(customization_menu.selected_language_index);
 
-			imgui.pop_font(customization_menu.font);
 			customization_menu.init();
-			imgui.push_font(customization_menu.font);
+			apply_font_requested = true;
+			customization_menu.menu_font_changed = true;
 
 			part_names.init();
 			large_monster.init_list();
@@ -720,14 +720,24 @@ function customization_menu.draw()
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.menu_font) then
-			changed, config.current_config.global_settings.menu_font.size = imgui.slider_int(" ",
-				config.current_config.global_settings.menu_font.size, 5, 100);
-			config_changed = config_changed or changed;
-			imgui.same_line();
+			local new_value = config.current_config.global_settings.menu_font.size;
+			changed, new_value = imgui.input_text(" ", config.current_config.global_settings.menu_font.size, customization_menu.decimal_input_flags);
+			new_value = tonumber(new_value);
+			
+			if new_value ~= nil then
+				if new_value < 5 then
+					new_value = 5;
+				elseif new_value > 100 then
+					new_value = 100;
+				end
 
-			if changed then
-				customization_menu.reload_font(true);
+				config.current_config.global_settings.menu_font.size = math.floor(new_value);
 			end
+
+			config_changed = config_changed or changed;
+			customization_menu.menu_font_changed = customization_menu.menu_font_changed or changed;
+
+			imgui.same_line();
 
 			changed = imgui.button("-");
 			config_changed = config_changed or changed;
@@ -738,7 +748,7 @@ function customization_menu.draw()
 				if config.current_config.global_settings.menu_font.size < 5 then
 					config.current_config.global_settings.menu_font.size = 5;
 				else
-					customization_menu.reload_font(true);
+					customization_menu.menu_font_changed = customization_menu.menu_font_changed or changed;
 				end
 			end
 
@@ -751,11 +761,15 @@ function customization_menu.draw()
 				if config.current_config.global_settings.menu_font.size > 100 then
 					config.current_config.global_settings.menu_font.size = 100;
 				else
-					customization_menu.reload_font(true);
+					customization_menu.menu_font_changed = customization_menu.menu_font_changed or changed;
 				end
 			end
 
-			imgui.text(language.current_language.customization_menu.size);
+			imgui.text(language.current_language.customization_menu.size  .. "*");
+
+			if imgui.button(language.current_language.customization_menu.apply) then
+				apply_font_requested = true;
+			end
 
 			imgui.tree_pop();
 		end
@@ -16183,7 +16197,7 @@ function customization_menu.draw()
 	end
 
 	imgui.end_window();
-	imgui.pop_font(customization_menu.font);
+	imgui.pop_font();
 
 	if small_monster_UI_changed or modifiers_changed then
 		for _, monster in pairs(small_monster.list) do
@@ -16226,6 +16240,11 @@ function customization_menu.draw()
 		end
 	end
 
+	if customization_menu.menu_font_changed and apply_font_requested then
+		customization_menu.menu_font_changed = false;
+		customization_menu.reload_font(false);
+	end
+
 	if config_changed then
 		config.save();
 	end
@@ -16245,6 +16264,7 @@ function customization_menu.init_module()
 	keyboard = require("MHR_Overlay.Game_Handler.keyboard");
 
 	customization_menu.init();
+	customization_menu.reload_font(false);
 end
 
 return customization_menu;

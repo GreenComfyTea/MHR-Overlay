@@ -274,9 +274,9 @@ end
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local find_master_player_method = player_manager_type_def:get_method("findMasterPlayer");
 
-local get_game_object_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject")
-local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform")
-local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position")
+local get_game_object_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject");
+local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform");
+local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position");
 
 function player.update_myself_position()
 	if singletons.player_manager == nil then 

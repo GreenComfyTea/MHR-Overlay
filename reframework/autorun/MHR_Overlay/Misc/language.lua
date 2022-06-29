@@ -336,7 +336,11 @@ language.default_language = {
 		loss_health = "Sever Health",
 		loss_health_percentage = "Sever Health Percentage",
 
-		monster_id = "Monster ID"
+		monster_id = "Monster ID",
+
+		apply = "Apply",
+
+		menu_font_change_disclaimer = "Changing Language and Menu Font Size several times will cause a crash!"
 	}
 };
 
