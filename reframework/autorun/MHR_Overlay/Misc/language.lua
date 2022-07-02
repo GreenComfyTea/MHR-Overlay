@@ -61,7 +61,12 @@ language.default_language = {
 		spinning = "Spinning",
 		rock = "Rock",
 
-		tail_tip = "Tail Tip"
+		tail_tip = "Tail Tip",
+
+		left_claw = "Left Claw",
+		right_claw = "Right Claw",
+
+		unknown = "?"
 	},
 
 	ailments = {
@@ -340,7 +345,9 @@ language.default_language = {
 
 		apply = "Apply",
 
-		menu_font_change_disclaimer = "Changing Language and Menu Font Size several times will cause a crash!"
+		menu_font_change_disclaimer = "Changing Language and Menu Font Size several times will cause a crash!",
+
+		master_rank = "Master Rank"
 	}
 };
 

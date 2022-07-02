@@ -15271,6 +15271,12 @@ function customization_menu.draw()
 
 			if imgui.tree_node(language.current_language.customization_menu.include) then
 				if imgui.tree_node(language.current_language.customization_menu.me) then
+					changed, config.current_config.damage_meter_UI.player_name_label.include.myself.master_rank = imgui.checkbox(
+						language.current_language.customization_menu.master_rank,
+						config.current_config.damage_meter_UI.player_name_label.include.myself.master_rank);
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
 					changed, config.current_config.damage_meter_UI.player_name_label.include.myself.hunter_rank = imgui.checkbox(
 						language.current_language.customization_menu.hunter_rank,
 						config.current_config.damage_meter_UI.player_name_label.include.myself.hunter_rank);
@@ -15299,6 +15305,12 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.other_players) then
+					changed, config.current_config.damage_meter_UI.player_name_label.include.others.master_rank = imgui.checkbox(
+						language.current_language.customization_menu.master_rank,
+						config.current_config.damage_meter_UI.player_name_label.include.others.master_rank);
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
 					changed, config.current_config.damage_meter_UI.player_name_label.include.others.hunter_rank = imgui.checkbox(
 						language.current_language.customization_menu.hunter_rank,
 						config.current_config.damage_meter_UI.player_name_label.include.others.hunter_rank);
@@ -15394,39 +15406,58 @@ function customization_menu.draw()
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.hunter_rank_label) then
-			changed, config.current_config.damage_meter_UI.hunter_rank_label.visibility = imgui.checkbox(language.current_language
+			changed, config.current_config.damage_meter_UI.master_hunter_rank_label.visibility = imgui.checkbox(language.current_language
 				.customization_menu.visible,
-				config.current_config.damage_meter_UI.hunter_rank_label.visibility);
+				config.current_config.damage_meter_UI.master_hunter_rank_label.visibility);
 			config_changed = config_changed or changed;
 			damage_meter_UI_changed = damage_meter_UI_changed or changed;
 
-			if imgui.tree_node(language.current_language.customization_menu.enable_for) then
-				changed, config.current_config.damage_meter_UI.hunter_rank_label.enable_for.me = imgui.checkbox(
-					language.current_language.customization_menu.me,
-					config.current_config.damage_meter_UI.hunter_rank_label.enable_for.me);
-				config_changed = config_changed or changed;
-				damage_meter_UI_changed = damage_meter_UI_changed or changed;
+			if imgui.tree_node(language.current_language.customization_menu.include) then
+				if imgui.tree_node(language.current_language.customization_menu.me) then
+					changed, config.current_config.damage_meter_UI.master_hunter_rank_label.include.myself.master_rank = imgui.checkbox(
+						language.current_language.customization_menu.master_rank,
+						config.current_config.damage_meter_UI.player_name_label.include.myself.master_rank);
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
 
-				changed, config.current_config.damage_meter_UI.hunter_rank_label.enable_for.other_players = imgui.checkbox(
-					language.current_language.customization_menu.other_players,
-					config.current_config.damage_meter_UI.hunter_rank_label.enable_for.other_players);
-				config_changed = config_changed or changed;
-				damage_meter_UI_changed = damage_meter_UI_changed or changed;
+					changed, config.current_config.damage_meter_UI.master_hunter_rank_label.include.myself.hunter_rank = imgui.checkbox(
+						language.current_language.customization_menu.hunter_rank,
+						config.current_config.damage_meter_UI.player_name_label.include.myself.hunter_rank);
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
 
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node(language.current_language.customization_menu.other_players) then
+					changed, config.current_config.damage_meter_UI.master_hunter_rank_label.include.others.master_rank = imgui.checkbox(
+						language.current_language.customization_menu.master_rank,
+						config.current_config.damage_meter_UI.player_name_label.include.others.master_rank);
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+					changed, config.current_config.damage_meter_UI.master_hunter_rank_label.include.others.hunter_rank = imgui.checkbox(
+						language.current_language.customization_menu.hunter_rank,
+						config.current_config.damage_meter_UI.player_name_label.include.others.hunter_rank);
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+					imgui.tree_pop();
+				end
 
 				imgui.tree_pop();
 			end
 
 			if imgui.tree_node(language.current_language.customization_menu.offset) then
-				changed, config.current_config.damage_meter_UI.hunter_rank_label.offset.x = imgui.drag_float(language.current_language
+				changed, config.current_config.damage_meter_UI.master_hunter_rank_label.offset.x = imgui.drag_float(language.current_language
 					.customization_menu.x,
-					config.current_config.damage_meter_UI.hunter_rank_label.offset.x, 0.1, -screen.width, screen.width, "%.1f");
+					config.current_config.damage_meter_UI.master_hunter_rank_label.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 				config_changed = config_changed or changed;
 				damage_meter_UI_changed = damage_meter_UI_changed or changed;
 
-				changed, config.current_config.damage_meter_UI.hunter_rank_label.offset.y = imgui.drag_float(language.current_language
+				changed, config.current_config.damage_meter_UI.master_hunter_rank_label.offset.y = imgui.drag_float(language.current_language
 					.customization_menu.y,
-					config.current_config.damage_meter_UI.hunter_rank_label.offset.y, 0.1, -screen.height, screen.height, "%.1f");
+					config.current_config.damage_meter_UI.master_hunter_rank_label.offset.y, 0.1, -screen.height, screen.height, "%.1f");
 				config_changed = config_changed or changed;
 				damage_meter_UI_changed = damage_meter_UI_changed or changed;
 
@@ -15434,8 +15465,8 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node(language.current_language.customization_menu.color) then
-				changed, config.current_config.damage_meter_UI.hunter_rank_label.color = imgui.color_picker_argb("",
-					config.current_config.damage_meter_UI.hunter_rank_label.color, customization_menu.color_picker_flags);
+				changed, config.current_config.damage_meter_UI.master_hunter_rank_label.color = imgui.color_picker_argb("",
+					config.current_config.damage_meter_UI.master_hunter_rank_label.color, customization_menu.color_picker_flags);
 				config_changed = config_changed or changed;
 				damage_meter_UI_changed = damage_meter_UI_changed or changed;
 
@@ -15443,22 +15474,22 @@ function customization_menu.draw()
 			end
 
 			if imgui.tree_node(language.current_language.customization_menu.shadow) then
-				changed, config.current_config.damage_meter_UI.hunter_rank_label.shadow.visibility = imgui.checkbox(language.current_language
+				changed, config.current_config.damage_meter_UI.master_hunter_rank_label.shadow.visibility = imgui.checkbox(language.current_language
 					.customization_menu.visible,
-					config.current_config.damage_meter_UI.hunter_rank_label.shadow.visibility);
+					config.current_config.damage_meter_UI.master_hunter_rank_label.shadow.visibility);
 				config_changed = config_changed or changed;
 				damage_meter_UI_changed = damage_meter_UI_changed or changed;
 
 				if imgui.tree_node(language.current_language.customization_menu.offset) then
-					changed, config.current_config.damage_meter_UI.hunter_rank_label.shadow.offset.x = imgui.drag_float(language.current_language
+					changed, config.current_config.damage_meter_UI.master_hunter_rank_label.shadow.offset.x = imgui.drag_float(language.current_language
 						.customization_menu.x,
-						config.current_config.damage_meter_UI.hunter_rank_label.shadow.offset.x, 0.1, -screen.width, screen.width, "%.1f");
+						config.current_config.damage_meter_UI.master_hunter_rank_label.shadow.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 					config_changed = config_changed or changed;
 					damage_meter_UI_changed = damage_meter_UI_changed or changed;
 
-					changed, config.current_config.damage_meter_UI.hunter_rank_label.shadow.offset.y = imgui.drag_float(language.current_language
+					changed, config.current_config.damage_meter_UI.master_hunter_rank_label.shadow.offset.y = imgui.drag_float(language.current_language
 						.customization_menu.y,
-						config.current_config.damage_meter_UI.hunter_rank_label.shadow.offset.y, 0.1, -screen.height, screen.height,
+						config.current_config.damage_meter_UI.master_hunter_rank_label.shadow.offset.y, 0.1, -screen.height, screen.height,
 						"%.1f");
 					config_changed = config_changed or changed;
 					damage_meter_UI_changed = damage_meter_UI_changed or changed;
@@ -15467,8 +15498,8 @@ function customization_menu.draw()
 				end
 
 				if imgui.tree_node(language.current_language.customization_menu.color) then
-					changed, config.current_config.damage_meter_UI.hunter_rank_label.shadow.color = imgui.color_picker_argb("",
-						config.current_config.damage_meter_UI.hunter_rank_label.shadow.color, customization_menu.color_picker_flags);
+					changed, config.current_config.damage_meter_UI.master_hunter_rank_label.shadow.color = imgui.color_picker_argb("",
+						config.current_config.damage_meter_UI.master_hunter_rank_label.shadow.color, customization_menu.color_picker_flags);
 					config_changed = config_changed or changed;
 					damage_meter_UI_changed = damage_meter_UI_changed or changed;
 

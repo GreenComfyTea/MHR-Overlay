@@ -87,10 +87,11 @@ function large_monster.new(enemy)
 end
 
 function large_monster.get_monster(enemy)
-	if large_monster.list[enemy] == nil then
-		return large_monster.new(enemy);
+	local monster = large_monster.list[enemy];
+	if monster == nil then
+		monster = large_monster.new(enemy);
 	end
-	return large_monster.list[enemy];
+	return monster;
 end
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");

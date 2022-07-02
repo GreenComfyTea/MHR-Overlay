@@ -247,9 +247,6 @@ local get_active_timer_method = enemy_condition_damage_param_base_type_def:get_m
 local poison_damage_field = poison_param_type:get_field("<Damage>k__BackingField");
 local poison_get_is_damage_method = poison_param_type:get_method("get_IsDamage");
 
-local blast_damage_method = blast_param_type:get_method("get_BlastDamage");
-local blast_adjust_rate_method = blast_param_type:get_method("get_BlastDamageAdjustRateByEnemyLv");
-
 function ailments.update_ailments(enemy, monster)
 	if enemy == nil then
 		return;
@@ -416,7 +413,7 @@ function ailments.update_last_change_time(monster, id)
 end
 
 -- Code by coavins
-function ailments.update_poison_blast(monster, poison_param, blast_param)
+function ailments.update_poison(monster, poison_param)
 	if monster == nil then
 		return;
 	end
@@ -428,20 +425,6 @@ function ailments.update_poison_blast(monster, poison_param, blast_param)
 			local poison_damage = poison_damage_field:get_data(poison_param);
 			
 			ailments.apply_ailment_damage(monster, ailments.poison_id, poison_damage);
-		end
-	end
-
-	if blast_param ~= nil then
-		-- if applied, then calculate share for blast and apply damage
-		local activate_count = get_activate_count_method:call(blast_param):get_element(0):get_field("mValue");
-
-		if activate_count > monster.ailments[ailments.blast_id].activate_count then
-			monster.ailments[ailments.blast_id].activate_count = activate_count;
-			local blast_damage = blast_damage_method:call(blast_param);
-			local blast_adjust_rate = blast_adjust_rate_method:call(blast_param);
-			
-			ailments.apply_ailment_damage(monster, ailments.blast_id, blast_damage * blast_adjust_rate);
-			ailments.clear_ailment_contribution(monster, ailments.blast_id);
 		end
 	end
 end
@@ -815,7 +798,7 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 	local buildup_share = monster.ailments[ailment_type].buildup_share;
 	if ailment_type == ailments.poison_id then
 		damage_source_type = "poison";
-		buildup_share = monster.ailments[ailment_type]._cached_buildup_share;
+		buildup_share = monster.ailments[ailment_type].cached_buildup_share;
 	elseif ailment_type == ailments.blast_id then
 		damage_source_type = "blast";
 	else
@@ -823,9 +806,8 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 	end
 
 	local damage = ailment_damage;
-
-
 	-- split up damage according to ratio of buildup on boss for this type
+	xy = "." .. tostring(buildup_share);
 	for attacker_id, percentage in pairs(buildup_share) do
 		local damage_portion = damage * percentage;
 		
@@ -843,8 +825,6 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 
 		player.update_damage(player.total, damage_source_type, true, damage_object);
 	end
-
-	
 end
 
 function ailments.init_module()

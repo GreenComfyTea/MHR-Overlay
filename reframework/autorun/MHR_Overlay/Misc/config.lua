@@ -3793,6 +3793,7 @@ function config.init()
 	
 				include = {
 					myself = {
+						master_rank = true,
 						hunter_rank = true,
 						word_player = false,
 						player_id = false,
@@ -3800,6 +3801,7 @@ function config.init()
 					},
 	
 					others = {
+						master_rank = true,
 						hunter_rank = true,
 						word_player = false,
 						player_id = false,
@@ -3824,17 +3826,24 @@ function config.init()
 				}
 			},
 
-			hunter_rank_label = {
+			master_hunter_rank_label = {
 				visibility = false,
 	
-				enable_for = {
-					me = true,
-					other_players = true
+				include = {
+					myself = {
+						master_rank = true,
+						hunter_rank = true
+					},
+	
+					others = {
+						master_rank = true,
+						hunter_rank = true
+					}
 				},
 	
-				text = "[%d]",
+				text = "[%s]",
 				offset = {
-					x = -35,
+					x = -65,
 					y = 0
 				},
 				color = 0xFFCCF4E1,
@@ -4072,7 +4081,7 @@ function config.init_module()
 
 	config.init();
 	config.load();
-	config.current_config.version = "v1.11";
+	config.current_config.version = "v2.0";
 
 	language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
 

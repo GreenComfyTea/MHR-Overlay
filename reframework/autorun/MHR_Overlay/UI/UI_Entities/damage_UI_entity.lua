@@ -57,7 +57,11 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 	
 	local player_name_text = "";
 
-	if player_include.hunter_rank then
+	if player_include.master_rank and player_include.hunter_rank then
+		player_name_text = string.format("[%d:%d] ", _player.master_rank, _player.hunter_rank);
+	elseif player_include.master_rank then
+		player_name_text = string.format("[%d] ", _player.master_rank);
+	elseif player_include.hunter_rank then
 		player_name_text = string.format("[%d] ", _player.hunter_rank);
 	end
 
@@ -89,6 +93,8 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 		end
 	end
 
+
+
 	if _player.id == player.myself.id and cached_config.settings.highlighted_bar == "Me" then
 		drawing.draw_bar(_player.damage_UI.highlighted_bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
 	elseif cached_config.settings.highlighted_bar == "Top Damage" and _player.display.total_damage == top_damage then
@@ -100,11 +106,21 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 	end
 
 	if _player.id == player.myself.id then
-		if _player.damage_UI.hunter_rank_label.enable_for.me then
-			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, _player.hunter_rank);
+		if _player.damage_UI.hunter_rank_label.include.myself.master_rank and _player.damage_UI.hunter_rank_label.include.myself.hunter_rank then
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d:%d", _player.master_rank, _player.hunter_rank));
+		elseif _player.damage_UI.hunter_rank_label.include.myself.master_rank then
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d", _player.master_rank));
+		elseif _player.damage_UI.hunter_rank_label.include.myself.hunter_rank then
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d", _player.hunter_rank));
 		end
-	elseif _player.damage_UI.hunter_rank_label.enable_for.other_players then
-		drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, _player.hunter_rank);
+	else
+		if _player.damage_UI.hunter_rank_label.include.others.master_rank and _player.damage_UI.hunter_rank_label.include.others.hunter_rank then
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d:%d", _player.master_rank, _player.hunter_rank));
+		elseif _player.damage_UI.hunter_rank_label.include.others.master_rank then
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d", _player.master_rank));
+		elseif _player.damage_UI.hunter_rank_label.include.others.hunter_rank then
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d", _player.hunter_rank));
+		end
 	end
 
 	drawing.draw_label(_player.damage_UI.player_name_label, position_on_screen, opacity_scale, player_name_text);

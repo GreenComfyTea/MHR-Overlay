@@ -14,11 +14,12 @@ player.myself = nil;
 player.myself_position = Vector3f.new(0, 0, 0);
 player.total = nil;
 
-function player.new(player_id, player_name, player_hunter_rank)
+function player.new(player_id, player_name, player_master_rank, player_hunter_rank)
 	local new_player = {};
 	new_player.id = player_id;
 	new_player.name = player_name;
 	new_player.hunter_rank = player_hunter_rank;
+	new_player.master_rank = player_master_rank;
 
 	new_player.join_time = -1;
 	new_player.first_hit_time = -1;
@@ -313,8 +314,8 @@ end
 
 function player.init()
 	player.list = {};
-	player.total = player.new(0, "Total", 0);
-	player.myself = player.new(-1, "Dummy", -1);
+	player.total = player.new(0, "Total", 0, 0);
+	player.myself = player.new(-1, "Dummy", -1, -1);
 end
 
 local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
@@ -327,6 +328,7 @@ local my_hunter_info_type_def = my_hunter_info_field:get_type();
 local name_field = my_hunter_info_type_def:get_field("_name");
 local member_index_field = my_hunter_info_type_def:get_field("_memberIndex");
 local hunter_rank_field = my_hunter_info_type_def:get_field("_hunterRank");
+local master_rank_field = my_hunter_info_type_def:get_field("_masterRank");
 
 local hunter_info_type_def = hunter_info_field:get_type();
 local get_count_method = hunter_info_type_def:get_method("get_Count");
@@ -334,6 +336,8 @@ local get_item_method = hunter_info_type_def:get_method("get_Item");
 
 local progress_manager_type_def = sdk.find_type_definition("snow.progress.ProgressManager");
 local get_hunter_rank_method = progress_manager_type_def:get_method("get_HunterRank");
+local get_master_rank_method = progress_manager_type_def:get_method("get_MasterRank");
+
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local get_master_player_id_method = player_manager_type_def:get_method("getMasterPlayerID");
@@ -366,11 +370,18 @@ function player.update_player_list_in_village()
 		myself_hunter_rank = 0;
 	end
 
+	
+	local myself_master_rank = get_master_rank_method:call(singletons.progress_manager);
+	if myself_master_rank == nil then
+		customization_menu.status = "No myself master rank";
+		myself_master_rank = 0;
+	end
+
 	local myself_id = get_master_player_id_method:call(singletons.player_manager);
 	if myself_id == nil then
 		customization_menu.status = "No myself player id";
 	elseif player.myself == nil or myself_id ~= player.myself.id then
-			player.myself = player.new(myself_id, myself_player_name, myself_hunter_rank);
+			player.myself = player.new(myself_id, myself_player_name, myself_master_rank, myself_hunter_rank);
 		player.list[myself_id] = player.myself;
 	end
 
@@ -390,28 +401,33 @@ function player.update_player_list_in_village()
 	for i = 0, count - 1 do
 		local player_info = get_item_method:call(player_info_list, i);
 		if player_info == nil then
-			goto continue
+			goto continue;
 		end
 
 		local player_id = member_index_field:get_data(player_info);
 		if player_id == nil then
-			goto continue
+			goto continue;
 		end
 
 		local player_hunter_rank = hunter_rank_field:get_data(player_info);
 		if player_hunter_rank == nil then
-			goto continue
+			goto continue;
+		end
+
+		local player_master_rank = master_rank_field:get_data(player_info);
+		if player_hunter_rank == nil then
+			player_master_rank = 0;
 		end
 
 		local player_name = name_field:get_data(player_info);
 		if player_name == nil then
-			goto continue
+			goto continue;
 		end
 
 		if player.myself.id == player_id then
 			player.list[player_id] = player.myself;
 		elseif player.list[player_id] == nil or player.list[player_id].name ~= player_name then
-			player.list[player_id] = player.new(player_id, player_name, player_hunter_rank);
+			player.list[player_id] = player.new(player_id, player_name, player_master_rank, player_hunter_rank);
 		end
 
 		::continue::
@@ -446,11 +462,17 @@ function player.update_player_list_on_quest()
 		myself_hunter_rank = 0;
 	end
 
+	local myself_master_rank = get_master_rank_method:call(singletons.progress_manager);
+	if myself_hunter_rank == nil then
+		customization_menu.status = "No myself master rank";
+		myself_hunter_rank = 0;
+	end
+
 	local myself_id = get_master_player_id_method:call(singletons.player_manager);
 	if myself_id == nil then
 		customization_menu.status = "No myself player id";
 	elseif player.myself == nil or myself_id ~= player.myself.id then
-			player.myself = player.new(myself_id, myself_player_name, myself_hunter_rank);
+			player.myself = player.new(myself_id, myself_player_name, myself_master_rank, myself_hunter_rank);
 		player.list[myself_id] = player.myself;
 	end
 	
@@ -470,29 +492,34 @@ function player.update_player_list_on_quest()
 	for i = 0, count - 1 do
 		local player_info = get_item_method:call(player_info_list, i);
 		if player_info == nil then
-			goto continue
+			goto continue;
 		end
 
 		local player_id = member_index_field:get_data(player_info);
 		
 		if player_id == nil then
-			goto continue
+			goto continue;
 		end
 
 		local player_hunter_rank = hunter_rank_field:get_data(player_info);
 		if player_hunter_rank == nil then
-			goto continue
+			goto continue;
+		end
+
+		local player_master_rank = master_rank_field:get_data(player_info);
+		if player_master_rank == nil then
+			player_master_rank = 0;
 		end
 
 		local player_name = name_field:get_data(player_info);
 		if player_name == nil then
-			goto continue
+			goto continue;
 		end
 
 		if player.myself.id == player_id then
 			player.list[player_id] = player.myself;
 		elseif player.list[player_id] == nil or player.list[player_id].name ~= player_name then
-			player.list[player_id] = player.new(player_id, player_name, player_hunter_rank);
+			player.list[player_id] = player.new(player_id, player_name, player_master_rank, player_hunter_rank);
 		end
 
 		::continue::
@@ -507,7 +534,7 @@ function player.init_UI(_player)
 		cached_config.highlighted_damage_bar,
 		cached_config.player_name_label,
 		cached_config.dps_label,
-		cached_config.hunter_rank_label,
+		cached_config.master_hunter_rank_label,
 		cached_config.damage_value_label,
 		cached_config.damage_percentage_label
 	);
