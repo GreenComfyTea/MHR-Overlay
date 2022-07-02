@@ -462,6 +462,18 @@ function part_names.init()
 				language.current_language.parts.right_leg,
 				language.current_language.parts.tail
 			},
+			
+
+
+
+
+
+		--SUNBREAK
+
+
+
+
+
 		[81] = -- Astalos+ 81
 			{
 				language.current_language.parts.head,
@@ -482,7 +494,42 @@ function part_names.init()
 				language.current_language.parts.legs,
 				language.current_language.parts.wings,
 				language.current_language.parts.tail,
-			}
+			},
+		[19] = -- Daimyo Hermitaur+ 19
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.body,
+			language.current_language.parts.carapace,
+			language.current_language.parts.left_legs,
+			language.current_language.parts.right_legs,
+			language.current_language.parts.left_claw,
+			language.current_language.parts.right_claw,
+			language.current_language.parts.unknown
+		},
+
+		[346] = -- Blood Orange Bishaten+ 346
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.torso,
+			language.current_language.parts.right_arm,
+			language.current_language.parts.left_arm,
+			language.current_language.parts.right_leg,
+			language.current_language.parts.left_leg,
+			language.current_language.parts.tail
+		},
+
+		[134] = -- Garangolm+ 134
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.unknown,
+			language.current_language.parts.body,
+			language.current_language.parts.left_arm,
+			language.current_language.parts.right_arm,
+			language.current_language.parts.left_leg,
+			language.current_language.parts.right_leg,
+			language.current_language.parts.tail
+		},
+
 	};
 end
 
