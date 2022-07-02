@@ -10,7 +10,7 @@
 * **[Troubleshooting](https://github.com/GreenComfyTea/MHR-Overlay/wiki/Troubleshooting)**  
 
 # Requirements
-1. [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26)﻿ (v1.2 or above);
+1. [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26)﻿ (v1.2.1 or above);
 2. [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134) (v0.4.0 or above).
 
 # How to install:
