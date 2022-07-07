@@ -647,7 +647,7 @@ function part_names.init()
 				language.current_language.parts.shell,
 				language.current_language.parts.shell
 			},
-		[999] = -- Furious Rajang missing
+		[1303] = -- Furious Rajang missing
 			{
 				language.current_language.parts.head,
 				language.current_language.parts.torso,
