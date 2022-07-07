@@ -53,6 +53,7 @@ language.default_language = {
 		back_windsac = "Back (Windsac)",
 
 		large_mudbulb = "Large Mudbulb",
+		mudbulb = "Mudbulb",
 		mane = "Mane",
 		rear = "Rear",
 		claw = "Claw",
@@ -63,10 +64,28 @@ language.default_language = {
 
 		tail_tip = "Tail Tip",
 
-		left_claw = "Left Claw",
-		right_claw = "Right Claw",
+		left_claw = "Claw L",
+		right_claw = "Claw R",
 
-		unknown = "?"
+		unknown = "?",
+
+		crest = "Crest",
+		wingclaw = "Wingclaw",
+		left_wingclaw = "Wingclaw L",
+		right_wingclaw = "Wingclaw R",
+		antenna = "Antenna",
+
+		hind_leg = "Hind Leg",
+		hind_legs = "Hind Legs",
+		left_hind_leg = "Hind Leg L",
+		right_hind_leg = "Hind Leg R",
+
+		foreleg = "Foreleg",
+		forelegs = "Forelegs",
+		left_foreleg = "Foreleg L",
+		right_foreleg = "Foreleg R",
+		chest = "Chest",
+		shell = "Shell"
 	},
 
 	ailments = {

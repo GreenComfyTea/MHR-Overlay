@@ -1130,9 +1130,9 @@ function config.init()
 			
 						value_label = {
 							visibility = true,
-							text = "%9s", -- current_health/max_health
+							text = "%11s", -- current_health/max_health
 							offset = {
-								x = 114,
+								x = 100,
 								y = -5
 							},
 							color = 0xFFFFFFFF,
@@ -1302,9 +1302,9 @@ function config.init()
 			
 						value_label = {
 							visibility = true,
-							text = "%9s",
+							text = "%11s",
 							offset = {
-								x = 20,
+								x = 6,
 								y = 6
 							},
 							color = 0xFFFFFFFF,
@@ -2139,9 +2139,9 @@ function config.init()
 			
 						value_label = {
 							visibility = true,
-							text = "%9s", -- current_health/max_health
+							text = "%11s", -- current_health/max_health
 							offset = {
-								x = 114,
+								x = 100,
 								y = -5
 							},
 							color = 0xFFFFFFFF,
@@ -2311,9 +2311,9 @@ function config.init()
 			
 						value_label = {
 							visibility = true,
-							text = "%9s",
+							text = "%11s",
 							offset = {
-								x = 20,
+								x = 6,
 								y = 6
 							},
 							color = 0xFFFFFFFF,
@@ -3130,9 +3130,9 @@ function config.init()
 			
 						value_label = {
 							visibility = true,
-							text = "%9s", -- current_health/max_health
+							text = "%11s", -- current_health/max_health
 							offset = {
-								x = 114,
+								x = 100,
 								y = -5
 							},
 							color = 0xFFFFFFFF,
@@ -3301,9 +3301,9 @@ function config.init()
 			
 						value_label = {
 							visibility = true,
-							text = "%9s",
+							text = "%11s",
 							offset = {
-								x = 20,
+								x = 6,
 								y = 6
 							},
 							color = 0xFFFFFFFF,
