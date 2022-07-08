@@ -544,7 +544,7 @@ function part_names.init()
 				language.current_language.parts.body,
 				language.current_language.parts.left_foreleg,
 				language.current_language.parts.right_foreleg,
-				language.current_language.parts.legs,
+				language.current_language.parts.hind_legs,
 				language.current_language.parts.tail,
 				language.current_language.parts.abdomen,
 				language.current_language.parts.back
@@ -657,7 +657,7 @@ function part_names.init()
 				language.current_language.parts.right_leg,
 				language.current_language.parts.tail
 			},
-		[998] = -- Scorned Magnamalo missing
+		[1369] = -- Scorned Magnamalo missing
 			{
 				language.current_language.parts.head,
 				language.current_language.parts.torso,
