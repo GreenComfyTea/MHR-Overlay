@@ -125,6 +125,8 @@ function small_monster_UI.draw()
 			end
 		end
 
+		
+
 	
 		local opacity_scale = 1;
 		if cached_config.dynamic_positioning.enabled then
@@ -140,6 +142,8 @@ function small_monster_UI.draw()
 				opacity_scale = 1 - (monster.distance / cached_config.dynamic_positioning.max_distance);
 			end
 		end
+
+
 
 		small_monster.draw(monster, position_on_screen, opacity_scale);
 		

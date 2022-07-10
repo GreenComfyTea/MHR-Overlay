@@ -19,8 +19,16 @@ local is_marionette_attack_method = enemy_calc_damage_info_type_def:get_method("
 local get_total_damage_method = enemy_calc_damage_info_type_def:get_method("get_TotalDamage");
 local get_physical_damage_method = enemy_calc_damage_info_type_def:get_method("get_PhysicalDamage");
 local get_elemental_damage_method = enemy_calc_damage_info_type_def:get_method("get_ElementDamage");
+
 local get_condition_damage_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamage");
 local get_condition_type_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamageType");
+local get_condition_damage2_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamage2");
+local get_condition_type2_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamageType2");
+local get_condition_damage3_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamage3");
+local get_condition_type3_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamageType3");
+
+local stock_mystery_core_break_damage_type_def =  sdk.find_type_definition("snow.enemy.EnemyCharacterBase.stockMysteryCoreBreakDamage");
+
 
 local types = {
 	[0] = "PlayerWeapon",
@@ -82,12 +90,8 @@ function damage_hook.get_damage_source_type(damage_source_type_id, is_marionette
 	return tostring(damage_source_type_id);
 end
 
-function damage_hook.update_damage(args)
-	local enemy = sdk.to_managed_object(args[2]);
-	if enemy == nil then
-		return;
-	end
-	
+-- snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide
+function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	local is_large_monster = is_boss_enemy_method:call(enemy);
 
 	if is_large_monster == nil then
@@ -103,7 +107,6 @@ function damage_hook.update_damage(args)
 		return;
 	end
 
-	local enemy_calc_damage_info = sdk.to_managed_object(args[3]); -- snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide -- snow.hit.DamageFlowInfoBase calcDamageResult?
 	local attacker_id = get_attacker_id_method:call(enemy_calc_damage_info);
 	local attacker_type = get_damage_attacker_type_method:call(enemy_calc_damage_info);
 	local is_marionette_attack = is_marionette_attack_method:call(enemy_calc_damage_info)
@@ -123,7 +126,7 @@ function damage_hook.update_damage(args)
 		end
 	end
 
-	-- get_Em2EmDamageType()
+	-- get_Em2EmDamageType();
 
 	local damage_object = {}
 	damage_object.total_damage = get_total_damage_method:call(enemy_calc_damage_info);
@@ -132,7 +135,13 @@ function damage_hook.update_damage(args)
 	damage_object.ailment_damage = 0;
 
 	local condition_damage = get_condition_damage_method:call(enemy_calc_damage_info);
-	local condition_type   = tonumber(get_condition_type_method:call(enemy_calc_damage_info));
+	local condition_type = tonumber(get_condition_type_method:call(enemy_calc_damage_info));
+
+	local condition_damage2 = get_condition_damage2_method:call(enemy_calc_damage_info);
+	local condition_type2 = tonumber(get_condition_type2_method:call(enemy_calc_damage_info));
+
+	local condition_damage3 = get_condition_damage3_method:call(enemy_calc_damage_info);
+	local condition_type3 = tonumber(get_condition_type3_method:call(enemy_calc_damage_info));
 
 	--  0 - PlayerWeapon
 	--  1 - BarrelBombLarge
@@ -168,11 +177,17 @@ function damage_hook.update_damage(args)
 	-- 31 - EcSwampLeech
 	-- 32 - EcPenetrateFish
 
+	--xy = xy .. "\nPlayer: " .. tostring(attacker_id) ..
+	--" Damage: " .. tostring(damage_object.total_damage) ..
+	--" Type: ("	.. tostring(attacker_type) ..
+	--") " .. tostring(types[attacker_type]) ..
+	--" Condition Damage: " .. tostring(condition_damage) ..
+	--" Condition Type: ("	.. tostring(attacker_type) ..
+	--") " .. tostring(condition_type);
 
-	xy = "\nPlayer: " .. tostring(attacker_id) ..
-	"\nDamage: " .. tostring(damage_object.total_damage) ..
-	"\nType: ("	.. tostring(attacker_type) ..
-	") " .. tostring(types[attacker_type]);
+	if string.len(xy) > 2300 then
+		xy = "";
+	end
 
 	local damage_source_type = damage_hook.get_damage_source_type(attacker_type, is_marionette_attack);
 
@@ -189,11 +204,17 @@ function damage_hook.update_damage(args)
 	if stun_damage ~= 0 and stun_damage ~= nil then
 		ailments.apply_ailment_buildup(monster, attacker_id, ailments.stun_id, stun_damage);
 	end
-	
+
 	ailments.apply_ailment_buildup(monster, attacker_id, condition_type, condition_damage);
+	ailments.apply_ailment_buildup(monster, attacker_id, condition_type2, condition_damage2);
+	ailments.apply_ailment_buildup(monster, attacker_id, condition_type3, condition_damage3);
 
 	player.update_damage(player.total, damage_source_type, is_large_monster, damage_object);
 	player.update_damage(attacking_player, damage_source_type, is_large_monster, damage_object);
+end
+
+function damage_hook.on_mystery_core_break(enemy)
+
 end
 
 function damage_hook.init_module()
@@ -204,7 +225,13 @@ function damage_hook.init_module()
 	ailments = require("MHR_Overlay.Monsters.ailments");
 
 	sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
-		pcall(damage_hook.update_damage, args);
+		pcall(damage_hook.update_damage, sdk.to_managed_object(args[2]), sdk.to_managed_object(args[3]));
+	end, function(retval)
+		return retval;
+	end);
+
+	sdk.hook(stock_mystery_core_break_damage_type_def, function(args)
+		pcall(damage_hook.on_mystery_core_break, sdk.to_managed_object(args[2]));
 	end, function(retval)
 		return retval;
 	end);

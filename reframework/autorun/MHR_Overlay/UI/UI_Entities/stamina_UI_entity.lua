@@ -4,7 +4,7 @@ local drawing;
 local language;
 local config;
 
-function stamina_UI_entity.new(visibility, bar, text_label, value_label, percentage_label)
+function stamina_UI_entity.new(visibility, bar, text_label, value_label, percentage_label, timer_label)
 	local entity = {};
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
@@ -14,6 +14,7 @@ function stamina_UI_entity.new(visibility, bar, text_label, value_label, percent
 	entity.text_label = table_helpers.deep_copy(text_label);
 	entity.value_label = table_helpers.deep_copy(value_label);
 	entity.percentage_label = table_helpers.deep_copy(percentage_label);
+	entity.timer_label = table_helpers.deep_copy(timer_label);
 
 	entity.bar.offset.x = entity.bar.offset.x * global_scale_modifier;
 	entity.bar.offset.y = entity.bar.offset.y * global_scale_modifier;
@@ -29,6 +30,9 @@ function stamina_UI_entity.new(visibility, bar, text_label, value_label, percent
 	entity.percentage_label.offset.x = entity.percentage_label.offset.x * global_scale_modifier;
 	entity.percentage_label.offset.y = entity.percentage_label.offset.y * global_scale_modifier;
 
+	entity.timer_label.offset.x = entity.timer_label.offset.x * global_scale_modifier;
+	entity.timer_label.offset.y = entity.timer_label.offset.y * global_scale_modifier;
+
 	return entity;
 end
 
@@ -37,11 +41,18 @@ function stamina_UI_entity.draw(monster, stamina_UI, position_on_screen, opacity
 		return;
 	end
 
-	drawing.draw_bar(stamina_UI.bar, position_on_screen, opacity_scale, monster.stamina_percentage);
-
 	drawing.draw_label(stamina_UI.text_label, position_on_screen, opacity_scale, language.current_language.UI.stamina);
-	drawing.draw_label(stamina_UI.value_label, position_on_screen, opacity_scale, monster.stamina, monster.max_stamina);
-	drawing.draw_label(stamina_UI.percentage_label, position_on_screen, opacity_scale, 100 * monster.stamina_percentage);
+
+	if monster.is_tired then
+		drawing.draw_bar(stamina_UI.bar, position_on_screen, opacity_scale, monster.tired_timer_percentage);
+	
+		drawing.draw_label(stamina_UI.timer_label, position_on_screen, opacity_scale, monster.tired_minutes_left, monster.tired_seconds_left);
+	else
+		drawing.draw_bar(stamina_UI.bar, position_on_screen, opacity_scale, monster.stamina_percentage);
+
+		drawing.draw_label(stamina_UI.value_label, position_on_screen, opacity_scale, monster.stamina, monster.max_stamina);
+		drawing.draw_label(stamina_UI.percentage_label, position_on_screen, opacity_scale, 100 * monster.stamina_percentage);
+	end
 end
 
 function stamina_UI_entity.init_module()

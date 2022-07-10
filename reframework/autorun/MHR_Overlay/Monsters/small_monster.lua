@@ -23,13 +23,6 @@ function small_monster.new(enemy)
 	monster.missing_health = 0;
 	monster.capture_health = 0;
 
-	monster.stamina = 0;
-	monster.max_stamina = 1000;
-	monster.stamina_percentage = 0;
-	monster.missing_stamina = 0;
-
-	monster.game_object = nil;
-	monster.transform = nil;
 	monster.position = Vector3f.new(0, 0, 0);
 	monster.distance = 0;
 
@@ -43,6 +36,10 @@ function small_monster.new(enemy)
 	if small_monster.list[enemy] == nil then
 		small_monster.list[enemy] = monster;
 	end
+
+	small_monster.update_position(enemy, monster);
+	small_monster.update(enemy, monster);
+	small_monster.update_health(enemy, monster);
 
 	return monster;
 end
@@ -94,14 +91,6 @@ function small_monster.init_UI(monster)
 		cached_config.health.percentage_label
 	);
 
-	monster.stamina_UI = stamina_UI_entity.new(
-		cached_config.stamina.visibility,
-		cached_config.stamina.bar,
-		cached_config.stamina.text_label,
-		cached_config.stamina.value_label,
-		cached_config.stamina.percentage_label
-	);
-
 	monster.ailment_UI = ailment_UI_entity.new(
 		cached_config.ailments.visibility,
 		cached_config.ailments.bar,
@@ -116,7 +105,6 @@ function small_monster.init_UI(monster)
 end
 
 local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
-local stamina_param_field = enemy_character_base_type_def:get_field("<StaminaParam>k__BackingField");
 local check_die_method = enemy_character_base_type_def:get_method("checkDie");
 
 local physical_param_type = physical_param_field:get_type();
@@ -126,49 +114,33 @@ local vital_param_type = get_vital_method:get_return_type();
 local get_current_method = vital_param_type:get_method("get_Current");
 local get_max_method = vital_param_type:get_method("get_Max");
 
-
-local stamina_param_type = stamina_param_field:get_type();
-local get_stamina_method = stamina_param_type:get_method("getStamina");
-local get_max_stamina_method = stamina_param_type:get_method("getMaxStamina");
-
 local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
 
-function small_monster.update_position(enemy)
+function small_monster.update_position(enemy, monster)
 	local cached_config = config.current_config.small_monster_UI;
 	if not cached_config.enabled or not cached_config.dynamic_positioning.enabled then
 		return;
 	end
 
-	local monster = small_monster.get_monster(enemy);
-	if monster == nil then
-		return;
+	local position = get_pos_field:call(enemy);
+	if position ~= nil then
+		monster.position = position;
 	end
-
-	local position = get_pos_field:call(enemy) or monster.position;
-	monster.position = position;
 end
 
-function small_monster.update(enemy)
+function small_monster.update(enemy, monster)
 	if not config.current_config.small_monster_UI.enabled then
 		return;
 	end
 
-	if enemy == nil then
-		return;
-	end
-
-	local monster = small_monster.get_monster(enemy);
-
 	local dead_or_captured = check_die_method:call(enemy);
 	monster.dead_or_captured = (dead_or_captured == nil and false) or dead_or_captured;
 
-	small_monster.update_health(enemy, monster);
-	small_monster.update_stamina(enemy, monster);
 	ailments.update_ailments(enemy, monster);
 end
 
 function small_monster.update_health(enemy, monster)
-	if not config.current_config.small_monster_UI.health.visibility then
+	if not config.current_config.small_monster_UI.enabled or not config.current_config.small_monster_UI.health.visibility then
 		return;
 	end
 
@@ -194,27 +166,6 @@ function small_monster.update_health(enemy, monster)
 	end
 end
 
-function small_monster.update_stamina(enemy, monster)
-	if not config.current_config.small_monster_UI.stamina.visibility then
-		return;
-	end
-
-	local stamina_param = stamina_param_field:get_data(enemy)
-	if stamina_param == nil then
-		customization_menu.status = "No stamina param";
-		return;
-	end
-
-	monster.stamina  = get_stamina_method:call(stamina_param) or monster.stamina;
-	monster.max_stamina  = get_max_stamina_method:call(stamina_param) or monster.max_stamina;
-
-
-	monster.missing_stamina = monster.max_stamina - monster.stamina;
-	if monster.max_stamina  ~= 0 then
-		monster.stamina_percentage = monster.stamina / monster.max_stamina;
-	end
-end
-
 function small_monster.draw(monster, position_on_screen, opacity_scale)
 	local cached_config = config.current_config.small_monster_UI;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
@@ -226,11 +177,6 @@ function small_monster.draw(monster, position_on_screen, opacity_scale)
 		y = position_on_screen.y + cached_config.health.offset.y * global_scale_modifier
 	};
 
-	local stamina_position_on_screen = {
-		x = position_on_screen.x + cached_config.stamina.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.stamina.offset.y * global_scale_modifier
-	};
-
 	local ailments_position_on_screen = {
 		x = position_on_screen.x + cached_config.ailments.offset.x * global_scale_modifier,
 		y = position_on_screen.y + cached_config.ailments.offset.y * global_scale_modifier
@@ -240,16 +186,13 @@ function small_monster.draw(monster, position_on_screen, opacity_scale)
 		x = position_on_screen.x + cached_config.ailment_buildups.offset.x * global_scale_modifier,
 		y = position_on_screen.y + cached_config.ailment_buildups.offset.y * global_scale_modifier
 	};
-	
-	health_UI_entity.draw(monster, monster.health_UI, health_position_on_screen, opacity_scale);
-	stamina_UI_entity.draw(monster, monster.stamina_UI, stamina_position_on_screen, opacity_scale);
 
+	health_UI_entity.draw(monster, monster.health_UI, health_position_on_screen, opacity_scale);
 	ailments.draw_small(monster, ailments_position_on_screen, opacity_scale);
 	ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen, opacity_scale);
-
 end
 
-function small_monster.init_list()
+function  small_monster.init_list()
 	small_monster.list = {};
 end
 

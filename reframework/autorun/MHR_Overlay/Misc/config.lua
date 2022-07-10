@@ -912,7 +912,27 @@ function config.init()
 						text = "%5.1f%%",
 		
 						offset = {
-							x = 145-10,
+							x = 135,
+							y = 17
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+
+					timer_label = {
+						visibility = true,
+						text = "%2.0f:%02.0f",
+		
+						offset = {
+							x = 140,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
@@ -1935,6 +1955,26 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
+
+					timer_label = {
+						visibility = true,
+						text = "%2.0f:%02.0f",
+		
+						offset = {
+							x = 140,
+							y = 17
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
 		
 					bar = {
 						visibility = true,
@@ -2892,7 +2932,7 @@ function config.init()
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
-							x = 55-10,
+							x = 45,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
@@ -2912,7 +2952,27 @@ function config.init()
 						text = "%5.1f%%",
 		
 						offset = {
-							x = 145-10,
+							x = 135,
+							y = 17
+						},
+						color = 0xFFFFFFFF,
+		
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+
+					timer_label = {
+						visibility = true,
+						text = "%2.0f:%02.0f",
+		
+						offset = {
+							x = 140,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
