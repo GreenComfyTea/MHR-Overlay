@@ -22,12 +22,72 @@ local get_elemental_damage_method = enemy_calc_damage_info_type_def:get_method("
 local get_condition_damage_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamage");
 local get_condition_type_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamageType");
 
+local types = {
+	[0] = "PlayerWeapon",
+	[1] = "BarrelBombLarge",
+	[2] = "Makimushi",
+	[3] = "Nitro",
+	[4] = "OnibiMine",
+	[5] = "BallistaHate",
+	[6] = "CaptureSmokeBomb",
+	[7] = "CaptureBullet",
+	[8] = "BarrelBombSmall",
+	[9] = "Kunai",
+	[10] = "WaterBeetle",
+	[11] = "DetonationGrenade",
+	[12] = "Kabutowari",
+	[13] = "FlashBoll", -- Flash Bomb
+	[14] = "HmBallista",
+	[15] = "HmCannon",
+	[16] = "HmGatling",
+	[17] = "HmTrap",
+	[18] = "HmNpc",
+	[19] = "HmFlameThrower",
+	[20] = "HmDragnator",
+	[21] = "Otomo",
+	[22] = "OtAirouShell014",
+	[23] = "OtAirouShell102",
+	[24] = "Fg005",
+	[25] = "EcBatExplode",
+	[26] = "EcWallTrapBugExplode",
+	[27] = "EcPiranha",
+	[28] = "EcFlash",
+	[29] = "EcSandWallShooter",
+	[30] = "EcForestWallShooter",
+	[31] = "EcSwampLeech",
+	[32] = "EcPenetrateFish",
+	[33] = "Max",
+	[34] = "Invalid"
+}
+
+function damage_hook.get_damage_source_type(damage_source_type_id, is_marionette_attack)
+	if is_marionette_attack then
+		return "wyvern riding";
+	elseif damage_source_type_id == 0 or damage_source_type_id == 7 or damage_source_type_id == 11 or damage_source_type_id == 13 then
+		return "player";
+	elseif damage_source_type_id == 1 or damage_source_type_id == 8 then
+		return "bomb";
+	elseif damage_source_type_id == 9 then
+		return "kunai";
+	elseif damage_source_type_id >= 14 and damage_source_type_id <= 20 then
+		return "installation";
+	elseif damage_source_type_id >= 21 and damage_source_type_id <= 23 then
+		return "otomo";
+	elseif damage_source_type_id >= 25 and damage_source_type_id <= 32 then
+		return "endemic life";
+	elseif damage_source_type_id == 34 then
+		return "other";
+	end
+
+	return tostring(damage_source_type_id);
+end
+
 function damage_hook.update_damage(args)
 	local enemy = sdk.to_managed_object(args[2]);
 	if enemy == nil then
 		return;
 	end
-
+	
 	local is_large_monster = is_boss_enemy_method:call(enemy);
 
 	if is_large_monster == nil then
@@ -63,6 +123,8 @@ function damage_hook.update_damage(args)
 		end
 	end
 
+	-- get_Em2EmDamageType()
+
 	local damage_object = {}
 	damage_object.total_damage = get_total_damage_method:call(enemy_calc_damage_info);
 	damage_object.physical_damage = get_physical_damage_method:call(enemy_calc_damage_info);
@@ -72,35 +134,47 @@ function damage_hook.update_damage(args)
 	local condition_damage = get_condition_damage_method:call(enemy_calc_damage_info);
 	local condition_type   = tonumber(get_condition_type_method:call(enemy_calc_damage_info));
 
-	-- -1 - bombs
-	--  0 - player
-	--  9 - kunai
-	-- 11 - wyverblast
-	-- 12 - ballista
-	-- 13 - cannon
-	-- 14 - machine cannon
-	-- 16 - defender ballista/cannon
-	-- 17 - wyvernfire artillery
-	-- 18 - dragonator
-	-- 19 - otomo
-	-- 23 - monster
+	--  0 - PlayerWeapon
+	--  1 - BarrelBombLarge
+	--  2 - Makimushi
+	--  3 - Nitro
+	--  4 - OnibiMine
+	--  5 - BallistaHate
+	--  6 - CaptureSmokeBomb
+	--  7 - CaptureBullet
+	--  8 - BarrelBombSmall
+	--  9 - Kunai
+	-- 10 - WaterBeetle
+	-- 11 - DetonationGrenade
+	-- 12 - Kabutowari
+	-- 13 - FlashBoll
+	-- 14 - HmBallista
+	-- 15 - HmCannon
+	-- 16 - HmGatling
+	-- 17 - HmTrap
+	-- 18 - HmNpc
+	-- 19 - HmFlameThrower
+	-- 20 - HmDragnator
+	-- 21 - Otomo
+	-- 22 - OtAirouShell014
+	-- 23 - OtAirouShell102
+	-- 24 - Fg005
+	-- 25 - EcBatExplode
+	-- 26 - EcWallTrapBugExplode
+	-- 27 - EcPiranha
+	-- 28 - EcFlash
+	-- 29 - EcSandWallShooter
+	-- 30 - EcForestWallShooter
+	-- 31 - EcSwampLeech
+	-- 32 - EcPenetrateFish
 
-	local damage_source_type = tostring(attacker_type);
-	if attacker_type == 0 then
-		damage_source_type = "player";
-	elseif attacker_type == 1 then
-		damage_source_type = "bomb";
-	elseif attacker_type == 9 then
-		damage_source_type = "kunai";
-	elseif attacker_type == 11 then
-		damage_source_type = "wyvernblast";
-	elseif attacker_type == 12 or attacker_type == 13 or attacker_type == 14 or attacker_type == 18 then
-		damage_source_type = "installation";
-	elseif attacker_type == 19 then
-		damage_source_type = "otomo";
-	elseif attacker_type == 23 then
-		damage_source_type = "monster";
-	end
+
+	xy = "\nPlayer: " .. tostring(attacker_id) ..
+	"\nDamage: " .. tostring(damage_object.total_damage) ..
+	"\nType: ("	.. tostring(attacker_type) ..
+	") " .. tostring(types[attacker_type]);
+
+	local damage_source_type = damage_hook.get_damage_source_type(attacker_type, is_marionette_attack);
 
 	local attacking_player = player.get_player(attacker_id);
 
@@ -116,7 +190,6 @@ function damage_hook.update_damage(args)
 		ailments.apply_ailment_buildup(monster, attacker_id, ailments.stun_id, stun_damage);
 	end
 	
-
 	ailments.apply_ailment_buildup(monster, attacker_id, condition_type, condition_damage);
 
 	player.update_damage(player.total, damage_source_type, is_large_monster, damage_object);

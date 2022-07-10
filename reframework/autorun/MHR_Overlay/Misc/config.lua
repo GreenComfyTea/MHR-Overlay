@@ -3752,9 +3752,11 @@ function config.init()
 				kunai_damage = true,
 				installation_damage = true, -- hunting_installations like ballista, cannon, etc.
 				otomo_damage = true,
-				monster_damage = true, -- note that installations during narwa fight are counted as monster damage
+				wyvern_riding_damage = true,
 				poison_damage = true,
 				blast_damage = true,
+				endemic_life_damage = true,
+				other_damage = true  -- note that installations during narwa fight are counted as other damage
 			}, 
 	
 			spacing = {

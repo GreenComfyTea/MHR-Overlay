@@ -56,11 +56,11 @@ function player.new(player_id, player_name, player_master_rank, player_hunter_ra
 	new_player.small_monsters.otomo.elemental_damage = 0;
 	new_player.small_monsters.otomo.ailment_damage = 0;
 
-	new_player.small_monsters.monster = {};
-	new_player.small_monsters.monster.total_damage = 0;
-	new_player.small_monsters.monster.physical_damage = 0;
-	new_player.small_monsters.monster.elemental_damage = 0;
-	new_player.small_monsters.monster.ailment_damage = 0;
+	new_player.small_monsters.wyvern_riding = {};
+	new_player.small_monsters.wyvern_riding.total_damage = 0;
+	new_player.small_monsters.wyvern_riding.physical_damage = 0;
+	new_player.small_monsters.wyvern_riding.elemental_damage = 0;
+	new_player.small_monsters.wyvern_riding.ailment_damage = 0;
 
 	new_player.small_monsters.poison = {};
 	new_player.small_monsters.poison.total_damage = 0;
@@ -73,6 +73,18 @@ function player.new(player_id, player_name, player_master_rank, player_hunter_ra
 	new_player.small_monsters.blast.physical_damage = 0;
 	new_player.small_monsters.blast.elemental_damage = 0;
 	new_player.small_monsters.blast.ailment_damage = 0;
+
+	new_player.small_monsters.endemic_life = {};
+	new_player.small_monsters.endemic_life.total_damage = 0;
+	new_player.small_monsters.endemic_life.physical_damage = 0;
+	new_player.small_monsters.endemic_life.elemental_damage = 0;
+	new_player.small_monsters.endemic_life.ailment_damage = 0;
+
+	new_player.small_monsters.other = {};
+	new_player.small_monsters.other.total_damage = 0;
+	new_player.small_monsters.other.physical_damage = 0;
+	new_player.small_monsters.other.elemental_damage = 0;
+	new_player.small_monsters.other.ailment_damage = 0;
 
 	new_player.large_monsters = {};
 
@@ -105,11 +117,11 @@ function player.new(player_id, player_name, player_master_rank, player_hunter_ra
 	new_player.large_monsters.otomo.elemental_damage = 0;
 	new_player.large_monsters.otomo.ailment_damage = 0;
 
-	new_player.large_monsters.monster = {};
-	new_player.large_monsters.monster.total_damage = 0;
-	new_player.large_monsters.monster.physical_damage = 0;
-	new_player.large_monsters.monster.elemental_damage = 0;
-	new_player.large_monsters.monster.ailment_damage = 0;
+	new_player.large_monsters.wyvern_riding = {};
+	new_player.large_monsters.wyvern_riding.total_damage = 0;
+	new_player.large_monsters.wyvern_riding.physical_damage = 0;
+	new_player.large_monsters.wyvern_riding.elemental_damage = 0;
+	new_player.large_monsters.wyvern_riding.ailment_damage = 0;
 
 	new_player.large_monsters.poison = {};
 	new_player.large_monsters.poison.total_damage = 0;
@@ -122,6 +134,18 @@ function player.new(player_id, player_name, player_master_rank, player_hunter_ra
 	new_player.large_monsters.blast.physical_damage = 0;
 	new_player.large_monsters.blast.elemental_damage = 0;
 	new_player.large_monsters.blast.ailment_damage = 0;
+
+	new_player.large_monsters.endemic_life = {};
+	new_player.large_monsters.endemic_life.total_damage = 0;
+	new_player.large_monsters.endemic_life.physical_damage = 0;
+	new_player.large_monsters.endemic_life.elemental_damage = 0;
+	new_player.large_monsters.endemic_life.ailment_damage = 0;
+
+	new_player.large_monsters.other = {};
+	new_player.large_monsters.other.total_damage = 0;
+	new_player.large_monsters.other.physical_damage = 0;
+	new_player.large_monsters.other.elemental_damage = 0;
+	new_player.large_monsters.other.ailment_damage = 0;
 
 	new_player.display = {};
 	new_player.display.total_damage = 0;
@@ -156,25 +180,27 @@ function player.update_damage(_player, damage_source_type, is_large_monster, dam
 	if is_large_monster then
 		player_monster_type = _player.large_monsters;
 	end
-
+	
 	if damage_source_type == "player" then
 		player.merge_damage(player_monster_type, damage_object);
 	elseif damage_source_type == "bomb" then
 		player.merge_damage(player_monster_type.bombs, damage_object);
 	elseif damage_source_type == "kunai" then
 		player.merge_damage(player_monster_type.kunai, damage_object);
-	elseif damage_source_type == "wyvernblast" then
-		player.merge_damage(player_monster_type, damage_object);
 	elseif damage_source_type == "installation" then
 		player.merge_damage(player_monster_type.installations, damage_object);
 	elseif damage_source_type == "otomo" then
 		player.merge_damage(player_monster_type.otomo, damage_object);
-	elseif damage_source_type == "monster" then
-		player.merge_damage(player_monster_type.monster, damage_object);
+	elseif damage_source_type == "wyvern riding" then
+		player.merge_damage(player_monster_type.wyvern_riding, damage_object);
 	elseif damage_source_type == "poison" then
 		player.merge_damage(player_monster_type.poison, damage_object);
 	elseif damage_source_type == "blast" then
 		player.merge_damage(player_monster_type.blast, damage_object);
+	elseif damage_source_type == "endemic life" then
+		player.merge_damage(player_monster_type.endemic_life, damage_object);
+	elseif damage_source_type == "other" then
+		player.merge_damage(player_monster_type.other, damage_object);
 	else
 		player.merge_damage(player_monster_type, damage_object);
 	end
@@ -214,9 +240,9 @@ function player.update_display(_player)
 		if cached_config.tracked_damage_types.otomo_damage then
 			player.merge_damage(_player.display, _player.small_monsters.otomo);
 		end
-		
-		if cached_config.tracked_damage_types.monster_damage then
-			player.merge_damage(_player.display, _player.small_monsters.monster);
+
+		if cached_config.tracked_damage_types.wyvern_riding_damage then
+			player.merge_damage(_player.display, _player.small_monsters.wyvern_riding);
 		end
 
 		if cached_config.tracked_damage_types.poison_damage then
@@ -225,6 +251,14 @@ function player.update_display(_player)
 
 		if cached_config.tracked_damage_types.blast_damage then
 			player.merge_damage(_player.display, _player.small_monsters.blast);
+		end
+
+		if cached_config.tracked_damage_types.endemic_life_damage then
+			player.merge_damage(_player.display, _player.small_monsters.endemic_life);
+		end
+
+		if cached_config.tracked_damage_types.other_damage then
+			player.merge_damage(_player.display, _player.small_monsters.other);
 		end
 	end
 
@@ -248,9 +282,9 @@ function player.update_display(_player)
 		if cached_config.tracked_damage_types.otomo_damage then
 			player.merge_damage(_player.display, _player.large_monsters.otomo);
 		end
-	
-		if cached_config.tracked_damage_types.monster_damage then
-			player.merge_damage(_player.display, _player.large_monsters.monster);
+
+		if cached_config.tracked_damage_types.wyvern_riding_damage then
+			player.merge_damage(_player.display, _player.large_monsters.wyvern_riding);
 		end
 
 		if cached_config.tracked_damage_types.poison_damage then
@@ -259,6 +293,14 @@ function player.update_display(_player)
 
 		if cached_config.tracked_damage_types.blast_damage then
 			player.merge_damage(_player.display, _player.large_monsters.blast);
+		end
+
+		if cached_config.tracked_damage_types.endemic_life_damage then
+			player.merge_damage(_player.display, _player.large_monsters.endemic_life);
+		end
+
+		if cached_config.tracked_damage_types.other_damage then
+			player.merge_damage(_player.display, _player.large_monsters.other);
 		end
 	end
 end

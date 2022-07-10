@@ -88,6 +88,7 @@
         "enable_for": "啟用對象",
         "enabled": "啟用",
         "endemic_life_UI": "環境生物 UI",
+        "endemic_life_damage": "Endemic Life Damage",
         "family": "字體",
         "fight_time": "戰鬥時間",
         "filter": "篩選器",
@@ -156,6 +157,7 @@
         "offset_is_relative_to_parts": "與部位顯示相對偏移",
         "opacity_falloff": "透明度提高",
         "orientation": "對齊方式",
+        "other_damage": "Other Damage",
         "other_players": "其他玩家",
         "otomo_damage": "隨從傷害",
         "part_health": "Part Health",
@@ -223,6 +225,7 @@
         "width": "寬度",
         "word_player": "名稱 \"玩家\"",
         "world_offset": "地圖中的位置",
+        "wyvern_riding_damage": "Wyvern Riding Damage",
         "x": "X軸",
         "y": "Y軸",
         "z": "Z軸"

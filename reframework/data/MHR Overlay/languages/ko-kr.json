@@ -88,6 +88,7 @@
         "enable_for": "표시 대상",
         "enabled": "사용함",
         "endemic_life_UI": "환경생물 UI",
+        "endemic_life_damage": "Endemic Life Damage",
         "family": "글꼴",
         "fight_time": "전투 시간",
         "filter": "필터",
@@ -156,6 +157,7 @@
         "offset_is_relative_to_parts": "옵셋을 부위 기준으로",
         "opacity_falloff": "투명도 감소",
         "orientation": "방향",
+        "other_damage": "Other Damage",
         "other_players": "다른 헌터",
         "otomo_damage": "동반자 대미지",
         "part_health": "Part Health",
@@ -223,6 +225,7 @@
         "width": "너비",
         "word_player": "\"헌터\" 명칭",
         "world_offset": "전역 옵셋",
+        "wyvern_riding_damage": "Wyvern Riding Damage",
         "x": "X",
         "y": "Y",
         "z": "Z"

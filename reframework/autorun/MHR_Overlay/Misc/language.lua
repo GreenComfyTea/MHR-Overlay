@@ -366,7 +366,11 @@ language.default_language = {
 
 		menu_font_change_disclaimer = "Changing Language and Menu Font Size several times will cause a crash!",
 
-		master_rank = "Master Rank"
+		master_rank = "Master Rank",
+
+		other_damage = "Other Damage",
+		wyvern_riding_damage = "Wyvern Riding Damage",
+		endemic_life_damage = "Endemic Life Damage"
 	}
 };
 

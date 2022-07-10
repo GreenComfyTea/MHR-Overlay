@@ -807,7 +807,6 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 
 	local damage = ailment_damage;
 	-- split up damage according to ratio of buildup on boss for this type
-	xy = "." .. tostring(buildup_share);
 	for attacker_id, percentage in pairs(buildup_share) do
 		local damage_portion = damage * percentage;
 		

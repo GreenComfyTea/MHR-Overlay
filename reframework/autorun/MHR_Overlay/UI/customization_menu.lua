@@ -15177,8 +15177,8 @@ function customization_menu.draw()
 			damage_meter_UI_changed = damage_meter_UI_changed or changed;
 			tracked_damage_types_changed = tracked_damage_types_changed or changed;
 
-			changed, config.current_config.damage_meter_UI.tracked_damage_types.monster_damage = imgui.checkbox(language.current_language
-				.customization_menu.monster_damage, config.current_config.damage_meter_UI.tracked_damage_types.monster_damage);
+			changed, config.current_config.damage_meter_UI.tracked_damage_types.wyvern_riding_damage = imgui.checkbox(language.current_language
+				.customization_menu.wyvern_riding_damage, config.current_config.damage_meter_UI.tracked_damage_types.wyvern_riding_damage);
 			config_changed = config_changed or changed;
 			damage_meter_UI_changed = damage_meter_UI_changed or changed;
 			tracked_damage_types_changed = tracked_damage_types_changed or changed;
@@ -15191,6 +15191,18 @@ function customization_menu.draw()
 
 			changed, config.current_config.damage_meter_UI.tracked_damage_types.blast_damage = imgui.checkbox(language.current_language
 				.customization_menu.blast_damage, config.current_config.damage_meter_UI.tracked_damage_types.blast_damage);
+			config_changed = config_changed or changed;
+			damage_meter_UI_changed = damage_meter_UI_changed or changed;
+			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+
+			changed, config.current_config.damage_meter_UI.tracked_damage_types.endemic_life_damage = imgui.checkbox(language.current_language
+				.customization_menu.endemic_life_damage, config.current_config.damage_meter_UI.tracked_damage_types.endemic_life_damage);
+			config_changed = config_changed or changed;
+			damage_meter_UI_changed = damage_meter_UI_changed or changed;
+			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+
+			changed, config.current_config.damage_meter_UI.tracked_damage_types.other_damage = imgui.checkbox(language.current_language
+				.customization_menu.other_damage, config.current_config.damage_meter_UI.tracked_damage_types.other_damage);
 			config_changed = config_changed or changed;
 			damage_meter_UI_changed = damage_meter_UI_changed or changed;
 			tracked_damage_types_changed = tracked_damage_types_changed or changed;

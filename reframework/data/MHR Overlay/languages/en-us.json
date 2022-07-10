@@ -88,6 +88,7 @@
         "enable_for": "Enable for",
         "enabled": "Enabled",
         "endemic_life_UI": "Endemic Life UI",
+        "endemic_life_damage": "Endemic Life Damage",
         "family": "Family",
         "fight_time": "Fight Time",
         "filter": "Filter",
@@ -156,6 +157,7 @@
         "offset_is_relative_to_parts": "Offset is Relative to Parts",
         "opacity_falloff": "Opacity Falloff",
         "orientation": "Orientation",
+        "other_damage": "Other Damage",
         "other_players": "Other Players",
         "otomo_damage": "Otomo Damage",
         "part_health": "Part Health",
@@ -223,6 +225,7 @@
         "width": "Width",
         "word_player": "Word \"Player\"",
         "world_offset": "World Offset",
+        "wyvern_riding_damage": "Wyvern Riding Damage",
         "x": "X",
         "y": "Y",
         "z": "Z"

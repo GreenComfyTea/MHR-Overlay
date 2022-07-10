@@ -88,6 +88,7 @@
         "enable_for": "Показывать для",
         "enabled": "Включить",
         "endemic_life_UI": "Интерфейс местной живности",
+        "endemic_life_damage": "Endemic Life Damage",
         "family": "Семейство",
         "fight_time": "Время в бою",
         "filter": "Фильтр",
@@ -156,6 +157,7 @@
         "offset_is_relative_to_parts": "Сдвиг относителен к частям тела",
         "opacity_falloff": "Увеличение прозрачности от расстояния",
         "orientation": "Ориентация",
+        "other_damage": "Other Damage",
         "other_players": "Другие игроки",
         "otomo_damage": "Урон от отомо",
         "part_health": "Здоровье части",
@@ -223,6 +225,7 @@
         "width": "Ширина",
         "word_player": "Слово \"Игрок\"",
         "world_offset": "Сдвиг в игровом пространстве",
+        "wyvern_riding_damage": "Wyvern Riding Damage",
         "x": "X",
         "y": "Y",
         "z": "Z"
