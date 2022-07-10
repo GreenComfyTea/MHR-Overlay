@@ -32,6 +32,25 @@ function drawing.argb_to_color(alpha, red, green, blue)
     return 0x1000000 * alpha + 0x10000 * red + 0x100 * green + blue;
 end
 
+function drawing.limit_text_size(text, size_limit)
+	if d2d == nil then
+		return;
+	end
+
+	--do return end;
+
+	local limited_text = text;
+	while true do
+		local text_width, text_height = drawing.font:measure(limited_text);
+
+		if text_width < size_limit then
+			return limited_text;
+		else
+			limited_text = limited_text:sub(1, -5) .. "...";
+		end
+	end
+end
+
 function drawing.scale_color_opacity(color, scale)
 	local  alpha, red, green, blue = drawing.color_to_argb(color);
 	local new_alpha = math.floor(alpha * scale);

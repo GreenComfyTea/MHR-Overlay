@@ -172,6 +172,7 @@
         "player_id": "헌터 ID",
         "player_name": "헌터명",
         "player_name_label": "헌터명 라벨",
+        "player_name_size_limit": "Player Name Size Limit",
         "player_spacing": "플레이어 간격",
         "poison_damage": "독 대미지",
         "position": "위치",

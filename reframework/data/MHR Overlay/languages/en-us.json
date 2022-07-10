@@ -172,6 +172,7 @@
         "player_id": "Player ID",
         "player_name": "Player Name",
         "player_name_label": "Player Name Label",
+        "player_name_size_limit": "Player Name Size Limit",
         "player_spacing": "Player Spacing",
         "poison_damage": "Poison Damage",
         "position": "Position",

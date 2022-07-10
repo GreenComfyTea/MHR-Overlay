@@ -3779,7 +3779,9 @@ function config.init()
 
 				hide_myself = false,
 				hide_other_players = false,
-				hide_total_damage = false
+				hide_total_damage = false,
+
+				player_name_size_limit = 150
 			},
 	
 			sorting = {

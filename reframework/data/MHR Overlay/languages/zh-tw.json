@@ -172,6 +172,7 @@
         "player_id": "玩家ID",
         "player_name": "玩家名稱",
         "player_name_label": "玩家名稱",
+        "player_name_size_limit": "Player Name Size Limit",
         "player_spacing": "Player Spacing",
         "poison_damage": "毒傷害",
         "position": "位置",

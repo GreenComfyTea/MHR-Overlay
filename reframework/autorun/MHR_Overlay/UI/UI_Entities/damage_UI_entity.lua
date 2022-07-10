@@ -32,6 +32,8 @@ function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label
 	entity.player_name_label.offset.x = entity.player_name_label.offset.x * global_scale_modifier;
 	entity.player_name_label.offset.y = entity.player_name_label.offset.y * global_scale_modifier;
 
+	entity.player_name_size_limit = config.current_config.damage_meter_UI.settings.player_name_size_limit * global_scale_modifier;
+
 	entity.dps_label.offset.x = entity.dps_label.offset.x * global_scale_modifier;
 	entity.dps_label.offset.y = entity.dps_label.offset.y * global_scale_modifier;
 
@@ -122,6 +124,8 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d", _player.hunter_rank));
 		end
 	end
+
+	player_name_text = drawing.limit_text_size(player_name_text, _player.damage_UI.player_name_size_limit);
 
 	drawing.draw_label(_player.damage_UI.player_name_label, position_on_screen, opacity_scale, player_name_text);
 	drawing.draw_label(_player.damage_UI.value_label, position_on_screen, opacity_scale, _player.display.total_damage);

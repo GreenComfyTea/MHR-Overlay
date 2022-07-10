@@ -172,6 +172,7 @@
         "player_id": "ИД игрока",
         "player_name": "Имя игрока",
         "player_name_label": "Метка имени игрока",
+        "player_name_size_limit": "Player Name Size Limit",
         "player_spacing": "Расстояние между игроками",
         "poison_damage": "Урон от отравления",
         "position": "Расположение",

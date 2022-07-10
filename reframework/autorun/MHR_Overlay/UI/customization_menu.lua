@@ -15132,6 +15132,11 @@ function customization_menu.draw()
 					customization_menu.damage_meter_UI_dps_mode_index];
 			end
 
+			changed, config.current_config.damage_meter_UI.settings.player_name_size_limit = imgui.drag_float(language.current_language.customization_menu
+				.player_name_size_limit, config.current_config.damage_meter_UI.settings.player_name_size_limit, 0.1, 0, screen.width, "%.1f");
+			config_changed = config_changed or changed;
+			damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
 			imgui.tree_pop();
 		end
 
