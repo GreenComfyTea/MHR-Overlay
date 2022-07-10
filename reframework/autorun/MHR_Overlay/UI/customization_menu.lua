@@ -15040,6 +15040,24 @@ function customization_menu.draw()
 		damage_meter_UI_changed = damage_meter_UI_changed or changed;
 
 		if imgui.tree_node(language.current_language.customization_menu.settings) then
+			changed, config.current_config.damage_meter_UI.settings.hide_myself = imgui.checkbox(
+				language.current_language.customization_menu.hide_myself,
+				config.current_config.damage_meter_UI.settings.hide_myself);
+			config_changed = config_changed or changed;
+			damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+			changed, config.current_config.damage_meter_UI.settings.hide_other_players = imgui.checkbox(
+				language.current_language.customization_menu.hide_other_players,
+				config.current_config.damage_meter_UI.settings.hide_other_players);
+			config_changed = config_changed or changed;
+			damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+			changed, config.current_config.damage_meter_UI.settings.hide_total_damage = imgui.checkbox(
+				language.current_language.customization_menu.hide_total_damage,
+				config.current_config.damage_meter_UI.settings.hide_total_damage);
+			config_changed = config_changed or changed;
+			damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
 			changed, config.current_config.damage_meter_UI.settings.hide_module_if_total_damage_is_zero = imgui.checkbox(
 				language.current_language.customization_menu.hide_module_if_total_damage_is_zero,
 				config.current_config.damage_meter_UI.settings.hide_module_if_total_damage_is_zero);

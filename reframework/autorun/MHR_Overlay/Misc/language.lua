@@ -370,7 +370,11 @@ language.default_language = {
 
 		other_damage = "Other Damage",
 		wyvern_riding_damage = "Wyvern Riding Damage",
-		endemic_life_damage = "Endemic Life Damage"
+		endemic_life_damage = "Endemic Life Damage",
+
+		hide_myself = "Hide Myself",
+		hide_other_players = "Hide Other Players",
+		hide_total_damage = "Hide Total Damage"
 	}
 };
 

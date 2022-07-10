@@ -146,9 +146,16 @@ function damage_meter_UI.draw()
 	-- draw
 	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 	for _, _player in ipairs(quest_players) do
-		
 		if _player.display.total_damage == 0 and cached_config.settings.hide_player_if_player_damage_is_zero then
-			goto continue1
+			goto continue;
+		end
+
+		if _player == player.myself then
+			if cached_config.settings.hide_myself then
+				goto continue;
+			end
+		elseif cached_config.settings.hide_other_players then
+			goto continue;
 		end
 
 		player.draw(_player, position_on_screen, 1, top_damage, top_dps);
@@ -159,11 +166,15 @@ function damage_meter_UI.draw()
 			position_on_screen.y = position_on_screen.y + cached_config.spacing.y * global_scale_modifier;
 		end
 
-		::continue1::
+		::continue::
 
 	end
 
 	-- draw total damage
+	if cached_config.settings.hide_total_damage then
+		return;
+	end
+
 	if cached_config.settings.hide_total_if_total_damage_is_zero and player.total.display.total_damage == 0 then
 		return;
 	end

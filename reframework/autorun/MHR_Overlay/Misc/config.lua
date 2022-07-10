@@ -3775,7 +3775,11 @@ function config.init()
 				highlighted_bar = "Me",
 				damage_bar_relative_to = "Top Damage", -- "total damage" or "top damage"
 				my_damage_bar_location = "First", -- "normal" or "first" or "last"
-				dps_mode = "First Hit"
+				dps_mode = "First Hit",
+
+				hide_myself = false,
+				hide_other_players = false,
+				hide_total_damage = false
 			},
 	
 			sorting = {
