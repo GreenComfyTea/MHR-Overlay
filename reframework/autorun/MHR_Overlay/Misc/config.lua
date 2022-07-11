@@ -275,98 +275,13 @@ function config.init()
 					}
 				}
 			},
-	
-			stamina = {
-				visibility = false,
-
-				offset = {
-					x = 10,
-					y = 30
-				},
-	
-				text_label = {
-					visibility = true,
-					text = "%s",
-					offset = {
-						x = 5,
-						y = 0
-					},
-					color = 0xFFA3F5F0,
-		
-					shadow = {
-						visibility = true,
-						offset = {
-							x = 1,
-							y = 1
-						},
-						color = 0xFF000000
-					}
-				},
-	
-				value_label = {
-					visibility = true,
-					text = "%.0f/%.0f", -- current_health/max_health
-					offset = {
-						x = 25,
-						y = 16
-					},
-					color = 0xFFA3F5F0,
-	
-					shadow = {
-						visibility = true,
-						offset = {
-							x = 1,
-							y = 1
-						},
-						color = 0xFF000000
-					}
-				},
-				
-				percentage_label = {
-					visibility = false,
-					text = "%5.1f%%",
-	
-					offset = {
-						x = 45,
-						y = 29
-					},
-					color = 0xFFA3F5F0,
-	
-					shadow = {
-						visibility = true,
-						offset = {
-							x = 1,
-							y = 1
-						},
-						color = 0xFF000000
-					}
-				},
-	
-				bar = {
-					visibility = true,
-					offset = {
-						x = 0,
-						y = 17
-					},
-	
-					size = {
-						width = 90,
-						height = 4
-					},
-	
-					colors = {
-						foreground = 0xB966CCC5,
-						background = 0x88000000
-					}
-				}
-			},
 
 			ailments = {
 				visibility = false,
 
 				offset = {
 					x = 10,
-					y = 75
+					y = 40
 				},
 				
 				spacing = {
@@ -514,7 +429,7 @@ function config.init()
 				visibility = false,
 		
 				offset = {
-					x = 220,
+					x = 115,
 					y = 17
 				},
 

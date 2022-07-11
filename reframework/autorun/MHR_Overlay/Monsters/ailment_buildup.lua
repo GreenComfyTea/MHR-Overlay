@@ -36,7 +36,7 @@ function ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_scre
 			goto continue;
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > cached_config.settings.time_limit then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
 			goto continue;
 		end
 
@@ -167,7 +167,7 @@ function ailment_buildup.draw_static(monster, ailment_buildups_position_on_scree
 			goto continue;
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > cached_config.settings.time_limit then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
 			goto continue;
 		end
 
@@ -295,7 +295,7 @@ function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_
 			goto continue;
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > cached_config.settings.time_limit then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
 			goto continue;
 		end
 
@@ -423,7 +423,7 @@ function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen
 			goto continue;
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > cached_config.settings.time_limit then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
 			goto continue;
 		end
 

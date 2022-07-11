@@ -68,7 +68,7 @@ function ailments.new(_ailments, ailment_id)
 	_ailments[ailment_id].is_active = false;
 	_ailments[ailment_id].activate_count = 0;
 
-	_ailments[ailment_id].last_change_time = time.total_elapsed_seconds;
+	_ailments[ailment_id].last_change_time = time.total_elapsed_script_seconds;
 
 	if ailment_id == ailments.paralyze_id then
 		_ailments[ailment_id].name = language.current_language.ailments.paralysis;
@@ -320,7 +320,7 @@ function ailments.update_ailment(monster, ailment_param, id)
 		local duration = get_active_time_method:call(ailment_param);
 		local is_active = get_is_active_method:call(ailment_param);
 		
-		if is_enable ~= nil then
+		if is_enable == nil then
 			is_enable = true;
 		end
 
@@ -409,7 +409,7 @@ function ailments.update_ailment(monster, ailment_param, id)
 end
 
 function ailments.update_last_change_time(monster, id)
-	monster.ailments[id].last_change_time = time.total_elapsed_seconds;
+	monster.ailments[id].last_change_time = time.total_elapsed_script_seconds;
 end
 
 -- Code by coavins
@@ -456,7 +456,7 @@ function ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_sca
 			goto continue;
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
 			goto continue;
 		end
 
@@ -535,7 +535,7 @@ function ailments.draw_static(monster, ailments_position_on_screen, opacity_scal
 			goto continue;
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
 			goto continue;
 		end
 
@@ -613,7 +613,7 @@ function ailments.draw_highlighted(monster, ailments_position_on_screen, opacity
 			goto continue;
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
 			goto continue;
 		end
 
@@ -690,7 +690,7 @@ function ailments.draw_small(monster, ailments_position_on_screen, opacity_scale
 			goto continue;
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
 			goto continue;
 		end
 

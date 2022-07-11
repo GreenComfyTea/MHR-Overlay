@@ -34,7 +34,6 @@ function quest_status.update(args)
 			large_monster.list = {};
 			damage_meter_UI.freeze_displayed_players = false;
 			damage_meter_UI.last_displayed_players = {};
-			time.last_whole_seconds = 0;
 		end
 
 		quest_status.index = new_quest_status;

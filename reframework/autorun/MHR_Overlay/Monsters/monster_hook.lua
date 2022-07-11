@@ -80,25 +80,27 @@ function monster_hook.update_health(enemy_damage_stock_param)
 end
 
 function monster_hook.update_stamina(stamina_param, stamina_sub)
-	if stamina_sub == 0 then
-		return;
-	end
-
 	local enemy = stamina_param:call("get_Em");
 	if enemy == nil then
 		return;
 	end
 
 	local monster = large_monster.get_monster(enemy);
-	large_monster.update_stamina(enemy, monster, stamina_param);
 
+	if stamina_sub > 0 then
+		large_monster.update_stamina(enemy, monster, stamina_param);
+		return;
+	end
+	
 	-- stamina sub gets called periodically at low rate for large monsters even without damage
 	large_monster.update(enemy, monster);
+	large_monster.update_stamina_timer(enemy, monster, stamina_param);
+	large_monster.update_rage_timer(enemy, monster, nil);
 end
 
 function monster_hook.update_stamina_timer(stamina_param, enemy)
 	local monster = large_monster.get_monster(enemy);
-	large_monster.update_stamina(enemy, monster, stamina_param);
+	large_monster.update_stamina_timer(enemy, monster, stamina_param);
 end
 
 function monster_hook.update_rage(anger_param, anger_add, enemy)
@@ -116,6 +118,7 @@ function monster_hook.update_rage_timer(anger_param, enemy)
 end
 
 function monster_hook.update_monster(enemy)
+
 	if enemy == nil then
 		return;
 	end
@@ -135,7 +138,7 @@ function monster_hook.update_monster(enemy)
 	if is_large == nil then
 		return;
 	end
-	
+
 	if is_large then
 		monster_hook.update_large_monster(enemy);
 	else
@@ -146,11 +149,11 @@ end
 function monster_hook.update_large_monster(enemy)
 	local cached_config = config.current_config.large_monster_UI;
 
+	local monster = large_monster.get_monster(enemy);
+
 	if not cached_config.dynamic.enabled then
 		return;
 	end
-
-	local monster = large_monster.get_monster(enemy);
 
 	-- this is the VERY LEAST thing we should do all the time
 	-- so the position doesn't lag all over the place
@@ -187,7 +190,7 @@ function monster_hook.update_small_monster(enemy)
 	num_updated_monsters = num_updated_monsters + 1;
 	updated_monsters[enemy] = true;
 
-	small_monster.update(enemy, monster);
+	--small_monster.update(enemy, monster);
 end
 
 function monster_hook.init_module()
@@ -213,11 +216,11 @@ function monster_hook.init_module()
 		return retval;
 	end);
 
-	sdk.hook(stamina_update_method, function(args)
-		pcall(monster_hook.update_stamina, sdk.to_managed_object(args[2]), -1, sdk.to_managed_object(args[3]));
-	end, function(retval)
-		return retval;
-	end);
+	--sdk.hook(stamina_update_method, function(args)
+	--	pcall(monster_hook.update_stamina_timer, sdk.to_managed_object(args[2]), -1, sdk.to_managed_object(args[3]));
+	--end, function(retval)
+	--	return retval;
+	--end);
 
 	sdk.hook(anger_add_method, function(args)
 		pcall(monster_hook.update_rage, sdk.to_managed_object(args[2]), sdk.to_float(args[3]), sdk.to_managed_object(args[4]));
@@ -225,11 +228,11 @@ function monster_hook.init_module()
 		return retval;
 	end);
 
-	sdk.hook(anger_update_method, function(args)
-		pcall(monster_hook.update_rage_timer, sdk.to_managed_object(args[2]), sdk.to_managed_object(args[3]));
-	end, function(retval)
-		return retval;
-	end);
+	--sdk.hook(anger_update_method, function(args)
+	--	pcall(monster_hook.update_rage_timer, sdk.to_managed_object(args[2]), sdk.to_managed_object(args[3]));
+	--end, function(retval)
+	--	return retval;
+	--end);
 
 
 end

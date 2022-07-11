@@ -36,7 +36,7 @@ function body_part.new(id, name)
 	part.break_count = 0;
 	part.break_max_count = 0;
 
-	part.last_change_time = time.total_elapsed_seconds;
+	part.last_change_time = time.total_elapsed_script_seconds;
 
 	body_part.init_dynamic_UI(part);
 	body_part.init_static_UI(part);
@@ -123,11 +123,11 @@ function body_part.update_flinch(part, part_current, part_max)
 	end
 
 	if part.health ~= part_current then
-		part.last_change_time = time.total_elapsed_seconds;
+		part.last_change_time = time.total_elapsed_script_seconds;
 	end
 
 	if part.max_health ~= part_max then
-		part.last_change_time = time.total_elapsed_seconds;
+		part.last_change_time = time.total_elapsed_script_seconds;
 	end
 
 	part.health = part_current;
@@ -141,19 +141,19 @@ end
 function body_part.update_break(part, part_break_current, part_break_max, part_break_count, part_break_max_count)
 
 	if part.break_health ~= part_break_current then
-		part.last_change_time = time.total_elapsed_seconds;
+		part.last_change_time = time.total_elapsed_script_seconds;
 	end
 
 	if part.break_max_health ~= part_break_max then
-		part.last_change_time = time.total_elapsed_seconds;
+		part.last_change_time = time.total_elapsed_script_seconds;
 	end
 
 	if part.break_count ~= part_break_count then
-		part.last_change_time = time.total_elapsed_seconds;
+		part.last_change_time = time.total_elapsed_script_seconds;
 	end
 
 	if part.break_max_count ~= part_break_max_count then
-		part.last_change_time = time.total_elapsed_seconds;
+		part.last_change_time = time.total_elapsed_script_seconds;
 	end
 	
 	part.break_health = part_break_current;
@@ -169,15 +169,15 @@ end
 
 function body_part.update_loss(part, part_loss_current, part_loss_max, is_severed)
 	if part.loss_health ~= part_loss_current then
-		part.last_change_time = time.total_elapsed_seconds;
+		part.last_change_time = time.total_elapsed_script_seconds;
 	end
 
 	if part.loss_max_health ~= part_loss_max then
-		part.last_change_time = time.total_elapsed_seconds;
+		part.last_change_time = time.total_elapsed_script_seconds;
 	end
 
 	if part.is_severed ~= is_severed then
-		part.last_change_time = time.total_elapsed_seconds;
+		part.last_change_time = time.total_elapsed_script_seconds;
 	end
 
 	part.loss_health = part_loss_current;
@@ -210,7 +210,7 @@ function body_part.draw_dynamic(monster, parts_position_on_screen, opacity_scale
 			goto continue;
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - part.last_change_time > cached_config.settings.time_limit then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - part.last_change_time > cached_config.settings.time_limit then
 			goto continue;
 		end
 
@@ -344,7 +344,7 @@ function body_part.draw_static(monster, parts_position_on_screen, opacity_scale)
 			goto continue;
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - part.last_change_time > cached_config.settings.time_limit then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - part.last_change_time > cached_config.settings.time_limit then
 			goto continue;
 		end
 
@@ -478,7 +478,7 @@ function body_part.draw_highlighted(monster, parts_position_on_screen, opacity_s
 			goto continue;
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_seconds - part.last_change_time > cached_config.settings.time_limit then
+		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - part.last_change_time > cached_config.settings.time_limit then
 			goto continue;
 		end
 
