@@ -89,7 +89,6 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 	if static_enabled then
 		large_monster_UI.draw_static(displayed_monsters, highlighted_monster);
 	end
-
 end
 
 function large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster)

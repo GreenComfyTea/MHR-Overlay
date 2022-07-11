@@ -15249,6 +15249,12 @@ function customization_menu.draw()
 					config_changed = config_changed or changed;
 					damage_meter_UI_changed = damage_meter_UI_changed or changed;
 
+					changed, config.current_config.damage_meter_UI.player_name_label.include.myself.cart_count = imgui.checkbox(
+						language.current_language.customization_menu.cart_count,
+						config.current_config.damage_meter_UI.player_name_label.include.myself.cart_count);
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
 					changed, config.current_config.damage_meter_UI.player_name_label.include.myself.word_player = imgui.checkbox(
 						language.current_language.customization_menu.word_player,
 						config.current_config.damage_meter_UI.player_name_label.include.myself.word_player);
@@ -15280,6 +15286,12 @@ function customization_menu.draw()
 					changed, config.current_config.damage_meter_UI.player_name_label.include.others.hunter_rank = imgui.checkbox(
 						language.current_language.customization_menu.hunter_rank,
 						config.current_config.damage_meter_UI.player_name_label.include.others.hunter_rank);
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+					changed, config.current_config.damage_meter_UI.player_name_label.include.others.cart_count = imgui.checkbox(
+						language.current_language.customization_menu.cart_count,
+						config.current_config.damage_meter_UI.player_name_label.include.others.cart_count);
 					config_changed = config_changed or changed;
 					damage_meter_UI_changed = damage_meter_UI_changed or changed;
 
@@ -15466,6 +15478,77 @@ function customization_menu.draw()
 				if imgui.tree_node(language.current_language.customization_menu.color) then
 					changed, config.current_config.damage_meter_UI.master_hunter_rank_label.shadow.color = imgui.color_picker_argb("",
 						config.current_config.damage_meter_UI.master_hunter_rank_label.shadow.color, customization_menu.color_picker_flags);
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				imgui.tree_pop();
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.cart_count_label) then
+			changed, config.current_config.damage_meter_UI.cart_count_label.visibility = imgui.checkbox(language.current_language
+				.customization_menu.visible,
+				config.current_config.damage_meter_UI.cart_count_label.visibility);
+			config_changed = config_changed or changed;
+			damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+			if imgui.tree_node(language.current_language.customization_menu.offset) then
+				changed, config.current_config.damage_meter_UI.cart_count_label.offset.x = imgui.drag_float(language.current_language
+					.customization_menu.x,
+					config.current_config.damage_meter_UI.cart_count_label.offset.x, 0.1, -screen.width, screen.width, "%.1f");
+				config_changed = config_changed or changed;
+				damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+				changed, config.current_config.damage_meter_UI.cart_count_label.offset.y = imgui.drag_float(language.current_language
+					.customization_menu.y,
+					config.current_config.damage_meter_UI.cart_count_label.offset.y, 0.1, -screen.height, screen.height, "%.1f");
+				config_changed = config_changed or changed;
+				damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.color) then
+				changed, config.current_config.damage_meter_UI.cart_count_label.color = imgui.color_picker_argb("",
+					config.current_config.damage_meter_UI.cart_count_label.color, customization_menu.color_picker_flags);
+				config_changed = config_changed or changed;
+				damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.shadow) then
+				changed, config.current_config.damage_meter_UI.cart_count_label.shadow.visibility = imgui.checkbox(language.current_language
+					.customization_menu.visible,
+					config.current_config.damage_meter_UI.cart_count_label.shadow.visibility);
+				config_changed = config_changed or changed;
+				damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+				if imgui.tree_node(language.current_language.customization_menu.offset) then
+					changed, config.current_config.damage_meter_UI.cart_count_label.shadow.offset.x = imgui.drag_float(language.current_language
+						.customization_menu.x,
+						config.current_config.damage_meter_UI.cart_count_label.shadow.offset.x, 0.1, -screen.width, screen.width, "%.1f");
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+					changed, config.current_config.damage_meter_UI.cart_count_label.shadow.offset.y = imgui.drag_float(language.current_language
+						.customization_menu.y,
+						config.current_config.damage_meter_UI.cart_count_label.shadow.offset.y, 0.1, -screen.height, screen.height,
+						"%.1f");
+					config_changed = config_changed or changed;
+					damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node(language.current_language.customization_menu.color) then
+					changed, config.current_config.damage_meter_UI.cart_count_label.shadow.color = imgui.color_picker_argb("",
+						config.current_config.damage_meter_UI.cart_count_label.shadow.color, customization_menu.color_picker_flags);
 					config_changed = config_changed or changed;
 					damage_meter_UI_changed = damage_meter_UI_changed or changed;
 

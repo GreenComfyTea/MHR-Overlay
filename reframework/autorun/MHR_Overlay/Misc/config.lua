@@ -3777,6 +3777,7 @@ function config.init()
 					myself = {
 						master_rank = true,
 						hunter_rank = true,
+						cart_count = false,
 						word_player = false,
 						player_id = false,
 						player_name = true
@@ -3785,6 +3786,7 @@ function config.init()
 					others = {
 						master_rank = true,
 						hunter_rank = true,
+						cart_count = false,
 						word_player = false,
 						player_id = false,
 						player_name = true
@@ -3826,6 +3828,26 @@ function config.init()
 				text = "[%s]",
 				offset = {
 					x = -65,
+					y = 0
+				},
+				color = 0xFFCCF4E1,
+	
+				shadow = {
+					visibility = true,
+					offset = {
+						x = 1,
+						y = 1
+					},
+					color = 0xFF000000
+				}
+			},
+
+			cart_count_label = {
+				visibility = false,
+	
+				text = "x%d",
+				offset = {
+					x = 315,
 					y = 0
 				},
 				color = 0xFFCCF4E1,

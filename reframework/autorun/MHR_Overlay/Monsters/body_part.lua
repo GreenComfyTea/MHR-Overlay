@@ -337,7 +337,6 @@ function body_part.draw_static(monster, parts_position_on_screen, opacity_scale)
 		and ((part.loss_health == part.loss_max_health and not part.is_severed) or part.loss_max_health < 0) then
 			goto continue;
 		end
-
 		if (not part.body_part_static_UI.flinch_visibility or part.max_health < 0)
 		and (not part.body_part_static_UI.break_visibility or part.break_max_health < 0 or part.break_count >= part.break_max_count)
 		and (not part.body_part_static_UI.loss_visibility or part.loss_max_health < 0 or part.is_severed) then
@@ -347,6 +346,7 @@ function body_part.draw_static(monster, parts_position_on_screen, opacity_scale)
 		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - part.last_change_time > cached_config.settings.time_limit then
 			goto continue;
 		end
+
 
 		table.insert(displayed_parts, part);
 		::continue::

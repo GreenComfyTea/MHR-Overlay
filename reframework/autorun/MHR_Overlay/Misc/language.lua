@@ -378,7 +378,9 @@ language.default_language = {
 
 		player_name_size_limit = "Player Name Size Limit",
 
-		update_rate = "Update Rate"
+		update_rate = "Update Rate",
+		cart_count = "Cart Count",
+		cart_count_label = "Cart Count Label",
 	}
 };
 

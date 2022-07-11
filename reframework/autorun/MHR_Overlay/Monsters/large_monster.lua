@@ -895,7 +895,7 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 	else
 		monster.health_static_UI.bar.colors = cached_config.health.bar.normal_colors;
 	end
-	
+
 	drawing.draw_label(monster.static_name_label, position_on_screen, opacity_scale, monster_name_text);
 
 	local health_position_on_screen = {
@@ -933,7 +933,7 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 
 	stamina_UI_entity.draw(monster, monster.stamina_static_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_static_UI, rage_position_on_screen, opacity_scale);
-	
+
 	local last_part_position_on_screen = body_part.draw_static(monster, parts_position_on_screen, opacity_scale);
 
 	if cached_config.ailments.settings.offset_is_relative_to_parts then

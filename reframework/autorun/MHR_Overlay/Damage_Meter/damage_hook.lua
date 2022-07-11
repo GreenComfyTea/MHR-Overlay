@@ -29,44 +29,15 @@ local get_condition_type3_method = enemy_calc_damage_info_type_def:get_method("g
 
 local stock_mystery_core_break_damage_type_def =  sdk.find_type_definition("snow.enemy.EnemyCharacterBase.stockMysteryCoreBreakDamage");
 
+local quest_manager_type_def = sdk.find_type_definition("snow.QuestManager");
 
-local types = {
-	[0] = "PlayerWeapon",
-	[1] = "BarrelBombLarge",
-	[2] = "Makimushi",
-	[3] = "Nitro",
-	[4] = "OnibiMine",
-	[5] = "BallistaHate",
-	[6] = "CaptureSmokeBomb",
-	[7] = "CaptureBullet",
-	[8] = "BarrelBombSmall",
-	[9] = "Kunai",
-	[10] = "WaterBeetle",
-	[11] = "DetonationGrenade",
-	[12] = "Kabutowari",
-	[13] = "FlashBoll", -- Flash Bomb
-	[14] = "HmBallista",
-	[15] = "HmCannon",
-	[16] = "HmGatling",
-	[17] = "HmTrap",
-	[18] = "HmNpc",
-	[19] = "HmFlameThrower",
-	[20] = "HmDragnator",
-	[21] = "Otomo",
-	[22] = "OtAirouShell014",
-	[23] = "OtAirouShell102",
-	[24] = "Fg005",
-	[25] = "EcBatExplode",
-	[26] = "EcWallTrapBugExplode",
-	[27] = "EcPiranha",
-	[28] = "EcFlash",
-	[29] = "EcSandWallShooter",
-	[30] = "EcForestWallShooter",
-	[31] = "EcSwampLeech",
-	[32] = "EcPenetrateFish",
-	[33] = "Max",
-	[34] = "Invalid"
-}
+local not_host_cart_method = quest_manager_type_def:get_method("netRecvForfeit");
+local host_cart_method = quest_manager_type_def:get_method("netSendForfeit");
+local offline_cart_method = quest_manager_type_def:get_method("notifyDeath");
+
+local packet_quest_forfeit_type_def = sdk.find_type_definition("snow.QuestManager.PacketQuestForfeit");
+local dead_player_id_field = packet_quest_forfeit_type_def:get_field("_DeadPlIndex");
+local is_from_host_field = packet_quest_forfeit_type_def:get_field("_IsFromQuestHostPacket");
 
 function damage_hook.get_damage_source_type(damage_source_type_id, is_marionette_attack)
 	if is_marionette_attack then
@@ -213,8 +184,33 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	player.update_damage(attacking_player, damage_source_type, is_large_monster, damage_object);
 end
 
-function damage_hook.on_mystery_core_break(enemy)
+--function damage_hook.on_mystery_core_break(enemy)
 
+--end
+
+-- Coavins code
+function damage_hook.cart(type, args)
+	if not quest_status.is_online then --We reach here with notifyDeath when player is offline
+		player.myself.cart_count = player.myself.cart_count + 1;
+		return;
+	end
+
+	if player.myself.id == 0 then -- If player is host, netSendForfeit is always correct
+		if type == "host" then
+			local player_id = sdk.to_int64(args[3]);
+			player.list[player_id].cart_count = player.list[player_id].cart_count + 1;
+		end
+	else
+		if type == "not host" then
+			local packet_quest_forfeit = sdk.to_managed_object(args[3]);
+			local player_id = dead_player_id_field:get_data(packet_quest_forfeit);
+			local is_from_host = is_from_host_field:get_data(packet_quest_forfeit)
+
+			if is_from_host then -- Data is sent twice, 1 from host and 1 from dead player. Check if from host to only add 1
+				player.list[player_id].cart_count = player.list[player_id].cart_count + 1;
+			end
+		end
+	end
 end
 
 function damage_hook.init_module()
@@ -230,11 +226,29 @@ function damage_hook.init_module()
 		return retval;
 	end);
 
-	sdk.hook(stock_mystery_core_break_damage_type_def, function(args)
-		pcall(damage_hook.on_mystery_core_break, sdk.to_managed_object(args[2]));
+	sdk.hook(not_host_cart_method, function(args)
+		pcall(damage_hook.cart, "not host", args);
 	end, function(retval)
 		return retval;
 	end);
+
+	sdk.hook(host_cart_method, function(args)
+		pcall(damage_hook.cart, "host", args);
+	end, function(retval)
+		return retval;
+	end);
+
+	sdk.hook(offline_cart_method, function(args)
+		pcall(damage_hook.cart, "offline", args);
+	end, function(retval)
+		return retval;
+	end);
+
+	--sdk.hook(stock_mystery_core_break_damage_type_def, function(args)
+	--	pcall(damage_hook.on_mystery_core_break, sdk.to_managed_object(args[2]));
+	--end, function(retval)
+	--	return retval;
+	--end);
 end
 
 return damage_hook;

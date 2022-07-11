@@ -5,7 +5,7 @@ local config;
 local player;
 local language;
 
-function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label, hunter_rank_label, value_label, percentage_label)
+function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label, hunter_rank_label, value_label, percentage_label, cart_count_label)
 	local entity = {};
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
@@ -16,6 +16,7 @@ function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label
 	entity.player_name_label = table_helpers.deep_copy(player_name_label);
 	entity.dps_label = table_helpers.deep_copy(dps_label);
 	entity.hunter_rank_label = table_helpers.deep_copy(hunter_rank_label);
+	entity.cart_count_label = table_helpers.deep_copy(cart_count_label);
 	entity.value_label = table_helpers.deep_copy(value_label);
 	entity.percentage_label = table_helpers.deep_copy(percentage_label);
 
@@ -39,6 +40,9 @@ function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label
 
 	entity.hunter_rank_label.offset.x = entity.hunter_rank_label.offset.x * global_scale_modifier;
 	entity.hunter_rank_label.offset.y = entity.hunter_rank_label.offset.y * global_scale_modifier;
+
+	entity.cart_count_label.offset.x = entity.cart_count_label.offset.x * global_scale_modifier;
+	entity.cart_count_label.offset.y = entity.cart_count_label.offset.y * global_scale_modifier;
 
 	entity.value_label.offset.x = entity.value_label.offset.x * global_scale_modifier;
 	entity.value_label.offset.y = entity.value_label.offset.y * global_scale_modifier;
@@ -66,6 +70,11 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 	elseif player_include.hunter_rank then
 		player_name_text = string.format("[%d] ", _player.hunter_rank);
 	end
+
+	if player_include.cart_count then
+		player_name_text = player_name_text .. string.format("x%d ", _player.cart_count);
+	end
+
 
 	if player_include.word_player then
 		player_name_text = player_name_text .. language.current_language.UI.player .. " ";
@@ -125,12 +134,15 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 		end
 	end
 
-	player_name_text = drawing.limit_text_size(player_name_text, _player.damage_UI.player_name_size_limit);
+	if _player.damage_UI.player_name_size_limit ~= 0 then
+		player_name_text = drawing.limit_text_size(player_name_text, _player.damage_UI.player_name_size_limit);
+	end
 
 	drawing.draw_label(_player.damage_UI.player_name_label, position_on_screen, opacity_scale, player_name_text);
 	drawing.draw_label(_player.damage_UI.value_label, position_on_screen, opacity_scale, _player.display.total_damage);
 	drawing.draw_label(_player.damage_UI.percentage_label, position_on_screen, opacity_scale, 100 * player_damage_percentage);
 	drawing.draw_label(_player.damage_UI.dps_label, position_on_screen, opacity_scale, _player.dps);
+	drawing.draw_label(_player.damage_UI.cart_count_label, position_on_screen, opacity_scale, _player.cart_count);
 end
 
 function damage_UI_entity.init_module()
