@@ -185,9 +185,9 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	--" Condition Type: ("	.. tostring(attacker_type) ..
 	--") " .. tostring(condition_type);
 
-	if string.len(xy) > 2300 then
-		xy = "";
-	end
+	--if string.len(xy) > 2300 then
+	--	xy = "";
+	--end
 
 	local damage_source_type = damage_hook.get_damage_source_type(attacker_type, is_marionette_attack);
 

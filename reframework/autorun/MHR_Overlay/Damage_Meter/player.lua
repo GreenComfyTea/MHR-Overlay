@@ -173,7 +173,7 @@ function player.update_damage(_player, damage_source_type, is_large_monster, dam
 	end
 
 	if _player.first_hit_time == -1 then
-		_player.first_hit_time = time.total_elapsed_seconds;
+		_player.first_hit_time = time.total_elapsed_script_seconds;
 	end
 
 	local player_monster_type = _player.small_monsters;

@@ -376,7 +376,9 @@ language.default_language = {
 		hide_other_players = "Hide Other Players",
 		hide_total_damage = "Hide Total Damage",
 
-		player_name_size_limit = "Player Name Size Limit"
+		player_name_size_limit = "Player Name Size Limit",
+
+		update_rate = "Update Rate"
 	}
 };
 
