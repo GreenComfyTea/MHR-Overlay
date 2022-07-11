@@ -578,7 +578,8 @@ function player.init_UI(_player)
 		cached_config.dps_label,
 		cached_config.master_hunter_rank_label,
 		cached_config.damage_value_label,
-		cached_config.damage_percentage_label
+		cached_config.damage_percentage_label,
+		cached_config.cart_count_label
 	);
 end
 

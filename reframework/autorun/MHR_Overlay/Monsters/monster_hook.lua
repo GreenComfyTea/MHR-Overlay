@@ -3,6 +3,7 @@ local small_monster;
 local large_monster;
 local config;
 local ailments;
+local quest_status;
 
 local character_base_type_def = sdk.find_type_definition("snow.CharacterBase");
 local character_base_start_method = character_base_type_def:get_method("start");
@@ -114,6 +115,7 @@ function monster_hook.init_module()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	config = require("MHR_Overlay.Misc.config");
+	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 
 	sdk.hook(enemy_character_base_update_method, function(args)
 		pcall(monster_hook.update_monster, sdk.to_managed_object(args[2]));
