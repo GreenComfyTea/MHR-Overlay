@@ -150,8 +150,6 @@ language.default_language = {
 		training_area = "Training Area",
 
 		performance = "Performance",
-		max_monster_updates_per_tick = "Max Monster Updates per Tick",
-		prioritize_large_monsters = "Large Monsters on High Priority";
 
 		UI_font_notice = "Any changes to the font require script reload!",
 
