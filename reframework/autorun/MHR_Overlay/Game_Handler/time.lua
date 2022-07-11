@@ -80,19 +80,11 @@ function time.update_players_dps()
 
 	player.total.dps = new_total_dps;
 end
-local test = true;
+
 function time.update_small_monsters()
 
 	for enemy, monster in pairs(small_monster.list) do
 		small_monster.update(enemy, monster);
-
-		if test then
-			test = false;
-			for id, ailment in pairs(monster.ailments) do
-				xy = xy .. "id: " .. tostring(id) ..
-				" enabled: " .. tostring(ailment.is_enable) .. "\n";
-			end
-		end
 	end
 end
 
