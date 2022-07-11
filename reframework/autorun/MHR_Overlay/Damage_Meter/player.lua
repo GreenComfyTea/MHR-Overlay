@@ -21,6 +21,8 @@ function player.new(player_id, player_name, player_master_rank, player_hunter_ra
 	new_player.hunter_rank = player_hunter_rank;
 	new_player.master_rank = player_master_rank;
 
+	new_player.cart_count = 0;
+
 	new_player.join_time = -1;
 	new_player.first_hit_time = -1;
 	new_player.dps = 0;
