@@ -233,7 +233,9 @@
         "wyvern_riding_damage": "Wyvern Riding Damage",
         "x": "X軸",
         "y": "Y軸",
-        "z": "Z軸"
+        "z": "Z軸",
+		"prioritize_large_monsters": "大型魔物優先",
+		"max_monster_updates_per_tick": "每次更新的最大魔物數量",
     },
     "font_name": "NotoSansTC-Bold.otf",
     "parts": {

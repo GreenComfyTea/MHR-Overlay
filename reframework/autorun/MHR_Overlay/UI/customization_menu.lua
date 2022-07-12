@@ -820,6 +820,16 @@ function customization_menu.draw()
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.performance) then
+			changed, config.current_config.global_settings.performance.max_monster_updates_per_tick = imgui.slider_int(
+			language.current_language.customization_menu.max_monster_updates_per_tick,
+				config.current_config.global_settings.performance.max_monster_updates_per_tick, 1, 150);
+			config_changed = config_changed or changed;
+
+			changed, config.current_config.global_settings.performance.prioritize_large_monsters = imgui.checkbox(
+				language.current_language.customization_menu.prioritize_large_monsters,
+				config.current_config.global_settings.performance.prioritize_large_monsters);
+			config_changed = config_changed or changed;
+			
 			changed, config.current_config.global_settings.performance.update_rate = imgui.slider_int(language.current_language
 				.customization_menu.update_rate,
 				config.current_config.global_settings.performance.update_rate, 1, 400);

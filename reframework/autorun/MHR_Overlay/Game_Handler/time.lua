@@ -47,7 +47,7 @@ function time.tick()
 	if time.total_elapsed_script_seconds - time.last_elapsed_script_seconds > 60 / config.current_config.global_settings.performance.update_rate then
 		time.last_elapsed_script_seconds = time.total_elapsed_script_seconds;
 		time.update_players_dps();
-		time.update_small_monsters();
+		--time.update_small_monsters();
 	end
 end
 

@@ -167,16 +167,8 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	local monster;
 	if is_large_monster then
 		monster = large_monster.get_monster(enemy);
-
-		if quest_status.is_online and player.myself.id ~= 0 then
-			local physical_param = large_monster.update_health(enemy, monster);
-			large_monster.update_parts(enemy, monster, physical_param);
-		end
 	else
-		if quest_status.is_online and player.myself.id ~= 0 then
-			monster = small_monster.get_monster(enemy);
-			small_monster.update_health(enemy, monster);
-		end
+		monster = small_monster.get_monster(enemy);
 	end
 
 	local stun_damage = enemy_calc_damage_info:get_field("<StunDamage>k__BackingField");
