@@ -14,8 +14,6 @@ function env_creature.new(REcreature)
 	creature.name = "Env Creature";
 	creature.is_inactive = true;
 
-	creature.game_object = nil;
-	creature.transform = nil;
 	creature.position = Vector3f.new(0, 0, 0);
 	creature.distance = 0;
 
@@ -68,29 +66,41 @@ function env_creature.init_UI(creature)
 	creature.name_label.offset.y = creature.name_label.offset.y * global_scale_modifier;
 end
 
-function env_creature.update(REcreature)
+function env_creature.update_position(REcreature, creature)
 	if not config.current_config.endemic_life_UI.enabled then
 		return;
 	end
 
-	local creature = env_creature.get_creature(REcreature);
-
+	if creature == nil then
+		creature = env_creature.get_creature(REcreature);
+	end
+	
 	local position = get_pos_method:call(REcreature);
 	if position ~= nil then
 		creature.position = position;
+	end
+end
+
+function env_creature.update(REcreature, creature)
+	if not config.current_config.endemic_life_UI.enabled then
+		return;
+	end
+
+	if creature == nil then
+		creature = env_creature.get_creature(REcreature);
 	end
 
 	local is_inactive = creature_is_inactive_field:get_data(REcreature);
 	if is_inactive ~= nil then
 		creature.is_inactive = is_inactive;
 	end
-	
 end
 
 function env_creature.draw(creature, position_on_screen, opacity_scale)
-	local text_width, text_height = drawing.font:measure(creature.name);
-
-	position_on_screen.x = position_on_screen.x - text_width / 2;
+	if d2d ~= nil then
+		local text_width, text_height = drawing.font:measure(creature.name);
+		position_on_screen.x = position_on_screen.x - text_width / 2;
+	end
 
 	drawing.draw_label(creature.name_label, position_on_screen, opacity_scale, creature.name);
 end

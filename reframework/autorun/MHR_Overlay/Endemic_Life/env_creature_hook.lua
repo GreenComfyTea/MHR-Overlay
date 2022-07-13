@@ -4,14 +4,12 @@ local config;
 local time;
 
 local environment_creature_base_type_def = sdk.find_type_definition("snow.envCreature.EnvironmentCreatureBase");
-local environment_creature_base_update_method = environment_creature_base_type_def:get_method("update");
+local update_method = environment_creature_base_type_def:get_method("update");
 
-function env_creature_hook.update_env_creature(REcreature)
-	if not config.current_config.endemic_life_UI.enabled then
-		return;
-	end
-
-	env_creature.update(REcreature);
+function env_creature_hook.update(REcreature)
+	local creature = env_creature.get_creature(REcreature);
+	env_creature.update(REcreature, creature);
+	env_creature.update_position(REcreature, creature);
 end
 
 function env_creature_hook.init_module()
@@ -19,8 +17,8 @@ function env_creature_hook.init_module()
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
 	time = require("MHR_Overlay.Game_Handler.time");
 
-	sdk.hook(environment_creature_base_update_method, function(args)
-		pcall(env_creature_hook.update_env_creature, sdk.to_managed_object(args[2]));
+	sdk.hook(update_method, function(args)
+		pcall(env_creature_hook.update, sdk.to_managed_object(args[2]));
 	end, function(retval)
 		return retval;
 	end);
