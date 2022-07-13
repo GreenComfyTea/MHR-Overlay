@@ -708,17 +708,17 @@ function customization_menu.draw()
 			customization_menu.menu_font_changed = true;
 
 			part_names.init();
-			-- FORGOT WHAT IS THIS
-			--small_monster.init_all();
-			--large_monster.init_all();
 
-			--for _, monster in pairs(small_monster.list) do
-			--	small_monster.init_UI(monster);
-			--end
+			small_monster.init_list();
+			large_monster.init_list();
+			env_creature.init_list();
 
-			--for _, _player in pairs(player.list) do
-			--	player.init_UI(_player);
-			--end
+			player.init_UI(player.myself);
+			player.init_UI(player.total);
+
+			for _, _player in pairs(player.list) do
+				player.init_UI(_player);
+			end
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.menu_font) then
