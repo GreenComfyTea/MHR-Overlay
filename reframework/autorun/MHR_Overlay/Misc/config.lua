@@ -30,8 +30,7 @@ function config.init()
 
 			performance = {
 				max_monster_updates_per_tick = 2,
-				prioritize_large_monsters = false,
-				update_rate = 60,
+				prioritize_large_monsters = false
 			},
 	
 			module_visibility = {

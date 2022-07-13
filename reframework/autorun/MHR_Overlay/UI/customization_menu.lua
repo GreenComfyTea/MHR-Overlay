@@ -829,11 +829,6 @@ function customization_menu.draw()
 				language.current_language.customization_menu.prioritize_large_monsters,
 				config.current_config.global_settings.performance.prioritize_large_monsters);
 			config_changed = config_changed or changed;
-			
-			changed, config.current_config.global_settings.performance.update_rate = imgui.slider_int(language.current_language
-				.customization_menu.update_rate,
-				config.current_config.global_settings.performance.update_rate, 1, 400);
-			config_changed = config_changed or changed;
 
 			imgui.tree_pop();
 		end
