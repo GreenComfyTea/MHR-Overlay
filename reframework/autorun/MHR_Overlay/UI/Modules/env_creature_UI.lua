@@ -13,8 +13,6 @@ local rage_UI_entity;
 local env_creature;
 
 local enemy_manager_type_def = sdk.find_type_definition("snow.enemy.EnemyManager");
-local get_boss_enemy_count_method = enemy_manager_type_def:get_method("getBossEnemyCount");
-local get_boss_enemy_method = enemy_manager_type_def:get_method("getBossEnemy");
 
 function env_creature_UI.draw()
 	if singletons.enemy_manager == nil then
@@ -24,12 +22,12 @@ function env_creature_UI.draw()
 	local cached_config = config.current_config.endemic_life_UI;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
-	for _, creature in pairs(env_creature.list) do
+	for REcreature, creature in pairs(env_creature.list) do
 				
 		if cached_config.settings.max_distance == 0 then
 			break;
 		end
-		
+
 		if cached_config.settings.hide_inactive_creatures and creature.is_inactive then
 			goto continue;
 		end
@@ -46,7 +44,6 @@ function env_creature_UI.draw()
 
 		position_on_screen.x = position_on_screen.x + cached_config.viewport_offset.x * global_scale_modifier;
 		position_on_screen.y = position_on_screen.y + cached_config.viewport_offset.y * global_scale_modifier;
-
 		
 		creature.distance = (player.myself_position - creature.position):length();
 
@@ -58,7 +55,6 @@ function env_creature_UI.draw()
 		if cached_config.settings.opacity_falloff then
 			opacity_scale = 1 - (creature.distance / cached_config.settings.max_distance);
 		end
-
 
 		env_creature.draw(creature, position_on_screen, opacity_scale);
 		::continue::
