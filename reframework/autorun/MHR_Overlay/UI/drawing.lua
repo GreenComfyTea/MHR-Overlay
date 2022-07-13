@@ -34,7 +34,7 @@ end
 
 function drawing.limit_text_size(text, size_limit)
 	if d2d == nil then
-		return;
+		return text;
 	end
 
 	--do return end;
