@@ -1,4 +1,4 @@
-local debug = true;
+local debug = false;
 xy = "";
 
 local keyboard = require("MHR_Overlay.Game_Handler.keyboard");

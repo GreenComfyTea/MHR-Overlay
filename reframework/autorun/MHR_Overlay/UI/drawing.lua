@@ -37,6 +37,8 @@ function drawing.limit_text_size(text, size_limit)
 		return;
 	end
 
+	--do return end;
+
 	local limited_text = text;
 	while true do
 		local text_width, text_height = drawing.font:measure(limited_text);

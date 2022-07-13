@@ -104,8 +104,7 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 		end
 	end
 
-	xy = "\nTesting Damage Meter..."
-	xy = xy .. "\nDrawing bar..."
+
 
 	if _player.id == player.myself.id and cached_config.settings.highlighted_bar == "Me" then
 		drawing.draw_bar(_player.damage_UI.highlighted_bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
@@ -116,10 +115,6 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 	else
 		drawing.draw_bar(_player.damage_UI.bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
 	end
-
-	xy = xy .." success!";
-	xy = xy .. "\nDrawing HR label..."
-	
 
 	if _player.id == player.myself.id then
 		if _player.damage_UI.hunter_rank_label.include.myself.master_rank and _player.damage_UI.hunter_rank_label.include.myself.hunter_rank then
@@ -139,29 +134,15 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 		end
 	end
 
-	xy = xy .. " success!";
-	xy = xy .. "\nChecking player name size limit...";
-
-	xy = xy .. "\n_player.damage_UI.player_name_size_limit: " .. tostring(_player.damage_UI.player_name_size_limit);
-	xy = xy .. "\ndrawing: " .. tostring(drawing);
-	xy = xy .. "\ndrawing.limit_text_size: " .. tostring(drawing.limit_text_size);
-	xy = xy .. "\nplayer_name_text: " .. tostring(player_name_text);
-	xy = xy .. "\nd2d: " .. tostring(d2d);
-
 	if _player.damage_UI.player_name_size_limit ~= 0 then
 		player_name_text = drawing.limit_text_size(player_name_text, _player.damage_UI.player_name_size_limit);
 	end
 
-	xy = xy .. "\n... Success!";
-	xy = xy .. "\nDrawing labels...";
-	
 	drawing.draw_label(_player.damage_UI.player_name_label, position_on_screen, opacity_scale, player_name_text);
 	drawing.draw_label(_player.damage_UI.value_label, position_on_screen, opacity_scale, _player.display.total_damage);
 	drawing.draw_label(_player.damage_UI.percentage_label, position_on_screen, opacity_scale, 100 * player_damage_percentage);
 	drawing.draw_label(_player.damage_UI.dps_label, position_on_screen, opacity_scale, _player.dps);
 	drawing.draw_label(_player.damage_UI.cart_count_label, position_on_screen, opacity_scale, _player.cart_count);
-
-	xy = xy .. " success!";
 end
 
 function damage_UI_entity.init_module()
