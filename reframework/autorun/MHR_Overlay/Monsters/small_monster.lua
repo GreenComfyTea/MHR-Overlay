@@ -37,6 +37,10 @@ function small_monster.new(enemy)
 		small_monster.list[enemy] = monster;
 	end
 
+	small_monster.update_position(enemy, monster);
+	small_monster.update(enemy, monster);
+	small_monster.update_health(enemy, monster);
+
 	return monster;
 end
 
@@ -112,41 +116,36 @@ local get_max_method = vital_param_type:get_method("get_Max");
 
 local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
 
-function small_monster.update_position(enemy)
+function small_monster.update_position(enemy, monster)
 	local cached_config = config.current_config.small_monster_UI;
-	if not cached_config.enabled or not cached_config.dynamic_positioning.enabled then
+	
+	if not cached_config.enabled then
 		return;
 	end
 
-	local monster = small_monster.get_monster(enemy);
-	if monster == nil then
+	if not cached_config.dynamic_positioning.enabled and cached_config.static_sorting.type ~= "Distance" then
 		return;
 	end
 
-	local position = get_pos_field:call(enemy) or monster.position;
-	monster.position = position;
+	local position = get_pos_field:call(enemy);
+	if position ~= nil then
+		monster.position = position;
+	end
 end
 
-function small_monster.update(enemy)
+function small_monster.update(enemy, monster)
 	if not config.current_config.small_monster_UI.enabled then
 		return;
 	end
 
-	if enemy == nil then
-		return;
-	end
-
-	local monster = small_monster.get_monster(enemy);
-
 	local dead_or_captured = check_die_method:call(enemy);
 	monster.dead_or_captured = (dead_or_captured == nil and false) or dead_or_captured;
 
-	small_monster.update_health(enemy, monster);
 	ailments.update_ailments(enemy, monster);
 end
 
 function small_monster.update_health(enemy, monster)
-	if not config.current_config.small_monster_UI.health.visibility then
+	if not config.current_config.small_monster_UI.enabled or not config.current_config.small_monster_UI.health.visibility then
 		return;
 	end
 
@@ -192,15 +191,13 @@ function small_monster.draw(monster, position_on_screen, opacity_scale)
 		x = position_on_screen.x + cached_config.ailment_buildups.offset.x * global_scale_modifier,
 		y = position_on_screen.y + cached_config.ailment_buildups.offset.y * global_scale_modifier
 	};
-	
+
 	health_UI_entity.draw(monster, monster.health_UI, health_position_on_screen, opacity_scale);
-	
 	ailments.draw_small(monster, ailments_position_on_screen, opacity_scale);
 	ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen, opacity_scale);
-
 end
 
-function small_monster.init_list()
+function  small_monster.init_list()
 	small_monster.list = {};
 end
 

@@ -39,6 +39,7 @@ function large_monster.new(enemy)
 	monster.dead_or_captured = false;
 	monster.is_disp_icon_mini_map = true;
 
+	monster.is_tired = false;
 	monster.stamina = 0;
 	monster.max_stamina = 1000;
 	monster.stamina_percentage = 0;
@@ -55,10 +56,11 @@ function large_monster.new(enemy)
 	monster.is_in_rage = false;
 	monster.rage_point = 0;
 	monster.rage_limit = 3000;
-	monster.rage_timer = 0;
-	monster.rage_duration = 600;
 	monster.rage_count = 0;
 	monster.rage_percentage = 0;
+
+	monster.rage_timer = 0;
+	monster.rage_duration = 600;
 
 	monster.rage_total_seconds_left = 0;
 	monster.rage_minutes_left = 0;
@@ -78,6 +80,7 @@ function large_monster.new(enemy)
 	monster.parts = {};
 
 	monster.ailments = ailments.init_ailments();
+
 	monster.rider_id = -1;
 
 	large_monster.init(monster, enemy);
@@ -88,6 +91,17 @@ function large_monster.new(enemy)
 	if large_monster.list[enemy] == nil then
 		large_monster.list[enemy] = monster;
 	end
+
+	large_monster.update_position(enemy, monster);
+	large_monster.update(enemy, monster);
+
+	local physical_param = large_monster.update_health(enemy, monster);
+	large_monster.update_parts(enemy, monster, physical_param);
+	large_monster.update_stamina(enemy, monster, nil);
+	large_monster.update_stamina_timer(enemy, monster, nil);
+	large_monster.update_rage(enemy, monster, nil);
+	large_monster.update_rage_timer(enemy, monster, nil);
+
 	return monster;
 end
 
@@ -100,6 +114,7 @@ function large_monster.get_monster(enemy)
 end
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
+
 local enemy_type_field = enemy_character_base_type_def:get_field("<EnemyType>k__BackingField");
 local get_monster_list_register_scale_method = enemy_character_base_type_def:get_method("get_MonsterListRegisterScale");
 
@@ -272,7 +287,7 @@ function large_monster.init_static_UI(monster)
 		cached_config.rage.percentage_label,
 		cached_config.rage.timer_label
 	);
-
+	
 	for REpart, part in pairs(monster.parts) do
 		body_part.init_static_UI(part);
 	end
@@ -363,9 +378,9 @@ local get_current_method = vital_param_type:get_method("get_Current");
 local get_max_method = vital_param_type:get_method("get_Max");
 
 local stamina_param_type = stamina_param_field:get_type();
+local is_tired_method = stamina_param_type:get_method("isTired");
 local get_stamina_method = stamina_param_type:get_method("getStamina");
 local get_max_stamina_method = stamina_param_type:get_method("getMaxStamina");
-local is_tired_method = stamina_param_type:get_method("isTired");
 
 local get_remaining_tired_time_method = stamina_param_type:get_method("getStaminaRemainingTime");
 local get_total_tired_time_method = stamina_param_type:get_method("get_TiredSec");
@@ -374,6 +389,7 @@ local anger_param_type = anger_param_field:get_type();
 local is_anger_method = anger_param_type:get_method("isAnger");
 local get_anger_point_method = anger_param_type:get_method("get_AngerPoint");
 local get_limit_anger_method = anger_param_type:get_method("get_LimitAnger");
+
 local get_remaining_anger_time_method = anger_param_type:get_method("getAngerRemainingTime");
 local get_total_anger_time_method = anger_param_type:get_method("get_TimerAnger");
 
@@ -385,18 +401,15 @@ local get_mario_player_index_method = mario_param_type:get_method("get_MarioPlay
 
 local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
 
-function large_monster.update_position(enemy)
-	if not config.current_config.large_monster_UI.dynamic.enabled then
+function large_monster.update_position(enemy, monster)
+	if not config.current_config.large_monster_UI.dynamic.enabled and config.current_config.large_monster_UI.static.sorting.type ~= "Distance" then
 		return;
 	end
 
-	local monster = large_monster.get_monster(enemy);
-	if monster == nil then
-		return;
+	local position = get_pos_field:call(enemy);
+	if position ~= nil then
+		monster.position = position;
 	end
-
-	local position = get_pos_field:call(enemy) or monster.position;
-	monster.position = position;
 end
 
 -- Code by coavins
@@ -417,7 +430,7 @@ function large_monster.update_all_riders()
 	
 end
 
-function large_monster.update(enemy)
+function large_monster.update(enemy, monster)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
@@ -426,29 +439,23 @@ function large_monster.update(enemy)
 		return;
 	end
 
-	if enemy == nil then
-		return;
-	end
-
-			
-	local monster = large_monster.get_monster(enemy);
-
 	local dead_or_captured = check_die_method:call(enemy);
 	monster.dead_or_captured = (dead_or_captured == nil and false) or dead_or_captured;
-	local is_disp_icon_mini_map = is_disp_icon_mini_map_method:call(enemy)
+	local is_disp_icon_mini_map = is_disp_icon_mini_map_method:call(enemy);
 	monster.is_disp_icon_mini_map = (is_disp_icon_mini_map == nil and false) or is_disp_icon_mini_map;
 
-	local physical_param = large_monster.update_health(enemy, monster);
-
-	large_monster.update_stamina(enemy, monster);
-	large_monster.update_rage(enemy, monster);
-	large_monster.update_parts(enemy, monster, physical_param);
-
 	ailments.update_ailments(enemy, monster);
+	
 end
 
 function large_monster.update_health(enemy, monster)
 	local cached_config = config.current_config.large_monster_UI;
+
+	if not cached_config.dynamic.enabled
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
+		return;
+	end
 
 	if not cached_config.dynamic.health.visibility
 	and not cached_config.static.health.visibility
@@ -481,8 +488,14 @@ function large_monster.update_health(enemy, monster)
 	return physical_param;
 end
 
-function large_monster.update_stamina(enemy, monster)
+function large_monster.update_stamina(enemy, monster, stamina_param)
 	local cached_config = config.current_config.large_monster_UI;
+
+	if not cached_config.dynamic.enabled
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
+		return;
+	end
 
 	if not cached_config.dynamic.stamina.visibility
 	and not cached_config.static.stamina.visibility
@@ -490,10 +503,17 @@ function large_monster.update_stamina(enemy, monster)
 		return;
 	end
 
-	local stamina_param = stamina_param_field:get_data(enemy)
 	if stamina_param == nil then
-		customization_menu.status = "No stamina param";
-		return;
+		stamina_param = stamina_param_field:get_data(enemy);
+		if stamina_param == nil then
+			customization_menu.status = "No stamina param";
+			return;
+		end
+	end
+
+	local is_tired = is_tired_method:call(stamina_param, false);
+	if is_tired ~= nil then
+		monster.is_tired = is_tired;
 	end
 
 	monster.stamina  = get_stamina_method:call(stamina_param) or monster.stamina;
@@ -503,11 +523,36 @@ function large_monster.update_stamina(enemy, monster)
 	if monster.max_stamina  ~= 0 then
 		monster.stamina_percentage = monster.stamina / monster.max_stamina;
 	end
+end
+
+function large_monster.update_stamina_timer(enemy, monster, stamina_param)
+	local cached_config = config.current_config.large_monster_UI;
+
+	if not cached_config.dynamic.enabled
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
+		return;
+	end
+	
+	if not cached_config.dynamic.stamina.visibility
+	and not cached_config.static.stamina.visibility
+	and not cached_config.highlighted.stamina.visibility then
+		return;
+	end
+
+	if stamina_param == nil then
+		stamina_param = stamina_param_field:get_data(enemy);
+		if stamina_param == nil then
+			customization_menu.status = "No stamina param";
+			return;
+		end
+	end
 
 	local is_tired = is_tired_method:call(stamina_param, false);
 	if is_tired ~= nil then
 		monster.is_tired = is_tired;
 	end
+
 
 	monster.tired_timer = get_remaining_tired_time_method:call(stamina_param) or monster.tired_timer;
 	monster.tired_duration = get_total_tired_time_method:call(stamina_param) or monster.tired_duration;
@@ -527,8 +572,14 @@ function large_monster.update_stamina(enemy, monster)
 	end
 end
 
-function large_monster.update_rage(enemy, monster)
+function large_monster.update_rage(enemy, monster, anger_param)
 	local cached_config = config.current_config.large_monster_UI;
+
+	if not cached_config.dynamic.enabled
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
+		return;
+	end
 
 	if not cached_config.dynamic.rage.visibility
 	and not cached_config.static.rage.visibility
@@ -536,23 +587,53 @@ function large_monster.update_rage(enemy, monster)
 		return;
 	end
 
-	local anger_param = anger_param_field:get_data(enemy);
 	if anger_param == nil then
-		customization_menu.status = "No anger param";
-		return;
+		anger_param = anger_param_field:get_data(enemy);
+		if anger_param == nil then
+			customization_menu.status = "No anger param";
+			return;
+		end
 	end
 
-	local is_in_rage = is_anger_method:call(anger_param);
-	monster.is_in_rage = (is_in_rage == nil and false) or is_in_rage;
 
 	monster.rage_point = get_anger_point_method:call(anger_param) or monster.rage_point;
 	monster.rage_limit = get_limit_anger_method:call(anger_param)or monster.rage_limit;
-	monster.rage_timer = get_remaining_anger_time_method:call(anger_param) or monster.rage_timer;
-	monster.rage_duration = get_total_anger_time_method:call(anger_param) or monster.rage_duration;
-
+	
 	if monster.rage_limit ~= 0 then
 		monster.rage_percentage = monster.rage_point / monster.rage_limit;
 	end
+end
+
+function large_monster.update_rage_timer(enemy, monster, anger_param)
+	local cached_config = config.current_config.large_monster_UI;
+
+	if not cached_config.dynamic.enabled
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
+		return;
+	end
+
+	if not cached_config.dynamic.rage.visibility
+	and not cached_config.static.rage.visibility
+	and not cached_config.highlighted.rage.visibility then
+		return;
+	end
+
+	if anger_param == nil then
+		anger_param = anger_param_field:get_data(enemy);
+		if anger_param == nil then
+			customization_menu.status = "No anger param";
+			return;
+		end
+	end
+
+	local is_in_rage = is_anger_method:call(anger_param);
+	if is_in_rage ~= nil then
+		monster.is_in_rage = is_in_rage;
+	end
+	
+	monster.rage_timer = get_remaining_anger_time_method:call(anger_param) or monster.rage_timer;
+	monster.rage_duration = get_total_anger_time_method:call(anger_param) or monster.rage_duration;
 
 	if monster.is_in_rage then
 		monster.rage_total_seconds_left = monster.rage_timer;
@@ -571,6 +652,12 @@ end
 
 function large_monster.update_parts(enemy, monster, physical_param)
 	local cached_config = config.current_config.large_monster_UI;
+
+	if not cached_config.dynamic.enabled
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
+		return;
+	end
 
 	if not cached_config.dynamic.body_parts.visibility
 	and not cached_config.static.body_parts.visibility
@@ -804,7 +891,7 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 	else
 		monster.health_static_UI.bar.colors = cached_config.health.bar.normal_colors;
 	end
-	
+
 	drawing.draw_label(monster.static_name_label, position_on_screen, opacity_scale, monster_name_text);
 
 	local health_position_on_screen = {
@@ -842,7 +929,7 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 
 	stamina_UI_entity.draw(monster, monster.stamina_static_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_static_UI, rage_position_on_screen, opacity_scale);
-	
+
 	local last_part_position_on_screen = body_part.draw_static(monster, parts_position_on_screen, opacity_scale);
 
 	if cached_config.ailments.settings.offset_is_relative_to_parts then
@@ -942,7 +1029,7 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 	ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_screen, opacity_scale);
 end
 
-function large_monster.init_list()
+function  large_monster.init_list()
 	large_monster.list = {};
 end
 
