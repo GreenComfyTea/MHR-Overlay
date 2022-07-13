@@ -1,3 +1,4 @@
+
 local quest_status = {};
 local singletons;
 local customization_menu;
@@ -6,6 +7,7 @@ local small_monster;
 local large_monster;
 local damage_meter_UI;
 local time;
+local env_creature;
 
 quest_status.index = 0;
 quest_status.is_online = false;
@@ -30,8 +32,9 @@ function quest_status.update(args)
 		or new_quest_status < 2 then
 
 			player.init();
-			small_monster.list = {};
-			large_monster.list = {};
+			small_monster.init_list();
+			large_monster.init_list();
+			env_creature.init_list();
 			damage_meter_UI.freeze_displayed_players = false;
 			damage_meter_UI.last_displayed_players = {};
 		end
@@ -114,6 +117,7 @@ function quest_status.init_module()
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	damage_meter_UI = require("MHR_Overlay.UI.Modules.damage_meter_UI");
 	time = require("MHR_Overlay.Game_Handler.time");
+	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
 
 	quest_status.init();
 	
