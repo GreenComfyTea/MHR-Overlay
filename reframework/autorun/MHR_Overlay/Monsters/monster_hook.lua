@@ -77,10 +77,12 @@ function monster_hook.update_large_monster(enemy)
 		return;
 	end
 
+	local monster = large_monster.get_monster(enemy);
+
 	-- this is the VERY LEAST thing we should do all the time
 	-- so the position doesn't lag all over the place
 	-- due to how infrequently we update the monster(s).
-	large_monster.update_position(enemy);
+	large_monster.update_position(enemy, monster);
 
 	if not config.current_config.global_settings.performance.prioritize_large_monsters and updated_monsters[enemy] then
 		return;
@@ -101,7 +103,13 @@ function monster_hook.update_large_monster(enemy)
 		updated_monsters[enemy] = true;
 	end
 
-	large_monster.update(enemy);
+	large_monster.update(enemy, monster);
+	local physical_param = large_monster.update_health(enemy, monster);
+	large_monster.update_parts(enemy, monster, physical_param);
+	large_monster.update_stamina(enemy, monster, nil);
+	large_monster.update_stamina_timer(enemy, monster, nil);
+	large_monster.update_rage(enemy, monster, nil);
+	large_monster.update_rage_timer(enemy, monster, nil);
 end
 
 function monster_hook.update_small_monster(enemy)
@@ -109,10 +117,12 @@ function monster_hook.update_small_monster(enemy)
 		return;
 	end
 
+	local monster = small_monster.get_monster(enemy);
+
 	-- this is the VERY LEAST thing we should do all the time
 	-- so the position doesn't lag all over the place
 	-- due to how infrequently we update the monster(s).
-	small_monster.update_position(enemy);
+	small_monster.update_position(enemy, monster);
 
 	if updated_monsters[enemy] then
 		return;
@@ -131,7 +141,8 @@ function monster_hook.update_small_monster(enemy)
 	num_updated_monsters = num_updated_monsters + 1;
 	updated_monsters[enemy] = true;
 
-	small_monster.update(enemy);
+	small_monster.update(enemy, monster);
+	small_monster.update_health(enemy, monster);
 end
 
 function monster_hook.init_module()
