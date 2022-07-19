@@ -579,8 +579,8 @@ function part_names.init()
 			{
 				language.current_language.parts.head,
 				language.current_language.parts.torso,
-				language.current_language.parts.left_wing,
-				language.current_language.parts.right_wing,
+				language.current_language.parts.wings,
+				language.current_language.parts.wingclaws,
 				language.current_language.parts.forelegs,
 				language.current_language.parts.hind_legs,
 				language.current_language.parts.tail,
@@ -628,8 +628,8 @@ function part_names.init()
 			{
 				language.current_language.parts.head,
 				language.current_language.parts.torso,
-				language.current_language.parts.left_wing,
-				language.current_language.parts.right_wing,
+				language.current_language.parts.wings,
+				language.current_language.parts.wingclaws,
 				language.current_language.parts.forelegs,
 				language.current_language.parts.hind_legs,
 				language.current_language.parts.tail
