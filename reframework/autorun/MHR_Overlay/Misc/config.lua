@@ -4062,10 +4062,10 @@ end
 function config.load()
     local loaded_config = json.load_file(config.config_file_name);
 	if loaded_config ~= nil then
-		log.info('[MHR Overlay] config.json loaded successfully');
+		log.info("[MHR Overlay] config.json loaded successfully");
 		config.current_config = table_helpers.merge(config.default_config, loaded_config);
 	else
-		log.error('[MHR Overlay] Failed to load config.json');
+		log.error("[MHR Overlay] Failed to load config.json");
 		config.current_config = table_helpers.deep_copy(config.default_config);
 	end
 end
@@ -4074,9 +4074,9 @@ function config.save()
 	-- save current config to disk, replacing any existing file
 	local success = json.dump_file(config.config_file_name, config.current_config);
 	if success then
-		log.info('[MHR Overlay] config.json saved successfully');
+		log.info("[MHR Overlay] config.json saved successfully");
 	else
-		log.error('[MHR Overlay] Failed to save config.json');
+		log.error("[MHR Overlay] Failed to save config.json");
 	end
 end
 

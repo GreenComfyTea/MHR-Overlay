@@ -73,6 +73,7 @@ language.default_language = {
 		wingclaw = "Wingclaw",
 		left_wingclaw = "Wingclaw L",
 		right_wingclaw = "Wingclaw R",
+		wingclaws = "Wingclaws",
 		antenna = "Antenna",
 
 		hind_leg = "Hind Leg",
@@ -85,7 +86,7 @@ language.default_language = {
 		left_foreleg = "Foreleg L",
 		right_foreleg = "Foreleg R",
 		chest = "Chest",
-		shell = "Shell"
+		shell = "Shell",
 	},
 
 	ailments = {
@@ -418,9 +419,9 @@ end
 function language.save(file_name, language_table)
 	local success = json.dump_file(file_name, language_table);
 	if success then
-		log.info('[MHR Overlay] en-us.json saved successfully');
+		log.info("[MHR Overlay] en-us.json saved successfully");
 	else
-		log.error('[MHR Overlay] Failed to save en-us.json');
+		log.error("[MHR Overlay] Failed to save en-us.json");
 	end
 end
 

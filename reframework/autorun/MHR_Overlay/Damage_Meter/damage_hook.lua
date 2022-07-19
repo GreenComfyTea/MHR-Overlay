@@ -82,7 +82,7 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	local attacker_type = get_damage_attacker_type_method:call(enemy_calc_damage_info);
 	local is_marionette_attack = is_marionette_attack_method:call(enemy_calc_damage_info)
 	
-	-- 4 is virtual player in singleplayer that 'owns' 2nd otomo
+	-- 4 is virtual player in singleplayer that "owns" 2nd otomo
 	if not quest_status.is_online and attacker_id == 4 then
 		attacker_id = player.myself.player_id;
 	end

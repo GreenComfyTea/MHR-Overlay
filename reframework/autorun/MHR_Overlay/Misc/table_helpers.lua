@@ -4,7 +4,7 @@ function table_helpers.deep_copy(original, copies)
 	copies = copies or {};
 	local original_type = type(original);
 	local copy;
-	if original_type == 'table' then
+	if original_type == "table" then
 		if copies[original] then
 			copy = copies[original];
 		else
@@ -62,15 +62,15 @@ function table_helpers.merge(...)
 end
 
 function table_helpers.tostring(table)
-	if type(table) == 'table' then
-		local s = '{ \n';
+	if type(table) == "table" then
+		local s = "{ \n";
 		for k,v in pairs(table) do
-			if type(k) ~= 'number' then
+			if type(k) ~= "number" then
 				k = '"' .. k .. '"';
 			end
-			s = s .. '\t['..k..'] = ' .. table_helpers.tostring(v) .. ',\n';
+			s = s .. "\t["..k.."] = " .. table_helpers.tostring(v) .. ",\n";
 		end
-		return s .. '} \n';
+		return s .. "} \n";
 	else
 		return tostring(table);
 	end
