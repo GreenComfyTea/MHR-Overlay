@@ -841,7 +841,8 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 	};
 	
 	health_UI_entity.draw(monster, monster.health_dynamic_UI, health_position_on_screen, opacity_scale);
-	drawing.draw_capture_line(monster.health_dynamic_UI.bar, health_position_on_screen, opacity_scale, monster.capture_percentage);
+
+	drawing.draw_capture_line(monster.health_dynamic_UI, health_position_on_screen, opacity_scale, monster.capture_percentage);
 
 	stamina_UI_entity.draw(monster, monster.stamina_dynamic_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_dynamic_UI, rage_position_on_screen, opacity_scale);
@@ -925,7 +926,8 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 	};
 
 	health_UI_entity.draw(monster, monster.health_static_UI, health_position_on_screen, opacity_scale);
-	drawing.draw_capture_line(monster.health_static_UI.bar, health_position_on_screen, opacity_scale, monster.capture_percentage);
+
+	drawing.draw_capture_line(monster.health_static_UI, health_position_on_screen, opacity_scale, monster.capture_percentage);
 
 	stamina_UI_entity.draw(monster, monster.stamina_static_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_static_UI, rage_position_on_screen, opacity_scale);
@@ -1009,7 +1011,7 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 	};
 
 	health_UI_entity.draw(monster, monster.health_highlighted_UI, health_position_on_screen, opacity_scale);
-	drawing.draw_capture_line(monster.health_highlighted_UI.bar, health_position_on_screen, opacity_scale, monster.capture_percentage);
+	drawing.draw_capture_line(monster.health_highlighted_UI, health_position_on_screen, opacity_scale, monster.capture_percentage);
 
 	stamina_UI_entity.draw(monster, monster.stamina_highlighted_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_highlighted_UI, rage_position_on_screen, opacity_scale);

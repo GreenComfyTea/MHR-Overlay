@@ -165,31 +165,33 @@ function drawing.draw_bar(bar, position, opacity_scale, percentage)
 	end
 end
 
-function drawing.draw_capture_line(bar, position, opacity_scale, percentage)
-	if bar == nil
-	or bar.capture_line == nil
-	or not bar.visibility
-	or not bar.capture_line.visibility
+function drawing.draw_capture_line(health_UI, position, opacity_scale, percentage)
+	if health_UI == nil
+	or not health_UI.visibility
+	or health_UI.bar == nil
+	or not health_UI.bar.visibility
+	or health_UI.bar.capture_line == nil
+	or not health_UI.bar.capture_line.visibility
 	or percentage >= 1
 	or percentage <= 0 then
 		return;
 	end
 
 	
-	local position_x = position.x + bar.offset.x + bar.capture_line.offset.x + bar.size.width * percentage;
-	local position_y = position.y + bar.offset.y + bar.capture_line.offset.y;
+	local position_x = position.x + health_UI.bar.offset.x + health_UI.bar.capture_line.offset.x + health_UI.bar.size.width * percentage;
+	local position_y = position.y + health_UI.bar.offset.y + health_UI.bar.capture_line.offset.y;
 
-	local color = bar.capture_line.color;
+	local color = health_UI.bar.capture_line.color;
 
 	if opacity_scale < 1 then
 		color  = drawing.scale_color_opacity(color, opacity_scale);
 	end
 
 	if d2d ~= nil then
-		d2d.fill_rect(position_x, position_y, bar.capture_line.size.width, bar.capture_line.size.height, color);
+		d2d.fill_rect(position_x, position_y, health_UI.bar.capture_line.size.width, health_UI.bar.capture_line.size.height, color);
 	else
 		color = drawing.argb_color_to_abgr_color(color);
-		draw.filled_rect(position_x, position_y, bar.capture_line.size.width, bar.capture_line.size.height, color)
+		draw.filled_rect(position_x, position_y, health_UI.bar.capture_line.size.width, health_UI.bar.capture_line.size.height, color)
 	end
 end
 
