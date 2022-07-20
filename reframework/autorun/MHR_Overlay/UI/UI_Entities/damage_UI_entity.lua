@@ -134,9 +134,8 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 		end
 	end
 
-	if _player.damage_UI.player_name_size_limit ~= 0 then
-		player_name_text = drawing.limit_text_size(player_name_text, _player.damage_UI.player_name_size_limit);
-	end
+	player_name_text = drawing.limit_text_size(player_name_text, _player.damage_UI.player_name_size_limit);
+
 
 	drawing.draw_label(_player.damage_UI.player_name_label, position_on_screen, opacity_scale, player_name_text);
 	drawing.draw_label(_player.damage_UI.value_label, position_on_screen, opacity_scale, _player.display.total_damage);
