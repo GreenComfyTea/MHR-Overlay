@@ -66,9 +66,9 @@ function table_helpers.tostring(table)
 		local s = "{ \n";
 		for k,v in pairs(table) do
 			if type(k) ~= "number" then
-				k = '"' .. k .. '"';
+				k = "\"" .. k .. "\"";
 			end
-			s = s .. "\t["..k.."] = " .. table_helpers.tostring(v) .. ",\n";
+			s = s .. "\t[" .. k .."] = " .. table_helpers.tostring(v) .. ",\n";
 		end
 		return s .. "} \n";
 	else

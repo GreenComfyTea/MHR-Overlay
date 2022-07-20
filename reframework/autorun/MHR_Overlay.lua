@@ -10,6 +10,7 @@ local time = require("MHR_Overlay.Game_Handler.time");
 local config = require("MHR_Overlay.Misc.config");
 local language = require("MHR_Overlay.Misc.language");
 local table_helpers = require("MHR_Overlay.Misc.table_helpers");
+local unicode_helpers = require("MHR_Overlay.Misc.unicode_helpers");
 local part_names = require("MHR_Overlay.Misc.part_names");
 
 
@@ -49,6 +50,7 @@ local drawing = require("MHR_Overlay.UI.drawing");
 screen.init_module();
 singletons.init_module();
 table_helpers.init_module();
+unicode_helpers.init_module();
 time.init_module();
 
 language.init_module();
@@ -459,13 +461,6 @@ re.on_frame(function()
 
 	keyboard.update();
 end);
-
-if debug then
-	re.on_frame(function()
-		draw.text("xy: " .. tostring(xy), 551, 11, 0xFF000000);
-		draw.text("xy: " .. tostring(xy), 550, 10, 0xFFFFFFFF);
-	end);
-end
 -- #endregion
 --------------------------RE_IMGUI---------------------------
 
@@ -480,3 +475,20 @@ else
 end
 -- #endregion
 ----------------------------D2D------------------------------
+
+
+
+if debug then
+	if d2d ~= nil then
+		d2d.register(function()
+		end, function()
+			d2d.text(drawing.font, "xy: " .. tostring(xy), 551, 11, 0xFF000000);
+			d2d.text(drawing.font, "xy: " .. tostring(xy), 550, 10, 0xFFFFFFFF);
+		end);
+	else
+		re.on_frame(function()
+			draw.text("xy: " .. tostring(xy), 551, 11, 0xFF000000);
+			draw.text("xy: " .. tostring(xy), 550, 10, 0xFFFFFFFF);
+		end);
+	end
+end

@@ -1,5 +1,7 @@
 local drawing = {};
 local config;
+local table_helpers;
+local unicode_helpers;
 
 drawing.font = nil;
 
@@ -33,11 +35,9 @@ function drawing.argb_to_color(alpha, red, green, blue)
 end
 
 function drawing.limit_text_size(text, size_limit)
-	if d2d == nil then
+	if d2d == nil or size_limit <= 0 then
 		return text;
 	end
-
-	--do return end;
 
 	local limited_text = text;
 	while true do
@@ -46,7 +46,7 @@ function drawing.limit_text_size(text, size_limit)
 		if text_width < size_limit then
 			return limited_text;
 		else
-			limited_text = limited_text:sub(1, -5) .. "...";
+			limited_text = unicode_helpers.sub(limited_text, 1, -5) .. "...";
 		end
 	end
 end
@@ -197,6 +197,8 @@ end
 
 function drawing.init_module()
 	config = require("MHR_Overlay.Misc.config");
+	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	unicode_helpers = require("MHR_Overlay.Misc.unicode_helpers");
 end
 
 return drawing;
