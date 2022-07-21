@@ -109,8 +109,8 @@ language.default_language = {
 		dung_bomb = "Dung Bomb",
 		steel_fang = "Steel Fang",
 		quick_sand = "Quick Sand",
-		fall_otomo_trap = "Fall Otomo Trap",
-		shock_otomo_trap = "Shock Otomo Trap"
+		fall_otomo_trap = "Fall Buddy Trap",
+		shock_otomo_trap = "Shock Buddy Trap"
 	},
 
 	UI = {
@@ -287,7 +287,7 @@ language.default_language = {
 		bomb_damage = "Bomb Damage",
 		kunai_damage = "Kunai Damage",
 		installation_damage = "Installation Damage",
-		otomo_damage = "Otomo Damage",
+		otomo_damage = "Buddy Damage",
 		monster_damage = "Monster Damage",
 		poison_damage = "Poison Damage",
 		blast_damage = "Blast Damage",
