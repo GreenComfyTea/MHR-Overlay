@@ -1,5 +1,6 @@
-local debug = false;
 xy = "";
+
+local debug = require("MHR_Overlay.Misc.debug");
 
 local keyboard = require("MHR_Overlay.Game_Handler.keyboard");
 local quest_status = require("MHR_Overlay.Game_Handler.quest_status");
@@ -104,13 +105,10 @@ local function main_loop()
 		player.update_myself_position();
 		quest_status.update_is_online();
 		quest_status.update_is_result_screen();
+		quest_status.update_is_host();
 		time.tick();
 
-		if quest_status.index < 2 then
-			player.update_player_list_in_village();
-		else
-			player.update_player_list_on_quest();
-		end
+		player.update_player_list(quest_status.index >= 2);
 
 		if quest_status.index < 2 then
 			quest_status.update_is_training_area();
@@ -478,17 +476,21 @@ end
 
 
 
-if debug then
+if debug.enabled then
 	if d2d ~= nil then
 		d2d.register(function()
 		end, function()
-			d2d.text(drawing.font, "xy: " .. tostring(xy), 551, 11, 0xFF000000);
-			d2d.text(drawing.font, "xy: " .. tostring(xy), 550, 10, 0xFFFFFFFF);
+			if xy ~= "" then
+				d2d.text(drawing.font, "xy:\n" .. tostring(xy), 551, 11, 0xFF000000);
+				d2d.text(drawing.font, "xy:\n" .. tostring(xy), 550, 10, 0xFFFFFFFF);
+			end
 		end);
 	else
 		re.on_frame(function()
-			draw.text("xy: " .. tostring(xy), 551, 11, 0xFF000000);
-			draw.text("xy: " .. tostring(xy), 550, 10, 0xFFFFFFFF);
+			if xy ~= "" then
+				draw.text("xy:\n" .. tostring(xy), 551, 11, 0xFF000000);
+				draw.text("xy:\n" .. tostring(xy), 550, 10, 0xFFFFFFFF);
+			end
 		end);
 	end
 end
