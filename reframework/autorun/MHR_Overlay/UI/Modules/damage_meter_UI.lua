@@ -54,7 +54,7 @@ function damage_meter_UI.get_players(player_info_list)
 		
 		local _player = player.get_player(player_id);
 		if _player ~= nil then
-			if player_id == player.myself.id and cached_config.settings.my_damage_bar_location ~= "Normal" then
+			if _player == player.myself and cached_config.settings.my_damage_bar_location ~= "Normal" then
 				goto continue;
 			end
 			table.insert(quest_players, _player);
@@ -73,8 +73,6 @@ function damage_meter_UI.draw()
 	if player.total.display.total_damage == 0 and cached_config.settings.hide_module_if_total_damage_is_zero then
 		return;
 	end
-
-	
 
 	local quest_players = {};
 	if damage_meter_UI.freeze_displayed_players and damage_meter_UI.last_displayed_players ~= {} then

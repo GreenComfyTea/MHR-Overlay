@@ -14,12 +14,12 @@ player.myself = nil;
 player.myself_position = Vector3f.new(0, 0, 0);
 player.total = nil;
 
-function player.new(player_id, player_name, player_master_rank, player_hunter_rank)
+function player.new(id, name, master_rank, hunter_rank)
 	local new_player = {};
-	new_player.id = player_id;
-	new_player.name = player_name;
-	new_player.hunter_rank = player_hunter_rank;
-	new_player.master_rank = player_master_rank;
+	new_player.id = id;
+	new_player.name = name;
+	new_player.hunter_rank = hunter_rank;
+	new_player.master_rank = master_rank;
 
 	new_player.cart_count = 0;
 
@@ -155,12 +155,11 @@ function player.new(player_id, player_name, player_master_rank, player_hunter_ra
 	new_player.display.elemental_damage = 0;
 	new_player.display.ailment_damage = 0;
 
-	if player_name == "Total" then
+	if name == "Total" then
 		player.init_total_UI(new_player);
 	else
 		player.init_UI(new_player);
 	end
-	
 
 	return new_player;
 end
@@ -364,12 +363,14 @@ end
 
 local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
 local my_hunter_info_field = lobby_manager_type_def:get_field("_myHunterInfo");
+local myself_quest_index_field = lobby_manager_type_def:get_field("_myselfQuestIndex");
 
 local quest_hunter_info_field = lobby_manager_type_def:get_field("_questHunterInfo");
 local hunter_info_field = lobby_manager_type_def:get_field("_hunterInfo");
 
 local my_hunter_info_type_def = my_hunter_info_field:get_type();
 local name_field = my_hunter_info_type_def:get_field("_name");
+local hunter_unique_id_field = my_hunter_info_type_def:get_field("_HunterUniqueId");
 local member_index_field = my_hunter_info_type_def:get_field("_memberIndex");
 local hunter_rank_field = my_hunter_info_type_def:get_field("_hunterRank");
 local master_rank_field = my_hunter_info_type_def:get_field("_masterRank");
@@ -378,107 +379,25 @@ local hunter_info_type_def = hunter_info_field:get_type();
 local get_count_method = hunter_info_type_def:get_method("get_Count");
 local get_item_method = hunter_info_type_def:get_method("get_Item");
 
+
+local guid_type = hunter_unique_id_field:get_type();
+local guid_equals_method = guid_type:get_method("Equals(System.Guid)");
+
 local progress_manager_type_def = sdk.find_type_definition("snow.progress.ProgressManager");
 local get_hunter_rank_method = progress_manager_type_def:get_method("get_HunterRank");
 local get_master_rank_method = progress_manager_type_def:get_method("get_MasterRank");
 
-
-local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local get_master_player_id_method = player_manager_type_def:get_method("getMasterPlayerID");
 
-function player.update_player_list_in_village()
-	if singletons.lobby_manager == nil then
-		return;
-	end
-	
-	if singletons.progress_manager == nil then
-		return;
-	end
-
-	-- myself player
-	local myself_player_info = my_hunter_info_field:get_data(singletons.lobby_manager);
-	if myself_player_info == nil then
-		customization_menu.status = "No myself player info list";
-		return;
-	end
-
-	local myself_player_name = name_field:get_data(myself_player_info);
-	if myself_player_name == nil then
-		customization_menu.status = "No myself player name";
-		return;
-	end
-
-	local myself_hunter_rank = get_hunter_rank_method:call(singletons.progress_manager);
-	if myself_hunter_rank == nil then
-		customization_menu.status = "No myself hunter rank";
-		myself_hunter_rank = 0;
-	end
-
-	
-	local myself_master_rank = get_master_rank_method:call(singletons.progress_manager);
-	if myself_master_rank == nil then
-		customization_menu.status = "No myself master rank";
-		myself_master_rank = 0;
-	end
-
-	local myself_id = get_master_player_id_method:call(singletons.player_manager);
-	if myself_id == nil then
-		customization_menu.status = "No myself player id";
-	elseif player.myself == nil or myself_id ~= player.myself.id then
-			player.myself = player.new(myself_id, myself_player_name, myself_master_rank, myself_hunter_rank);
-		player.list[myself_id] = player.myself;
-	end
-
-	-- other players
-	local player_info_list = hunter_info_field:get_data(singletons.lobby_manager);
-	if player_info_list == nil then
-		customization_menu.status = "No player info list";
-		return;
-	end
-
-	local count = get_count_method:call(player_info_list);
-	if count == nil then
-		customization_menu.status = "No player info list count";
-		return;
-	end
-
-	for i = 0, count - 1 do
-		local player_info = get_item_method:call(player_info_list, i);
-		if player_info == nil then
-			goto continue;
-		end
-
-		local player_id = member_index_field:get_data(player_info);
-		if player_id == nil then
-			goto continue;
-		end
-
-		local player_hunter_rank = hunter_rank_field:get_data(player_info);
-		if player_hunter_rank == nil then
-			goto continue;
-		end
-
-		local player_master_rank = master_rank_field:get_data(player_info);
-		if player_hunter_rank == nil then
-			player_master_rank = 0;
-		end
-
-		local player_name = name_field:get_data(player_info);
-		if player_name == nil then
-			goto continue;
-		end
-
-		if player.myself.id == player_id then
-			player.list[player_id] = player.myself;
-		elseif player.list[player_id] == nil or player.list[player_id].name ~= player_name then
-			player.list[player_id] = player.new(player_id, player_name, player_master_rank, player_hunter_rank);
-		end
-
-		::continue::
+function player.update_player_list(is_on_quest)
+	if is_on_quest then
+		player.update_player_list_(quest_hunter_info_field);
+	else
+		player.update_player_list_(hunter_info_field);
 	end
 end
 
-function player.update_player_list_on_quest()
+function player.update_player_list_(hunter_info_field_)
 	if singletons.lobby_manager == nil then
 		return;
 	end
@@ -500,28 +419,41 @@ function player.update_player_list_on_quest()
 		return;
 	end
 
-	local myself_hunter_rank = get_hunter_rank_method:call(singletons.progress_manager);
-	if myself_hunter_rank == nil then
-		customization_menu.status = "No myself hunter rank";
-		myself_hunter_rank = 0;
-	end
+	local myself_hunter_rank = get_hunter_rank_method:call(singletons.progress_manager) or 0;
+	local myself_master_rank = get_master_rank_method:call(singletons.progress_manager) or 0;
 
-	local myself_master_rank = get_master_rank_method:call(singletons.progress_manager);
-	if myself_hunter_rank == nil then
-		customization_menu.status = "No myself master rank";
-		myself_hunter_rank = 0;
-	end
+	local myself_id = get_master_player_id_method:call(singletons.player_manager) or -1;
+	--if quest_status.is_online then
+		--myself_id = get_master_player_id_method:call(singletons.player_manager) or -1;
+	--else
+		--myself_id = myself_quest_index_field:call(singletons.lobby_manager) or -1;
+	--end
 
-	local myself_id = get_master_player_id_method:call(singletons.player_manager);
 	if myself_id == nil then
 		customization_menu.status = "No myself player id";
-	elseif player.myself == nil or myself_id ~= player.myself.id then
-			player.myself = player.new(myself_id, myself_player_name, myself_master_rank, myself_hunter_rank);
-		player.list[myself_id] = player.myself;
+		return;
+	end
+
+	local myself_guid = hunter_unique_id_field:get_data(myself_player_info);
+	if myself_guid == nil then
+		customization_menu.status = "No myself guid";
+		return;
+	end
+
+	--local myself_guid_string = guid_tostring_method:call(myself_guid);
+	--if myself_guid_string == nil then
+	--	customization_menu.status = "No myself guid string";
+	--	return;
+	--end
+
+	if myself_id ~= player.myself.id then
+			player.list[player.myself.id] = nil;
+			player.myself = player.new(myself_id, myself_guid, myself_player_name, myself_master_rank, myself_hunter_rank);
+			player.list[myself_id] = player.myself;
 	end
 	
 	-- other players
-	local player_info_list = quest_hunter_info_field:get_data(singletons.lobby_manager);
+	local player_info_list = hunter_info_field_:get_data(singletons.lobby_manager);
 	if player_info_list == nil then
 		customization_menu.status = "No player info list";
 		return;
@@ -545,25 +477,36 @@ function player.update_player_list_on_quest()
 			goto continue;
 		end
 
-		local player_hunter_rank = hunter_rank_field:get_data(player_info);
-		if player_hunter_rank == nil then
-			goto continue;
+		local player_guid = hunter_unique_id_field:get_data(player_info);
+		if player_guid == nil then
+			customization_menu.status = "No player guid";
+			return;
 		end
 
-		local player_master_rank = master_rank_field:get_data(player_info);
-		if player_master_rank == nil then
-			player_master_rank = 0;
-		end
+		--local player_guid_string = guid_tostring_method:call(player_guid);
+		--if player_guid_string == nil then
+		--	customization_menu.status = "No player guid string";
+		--	return;
+		--end
+
+		local player_hunter_rank = hunter_rank_field:get_data(player_info) or 0;
+		local player_master_rank = master_rank_field:get_data(player_info) or 0;
 
 		local player_name = name_field:get_data(player_info);
 		if player_name == nil then
 			goto continue;
 		end
 
-		if player.myself.id == player_id then
-			player.list[player_id] = player.myself;
-		elseif player.list[player_id] == nil or player.list[player_id].name ~= player_name then
-			player.list[player_id] = player.new(player_id, player_name, player_master_rank, player_hunter_rank);
+		if player.list[player_id] == nil or
+		not guid_equals_method:call(player.list[player_id].guid, player_guid)
+		--player.list[player_id].guid ~= player_guid
+		then
+			local _player = player.new(player_id, player_guid, player_name, player_master_rank, player_hunter_rank);
+			player.list[player_id] = _player;
+
+			if player_name == player.myself.name and player_hunter_rank == player.myself.hunter_rank and player_master_rank == player.myself.master_rank then
+				player.myself = _player;
+			end
 		end
 
 		::continue::
