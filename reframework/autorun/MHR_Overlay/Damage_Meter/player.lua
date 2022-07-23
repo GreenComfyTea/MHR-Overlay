@@ -14,9 +14,10 @@ player.myself = nil;
 player.myself_position = Vector3f.new(0, 0, 0);
 player.total = nil;
 
-function player.new(id, name, master_rank, hunter_rank)
+function player.new(id, guid, name, master_rank, hunter_rank)
 	local new_player = {};
 	new_player.id = id;
+	new_player.guid = guid;
 	new_player.name = name;
 	new_player.hunter_rank = hunter_rank;
 	new_player.master_rank = master_rank;
