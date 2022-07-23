@@ -98,6 +98,7 @@
         "first_hit": "第一击",
         "flinch_count": "胆怯次数",
         "foreground": "前景",
+        "freeze_dps_on_quest_clear": "Freeze DPS when Quest is cleared",
         "global_position_modifier": "全局位置更改",
         "global_scale_modifier": "全局比例更改",
         "global_settings": "全局设定",

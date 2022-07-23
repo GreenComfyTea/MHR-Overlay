@@ -1,6 +1,7 @@
 local time = {};
 local singletons;
 local customization_menu;
+local quest_status;
 local player;
 local config;
 local small_monster;
@@ -47,28 +48,25 @@ function time.tick()
 	if time.total_elapsed_script_seconds - time.last_elapsed_script_seconds > 1 then
 		time.last_elapsed_script_seconds = time.total_elapsed_script_seconds;
 		time.update_players_dps();
-		--time.update_small_monsters();
 	end
 end
 
 function time.update_players_dps()
 	local cached_config = config.current_config.damage_meter_UI.settings;
-
-	local myself_updated = false;
+	
+	if cached_config.freeze_dps_on_quest_clear and quest_status.is_quest_clear then
+		return;
+	end
 
 	local new_total_dps = 0;
 	for _, _player in pairs(player.list) do
-		if _player == player.myself then
-			myself_updated = true;
-		end
-
 		if _player.join_time == -1 then
 			_player.join_time = time.total_elapsed_script_seconds;
 		end
 
 		if cached_config.dps_mode == "Quest Time" then
 			if time.total_elapsed_seconds > 0 then
-				player.myself.dps = player.myself.display.total_damage / time.total_elapsed_seconds;
+				_player.dps = _player.display.total_damage / time.total_elapsed_seconds;
 			end
 		elseif cached_config.dps_mode == "Join Time" then
 			if time.total_elapsed_script_seconds - _player.join_time > 0 then
@@ -82,45 +80,17 @@ function time.update_players_dps()
 
 		new_total_dps = new_total_dps + _player.dps;
 	end
-	
-	if not myself_updated then
-		if player.myself.join_time == -1 then
-			player.myself.join_time = time.total_elapsed_script_seconds;
-		end
-
-		if cached_config.dps_mode == "Quest Time" then
-			if time.total_elapsed_seconds > 0 then
-				player.myself.dps = player.myself.display.total_damage / time.total_elapsed_seconds;
-			end
-		elseif cached_config.dps_mode == "Join Time" then
-			if time.total_elapsed_script_seconds - player.myself.join_time > 0 then
-				player.myself.dps = player.myself.display.total_damage / (time.total_elapsed_script_seconds - player.myself.join_time);
-			end
-		elseif cached_config.dps_mode == "First Hit" then
-			if time.total_elapsed_script_seconds - player.myself.first_hit_time > 0 then
-				player.myself.dps = player.myself.display.total_damage / (time.total_elapsed_script_seconds - player.myself.first_hit_time);
-			end
-		end
-
-		new_total_dps = new_total_dps + player.myself.dps;
-	end
 
 	player.total.dps = new_total_dps;
-end
-
-function time.update_small_monsters()
-	for enemy, monster in pairs(small_monster.list) do
-		small_monster.update(enemy, monster);
-	end
 end
 
 function time.init_module()
 	player = require("MHR_Overlay.Damage_Meter.player");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
-	time = require("MHR_Overlay.Game_Handler.time");
 	config = require("MHR_Overlay.Misc.config");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
+	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 end
 
 return time;

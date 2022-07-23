@@ -382,6 +382,8 @@ language.default_language = {
 
 		prioritize_large_monsters = "Large Monsters on High Priority",
 		max_monster_updates_per_tick = "Max Monster Updates per Tick",
+
+		freeze_dps_on_quest_clear = "Freeze DPS when Quest is cleared"
 	}
 };
 
