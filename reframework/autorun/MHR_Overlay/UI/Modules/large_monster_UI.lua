@@ -18,8 +18,8 @@ local get_boss_enemy_method = enemy_manager_type_def:get_method("getBossEnemy");
 local gui_manager_type_def = sdk.find_type_definition("snow.gui.GuiManager");
 local get_tg_camera_method = gui_manager_type_def:get_method("get_refGuiHud_TgCamera");
 
-local tg_camera_type = get_tg_camera_method:get_return_type();
-local get_targeting_enemy_index_field = tg_camera_type:get_field("OldTargetingEmIndex");
+local tg_camera_type_def = get_tg_camera_method:get_return_type();
+local get_targeting_enemy_index_field = tg_camera_type_def:get_field("OldTargetingEmIndex");
 
 function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 	if singletons.enemy_manager == nil then
