@@ -11,36 +11,48 @@ local env_creature;
 
 quest_status.index = 0;
 quest_status.is_online = false;
+quest_status.is_host = false;
 quest_status.is_training_area = false;
-quest_status.update_is_result_screen = false;
+quest_status.is_result_screen = false;
+quest_status.is_quest_clear = false;
 
 local quest_manager_type_definition = sdk.find_type_definition("snow.QuestManager");
 local on_changed_game_status = quest_manager_type_definition:get_method("onChangedGameStatus");
 local get_status_method = quest_manager_type_definition:get_method("getStatus");
 local is_result_demo_play_start_method = quest_manager_type_definition:get_method("isResultDemoPlayStart");
 
+local set_quest_clear_method = quest_manager_type_definition:get_method("setQuestClear");
+local set_quest_clear_sub_method = quest_manager_type_definition:get_method("setQuestClearSub");
+local set_quest_clear_sub_hyakurui_method = quest_manager_type_definition:get_method("setQuestClearSubHyakuryu");
+
 local village_area_manager_type_def = sdk.find_type_definition("snow.VillageAreaManager");
 local check_current_area_training_area_method = village_area_manager_type_def:get_method("checkCurrentArea_TrainingArea");
 
 local lobby_manager_type_definition = sdk.find_type_definition("snow.LobbyManager");
 local is_quest_online_method = lobby_manager_type_definition:get_method("IsQuestOnline");
+local is_quest_host_method = lobby_manager_type_definition:get_method("isQuestHost");
 
-function quest_status.update(args)
-	local new_quest_status = sdk.to_int64(args[3]);
-	if new_quest_status ~= nil then
-		if (quest_status.index < 2 and new_quest_status == 2)
-		or new_quest_status < 2 then
 
-			player.init();
-			small_monster.init_list();
-			large_monster.init_list();
-			env_creature.init_list();
-			damage_meter_UI.freeze_displayed_players = false;
-			damage_meter_UI.last_displayed_players = {};
-		end
 
-		quest_status.index = new_quest_status;
+function quest_status.on_changed_game_status(new_quest_status)
+	if (quest_status.index < 2 and new_quest_status == 2)
+	or new_quest_status < 2 then
+
+		player.init();
+		small_monster.init_list();
+		large_monster.init_list();
+		env_creature.init_list();
+
+		quest_status.is_quest_clear = false;
+		damage_meter_UI.freeze_displayed_players = false;
+		damage_meter_UI.last_displayed_players = {};
 	end
+
+	quest_status.index = new_quest_status;
+end
+
+function quest_status.on_set_quest_clear()
+	quest_status.is_quest_clear = true;
 end
 
 function quest_status.init()
@@ -75,6 +87,19 @@ function quest_status.update_is_online()
 	end
 
 	quest_status.is_online = is_quest_online;
+end
+
+function quest_status.update_is_host()
+	if singletons.lobby_manager == nil then
+		return;
+	end
+
+	local is_host = is_quest_host_method:call(singletons.lobby_manager, true);
+	if is_host == nil then
+		return;
+	end
+
+	quest_status.is_host = is_host;
 end
 
 function quest_status.update_is_training_area()
@@ -122,7 +147,19 @@ function quest_status.init_module()
 	quest_status.init();
 	
 	sdk.hook(on_changed_game_status, function(args)
-		pcall(quest_status.update, args);
+		quest_status.on_changed_game_status(sdk.to_int64(args[3]));
+	end, function(retval) return retval; end);
+
+	sdk.hook(set_quest_clear_method, function(args)
+		quest_status.on_set_quest_clear();
+	end, function(retval) return retval; end);
+
+	sdk.hook(set_quest_clear_sub_method, function(args)
+		quest_status.on_set_quest_clear();
+	end, function(retval) return retval; end);
+
+	sdk.hook(set_quest_clear_sub_hyakurui_method, function(args)
+		quest_status.on_set_quest_clear();
 	end, function(retval) return retval; end);
 end
 

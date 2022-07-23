@@ -15018,6 +15018,12 @@ function customization_menu.draw()
 			config_changed = config_changed or changed;
 			damage_meter_UI_changed = damage_meter_UI_changed or changed;
 
+			changed, config.current_config.damage_meter_UI.settings.freeze_dps_on_quest_clear = imgui.checkbox(
+				language.current_language.customization_menu.freeze_dps_on_quest_clear,
+				config.current_config.damage_meter_UI.settings.freeze_dps_on_quest_clear);
+			config_changed = config_changed or changed;
+			damage_meter_UI_changed = damage_meter_UI_changed or changed;
+
 			changed, customization_menu.damage_meter_UI_orientation_index = imgui.combo(language.current_language.customization_menu
 				.orientation,
 				customization_menu.damage_meter_UI_orientation_index, customization_menu.displayed_orientation_types);

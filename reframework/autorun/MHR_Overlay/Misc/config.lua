@@ -3740,21 +3740,26 @@ function config.init()
 			},
 	
 			settings = {
-				orientation = "Vertical", -- "Vertical" or "Horizontal"
+			
+
+				hide_myself = false,
+				hide_other_players = false,
+				hide_total_damage = false,
 	
 				hide_module_if_total_damage_is_zero = false,
 				hide_player_if_player_damage_is_zero = false,
 				hide_total_if_total_damage_is_zero = false,
 				total_damage_offset_is_relative = true,
+
+				freeze_dps_on_quest_clear = true,
 	
+				orientation = "Vertical", -- "Vertical" or "Horizontal"
 				highlighted_bar = "Me",
 				damage_bar_relative_to = "Top Damage", -- "total damage" or "top damage"
 				my_damage_bar_location = "First", -- "normal" or "first" or "last"
 				dps_mode = "First Hit",
 
-				hide_myself = false,
-				hide_other_players = false,
-				hide_total_damage = false,
+				
 
 				player_name_size_limit = 150
 			},
