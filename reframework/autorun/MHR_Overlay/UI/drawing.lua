@@ -40,15 +40,17 @@ function drawing.limit_text_size(text, size_limit)
 	end
 
 	local limited_text = text;
-	while true do
+	while limited_text ~= "..." do
 		local text_width, text_height = drawing.font:measure(limited_text);
 
 		if text_width < size_limit then
-			return limited_text;
+			break;
 		else
 			limited_text = unicode_helpers.sub(limited_text, 1, -5) .. "...";
 		end
 	end
+
+	return limited_text;
 end
 
 function drawing.scale_color_opacity(color, scale)
