@@ -98,6 +98,7 @@
         "first_hit": "첫 공격",
         "flinch_count": "경직 횟수",
         "foreground": "전경색",
+        "freeze_dps_on_quest_clear": "Freeze DPS when Quest is cleared",
         "global_position_modifier": "전역 위치 배율",
         "global_scale_modifier": "전역 크기 배율",
         "global_settings": "전역 설정",
@@ -301,6 +302,7 @@
         "upper_back": "윗등",
         "upper_body": "윗몸",
         "wingclaw": "날개발톱",
+        "wingclaws": "Wingclaws",
         "wings": "날개"
     }
 }

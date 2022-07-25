@@ -169,6 +169,30 @@ function config.init()
 				y = 0,
 				anchor = "Top-Left"
 			},
+
+			filter = {
+				paralysis = true,
+				sleep = true,
+				stun = true,
+				flash = true,
+				poison = true,
+				blast = true,
+				exhaust = true,
+				ride = true,
+				waterblight = true,
+				fireblight = true,
+				iceblight = true,
+				thunderblight = true,
+		
+				fall_trap = true,
+				shock_trap = true,
+				tranq_bomb = true,
+				dung_bomb = true,
+				steel_fang = true,
+				quick_sand = true,
+				fall_otomo_trap = true,
+				shock_otomo_trap = true
+			},
 	
 			monster_name_label = {
 				visibility = true,
@@ -1327,6 +1351,30 @@ function config.init()
 						type = "Normal",
 						reversed_order = false
 					},
+
+					filter = {
+						paralysis = true,
+						sleep = true,
+						stun = true,
+						flash = true,
+						poison = true,
+						blast = true,
+						exhaust = true,
+						ride = true,
+						waterblight = true,
+						fireblight = true,
+						iceblight = true,
+						thunderblight = true,
+				
+						fall_trap = true,
+						shock_trap = true,
+						tranq_bomb = true,
+						dung_bomb = true,
+						steel_fang = true,
+						quick_sand = true,
+						fall_otomo_trap = true,
+						shock_otomo_trap = true
+					},
 		
 					ailment_name_label = {
 						visibility = true,
@@ -2357,6 +2405,30 @@ function config.init()
 						type = "Normal",
 						reversed_order = false
 					},
+
+					filter = {
+						paralysis = true,
+						sleep = true,
+						stun = true,
+						flash = true,
+						poison = true,
+						blast = true,
+						exhaust = true,
+						ride = true,
+						waterblight = true,
+						fireblight = true,
+						iceblight = true,
+						thunderblight = true,
+				
+						fall_trap = true,
+						shock_trap = true,
+						tranq_bomb = true,
+						dung_bomb = true,
+						steel_fang = true,
+						quick_sand = true,
+						fall_otomo_trap = true,
+						shock_otomo_trap = true
+					},
 		
 					ailment_name_label = {
 						visibility = true,
@@ -3365,6 +3437,30 @@ function config.init()
 					sorting = {
 						type = "Normal",
 						reversed_order = false
+					},
+
+					filter = {
+						paralysis = true,
+						sleep = true,
+						stun = true,
+						flash = true,
+						poison = true,
+						blast = true,
+						exhaust = true,
+						ride = true,
+						waterblight = true,
+						fireblight = true,
+						iceblight = true,
+						thunderblight = true,
+				
+						fall_trap = true,
+						shock_trap = true,
+						tranq_bomb = true,
+						dung_bomb = true,
+						steel_fang = true,
+						quick_sand = true,
+						fall_otomo_trap = true,
+						shock_otomo_trap = true
 					},
 		
 					ailment_name_label = {
