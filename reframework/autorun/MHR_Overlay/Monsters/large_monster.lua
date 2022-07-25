@@ -88,8 +88,6 @@ function large_monster.new(enemy)
 	large_monster.init_dynamic_UI(monster);
 	large_monster.init_highlighted_UI(monster);
 
-	monster.name = monster.name .. " " .. tostring(monster.id);
-
 	if large_monster.list[enemy] == nil then
 		large_monster.list[enemy] = monster;
 	end
