@@ -28,16 +28,16 @@ local table_helpers;
 --16 SteelFang
 
 ailments.paralyze_id = 0;
-ailments.sleep_id =    1;
-ailments.stun_id =     2;
-ailments.flash_id =    3;
-ailments.poison_id =   4;
-ailments.blast_id =    5;
-ailments.exhaust_id =  6;
-ailments.ride_id =    7;
-ailments.water_id =    8;
-ailments.fire_id =     9;
-ailments.ice_id =     10;
+ailments.sleep_id = 1;
+ailments.stun_id = 2;
+ailments.flash_id = 3;
+ailments.poison_id = 4;
+ailments.blast_id = 5;
+ailments.exhaust_id = 6;
+ailments.ride_id = 7;
+ailments.water_id = 8;
+ailments.fire_id = 9;
+ailments.ice_id = 10;
 ailments.thunder_id = 11;
 ailments.fall_trap_id = 12;
 ailments.shock_trap_id = 13;
@@ -1141,11 +1141,10 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 		return;
 	end
 
-	local damage = ailment_damage;
 	-- split up damage according to ratio of buildup on boss for this type
 	for attacker_id, percentage in pairs(buildup_share) do
-		local damage_portion = damage * percentage;
-		
+		local damage_portion = ailment_damage * percentage;
+
 		local damage_object = {};
 		damage_object.total_damage = damage_portion;
 		damage_object.physical_damage = 0;
@@ -1157,9 +1156,15 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 		if attacking_player ~= nil then
 			player.update_damage(attacking_player, damage_source_type, true, damage_object);
 		end
-
-		player.update_damage(player.total, damage_source_type, true, damage_object);
 	end
+
+	local damage_object = {};
+	damage_object.total_damage = ailment_damage;
+	damage_object.physical_damage = 0;
+	damage_object.elemental_damage = 0;
+	damage_object.ailment_damage = ailment_damage;
+
+	player.update_damage(player.total, damage_source_type, true, damage_object);
 end
 
 function ailments.init_module()

@@ -182,7 +182,7 @@ function player.update_damage(_player, damage_source_type, is_large_monster, dam
 	if is_large_monster then
 		player_monster_type = _player.large_monsters;
 	end
-	
+
 	if damage_source_type == "player" then
 		player.merge_damage(player_monster_type, damage_object);
 	elseif damage_source_type == "bomb" then
@@ -379,7 +379,6 @@ local master_rank_field = my_hunter_info_type_def:get_field("_masterRank");
 local hunter_info_type_def = hunter_info_field:get_type();
 local get_count_method = hunter_info_type_def:get_method("get_Count");
 local get_item_method = hunter_info_type_def:get_method("get_Item");
-
 
 local guid_type = hunter_unique_id_field:get_type();
 local guid_equals_method = guid_type:get_method("Equals(System.Guid)");

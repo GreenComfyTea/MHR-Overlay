@@ -4,9 +4,10 @@ local player;
 local small_monster;
 local large_monster;
 local ailments;
+local table_helpers;
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
-local enemy_character_base_after_calc_damage_damage_side = enemy_character_base_type_def:get_method("afterCalcDamage_DamageSide");
+local enemy_character_base_after_calc_damage_damage_side_method = enemy_character_base_type_def:get_method("afterCalcDamage_DamageSide");
 
 local is_boss_enemy_method = enemy_character_base_type_def:get_method("get_isBossEnemy");
 local check_die_method = enemy_character_base_type_def:get_method("checkDie");
@@ -214,14 +215,29 @@ function damage_hook.cart(type, args)
 	end
 end
 
+--function damage_hook.on_get_finish_shoot_wall_hit_damage_rate(enemy, rate, is_part_damage)
+
+	--xy = string.format("enemy: %s\nrate: %s\nis_part_damage: %s", tostring(enemy), tostring(rate), tostring(is_part_damage));
+--end
+
+	
+local get_finish_shoot_wall_hit_damage_rate_method = enemy_character_base_type_def:get_method("stockFinishShootHitDamage");
+
 function damage_hook.init_module()
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	player = require("MHR_Overlay.Damage_Meter.player");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	ailments = require("MHR_Overlay.Monsters.ailments");
+	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 
-	sdk.hook(enemy_character_base_after_calc_damage_damage_side, function(args)
+	--sdk.hook(get_finish_shoot_wall_hit_damage_rate_method, function(args)
+	--	pcall(damage_hook.on_get_finish_shoot_wall_hit_damage_rate, sdk.to_managed_object(args[2]), sdk.to_float(args[3]), sdk.to_int64(args--[4]));
+	--end, function(retval)
+	--	return retval;
+	--end);
+
+	sdk.hook(enemy_character_base_after_calc_damage_damage_side_method, function(args)
 		pcall(damage_hook.update_damage, sdk.to_managed_object(args[2]), sdk.to_managed_object(args[3]));
 	end, function(retval)
 		return retval;

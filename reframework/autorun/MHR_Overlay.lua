@@ -96,6 +96,8 @@ log.info("[MHR Overlay] loaded");
 -- #endregion
 ------------------------INIT MODULES-------------------------
 
+
+
 ----------------------------LOOP-----------------------------
 -- #region
 local function main_loop()
@@ -109,7 +111,6 @@ local function main_loop()
 		time.tick();
 
 		player.update_player_list(quest_status.index >= 2);
-
 		if quest_status.index < 2 then
 			quest_status.update_is_training_area();
 
