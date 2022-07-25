@@ -435,7 +435,91 @@ function ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_sca
 
 	--sort parts here
 	local displayed_ailments = {};
-	for REpart, ailment in pairs(monster.ailments) do
+	for id, ailment in pairs(monster.ailments) do
+		if id == ailments.paralyze_id then
+			if not cached_config.filter.paralysis then
+				goto continue;
+			end
+		elseif id == ailments.sleep_id then
+			if not cached_config.filter.sleep then
+				goto continue;
+			end
+		elseif id == ailments.stun_id then
+			if not cached_config.filter.stun then
+				goto continue;
+			end
+		elseif id == ailments.flash_id then
+			if not cached_config.filter.flash then
+				goto continue;
+			end
+		elseif id == ailments.poison_id then
+			if not cached_config.filter.poison then
+				goto continue;
+			end
+		elseif id == ailments.blast_id then
+			if not cached_config.filter.blast then
+				goto continue;
+			end
+		elseif id == ailments.exhaust_id then
+			if not cached_config.filter.exhaust then
+				goto continue;
+			end
+		elseif id == ailments.ride_id then
+			if not cached_config.filter.ride then
+				goto continue;
+			end
+		elseif id == ailments.water_id then
+			if not cached_config.filter.waterblight then
+				goto continue;
+			end
+		elseif id == ailments.fire_id then
+			if not cached_config.filter.fireblight then
+				goto continue;
+			end
+		elseif id == ailments.ice_id then
+			if not cached_config.filter.iceblight then
+				goto continue;
+			end
+		elseif id == ailments.thunder_id then
+			if not cached_config.filter.thunderblight then
+				goto continue;
+			end
+		elseif id == ailments.fall_trap_id then
+			if not cached_config.filter.fall_trap then
+				goto continue;
+			end
+		elseif id == ailments.shock_trap_id then
+			if not cached_config.filter.shock_trap then
+				goto continue;
+			end
+		elseif id == ailments.capture_id then
+			if not cached_config.filter.tranq_bomb then
+				goto continue;
+			end
+		elseif id == ailments.koyashi_id then
+			if not cached_config.filter.dung_bomb then
+				goto continue;
+			end
+		elseif id == ailments.steel_fang_id then
+			if not cached_config.filter.steel_fang then
+				goto continue;
+			end
+		elseif id == ailments.fall_quick_sand_id then
+			if not cached_config.filter.quick_sand then
+				goto continue;
+			end
+		elseif id == ailments.fall_otomo_trap_id then
+			if not cached_config.filter.fall_otomo_trap then
+				goto continue;
+			end
+		elseif id == ailments.shock_otomo_trap_id then
+			if not cached_config.filter.shock_otomo_trap then
+				goto continue;
+			end
+		else
+			goto continue;
+		end
+
 		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
 			goto continue;
 		end
@@ -514,7 +598,91 @@ function ailments.draw_static(monster, ailments_position_on_screen, opacity_scal
 
 	--sort parts here
 	local displayed_ailments = {};
-	for REpart, ailment in pairs(monster.ailments) do
+	for id, ailment in pairs(monster.ailments) do
+		if id == ailments.paralyze_id then
+			if not cached_config.filter.paralysis then
+				goto continue;
+			end
+		elseif id == ailments.sleep_id then
+			if not cached_config.filter.sleep then
+				goto continue;
+			end
+		elseif id == ailments.stun_id then
+			if not cached_config.filter.stun then
+				goto continue;
+			end
+		elseif id == ailments.flash_id then
+			if not cached_config.filter.flash then
+				goto continue;
+			end
+		elseif id == ailments.poison_id then
+			if not cached_config.filter.poison then
+				goto continue;
+			end
+		elseif id == ailments.blast_id then
+			if not cached_config.filter.blast then
+				goto continue;
+			end
+		elseif id == ailments.exhaust_id then
+			if not cached_config.filter.exhaust then
+				goto continue;
+			end
+		elseif id == ailments.ride_id then
+			if not cached_config.filter.ride then
+				goto continue;
+			end
+		elseif id == ailments.water_id then
+			if not cached_config.filter.waterblight then
+				goto continue;
+			end
+		elseif id == ailments.fire_id then
+			if not cached_config.filter.fireblight then
+				goto continue;
+			end
+		elseif id == ailments.ice_id then
+			if not cached_config.filter.iceblight then
+				goto continue;
+			end
+		elseif id == ailments.thunder_id then
+			if not cached_config.filter.thunderblight then
+				goto continue;
+			end
+		elseif id == ailments.fall_trap_id then
+			if not cached_config.filter.fall_trap then
+				goto continue;
+			end
+		elseif id == ailments.shock_trap_id then
+			if not cached_config.filter.shock_trap then
+				goto continue;
+			end
+		elseif id == ailments.capture_id then
+			if not cached_config.filter.tranq_bomb then
+				goto continue;
+			end
+		elseif id == ailments.koyashi_id then
+			if not cached_config.filter.dung_bomb then
+				goto continue;
+			end
+		elseif id == ailments.steel_fang_id then
+			if not cached_config.filter.steel_fang then
+				goto continue;
+			end
+		elseif id == ailments.fall_quick_sand_id then
+			if not cached_config.filter.quick_sand then
+				goto continue;
+			end
+		elseif id == ailments.fall_otomo_trap_id then
+			if not cached_config.filter.fall_otomo_trap then
+				goto continue;
+			end
+		elseif id == ailments.shock_otomo_trap_id then
+			if not cached_config.filter.shock_otomo_trap then
+				goto continue;
+			end
+		else
+			goto continue;
+		end
+
 		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
 			goto continue;
 		end
@@ -593,6 +761,90 @@ function ailments.draw_highlighted(monster, ailments_position_on_screen, opacity
 	--sort parts here
 	local displayed_ailments = {};
 	for id, ailment in pairs(monster.ailments) do
+		if id == ailments.paralyze_id then
+			if not cached_config.filter.paralysis then
+				goto continue;
+			end
+		elseif id == ailments.sleep_id then
+			if not cached_config.filter.sleep then
+				goto continue;
+			end
+		elseif id == ailments.stun_id then
+			if not cached_config.filter.stun then
+				goto continue;
+			end
+		elseif id == ailments.flash_id then
+			if not cached_config.filter.flash then
+				goto continue;
+			end
+		elseif id == ailments.poison_id then
+			if not cached_config.filter.poison then
+				goto continue;
+			end
+		elseif id == ailments.blast_id then
+			if not cached_config.filter.blast then
+				goto continue;
+			end
+		elseif id == ailments.exhaust_id then
+			if not cached_config.filter.exhaust then
+				goto continue;
+			end
+		elseif id == ailments.ride_id then
+			if not cached_config.filter.ride then
+				goto continue;
+			end
+		elseif id == ailments.water_id then
+			if not cached_config.filter.waterblight then
+				goto continue;
+			end
+		elseif id == ailments.fire_id then
+			if not cached_config.filter.fireblight then
+				goto continue;
+			end
+		elseif id == ailments.ice_id then
+			if not cached_config.filter.iceblight then
+				goto continue;
+			end
+		elseif id == ailments.thunder_id then
+			if not cached_config.filter.thunderblight then
+				goto continue;
+			end
+		elseif id == ailments.fall_trap_id then
+			if not cached_config.filter.fall_trap then
+				goto continue;
+			end
+		elseif id == ailments.shock_trap_id then
+			if not cached_config.filter.shock_trap then
+				goto continue;
+			end
+		elseif id == ailments.capture_id then
+			if not cached_config.filter.tranq_bomb then
+				goto continue;
+			end
+		elseif id == ailments.koyashi_id then
+			if not cached_config.filter.dung_bomb then
+				goto continue;
+			end
+		elseif id == ailments.steel_fang_id then
+			if not cached_config.filter.steel_fang then
+				goto continue;
+			end
+		elseif id == ailments.fall_quick_sand_id then
+			if not cached_config.filter.quick_sand then
+				goto continue;
+			end
+		elseif id == ailments.fall_otomo_trap_id then
+			if not cached_config.filter.fall_otomo_trap then
+				goto continue;
+			end
+		elseif id == ailments.shock_otomo_trap_id then
+			if not cached_config.filter.shock_otomo_trap then
+				goto continue;
+			end
+		else
+			goto continue;
+		end
+
 		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
 			goto continue;
 		end
@@ -669,7 +921,91 @@ function ailments.draw_small(monster, ailments_position_on_screen, opacity_scale
 
 	--sort parts here
 	local displayed_ailments = {};
-	for REpart, ailment in pairs(monster.ailments) do
+	for id, ailment in pairs(monster.ailments) do
+		if id == ailments.paralyze_id then
+			if not cached_config.filter.paralysis then
+				goto continue;
+			end
+		elseif id == ailments.sleep_id then
+			if not cached_config.filter.sleep then
+				goto continue;
+			end
+		elseif id == ailments.stun_id then
+			if not cached_config.filter.stun then
+				goto continue;
+			end
+		elseif id == ailments.flash_id then
+			if not cached_config.filter.flash then
+				goto continue;
+			end
+		elseif id == ailments.poison_id then
+			if not cached_config.filter.poison then
+				goto continue;
+			end
+		elseif id == ailments.blast_id then
+			if not cached_config.filter.blast then
+				goto continue;
+			end
+		elseif id == ailments.exhaust_id then
+			if not cached_config.filter.exhaust then
+				goto continue;
+			end
+		elseif id == ailments.ride_id then
+			if not cached_config.filter.ride then
+				goto continue;
+			end
+		elseif id == ailments.water_id then
+			if not cached_config.filter.waterblight then
+				goto continue;
+			end
+		elseif id == ailments.fire_id then
+			if not cached_config.filter.fireblight then
+				goto continue;
+			end
+		elseif id == ailments.ice_id then
+			if not cached_config.filter.iceblight then
+				goto continue;
+			end
+		elseif id == ailments.thunder_id then
+			if not cached_config.filter.thunderblight then
+				goto continue;
+			end
+		elseif id == ailments.fall_trap_id then
+			if not cached_config.filter.fall_trap then
+				goto continue;
+			end
+		elseif id == ailments.shock_trap_id then
+			if not cached_config.filter.shock_trap then
+				goto continue;
+			end
+		elseif id == ailments.capture_id then
+			if not cached_config.filter.tranq_bomb then
+				goto continue;
+			end
+		elseif id == ailments.koyashi_id then
+			if not cached_config.filter.dung_bomb then
+				goto continue;
+			end
+		elseif id == ailments.steel_fang_id then
+			if not cached_config.filter.steel_fang then
+				goto continue;
+			end
+		elseif id == ailments.fall_quick_sand_id then
+			if not cached_config.filter.quick_sand then
+				goto continue;
+			end
+		elseif id == ailments.fall_otomo_trap_id then
+			if not cached_config.filter.fall_otomo_trap then
+				goto continue;
+			end
+		elseif id == ailments.shock_otomo_trap_id then
+			if not cached_config.filter.shock_otomo_trap then
+				goto continue;
+			end
+		else
+			goto continue;
+		end
+
 		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
 			goto continue;
 		end
