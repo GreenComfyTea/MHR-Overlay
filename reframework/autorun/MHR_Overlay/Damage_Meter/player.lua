@@ -358,8 +358,8 @@ end
 
 function player.init()
 	player.list = {};
-	player.total = player.new(0, "Total", 0, 0);
-	player.myself = player.new(-1, "Dummy", -1, -1);
+	player.total = player.new(0, -2, "Total", 0, 0);
+	player.myself = player.new(-1, -1, "Dummy", -1, -1);
 end
 
 local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
