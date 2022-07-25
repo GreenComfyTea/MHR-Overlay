@@ -1083,151 +1083,6 @@ function customization_menu.draw()
 			imgui.tree_pop();
 		end
 
-		if imgui.tree_node(language.current_language.customization_menu.filter) then
-			changed, config.current_config.small_monster_UI.ailments.filter.paralysis = imgui.checkbox(language.current_language
-			.ailments.paralysis,
-			config.current_config.small_monster_UI.ailments.filter.paralysis);
-		
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.sleep = imgui.checkbox(language.current_language
-			.ailments.sleep,
-			config.current_config.small_monster_UI.ailments.filter.sleep);
-		
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.stun = imgui.checkbox(language.current_language
-				.ailments.stun,
-				config.current_config.small_monster_UI.ailments.filter.stun);
-			
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.flash = imgui.checkbox(language.current_language
-				.ailments.flash,
-				config.current_config.small_monster_UI.ailments.filter.flash);
-			
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.poison = imgui.checkbox(language
-				.current_language.ailments.poison,
-				config.current_config.small_monster_UI.ailments.filter.poison);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.blast = imgui.checkbox(language
-				.current_language.ailments.blast,
-				config.current_config.small_monster_UI.ailments.filter.blast);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.exhaust = imgui.checkbox(language
-				.current_language.ailments.exhaust,
-				config.current_config.small_monster_UI.ailments.filter.exhaust);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.ride = imgui.checkbox(language
-				.current_language.ailments.ride,
-				config.current_config.small_monster_UI.ailments.filter.ride);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.waterblight = imgui.checkbox(language
-				.current_language.ailments.waterblight,
-				config.current_config.small_monster_UI.ailments.filter.waterblight);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.fireblight = imgui.checkbox(language
-				.current_language.ailments.fireblight,
-				config.current_config.small_monster_UI.ailments.filter.fireblight);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.iceblight = imgui.checkbox(language
-				.current_language.ailments.iceblight,
-				config.current_config.small_monster_UI.ailments.filter.iceblight);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.thunderblight = imgui.checkbox(language
-				.current_language.ailments.thunderblight,
-				config.current_config.small_monster_UI.ailments.filter.thunderblight);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.fall_trap = imgui.checkbox(language
-				.current_language.ailments.fall_trap,
-				config.current_config.small_monster_UI.ailments.filter.fall_trap);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.shock_trap = imgui.checkbox(language
-				.current_language.ailments.shock_trap,
-				config.current_config.small_monster_UI.ailments.filter.shock_trap);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.tranq_bomb = imgui.checkbox(language
-				.current_language.ailments.tranq_bomb,
-				config.current_config.small_monster_UI.ailments.filter.tranq_bomb);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.dung_bomb = imgui.checkbox(language
-				.current_language.ailments.dung_bomb,
-				config.current_config.small_monster_UI.ailments.filter.dung_bomb);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.steel_fang = imgui.checkbox(language
-				.current_language.ailments.steel_fang,
-				config.current_config.small_monster_UI.ailments.filter.steel_fang);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.quick_sand = imgui.checkbox(language
-				.current_language.ailments.quick_sand,
-				config.current_config.small_monster_UI.ailments.filter.quick_sand);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.fall_otomo_trap = imgui.checkbox(language
-				.current_language.ailments.fall_otomo_trap,
-				config.current_config.small_monster_UI.ailments.filter.fall_otomo_trap);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-			changed, config.current_config.small_monster_UI.ailments.filter.shock_otomo_trap = imgui.checkbox(language
-				.current_language.ailments.shock_otomo_trap,
-				config.current_config.small_monster_UI.ailments.filter.shock_otomo_trap);
-
-			config_changed = config_changed or changed;
-			large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
-
-
-			imgui.tree_pop();
-		end
-
 		if imgui.tree_node(language.current_language.customization_menu.monster_name_label) then
 			changed, config.current_config.small_monster_UI.monster_name_label.visibility = imgui.checkbox(language.current_language
 				.customization_menu.visible,
@@ -1693,6 +1548,151 @@ function customization_menu.draw()
 					config.current_config.small_monster_UI.ailments.sorting.reversed_order);
 				config_changed = config_changed or changed;
 				small_monster_UI_changed = small_monster_UI_changed or changed;
+
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.filter) then
+				changed, config.current_config.small_monster_UI.ailments.filter.paralysis = imgui.checkbox(language.current_language
+				.ailments.paralysis,
+				config.current_config.small_monster_UI.ailments.filter.paralysis);
+			
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.sleep = imgui.checkbox(language.current_language
+				.ailments.sleep,
+				config.current_config.small_monster_UI.ailments.filter.sleep);
+			
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.stun = imgui.checkbox(language.current_language
+					.ailments.stun,
+					config.current_config.small_monster_UI.ailments.filter.stun);
+				
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.flash = imgui.checkbox(language.current_language
+					.ailments.flash,
+					config.current_config.small_monster_UI.ailments.filter.flash);
+				
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.poison = imgui.checkbox(language
+					.current_language.ailments.poison,
+					config.current_config.small_monster_UI.ailments.filter.poison);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.blast = imgui.checkbox(language
+					.current_language.ailments.blast,
+					config.current_config.small_monster_UI.ailments.filter.blast);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.exhaust = imgui.checkbox(language
+					.current_language.ailments.exhaust,
+					config.current_config.small_monster_UI.ailments.filter.exhaust);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.ride = imgui.checkbox(language
+					.current_language.ailments.ride,
+					config.current_config.small_monster_UI.ailments.filter.ride);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.waterblight = imgui.checkbox(language
+					.current_language.ailments.waterblight,
+					config.current_config.small_monster_UI.ailments.filter.waterblight);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.fireblight = imgui.checkbox(language
+					.current_language.ailments.fireblight,
+					config.current_config.small_monster_UI.ailments.filter.fireblight);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.iceblight = imgui.checkbox(language
+					.current_language.ailments.iceblight,
+					config.current_config.small_monster_UI.ailments.filter.iceblight);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.thunderblight = imgui.checkbox(language
+					.current_language.ailments.thunderblight,
+					config.current_config.small_monster_UI.ailments.filter.thunderblight);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.fall_trap = imgui.checkbox(language
+					.current_language.ailments.fall_trap,
+					config.current_config.small_monster_UI.ailments.filter.fall_trap);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.shock_trap = imgui.checkbox(language
+					.current_language.ailments.shock_trap,
+					config.current_config.small_monster_UI.ailments.filter.shock_trap);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.tranq_bomb = imgui.checkbox(language
+					.current_language.ailments.tranq_bomb,
+					config.current_config.small_monster_UI.ailments.filter.tranq_bomb);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.dung_bomb = imgui.checkbox(language
+					.current_language.ailments.dung_bomb,
+					config.current_config.small_monster_UI.ailments.filter.dung_bomb);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.steel_fang = imgui.checkbox(language
+					.current_language.ailments.steel_fang,
+					config.current_config.small_monster_UI.ailments.filter.steel_fang);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.quick_sand = imgui.checkbox(language
+					.current_language.ailments.quick_sand,
+					config.current_config.small_monster_UI.ailments.filter.quick_sand);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.fall_otomo_trap = imgui.checkbox(language
+					.current_language.ailments.fall_otomo_trap,
+					config.current_config.small_monster_UI.ailments.filter.fall_otomo_trap);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+				changed, config.current_config.small_monster_UI.ailments.filter.shock_otomo_trap = imgui.checkbox(language
+					.current_language.ailments.shock_otomo_trap,
+					config.current_config.small_monster_UI.ailments.filter.shock_otomo_trap);
+
+				config_changed = config_changed or changed;
+				large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
 
 				imgui.tree_pop();
 			end
@@ -4393,6 +4393,60 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.dynamic.body_parts.sorting.reversed_order);
 					config_changed = config_changed or changed;
 					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node(language.current_language.customization_menu.filter) then
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.filter.health_break_severe = imgui.checkbox(language.current_language
+					.customization_menu.health_break_severe_filter,
+					config.current_config.large_monster_UI.dynamic.body_parts.filter.health_break_severe);
+				
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.filter.health_break = imgui.checkbox(language.current_language
+					.customization_menu.health_break_filter,
+					config.current_config.large_monster_UI.dynamic.body_parts.filter.health_break);
+				
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.filter.health_severe = imgui.checkbox(language.current_language
+						.customization_menu.health_severe_filter,
+						config.current_config.large_monster_UI.dynamic.body_parts.filter.health_severe);
+					
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.filter.health = imgui.checkbox(language.current_language
+						.customization_menu.health_filter,
+						config.current_config.large_monster_UI.dynamic.body_parts.filter.health);
+					
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.filter.break_severe = imgui.checkbox(language.current_language
+						.customization_menu.break_severe_filter,
+						config.current_config.large_monster_UI.dynamic.body_parts.filter.break_severe);
+					
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.filter.break_ = imgui.checkbox(language.current_language
+						.customization_menu.break_filter,
+						config.current_config.large_monster_UI.dynamic.body_parts.filter.break_);
+					
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.dynamic.body_parts.filter.severe = imgui.checkbox(language.current_language
+						.customization_menu.severe_filter,
+						config.current_config.large_monster_UI.dynamic.body_parts.filter.severe);
+					
+					config_changed = config_changed or changed;
+					large_monster_dynamic_UI_changed = large_monster_dynamic_UI_changed or changed;
+
 
 					imgui.tree_pop();
 				end
@@ -8598,6 +8652,60 @@ function customization_menu.draw()
 					imgui.tree_pop();
 				end
 
+				if imgui.tree_node(language.current_language.customization_menu.filter) then
+					changed, config.current_config.large_monster_UI.static.body_parts.filter.health_break_severe = imgui.checkbox(language.current_language
+					.customization_menu.health_break_severe_filter,
+					config.current_config.large_monster_UI.static.body_parts.filter.health_break_severe);
+				
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.static.body_parts.filter.health_break = imgui.checkbox(language.current_language
+					.customization_menu.health_break_filter,
+					config.current_config.large_monster_UI.static.body_parts.filter.health_break);
+				
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.static.body_parts.filter.health_severe = imgui.checkbox(language.current_language
+						.customization_menu.health_severe_filter,
+						config.current_config.large_monster_UI.static.body_parts.filter.health_severe);
+					
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.static.body_parts.filter.health = imgui.checkbox(language.current_language
+						.customization_menu.health_filter,
+						config.current_config.large_monster_UI.static.body_parts.filter.health);
+					
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.static.body_parts.filter.break_severe = imgui.checkbox(language.current_language
+						.customization_menu.break_severe_filter,
+						config.current_config.large_monster_UI.static.body_parts.filter.break_severe);
+					
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.static.body_parts.filter.break_ = imgui.checkbox(language.current_language
+						.customization_menu.break_filter,
+						config.current_config.large_monster_UI.static.body_parts.filter.break_);
+					
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.static.body_parts.filter.severe = imgui.checkbox(language.current_language
+						.customization_menu.severe_filter,
+						config.current_config.large_monster_UI.static.body_parts.filter.severe);
+					
+					config_changed = config_changed or changed;
+					large_monster_static_UI_changed = large_monster_static_UI_changed or changed;
+
+
+					imgui.tree_pop();
+				end
+
 				if imgui.tree_node(language.current_language.customization_menu.part_name_label) then
 					changed, config.current_config.large_monster_UI.static.body_parts.part_name_label.visibility = imgui.checkbox(language.current_language
 						.customization_menu.visible,
@@ -12704,6 +12812,60 @@ function customization_menu.draw()
 						config.current_config.large_monster_UI.highlighted.body_parts.sorting.reversed_order);
 					config_changed = config_changed or changed;
 					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node(language.current_language.customization_menu.filter) then
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.filter.health_break_severe = imgui.checkbox(language.current_language
+					.customization_menu.health_break_severe_filter,
+					config.current_config.large_monster_UI.highlighted.body_parts.filter.health_break_severe);
+				
+					config_changed = config_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.filter.health_break = imgui.checkbox(language.current_language
+					.customization_menu.health_break_filter,
+					config.current_config.large_monster_UI.highlighted.body_parts.filter.health_break);
+				
+					config_changed = config_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.filter.health_severe = imgui.checkbox(language.current_language
+						.customization_menu.health_severe_filter,
+						config.current_config.large_monster_UI.highlighted.body_parts.filter.health_severe);
+					
+					config_changed = config_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.filter.health = imgui.checkbox(language.current_language
+						.customization_menu.health_filter,
+						config.current_config.large_monster_UI.highlighted.body_parts.filter.health);
+					
+					config_changed = config_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.filter.break_severe = imgui.checkbox(language.current_language
+						.customization_menu.break_severe_filter,
+						config.current_config.large_monster_UI.highlighted.body_parts.filter.break_severe);
+					
+					config_changed = config_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.filter.break_ = imgui.checkbox(language.current_language
+						.customization_menu.break_filter,
+						config.current_config.large_monster_UI.highlighted.body_parts.filter.break_);
+					
+					config_changed = config_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+
+					changed, config.current_config.large_monster_UI.highlighted.body_parts.filter.severe = imgui.checkbox(language.current_language
+						.customization_menu.severe_filter,
+						config.current_config.large_monster_UI.highlighted.body_parts.filter.severe);
+					
+					config_changed = config_changed or changed;
+					large_monster_highlighted_UI_changed = large_monster_highlighted_UI_changed or changed;
+
 
 					imgui.tree_pop();
 				end
