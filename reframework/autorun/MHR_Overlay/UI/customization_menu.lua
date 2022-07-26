@@ -375,6 +375,8 @@ function customization_menu.draw()
 		" " .. config.current_config.version, customization_menu.is_opened, customization_menu.window_flags);
 
 	if not customization_menu.is_opened then
+		imgui.end_window();
+		imgui.pop_font();
 		return;
 	end
 
