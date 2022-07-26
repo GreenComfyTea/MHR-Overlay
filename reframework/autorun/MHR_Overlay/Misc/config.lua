@@ -41,7 +41,7 @@ function config.init()
 					large_monster_highlighted_UI = true,
 					time_UI = true,
 					damage_meter_UI = true,
-					endemic_life_UI = true,
+					endemic_life_UI = true
 				},
 
 				quest_result_screen = {
@@ -278,10 +278,9 @@ function config.init()
 					colors = {
 						foreground = 0xB974A652,
 						background = 0xB9000000,
-						outline = 0xC0FFFFFF,
+						outline = 0xC0000000,
 						capture_health = 0xB9CCCC33
 					}
-
 
 				}
 			},
@@ -296,7 +295,7 @@ function config.init()
 
 				spacing = {
 					x = 0,
-					y = 24,
+					y = 24
 				},
 
 				settings = {
@@ -462,7 +461,7 @@ function config.init()
 					colors = {
 						foreground = 0xA7ff80ce,
 						background = 0xA7000000,
-						outline = 0xC0FFFFFF
+						outline = 0xC0000000
 					}
 				}
 			},
@@ -494,7 +493,7 @@ function config.init()
 				filter = {
 					stun = true,
 					poison = true,
-					blast = true,
+					blast = true
 				},
 
 				sorting = {
@@ -645,7 +644,7 @@ function config.init()
 					colors = {
 						foreground = 0xA796CFE5,
 						background = 0xA7000000,
-						outline = 0xC0FFFFFF
+						outline = 0xC0000000
 					}
 				},
 
@@ -671,10 +670,10 @@ function config.init()
 					colors = {
 						foreground = 0xA7F4D5A3,
 						background = 0xA7000000,
-						outline = 0xC0FFFFFF
+						outline = 0xC0000000
 					}
 				}
-			},
+			}
 		},
 
 		large_monster_UI = {
@@ -817,13 +816,13 @@ function config.init()
 						normal_colors = {
 							foreground = 0xB974A653,
 							background = 0xB9000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						},
 
 						capture_colors = {
 							foreground = 0xB9CCCC33,
 							background = 0x88000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						},
 
 						capture_line = {
@@ -840,7 +839,7 @@ function config.init()
 
 							color = 0xB9000000
 						}
-					},
+					}
 				},
 
 				stamina = {
@@ -951,7 +950,7 @@ function config.init()
 						colors = {
 							foreground = 0xB966CCC5,
 							background = 0x88000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					}
 				},
@@ -1064,7 +1063,7 @@ function config.init()
 						colors = {
 							foreground = 0xB9CC6666,
 							background = 0x88000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					}
 				},
@@ -1079,7 +1078,7 @@ function config.init()
 
 					spacing = {
 						x = 0,
-						y = 33,
+						y = 33
 					},
 
 					settings = {
@@ -1195,7 +1194,6 @@ function config.init()
 							}
 						},
 
-
 						bar = {
 							visibility = true,
 							offset = {
@@ -1218,7 +1216,7 @@ function config.init()
 							colors = {
 								foreground = 0xB9CA85CC,
 								background = 0x88000000,
-								outline = 0xC0FFFFFF
+								outline = 0xC0000000
 							}
 						}
 					},
@@ -1312,7 +1310,7 @@ function config.init()
 							colors = {
 								foreground = 0xB999bfff,
 								background = 0x88000000,
-								outline = 0xC0FFFFFF
+								outline = 0xC0000000
 							}
 						}
 					},
@@ -1405,10 +1403,10 @@ function config.init()
 							colors = {
 								foreground = 0xB9e57386,
 								background = 0x88000000,
-								outline = 0xC0FFFFFF
+								outline = 0xC0000000
 							}
 						}
-					},
+					}
 
 				},
 
@@ -1427,7 +1425,7 @@ function config.init()
 
 					spacing = {
 						x = 0,
-						y = 24,
+						y = 24
 					},
 
 					settings = {
@@ -1594,7 +1592,7 @@ function config.init()
 						colors = {
 							foreground = 0xA7ff80ce,
 							background = 0xA7000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					}
 				},
@@ -1626,7 +1624,7 @@ function config.init()
 					filter = {
 						stun = true,
 						poison = true,
-						blast = true,
+						blast = true
 					},
 
 					sorting = {
@@ -1777,7 +1775,7 @@ function config.init()
 						colors = {
 							foreground = 0xA796CFE5,
 							background = 0xA7000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					},
 
@@ -1803,10 +1801,10 @@ function config.init()
 						colors = {
 							foreground = 0xA7F4D5A3,
 							background = 0xA7000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					}
-				},
+				}
 			},
 
 			static = {
@@ -1814,7 +1812,7 @@ function config.init()
 
 				spacing = {
 					x = 250,
-					y = 40,
+					y = 40
 				},
 
 				settings = {
@@ -1953,13 +1951,13 @@ function config.init()
 						normal_colors = {
 							foreground = 0xB974A653,
 							background = 0xB9000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						},
 
 						capture_colors = {
 							foreground = 0xB9CCCC33,
 							background = 0x88000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						},
 
 						capture_line = {
@@ -2087,7 +2085,7 @@ function config.init()
 						colors = {
 							foreground = 0xB966CCC5,
 							background = 0x88000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					}
 				},
@@ -2200,7 +2198,7 @@ function config.init()
 						colors = {
 							foreground = 0xB9CC6666,
 							background = 0x88000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					}
 				},
@@ -2215,7 +2213,7 @@ function config.init()
 
 					spacing = {
 						x = 0,
-						y = 33,
+						y = 33
 					},
 
 					settings = {
@@ -2228,8 +2226,7 @@ function config.init()
 						reversed_order = false
 					},
 
-					filter =
-					{
+					filter = {
 						health_break_severe = true,
 						health_break = true,
 						health_severe = true,
@@ -2332,7 +2329,6 @@ function config.init()
 							}
 						},
 
-
 						bar = {
 							visibility = true,
 							offset = {
@@ -2355,7 +2351,7 @@ function config.init()
 							colors = {
 								foreground = 0xB9CA85CC,
 								background = 0x88000000,
-								outline = 0xC0FFFFFF
+								outline = 0xC0000000
 							}
 						}
 					},
@@ -2449,7 +2445,7 @@ function config.init()
 							colors = {
 								foreground = 0xB999BFFF,
 								background = 0x88000000,
-								outline = 0xC0FFFFFF
+								outline = 0xC0000000
 							}
 						}
 					},
@@ -2542,10 +2538,10 @@ function config.init()
 							colors = {
 								foreground = 0xB9E57386,
 								background = 0x88000000,
-								outline = 0xC0FFFFFF
+								outline = 0xC0000000
 							}
 						}
-					},
+					}
 
 				},
 
@@ -2564,7 +2560,7 @@ function config.init()
 
 					spacing = {
 						x = 0,
-						y = 24,
+						y = 24
 					},
 
 					settings = {
@@ -2732,7 +2728,7 @@ function config.init()
 						colors = {
 							foreground = 0xA7FF80CE,
 							background = 0xA7000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					}
 				},
@@ -2764,7 +2760,7 @@ function config.init()
 					filter = {
 						stun = true,
 						poison = true,
-						blast = true,
+						blast = true
 					},
 
 					sorting = {
@@ -2915,7 +2911,7 @@ function config.init()
 						colors = {
 							foreground = 0xA796CFE5,
 							background = 0xA7000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					},
 
@@ -2941,10 +2937,10 @@ function config.init()
 						colors = {
 							foreground = 0xA7F4D5A3,
 							background = 0xA7000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					}
-				},
+				}
 			},
 
 			highlighted = {
@@ -2952,7 +2948,7 @@ function config.init()
 
 				position = {
 					x = 615,
-					y = 25, --y = 44,
+					y = 25, -- y = 44,
 					anchor = "Top-Right"
 				},
 
@@ -3072,13 +3068,13 @@ function config.init()
 						normal_colors = {
 							foreground = 0xB974A653,
 							background = 0xB9000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						},
 
 						capture_colors = {
 							foreground = 0xB9CCCC33,
 							background = 0x88000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						},
 
 						capture_line = {
@@ -3095,7 +3091,7 @@ function config.init()
 
 							color = 0xB9000000
 						}
-					},
+					}
 				},
 
 				stamina = {
@@ -3206,7 +3202,7 @@ function config.init()
 						colors = {
 							foreground = 0xB966CCC5,
 							background = 0x88000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					}
 				},
@@ -3319,7 +3315,7 @@ function config.init()
 						colors = {
 							foreground = 0xB9CC6666,
 							background = 0x88000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					}
 				},
@@ -3334,7 +3330,7 @@ function config.init()
 
 					spacing = {
 						x = 0,
-						y = 33,
+						y = 33
 					},
 
 					settings = {
@@ -3347,8 +3343,7 @@ function config.init()
 						reversed_order = false
 					},
 
-					filter =
-					{
+					filter = {
 						health_break_severe = true,
 						health_break = true,
 						health_severe = true,
@@ -3473,7 +3468,7 @@ function config.init()
 							colors = {
 								foreground = 0xB9CA85CC,
 								background = 0x88000000,
-								outline = 0xC0FFFFFF
+								outline = 0xC0000000
 							}
 						}
 					},
@@ -3567,7 +3562,7 @@ function config.init()
 							colors = {
 								foreground = 0xB999BFFF,
 								background = 0x88000000,
-								outline = 0xC0FFFFFF
+								outline = 0xC0000000
 							}
 						}
 					},
@@ -3660,10 +3655,10 @@ function config.init()
 							colors = {
 								foreground = 0xB9E57386,
 								background = 0x88000000,
-								outline = 0xC0FFFFFF
+								outline = 0xC0000000
 							}
 						}
-					},
+					}
 
 				},
 
@@ -3682,7 +3677,7 @@ function config.init()
 
 					spacing = {
 						x = 0,
-						y = 24,
+						y = 24
 					},
 
 					settings = {
@@ -3849,7 +3844,7 @@ function config.init()
 						colors = {
 							foreground = 0xA7FF80CE,
 							background = 0xA7000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					}
 				},
@@ -3881,7 +3876,7 @@ function config.init()
 					filter = {
 						stun = true,
 						poison = true,
-						blast = true,
+						blast = true
 					},
 
 					sorting = {
@@ -4032,7 +4027,7 @@ function config.init()
 						colors = {
 							foreground = 0xA796CFE5,
 							background = 0xA7000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					},
 
@@ -4058,10 +4053,10 @@ function config.init()
 						colors = {
 							foreground = 0xA7F4D5A3,
 							background = 0xA7000000,
-							outline = 0xC0FFFFFF
+							outline = 0xC0000000
 						}
 					}
-				},
+				}
 			}
 		},
 
@@ -4122,7 +4117,6 @@ function config.init()
 
 			settings = {
 
-
 				hide_myself = false,
 				hide_other_players = false,
 				hide_total_damage = false,
@@ -4139,8 +4133,6 @@ function config.init()
 				damage_bar_relative_to = "Top Damage", -- "total damage" or "top damage"
 				my_damage_bar_location = "First", -- "normal" or "first" or "last"
 				dps_mode = "First Hit",
-
-
 
 				player_name_size_limit = 150
 			},
@@ -4387,7 +4379,7 @@ function config.init()
 				colors = {
 					foreground = 0xA7CCA3F4,
 					background = 0xA7000000,
-					outline = 0xC0FFFFFF
+					outline = 0xC0000000
 				}
 			},
 
@@ -4413,7 +4405,7 @@ function config.init()
 				colors = {
 					foreground = 0xA7F4D5A3,
 					background = 0xA7000000,
-					outline = 0xC0FFFFFF
+					outline = 0xC0000000
 				}
 			}
 		},
@@ -4424,7 +4416,7 @@ function config.init()
 			settings = {
 				hide_inactive_creatures = true,
 				max_distance = 300,
-				opacity_falloff = true,
+				opacity_falloff = true
 			},
 
 			world_offset = {
@@ -4456,7 +4448,7 @@ function config.init()
 					},
 					color = 0xFF000000
 				}
-			},
+			}
 		}
 	};
 end
@@ -4490,8 +4482,8 @@ function config.init_module()
 	config.load();
 	config.current_config.version = "v2.1.2";
 
-	language.update(table_helpers.find_index(language.language_names,
-		config.current_config.global_settings.language, false));
+	language.update(
+		table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
 
 end
 
