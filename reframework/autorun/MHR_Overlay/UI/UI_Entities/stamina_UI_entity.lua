@@ -45,8 +45,9 @@ function stamina_UI_entity.draw(monster, stamina_UI, position_on_screen, opacity
 
 	if monster.is_tired then
 		drawing.draw_bar(stamina_UI.bar, position_on_screen, opacity_scale, monster.tired_timer_percentage);
-	
-		drawing.draw_label(stamina_UI.timer_label, position_on_screen, opacity_scale, monster.tired_minutes_left, monster.tired_seconds_left);
+
+		drawing.draw_label(stamina_UI.timer_label, position_on_screen, opacity_scale, monster.tired_minutes_left,
+			monster.tired_seconds_left);
 	else
 		drawing.draw_bar(stamina_UI.bar, position_on_screen, opacity_scale, monster.stamina_percentage);
 

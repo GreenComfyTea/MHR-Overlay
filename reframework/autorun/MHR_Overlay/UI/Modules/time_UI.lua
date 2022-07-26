@@ -16,8 +16,8 @@ function time_UI.draw()
 	end
 
 	local position_on_screen = screen.calculate_absolute_coordinates(config.current_config.time_UI.position);
-	
-	drawing.draw_label(time_UI.label , position_on_screen, 1, elapsed_minutes, elapsed_seconds);
+
+	drawing.draw_label(time_UI.label, position_on_screen, 1, elapsed_minutes, elapsed_seconds);
 end
 
 function time_UI.init_UI()

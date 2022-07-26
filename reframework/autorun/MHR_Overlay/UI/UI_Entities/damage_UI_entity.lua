@@ -5,7 +5,8 @@ local config;
 local player;
 local language;
 
-function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label, hunter_rank_label, value_label, percentage_label, cart_count_label)
+function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label, hunter_rank_label, value_label,
+                              percentage_label, cart_count_label)
 	local entity = {};
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
@@ -24,16 +25,21 @@ function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label
 	entity.bar.offset.y = entity.bar.offset.y * global_scale_modifier;
 	entity.bar.size.width = entity.bar.size.width * global_scale_modifier;
 	entity.bar.size.height = entity.bar.size.height * global_scale_modifier;
+	entity.bar.outline.thickness = entity.bar.outline.thickness * global_scale_modifier;
+	entity.bar.outline.offset = entity.bar.outline.offset * global_scale_modifier;
 
 	entity.highlighted_bar.offset.x = entity.highlighted_bar.offset.x * global_scale_modifier;
 	entity.highlighted_bar.offset.y = entity.highlighted_bar.offset.y * global_scale_modifier;
 	entity.highlighted_bar.size.width = entity.highlighted_bar.size.width * global_scale_modifier;
 	entity.highlighted_bar.size.height = entity.highlighted_bar.size.height * global_scale_modifier;
+	entity.highlighted_bar.outline.thickness = entity.highlighted_bar.outline.thickness * global_scale_modifier;
+	entity.highlighted_bar.outline.offset = entity.highlighted_bar.outline.offset * global_scale_modifier;
 
 	entity.player_name_label.offset.x = entity.player_name_label.offset.x * global_scale_modifier;
 	entity.player_name_label.offset.y = entity.player_name_label.offset.y * global_scale_modifier;
 
-	entity.player_name_size_limit = config.current_config.damage_meter_UI.settings.player_name_size_limit * global_scale_modifier;
+	entity.player_name_size_limit = config.current_config.damage_meter_UI.settings.player_name_size_limit *
+		global_scale_modifier;
 
 	entity.dps_label.offset.x = entity.dps_label.offset.x * global_scale_modifier;
 	entity.dps_label.offset.y = entity.dps_label.offset.y * global_scale_modifier;
@@ -60,7 +66,7 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 	if _player.id == player.myself.id then
 		player_include = cached_config.player_name_label.include.myself;
 	end
-	
+
 	local player_name_text = "";
 
 	if player_include.master_rank and player_include.hunter_rank then
@@ -117,20 +123,28 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 	end
 
 	if _player.id == player.myself.id then
-		if _player.damage_UI.hunter_rank_label.include.myself.master_rank and _player.damage_UI.hunter_rank_label.include.myself.hunter_rank then
-			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d:%d", _player.master_rank, _player.hunter_rank));
+		if _player.damage_UI.hunter_rank_label.include.myself.master_rank and
+			_player.damage_UI.hunter_rank_label.include.myself.hunter_rank then
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale,
+				string.format("%d:%d", _player.master_rank, _player.hunter_rank));
 		elseif _player.damage_UI.hunter_rank_label.include.myself.master_rank then
-			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d", _player.master_rank));
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale,
+				string.format("%d", _player.master_rank));
 		elseif _player.damage_UI.hunter_rank_label.include.myself.hunter_rank then
-			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d", _player.hunter_rank));
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale,
+				string.format("%d", _player.hunter_rank));
 		end
 	else
-		if _player.damage_UI.hunter_rank_label.include.others.master_rank and _player.damage_UI.hunter_rank_label.include.others.hunter_rank then
-			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d:%d", _player.master_rank, _player.hunter_rank));
+		if _player.damage_UI.hunter_rank_label.include.others.master_rank and
+			_player.damage_UI.hunter_rank_label.include.others.hunter_rank then
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale,
+				string.format("%d:%d", _player.master_rank, _player.hunter_rank));
 		elseif _player.damage_UI.hunter_rank_label.include.others.master_rank then
-			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d", _player.master_rank));
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale,
+				string.format("%d", _player.master_rank));
 		elseif _player.damage_UI.hunter_rank_label.include.others.hunter_rank then
-			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, string.format("%d", _player.hunter_rank));
+			drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale,
+				string.format("%d", _player.hunter_rank));
 		end
 	end
 

@@ -21,23 +21,24 @@ function ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_scre
 	for id, ailment in pairs(monster.ailments) do
 		if id == ailments.stun_id then
 			if not cached_config.filter.stun then
-				goto continue;
+				goto continue
 			end
-			
+
 		elseif id == ailments.poison_id then
 			if not cached_config.filter.poison then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.blast_id then
 			if not cached_config.filter.blast then
-				goto continue;
+				goto continue
 			end
 		else
-			goto continue;
+			goto continue
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
-			goto continue;
+		if cached_config.settings.time_limit ~= 0 and
+			time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
+			goto continue
 		end
 
 		local total_buildup = 0;
@@ -52,7 +53,7 @@ function ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_scre
 			end
 
 			table.insert(displayed_players,
-			{
+				{
 					["buildup"] = player_buildup,
 					["buildup_share"] = ailment.buildup_share[player_id],
 					["id"] = player_id
@@ -61,7 +62,7 @@ function ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_scre
 		end
 
 		if total_buildup == 0 then
-			goto continue;
+			goto continue
 		end
 
 		if cached_config.sorting.type == "Normal" then
@@ -103,8 +104,9 @@ function ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_scre
 		if cached_config.ailment_name_label.include.activation_count and ailment.activate_count ~= 0 then
 			ailment_name = ailment_name .. "x" .. tostring(ailment.activate_count);
 		end
-	
-		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_dynamic_UI.ailment_name_label, ailment_buildups_position_on_screen, opacity_scale, ailment_name);
+
+		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_dynamic_UI.ailment_name_label,
+			ailment_buildups_position_on_screen, opacity_scale, ailment_name);
 
 
 		local last_j = 0;
@@ -114,21 +116,24 @@ function ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_scre
 				y = ailment_buildups_position_on_screen.y + cached_config.player_spacing.y * (j - 1) * global_scale_modifier;
 			};
 
-			ailment_buildup_UI_entity.draw_dynamic(_player, monster.ailments[ailments.stun_id].ailment_buildup_dynamic_UI, ailment_buildup_position_on_screen, opacity_scale, top_buildup);
+			ailment_buildup_UI_entity.draw_dynamic(_player, monster.ailments[ailments.stun_id].ailment_buildup_dynamic_UI,
+				ailment_buildup_position_on_screen, opacity_scale, top_buildup);
 
 			last_j = j;
 		end
-		
-		
+
+
 
 		local total_buildup_position_on_screen = {
 			x = ailment_buildups_position_on_screen.x + cached_config.player_spacing.x * last_j * global_scale_modifier,
 			y = ailment_buildups_position_on_screen.y + cached_config.player_spacing.y * last_j * global_scale_modifier;
 		};
 
-		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_dynamic_UI.total_buildup_label, total_buildup_position_on_screen, opacity_scale, language.current_language.UI.total_buildup);
+		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_dynamic_UI.total_buildup_label,
+			total_buildup_position_on_screen, opacity_scale, language.current_language.UI.total_buildup);
 
-		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_dynamic_UI.total_buildup_value_label, total_buildup_position_on_screen, opacity_scale, total_buildup);
+		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_dynamic_UI.total_buildup_value_label,
+			total_buildup_position_on_screen, opacity_scale, total_buildup);
 
 		ailment_buildups_position_on_screen = {
 			x = total_buildup_position_on_screen.x + cached_config.ailment_spacing.x * global_scale_modifier,
@@ -138,7 +143,7 @@ function ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_scre
 		::continue::
 	end
 
-	
+
 end
 
 function ailment_buildup.draw_static(monster, ailment_buildups_position_on_screen, opacity_scale)
@@ -152,23 +157,24 @@ function ailment_buildup.draw_static(monster, ailment_buildups_position_on_scree
 	for id, ailment in pairs(monster.ailments) do
 		if id == ailments.stun_id then
 			if not cached_config.filter.stun then
-				goto continue;
+				goto continue
 			end
-			
+
 		elseif id == ailments.poison_id then
 			if not cached_config.filter.poison then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.blast_id then
 			if not cached_config.filter.blast then
-				goto continue;
+				goto continue
 			end
 		else
-			goto continue;
+			goto continue
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
-			goto continue;
+		if cached_config.settings.time_limit ~= 0 and
+			time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
+			goto continue
 		end
 
 		local total_buildup = 0;
@@ -183,7 +189,7 @@ function ailment_buildup.draw_static(monster, ailment_buildups_position_on_scree
 			end
 
 			table.insert(displayed_players,
-			{
+				{
 					["buildup"] = player_buildup,
 					["buildup_share"] = ailment.buildup_share[player_id],
 					["id"] = player_id
@@ -192,7 +198,7 @@ function ailment_buildup.draw_static(monster, ailment_buildups_position_on_scree
 		end
 
 		if total_buildup == 0 then
-			goto continue;
+			goto continue
 		end
 
 		if cached_config.sorting.type == "Normal" then
@@ -235,7 +241,8 @@ function ailment_buildup.draw_static(monster, ailment_buildups_position_on_scree
 			ailment_name = ailment_name .. "x" .. tostring(ailment.activate_count);
 		end
 
-		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_static_UI.ailment_name_label, ailment_buildups_position_on_screen, opacity_scale, ailment_name);
+		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_static_UI.ailment_name_label,
+			ailment_buildups_position_on_screen, opacity_scale, ailment_name);
 
 		local last_j = 0;
 		for j, _player in ipairs(displayed_players) do
@@ -244,7 +251,8 @@ function ailment_buildup.draw_static(monster, ailment_buildups_position_on_scree
 				y = ailment_buildups_position_on_screen.y + cached_config.player_spacing.y * (j - 1) * global_scale_modifier;
 			};
 
-			ailment_buildup_UI_entity.draw_static(_player, monster.ailments[ailments.stun_id].ailment_buildup_static_UI, ailment_buildup_position_on_screen, opacity_scale, top_buildup);
+			ailment_buildup_UI_entity.draw_static(_player, monster.ailments[ailments.stun_id].ailment_buildup_static_UI,
+				ailment_buildup_position_on_screen, opacity_scale, top_buildup);
 
 			last_j = j;
 		end
@@ -254,9 +262,11 @@ function ailment_buildup.draw_static(monster, ailment_buildups_position_on_scree
 			y = ailment_buildups_position_on_screen.y + cached_config.player_spacing.y * last_j * global_scale_modifier;
 		};
 
-		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_static_UI.total_buildup_label, total_buildup_position_on_screen, opacity_scale, language.current_language.UI.total_buildup);
+		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_static_UI.total_buildup_label,
+			total_buildup_position_on_screen, opacity_scale, language.current_language.UI.total_buildup);
 
-		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_static_UI.total_buildup_value_label, total_buildup_position_on_screen, opacity_scale, total_buildup);
+		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_static_UI.total_buildup_value_label,
+			total_buildup_position_on_screen, opacity_scale, total_buildup);
 
 		ailment_buildups_position_on_screen = {
 			x = total_buildup_position_on_screen.x + cached_config.ailment_spacing.x * global_scale_modifier,
@@ -266,7 +276,7 @@ function ailment_buildup.draw_static(monster, ailment_buildups_position_on_scree
 		::continue::
 	end
 
-	
+
 end
 
 function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_screen, opacity_scale)
@@ -280,23 +290,24 @@ function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_
 	for id, ailment in pairs(monster.ailments) do
 		if id == ailments.stun_id then
 			if not cached_config.filter.stun then
-				goto continue;
+				goto continue
 			end
-			
+
 		elseif id == ailments.poison_id then
 			if not cached_config.filter.poison then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.blast_id then
 			if not cached_config.filter.blast then
-				goto continue;
+				goto continue
 			end
 		else
-			goto continue;
+			goto continue
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
-			goto continue;
+		if cached_config.settings.time_limit ~= 0 and
+			time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
+			goto continue
 		end
 
 		local total_buildup = 0;
@@ -311,7 +322,7 @@ function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_
 			end
 
 			table.insert(displayed_players,
-			{
+				{
 					["buildup"] = player_buildup,
 					["buildup_share"] = ailment.buildup_share[player_id],
 					["id"] = player_id
@@ -320,7 +331,7 @@ function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_
 		end
 
 		if total_buildup == 0 then
-			goto continue;
+			goto continue
 		end
 
 		if cached_config.sorting.type == "Normal" then
@@ -363,7 +374,8 @@ function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_
 			ailment_name = ailment_name .. "x" .. tostring(ailment.activate_count);
 		end
 
-		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_highlighted_UI.ailment_name_label, ailment_buildups_position_on_screen, opacity_scale, ailment_name);
+		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_highlighted_UI.ailment_name_label,
+			ailment_buildups_position_on_screen, opacity_scale, ailment_name);
 
 		local last_j = 0;
 		for j, _player in ipairs(displayed_players) do
@@ -372,7 +384,8 @@ function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_
 				y = ailment_buildups_position_on_screen.y + cached_config.player_spacing.y * (j - 1) * global_scale_modifier;
 			};
 
-			ailment_buildup_UI_entity.draw_highlighted(_player, monster.ailments[ailments.stun_id].ailment_buildup_highlighted_UI, ailment_buildup_position_on_screen, opacity_scale, top_buildup);
+			ailment_buildup_UI_entity.draw_highlighted(_player, monster.ailments[ailments.stun_id].ailment_buildup_highlighted_UI
+				, ailment_buildup_position_on_screen, opacity_scale, top_buildup);
 
 			last_j = j;
 		end
@@ -382,9 +395,11 @@ function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_
 			y = ailment_buildups_position_on_screen.y + cached_config.player_spacing.y * last_j * global_scale_modifier;
 		};
 
-		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_highlighted_UI.total_buildup_label, total_buildup_position_on_screen, opacity_scale, language.current_language.UI.total_buildup);
+		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_highlighted_UI.total_buildup_label,
+			total_buildup_position_on_screen, opacity_scale, language.current_language.UI.total_buildup);
 
-		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_highlighted_UI.total_buildup_value_label, total_buildup_position_on_screen, opacity_scale, total_buildup);
+		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_highlighted_UI.total_buildup_value_label,
+			total_buildup_position_on_screen, opacity_scale, total_buildup);
 
 		ailment_buildups_position_on_screen = {
 			x = total_buildup_position_on_screen.x + cached_config.ailment_spacing.x * global_scale_modifier,
@@ -394,7 +409,7 @@ function ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_
 		::continue::
 	end
 
-	
+
 end
 
 function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen, opacity_scale)
@@ -408,23 +423,24 @@ function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen
 	for id, ailment in pairs(monster.ailments) do
 		if id == ailments.stun_id then
 			if not cached_config.filter.stun then
-				goto continue;
+				goto continue
 			end
-			
+
 		elseif id == ailments.poison_id then
 			if not cached_config.filter.poison then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.blast_id then
 			if not cached_config.filter.blast then
-				goto continue;
+				goto continue
 			end
 		else
-			goto continue;
+			goto continue
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
-			goto continue;
+		if cached_config.settings.time_limit ~= 0 and
+			time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
+			goto continue
 		end
 
 		local total_buildup = 0;
@@ -439,7 +455,7 @@ function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen
 			end
 
 			table.insert(displayed_players,
-			{
+				{
 					["buildup"] = player_buildup,
 					["buildup_share"] = ailment.buildup_share[player_id],
 					["id"] = player_id
@@ -448,7 +464,7 @@ function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen
 		end
 
 		if total_buildup == 0 then
-			goto continue;
+			goto continue
 		end
 
 		if cached_config.sorting.type == "Normal" then
@@ -491,7 +507,8 @@ function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen
 			ailment_name = ailment_name .. "x" .. tostring(ailment.activate_count);
 		end
 
-		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_small_UI.ailment_name_label, ailment_buildups_position_on_screen, opacity_scale, ailment_name);
+		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_small_UI.ailment_name_label,
+			ailment_buildups_position_on_screen, opacity_scale, ailment_name);
 
 		local last_j = 0;
 		for j, _player in ipairs(displayed_players) do
@@ -500,7 +517,8 @@ function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen
 				y = ailment_buildups_position_on_screen.y + cached_config.player_spacing.y * (j - 1) * global_scale_modifier;
 			};
 
-			ailment_buildup_UI_entity.draw_small(_player, monster.ailments[ailments.stun_id].ailment_buildup_small_UI, ailment_buildup_position_on_screen, opacity_scale, top_buildup);
+			ailment_buildup_UI_entity.draw_small(_player, monster.ailments[ailments.stun_id].ailment_buildup_small_UI,
+				ailment_buildup_position_on_screen, opacity_scale, top_buildup);
 
 			last_j = j;
 		end
@@ -510,9 +528,11 @@ function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen
 			y = ailment_buildups_position_on_screen.y + cached_config.player_spacing.y * last_j * global_scale_modifier;
 		};
 
-		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_small_UI.total_buildup_label, total_buildup_position_on_screen, opacity_scale, language.current_language.UI.total_buildup);
+		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_small_UI.total_buildup_label,
+			total_buildup_position_on_screen, opacity_scale, language.current_language.UI.total_buildup);
 
-		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_small_UI.total_buildup_value_label, total_buildup_position_on_screen, opacity_scale, total_buildup);
+		drawing.draw_label(monster.ailments[ailments.stun_id].ailment_buildup_small_UI.total_buildup_value_label,
+			total_buildup_position_on_screen, opacity_scale, total_buildup);
 
 		ailment_buildups_position_on_screen = {
 			x = total_buildup_position_on_screen.x + cached_config.ailment_spacing.x * global_scale_modifier,
@@ -522,7 +542,7 @@ function ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen
 		::continue::
 	end
 
-	
+
 end
 
 function ailment_buildup.init_module()

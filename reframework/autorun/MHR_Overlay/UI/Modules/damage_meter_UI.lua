@@ -34,7 +34,7 @@ function damage_meter_UI.get_players(player_info_list)
 	local quest_players = {};
 
 	local count = get_count_method:call(player_info_list);
-	
+
 	if count == nil then
 		customization_menu.status = "No player info list count";
 		return {};
@@ -44,18 +44,18 @@ function damage_meter_UI.get_players(player_info_list)
 		local player_info = get_item_method:call(player_info_list, i);
 
 		if player_info == nil then
-			goto continue;
+			goto continue
 		end
 
 		local player_id = member_index_field:get_data(player_info);
 		if player_id == nil then
-			goto continue;
+			goto continue
 		end
-		
+
 		local _player = player.get_player(player_id);
 		if _player ~= nil then
 			if _player == player.myself and cached_config.settings.my_damage_bar_location ~= "Normal" then
-				goto continue;
+				goto continue
 			end
 			table.insert(quest_players, _player);
 		end
@@ -128,7 +128,7 @@ function damage_meter_UI.draw()
 		end
 		damage_meter_UI.last_displayed_players = quest_players;
 	end
-	
+
 	local top_damage = 0;
 	local top_dps = 0;
 	for _, _player in ipairs(quest_players) do
@@ -140,20 +140,20 @@ function damage_meter_UI.draw()
 			top_dps = _player.dps;
 		end
 	end
-	
+
 	-- draw
 	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 	for _, _player in ipairs(quest_players) do
 		if _player.display.total_damage == 0 and cached_config.settings.hide_player_if_player_damage_is_zero then
-			goto continue;
+			goto continue
 		end
 
 		if _player == player.myself then
 			if cached_config.settings.hide_myself then
-				goto continue;
+				goto continue
 			end
 		elseif cached_config.settings.hide_other_players then
-			goto continue;
+			goto continue
 		end
 
 		player.draw(_player, position_on_screen, 1, top_damage, top_dps);

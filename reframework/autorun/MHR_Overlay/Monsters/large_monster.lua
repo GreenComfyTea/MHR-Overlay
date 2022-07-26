@@ -147,7 +147,7 @@ function large_monster.init(monster, enemy)
 	if enemy_name ~= nil then
 		monster.name = enemy_name;
 	end
-	
+
 	local set_info = get_set_info_method:call(enemy);
 	if set_info ~= nil then
 		local unique_id = get_unique_id_method:call(set_info);
@@ -204,10 +204,14 @@ function large_monster.init_dynamic_UI(monster)
 		cached_config.health.percentage_label
 	);
 
-	monster.health_dynamic_UI.bar.capture_line.offset.x = monster.health_dynamic_UI.bar.capture_line.offset.x * global_scale_modifier;
-	monster.health_dynamic_UI.bar.capture_line.offset.y = monster.health_dynamic_UI.bar.capture_line.offset.y * global_scale_modifier;
-	monster.health_dynamic_UI.bar.capture_line.size.width = monster.health_dynamic_UI.bar.capture_line.size.width * global_scale_modifier;
-	monster.health_dynamic_UI.bar.capture_line.size.height = monster.health_dynamic_UI.bar.capture_line.size.height * global_scale_modifier;
+	monster.health_dynamic_UI.bar.capture_line.offset.x = monster.health_dynamic_UI.bar.capture_line.offset.x *
+		global_scale_modifier;
+	monster.health_dynamic_UI.bar.capture_line.offset.y = monster.health_dynamic_UI.bar.capture_line.offset.y *
+		global_scale_modifier;
+	monster.health_dynamic_UI.bar.capture_line.size.width = monster.health_dynamic_UI.bar.capture_line.size.width *
+		global_scale_modifier;
+	monster.health_dynamic_UI.bar.capture_line.size.height = monster.health_dynamic_UI.bar.capture_line.size.height *
+		global_scale_modifier;
 
 	monster.health_dynamic_UI.bar.colors = cached_config.health.bar.normal_colors;
 
@@ -251,7 +255,7 @@ function large_monster.init_static_UI(monster)
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
 	monster.static_name_label = table_helpers.deep_copy(cached_config.monster_name_label);
-	
+
 	monster.static_name_label.offset.x = monster.static_name_label.offset.x * global_scale_modifier;
 	monster.static_name_label.offset.y = monster.static_name_label.offset.y * global_scale_modifier;
 
@@ -263,10 +267,14 @@ function large_monster.init_static_UI(monster)
 		cached_config.health.percentage_label
 	);
 
-	monster.health_static_UI.bar.capture_line.offset.x = monster.health_static_UI.bar.capture_line.offset.x * global_scale_modifier;
-	monster.health_static_UI.bar.capture_line.offset.y = monster.health_static_UI.bar.capture_line.offset.y * global_scale_modifier;
-	monster.health_static_UI.bar.capture_line.size.width = monster.health_static_UI.bar.capture_line.size.width * global_scale_modifier;
-	monster.health_static_UI.bar.capture_line.size.height = monster.health_static_UI.bar.capture_line.size.height * global_scale_modifier;
+	monster.health_static_UI.bar.capture_line.offset.x = monster.health_static_UI.bar.capture_line.offset.x *
+		global_scale_modifier;
+	monster.health_static_UI.bar.capture_line.offset.y = monster.health_static_UI.bar.capture_line.offset.y *
+		global_scale_modifier;
+	monster.health_static_UI.bar.capture_line.size.width = monster.health_static_UI.bar.capture_line.size.width *
+		global_scale_modifier;
+	monster.health_static_UI.bar.capture_line.size.height = monster.health_static_UI.bar.capture_line.size.height *
+		global_scale_modifier;
 
 	monster.health_static_UI.bar.colors = cached_config.health.bar.normal_colors;
 
@@ -278,7 +286,7 @@ function large_monster.init_static_UI(monster)
 		cached_config.stamina.percentage_label,
 		cached_config.stamina.timer_label
 	);
-	
+
 	monster.rage_static_UI = rage_UI_entity.new(
 		cached_config.rage.visibility,
 		cached_config.rage.bar,
@@ -287,7 +295,7 @@ function large_monster.init_static_UI(monster)
 		cached_config.rage.percentage_label,
 		cached_config.rage.timer_label
 	);
-	
+
 	for REpart, part in pairs(monster.parts) do
 		body_part.init_static_UI(part);
 	end
@@ -319,10 +327,14 @@ function large_monster.init_highlighted_UI(monster)
 		cached_config.health.percentage_label
 	);
 
-	monster.health_highlighted_UI.bar.capture_line.offset.x = monster.health_highlighted_UI.bar.capture_line.offset.x * global_scale_modifier;
-	monster.health_highlighted_UI.bar.capture_line.offset.y = monster.health_highlighted_UI.bar.capture_line.offset.y * global_scale_modifier;
-	monster.health_highlighted_UI.bar.capture_line.size.width = monster.health_highlighted_UI.bar.capture_line.size.width * global_scale_modifier;
-	monster.health_highlighted_UI.bar.capture_line.size.height = monster.health_highlighted_UI.bar.capture_line.size.height * global_scale_modifier;
+	monster.health_highlighted_UI.bar.capture_line.offset.x = monster.health_highlighted_UI.bar.capture_line.offset.x *
+		global_scale_modifier;
+	monster.health_highlighted_UI.bar.capture_line.offset.y = monster.health_highlighted_UI.bar.capture_line.offset.y *
+		global_scale_modifier;
+	monster.health_highlighted_UI.bar.capture_line.size.width = monster.health_highlighted_UI.bar.capture_line.size.width *
+		global_scale_modifier;
+	monster.health_highlighted_UI.bar.capture_line.size.height = monster.health_highlighted_UI.bar.capture_line.size.height
+		* global_scale_modifier;
 
 	monster.health_highlighted_UI.bar.colors = cached_config.health.bar.normal_colors;
 
@@ -334,7 +346,7 @@ function large_monster.init_highlighted_UI(monster)
 		cached_config.stamina.percentage_label,
 		cached_config.stamina.timer_label
 	);
-	
+
 	monster.rage_highlighted_UI = rage_UI_entity.new(
 		cached_config.rage.visibility,
 		cached_config.rage.bar,
@@ -343,7 +355,7 @@ function large_monster.init_highlighted_UI(monster)
 		cached_config.rage.percentage_label,
 		cached_config.rage.timer_label
 	);
-	
+
 	for REpart, part in pairs(monster.parts) do
 		body_part.init_highlighted_UI(part);
 	end
@@ -402,7 +414,8 @@ local get_mario_player_index_method = mario_param_type:get_method("get_MarioPlay
 local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
 
 function large_monster.update_position(enemy, monster)
-	if not config.current_config.large_monster_UI.dynamic.enabled and config.current_config.large_monster_UI.static.sorting.type ~= "Distance" then
+	if not config.current_config.large_monster_UI.dynamic.enabled and
+		config.current_config.large_monster_UI.static.sorting.type ~= "Distance" then
 		return;
 	end
 
@@ -427,15 +440,15 @@ function large_monster.update_all_riders()
 			end
 		end
 	end
-	
+
 end
 
 function large_monster.update(enemy, monster)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-	and not cached_config.static.enabled
-	and not cached_config.highlighted.enabled then
+		and not cached_config.static.enabled
+		and not cached_config.highlighted.enabled then
 		return;
 	end
 
@@ -445,21 +458,21 @@ function large_monster.update(enemy, monster)
 	monster.is_disp_icon_mini_map = (is_disp_icon_mini_map == nil and false) or is_disp_icon_mini_map;
 
 	ailments.update_ailments(enemy, monster);
-	
+
 end
 
 function large_monster.update_health(enemy, monster)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-	and not cached_config.static.enabled
-	and not cached_config.highlighted.enabled then
+		and not cached_config.static.enabled
+		and not cached_config.highlighted.enabled then
 		return;
 	end
 
 	if not cached_config.dynamic.health.visibility
-	and not cached_config.static.health.visibility
-	and not cached_config.highlighted.health.visibility then
+		and not cached_config.static.health.visibility
+		and not cached_config.highlighted.health.visibility then
 		return nil;
 	end
 
@@ -492,14 +505,14 @@ function large_monster.update_stamina(enemy, monster, stamina_param)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-	and not cached_config.static.enabled
-	and not cached_config.highlighted.enabled then
+		and not cached_config.static.enabled
+		and not cached_config.highlighted.enabled then
 		return;
 	end
 
 	if not cached_config.dynamic.stamina.visibility
-	and not cached_config.static.stamina.visibility
-	and not cached_config.highlighted.stamina.visibility then
+		and not cached_config.static.stamina.visibility
+		and not cached_config.highlighted.stamina.visibility then
 		return;
 	end
 
@@ -516,11 +529,11 @@ function large_monster.update_stamina(enemy, monster, stamina_param)
 		monster.is_tired = is_tired;
 	end
 
-	monster.stamina  = get_stamina_method:call(stamina_param) or monster.stamina;
-	monster.max_stamina  = get_max_stamina_method:call(stamina_param) or monster.max_stamina;
+	monster.stamina     = get_stamina_method:call(stamina_param) or monster.stamina;
+	monster.max_stamina = get_max_stamina_method:call(stamina_param) or monster.max_stamina;
 
 	monster.missing_stamina = monster.max_stamina - monster.stamina;
-	if monster.max_stamina  ~= 0 then
+	if monster.max_stamina ~= 0 then
 		monster.stamina_percentage = monster.stamina / monster.max_stamina;
 	end
 end
@@ -529,14 +542,14 @@ function large_monster.update_stamina_timer(enemy, monster, stamina_param)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-	and not cached_config.static.enabled
-	and not cached_config.highlighted.enabled then
+		and not cached_config.static.enabled
+		and not cached_config.highlighted.enabled then
 		return;
 	end
-	
+
 	if not cached_config.dynamic.stamina.visibility
-	and not cached_config.static.stamina.visibility
-	and not cached_config.highlighted.stamina.visibility then
+		and not cached_config.static.stamina.visibility
+		and not cached_config.highlighted.stamina.visibility then
 		return;
 	end
 
@@ -576,14 +589,14 @@ function large_monster.update_rage(enemy, monster, anger_param)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-	and not cached_config.static.enabled
-	and not cached_config.highlighted.enabled then
+		and not cached_config.static.enabled
+		and not cached_config.highlighted.enabled then
 		return;
 	end
 
 	if not cached_config.dynamic.rage.visibility
-	and not cached_config.static.rage.visibility
-	and not cached_config.highlighted.rage.visibility then
+		and not cached_config.static.rage.visibility
+		and not cached_config.highlighted.rage.visibility then
 		return;
 	end
 
@@ -597,8 +610,8 @@ function large_monster.update_rage(enemy, monster, anger_param)
 
 
 	monster.rage_point = get_anger_point_method:call(anger_param) or monster.rage_point;
-	monster.rage_limit = get_limit_anger_method:call(anger_param)or monster.rage_limit;
-	
+	monster.rage_limit = get_limit_anger_method:call(anger_param) or monster.rage_limit;
+
 	if monster.rage_limit ~= 0 then
 		monster.rage_percentage = monster.rage_point / monster.rage_limit;
 	end
@@ -608,14 +621,14 @@ function large_monster.update_rage_timer(enemy, monster, anger_param)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-	and not cached_config.static.enabled
-	and not cached_config.highlighted.enabled then
+		and not cached_config.static.enabled
+		and not cached_config.highlighted.enabled then
 		return;
 	end
 
 	if not cached_config.dynamic.rage.visibility
-	and not cached_config.static.rage.visibility
-	and not cached_config.highlighted.rage.visibility then
+		and not cached_config.static.rage.visibility
+		and not cached_config.highlighted.rage.visibility then
 		return;
 	end
 
@@ -631,7 +644,7 @@ function large_monster.update_rage_timer(enemy, monster, anger_param)
 	if is_in_rage ~= nil then
 		monster.is_in_rage = is_in_rage;
 	end
-	
+
 	monster.rage_timer = get_remaining_anger_time_method:call(anger_param) or monster.rage_timer;
 	monster.rage_duration = get_total_anger_time_method:call(anger_param) or monster.rage_duration;
 
@@ -654,26 +667,26 @@ function large_monster.update_parts(enemy, monster, physical_param)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-	and not cached_config.static.enabled
-	and not cached_config.highlighted.enabled then
+		and not cached_config.static.enabled
+		and not cached_config.highlighted.enabled then
 		return;
 	end
 
 	if not cached_config.dynamic.body_parts.visibility
-	and not cached_config.static.body_parts.visibility
-	and not cached_config.highlighted.body_parts.visibility then
+		and not cached_config.static.body_parts.visibility
+		and not cached_config.highlighted.body_parts.visibility then
 		return;
 	end
 
 	if not cached_config.dynamic.body_parts.part_health.visibility
-	and not cached_config.dynamic.body_parts.part_break.visibility
-	and not cached_config.dynamic.body_parts.part_loss.visibility
-	and not cached_config.static.body_parts.part_health.visibility
-	and not cached_config.static.body_parts.part_break.visibility
-	and not cached_config.static.body_parts.part_loss.visibility
-	and not cached_config.highlighted.body_parts.part_health.visibility
-	and not cached_config.highlighted.body_parts.part_break.visibility
-	and not  cached_config.highlighted.body_parts.part_loss.visibility then
+		and not cached_config.dynamic.body_parts.part_break.visibility
+		and not cached_config.dynamic.body_parts.part_loss.visibility
+		and not cached_config.static.body_parts.part_health.visibility
+		and not cached_config.static.body_parts.part_break.visibility
+		and not cached_config.static.body_parts.part_loss.visibility
+		and not cached_config.highlighted.body_parts.part_health.visibility
+		and not cached_config.highlighted.body_parts.part_break.visibility
+		and not cached_config.highlighted.body_parts.part_loss.visibility then
 		return;
 	end
 
@@ -708,34 +721,34 @@ function large_monster.update_parts(enemy, monster, physical_param)
 	local part_id = 1;
 	for i = 0, enemy_parts_info_array_size - 1 do
 		local enemy_parts_info = enemy_parts_info_array[i];
-		
+
 		local part = monster.parts[part_id];
 		if part == nil then
 			local part_name = part_names.get_part_name(monster.id, part_id);
 			if part_name == nil then
-				goto continue;
+				goto continue
 			else
 				part = body_part.new(part_id, part_name);
 				monster.parts[part_id] = part;
 			end
 		end
-		
+
 		if cached_config.dynamic.body_parts.part_health.visibility
-		or cached_config.static.body_parts.part_health.visibility
-		or cached_config.highlighted.body_parts.part_health.visibility then
+			or cached_config.static.body_parts.part_health.visibility
+			or cached_config.highlighted.body_parts.part_health.visibility then
 			local part_vital = physical_param:call("getVital", 1, i);
 			if part_vital ~= nil then
 				local part_current = part_vital:call("get_Current") or -1;
 				local part_max = part_vital:call("get_Max") or -1;
 
 				body_part.update_flinch(part, part_current, part_max);
-			
+
 			end
 		end
 
 		if cached_config.dynamic.body_parts.part_break.visibility
-		or cached_config.static.body_parts.part_break.visibility
-		or cached_config.highlighted.body_parts.part_break.visibility then
+			or cached_config.static.body_parts.part_break.visibility
+			or cached_config.highlighted.body_parts.part_break.visibility then
 			local part_break_vital = physical_param:call("getVital", 2, i);
 			if part_break_vital ~= nil then
 				local part_break_current = part_break_vital:call("get_Current") or -1;
@@ -747,14 +760,14 @@ function large_monster.update_parts(enemy, monster, physical_param)
 					part_break_count = enemy_parts_info:call("get_PartsBreakDamageLevel") or part_break_count;
 					part_break_max_count = enemy_parts_info:call("get_PartsBreakDamageMaxLevel") or part_break_max_count;
 				end
-				
+
 				body_part.update_break(part, part_break_current, part_break_max, part_break_count, part_break_max_count)
 			end
 		end
-		
+
 		if cached_config.dynamic.body_parts.part_loss.visibility
-		or cached_config.static.body_parts.part_loss.visibility
-		or cached_config.highlighted.body_parts.part_loss.visibility then
+			or cached_config.static.body_parts.part_loss.visibility
+			or cached_config.highlighted.body_parts.part_loss.visibility then
 			local part_loss_vital = physical_param:call("getVital", 3, i);
 			if part_loss_vital ~= nil then
 				local part_loss_current = part_loss_vital:call("get_Current") or -1;
@@ -767,11 +780,11 @@ function large_monster.update_parts(enemy, monster, physical_param)
 						is_severed = _is_severed;
 					end
 				end
-				
+
 				body_part.update_loss(part, part_loss_current, part_loss_max, is_severed)
 			end
 		end
-		
+
 		part_id = part_id + 1;
 		::continue::
 	end
@@ -799,7 +812,7 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 
 	if cached_config.monster_name_label.include.scrown_thresholds then
 		monster_name_text = monster_name_text .. string.format("<=%.0f >=%.0f >=%.0f", 100 * monster.small_border,
-				100 * monster.big_border, 100 * monster.king_border);
+			100 * monster.big_border, 100 * monster.king_border);
 	end
 
 	if monster.health < monster.capture_health then
@@ -839,21 +852,26 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 		x = position_on_screen.x + cached_config.ailment_buildups.offset.x * global_scale_modifier,
 		y = position_on_screen.y + cached_config.ailment_buildups.offset.y * global_scale_modifier
 	};
-	
+
 	health_UI_entity.draw(monster, monster.health_dynamic_UI, health_position_on_screen, opacity_scale);
 
-	drawing.draw_capture_line(monster.health_dynamic_UI, health_position_on_screen, opacity_scale, monster.capture_percentage);
+	drawing.draw_capture_line(monster.health_dynamic_UI, health_position_on_screen, opacity_scale,
+		monster.capture_percentage);
 
 	stamina_UI_entity.draw(monster, monster.stamina_dynamic_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_dynamic_UI, rage_position_on_screen, opacity_scale);
 
-	local last_part_position_on_screen = body_part.draw_dynamic(monster, parts_position_on_screen, opacity_scale);
+	local last_part_position_on_screen = body_part.draw_dynamic(monster,
+		parts_position_on_screen
+		, opacity_scale);
 
 	if cached_config.ailments.settings.offset_is_relative_to_parts then
 		if last_part_position_on_screen ~= nil then
 			ailments_position_on_screen = {
-				x = last_part_position_on_screen.x + config.current_config.large_monster_UI.highlighted.ailments.relative_offset.x * global_scale_modifier,
-				y = last_part_position_on_screen.y + config.current_config.large_monster_UI.highlighted.ailments.relative_offset.y * global_scale_modifier
+				x = last_part_position_on_screen.x +
+					config.current_config.large_monster_UI.highlighted.ailments.relative_offset.x * global_scale_modifier,
+				y = last_part_position_on_screen.y +
+					config.current_config.large_monster_UI.highlighted.ailments.relative_offset.y * global_scale_modifier
 			};
 		end
 	end
@@ -884,7 +902,7 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 
 	if cached_config.monster_name_label.include.scrown_thresholds then
 		monster_name_text = monster_name_text .. string.format("<=%.0f >=%.0f >=%.0f", 100 * monster.small_border,
-				100 * monster.big_border, 100 * monster.king_border);
+			100 * monster.big_border, 100 * monster.king_border);
 	end
 
 	if monster.health < monster.capture_health then
@@ -932,7 +950,9 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 	stamina_UI_entity.draw(monster, monster.stamina_static_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_static_UI, rage_position_on_screen, opacity_scale);
 
-	local last_part_position_on_screen = body_part.draw_static(monster, parts_position_on_screen, opacity_scale);
+	local last_part_position_on_screen = body_part.draw_static(monster,
+		parts_position_on_screen
+		, opacity_scale);
 
 	if cached_config.ailments.settings.offset_is_relative_to_parts then
 		if last_part_position_on_screen ~= nil then
@@ -969,7 +989,7 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 
 	if cached_config.monster_name_label.include.scrown_thresholds then
 		monster_name_text = monster_name_text .. string.format("<=%.0f >=%.0f >=%.0f", 100 * monster.small_border,
-				100 * monster.big_border, 100 * monster.king_border);
+			100 * monster.big_border, 100 * monster.king_border);
 	end
 
 	if monster.health < monster.capture_health then
@@ -1011,12 +1031,15 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 	};
 
 	health_UI_entity.draw(monster, monster.health_highlighted_UI, health_position_on_screen, opacity_scale);
-	drawing.draw_capture_line(monster.health_highlighted_UI, health_position_on_screen, opacity_scale, monster.capture_percentage);
+	drawing.draw_capture_line(monster.health_highlighted_UI, health_position_on_screen, opacity_scale,
+		monster.capture_percentage);
 
 	stamina_UI_entity.draw(monster, monster.stamina_highlighted_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster.rage_highlighted_UI, rage_position_on_screen, opacity_scale);
 
-	local last_part_position_on_screen = body_part.draw_highlighted(monster, parts_position_on_screen, opacity_scale);
+	local last_part_position_on_screen = body_part.draw_highlighted(monster,
+		parts_position_on_screen
+		, opacity_scale);
 
 	if cached_config.ailments.settings.offset_is_relative_to_parts then
 		if last_part_position_on_screen ~= nil then
@@ -1031,7 +1054,7 @@ function large_monster.draw_highlighted(monster, position_on_screen, opacity_sca
 	ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_screen, opacity_scale);
 end
 
-function  large_monster.init_list()
+function large_monster.init_list()
 	large_monster.list = {};
 end
 

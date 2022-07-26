@@ -37,19 +37,19 @@ local updates_this_tick = 0;
 -- the reason for this is that the hooks on all the monsters' update functions
 -- causes a HUGE performance hit (adds ~3+ ms to UpdateBehavior and frame time)
 re.on_pre_application_entry("UpdateBehavior", function()
-    tick_count = tick_count + 1;
+	tick_count = tick_count + 1;
 	updates_this_tick = 0;
- 
-    if num_known_monsters ~= 0 and num_updated_monsters >= num_known_monsters or tick_count >= num_known_monsters * 2 then
-        recorded_monsters = {};
-        updated_monsters = {};
+
+	if num_known_monsters ~= 0 and num_updated_monsters >= num_known_monsters or tick_count >= num_known_monsters * 2 then
+		recorded_monsters = {};
+		updated_monsters = {};
 		known_big_monsters = {};
-        last_update_tick = 0;
-        tick_count = 0;
-        num_known_monsters = 0;
-        num_updated_monsters = 0;
+		last_update_tick = 0;
+		tick_count = 0;
+		num_known_monsters = 0;
+		num_updated_monsters = 0;
 		updates_this_tick = 0;
-    end
+	end
 end)
 
 function monster_hook.update_monster(enemy)
@@ -57,10 +57,10 @@ function monster_hook.update_monster(enemy)
 		return;
 	end
 
-    if not recorded_monsters[enemy] then
-        num_known_monsters = num_known_monsters + 1;
-        recorded_monsters[enemy] = true;
-    end
+	if not recorded_monsters[enemy] then
+		num_known_monsters = num_known_monsters + 1;
+		recorded_monsters[enemy] = true;
+	end
 
 	-- saves on a method call.
 	if not known_big_monsters[enemy] then
@@ -83,8 +83,8 @@ function monster_hook.update_large_monster(enemy)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled and
-	not cached_config.static.enabled and
-	not cached_config.highlighted.enabled then
+		not cached_config.static.enabled and
+		not cached_config.highlighted.enabled then
 		return;
 	end
 
@@ -101,7 +101,8 @@ function monster_hook.update_large_monster(enemy)
 
 	-- is it old tick?
 	-- is update limit reached?
-	if tick_count == last_update_tick and updates_this_tick >= config.current_config.global_settings.performance.max_monster_updates_per_tick then
+	if tick_count == last_update_tick and
+		updates_this_tick >= config.current_config.global_settings.performance.max_monster_updates_per_tick then
 		return;
 	end
 
@@ -142,7 +143,8 @@ function monster_hook.update_small_monster(enemy)
 
 	-- is it old tick?
 	-- is update limit reached?
-	if tick_count == last_update_tick and updates_this_tick >= config.current_config.global_settings.performance.max_monster_updates_per_tick then
+	if tick_count == last_update_tick and
+		updates_this_tick >= config.current_config.global_settings.performance.max_monster_updates_per_tick then
 		return;
 	end
 
@@ -171,10 +173,10 @@ function monster_hook.update_health(enemy_damage_stock_param)
 	if is_large == nil then
 		return;
 	end
-	
+
 	if is_large then
 		local monster = large_monster.get_monster(enemy);
-		
+
 		local physical_param = large_monster.update_health(enemy, monster);
 		large_monster.update_parts(enemy, monster, physical_param);
 
@@ -244,7 +246,8 @@ function monster_hook.init_module()
 	end);
 
 	sdk.hook(anger_add_method, function(args)
-		pcall(monster_hook.update_rage, sdk.to_managed_object(args[2]), sdk.to_float(args[3]), sdk.to_managed_object(args[4]));
+		pcall(monster_hook.update_rage, sdk.to_managed_object(args[2]), sdk.to_float(args[3]),
+			sdk.to_managed_object(args[4]));
 	end, function(retval)
 		return retval;
 	end);

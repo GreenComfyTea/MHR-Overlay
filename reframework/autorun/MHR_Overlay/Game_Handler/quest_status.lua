@@ -1,4 +1,3 @@
-
 local quest_status = {};
 local singletons;
 local customization_menu;
@@ -36,7 +35,7 @@ local is_quest_host_method = lobby_manager_type_definition:get_method("isQuestHo
 
 function quest_status.on_changed_game_status(new_quest_status)
 	if (quest_status.index < 2 and new_quest_status == 2)
-	or new_quest_status < 2 then
+		or new_quest_status < 2 then
 
 		player.init();
 		small_monster.init_list();
@@ -145,7 +144,7 @@ function quest_status.init_module()
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
 
 	quest_status.init();
-	
+
 	sdk.hook(on_changed_game_status, function(args)
 		quest_status.on_changed_game_status(sdk.to_int64(args[3]));
 	end, function(retval) return retval; end);

@@ -51,7 +51,8 @@ function env_creature.init(creature, REcreature)
 		return;
 	end
 
-	local creature_name = get_env_creature_name_message_method:call(singletons.message_manager, creature_type);
+	local creature_name = get_env_creature_name_message_method:call(singletons.message_manager,
+		creature_type);
 	if creature_name ~= nil then
 		creature.name = creature_name;
 	end
@@ -74,7 +75,7 @@ function env_creature.update_position(REcreature, creature)
 	if creature == nil then
 		creature = env_creature.get_creature(REcreature);
 	end
-	
+
 	local position = get_pos_method:call(REcreature);
 	if position ~= nil then
 		creature.position = position;

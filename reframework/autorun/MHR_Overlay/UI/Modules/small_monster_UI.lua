@@ -33,17 +33,17 @@ function small_monster_UI.draw()
 		local enemy = get_zako_enemy_method:call(singletons.enemy_manager, i);
 		if enemy == nil then
 			customization_menu.status = "No enemy";
-			goto continue;
+			goto continue
 		end
 
 		local monster = small_monster.list[enemy];
 		if monster == nil then
 			customization_menu.status = "No monster hp entry";
-			goto continue;
+			goto continue
 		end
 
 		if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
-			goto continue;
+			goto continue
 		end
 
 		table.insert(displayed_monsters, monster);
@@ -51,7 +51,7 @@ function small_monster_UI.draw()
 	end
 
 	if cached_config.dynamic_positioning.enabled
-	or (not cached_config.dynamic_positioning.enabled and cached_config.static_sorting.type == "Distance") then
+		or (not cached_config.dynamic_positioning.enabled and cached_config.static_sorting.type == "Distance") then
 		for _, monster in ipairs(displayed_monsters) do
 			monster.distance = (player.myself_position - monster.position):length();
 		end
@@ -99,13 +99,15 @@ function small_monster_UI.draw()
 			end
 		end
 	end
-	
+
 	local i = 0;
 	for _, monster in ipairs(displayed_monsters) do
 		local position_on_screen;
 
 		if cached_config.dynamic_positioning.enabled then
-			local world_offset = Vector3f.new(cached_config.dynamic_positioning.world_offset.x, cached_config.dynamic_positioning.world_offset.y, cached_config.dynamic_positioning.world_offset.z);
+			local world_offset = Vector3f.new(cached_config.dynamic_positioning.world_offset.x,
+				cached_config.dynamic_positioning.world_offset.y,
+				cached_config.dynamic_positioning.world_offset.z);
 
 			position_on_screen = draw.world_to_screen(monster.position + world_offset);
 
@@ -125,9 +127,9 @@ function small_monster_UI.draw()
 			end
 		end
 
-		
 
-	
+
+
 		local opacity_scale = 1;
 		if cached_config.dynamic_positioning.enabled then
 			if cached_config.dynamic_positioning.max_distance == 0 then
@@ -135,9 +137,9 @@ function small_monster_UI.draw()
 			end
 
 			if monster.distance > cached_config.dynamic_positioning.max_distance then
-				goto continue;
+				goto continue
 			end
-					
+
 			if cached_config.dynamic_positioning.opacity_falloff then
 				opacity_scale = 1 - (monster.distance / cached_config.dynamic_positioning.max_distance);
 			end
@@ -146,7 +148,7 @@ function small_monster_UI.draw()
 
 
 		small_monster.draw(monster, position_on_screen, opacity_scale);
-		
+
 		i = i + 1;
 		::continue::
 	end

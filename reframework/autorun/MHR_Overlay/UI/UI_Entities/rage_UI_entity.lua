@@ -20,6 +20,8 @@ function rage_UI_entity.new(visibility, bar, text_label, value_label, percentage
 	entity.bar.offset.y = entity.bar.offset.y * global_scale_modifier;
 	entity.bar.size.width = entity.bar.size.width * global_scale_modifier;
 	entity.bar.size.height = entity.bar.size.height * global_scale_modifier;
+	entity.bar.outline.thickness = entity.bar.outline.thickness * global_scale_modifier;
+	entity.bar.outline.offset = entity.bar.outline.offset * global_scale_modifier;
 
 	entity.text_label.offset.x = entity.text_label.offset.x * global_scale_modifier;
 	entity.text_label.offset.y = entity.text_label.offset.y * global_scale_modifier;
@@ -43,9 +45,10 @@ function rage_UI_entity.draw(monster, rage_UI, position_on_screen, opacity_scale
 
 	if monster.is_in_rage then
 		drawing.draw_bar(rage_UI.bar, position_on_screen, opacity_scale, monster.rage_timer_percentage);
-		
+
 		drawing.draw_label(rage_UI.text_label, position_on_screen, opacity_scale, language.current_language.UI.rage);
-		drawing.draw_label(rage_UI.timer_label, position_on_screen, opacity_scale, monster.rage_minutes_left, monster.rage_seconds_left);
+		drawing.draw_label(rage_UI.timer_label, position_on_screen, opacity_scale, monster.rage_minutes_left,
+			monster.rage_seconds_left);
 	else
 		drawing.draw_bar(rage_UI.bar, position_on_screen, opacity_scale, monster.rage_percentage);
 

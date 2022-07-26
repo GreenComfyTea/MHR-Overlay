@@ -50,10 +50,10 @@ function ailment_hook.poison_proc(poison_param)
 		monster = small_monster.get_monster(enemy);
 	end
 
-	monster.ailments[ailments.poison_id].cached_buildup_share = table_helpers.deep_copy(monster.ailments[ailments.poison_id].buildup_share);
+	monster.ailments[ailments.poison_id].cached_buildup_share = table_helpers.deep_copy(monster.ailments[ailments
+		.poison_id].buildup_share);
 	ailments.clear_ailment_contribution(monster, ailments.poison_id);
 end
-
 
 function ailment_hook.blast_proc(blast_param)
 	if blast_param == nil then
@@ -79,7 +79,7 @@ function ailment_hook.blast_proc(blast_param)
 
 	local blast_damage = blast_damage_method:call(blast_param);
 	local blast_adjust_rate = blast_adjust_rate_method:call(blast_param);
-	
+
 
 	ailments.apply_ailment_damage(monster, ailments.blast_id, blast_damage * blast_adjust_rate);
 	ailments.clear_ailment_contribution(monster, ailments.blast_id);
@@ -89,7 +89,7 @@ function ailment_hook.stock_damage()
 	for enemy, monster in pairs(large_monster.list) do
 		local damage_param = damage_param_field:get_data(enemy);
 		if damage_param == nil then
-			goto continue;
+			goto continue
 		end
 
 		local poison_param = poison_param_field:get_data(damage_param);
@@ -101,7 +101,7 @@ function ailment_hook.stock_damage()
 	for enemy, monster in pairs(small_monster.list) do
 		local damage_param = damage_param_field:get_data(enemy);
 		if damage_param == nil then
-			goto continue;
+			goto continue
 		end
 
 		local poison_param = poison_param_field:get_data(damage_param);
@@ -123,7 +123,7 @@ function ailment_hook.init_module()
 	end, function(retval)
 		return retval;
 	end);
-	
+
 	sdk.hook(on_poison_activate_proc_method, function(args)
 		pcall(ailment_hook.poison_proc, sdk.to_managed_object(args[2]));
 	end, function(retval)

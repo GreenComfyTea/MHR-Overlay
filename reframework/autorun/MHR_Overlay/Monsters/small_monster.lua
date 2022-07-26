@@ -29,7 +29,7 @@ function small_monster.new(enemy)
 	monster.name = "Small Monster";
 
 	monster.ailments = ailments.init_ailments();
-	
+
 	small_monster.init(monster, enemy);
 	small_monster.init_UI(monster);
 
@@ -118,7 +118,7 @@ local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
 
 function small_monster.update_position(enemy, monster)
 	local cached_config = config.current_config.small_monster_UI;
-	
+
 	if not cached_config.enabled then
 		return;
 	end
@@ -197,7 +197,7 @@ function small_monster.draw(monster, position_on_screen, opacity_scale)
 	ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen, opacity_scale);
 end
 
-function  small_monster.init_list()
+function small_monster.init_list()
 	small_monster.list = {};
 end
 

@@ -19,7 +19,7 @@ local unicode_helpers = {};
 -- 1110xxxx	10xxxxxx 10xxxxxx          | FFFF   (65535)
 -- 11110xxx	10xxxxxx 10xxxxxx 10xxxxxx | 10FFFF (1114111)
 
-local pattern = '[%z\1-\127\194-\244][\128-\191]*';
+local pattern = "[%z\1-\127\194-\244][\128-\191]*";
 
 -- helper function
 function unicode_helpers.relative_position(position, length)
@@ -36,13 +36,13 @@ function unicode_helpers.map(s, f, no_subs)
 	local i = 0;
 
 	if no_subs then
-		for b, e in s:gmatch('()' .. pattern .. '()') do
+		for b, e in s:gmatch("()" .. pattern .. "()") do
 			i = i + 1;
 			local c = e - b;
 			f(i, c, b)
 		end
 	else
-		for b, c in s:gmatch('()(' .. pattern .. ')') do
+		for b, c in s:gmatch("()(" .. pattern .. ")") do
 			i = i + 1;
 			f(i, c, b);
 		end
@@ -53,7 +53,7 @@ end
 
 -- generator for the above -- to iterate over all utf8 chars
 function unicode_helpers.chars(s, no_subs)
-	return coroutine.wrap(function ()
+	return coroutine.wrap(function()
 		return unicode_helpers.map(s, coroutine.yield, no_subs);
 	end);
 end
@@ -61,50 +61,49 @@ end
 -- like string.sub() but i, j are utf8 strings
 -- a utf8-safe string.sub()
 function unicode_helpers.sub(string, i, j)
-		local l = utf8.len(string);
+	local l = utf8.len(string);
 
-		i =       unicode_helpers.relative_position(i, l);
-		j = j and unicode_helpers.relative_position(j, l) or l;
+	i = unicode_helpers.relative_position(i, l);
+	j = j and unicode_helpers.relative_position(j, l) or l;
 
-		if i < 1 then
-			i = 1;
-		end
-
-		if j > l then
-			j = l;
-		end
-
-		if i > j then
-			return '';
-		end
-
-		local diff = j - i;
-		local iterator = unicode_helpers.chars(string, true);
-
-		-- advance up to i
-		for _ = 1, i - 1 do
-			iterator();
-		end
-
-		local c, b = select(2, iterator());
-
-		-- i and j are the same, single-charaacter sub
-		if diff == 0 then
-			return string.sub(string, b, b + c - 1);
-		end
-
-		i = b;
-
-		-- advance up to j
-		for _ = 1, diff - 1 do
-			iterator();
-		end
-
-		c, b = select(2, iterator());
-
-		return string.sub(string, i, b + c - 1);
+	if i < 1 then
+		i = 1;
 	end
 
+	if j > l then
+		j = l;
+	end
+
+	if i > j then
+		return "";
+	end
+
+	local diff = j - i;
+	local iterator = unicode_helpers.chars(string, true);
+
+	-- advance up to i
+	for _ = 1, i - 1 do
+		iterator();
+	end
+
+	local c, b = select(2, iterator());
+
+	-- i and j are the same, single-charaacter sub
+	if diff == 0 then
+		return string.sub(string, b, b + c - 1);
+	end
+
+	i = b;
+
+	-- advance up to j
+	for _ = 1, diff - 1 do
+		iterator();
+	end
+
+	c, b = select(2, iterator());
+
+	return string.sub(string, i, b + c - 1);
+end
 
 function unicode_helpers.init_module()
 end

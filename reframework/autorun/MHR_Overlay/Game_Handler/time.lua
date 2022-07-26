@@ -44,7 +44,7 @@ function time.tick()
 
 	time.total_elapsed_seconds = quest_time_total_elapsed_seconds;
 	time.elapsed_seconds = quest_time_total_elapsed_seconds - quest_time_elapsed_minutes * 60;
-	
+
 	if time.total_elapsed_script_seconds - time.last_elapsed_script_seconds > 1 then
 		time.last_elapsed_script_seconds = time.total_elapsed_script_seconds;
 		time.update_players_dps();
@@ -53,7 +53,7 @@ end
 
 function time.update_players_dps()
 	local cached_config = config.current_config.damage_meter_UI.settings;
-	
+
 	if cached_config.freeze_dps_on_quest_clear and quest_status.is_quest_clear then
 		return;
 	end

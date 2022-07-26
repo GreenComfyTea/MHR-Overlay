@@ -19,6 +19,8 @@ function health_UI_entity.new(visibility, bar, text_label, value_label, percenta
 	entity.bar.offset.y = entity.bar.offset.y * global_scale_modifier;
 	entity.bar.size.width = entity.bar.size.width * global_scale_modifier;
 	entity.bar.size.height = entity.bar.size.height * global_scale_modifier;
+	entity.bar.outline.thickness = entity.bar.outline.thickness * global_scale_modifier;
+	entity.bar.outline.offset = entity.bar.outline.offset * global_scale_modifier;
 
 	entity.text_label.offset.x = entity.text_label.offset.x * global_scale_modifier;
 	entity.text_label.offset.y = entity.text_label.offset.y * global_scale_modifier;

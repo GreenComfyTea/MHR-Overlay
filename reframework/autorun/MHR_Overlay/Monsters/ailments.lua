@@ -42,7 +42,7 @@ ailments.thunder_id = 11;
 ailments.fall_trap_id = 12;
 ailments.shock_trap_id = 13;
 ailments.capture_id = 14 --tranq bomb
-ailments.koyashi_id = 15; --dung bomb
+ailments.koyashi_id = 15;  --dung bomb
 ailments.steel_fang_id = 16;
 ailments.fall_quick_sand_id = 17;
 ailments.fall_otomo_trap_id = 18;
@@ -258,14 +258,14 @@ function ailments.update_ailments(enemy, monster)
 	end
 
 	ailments.update_stun_poison_blast_ailments(monster, damage_param);
-	
+
 	if not config.current_config.large_monster_UI.dynamic.ailments.visibility
-	and not config.current_config.large_monster_UI.static.ailments.visibility
-	and not config.current_config.large_monster_UI.highlighted.ailments.visibility
-	and not config.current_config.small_monster_UI.ailments.visibility
-	and not config.current_config.large_monster_UI.dynamic.ailment_buildups.visibility
-	and not config.current_config.large_monster_UI.static.ailment_buildups.visibility
-	and not config.current_config.small_monster_UI.ailment_buildups.visibility then
+		and not config.current_config.large_monster_UI.static.ailments.visibility
+		and not config.current_config.large_monster_UI.highlighted.ailments.visibility
+		and not config.current_config.small_monster_UI.ailments.visibility
+		and not config.current_config.large_monster_UI.dynamic.ailment_buildups.visibility
+		and not config.current_config.large_monster_UI.static.ailment_buildups.visibility
+		and not config.current_config.small_monster_UI.ailment_buildups.visibility then
 		return;
 	end
 
@@ -285,7 +285,7 @@ function ailments.update_ailments(enemy, monster)
 	for index, ailment_param in ipairs(condition_param_table) do
 		local id = index - 1;
 		if id == ailments.stun_id or id == ailments.poison_id or id == ailments.blast_id then
-			goto continue;
+			goto continue
 		end
 
 		ailments.update_ailment(monster, ailment_param, id);
@@ -312,100 +312,100 @@ function ailments.update_stun_poison_blast_ailments(monster, damage_param)
 end
 
 function ailments.update_ailment(monster, ailment_param, id)
-		local is_enable = get_is_enable_method:call(ailment_param);
-		local activate_count = get_activate_count_method:call(ailment_param):get_element(0):get_field("mValue") or 0;
-		local buildup = get_stock_method:call(ailment_param):get_element(0):get_field("mValue");
-		local buildup_limit = get_limit_method:call(ailment_param):get_element(0):get_field("mValue");
-		local timer = get_active_timer_method:call(ailment_param);
-		local duration = get_active_time_method:call(ailment_param);
-		local is_active = get_is_active_method:call(ailment_param);
-		
-		if is_enable == nil then
-			is_enable = true;
+	local is_enable = get_is_enable_method:call(ailment_param);
+	local activate_count = get_activate_count_method:call(ailment_param):get_element(0):get_field("mValue") or 0;
+	local buildup = get_stock_method:call(ailment_param):get_element(0):get_field("mValue");
+	local buildup_limit = get_limit_method:call(ailment_param):get_element(0):get_field("mValue");
+	local timer = get_active_timer_method:call(ailment_param);
+	local duration = get_active_time_method:call(ailment_param);
+	local is_active = get_is_active_method:call(ailment_param);
+
+	if is_enable == nil then
+		is_enable = true;
+	end
+
+
+	if is_enable ~= monster.ailments[id].is_enable then
+		ailments.update_last_change_time(monster, id);
+	end
+
+	monster.ailments[id].is_enable = is_enable;
+
+	if activate_count ~= nil then
+		if activate_count ~= monster.ailments[id].activate_count then
+			ailments.update_last_change_time(monster, id);
+
+			if id == ailments.stun_id then
+				ailments.clear_ailment_contribution(monster, ailments.stun_id);
+			end
 		end
 
+		monster.ailments[id].activate_count = activate_count;
+	end
 
-		if is_enable ~= monster.ailments[id].is_enable then
+	if buildup ~= nil then
+		if buildup ~= monster.ailments[id].total_buildup then
 			ailments.update_last_change_time(monster, id);
 		end
 
-		monster.ailments[id].is_enable = is_enable;
+		monster.ailments[id].total_buildup = buildup;
+	end
 
-		if activate_count ~= nil then
-			if activate_count ~= monster.ailments[id].activate_count then
-				ailments.update_last_change_time(monster, id);
-
-				if id == ailments.stun_id then
-					ailments.clear_ailment_contribution(monster, ailments.stun_id);
-				end
-			end
-
-			monster.ailments[id].activate_count = activate_count;
+	if buildup_limit ~= nil then
+		if buildup_limit ~= monster.ailments[id].buildup_limit then
+			ailments.update_last_change_time(monster, id);
 		end
 
-		if buildup ~= nil then
-			if buildup ~= monster.ailments[id].total_buildup then
-				ailments.update_last_change_time(monster, id);
-			end
+		monster.ailments[id].buildup_limit = buildup_limit;
+	end
 
-			monster.ailments[id].total_buildup = buildup;
+	if buildup ~= nil and buildup_limit ~= nil and buildup_limit ~= 0 then
+		monster.ailments[id].buildup_percentage = buildup / buildup_limit;
+	end
+
+	if timer ~= nil then
+		if timer ~= monster.ailments[id].timer then
+			ailments.update_last_change_time(monster, id);
 		end
 
-		if buildup_limit ~= nil then
-			if buildup_limit ~= monster.ailments[id].buildup_limit then
-				ailments.update_last_change_time(monster, id);
-			end
+		monster.ailments[id].timer = timer;
+	end
 
-			monster.ailments[id].buildup_limit = buildup_limit;
+	if is_active ~= nil then
+		if is_active ~= monster.ailments[id].is_active then
+			ailments.update_last_change_time(monster, id);
 		end
 
-		if buildup ~= nil and buildup_limit ~= nil and buildup_limit ~= 0 then
-			monster.ailments[id].buildup_percentage = buildup / buildup_limit;
+		monster.ailments[id].is_active = is_active;
+	end
+
+	if duration ~= nil and not monster.ailments[id].is_active then
+		if duration ~= monster.ailments[id].duration then
+			ailments.update_last_change_time(monster, id);
 		end
 
-		if timer ~= nil then
-			if timer ~= monster.ailments[id].timer then
-				ailments.update_last_change_time(monster, id);
-			end
+		monster.ailments[id].duration = duration;
+	end
 
-			monster.ailments[id].timer = timer;
+	if duration ~= 0 and duration ~= nil then
+		monster.ailments[id].timer_percentage = timer / monster.ailments[id].duration;
+	end
+
+	if is_active then
+		if timer < 0 then
+			timer = 0;
 		end
 
-		if is_active ~= nil then
-			if is_active ~= monster.ailments[id].is_active then
-				ailments.update_last_change_time(monster, id);
-			end
+		local minutes_left = math.floor(timer / 60);
+		local seconds_left = timer - 60 * minutes_left;
 
-			monster.ailments[id].is_active = is_active;
-		end
-
-		if duration ~= nil and not monster.ailments[id].is_active then
-			if duration ~= monster.ailments[id].duration then
-				ailments.update_last_change_time(monster, id);
-			end
-
-			monster.ailments[id].duration = duration;
-		end
-
-		if duration ~= 0 and duration ~= nil then
+		if duration ~= 0 then
 			monster.ailments[id].timer_percentage = timer / monster.ailments[id].duration;
 		end
 
-		if is_active then
-			if timer < 0 then
-				timer = 0;
-			end
-
-			local minutes_left = math.floor(timer / 60);
-			local seconds_left = timer - 60 * minutes_left;
-
-			if duration ~= 0 then
-				monster.ailments[id].timer_percentage = timer / monster.ailments[id].duration;
-			end
-
-			monster.ailments[id].minutes_left = minutes_left;
-			monster.ailments[id].seconds_left = seconds_left;
-		end
+		monster.ailments[id].minutes_left = minutes_left;
+		monster.ailments[id].seconds_left = seconds_left;
+	end
 end
 
 function ailments.update_last_change_time(monster, id)
@@ -423,7 +423,7 @@ function ailments.update_poison(monster, poison_param)
 		local is_damage = poison_get_is_damage_method:call(poison_param);
 		if is_damage then
 			local poison_damage = poison_damage_field:get_data(poison_param);
-			
+
 			ailments.apply_ailment_damage(monster, ailments.poison_id, poison_damage);
 		end
 	end
@@ -438,116 +438,121 @@ function ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_sca
 	for id, ailment in pairs(monster.ailments) do
 		if id == ailments.paralyze_id then
 			if not cached_config.filter.paralysis then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.sleep_id then
 			if not cached_config.filter.sleep then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.stun_id then
 			if not cached_config.filter.stun then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.flash_id then
 			if not cached_config.filter.flash then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.poison_id then
 			if not cached_config.filter.poison then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.blast_id then
 			if not cached_config.filter.blast then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.exhaust_id then
 			if not cached_config.filter.exhaust then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.ride_id then
 			if not cached_config.filter.ride then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.water_id then
 			if not cached_config.filter.waterblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fire_id then
 			if not cached_config.filter.fireblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.ice_id then
 			if not cached_config.filter.iceblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.thunder_id then
 			if not cached_config.filter.thunderblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fall_trap_id then
 			if not cached_config.filter.fall_trap then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.shock_trap_id then
 			if not cached_config.filter.shock_trap then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.capture_id then
 			if not cached_config.filter.tranq_bomb then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.koyashi_id then
 			if not cached_config.filter.dung_bomb then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.steel_fang_id then
 			if not cached_config.filter.steel_fang then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fall_quick_sand_id then
 			if not cached_config.filter.quick_sand then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fall_otomo_trap_id then
 			if not cached_config.filter.fall_otomo_trap then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.shock_otomo_trap_id then
 			if not cached_config.filter.shock_otomo_trap then
-				goto continue;
+				goto continue
 			end
 		else
-			goto continue;
+			goto continue
 		end
 
-		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
-			goto continue;
+		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and
+			ailment.buildup_limit ~= 0
+			and ailment.activate_count == 0 and not ailment.is_active then
+			goto continue
 		end
 
-		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
-			goto continue;
+		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and
+			not ailment.is_active then
+			goto continue
 		end
 
 		if cached_config.settings.hide_all_inactive_ailments and not ailment.is_active then
-			goto continue;
+			goto continue
 		end
 
 		if cached_config.settings.hide_all_active_ailments and ailment.is_active then
-			goto continue;
+			goto continue
 		end
 
 		if cached_config.settings.hide_disabled_ailments and not ailment.is_enable then
-			goto continue;
+			goto continue
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
-			goto continue;
+		if cached_config.settings.time_limit ~= 0 and
+			time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and
+			not ailment.is_active then
+			goto continue
 		end
 
 		table.insert(displayed_ailments, ailment);
 		::continue::
 	end
-	
+
 
 	if cached_config.sorting.type == "Normal" then
 		if cached_config.sorting.reversed_order then
@@ -601,116 +606,121 @@ function ailments.draw_static(monster, ailments_position_on_screen, opacity_scal
 	for id, ailment in pairs(monster.ailments) do
 		if id == ailments.paralyze_id then
 			if not cached_config.filter.paralysis then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.sleep_id then
 			if not cached_config.filter.sleep then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.stun_id then
 			if not cached_config.filter.stun then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.flash_id then
 			if not cached_config.filter.flash then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.poison_id then
 			if not cached_config.filter.poison then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.blast_id then
 			if not cached_config.filter.blast then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.exhaust_id then
 			if not cached_config.filter.exhaust then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.ride_id then
 			if not cached_config.filter.ride then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.water_id then
 			if not cached_config.filter.waterblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fire_id then
 			if not cached_config.filter.fireblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.ice_id then
 			if not cached_config.filter.iceblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.thunder_id then
 			if not cached_config.filter.thunderblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fall_trap_id then
 			if not cached_config.filter.fall_trap then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.shock_trap_id then
 			if not cached_config.filter.shock_trap then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.capture_id then
 			if not cached_config.filter.tranq_bomb then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.koyashi_id then
 			if not cached_config.filter.dung_bomb then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.steel_fang_id then
 			if not cached_config.filter.steel_fang then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fall_quick_sand_id then
 			if not cached_config.filter.quick_sand then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fall_otomo_trap_id then
 			if not cached_config.filter.fall_otomo_trap then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.shock_otomo_trap_id then
 			if not cached_config.filter.shock_otomo_trap then
-				goto continue;
+				goto continue
 			end
 		else
-			goto continue;
+			goto continue
 		end
 
-		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
-			goto continue;
+		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and
+			ailment.buildup_limit ~= 0
+			and ailment.activate_count == 0 and not ailment.is_active then
+			goto continue
 		end
 
-		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
-			goto continue;
+		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and
+			not ailment.is_active then
+			goto continue
 		end
 
 		if cached_config.settings.hide_all_inactive_ailments and not ailment.is_active then
-			goto continue;
+			goto continue
 		end
 
 		if cached_config.settings.hide_all_active_ailments and ailment.is_active then
-			goto continue;
+			goto continue
 		end
 
 		if cached_config.settings.hide_disabled_ailments and not ailment.is_enable then
-			goto continue;
+			goto continue
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
-			goto continue;
+		if cached_config.settings.time_limit ~= 0 and
+			time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and
+			not ailment.is_active then
+			goto continue
 		end
 
 		table.insert(displayed_ailments, ailment);
 		::continue::
 	end
-	
+
 
 	if cached_config.sorting.type == "Normal" then
 		if cached_config.sorting.reversed_order then
@@ -749,7 +759,7 @@ function ailments.draw_static(monster, ailments_position_on_screen, opacity_scal
 			x = ailments_position_on_screen.x + cached_config.spacing.x * (j - 1) * global_scale_modifier,
 			y = ailments_position_on_screen.y + cached_config.spacing.y * (j - 1) * global_scale_modifier;
 		}
-		
+
 		ailment_UI_entity.draw_static(ailment, monster.ailment_static_UI, ailment_position_on_screen, opacity_scale);
 	end
 end
@@ -763,116 +773,121 @@ function ailments.draw_highlighted(monster, ailments_position_on_screen, opacity
 	for id, ailment in pairs(monster.ailments) do
 		if id == ailments.paralyze_id then
 			if not cached_config.filter.paralysis then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.sleep_id then
 			if not cached_config.filter.sleep then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.stun_id then
 			if not cached_config.filter.stun then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.flash_id then
 			if not cached_config.filter.flash then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.poison_id then
 			if not cached_config.filter.poison then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.blast_id then
 			if not cached_config.filter.blast then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.exhaust_id then
 			if not cached_config.filter.exhaust then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.ride_id then
 			if not cached_config.filter.ride then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.water_id then
 			if not cached_config.filter.waterblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fire_id then
 			if not cached_config.filter.fireblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.ice_id then
 			if not cached_config.filter.iceblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.thunder_id then
 			if not cached_config.filter.thunderblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fall_trap_id then
 			if not cached_config.filter.fall_trap then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.shock_trap_id then
 			if not cached_config.filter.shock_trap then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.capture_id then
 			if not cached_config.filter.tranq_bomb then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.koyashi_id then
 			if not cached_config.filter.dung_bomb then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.steel_fang_id then
 			if not cached_config.filter.steel_fang then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fall_quick_sand_id then
 			if not cached_config.filter.quick_sand then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fall_otomo_trap_id then
 			if not cached_config.filter.fall_otomo_trap then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.shock_otomo_trap_id then
 			if not cached_config.filter.shock_otomo_trap then
-				goto continue;
+				goto continue
 			end
 		else
-			goto continue;
+			goto continue
 		end
 
-		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
-			goto continue;
+		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and
+			ailment.buildup_limit ~= 0
+			and ailment.activate_count == 0 and not ailment.is_active then
+			goto continue
 		end
 
-		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
-			goto continue;
+		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and
+			not ailment.is_active then
+			goto continue
 		end
 
 		if cached_config.settings.hide_all_inactive_ailments and not ailment.is_active then
-			goto continue;
+			goto continue
 		end
 
 		if cached_config.settings.hide_all_active_ailments and ailment.is_active then
-			goto continue;
+			goto continue
 		end
 
 		if cached_config.settings.hide_disabled_ailments and not ailment.is_enable then
-			goto continue;
+			goto continue
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
-			goto continue;
+		if cached_config.settings.time_limit ~= 0 and
+			time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and
+			not ailment.is_active then
+			goto continue
 		end
 
 		table.insert(displayed_ailments, ailment);
 		::continue::
 	end
-	
+
 	if cached_config.sorting.type == "Normal" then
 		if cached_config.sorting.reversed_order then
 			table.sort(displayed_ailments, function(left, right)
@@ -910,7 +925,7 @@ function ailments.draw_highlighted(monster, ailments_position_on_screen, opacity
 			x = ailments_position_on_screen.x + cached_config.spacing.x * (j - 1) * global_scale_modifier,
 			y = ailments_position_on_screen.y + cached_config.spacing.y * (j - 1) * global_scale_modifier;
 		}
-		
+
 		ailment_UI_entity.draw_highlighted(ailment, monster.ailment_highlighted_UI, ailment_position_on_screen, opacity_scale);
 	end
 end
@@ -924,116 +939,121 @@ function ailments.draw_small(monster, ailments_position_on_screen, opacity_scale
 	for id, ailment in pairs(monster.ailments) do
 		if id == ailments.paralyze_id then
 			if not cached_config.filter.paralysis then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.sleep_id then
 			if not cached_config.filter.sleep then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.stun_id then
 			if not cached_config.filter.stun then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.flash_id then
 			if not cached_config.filter.flash then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.poison_id then
 			if not cached_config.filter.poison then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.blast_id then
 			if not cached_config.filter.blast then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.exhaust_id then
 			if not cached_config.filter.exhaust then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.ride_id then
 			if not cached_config.filter.ride then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.water_id then
 			if not cached_config.filter.waterblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fire_id then
 			if not cached_config.filter.fireblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.ice_id then
 			if not cached_config.filter.iceblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.thunder_id then
 			if not cached_config.filter.thunderblight then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fall_trap_id then
 			if not cached_config.filter.fall_trap then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.shock_trap_id then
 			if not cached_config.filter.shock_trap then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.capture_id then
 			if not cached_config.filter.tranq_bomb then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.koyashi_id then
 			if not cached_config.filter.dung_bomb then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.steel_fang_id then
 			if not cached_config.filter.steel_fang then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fall_quick_sand_id then
 			if not cached_config.filter.quick_sand then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.fall_otomo_trap_id then
 			if not cached_config.filter.fall_otomo_trap then
-				goto continue;
+				goto continue
 			end
 		elseif id == ailments.shock_otomo_trap_id then
 			if not cached_config.filter.shock_otomo_trap then
-				goto continue;
+				goto continue
 			end
 		else
-			goto continue;
+			goto continue
 		end
 
-		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and ailment.buildup_limit ~= 0 and ailment.activate_count == 0 and not ailment.is_active then
-			goto continue;
+		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and
+			ailment.buildup_limit ~= 0
+			and ailment.activate_count == 0 and not ailment.is_active then
+			goto continue
 		end
 
-		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and not ailment.is_active then
-			goto continue;
+		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and
+			not ailment.is_active then
+			goto continue
 		end
 
 		if cached_config.settings.hide_all_inactive_ailments and not ailment.is_active then
-			goto continue;
+			goto continue
 		end
 
 		if cached_config.settings.hide_all_active_ailments and ailment.is_active then
-			goto continue;
+			goto continue
 		end
 
 		if cached_config.settings.hide_disabled_ailments and not ailment.is_enable then
-			goto continue;
+			goto continue
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and not ailment.is_active then
-			goto continue;
+		if cached_config.settings.time_limit ~= 0 and
+			time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and
+			not ailment.is_active then
+			goto continue
 		end
 
 		table.insert(displayed_ailments, ailment);
 		::continue::
 	end
-	
+
 
 	if cached_config.sorting.type == "Normal" then
 		if cached_config.sorting.reversed_order then
@@ -1087,7 +1107,8 @@ end
 
 function ailments.apply_ailment_buildup(monster, attacker_id, ailment_type, ailment_buildup)
 
-	if monster == nil or player == nil or (ailment_type ~= ailments.poison_id and ailment_type ~= ailments.blast_id and ailment_type ~= ailments.stun_id) then
+	if monster == nil or player == nil or
+		(ailment_type ~= ailments.poison_id and ailment_type ~= ailments.blast_id and ailment_type ~= ailments.stun_id) then
 		return;
 	end
 
@@ -1095,9 +1116,10 @@ function ailments.apply_ailment_buildup(monster, attacker_id, ailment_type, ailm
 	if monster.ailments[ailment_type].buildup == nil then
 		monster.ailments[ailment_type].buildup = {};
 	end
-	
+
 	-- accumulate this buildup for this attacker
-	monster.ailments[ailment_type].buildup[attacker_id] = (monster.ailments[ailment_type].buildup[attacker_id] or 0) + ailment_buildup;
+	monster.ailments[ailment_type].buildup[attacker_id] = (monster.ailments[ailment_type].buildup[attacker_id] or 0) +
+		ailment_buildup;
 
 	ailments.calculate_ailment_contribution(monster, ailment_type);
 end
@@ -1150,9 +1172,9 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 		damage_object.physical_damage = 0;
 		damage_object.elemental_damage = 0;
 		damage_object.ailment_damage = damage_portion;
-		
+
 		local attacking_player = player.get_player(attacker_id);
-		
+
 		if attacking_player ~= nil then
 			player.update_damage(attacking_player, damage_source_type, true, damage_object);
 		end

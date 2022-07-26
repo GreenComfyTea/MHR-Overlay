@@ -12,7 +12,7 @@ local enemy_character_base_after_calc_damage_damage_side_method = enemy_characte
 local is_boss_enemy_method = enemy_character_base_type_def:get_method("get_isBossEnemy");
 local check_die_method = enemy_character_base_type_def:get_method("checkDie");
 
-local enemy_calc_damage_info_type_def =  sdk.find_type_definition("snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide");
+local enemy_calc_damage_info_type_def = sdk.find_type_definition("snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide");
 local get_attacker_id_method = enemy_calc_damage_info_type_def:get_method("get_AttackerID");
 local get_damage_attacker_type_method = enemy_calc_damage_info_type_def:get_method("get_DamageAttackerType");
 local is_marionette_attack_method = enemy_calc_damage_info_type_def:get_method("get_IsMarionetteAttack");
@@ -28,7 +28,7 @@ local get_condition_type2_method = enemy_calc_damage_info_type_def:get_method("g
 local get_condition_damage3_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamage3");
 local get_condition_type3_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamageType3");
 
-local stock_mystery_core_break_damage_type_def =  sdk.find_type_definition("snow.enemy.EnemyCharacterBase.stockMysteryCoreBreakDamage");
+local stock_mystery_core_break_damage_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase.stockMysteryCoreBreakDamage");
 
 local quest_manager_type_def = sdk.find_type_definition("snow.QuestManager");
 
@@ -43,7 +43,8 @@ local is_from_host_field = packet_quest_forfeit_type_def:get_field("_IsFromQuest
 function damage_hook.get_damage_source_type(damage_source_type_id, is_marionette_attack)
 	if is_marionette_attack then
 		return "wyvern riding";
-	elseif damage_source_type_id == 0 or damage_source_type_id == 7 or damage_source_type_id == 11 or damage_source_type_id == 13 then
+	elseif damage_source_type_id == 0 or damage_source_type_id == 7 or damage_source_type_id == 11 or
+		damage_source_type_id == 13 then
 		return "player";
 	elseif damage_source_type_id == 1 or damage_source_type_id == 8 then
 		return "bomb";
@@ -82,7 +83,7 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	local attacker_id = get_attacker_id_method:call(enemy_calc_damage_info);
 	local attacker_type = get_damage_attacker_type_method:call(enemy_calc_damage_info);
 	local is_marionette_attack = is_marionette_attack_method:call(enemy_calc_damage_info)
-	
+
 	-- 4 is virtual player in singleplayer that "owns" 2nd otomo
 	if not quest_status.is_online and attacker_id == 4 then
 		attacker_id = player.myself.player_id;
@@ -93,7 +94,7 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 		for enemy, monster in pairs(large_monster.list) do
 			if monster.unique_id == attacker_id then
 				attacker_id = monster.rider_id;
-				break;
+				break
 			end
 		end
 	end
@@ -161,7 +162,8 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	--	xy = "";
 	--end
 
-	local damage_source_type = damage_hook.get_damage_source_type(attacker_type, is_marionette_attack);
+	local damage_source_type = damage_hook.get_damage_source_type(attacker_type,
+		is_marionette_attack);
 
 	local attacking_player = player.get_player(attacker_id);
 
@@ -217,10 +219,10 @@ end
 
 --function damage_hook.on_get_finish_shoot_wall_hit_damage_rate(enemy, rate, is_part_damage)
 
-	--xy = string.format("enemy: %s\nrate: %s\nis_part_damage: %s", tostring(enemy), tostring(rate), tostring(is_part_damage));
+--xy = string.format("enemy: %s\nrate: %s\nis_part_damage: %s", tostring(enemy), tostring(rate), tostring(is_part_damage));
 --end
 
-	
+
 local get_finish_shoot_wall_hit_damage_rate_method = enemy_character_base_type_def:get_method("stockFinishShootHitDamage");
 
 function damage_hook.init_module()

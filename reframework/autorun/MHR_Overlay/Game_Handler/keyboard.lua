@@ -335,7 +335,7 @@ function keyboard.check_modifiers(hard_keyboard)
 	if is_ctrl_down ~= nil then
 		keyboard.hotkey_modifiers_down.ctrl = is_ctrl_down;
 	end
-	
+
 	local is_shift_down = get_down_method:call(hard_keyboard, 16);
 	if is_shift_down ~= nil then
 		keyboard.hotkey_modifiers_down.shift = is_shift_down;
@@ -458,16 +458,16 @@ function keyboard.check_hotkeys(hard_keyboard)
 	local cached_config = config.current_config.global_settings.hotkeys_with_modifiers;
 
 	if not (cached_config.all_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
-	and not (cached_config.all_UI.shift and not keyboard.hotkey_modifiers_down.shift)
-	and not (cached_config.all_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
+		and not (cached_config.all_UI.shift and not keyboard.hotkey_modifiers_down.shift)
+		and not (cached_config.all_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
 		if get_release_method:call(hard_keyboard, math.tointeger(cached_config.all_UI.key)) then
 
 			local is_any_enabled = config.current_config.time_UI.enabled
-			or config.current_config.small_monster_UI.enabled
-			or config.current_config.large_monster_UI.dynamic.enabled
-			or config.current_config.large_monster_UI.static.enabled
-			or config.current_config.large_monster_UI.highlighted.enabled
-			or config.current_config.damage_meter_UI.enabled;
+				or config.current_config.small_monster_UI.enabled
+				or config.current_config.large_monster_UI.dynamic.enabled
+				or config.current_config.large_monster_UI.static.enabled
+				or config.current_config.large_monster_UI.highlighted.enabled
+				or config.current_config.damage_meter_UI.enabled;
 
 			config.current_config.time_UI.enabled = not is_any_enabled;
 			config.current_config.small_monster_UI.enabled = not is_any_enabled;
@@ -479,16 +479,16 @@ function keyboard.check_hotkeys(hard_keyboard)
 	end
 
 	if not (cached_config.small_monster_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
-	and not (cached_config.small_monster_UI.shift and not keyboard.hotkey_modifiers_down.shift)
-	and not (cached_config.small_monster_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
+		and not (cached_config.small_monster_UI.shift and not keyboard.hotkey_modifiers_down.shift)
+		and not (cached_config.small_monster_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
 		if get_release_method:call(hard_keyboard, math.tointeger(cached_config.small_monster_UI.key)) then
 			config.current_config.small_monster_UI.enabled = not config.current_config.small_monster_UI.enabled;
 		end
 	end
 
 	if not (cached_config.large_monster_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
-	and not (cached_config.large_monster_UI.shift and not keyboard.hotkey_modifiers_down.shift)
-	and not (cached_config.large_monster_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
+		and not (cached_config.large_monster_UI.shift and not keyboard.hotkey_modifiers_down.shift)
+		and not (cached_config.large_monster_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
 		if get_release_method:call(hard_keyboard, math.tointeger(cached_config.large_monster_UI.key)) then
 			local is_any_enabled = config.current_config.large_monster_UI.dynamic.enabled
 				or config.current_config.large_monster_UI.static.enabled
@@ -501,48 +501,52 @@ function keyboard.check_hotkeys(hard_keyboard)
 	end
 
 	if not (cached_config.large_monster_dynamic_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
-	and not (cached_config.large_monster_dynamic_UI.shift and not keyboard.hotkey_modifiers_down.shift)
-	and not (cached_config.large_monster_dynamic_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
-		if get_release_method:call(hard_keyboard, math.tointeger(cached_config.large_monster_dynamic_UI.key)) then
+		and not (cached_config.large_monster_dynamic_UI.shift and not keyboard.hotkey_modifiers_down.shift)
+		and not (cached_config.large_monster_dynamic_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
+		if get_release_method:call(hard_keyboard,
+			math.tointeger(cached_config.large_monster_dynamic_UI.key)) then
 			config.current_config.large_monster_UI.dynamic.enabled = not config.current_config.large_monster_UI.dynamic.enabled;
 		end
 	end
 
 	if not (cached_config.large_monster_static_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
-	and not (cached_config.large_monster_static_UI.shift and not keyboard.hotkey_modifiers_down.shift)
-	and not (cached_config.large_monster_static_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
-		if get_release_method:call(hard_keyboard, math.tointeger(cached_config.large_monster_static_UI.key)) then
+		and not (cached_config.large_monster_static_UI.shift and not keyboard.hotkey_modifiers_down.shift)
+		and not (cached_config.large_monster_static_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
+		if get_release_method:call(hard_keyboard,
+			math.tointeger(cached_config.large_monster_static_UI.key)) then
 			config.current_config.large_monster_UI.static.enabled = not config.current_config.large_monster_UI.static.enabled;
 		end
 	end
 
 	if not (cached_config.large_monster_highlighted_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
-	and not (cached_config.large_monster_highlighted_UI.shift and not keyboard.hotkey_modifiers_down.shift)
-	and not (cached_config.large_monster_highlighted_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
-		if get_release_method:call(hard_keyboard, math.tointeger(cached_config.large_monster_highlighted_UI.key)) then
-			config.current_config.large_monster_UI.highlighted.enabled = not config.current_config.large_monster_UI.highlighted.enabled;
+		and not (cached_config.large_monster_highlighted_UI.shift and not keyboard.hotkey_modifiers_down.shift)
+		and not (cached_config.large_monster_highlighted_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
+		if get_release_method:call(hard_keyboard,
+			math.tointeger(cached_config.large_monster_highlighted_UI.key)) then
+			config.current_config.large_monster_UI.highlighted.enabled = not
+				config.current_config.large_monster_UI.highlighted.enabled;
 		end
 	end
 
 	if not (cached_config.time_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
-	and not (cached_config.time_UI.shift and not keyboard.hotkey_modifiers_down.shift)
-	and not (cached_config.time_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
+		and not (cached_config.time_UI.shift and not keyboard.hotkey_modifiers_down.shift)
+		and not (cached_config.time_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
 		if get_release_method:call(hard_keyboard, math.tointeger(cached_config.time_UI.key)) then
 			config.current_config.time_UI.enabled = not config.current_config.time_UI.enabled;
 		end
 	end
 
 	if not (cached_config.damage_meter_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
-	and not (cached_config.damage_meter_UI.shift and not keyboard.hotkey_modifiers_down.shift)
-	and not (cached_config.damage_meter_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
+		and not (cached_config.damage_meter_UI.shift and not keyboard.hotkey_modifiers_down.shift)
+		and not (cached_config.damage_meter_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
 		if get_release_method:call(hard_keyboard, math.tointeger(cached_config.damage_meter_UI.key)) then
 			config.current_config.damage_meter_UI.enabled = not config.current_config.damage_meter_UI.enabled;
 		end
 	end
 
 	if not (cached_config.endemic_life_UI.ctrl and not keyboard.hotkey_modifiers_down.ctrl)
-	and not (cached_config.endemic_life_UI.shift and not keyboard.hotkey_modifiers_down.shift)
-	and not (cached_config.endemic_life_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
+		and not (cached_config.endemic_life_UI.shift and not keyboard.hotkey_modifiers_down.shift)
+		and not (cached_config.endemic_life_UI.alt and not keyboard.hotkey_modifiers_down.alt) then
 		if get_release_method:call(hard_keyboard, math.tointeger(cached_config.endemic_life_UI.key)) then
 			config.current_config.endemic_life_UI.enabled = not config.current_config.endemic_life_UI.enabled;
 		end

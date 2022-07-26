@@ -44,7 +44,6 @@ function body_part.new(id, name)
 	return part;
 end
 
-
 function body_part.init_dynamic_UI(part)
 	local cached_config = config.current_config.large_monster_UI.dynamic.body_parts;
 
@@ -155,7 +154,7 @@ function body_part.update_break(part, part_break_current, part_break_max, part_b
 	if part.break_max_count ~= part_break_max_count then
 		part.last_change_time = time.total_elapsed_script_seconds;
 	end
-	
+
 	part.break_health = part_break_current;
 	part.break_max_health = part_break_max;
 
@@ -205,21 +204,21 @@ function body_part.draw_dynamic(monster, parts_position_on_screen, opacity_scale
 			if break_supported then
 				if severe_supported then
 					if not cached_config.filter.health_break_severe then
-						goto continue;
+						goto continue
 					end
 				else
 					if not cached_config.filter.health_break then
-						goto continue;
+						goto continue
 					end
 				end
 			else
 				if severe_supported then
 					if not cached_config.filter.health_severe then
-						goto continue;
+						goto continue
 					end
 				else
 					if not cached_config.filter.health then
-						goto continue;
+						goto continue
 					end
 				end
 			end
@@ -227,39 +226,42 @@ function body_part.draw_dynamic(monster, parts_position_on_screen, opacity_scale
 			if break_supported then
 				if severe_supported then
 					if not cached_config.filter.break_severe then
-						goto continue;
+						goto continue
 					end
 				else
 					if not cached_config.filter.break_ then
-						goto continue;
+						goto continue
 					end
 				end
 			else
 				if severe_supported then
 					if not cached_config.filter.severe then
-						goto continue;
+						goto continue
 					end
 				else
-					goto continue;
+					goto continue
 				end
 			end
 		end
 
 		if cached_config.settings.hide_undamaged_parts
-		and ((part.health == part.max_health and part.flinch_count == 0) or not health_supported)
-		and ((part.break_health == part.break_max_health and part.break_count == 0) or not break_supported)
-		and ((part.loss_health == part.loss_max_health and not part.is_severed) or not severe_supported) then
-			goto continue;
+			and ((part.health == part.max_health and part.flinch_count == 0) or not health_supported)
+			and ((part.break_health == part.break_max_health and part.break_count == 0) or not break_supported)
+			and ((part.loss_health == part.loss_max_health and not part.is_severed) or not severe_supported) then
+			goto continue
 		end
 
 		if (not part.body_part_dynamic_UI.flinch_visibility or not health_supported)
-		and (not part.body_part_dynamic_UI.break_visibility or not break_supported or part.break_count >= part.break_max_count)
-		and (not part.body_part_dynamic_UI.loss_visibility or not severe_supported or part.is_severed) then
-			goto continue;
+			and
+			(not part.body_part_dynamic_UI.break_visibility or not break_supported or part.break_count >= part.break_max_count
+			)
+			and (not part.body_part_dynamic_UI.loss_visibility or not severe_supported or part.is_severed) then
+			goto continue
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - part.last_change_time > cached_config.settings.time_limit then
-			goto continue;
+		if cached_config.settings.time_limit ~= 0 and
+			time.total_elapsed_script_seconds - part.last_change_time > cached_config.settings.time_limit then
+			goto continue
 		end
 
 		table.insert(displayed_parts, part);
@@ -387,21 +389,21 @@ function body_part.draw_static(monster, parts_position_on_screen, opacity_scale)
 			if break_supported then
 				if severe_supported then
 					if not cached_config.filter.health_break_severe then
-						goto continue;
+						goto continue
 					end
 				else
 					if not cached_config.filter.health_break then
-						goto continue;
+						goto continue
 					end
 				end
 			else
 				if severe_supported then
 					if not cached_config.filter.health_severe then
-						goto continue;
+						goto continue
 					end
 				else
 					if not cached_config.filter.health then
-						goto continue;
+						goto continue
 					end
 				end
 			end
@@ -409,39 +411,42 @@ function body_part.draw_static(monster, parts_position_on_screen, opacity_scale)
 			if break_supported then
 				if severe_supported then
 					if not cached_config.filter.break_severe then
-						goto continue;
+						goto continue
 					end
 				else
 					if not cached_config.filter.break_ then
-						goto continue;
+						goto continue
 					end
 				end
 			else
 				if severe_supported then
 					if not cached_config.filter.severe then
-						goto continue;
+						goto continue
 					end
 				else
-					goto continue;
+					goto continue
 				end
 			end
 		end
 
 		if cached_config.settings.hide_undamaged_parts
-		and ((part.health == part.max_health and part.flinch_count == 0) or not health_supported)
-		and ((part.break_health == part.break_max_health and part.break_count == 0) or not break_supported)
-		and ((part.loss_health == part.loss_max_health and not part.is_severed) or not severe_supported) then
-			goto continue;
+			and ((part.health == part.max_health and part.flinch_count == 0) or not health_supported)
+			and ((part.break_health == part.break_max_health and part.break_count == 0) or not break_supported)
+			and ((part.loss_health == part.loss_max_health and not part.is_severed) or not severe_supported) then
+			goto continue
 		end
 
 		if (not part.body_part_static_UI.flinch_visibility or not health_supported)
-		and (not part.body_part_static_UI.break_visibility or not break_supported or part.break_count >= part.break_max_count)
-		and (not part.body_part_static_UI.loss_visibility or not severe_supported or part.is_severed) then
-			goto continue;
+			and
+			(not part.body_part_static_UI.break_visibility or not break_supported or part.break_count >= part.break_max_count
+			)
+			and (not part.body_part_static_UI.loss_visibility or not severe_supported or part.is_severed) then
+			goto continue
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - part.last_change_time > cached_config.settings.time_limit then
-			goto continue;
+		if cached_config.settings.time_limit ~= 0 and
+			time.total_elapsed_script_seconds - part.last_change_time > cached_config.settings.time_limit then
+			goto continue
 		end
 
 
@@ -570,21 +575,21 @@ function body_part.draw_highlighted(monster, parts_position_on_screen, opacity_s
 			if break_supported then
 				if severe_supported then
 					if not cached_config.filter.health_break_severe then
-						goto continue;
+						goto continue
 					end
 				else
 					if not cached_config.filter.health_break then
-						goto continue;
+						goto continue
 					end
 				end
 			else
 				if severe_supported then
 					if not cached_config.filter.health_severe then
-						goto continue;
+						goto continue
 					end
 				else
 					if not cached_config.filter.health then
-						goto continue;
+						goto continue
 					end
 				end
 			end
@@ -592,39 +597,42 @@ function body_part.draw_highlighted(monster, parts_position_on_screen, opacity_s
 			if break_supported then
 				if severe_supported then
 					if not cached_config.filter.break_severe then
-						goto continue;
+						goto continue
 					end
 				else
 					if not cached_config.filter.break_ then
-						goto continue;
+						goto continue
 					end
 				end
 			else
 				if severe_supported then
 					if not cached_config.filter.severe then
-						goto continue;
+						goto continue
 					end
 				else
-					goto continue;
+					goto continue
 				end
 			end
 		end
 
 		if cached_config.settings.hide_undamaged_parts
-		and ((part.health == part.max_health and part.flinch_count == 0) or not health_supported)
-		and ((part.break_health == part.break_max_health and part.break_count == 0) or not break_supported)
-		and ((part.loss_health == part.loss_max_health and not part.is_severed) or not severe_supported) then
-			goto continue;
+			and ((part.health == part.max_health and part.flinch_count == 0) or not health_supported)
+			and ((part.break_health == part.break_max_health and part.break_count == 0) or not break_supported)
+			and ((part.loss_health == part.loss_max_health and not part.is_severed) or not severe_supported) then
+			goto continue
 		end
 
 		if (not part.body_part_highlighted_UI.flinch_visibility or not health_supported)
-		and (not part.body_part_highlighted_UI.break_visibility or not break_supported or part.break_count >= part.break_max_count)
-		and (not part.body_part_highlighted_UI.loss_visibility or not severe_supported or part.is_severed) then
-			goto continue;
+			and (
+			not part.body_part_highlighted_UI.break_visibility or not break_supported or part.break_count >= part.break_max_count
+			)
+			and (not part.body_part_highlighted_UI.loss_visibility or not severe_supported or part.is_severed) then
+			goto continue
 		end
 
-		if cached_config.settings.time_limit ~= 0 and time.total_elapsed_script_seconds - part.last_change_time > cached_config.settings.time_limit then
-			goto continue;
+		if cached_config.settings.time_limit ~= 0 and
+			time.total_elapsed_script_seconds - part.last_change_time > cached_config.settings.time_limit then
+			goto continue
 		end
 
 		table.insert(displayed_parts, part);

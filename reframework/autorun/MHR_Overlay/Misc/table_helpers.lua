@@ -11,9 +11,13 @@ function table_helpers.deep_copy(original, copies)
 			copy = {};
 			copies[original] = copy;
 			for original_key, original_value in next, original, nil do
-				copy[table_helpers.deep_copy(original_key, copies)] = table_helpers.deep_copy(original_value, copies);
+				copy[table_helpers.deep_copy(original_key, copies)] = table_helpers.deep_copy(original_value
+					,
+					copies);
 			end
-			setmetatable(copy, table_helpers.deep_copy(getmetatable(original), copies));
+			setmetatable(copy,
+				table_helpers.deep_copy(getmetatable(original)
+					, copies));
 		end
 	else -- number, string, boolean, etc
 		copy = original;
@@ -36,7 +40,7 @@ function table_helpers.find_index(table, value, nullable)
 end
 
 function table_helpers.merge(...)
-	local tables_to_merge = {...};
+	local tables_to_merge = { ... };
 	assert(#tables_to_merge > 1, "There should be at least two tables to merge them");
 
 	for key, table in ipairs(tables_to_merge) do
@@ -64,11 +68,11 @@ end
 function table_helpers.tostring(table)
 	if type(table) == "table" then
 		local s = "{ \n";
-		for k,v in pairs(table) do
+		for k, v in pairs(table) do
 			if type(k) ~= "number" then
 				k = "\"" .. k .. "\"";
 			end
-			s = s .. "\t[" .. k .."] = " .. table_helpers.tostring(v) .. ",\n";
+			s = s .. "\t[" .. k .. "] = " .. table_helpers.tostring(v) .. ",\n";
 		end
 		return s .. "} \n";
 	else

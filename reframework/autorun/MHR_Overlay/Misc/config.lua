@@ -15,7 +15,7 @@ function config.init()
 			menu_font = {
 				size = 17
 			},
-	
+
 			UI_font = {
 				family = "Consolas",
 				size = 13,
@@ -32,7 +32,7 @@ function config.init()
 				max_monster_updates_per_tick = 2,
 				prioritize_large_monsters = false
 			},
-	
+
 			module_visibility = {
 				during_quest = {
 					small_monster_UI = true,
@@ -43,7 +43,7 @@ function config.init()
 					damage_meter_UI = true,
 					endemic_life_UI = true,
 				},
-		
+
 				quest_result_screen = {
 					small_monster_UI = false,
 					large_monster_dynamic_UI = false,
@@ -53,7 +53,7 @@ function config.init()
 					damage_meter_UI = true,
 					endemic_life_UI = false
 				},
-		
+
 				training_area = {
 					large_monster_dynamic_UI = true,
 					large_monster_static_UI = true,
@@ -128,58 +128,58 @@ function config.init()
 				}
 			}
 		},
-	
+
 		small_monster_UI = {
 			enabled = true,
-	
+
 			settings = {
 				hide_dead_or_captured = true,
 				orientation = "Horizontal"
 			},
-	
+
 			dynamic_positioning = {
 				enabled = true,
 				max_distance = 300,
 				opacity_falloff = true,
-	
+
 				world_offset = {
 					x = 0,
 					y = 3,
 					z = 0
 				},
-	
+
 				viewport_offset = {
 					x = -50,
 					y = 0
 				}
 			},
-	
+
 			static_spacing = {
 				x = 110,
 				y = 40
 			},
-	
+
 			static_sorting = {
 				type = "Normal",
 				reversed_order = false
 			},
-	
+
 			static_position = {
 				x = 0,
 				y = 0,
 				anchor = "Top-Left"
 			},
-	
+
 			monster_name_label = {
 				visibility = true,
 				text = "%s",
-	
+
 				offset = {
 					x = 5,
 					y = 0
 				},
 				color = 0xFFCCF4E1,
-	
+
 				shadow = {
 					visibility = true,
 					offset = {
@@ -189,7 +189,7 @@ function config.init()
 					color = 0xFF000000
 				}
 			},
-	
+
 			health = {
 				visibility = true,
 
@@ -197,7 +197,7 @@ function config.init()
 					x = 0,
 					y = 17
 				},
-	
+
 				text_label = {
 					visibility = false,
 					text = "%s",
@@ -206,7 +206,7 @@ function config.init()
 						y = -5
 					},
 					color = 0xFFCCF4E1,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -216,7 +216,7 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-		
+
 				value_label = {
 					visibility = true,
 					text = "%.0f/%.0f", -- current_health/max_health
@@ -225,7 +225,7 @@ function config.init()
 						y = 0
 					},
 					color = 0xFFCCF4E1,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -235,17 +235,17 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-		
+
 				percentage_label = {
 					visibility = false,
 					text = "%5.1f%%",
-		
+
 					offset = {
 						x = -5,
 						y = 0
 					},
 					color = 0xFFCCF4E1,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -255,24 +255,34 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-		
+
 				bar = {
 					visibility = true,
 					offset = {
 						x = 0,
 						y = 0
 					},
-		
+
 					size = {
 						width = 100,
 						height = 7
 					},
-		
+
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+
 					colors = {
 						foreground = 0xB974A652,
 						background = 0xB9000000,
+						outline = 0xC0FFFFFF,
 						capture_health = 0xB9CCCC33
 					}
+
+
 				}
 			},
 
@@ -283,7 +293,7 @@ function config.init()
 					x = 10,
 					y = 40
 				},
-				
+
 				spacing = {
 					x = 0,
 					y = 24,
@@ -316,7 +326,7 @@ function config.init()
 					fireblight = true,
 					iceblight = true,
 					thunderblight = true,
-			
+
 					fall_trap = true,
 					shock_trap = true,
 					tranq_bomb = true,
@@ -326,22 +336,22 @@ function config.init()
 					fall_otomo_trap = true,
 					shock_otomo_trap = true
 				},
-	
+
 				ailment_name_label = {
 					visibility = true,
 					text = "%s",
-		
+
 					include = {
 						ailment_name = true,
 						activation_count = true
 					},
-	
+
 					offset = {
 						x = 5,
 						y = 0
 					},
 					color = 0xFFffb2e2,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -351,7 +361,7 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-	
+
 				text_label = {
 					visibility = false,
 					text = language.current_language.UI.buildup,
@@ -360,7 +370,7 @@ function config.init()
 						y = 6
 					},
 					color = 0xF1F4A3CC,
-					
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -370,7 +380,7 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-	
+
 				value_label = {
 					visibility = true,
 					text = "%.0f/%.0f", -- current_buildup/max_buildup
@@ -379,7 +389,7 @@ function config.init()
 						y = 13
 					},
 					color = 0xFFFFFFFF,
-	
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -389,17 +399,17 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-				
+
 				percentage_label = {
 					visibility = false,
 					text = "%5.1f%%",
-	
+
 					offset = {
 						x = 0,
 						y = 13
 					},
 					color = 0xFFFFFFFF,
-	
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -413,13 +423,13 @@ function config.init()
 				timer_label = {
 					visibility = true,
 					text = "%2.0f:%02.0f",
-	
+
 					offset = {
 						x = 140,
 						y = 13
 					},
 					color = 0xFFFFFFFF,
-	
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -429,29 +439,37 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-	
+
 				bar = {
 					visibility = true,
 					offset = {
 						x = 0,
 						y = 14
 					},
-	
+
 					size = {
 						width = 90,
 						height = 4
 					},
-	
+
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+
 					colors = {
 						foreground = 0xA7ff80ce,
-						background = 0xA7000000
+						background = 0xA7000000,
+						outline = 0xC0FFFFFF
 					}
 				}
 			},
 
 			ailment_buildups = {
 				visibility = false,
-		
+
 				offset = {
 					x = 115,
 					y = 17
@@ -466,7 +484,7 @@ function config.init()
 					x = 0,
 					y = 17
 				},
-		
+
 				settings = {
 					buildup_bar_relative_to = "Top Buildup",
 					highlighted_bar = "Me",
@@ -478,7 +496,7 @@ function config.init()
 					poison = true,
 					blast = true,
 				},
-		
+
 				sorting = {
 					type = "Buildup",
 					reversed_order = false
@@ -486,7 +504,7 @@ function config.init()
 
 				ailment_name_label = {
 					visibility = true,
-		
+
 					include = {
 						ailment_name = true,
 						activation_count = true
@@ -498,7 +516,7 @@ function config.init()
 						y = -17
 					},
 					color = 0xFF7cdbff,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -508,17 +526,17 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-		
+
 				player_name_label = {
 					visibility = true,
-		
+
 					text = "%s",
 					offset = {
 						x = 5,
 						y = 0
 					},
 					color = 0xFFb5dded,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -528,7 +546,7 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-		
+
 				buildup_value_label = {
 					visibility = true,
 					text = "%.0f",
@@ -537,7 +555,7 @@ function config.init()
 						y = 0
 					},
 					color = 0xFFb5dded,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -547,7 +565,7 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-		
+
 				buildup_percentage_label = {
 					visibility = true,
 					text = "%5.1f%%",
@@ -556,7 +574,7 @@ function config.init()
 						y = 0
 					},
 					color = 0xFFb5dded,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -566,7 +584,7 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-		
+
 				total_buildup_label = {
 					visibility = true,
 					text = "%s",
@@ -575,7 +593,7 @@ function config.init()
 						y = 0
 					},
 					color = 0xFFFF9393,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -585,7 +603,7 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-		
+
 				total_buildup_value_label = {
 					visibility = true,
 					text = "%.0f",
@@ -594,7 +612,7 @@ function config.init()
 						y = 0
 					},
 					color = 0xFFFF9393,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -604,22 +622,30 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-		
+
 				buildup_bar = {
 					visibility = true,
 					offset = {
 						x = 0,
 						y = 17
 					},
-		
+
 					size = {
 						width = 200,
 						height = 5
 					},
-		
+
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+
 					colors = {
-						foreground = 0xA796cfe5,
-						background = 0xA7000000
+						foreground = 0xA796CFE5,
+						background = 0xA7000000,
+						outline = 0xC0FFFFFF
 					}
 				},
 
@@ -629,24 +655,32 @@ function config.init()
 						x = 0,
 						y = 17
 					},
-		
+
 					size = {
 						width = 200,
 						height = 5
 					},
-		
+
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+
 					colors = {
 						foreground = 0xA7F4D5A3,
-						background = 0xA7000000
+						background = 0xA7000000,
+						outline = 0xC0FFFFFF
 					}
 				}
 			},
 		},
-	
+
 		large_monster_UI = {
 			dynamic = {
 				enabled = true,
-		
+
 				settings = {
 					hide_dead_or_captured = true,
 					render_highlighted_monster = true,
@@ -655,22 +689,22 @@ function config.init()
 					opacity_falloff = true,
 					time_limit = 15
 				},
-		
+
 				world_offset = {
 					x = 0,
 					y = 6,
 					z = 0
 				},
-	
+
 				viewport_offset = {
 					x = -100,
 					y = 0
 				},
-		
+
 				monster_name_label = {
 					visibility = true,
 					text = "%s",
-		
+
 					include = {
 						monster_name = true,
 						monster_id = false,
@@ -678,13 +712,13 @@ function config.init()
 						size = true,
 						crown_thresholds = false
 					},
-		
+
 					offset = {
 						x = 5,
 						y = 0
 					},
 					color = 0xFFCCF4E1,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -694,7 +728,7 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-		
+
 				health = {
 					visibility = true,
 
@@ -702,7 +736,7 @@ function config.init()
 						x = 0,
 						y = 17
 					},
-					
+
 					text_label = {
 						visibility = false,
 						text = "%s",
@@ -711,7 +745,7 @@ function config.init()
 							y = 2
 						},
 						color = 0xFFCCF4E1,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -721,7 +755,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					value_label = {
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
@@ -730,7 +764,7 @@ function config.init()
 							y = 2
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -740,17 +774,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-					
+
 					percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
-		
+
 						offset = {
 							x = 150,
 							y = 2
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -760,27 +794,36 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 0
 						},
-		
+
 						size = {
 							width = 200,
 							height = 20
 						},
 
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						normal_colors = {
 							foreground = 0xB974A653,
 							background = 0xB9000000,
+							outline = 0xC0FFFFFF
 						},
-						
+
 						capture_colors = {
 							foreground = 0xB9CCCC33,
-							background = 0x88000000
+							background = 0x88000000,
+							outline = 0xC0FFFFFF
 						},
 
 						capture_line = {
@@ -789,17 +832,17 @@ function config.init()
 								x = 0,
 								y = -3
 							},
-	
+
 							size = {
 								width = 2,
 								height = 8
 							},
-	
+
 							color = 0xB9000000
 						}
 					},
 				},
-		
+
 				stamina = {
 					visibility = true,
 
@@ -807,16 +850,16 @@ function config.init()
 						x = 10,
 						y = 37
 					},
-	
+
 					text_label = {
 						visibility = true,
 						text = "%s",
 						offset = {
-							x = 15-10,
+							x = 15 - 10,
 							y = 0
 						},
 						color = 0xFFA3F5F0,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -826,16 +869,16 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					value_label = {
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
-							x = 55-10,
+							x = 55 - 10,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -845,17 +888,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-					
+
 					percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
-		
+
 						offset = {
 							x = 135,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -869,13 +912,13 @@ function config.init()
 					timer_label = {
 						visibility = true,
 						text = "%2.0f:%02.0f",
-		
+
 						offset = {
 							x = 140,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -885,26 +928,34 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					bar = {
 						visibility = true,
 						offset = {
-							x = 10-10,
+							x = 10 - 10,
 							y = 17
 						},
-		
+
 						size = {
 							width = 185,
 							height = 7
 						},
-		
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
 							foreground = 0xB966CCC5,
-							background = 0x88000000
+							background = 0x88000000,
+							outline = 0xC0FFFFFF
 						}
 					}
 				},
-		
+
 				rage = {
 					visibility = true,
 
@@ -912,7 +963,7 @@ function config.init()
 						x = 10,
 						y = 61
 					},
-	
+
 					text_label = {
 						visibility = true,
 						text = "%s",
@@ -921,7 +972,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFFF9393,
-						
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -931,7 +982,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					value_label = {
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
@@ -940,7 +991,7 @@ function config.init()
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -950,17 +1001,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-					
+
 					percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
-		
+
 						offset = {
 							x = 135,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -974,13 +1025,13 @@ function config.init()
 					timer_label = {
 						visibility = true,
 						text = "%2.0f:%02.0f",
-		
+
 						offset = {
 							x = 140,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -990,51 +1041,58 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 17
 						},
-		
+
 						size = {
 							width = 185,
 							height = 7
 						},
-		
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
 							foreground = 0xB9CC6666,
-							background = 0x88000000
+							background = 0x88000000,
+							outline = 0xC0FFFFFF
 						}
 					}
 				},
-		
+
 				body_parts = {
 					visibility = false,
-	
+
 					offset = {
 						x = 10,
 						y = 111
 					},
-					
+
 					spacing = {
 						x = 0,
 						y = 33,
 					},
-	
+
 					settings = {
 						hide_undamaged_parts = true,
 						time_limit = 15
 					},
-	
+
 					sorting = {
 						type = "Normal",
 						reversed_order = false
 					},
 
-					filter =
-					{
+					filter = {
 						health_break_severe = true,
 						health_break = true,
 						health_severe = true,
@@ -1047,20 +1105,20 @@ function config.init()
 					part_name_label = {
 						visibility = true,
 						text = "%s",
-			
+
 						include = {
 							part_name = true,
 							flinch_count = false,
 							break_count = true,
 							break_max_count = true
 						},
-		
+
 						offset = {
 							x = 5,
 							y = 0
 						},
 						color = 0xFFf9d9ff,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1078,7 +1136,7 @@ function config.init()
 							x = 0,
 							y = 9
 						},
-			
+
 						text_label = {
 							visibility = false,
 							text = language.current_language.UI.HP,
@@ -1087,7 +1145,7 @@ function config.init()
 								y = -5
 							},
 							color = 0xFFF4A3CC,
-							
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -1097,7 +1155,7 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						value_label = {
 							visibility = true,
 							text = "%11s", -- current_health/max_health
@@ -1106,7 +1164,7 @@ function config.init()
 								y = -5
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -1116,17 +1174,17 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-						
+
 						percentage_label = {
 							visibility = false,
 							text = "%5.1f%%",
-			
+
 							offset = {
 								x = 190,
 								y = -5
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -1136,7 +1194,7 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 
 						bar = {
 							visibility = true,
@@ -1144,19 +1202,27 @@ function config.init()
 								x = 0,
 								y = 6
 							},
-			
+
 							size = {
 								width = 185,
 								height = 5
 							},
-			
+
+							outline = {
+								visibility = true,
+								thickness = 1,
+								offset = 0,
+								style = "Center"
+							},
+
 							colors = {
-								foreground = 0xB9ca85cc,
-								background = 0x88000000
+								foreground = 0xB9CA85CC,
+								background = 0x88000000,
+								outline = 0xC0FFFFFF
 							}
 						}
 					},
-		
+
 					part_break = {
 						visibility = true,
 
@@ -1164,7 +1230,7 @@ function config.init()
 							x = 0,
 							y = 15
 						},
-			
+
 						text_label = {
 							visibility = false,
 							text = language.current_language.UI.part_break,
@@ -1173,7 +1239,7 @@ function config.init()
 								y = 6
 							},
 							color = 0xFFb2d0ff,
-							
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -1183,17 +1249,17 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						value_label = {
 							visibility = true,
 							text = "%-9s",
 							offset = {
 								x = 5,
 								y = 6
-								
+
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -1203,17 +1269,17 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-						
+
 						percentage_label = {
 							visibility = false,
 							text = "%5.1f%%",
-			
+
 							offset = {
 								x = 5,
 								y = 17
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -1223,22 +1289,30 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						bar = {
 							visibility = true,
 							offset = {
 								x = 0,
 								y = 7
 							},
-			
+
 							size = {
 								width = 92,
 								height = 5
 							},
-			
+
+							outline = {
+								visibility = true,
+								thickness = 1,
+								offset = 0,
+								style = "Center"
+							},
+
 							colors = {
 								foreground = 0xB999bfff,
-								background = 0x88000000
+								background = 0x88000000,
+								outline = 0xC0FFFFFF
 							}
 						}
 					},
@@ -1250,7 +1324,7 @@ function config.init()
 							x = 94,
 							y = 15
 						},
-			
+
 						text_label = {
 							visibility = false,
 							text = language.current_language.UI.part_sever,
@@ -1259,7 +1333,7 @@ function config.init()
 								y = 5
 							},
 							color = 0xFFff8095,
-							
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -1269,7 +1343,7 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						value_label = {
 							visibility = true,
 							text = "%11s",
@@ -1278,7 +1352,7 @@ function config.init()
 								y = 6
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -1288,17 +1362,17 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-						
+
 						percentage_label = {
 							visibility = false,
 							text = "%5.1f%%",
-			
+
 							offset = {
 								x = 41,
 								y = 17
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -1308,22 +1382,30 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						bar = {
 							visibility = true,
 							offset = {
 								x = 0,
 								y = 7
 							},
-			
+
 							size = {
 								width = 91,
 								height = 5
 							},
-			
+
+							outline = {
+								visibility = true,
+								thickness = 1,
+								offset = 0,
+								style = "Center"
+							},
+
 							colors = {
 								foreground = 0xB9e57386,
-								background = 0x88000000
+								background = 0x88000000,
+								outline = 0xC0FFFFFF
 							}
 						}
 					},
@@ -1332,7 +1414,7 @@ function config.init()
 
 				ailments = {
 					visibility = false,
-	
+
 					offset = {
 						x = 10,
 						y = 111
@@ -1342,12 +1424,12 @@ function config.init()
 						x = 0,
 						y = 45
 					},
-					
+
 					spacing = {
 						x = 0,
 						y = 24,
 					},
-	
+
 					settings = {
 						hide_ailments_with_zero_buildup = true,
 						hide_inactive_ailments_with_no_buildup_support = true,
@@ -1357,7 +1439,7 @@ function config.init()
 						offset_is_relative_to_parts = true,
 						time_limit = 15
 					},
-	
+
 					sorting = {
 						type = "Normal",
 						reversed_order = false
@@ -1376,7 +1458,7 @@ function config.init()
 						fireblight = true,
 						iceblight = true,
 						thunderblight = true,
-				
+
 						fall_trap = true,
 						shock_trap = true,
 						tranq_bomb = true,
@@ -1386,22 +1468,22 @@ function config.init()
 						fall_otomo_trap = true,
 						shock_otomo_trap = true
 					},
-		
+
 					ailment_name_label = {
 						visibility = true,
 						text = "%s",
-			
+
 						include = {
 							ailment_name = true,
 							activation_count = true
 						},
-		
+
 						offset = {
 							x = 5,
 							y = 0
 						},
 						color = 0xFFffb2e2,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1411,7 +1493,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					text_label = {
 						visibility = false,
 						text = language.current_language.UI.buildup,
@@ -1420,7 +1502,7 @@ function config.init()
 							y = 7
 						},
 						color = 0xFFffb2e2,
-						
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1430,7 +1512,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					value_label = {
 						visibility = true,
 						text = "%.0f/%.0f", -- current_buildup/max_buildup
@@ -1439,7 +1521,7 @@ function config.init()
 							y = 13
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1449,17 +1531,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-					
+
 					percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
-		
+
 						offset = {
 							x = 135,
 							y = 13
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1473,13 +1555,13 @@ function config.init()
 					timer_label = {
 						visibility = true,
 						text = "%2.0f:%02.0f",
-		
+
 						offset = {
 							x = 140,
 							y = 13
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1489,29 +1571,37 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 14
 						},
-		
+
 						size = {
 							width = 185,
 							height = 5
 						},
-		
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
 							foreground = 0xA7ff80ce,
-							background = 0xA7000000
+							background = 0xA7000000,
+							outline = 0xC0FFFFFF
 						}
 					}
 				},
 
 				ailment_buildups = {
 					visibility = false,
-			
+
 					offset = {
 						x = 220,
 						y = 17
@@ -1526,7 +1616,7 @@ function config.init()
 						x = 0,
 						y = 17
 					},
-			
+
 					settings = {
 						buildup_bar_relative_to = "Top Buildup",
 						highlighted_bar = "Me",
@@ -1538,7 +1628,7 @@ function config.init()
 						poison = true,
 						blast = true,
 					},
-			
+
 					sorting = {
 						type = "Buildup",
 						reversed_order = false
@@ -1546,7 +1636,7 @@ function config.init()
 
 					ailment_name_label = {
 						visibility = true,
-			
+
 						include = {
 							ailment_name = true,
 							activation_count = true
@@ -1558,7 +1648,7 @@ function config.init()
 							y = -17
 						},
 						color = 0xFF7cdbff,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1568,17 +1658,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					player_name_label = {
 						visibility = true,
-			
+
 						text = "%s",
 						offset = {
 							x = 5,
 							y = 0
 						},
 						color = 0xFFb5dded,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1588,7 +1678,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					buildup_value_label = {
 						visibility = true,
 						text = "%.0f",
@@ -1597,7 +1687,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFb5dded,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1607,7 +1697,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					buildup_percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
@@ -1616,7 +1706,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFb5dded,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1626,7 +1716,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					total_buildup_label = {
 						visibility = true,
 						text = "%s",
@@ -1635,7 +1725,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFFF9393,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1645,7 +1735,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					total_buildup_value_label = {
 						visibility = true,
 						text = "%.0f",
@@ -1654,7 +1744,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFFF9393,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1664,22 +1754,30 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					buildup_bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 17
 						},
-			
+
 						size = {
 							width = 200,
 							height = 5
 						},
-			
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
-							foreground = 0xA796cfe5,
-							background = 0xA7000000
+							foreground = 0xA796CFE5,
+							background = 0xA7000000,
+							outline = 0xC0FFFFFF
 						}
 					},
 
@@ -1689,28 +1787,36 @@ function config.init()
 							x = 0,
 							y = 17
 						},
-			
+
 						size = {
 							width = 200,
 							height = 5
 						},
-			
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
 							foreground = 0xA7F4D5A3,
-							background = 0xA7000000
+							background = 0xA7000000,
+							outline = 0xC0FFFFFF
 						}
 					}
 				},
 			},
-	
+
 			static = {
 				enabled = true,
-	
+
 				spacing = {
 					x = 250,
 					y = 40,
 				},
-		
+
 				settings = {
 					hide_dead_or_captured = true,
 					render_highlighted_monster = true,
@@ -1719,22 +1825,22 @@ function config.init()
 					orientation = "Horizontal",
 					time_limit = 15
 				},
-		
+
 				sorting = {
 					type = "Normal",
 					reversed_order = false
 				},
-		
+
 				position = {
 					x = 525,
 					y = 47,
 					anchor = "Bottom-Left"
 				},
-		
+
 				monster_name_label = {
 					visibility = true,
 					text = "%s",
-		
+
 					include = {
 						monster_name = true,
 						monster_id = false,
@@ -1742,13 +1848,13 @@ function config.init()
 						size = true,
 						crown_thresholds = false
 					},
-		
+
 					offset = {
 						x = 5,
 						y = 0
 					},
 					color = 0xFFCCF4E1,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -1758,7 +1864,7 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-		
+
 				health = {
 					visibility = true,
 
@@ -1766,7 +1872,7 @@ function config.init()
 						x = 0,
 						y = 17
 					},
-	
+
 					text_label = {
 						visibility = false,
 						text = "%s",
@@ -1775,7 +1881,7 @@ function config.init()
 							y = 2
 						},
 						color = 0xFFCCF4E1,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1785,7 +1891,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					value_label = {
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
@@ -1794,7 +1900,7 @@ function config.init()
 							y = 2
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1804,17 +1910,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-					
+
 					percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
-		
+
 						offset = {
 							x = 150,
 							y = 2
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1824,27 +1930,36 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 0
 						},
-		
+
 						size = {
 							width = 200,
 							height = 20
 						},
 
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						normal_colors = {
 							foreground = 0xB974A653,
 							background = 0xB9000000,
+							outline = 0xC0FFFFFF
 						},
-						
+
 						capture_colors = {
 							foreground = 0xB9CCCC33,
-							background = 0x88000000
+							background = 0x88000000,
+							outline = 0xC0FFFFFF
 						},
 
 						capture_line = {
@@ -1853,17 +1968,17 @@ function config.init()
 								x = 0,
 								y = -3
 							},
-	
+
 							size = {
 								width = 2,
 								height = 8
 							},
-	
+
 							color = 0xB9000000
 						}
 					}
 				},
-		
+
 				stamina = {
 					visibility = true,
 
@@ -1871,7 +1986,7 @@ function config.init()
 						x = 0,
 						y = 37
 					},
-	
+
 					text_label = {
 						visibility = false,
 						text = "%s",
@@ -1880,7 +1995,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFA3F5F0,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1890,7 +2005,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					value_label = {
 						visibility = false,
 						text = "%.0f/%.0f", -- current_health/max_health
@@ -1899,7 +2014,7 @@ function config.init()
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1909,17 +2024,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-					
+
 					percentage_label = {
 						visibility = false,
 						text = "%5.1f%%",
-		
+
 						offset = {
 							x = 145,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1933,13 +2048,13 @@ function config.init()
 					timer_label = {
 						visibility = true,
 						text = "%2.0f:%02.0f",
-		
+
 						offset = {
 							x = 140,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1949,26 +2064,34 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 0
 						},
-		
+
 						size = {
 							width = 200,
 							height = 5
 						},
-		
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
 							foreground = 0xB966CCC5,
-							background = 0x88000000
+							background = 0x88000000,
+							outline = 0xC0FFFFFF
 						}
 					}
 				},
-		
+
 				rage = {
 					visibility = true,
 
@@ -1976,7 +2099,7 @@ function config.init()
 						x = 0,
 						y = 42
 					},
-	
+
 					text_label = {
 						visibility = false,
 						text = "%s",
@@ -1985,7 +2108,7 @@ function config.init()
 							y = 19
 						},
 						color = 0xFFFF9393,
-						
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -1995,7 +2118,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					value_label = {
 						visibility = false,
 						text = "%.0f/%.0f", -- current_health/max_health
@@ -2004,7 +2127,7 @@ function config.init()
 							y = 36
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2014,17 +2137,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-					
+
 					percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
-		
+
 						offset = {
 							x = 150,
 							y = -9
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2038,13 +2161,13 @@ function config.init()
 					timer_label = {
 						visibility = true,
 						text = "%2.0f:%02.0f",
-		
+
 						offset = {
 							x = 157,
 							y = -9
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2054,44 +2177,52 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 0
 						},
-		
+
 						size = {
 							width = 200,
 							height = 5
 						},
-		
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
 							foreground = 0xB9CC6666,
-							background = 0x88000000
+							background = 0x88000000,
+							outline = 0xC0FFFFFF
 						}
 					}
 				},
-		
+
 				body_parts = {
 					visibility = false,
-	
+
 					offset = {
 						x = 10,
 						y = 60
 					},
-					
+
 					spacing = {
 						x = 0,
 						y = 33,
 					},
-	
+
 					settings = {
 						hide_undamaged_parts = true,
 						time_limit = 15
 					},
-	
+
 					sorting = {
 						type = "Normal",
 						reversed_order = false
@@ -2111,20 +2242,20 @@ function config.init()
 					part_name_label = {
 						visibility = true,
 						text = "%s",
-			
+
 						include = {
 							part_name = true,
 							flinch_count = false,
 							break_count = true,
 							break_max_count = true
 						},
-		
+
 						offset = {
 							x = 5,
 							y = 0
 						},
 						color = 0xFFf9d9ff,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2142,7 +2273,7 @@ function config.init()
 							x = 0,
 							y = 9
 						},
-			
+
 						text_label = {
 							visibility = false,
 							text = language.current_language.UI.HP,
@@ -2151,7 +2282,7 @@ function config.init()
 								y = -5
 							},
 							color = 0xFFF4A3CC,
-							
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -2161,7 +2292,7 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						value_label = {
 							visibility = true,
 							text = "%11s", -- current_health/max_health
@@ -2170,7 +2301,7 @@ function config.init()
 								y = -5
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -2180,17 +2311,17 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-						
+
 						percentage_label = {
 							visibility = false,
 							text = "%5.1f%%",
-			
+
 							offset = {
 								x = 190,
 								y = -5
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -2200,7 +2331,7 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 
 						bar = {
 							visibility = true,
@@ -2208,19 +2339,27 @@ function config.init()
 								x = 0,
 								y = 6
 							},
-			
+
 							size = {
 								width = 185,
 								height = 5
 							},
-			
+
+							outline = {
+								visibility = true,
+								thickness = 1,
+								offset = 0,
+								style = "Center"
+							},
+
 							colors = {
-								foreground = 0xB9ca85cc,
-								background = 0x88000000
+								foreground = 0xB9CA85CC,
+								background = 0x88000000,
+								outline = 0xC0FFFFFF
 							}
 						}
 					},
-		
+
 					part_break = {
 						visibility = true,
 
@@ -2228,7 +2367,7 @@ function config.init()
 							x = 0,
 							y = 15
 						},
-			
+
 						text_label = {
 							visibility = false,
 							text = language.current_language.UI.part_break,
@@ -2237,7 +2376,7 @@ function config.init()
 								y = 6
 							},
 							color = 0xFFb2d0ff,
-							
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -2247,17 +2386,17 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						value_label = {
 							visibility = true,
 							text = "%-9s",
 							offset = {
 								x = 5,
 								y = 6
-								
+
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -2267,17 +2406,17 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-						
+
 						percentage_label = {
 							visibility = false,
 							text = "%5.1f%%",
-			
+
 							offset = {
 								x = 5,
 								y = 17
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -2287,22 +2426,30 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						bar = {
 							visibility = true,
 							offset = {
 								x = 0,
 								y = 7
 							},
-			
+
 							size = {
 								width = 92,
 								height = 5
 							},
-			
+
+							outline = {
+								visibility = true,
+								thickness = 1,
+								offset = 0,
+								style = "Center"
+							},
+
 							colors = {
-								foreground = 0xB999bfff,
-								background = 0x88000000
+								foreground = 0xB999BFFF,
+								background = 0x88000000,
+								outline = 0xC0FFFFFF
 							}
 						}
 					},
@@ -2314,7 +2461,7 @@ function config.init()
 							x = 94,
 							y = 15
 						},
-			
+
 						text_label = {
 							visibility = false,
 							text = language.current_language.UI.part_sever,
@@ -2323,7 +2470,7 @@ function config.init()
 								y = 5
 							},
 							color = 0xFFff8095,
-							
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -2333,7 +2480,7 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						value_label = {
 							visibility = true,
 							text = "%11s",
@@ -2342,7 +2489,7 @@ function config.init()
 								y = 6
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -2352,17 +2499,17 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-						
+
 						percentage_label = {
 							visibility = false,
 							text = "%5.1f%%",
-			
+
 							offset = {
 								x = 41,
 								y = 17
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -2372,22 +2519,30 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						bar = {
 							visibility = true,
 							offset = {
 								x = 0,
 								y = 7
 							},
-			
+
 							size = {
 								width = 91,
 								height = 5
 							},
-			
+
+							outline = {
+								visibility = true,
+								thickness = 1,
+								offset = 0,
+								style = "Center"
+							},
+
 							colors = {
-								foreground = 0xB9e57386,
-								background = 0x88000000
+								foreground = 0xB9E57386,
+								background = 0x88000000,
+								outline = 0xC0FFFFFF
 							}
 						}
 					},
@@ -2396,7 +2551,7 @@ function config.init()
 
 				ailments = {
 					visibility = false,
-	
+
 					offset = {
 						x = 10,
 						y = 73
@@ -2406,23 +2561,23 @@ function config.init()
 						x = 0,
 						y = 45
 					},
-					
+
 					spacing = {
 						x = 0,
 						y = 24,
 					},
-	
+
 					settings = {
 						hide_ailments_with_zero_buildup = true,
 						hide_inactive_ailments_with_no_buildup_support = true,
 						hide_all_inactive_ailments = false,
 						hide_all_active_ailments = false,
 						hide_disabled_ailments = true,
-						
+
 						offset_is_relative_to_parts = true,
 						time_limit = 15
 					},
-	
+
 					sorting = {
 						type = "Normal",
 						reversed_order = false
@@ -2441,7 +2596,7 @@ function config.init()
 						fireblight = true,
 						iceblight = true,
 						thunderblight = true,
-				
+
 						fall_trap = true,
 						shock_trap = true,
 						tranq_bomb = true,
@@ -2451,22 +2606,22 @@ function config.init()
 						fall_otomo_trap = true,
 						shock_otomo_trap = true
 					},
-		
+
 					ailment_name_label = {
 						visibility = true,
 						text = "%s",
-			
+
 						include = {
 							ailment_name = true,
 							activation_count = true
 						},
-		
+
 						offset = {
 							x = 5,
 							y = 0
 						},
 						color = 0xFFffb2e2,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2476,7 +2631,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					text_label = {
 						visibility = false,
 						text = language.current_language.UI.buildup,
@@ -2485,7 +2640,7 @@ function config.init()
 							y = 7
 						},
 						color = 0xFFffb2e2,
-						
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2495,7 +2650,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					value_label = {
 						visibility = true,
 						text = "%.0f/%.0f", -- current_buildup/max_buildup
@@ -2504,7 +2659,7 @@ function config.init()
 							y = 13
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2514,17 +2669,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-					
+
 					percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
-		
+
 						offset = {
 							x = 135,
 							y = 13
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2538,13 +2693,13 @@ function config.init()
 					timer_label = {
 						visibility = true,
 						text = "%2.0f:%02.0f",
-		
+
 						offset = {
 							x = 140,
 							y = 13
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2554,29 +2709,37 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 14
 						},
-		
+
 						size = {
 							width = 185,
 							height = 5
 						},
-		
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
-							foreground = 0xA7ff80ce,
-							background = 0xA7000000
+							foreground = 0xA7FF80CE,
+							background = 0xA7000000,
+							outline = 0xC0FFFFFF
 						}
 					}
 				},
 
 				ailment_buildups = {
 					visibility = false,
-			
+
 					offset = {
 						x = 220,
 						y = 17
@@ -2591,7 +2754,7 @@ function config.init()
 						x = 0,
 						y = 17
 					},
-			
+
 					settings = {
 						buildup_bar_relative_to = "Top Buildup",
 						highlighted_bar = "Me",
@@ -2603,7 +2766,7 @@ function config.init()
 						poison = true,
 						blast = true,
 					},
-			
+
 					sorting = {
 						type = "Buildup",
 						reversed_order = false
@@ -2611,7 +2774,7 @@ function config.init()
 
 					ailment_name_label = {
 						visibility = true,
-			
+
 						include = {
 							ailment_name = true,
 							activation_count = true
@@ -2623,7 +2786,7 @@ function config.init()
 							y = -17
 						},
 						color = 0xFF7cdbff,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2633,17 +2796,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					player_name_label = {
 						visibility = true,
-			
+
 						text = "%s",
 						offset = {
 							x = 5,
 							y = 0
 						},
 						color = 0xFFb5dded,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2653,7 +2816,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					buildup_value_label = {
 						visibility = true,
 						text = "%.0f",
@@ -2662,7 +2825,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFb5dded,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2672,7 +2835,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					buildup_percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
@@ -2681,7 +2844,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFb5dded,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2691,7 +2854,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					total_buildup_label = {
 						visibility = true,
 						text = "%s",
@@ -2700,7 +2863,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFFF9393,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2710,7 +2873,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					total_buildup_value_label = {
 						visibility = true,
 						text = "%.0f",
@@ -2719,7 +2882,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFFF9393,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2729,22 +2892,30 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					buildup_bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 17
 						},
-			
+
 						size = {
 							width = 200,
 							height = 5
 						},
-			
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
-							foreground = 0xA796cfe5,
-							background = 0xA7000000
+							foreground = 0xA796CFE5,
+							background = 0xA7000000,
+							outline = 0xC0FFFFFF
 						}
 					},
 
@@ -2754,15 +2925,23 @@ function config.init()
 							x = 0,
 							y = 17
 						},
-			
+
 						size = {
 							width = 200,
 							height = 5
 						},
-			
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
 							foreground = 0xA7F4D5A3,
-							background = 0xA7000000
+							background = 0xA7000000,
+							outline = 0xC0FFFFFF
 						}
 					}
 				},
@@ -2770,17 +2949,17 @@ function config.init()
 
 			highlighted = {
 				enabled = true,
-		
+
 				position = {
 					x = 615,
-					y = 25,--y = 44,
+					y = 25, --y = 44,
 					anchor = "Top-Right"
 				},
-		
+
 				monster_name_label = {
 					visibility = true,
 					text = "%s",
-		
+
 					include = {
 						monster_name = true,
 						monster_id = false,
@@ -2788,13 +2967,13 @@ function config.init()
 						size = true,
 						crown_thresholds = false
 					},
-		
+
 					offset = {
 						x = 5,
 						y = 0
 					},
 					color = 0xFFCCF4E1,
-		
+
 					shadow = {
 						visibility = true,
 						offset = {
@@ -2804,7 +2983,7 @@ function config.init()
 						color = 0xFF000000
 					}
 				},
-		
+
 				health = {
 					visibility = true,
 
@@ -2812,7 +2991,7 @@ function config.init()
 						x = 0,
 						y = 17
 					},
-					
+
 					text_label = {
 						visibility = false,
 						text = "%s",
@@ -2821,7 +3000,7 @@ function config.init()
 							y = 2
 						},
 						color = 0xFFCCF4E1,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2831,7 +3010,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					value_label = {
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
@@ -2840,7 +3019,7 @@ function config.init()
 							y = 2
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2850,17 +3029,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-					
+
 					percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
-		
+
 						offset = {
 							x = 150,
 							y = 2
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2870,27 +3049,36 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 0
 						},
-		
+
 						size = {
 							width = 200,
 							height = 20
 						},
 
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						normal_colors = {
 							foreground = 0xB974A653,
 							background = 0xB9000000,
+							outline = 0xC0FFFFFF
 						},
-						
+
 						capture_colors = {
 							foreground = 0xB9CCCC33,
-							background = 0x88000000
+							background = 0x88000000,
+							outline = 0xC0FFFFFF
 						},
 
 						capture_line = {
@@ -2899,17 +3087,17 @@ function config.init()
 								x = 0,
 								y = -3
 							},
-	
+
 							size = {
 								width = 2,
 								height = 8
 							},
-	
+
 							color = 0xB9000000
 						}
 					},
 				},
-		
+
 				stamina = {
 					visibility = true,
 
@@ -2917,16 +3105,16 @@ function config.init()
 						x = 10,
 						y = 37
 					},
-	
+
 					text_label = {
 						visibility = true,
 						text = "%s",
 						offset = {
-							x = 15-10,
+							x = 15 - 10,
 							y = 0
 						},
 						color = 0xFFA3F5F0,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2936,7 +3124,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					value_label = {
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
@@ -2945,7 +3133,7 @@ function config.init()
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2955,17 +3143,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-					
+
 					percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
-		
+
 						offset = {
 							x = 135,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2979,13 +3167,13 @@ function config.init()
 					timer_label = {
 						visibility = true,
 						text = "%2.0f:%02.0f",
-		
+
 						offset = {
 							x = 140,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -2995,26 +3183,34 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					bar = {
 						visibility = true,
 						offset = {
-							x = 10-10,
+							x = 10 - 10,
 							y = 17
 						},
-		
+
 						size = {
 							width = 185,
 							height = 7
 						},
-		
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
 							foreground = 0xB966CCC5,
-							background = 0x88000000
+							background = 0x88000000,
+							outline = 0xC0FFFFFF
 						}
 					}
 				},
-		
+
 				rage = {
 					visibility = true,
 
@@ -3022,7 +3218,7 @@ function config.init()
 						x = 10,
 						y = 61
 					},
-	
+
 					text_label = {
 						visibility = true,
 						text = "%s",
@@ -3031,7 +3227,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFFF9393,
-						
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3041,7 +3237,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					value_label = {
 						visibility = true,
 						text = "%.0f/%.0f", -- current_health/max_health
@@ -3050,7 +3246,7 @@ function config.init()
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3060,17 +3256,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-					
+
 					percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
-		
+
 						offset = {
 							x = 135,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3084,13 +3280,13 @@ function config.init()
 					timer_label = {
 						visibility = true,
 						text = "%2.0f:%02.0f",
-		
+
 						offset = {
 							x = 140,
 							y = 17
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3100,44 +3296,52 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 17
 						},
-		
+
 						size = {
 							width = 185,
 							height = 7
 						},
-		
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
 							foreground = 0xB9CC6666,
-							background = 0x88000000
+							background = 0x88000000,
+							outline = 0xC0FFFFFF
 						}
 					}
 				},
-		
+
 				body_parts = {
 					visibility = true,
-	
+
 					offset = {
 						x = 10,
 						y = 111
 					},
-					
+
 					spacing = {
 						x = 0,
 						y = 33,
 					},
-	
+
 					settings = {
 						hide_undamaged_parts = true,
 						time_limit = 15
 					},
-	
+
 					sorting = {
 						type = "Normal",
 						reversed_order = false
@@ -3157,20 +3361,20 @@ function config.init()
 					part_name_label = {
 						visibility = true,
 						text = "%s",
-			
+
 						include = {
 							part_name = true,
 							flinch_count = false,
 							break_count = true,
 							break_max_count = true
 						},
-		
+
 						offset = {
 							x = 5,
 							y = 0
 						},
 						color = 0xFFf9d9ff,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3188,7 +3392,7 @@ function config.init()
 							x = 0,
 							y = 9
 						},
-			
+
 						text_label = {
 							visibility = false,
 							text = language.current_language.UI.HP,
@@ -3197,7 +3401,7 @@ function config.init()
 								y = -5
 							},
 							color = 0xFFF4A3CC,
-							
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -3207,7 +3411,7 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						value_label = {
 							visibility = true,
 							text = "%11s", -- current_health/max_health
@@ -3216,7 +3420,7 @@ function config.init()
 								y = -5
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -3226,17 +3430,17 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-						
+
 						percentage_label = {
 							visibility = false,
 							text = "%5.1f%%",
-			
+
 							offset = {
 								x = 190,
 								y = -5
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -3246,26 +3450,34 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						bar = {
 							visibility = true,
 							offset = {
 								x = 0,
 								y = 6
 							},
-			
+
 							size = {
 								width = 185,
 								height = 5
 							},
-			
+
+							outline = {
+								visibility = true,
+								thickness = 1,
+								offset = 0,
+								style = "Center"
+							},
+
 							colors = {
-								foreground = 0xB9ca85cc,
-								background = 0x88000000
+								foreground = 0xB9CA85CC,
+								background = 0x88000000,
+								outline = 0xC0FFFFFF
 							}
 						}
 					},
-		
+
 					part_break = {
 						visibility = true,
 
@@ -3273,7 +3485,7 @@ function config.init()
 							x = 0,
 							y = 15
 						},
-			
+
 						text_label = {
 							visibility = false,
 							text = language.current_language.UI.part_break,
@@ -3282,7 +3494,7 @@ function config.init()
 								y = 6
 							},
 							color = 0xFFb2d0ff,
-							
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -3292,17 +3504,17 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						value_label = {
 							visibility = true,
 							text = "%-9s",
 							offset = {
 								x = 5,
 								y = 6
-								
+
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -3312,17 +3524,17 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-						
+
 						percentage_label = {
 							visibility = false,
 							text = "%5.1f%%",
-			
+
 							offset = {
 								x = 5,
 								y = 17
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -3332,22 +3544,30 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						bar = {
 							visibility = true,
 							offset = {
 								x = 0,
 								y = 7
 							},
-			
+
 							size = {
 								width = 92,
 								height = 5
 							},
-			
+
+							outline = {
+								visibility = true,
+								thickness = 1,
+								offset = 0,
+								style = "Center"
+							},
+
 							colors = {
-								foreground = 0xB999bfff,
-								background = 0x88000000
+								foreground = 0xB999BFFF,
+								background = 0x88000000,
+								outline = 0xC0FFFFFF
 							}
 						}
 					},
@@ -3359,7 +3579,7 @@ function config.init()
 							x = 94,
 							y = 15
 						},
-			
+
 						text_label = {
 							visibility = false,
 							text = language.current_language.UI.part_sever,
@@ -3368,7 +3588,7 @@ function config.init()
 								y = 5
 							},
 							color = 0xFFff8095,
-							
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -3378,7 +3598,7 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						value_label = {
 							visibility = true,
 							text = "%11s",
@@ -3387,7 +3607,7 @@ function config.init()
 								y = 6
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -3397,17 +3617,17 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-						
+
 						percentage_label = {
 							visibility = false,
 							text = "%5.1f%%",
-			
+
 							offset = {
 								x = 41,
 								y = 17
 							},
 							color = 0xFFFFFFFF,
-			
+
 							shadow = {
 								visibility = true,
 								offset = {
@@ -3417,22 +3637,30 @@ function config.init()
 								color = 0xFF000000
 							}
 						},
-			
+
 						bar = {
 							visibility = true,
 							offset = {
 								x = 0,
 								y = 7
 							},
-			
+
 							size = {
 								width = 91,
 								height = 5
 							},
-			
+
+							outline = {
+								visibility = true,
+								thickness = 1,
+								offset = 0,
+								style = "Center"
+							},
+
 							colors = {
-								foreground = 0xB9e57386,
-								background = 0x88000000
+								foreground = 0xB9E57386,
+								background = 0x88000000,
+								outline = 0xC0FFFFFF
 							}
 						}
 					},
@@ -3441,7 +3669,7 @@ function config.init()
 
 				ailments = {
 					visibility = true,
-	
+
 					offset = {
 						x = 10,
 						y = 111
@@ -3451,12 +3679,12 @@ function config.init()
 						x = 0,
 						y = 45
 					},
-					
+
 					spacing = {
 						x = 0,
 						y = 24,
 					},
-	
+
 					settings = {
 						hide_ailments_with_zero_buildup = true,
 						hide_inactive_ailments_with_no_buildup_support = true,
@@ -3466,7 +3694,7 @@ function config.init()
 						offset_is_relative_to_parts = true,
 						time_limit = 15
 					},
-	
+
 					sorting = {
 						type = "Normal",
 						reversed_order = false
@@ -3485,7 +3713,7 @@ function config.init()
 						fireblight = true,
 						iceblight = true,
 						thunderblight = true,
-				
+
 						fall_trap = true,
 						shock_trap = true,
 						tranq_bomb = true,
@@ -3495,22 +3723,22 @@ function config.init()
 						fall_otomo_trap = true,
 						shock_otomo_trap = true
 					},
-		
+
 					ailment_name_label = {
 						visibility = true,
 						text = "%s",
-			
+
 						include = {
 							ailment_name = true,
 							activation_count = true
 						},
-		
+
 						offset = {
 							x = 5,
 							y = 0
 						},
 						color = 0xFFffb2e2,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3520,7 +3748,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					text_label = {
 						visibility = false,
 						text = language.current_language.UI.buildup,
@@ -3529,7 +3757,7 @@ function config.init()
 							y = 7
 						},
 						color = 0xFFffb2e2,
-						
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3539,7 +3767,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					value_label = {
 						visibility = true,
 						text = "%.0f/%.0f", -- current_buildup/max_buildup
@@ -3548,7 +3776,7 @@ function config.init()
 							y = 13
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3558,17 +3786,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-					
+
 					percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
-		
+
 						offset = {
 							x = 135,
 							y = 13
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3582,13 +3810,13 @@ function config.init()
 					timer_label = {
 						visibility = true,
 						text = "%2.0f:%02.0f",
-		
+
 						offset = {
 							x = 140,
 							y = 13
 						},
 						color = 0xFFFFFFFF,
-		
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3598,29 +3826,37 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-		
+
 					bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 14
 						},
-		
+
 						size = {
 							width = 185,
 							height = 5
 						},
-		
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
-							foreground = 0xA7ff80ce,
-							background = 0xA7000000
+							foreground = 0xA7FF80CE,
+							background = 0xA7000000,
+							outline = 0xC0FFFFFF
 						}
 					}
 				},
 
 				ailment_buildups = {
 					visibility = false,
-			
+
 					offset = {
 						x = 220,
 						y = 167
@@ -3635,7 +3871,7 @@ function config.init()
 						x = 0,
 						y = 17
 					},
-			
+
 					settings = {
 						buildup_bar_relative_to = "Top Buildup",
 						highlighted_bar = "Me",
@@ -3647,7 +3883,7 @@ function config.init()
 						poison = true,
 						blast = true,
 					},
-			
+
 					sorting = {
 						type = "Buildup",
 						reversed_order = false
@@ -3655,7 +3891,7 @@ function config.init()
 
 					ailment_name_label = {
 						visibility = true,
-			
+
 						include = {
 							ailment_name = true,
 							activation_count = true
@@ -3667,7 +3903,7 @@ function config.init()
 							y = -17
 						},
 						color = 0xFF7cdbff,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3677,17 +3913,17 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					player_name_label = {
 						visibility = true,
-			
+
 						text = "%s",
 						offset = {
 							x = 5,
 							y = 0
 						},
 						color = 0xFFb5dded,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3697,7 +3933,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					buildup_value_label = {
 						visibility = true,
 						text = "%.0f",
@@ -3706,7 +3942,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFb5dded,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3716,7 +3952,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					buildup_percentage_label = {
 						visibility = true,
 						text = "%5.1f%%",
@@ -3725,7 +3961,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFb5dded,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3735,7 +3971,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					total_buildup_label = {
 						visibility = true,
 						text = "%s",
@@ -3744,7 +3980,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFFF9393,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3754,7 +3990,7 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					total_buildup_value_label = {
 						visibility = true,
 						text = "%.0f",
@@ -3763,7 +3999,7 @@ function config.init()
 							y = 0
 						},
 						color = 0xFFFF9393,
-			
+
 						shadow = {
 							visibility = true,
 							offset = {
@@ -3773,22 +4009,30 @@ function config.init()
 							color = 0xFF000000
 						}
 					},
-			
+
 					buildup_bar = {
 						visibility = true,
 						offset = {
 							x = 0,
 							y = 17
 						},
-			
+
 						size = {
 							width = 200,
 							height = 5
 						},
-			
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
-							foreground = 0xA796cfe5,
-							background = 0xA7000000
+							foreground = 0xA796CFE5,
+							background = 0xA7000000,
+							outline = 0xC0FFFFFF
 						}
 					},
 
@@ -3798,30 +4042,38 @@ function config.init()
 							x = 0,
 							y = 17
 						},
-			
+
 						size = {
 							width = 200,
 							height = 5
 						},
-			
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
 						colors = {
 							foreground = 0xA7F4D5A3,
-							background = 0xA7000000
+							background = 0xA7000000,
+							outline = 0xC0FFFFFF
 						}
 					}
 				},
 			}
 		},
-	
+
 		time_UI = {
 			enabled = true,
-	
+
 			position = {
 				x = 65,
 				y = 189,
 				anchor = "Top-Left"
 			},
-	
+
 			time_label = {
 				visibility = true,
 				text = "%02d:%06.3f",
@@ -3830,7 +4082,7 @@ function config.init()
 					y = 0
 				},
 				color = 0xFFCCF4E1,
-	
+
 				shadow = {
 					visibility = true,
 					offset = {
@@ -3841,15 +4093,15 @@ function config.init()
 				}
 			}
 		},
-	
+
 		damage_meter_UI = {
 			enabled = true,
-	
+
 			tracked_monster_types = {
 				small_monsters = true,
 				large_monsters = true
 			},
-	
+
 			tracked_damage_types = {
 				player_damage = true,
 				bomb_damage = true,
@@ -3860,54 +4112,54 @@ function config.init()
 				poison_damage = true,
 				blast_damage = true,
 				endemic_life_damage = true,
-				other_damage = true  -- note that installations during narwa fight are counted as other damage
-			}, 
-	
+				other_damage = true -- note that installations during narwa fight are counted as other damage
+			},
+
 			spacing = {
 				x = 300,
 				y = 24
 			},
-	
+
 			settings = {
-			
+
 
 				hide_myself = false,
 				hide_other_players = false,
 				hide_total_damage = false,
-	
+
 				hide_module_if_total_damage_is_zero = false,
 				hide_player_if_player_damage_is_zero = false,
 				hide_total_if_total_damage_is_zero = false,
 				total_damage_offset_is_relative = true,
 
 				freeze_dps_on_quest_clear = true,
-	
+
 				orientation = "Vertical", -- "Vertical" or "Horizontal"
 				highlighted_bar = "Me",
 				damage_bar_relative_to = "Top Damage", -- "total damage" or "top damage"
 				my_damage_bar_location = "First", -- "normal" or "first" or "last"
 				dps_mode = "First Hit",
 
-				
+
 
 				player_name_size_limit = 150
 			},
-	
+
 			sorting = {
 				type = "Damage", -- "normal" or "damage" or "dps"
 				reversed_order = false
 			},
-	
+
 			position = {
 				x = 525,
 				y = 225,
 				-- Possible values: "Top-Left", "Top-Right", "Bottom-Left", "Bottom-Right"
 				anchor = "Bottom-Left"
 			},
-	
+
 			player_name_label = {
 				visibility = true,
-	
+
 				include = {
 					myself = {
 						master_rank = true,
@@ -3917,7 +4169,7 @@ function config.init()
 						player_id = false,
 						player_name = true
 					},
-	
+
 					others = {
 						master_rank = true,
 						hunter_rank = true,
@@ -3927,14 +4179,14 @@ function config.init()
 						player_name = true
 					}
 				},
-	
+
 				text = "%s",
 				offset = {
 					x = 5,
 					y = 0
 				},
 				color = 0xFFCCF4E1,
-	
+
 				shadow = {
 					visibility = true,
 					offset = {
@@ -3947,26 +4199,26 @@ function config.init()
 
 			master_hunter_rank_label = {
 				visibility = false,
-	
+
 				include = {
 					myself = {
 						master_rank = true,
 						hunter_rank = true
 					},
-	
+
 					others = {
 						master_rank = true,
 						hunter_rank = true
 					}
 				},
-	
+
 				text = "[%s]",
 				offset = {
 					x = -65,
 					y = 0
 				},
 				color = 0xFFCCF4E1,
-	
+
 				shadow = {
 					visibility = true,
 					offset = {
@@ -3979,14 +4231,14 @@ function config.init()
 
 			cart_count_label = {
 				visibility = false,
-	
+
 				text = "x%d",
 				offset = {
 					x = 315,
 					y = 0
 				},
 				color = 0xFFCCF4E1,
-	
+
 				shadow = {
 					visibility = true,
 					offset = {
@@ -4006,7 +4258,7 @@ function config.init()
 					y = 0
 				},
 				color = 0xFFCCF4E1,
-	
+
 				shadow = {
 					visibility = true,
 					offset = {
@@ -4016,7 +4268,7 @@ function config.init()
 					color = 0xFF000000
 				}
 			},
-	
+
 			damage_value_label = {
 				visibility = true,
 				text = "%.0f",
@@ -4025,7 +4277,7 @@ function config.init()
 					y = 0
 				},
 				color = 0xFFCCF4E1,
-	
+
 				shadow = {
 					visibility = true,
 					offset = {
@@ -4035,7 +4287,7 @@ function config.init()
 					color = 0xFF000000
 				}
 			},
-	
+
 			damage_percentage_label = {
 				visibility = true,
 				text = "%5.1f%%",
@@ -4044,7 +4296,7 @@ function config.init()
 					y = 0
 				},
 				color = 0xFFCCF4E1,
-	
+
 				shadow = {
 					visibility = true,
 					offset = {
@@ -4054,7 +4306,7 @@ function config.init()
 					color = 0xFF000000
 				}
 			},
-	
+
 			total_damage_label = {
 				visibility = true,
 				text = "%s",
@@ -4063,7 +4315,7 @@ function config.init()
 					y = 0
 				},
 				color = 0xFFFF7373,
-	
+
 				shadow = {
 					visibility = true,
 					offset = {
@@ -4083,7 +4335,7 @@ function config.init()
 					y = 0
 				},
 				color = 0xFFFF7373,
-	
+
 				shadow = {
 					visibility = true,
 					offset = {
@@ -4093,7 +4345,7 @@ function config.init()
 					color = 0xFF000000
 				}
 			},
-	
+
 			total_damage_value_label = {
 				visibility = true,
 				text = "%.0f",
@@ -4102,7 +4354,7 @@ function config.init()
 					y = 0
 				},
 				color = 0xFFFF7373,
-	
+
 				shadow = {
 					visibility = true,
 					offset = {
@@ -4112,53 +4364,69 @@ function config.init()
 					color = 0xFF000000
 				}
 			},
-	
+
 			damage_bar = {
 				visibility = true,
 				offset = {
 					x = 0,
 					y = 17
 				},
-	
+
 				size = {
 					width = 310,
 					height = 5
 				},
-	
+
+				outline = {
+					visibility = true,
+					thickness = 1,
+					offset = 0,
+					style = "Center"
+				},
+
 				colors = {
 					foreground = 0xA7CCA3F4,
-					background = 0xA7000000
+					background = 0xA7000000,
+					outline = 0xC0FFFFFF
 				}
 			},
-	
+
 			highlighted_damage_bar = {
 				visibility = true,
 				offset = {
 					x = 0,
 					y = 17
 				},
-	
+
 				size = {
 					width = 310,
 					height = 5
 				},
-	
+
+				outline = {
+					visibility = true,
+					thickness = 1,
+					offset = 0,
+					style = "Center"
+				},
+
 				colors = {
 					foreground = 0xA7F4D5A3,
-					background = 0xA7000000
+					background = 0xA7000000,
+					outline = 0xC0FFFFFF
 				}
 			}
 		},
 
 		endemic_life_UI = {
 			enabled = false,
-	
+
 			settings = {
 				hide_inactive_creatures = true,
 				max_distance = 300,
 				opacity_falloff = true,
 			},
-	
+
 			world_offset = {
 				x = 0,
 				y = 1,
@@ -4169,17 +4437,17 @@ function config.init()
 				x = 0,
 				y = 0
 			},
-	
+
 			creature_name_label = {
 				visibility = true,
 				text = "%s",
-	
+
 				offset = {
 					x = 0,
 					y = 0
 				},
 				color = 0xFFf4f3ab,
-	
+
 				shadow = {
 					visibility = true,
 					offset = {
@@ -4194,7 +4462,7 @@ function config.init()
 end
 
 function config.load()
-    local loaded_config = json.load_file(config.config_file_name);
+	local loaded_config = json.load_file(config.config_file_name);
 	if loaded_config ~= nil then
 		log.info("[MHR Overlay] config.json loaded successfully");
 		config.current_config = table_helpers.merge(config.default_config, loaded_config);
@@ -4222,7 +4490,8 @@ function config.init_module()
 	config.load();
 	config.current_config.version = "v2.1.2";
 
-	language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
+	language.update(table_helpers.find_index(language.language_names,
+		config.current_config.global_settings.language, false));
 
 end
 

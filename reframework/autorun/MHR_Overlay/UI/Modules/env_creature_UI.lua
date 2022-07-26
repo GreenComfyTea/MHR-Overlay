@@ -23,35 +23,36 @@ function env_creature_UI.draw()
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
 	for REcreature, creature in pairs(env_creature.list) do
-				
+
 		if cached_config.settings.max_distance == 0 then
-			break;
+			break
 		end
 
 		if cached_config.settings.hide_inactive_creatures and creature.is_inactive then
-			goto continue;
+			goto continue
 		end
 
 		local position_on_screen = {};
 
-		local world_offset = Vector3f.new(cached_config.world_offset.x, cached_config.world_offset.y, cached_config.world_offset.z);
-	
+		local world_offset = Vector3f.new(cached_config.world_offset.x, cached_config.world_offset.y,
+			cached_config.world_offset.z);
+
 		position_on_screen = draw.world_to_screen(creature.position + world_offset);
-		
+
 		if position_on_screen == nil then
-			goto continue;
+			goto continue
 		end
 
 		position_on_screen.x = position_on_screen.x + cached_config.viewport_offset.x * global_scale_modifier;
 		position_on_screen.y = position_on_screen.y + cached_config.viewport_offset.y * global_scale_modifier;
-		
+
 		creature.distance = (player.myself_position - creature.position):length();
 
 		local opacity_scale = 1;
 		if creature.distance > cached_config.settings.max_distance then
-			goto continue;
+			goto continue
 		end
-		
+
 		if cached_config.settings.opacity_falloff then
 			opacity_scale = 1 - (creature.distance / cached_config.settings.max_distance);
 		end
@@ -60,7 +61,6 @@ function env_creature_UI.draw()
 		::continue::
 	end
 end
-
 
 function env_creature_UI.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");

@@ -44,6 +44,9 @@ local ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity"
 local ailment_buildup_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_buildup_UI_entity");
 
 local customization_menu = require("MHR_Overlay.UI.customization_menu");
+local label_customization = require("MHR_Overlay.UI.Customizations.label_customization");
+local bar_customization = require("MHR_Overlay.UI.Customizations.bar_customization");
+local line_customization = require("MHR_Overlay.UI.Customizations.line_customization");
 local drawing = require("MHR_Overlay.UI.drawing");
 
 ------------------------INIT MODULES-------------------------
@@ -82,9 +85,12 @@ ailment_hook.init_module();
 ailment_buildup.init_module();
 
 customization_menu.init_module();
+label_customization.init_module();
+bar_customization.init_module();
+line_customization.init_module();
+drawing.init_module();
 
 damage_meter_UI.init_module();
-drawing.init_module();
 large_monster_UI.init_module();
 small_monster_UI.init_module();
 time_UI.init_module();
@@ -102,97 +108,25 @@ log.info("[MHR Overlay] loaded");
 -- #region
 local function main_loop()
 	customization_menu.status = "OK";
-		singletons.init();
-		screen.update_window_size();
-		player.update_myself_position();
-		quest_status.update_is_online();
-		quest_status.update_is_result_screen();
-		quest_status.update_is_host();
-		time.tick();
+	singletons.init();
+	screen.update_window_size();
+	player.update_myself_position();
+	quest_status.update_is_online();
+	quest_status.update_is_result_screen();
+	quest_status.update_is_host();
+	time.tick();
 
-		player.update_player_list(quest_status.index >= 2);
-		if quest_status.index < 2 then
-			quest_status.update_is_training_area();
+	player.update_player_list(quest_status.index >= 2);
+	if quest_status.index < 2 then
+		quest_status.update_is_training_area();
 
-			if quest_status.is_training_area then
-				local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and config.current_config.global_settings.module_visibility.training_area.large_monster_dynamic_UI;
-				local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.training_area.large_monster_static_UI;
-				local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and config.current_config.global_settings.module_visibility.training_area.large_monster_highlighted_UI;
-
-				if dynamic_enabled or static_enabled or highlighted_enabled then
-					local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
-					if not success then
-						customization_menu.status = "Large monster drawing function threw an exception";
-					end
-				end
-		
-				if config.current_config.damage_meter_UI.enabled and config.current_config.global_settings.module_visibility.training_area.damage_meter_UI then
-					local success = pcall(damage_meter_UI.draw);
-					if not success then
-						customization_menu.status = "Damage meter drawing function threw an exception";
-					end
-				end
-
-				if config.current_config.endemic_life_UI.enabled and config.current_config.global_settings.module_visibility.training_area.endemic_life_UI then
-					local success = pcall(env_creature_UI.draw);
-					if not success then
-						customization_menu.status = "Endemic life drawing function threw an exception";
-					end
-				end
-			end
-		elseif quest_status.is_result_screen then
-			if config.current_config.small_monster_UI.enabled and config.current_config.global_settings.module_visibility.quest_result_screen.small_monster_UI then
-				local success = pcall(small_monster_UI.draw);
-				if not success then
-					customization_menu.status = "Small monster drawing function threw an exception";
-				end
-			end
-
-			local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and config.current_config.global_settings.module_visibility.quest_result_screen.large_monster_dynamic_UI;
-			local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.quest_result_screen.large_monster_static_UI;
-			local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and config.current_config.global_settings.module_visibility.quest_result_screen.large_monster_highlighted_UI;
-
-			if dynamic_enabled or static_enabled or highlighted_enabled then
-				local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
-				if not success then
-					customization_menu.status = "Large monster drawing function threw an exception";
-				end
-			end
-			
-			if config.current_config.time_UI.enabled and config.current_config.global_settings.module_visibility.quest_result_screen.time_UI then
-				local success = pcall(time_UI.draw);
-				if not success then
-					customization_menu.status = "Time drawing function threw an exception";
-				end
-			end
-
-			if config.current_config.damage_meter_UI.enabled and config.current_config.global_settings.module_visibility.quest_result_screen.damage_meter_UI then
-				local success = pcall(damage_meter_UI.draw);
-				if not success then
-					customization_menu.status = "Damage meter drawing function threw an exception";
-				end
-			end
-
-			if config.current_config.endemic_life_UI.enabled and config.current_config.global_settings.module_visibility.quest_result_screen.endemic_life_UI then
-				local success = pcall(env_creature_UI.draw);
-				if not success then
-					customization_menu.status = "Endemic life drawing function threw an exception";
-				end
-			end
-		elseif quest_status.index == 2 then
-
-			if config.current_config.small_monster_UI.enabled and config.current_config.global_settings.module_visibility.during_quest.small_monster_UI then
-				local success = pcall(small_monster_UI.draw);
-				if not success then
-					customization_menu.status = "Small monster drawing function threw an exception";
-				end
-			end
-
-			local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_dynamic_UI;
-			local static_enabled = config.current_config.large_monster_UI.static.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_static_UI;
-			local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and config.current_config.global_settings.module_visibility.during_quest.large_monster_highlighted_UI;
-
-
+		if quest_status.is_training_area then
+			local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and
+				config.current_config.global_settings.module_visibility.training_area.large_monster_dynamic_UI;
+			local static_enabled = config.current_config.large_monster_UI.static.enabled and
+				config.current_config.global_settings.module_visibility.training_area.large_monster_static_UI;
+			local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and
+				config.current_config.global_settings.module_visibility.training_area.large_monster_highlighted_UI;
 
 			if dynamic_enabled or static_enabled or highlighted_enabled then
 				local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
@@ -201,67 +135,158 @@ local function main_loop()
 				end
 			end
 
-			if config.current_config.time_UI.enabled and config.current_config.global_settings.module_visibility.during_quest.time_UI then
-				local success = pcall(time_UI.draw);
-				if not success then
-					customization_menu.status = "Time drawing function threw an exception";
-				end
-			end
-
-			if config.current_config.damage_meter_UI.enabled and config.current_config.global_settings.module_visibility.during_quest.damage_meter_UI then
+			if config.current_config.damage_meter_UI.enabled and
+				config.current_config.global_settings.module_visibility.training_area.damage_meter_UI then
 				local success = pcall(damage_meter_UI.draw);
 				if not success then
 					customization_menu.status = "Damage meter drawing function threw an exception";
 				end
 			end
 
-			if config.current_config.endemic_life_UI.enabled and config.current_config.global_settings.module_visibility.during_quest.endemic_life_UI then
+			if config.current_config.endemic_life_UI.enabled and
+				config.current_config.global_settings.module_visibility.training_area.endemic_life_UI then
 				local success = pcall(env_creature_UI.draw);
 				if not success then
 					customization_menu.status = "Endemic life drawing function threw an exception";
 				end
 			end
 		end
+	elseif quest_status.is_result_screen then
+		if config.current_config.small_monster_UI.enabled and
+			config.current_config.global_settings.module_visibility.quest_result_screen.small_monster_UI then
+			local success = pcall(small_monster_UI.draw);
+			if not success then
+				customization_menu.status = "Small monster drawing function threw an exception";
+			end
+		end
 
-		--snow.player.PlayerManager ->
-		-- <PlayerData>k_BackingField -> [0]
+		local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and
+			config.current_config.global_settings.module_visibility.quest_result_screen.large_monster_dynamic_UI;
+		local static_enabled = config.current_config.large_monster_UI.static.enabled and
+			config.current_config.global_settings.module_visibility.quest_result_screen.large_monster_static_UI;
+		local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and
+			config.current_config.global_settings.module_visibility.quest_result_screen.large_monster_highlighted_UI;
 
-		--Demondrug				_AtkUpAlive = 5									1
-		--Mega Demondrug		_AtkUpAlive = 7									1
-		--Armorskin				_DefUpAlive = 15								1
-		--Mega Armorskin		_DefUpAlive = 25								1
-		--Might Seed			_AtkUpBuffSecond and _AtkUpBuffSecondTimer		1
-		--Demon Powder			_AtkUpItemSecond and _AtkUpItemSecondTimer		1
-		--Adamant Seed			_DefUpBuffSecond and _DefUpBuffSecondTimer		1
-		--Hardshell Powder		_DefUpItemSecond and _DefUpItemSecondTimer		1
-		--Dash Juice			_StaminaUpBuffSecondTimer						1
-		--Immunizer				_VitalizerTimer									1
+		if dynamic_enabled or static_enabled or highlighted_enabled then
+			local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
+			if not success then
+				customization_menu.status = "Large monster drawing function threw an exception";
+			end
+		end
 
-		-- Attack Up
-		-- Defense Up
-		-- Affinity Up					_AtkUpEcSecond and _AtkUpEcSecondTimer
-		-- Sharpness Loss Reduced
-		-- Elemental Attack Boost
-		-- Divine Protection
-		-- Health Regeneration
-		-- Natural Healing Up
-		-- Blight Negated
-		-- Immunity
-		-- Stamina Recovery Up
-		-- Stamina Use Reduced
-		-- Knockbacks Negated			_DefUpEcSecond and _DefUpEcSecondTimer
-		-- Sonic Barrier
-		-- Earplugs (S)
-		-- Earplugs (L)
-		-- Tremor Negated
-		-- Enviroment Damage Negated
-		-- Stun Negated
-		-- Wind Pressure Negated
-		-- Gourmet Fish Effect
-		-- Self Improvement
-		-- Infernal Melody
+		if config.current_config.time_UI.enabled and
+			config.current_config.global_settings.module_visibility.quest_result_screen.time_UI then
+			local success = pcall(time_UI.draw);
+			if not success then
+				customization_menu.status = "Time drawing function threw an exception";
+			end
+		end
 
-		--[[
+		if config.current_config.damage_meter_UI.enabled and
+			config.current_config.global_settings.module_visibility.quest_result_screen.damage_meter_UI then
+			local success = pcall(damage_meter_UI.draw);
+			if not success then
+				customization_menu.status = "Damage meter drawing function threw an exception";
+			end
+		end
+
+		if config.current_config.endemic_life_UI.enabled and
+			config.current_config.global_settings.module_visibility.quest_result_screen.endemic_life_UI then
+			local success = pcall(env_creature_UI.draw);
+			if not success then
+				customization_menu.status = "Endemic life drawing function threw an exception";
+			end
+		end
+	elseif quest_status.index == 2 then
+
+		if config.current_config.small_monster_UI.enabled and
+			config.current_config.global_settings.module_visibility.during_quest.small_monster_UI then
+			local success = pcall(small_monster_UI.draw);
+			if not success then
+				customization_menu.status = "Small monster drawing function threw an exception";
+			end
+		end
+
+		local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and
+			config.current_config.global_settings.module_visibility.during_quest.large_monster_dynamic_UI;
+		local static_enabled = config.current_config.large_monster_UI.static.enabled and
+			config.current_config.global_settings.module_visibility.during_quest.large_monster_static_UI;
+		local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and
+			config.current_config.global_settings.module_visibility.during_quest.large_monster_highlighted_UI;
+
+
+
+		if dynamic_enabled or static_enabled or highlighted_enabled then
+			local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
+			if not success then
+				customization_menu.status = "Large monster drawing function threw an exception";
+			end
+		end
+
+		if config.current_config.time_UI.enabled and
+			config.current_config.global_settings.module_visibility.during_quest.time_UI then
+			local success = pcall(time_UI.draw);
+			if not success then
+				customization_menu.status = "Time drawing function threw an exception";
+			end
+		end
+
+		if config.current_config.damage_meter_UI.enabled and
+			config.current_config.global_settings.module_visibility.during_quest.damage_meter_UI then
+			local success = pcall(damage_meter_UI.draw);
+			if not success then
+				customization_menu.status = "Damage meter drawing function threw an exception";
+			end
+		end
+
+		if config.current_config.endemic_life_UI.enabled and
+			config.current_config.global_settings.module_visibility.during_quest.endemic_life_UI then
+			local success = pcall(env_creature_UI.draw);
+			if not success then
+				customization_menu.status = "Endemic life drawing function threw an exception";
+			end
+		end
+	end
+
+	--snow.player.PlayerManager ->
+	-- <PlayerData>k_BackingField -> [0]
+
+	--Demondrug				_AtkUpAlive = 5									1
+	--Mega Demondrug		_AtkUpAlive = 7									1
+	--Armorskin				_DefUpAlive = 15								1
+	--Mega Armorskin		_DefUpAlive = 25								1
+	--Might Seed			_AtkUpBuffSecond and _AtkUpBuffSecondTimer		1
+	--Demon Powder			_AtkUpItemSecond and _AtkUpItemSecondTimer		1
+	--Adamant Seed			_DefUpBuffSecond and _DefUpBuffSecondTimer		1
+	--Hardshell Powder		_DefUpItemSecond and _DefUpItemSecondTimer		1
+	--Dash Juice			_StaminaUpBuffSecondTimer						1
+	--Immunizer				_VitalizerTimer									1
+
+	-- Attack Up
+	-- Defense Up
+	-- Affinity Up					_AtkUpEcSecond and _AtkUpEcSecondTimer
+	-- Sharpness Loss Reduced
+	-- Elemental Attack Boost
+	-- Divine Protection
+	-- Health Regeneration
+	-- Natural Healing Up
+	-- Blight Negated
+	-- Immunity
+	-- Stamina Recovery Up
+	-- Stamina Use Reduced
+	-- Knockbacks Negated			_DefUpEcSecond and _DefUpEcSecondTimer
+	-- Sonic Barrier
+	-- Earplugs (S)
+	-- Earplugs (L)
+	-- Tremor Negated
+	-- Enviroment Damage Negated
+	-- Stun Negated
+	-- Wind Pressure Negated
+	-- Gourmet Fish Effect
+	-- Self Improvement
+	-- Infernal Melody
+
+	--[[
 		local player_data_array = singletons.player_manager:get_field("<PlayerData>k__BackingField");
 		local player_data = player_data_array:get_element(0);
 
@@ -438,6 +463,7 @@ local function main_loop()
 		xy = xy .. "\n_WyvernBlastReloadTimer: " .. tostring(_WyvernBlastReloadTimer);
 		--]]
 end
+
 -- #endregion
 ----------------------------LOOP-----------------------------
 

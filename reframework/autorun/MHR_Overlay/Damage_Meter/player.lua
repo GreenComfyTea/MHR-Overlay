@@ -226,19 +226,19 @@ function player.update_display(_player)
 		if cached_config.tracked_damage_types.player_damage then
 			player.merge_damage(_player.display, _player.small_monsters);
 		end
-		
+
 		if cached_config.tracked_damage_types.bomb_damage then
 			player.merge_damage(_player.display, _player.small_monsters.bombs);
 		end
-		
+
 		if cached_config.tracked_damage_types.kunai_damage then
 			player.merge_damage(_player.display, _player.small_monsters.kunai);
 		end
-		
+
 		if cached_config.tracked_damage_types.installation_damage then
 			player.merge_damage(_player.display, _player.small_monsters.installations);
 		end
-		
+
 		if cached_config.tracked_damage_types.otomo_damage then
 			player.merge_damage(_player.display, _player.small_monsters.otomo);
 		end
@@ -268,19 +268,19 @@ function player.update_display(_player)
 		if cached_config.tracked_damage_types.player_damage then
 			player.merge_damage(_player.display, _player.large_monsters);
 		end
-	
+
 		if cached_config.tracked_damage_types.bomb_damage then
 			player.merge_damage(_player.display, _player.large_monsters.bombs);
 		end
-	
+
 		if cached_config.tracked_damage_types.kunai_damage then
 			player.merge_damage(_player.display, _player.large_monsters.kunai);
 		end
-	
+
 		if cached_config.tracked_damage_types.installation_damage then
 			player.merge_damage(_player.display, _player.large_monsters.installations);
 		end
-	
+
 		if cached_config.tracked_damage_types.otomo_damage then
 			player.merge_damage(_player.display, _player.large_monsters.otomo);
 		end
@@ -324,7 +324,7 @@ local get_transform_method = sdk.find_type_definition("via.GameObject"):get_meth
 local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position");
 
 function player.update_myself_position()
-	if singletons.player_manager == nil then 
+	if singletons.player_manager == nil then
 		customization_menu.status = "No player manager";
 		return;
 	end
@@ -340,7 +340,7 @@ function player.update_myself_position()
 		customization_menu.status = "No master player game object";
 		return;
 	end
-	
+
 	local master_player_transform = get_transform_method:call(master_player_game_object);
 	if not master_player_transform then
 		customization_menu.status = "No master player transform";
@@ -401,7 +401,7 @@ function player.update_player_list_(hunter_info_field_)
 	if singletons.lobby_manager == nil then
 		return;
 	end
-	
+
 	if singletons.progress_manager == nil then
 		return;
 	end
@@ -424,9 +424,9 @@ function player.update_player_list_(hunter_info_field_)
 
 	local myself_id = get_master_player_id_method:call(singletons.player_manager) or -1;
 	--if quest_status.is_online then
-		--myself_id = get_master_player_id_method:call(singletons.player_manager) or -1;
+	--myself_id = get_master_player_id_method:call(singletons.player_manager) or -1;
 	--else
-		--myself_id = myself_quest_index_field:call(singletons.lobby_manager) or -1;
+	--myself_id = myself_quest_index_field:call(singletons.lobby_manager) or -1;
 	--end
 
 	if myself_id == nil then
@@ -447,11 +447,12 @@ function player.update_player_list_(hunter_info_field_)
 	--end
 
 	if myself_id ~= player.myself.id then
-			player.list[player.myself.id] = nil;
-			player.myself = player.new(myself_id, myself_guid, myself_player_name, myself_master_rank, myself_hunter_rank);
-			player.list[myself_id] = player.myself;
+		player.list[player.myself.id] = nil;
+		player.myself = player.new(myself_id, myself_guid, myself_player_name, myself_master_rank,
+			myself_hunter_rank);
+		player.list[myself_id] = player.myself;
 	end
-	
+
 	-- other players
 	local player_info_list = hunter_info_field_:get_data(singletons.lobby_manager);
 	if player_info_list == nil then
@@ -468,13 +469,13 @@ function player.update_player_list_(hunter_info_field_)
 	for i = 0, count - 1 do
 		local player_info = get_item_method:call(player_info_list, i);
 		if player_info == nil then
-			goto continue;
+			goto continue
 		end
 
 		local player_id = member_index_field:get_data(player_info);
-		
+
 		if player_id == nil then
-			goto continue;
+			goto continue
 		end
 
 		local player_guid = hunter_unique_id_field:get_data(player_info);
@@ -494,17 +495,18 @@ function player.update_player_list_(hunter_info_field_)
 
 		local player_name = name_field:get_data(player_info);
 		if player_name == nil then
-			goto continue;
+			goto continue
 		end
 
 		if player.list[player_id] == nil or
-		not guid_equals_method:call(player.list[player_id].guid, player_guid)
+			not guid_equals_method:call(player.list[player_id].guid, player_guid)
 		--player.list[player_id].guid ~= player_guid
 		then
 			local _player = player.new(player_id, player_guid, player_name, player_master_rank, player_hunter_rank);
 			player.list[player_id] = _player;
 
-			if player_name == player.myself.name and player_hunter_rank == player.myself.hunter_rank and player_master_rank == player.myself.master_rank then
+			if player_name == player.myself.name and player_hunter_rank == player.myself.hunter_rank and
+				player_master_rank == player.myself.master_rank then
 				player.myself = _player;
 			end
 		end
@@ -541,8 +543,10 @@ function player.init_total_UI(_player)
 	_player.damage_UI.total_damage_label.offset.x = _player.damage_UI.total_damage_label.offset.x * global_scale_modifier;
 	_player.damage_UI.total_damage_label.offset.y = _player.damage_UI.total_damage_label.offset.y * global_scale_modifier;
 
-	_player.damage_UI.total_damage_value_label.offset.x = _player.damage_UI.total_damage_value_label.offset.x * global_scale_modifier;
-	_player.damage_UI.total_damage_value_label.offset.y = _player.damage_UI.total_damage_value_label.offset.y * global_scale_modifier;
+	_player.damage_UI.total_damage_value_label.offset.x = _player.damage_UI.total_damage_value_label.offset.x *
+		global_scale_modifier;
+	_player.damage_UI.total_damage_value_label.offset.y = _player.damage_UI.total_damage_value_label.offset.y *
+		global_scale_modifier;
 
 	_player.damage_UI.total_dps_label.offset.x = _player.damage_UI.total_dps_label.offset.x * global_scale_modifier;
 	_player.damage_UI.total_dps_label.offset.y = _player.damage_UI.total_dps_label.offset.y * global_scale_modifier;
@@ -553,8 +557,10 @@ function player.draw(_player, position_on_screen, opacity_scale, top_damage, top
 end
 
 function player.draw_total(position_on_screen, opacity_scale)
-	drawing.draw_label(player.total.damage_UI.total_damage_label, position_on_screen, opacity_scale, language.current_language.UI.total_damage);
-	drawing.draw_label(player.total.damage_UI.total_damage_value_label, position_on_screen, opacity_scale, player.total.display.total_damage);
+	drawing.draw_label(player.total.damage_UI.total_damage_label, position_on_screen, opacity_scale,
+		language.current_language.UI.total_damage);
+	drawing.draw_label(player.total.damage_UI.total_damage_value_label, position_on_screen, opacity_scale,
+		player.total.display.total_damage);
 	drawing.draw_label(player.total.damage_UI.total_dps_label, position_on_screen, opacity_scale, player.total.dps);
 end
 

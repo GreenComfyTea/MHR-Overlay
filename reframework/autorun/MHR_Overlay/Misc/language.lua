@@ -47,7 +47,7 @@ language.default_language = {
 		left_leg_mud = "Leg L (Mud)",
 		right_leg_mud = "Leg R (Mud)",
 		tail_mud = "Tail (Mud)",
-		
+
 		tail_windsac = "Tail (Windsac)",
 		chest_windsac = "Chest (Windsac)",
 		back_windsac = "Back (Windsac)",
@@ -96,7 +96,7 @@ language.default_language = {
 		flash = "Flash",
 		poison = "Poison",
 		blast = "Blast",
-		exhaust ="Exhaust",
+		exhaust = "Exhaust",
 		ride = "Wyvern Riding",
 		waterblight = "Waterblight",
 		fireblight = "Fireblight",
@@ -207,7 +207,7 @@ language.default_language = {
 		text_label = "Text Label",
 		value_label = "Value Label",
 		percentage_label = "Percentage Label",
-		bar =  "Bar",
+		bar = "Bar",
 
 		width = "Width",
 		height = "Height",
@@ -279,7 +279,7 @@ language.default_language = {
 		my_damage_bar_location = "My Damage Bar Location",
 		first = "First",
 		last = "Last",
-		
+
 		small_monsters = "Small Monsters",
 		large_monsters = "Large Monsters",
 
@@ -293,7 +293,7 @@ language.default_language = {
 		blast_damage = "Blast Damage",
 
 		damage = "Damage",
-		
+
 		other_players = "Other Players",
 		hunter_rank = "Hunter Rank",
 		word_player = "Word \"Player\"";
@@ -385,21 +385,28 @@ language.default_language = {
 
 		freeze_dps_on_quest_clear = "Freeze DPS when Quest is cleared",
 
-			
+
 		health_break_severe_filter = "Health + Break + Severe",
 		health_break_filter = "Health + Break",
 		health_severe_filter = "Health + Severe",
 		health_filter = "Health",
 		break_severe_filter = "Break + Severe",
 		break_filter = "Break",
-		severe_filter = "Severe"
+		severe_filter = "Severe",
+
+		outline = "Outline",
+		thickness = "Thickness",
+		style = "Style",
+		inside = "Inside",
+		outside = "Outside",
+		center = "Center"
 	}
 };
 
 language.current_language = {};
 
-language.language_names = {"default"};
-language.languages = {language.default_language};
+language.language_names = { "default" };
+language.languages = { language.default_language };
 
 function language.load()
 	local language_files = fs.glob([[MHR Overlay\\languages\\.*json]]);
@@ -409,7 +416,9 @@ function language.load()
 	end
 
 	for i, language_file_name in ipairs(language_files) do
-		local language_name = language_file_name:gsub(language.language_folder, ""):gsub(".json", "");
+		local language_name = language_file_name:gsub(language.language_folder, ""):gsub(".json"
+			,
+			"");
 
 		local loaded_language = json.load_file(language_file_name);
 		if loaded_language ~= nil then
@@ -436,10 +445,9 @@ function language.save(file_name, language_table)
 	end
 end
 
-function language.save_default();
+function language.save_default()
 	language.save(language.language_folder .. "en-us.json", language.default_language)
 end
-
 
 function language.update(index)
 	language.current_language = table_helpers.deep_copy(language.languages[index]);
