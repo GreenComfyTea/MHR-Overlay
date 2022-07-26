@@ -7,8 +7,7 @@ drawing.font = nil;
 
 function drawing.init_font()
 	local cached_config = config.current_config.global_settings.UI_font;
-	drawing.font = d2d.Font.new(cached_config.family, cached_config.size, cached_config.bold,
-		cached_config.italic);
+	drawing.font = d2d.Font.new(cached_config.family, cached_config.size, cached_config.bold, cached_config.italic);
 end
 
 function drawing.argb_color_to_abgr_color(argb_color)
@@ -57,16 +56,18 @@ end
 function drawing.scale_color_opacity(color, scale)
 	local alpha, red, green, blue = drawing.color_to_argb(color);
 	local new_alpha = math.floor(alpha * scale);
-	if new_alpha < 0 then new_alpha = 0; end
-	if new_alpha > 255 then new_alpha = 255; end
+	if new_alpha < 0 then
+		new_alpha = 0;
+	end
+	if new_alpha > 255 then
+		new_alpha = 255;
+	end
 
 	return drawing.argb_to_color(new_alpha, red, green, blue);
 end
 
 function drawing.scale_bar_opacity(bar, scale)
-	if bar == nil
-		or scale == nil
-		or not bar.visibility then
+	if bar == nil or scale == nil or not bar.visibility then
 		return;
 	end
 
@@ -75,9 +76,7 @@ function drawing.scale_bar_opacity(bar, scale)
 end
 
 function drawing.scale_label_opacity(label, scale)
-	if label == nil
-		or scale == nil
-		or not label.visibility then
+	if label == nil or scale == nil or not label.visibility then
 		return;
 	end
 
@@ -86,12 +85,11 @@ function drawing.scale_label_opacity(label, scale)
 end
 
 function drawing.draw_label(label, position, opacity_scale, ...)
-	if label == nil
-		or not label.visibility then
+	if label == nil or not label.visibility then
 		return;
 	end
 
-	local text = string.format(label.text, table.unpack({ ... }));
+	local text = string.format(label.text, table.unpack({...}));
 	local position_x = position.x + label.offset.x;
 	local position_y = position.y + label.offset.y;
 
@@ -126,8 +124,7 @@ end
 
 function drawing.draw_bar(bar, position, opacity_scale, percentage)
 
-	if bar == nil
-		or not bar.visibility then
+	if bar == nil or not bar.visibility then
 		return;
 	end
 
@@ -140,7 +137,7 @@ function drawing.draw_bar(bar, position, opacity_scale, percentage)
 	end
 
 	local outline_visibility = bar.outline.visibility;
-	local style = bar.outline.style;  -- Inside/Center/Outside
+	local style = bar.outline.style; -- Inside/Center/Outside
 
 	local outline_thickness = bar.outline.thickness;
 	if not outline_visibility then
@@ -264,20 +261,13 @@ function drawing.draw_bar(bar, position, opacity_scale, percentage)
 end
 
 function drawing.draw_capture_line(health_UI, position, opacity_scale, percentage)
-	if health_UI == nil
-		or not health_UI.visibility
-		or health_UI.bar == nil
-		or not health_UI.bar.visibility
-		or health_UI.bar.capture_line == nil
-		or not health_UI.bar.capture_line.visibility
-		or percentage >= 1
-		or percentage <= 0 then
+	if health_UI == nil or not health_UI.visibility or health_UI.bar == nil or not health_UI.bar.visibility or
+		health_UI.bar.capture_line == nil or not health_UI.bar.capture_line.visibility or percentage >= 1 or percentage <= 0 then
 		return;
 	end
 
-
-	local position_x = position.x + health_UI.bar.offset.x + health_UI.bar.capture_line.offset.x +
-		health_UI.bar.size.width * percentage;
+	local position_x =
+		position.x + health_UI.bar.offset.x + health_UI.bar.capture_line.offset.x + health_UI.bar.size.width * percentage;
 	local position_y = position.y + health_UI.bar.offset.y + health_UI.bar.capture_line.offset.y;
 
 	local color = health_UI.bar.capture_line.color;
@@ -291,8 +281,8 @@ function drawing.draw_capture_line(health_UI, position, opacity_scale, percentag
 			color);
 	else
 		color = drawing.argb_color_to_abgr_color(color);
-		draw.filled_rect(position_x, position_y, health_UI.bar.capture_line.size.width, health_UI.bar.capture_line.size.height
-			, color)
+		draw.filled_rect(position_x, position_y, health_UI.bar.capture_line.size.width,
+			health_UI.bar.capture_line.size.height, color)
 	end
 end
 
