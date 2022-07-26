@@ -4480,7 +4480,7 @@ function config.init_module()
 
 	config.init();
 	config.load();
-	config.current_config.version = "v2.1.2";
+	config.current_config.version = "v2.2";
 
 	language.update(
 		table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
