@@ -1,4 +1,5 @@
 local customization_menu = {};
+
 local table_helpers;
 local config;
 local screen;
@@ -12,43 +13,52 @@ local time_UI;
 local keyboard;
 local label_customization;
 local bar_customization;
+
 customization_menu.font = nil;
 customization_menu.font_range = { 0x1, 0xFFFF, 0 };
 customization_menu.is_opened = false;
 customization_menu.status = "OK";
+
 customization_menu.window_position = Vector2f.new(480, 200);
 customization_menu.window_pivot = Vector2f.new(0, 0);
 customization_menu.window_size = Vector2f.new(720, 720);
 customization_menu.window_flags = 0x10120;
 customization_menu.color_picker_flags = 327680;
 customization_menu.decimal_input_flags = 33;
+
 customization_menu.displayed_orientation_types = {};
 customization_menu.displayed_anchor_types = {};
 customization_menu.displayed_outline_styles = {};
+
 customization_menu.displayed_monster_UI_sorting_types = {};
 customization_menu.displayed_monster_UI_parts_sorting_types = {};
 customization_menu.displayed_ailments_sorting_types = {};
 customization_menu.displayed_ailment_buildups_sorting_types = {};
 customization_menu.displayed_highlighted_buildup_bar_types = {};
 customization_menu.displayed_buildup_bar_relative_types = {};
+
 customization_menu.displayed_damage_meter_UI_highlighted_bar_types = {};
 customization_menu.displayed_damage_meter_UI_damage_bar_relative_types = {};
 customization_menu.displayed_damage_meter_UI_my_damage_bar_location_types = {};
 customization_menu.displayed_damage_meter_UI_sorting_types = {};
 customization_menu.displayed_damage_meter_UI_dps_modes = {};
+
 customization_menu.orientation_types = {};
 customization_menu.anchor_types = {};
 customization_menu.outline_styles = {};
+
 customization_menu.monster_UI_sorting_types = {};
 customization_menu.ailments_sorting_types = {};
 customization_menu.ailment_buildups_sorting_types = {};
 customization_menu.highlighted_buildup_bar_types = {};
 customization_menu.buildup_bar_relative_types = {};
+
 customization_menu.damage_meter_UI_highlighted_bar_types = {};
 customization_menu.damage_meter_UI_damage_bar_relative_types = {};
 customization_menu.damage_meter_UI_my_damage_bar_location_types = {};
 customization_menu.damage_meter_UI_sorting_types = {};
 customization_menu.damage_meter_UI_dps_modes = {};
+
 customization_menu.fonts = { "Arial", "Arial Black", "Bahnschrift", "Calibri", "Cambria", "Cambria Math", "Candara",
 	"Comic Sans MS", "Consolas", "Constantia", "Corbel", "Courier New", "Ebrima", "Franklin Gothic Medium", "Gabriola",
 	"Gadugi", "Georgia", "HoloLens MDL2 Assets", "Impact", "Ink Free", "Javanese Text", "Leelawadee UI", "Lucida Console",
@@ -57,6 +67,7 @@ customization_menu.fonts = { "Arial", "Arial Black", "Bahnschrift", "Calibri", "
 	"Mongolian Baiti", "MS Gothic", "MV Boli", "Myanmar Text", "Nirmala UI", "Palatino Linotype", "Segoe MDL2 Assets",
 	"Segoe Print", "Segoe Script", "Segoe UI", "Segoe UI Historic", "Segoe UI Emoji", "Segoe UI Symbol", "SimSun", "Sitka",
 	"Sylfaen", "Symbol", "Tahoma", "Times New Roman", "Trebuchet MS", "Verdana", "Webdings", "Wingdings", "Yu Gothic" };
+
 customization_menu.all_UI_waiting_for_key = false;
 customization_menu.small_monster_UI_waiting_for_key = false;
 customization_menu.large_monster_UI_waiting_for_key = false;
@@ -67,6 +78,7 @@ customization_menu.time_UI_waiting_for_key = false;
 customization_menu.damage_meter_UI_waiting_for_key = false;
 customization_menu.endemic_life_UI_waiting_for_key = false;
 customization_menu.menu_font_changed = false;
+
 function customization_menu.reload_font(pop_push)
 	customization_menu.font = imgui.load_font(language.current_language.font_name,
 		config.current_config.global_settings.menu_font.size, customization_menu.font_range);
@@ -82,17 +94,20 @@ function customization_menu.init()
 	customization_menu.displayed_anchor_types = { language.current_language.customization_menu.top_left,
 		language.current_language.customization_menu.top_right, language.current_language.customization_menu.bottom_left,
 		language.current_language.customization_menu.bottom_right };
+
 	customization_menu.displayed_outline_styles = { language.current_language.customization_menu.inside,
 		language.current_language.customization_menu.center, language.current_language.customization_menu.outside };
 	customization_menu.displayed_monster_UI_sorting_types = { language.current_language.customization_menu.normal,
 		language.current_language.customization_menu.health, language.current_language.customization_menu.health_percentage,
 		language.current_language.customization_menu.distance };
+
 	customization_menu.displayed_monster_UI_parts_sorting_types = { language.current_language.customization_menu.normal,
 		language.current_language.customization_menu.health, language.current_language.customization_menu.health_percentage,
 		language.current_language.customization_menu.flinch_count, language.current_language.customization_menu.break_health,
 		language.current_language.customization_menu.break_health_percentage,
 		language.current_language.customization_menu.break_count, language.current_language.customization_menu.loss_health,
 		language.current_language.customization_menu.loss_health_percentage };
+
 	customization_menu.displayed_ailments_sorting_types = { language.current_language.customization_menu.normal,
 		language.current_language.customization_menu.buildup, language.current_language.customization_menu.buildup_percentage };
 	customization_menu.displayed_ailment_buildups_sorting_types = { language.current_language.customization_menu.normal,
@@ -104,6 +119,7 @@ function customization_menu.init()
 	customization_menu.displayed_damage_meter_UI_highlighted_bar_types = { language.current_language.customization_menu.me,
 		language.current_language.customization_menu.top_damage, language.current_language.customization_menu.top_dps,
 		language.current_language.customization_menu.none };
+
 	customization_menu.displayed_damage_meter_UI_damage_bar_relative_types = { language.current_language.customization_menu
 		.total_damage, language.current_language.customization_menu.top_damage };
 	customization_menu.displayed_damage_meter_UI_my_damage_bar_location_types = { language.current_language.customization_menu
@@ -112,22 +128,26 @@ function customization_menu.init()
 		language.current_language.customization_menu.damage, language.current_language.customization_menu.dps };
 	customization_menu.displayed_damage_meter_UI_dps_modes = { language.current_language.customization_menu.first_hit,
 		language.current_language.customization_menu.quest_time, language.current_language.customization_menu.join_time };
+
 	customization_menu.orientation_types = { language.default_language.customization_menu.horizontal,
 		language.default_language.customization_menu.vertical };
 	customization_menu.anchor_types = { language.default_language.customization_menu.top_left,
 		language.default_language.customization_menu.top_right, language.default_language.customization_menu.bottom_left,
 		language.default_language.customization_menu.bottom_right };
+
 	customization_menu.outline_styles = { language.default_language.customization_menu.inside,
 		language.default_language.customization_menu.center, language.default_language.customization_menu.outside };
 	customization_menu.monster_UI_sorting_types = { language.default_language.customization_menu.normal,
 		language.default_language.customization_menu.health, language.default_language.customization_menu.health_percentage,
 		language.default_language.customization_menu.distance };
+
 	customization_menu.large_monster_UI_parts_sorting_types = { language.default_language.customization_menu.normal,
 		language.default_language.customization_menu.health, language.default_language.customization_menu.health_percentage,
 		language.default_language.customization_menu.flinch_count, language.default_language.customization_menu.break_health,
 		language.default_language.customization_menu.break_health_percentage,
 		language.default_language.customization_menu.break_count, language.default_language.customization_menu.loss_health,
 		language.default_language.customization_menu.loss_health_percentage };
+
 	customization_menu.ailments_sorting_types = { language.default_language.customization_menu.normal,
 		language.default_language.customization_menu.buildup, language.default_language.customization_menu.buildup_percentage };
 	customization_menu.ailment_buildups_sorting_types = { language.default_language.customization_menu.normal,
@@ -136,11 +156,13 @@ function customization_menu.init()
 		language.default_language.customization_menu.top_buildup, language.default_language.customization_menu.none };
 	customization_menu.buildup_bar_relative_types = { language.default_language.customization_menu.total_buildup,
 		language.default_language.customization_menu.top_buildup };
+
 	customization_menu.damage_meter_UI_highlighted_bar_types = { language.default_language.customization_menu.me,
 		language.default_language.customization_menu.top_damage, language.default_language.customization_menu.top_dps,
 		language.default_language.customization_menu.none };
 	customization_menu.damage_meter_UI_damage_bar_relative_types = { language.default_language.customization_menu.total_damage,
 		language.default_language.customization_menu.top_damage };
+
 	customization_menu.damage_meter_UI_my_damage_bar_location_types = { language.default_language.customization_menu.normal,
 		language.default_language.customization_menu.first, language.default_language.customization_menu.last };
 	customization_menu.damage_meter_UI_sorting_types = { language.default_language.customization_menu.normal,
@@ -153,16 +175,16 @@ function customization_menu.draw()
 	imgui.set_next_window_pos(customization_menu.window_position, 1 << 3, customization_menu.window_pivot);
 	imgui.set_next_window_size(customization_menu.window_size, 1 << 3);
 	imgui.push_font(customization_menu.font);
+
 	customization_menu.is_opened = imgui.begin_window(language.current_language.customization_menu.mod_name ..
 		" " .. config.current_config.version, customization_menu.is_opened, customization_menu.window_flags);
+
 	if not customization_menu.is_opened then
 		imgui.end_window();
 		imgui.pop_font();
 		return;
 	end
-	local index = 1;
-	local config_changed = false;
-	local changed = false;
+
 	local modifiers_changed = false;
 	local modules_changed = false;
 	local global_settings_changed = false;
@@ -174,10 +196,13 @@ function customization_menu.draw()
 	local damage_meter_UI_changed = false;
 	local endemic_life_UI_changed = false;
 	local apply_font_requested = false;
-	local cached_config = nil;
+
 	local status_string = tostring(customization_menu.status);
+
 	imgui.text(language.current_language.customization_menu.status .. ": " .. status_string);
+
 	modules_changed = customization_menu.draw_modules();
+
 	if imgui.tree_node(language.current_language.customization_menu.hotkeys) then
 		if customization_menu.all_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
@@ -187,6 +212,7 @@ function customization_menu.draw()
 				config.current_config.global_settings.hotkeys_with_modifiers.all_UI.alt = false;
 				customization_menu.all_UI_waiting_for_key = false;
 			end
+
 		elseif imgui.button(language.current_language.customization_menu.all_UI) then
 			local is_any_other_waiting = customization_menu.small_monster_UI_waiting_for_key or
 				customization_menu.large_monster_UI_waiting_for_key or customization_menu.large_monster_dynamic_UI_waiting_for_key or
@@ -364,19 +390,24 @@ function customization_menu.draw()
 		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI));
 		imgui.tree_pop();
 	end
+
 	global_settings_changed, modifiers_changed, apply_font_requested = customization_menu.draw_global_settings();
 	small_monster_UI_changed = customization_menu.draw_small_monster_UI();
+
 	if imgui.tree_node(language.current_language.customization_menu.large_monster_UI) then
 		large_monster_dynamic_UI_changed = customization_menu.draw_large_monster_dynamic_UI()
 		large_monster_static_UI_changed = customization_menu.draw_large_monster_static_UI()
 		large_monster_highlighted_UI_changed = customization_menu.draw_large_monster_highlighted_UI()
 		imgui.tree_pop();
 	end
+
 	time_UI_changed = customization_menu.draw_time_UI();
 	damage_meter_UI_changed = customization_menu.draw_damage_meter_UI();
 	endemic_life_UI_changed = customization_menu.draw_endemic_life_UI()
+
 	imgui.end_window();
 	imgui.pop_font();
+
 	if small_monster_UI_changed or modifiers_changed then
 		for _, monster in pairs(small_monster.list) do
 			small_monster.init_UI(monster);
@@ -1050,6 +1081,8 @@ function customization_menu.draw_small_monster_UI()
 					config_changed = config_changed or changed;
 					imgui.tree_pop();
 				end
+
+
 				if imgui.tree_node(language.current_language.customization_menu.shadow) then
 					changed, cached_config.ailment_buildups.ailment_name_label.shadow.visibility = imgui.checkbox(language.current_language
 						.customization_menu.visible, cached_config.ailment_buildups.ailment_name_label.shadow.visibility);
