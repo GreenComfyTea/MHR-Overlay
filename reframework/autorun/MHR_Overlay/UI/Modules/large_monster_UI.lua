@@ -43,7 +43,6 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 		end
 	end
 
-
 	local enemy_count = get_boss_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
 		return;
@@ -79,7 +78,7 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 	end
 
 	if dynamic_enabled then
-		--large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster);
+		large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster);
 	end
 
 	if highlighted_enabled then
@@ -87,7 +86,7 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 	end
 
 	if static_enabled then
-		--large_monster_UI.draw_static(displayed_monsters, highlighted_monster);
+		large_monster_UI.draw_static(displayed_monsters, highlighted_monster);
 	end
 end
 

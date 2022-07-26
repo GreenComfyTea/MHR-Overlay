@@ -14,7 +14,6 @@ local table_helpers = require("MHR_Overlay.Misc.table_helpers");
 local unicode_helpers = require("MHR_Overlay.Misc.unicode_helpers");
 local part_names = require("MHR_Overlay.Misc.part_names");
 
-
 local player = require("MHR_Overlay.Damage_Meter.player");
 local damage_hook = require("MHR_Overlay.Damage_Meter.damage_hook");
 
@@ -102,8 +101,6 @@ log.info("[MHR Overlay] loaded");
 -- #endregion
 ------------------------INIT MODULES-------------------------
 
-
-
 ----------------------------LOOP-----------------------------
 -- #region
 local function main_loop()
@@ -122,11 +119,13 @@ local function main_loop()
 
 		if quest_status.is_training_area then
 			local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and
-				config.current_config.global_settings.module_visibility.training_area.large_monster_dynamic_UI;
+				                        config.current_config.global_settings.module_visibility.training_area
+					                        .large_monster_dynamic_UI;
 			local static_enabled = config.current_config.large_monster_UI.static.enabled and
-				config.current_config.global_settings.module_visibility.training_area.large_monster_static_UI;
+				                       config.current_config.global_settings.module_visibility.training_area.large_monster_static_UI;
 			local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and
-				config.current_config.global_settings.module_visibility.training_area.large_monster_highlighted_UI;
+				                            config.current_config.global_settings.module_visibility.training_area
+					                            .large_monster_highlighted_UI;
 
 			if dynamic_enabled or static_enabled or highlighted_enabled then
 				local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
@@ -161,11 +160,14 @@ local function main_loop()
 		end
 
 		local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and
-			config.current_config.global_settings.module_visibility.quest_result_screen.large_monster_dynamic_UI;
+			                        config.current_config.global_settings.module_visibility.quest_result_screen
+				                        .large_monster_dynamic_UI;
 		local static_enabled = config.current_config.large_monster_UI.static.enabled and
-			config.current_config.global_settings.module_visibility.quest_result_screen.large_monster_static_UI;
+			                       config.current_config.global_settings.module_visibility.quest_result_screen
+				                       .large_monster_static_UI;
 		local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and
-			config.current_config.global_settings.module_visibility.quest_result_screen.large_monster_highlighted_UI;
+			                            config.current_config.global_settings.module_visibility.quest_result_screen
+				                            .large_monster_highlighted_UI;
 
 		if dynamic_enabled or static_enabled or highlighted_enabled then
 			local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
@@ -208,13 +210,12 @@ local function main_loop()
 		end
 
 		local dynamic_enabled = config.current_config.large_monster_UI.dynamic.enabled and
-			config.current_config.global_settings.module_visibility.during_quest.large_monster_dynamic_UI;
+			                        config.current_config.global_settings.module_visibility.during_quest.large_monster_dynamic_UI;
 		local static_enabled = config.current_config.large_monster_UI.static.enabled and
-			config.current_config.global_settings.module_visibility.during_quest.large_monster_static_UI;
+			                       config.current_config.global_settings.module_visibility.during_quest.large_monster_static_UI;
 		local highlighted_enabled = config.current_config.large_monster_UI.highlighted.enabled and
-			config.current_config.global_settings.module_visibility.during_quest.large_monster_highlighted_UI;
-
-
+			                            config.current_config.global_settings.module_visibility.during_quest
+				                            .large_monster_highlighted_UI;
 
 		if dynamic_enabled or static_enabled or highlighted_enabled then
 			local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
@@ -248,19 +249,19 @@ local function main_loop()
 		end
 	end
 
-	--snow.player.PlayerManager ->
+	-- snow.player.PlayerManager ->
 	-- <PlayerData>k_BackingField -> [0]
 
-	--Demondrug				_AtkUpAlive = 5									1
-	--Mega Demondrug		_AtkUpAlive = 7									1
-	--Armorskin				_DefUpAlive = 15								1
-	--Mega Armorskin		_DefUpAlive = 25								1
-	--Might Seed			_AtkUpBuffSecond and _AtkUpBuffSecondTimer		1
-	--Demon Powder			_AtkUpItemSecond and _AtkUpItemSecondTimer		1
-	--Adamant Seed			_DefUpBuffSecond and _DefUpBuffSecondTimer		1
-	--Hardshell Powder		_DefUpItemSecond and _DefUpItemSecondTimer		1
-	--Dash Juice			_StaminaUpBuffSecondTimer						1
-	--Immunizer				_VitalizerTimer									1
+	-- Demondrug				_AtkUpAlive = 5									1
+	-- Mega Demondrug		_AtkUpAlive = 7									1
+	-- Armorskin				_DefUpAlive = 15								1
+	-- Mega Armorskin		_DefUpAlive = 25								1
+	-- Might Seed			_AtkUpBuffSecond and _AtkUpBuffSecondTimer		1
+	-- Demon Powder			_AtkUpItemSecond and _AtkUpItemSecondTimer		1
+	-- Adamant Seed			_DefUpBuffSecond and _DefUpBuffSecondTimer		1
+	-- Hardshell Powder		_DefUpItemSecond and _DefUpItemSecondTimer		1
+	-- Dash Juice			_StaminaUpBuffSecondTimer						1
+	-- Immunizer				_VitalizerTimer									1
 
 	-- Attack Up
 	-- Defense Up
@@ -500,8 +501,6 @@ else
 end
 -- #endregion
 ----------------------------D2D------------------------------
-
-
 
 if debug.enabled then
 	if d2d ~= nil then
