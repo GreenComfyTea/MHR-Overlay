@@ -10,6 +10,7 @@ local drawing;
 local ailments;
 local ailment_UI_entity;
 local ailment_buildup;
+local ailment_buildup_UI_entity;
 
 small_monster.list = {};
 
@@ -27,8 +28,10 @@ function small_monster.new(enemy)
 	monster.distance = 0;
 
 	monster.name = "Small Monster";
-
+	
 	monster.ailments = ailments.init_ailments();
+
+	monster.UI = {};
 
 	small_monster.init(monster, enemy);
 	small_monster.init_UI(monster);
@@ -78,12 +81,14 @@ function small_monster.init_UI(monster)
 	local cached_config = config.current_config.small_monster_UI;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
-	monster.name_label = table_helpers.deep_copy(cached_config.monster_name_label);
+	local monster_UI = monster.UI;
 
-	monster.name_label.offset.x = monster.name_label.offset.x * global_scale_modifier;
-	monster.name_label.offset.y = monster.name_label.offset.y * global_scale_modifier;
+	monster_UI.name_label = table_helpers.deep_copy(cached_config.monster_name_label);
+	
+	monster_UI.name_label.offset.x = monster_UI.name_label.offset.x * global_scale_modifier;
+	monster_UI.name_label.offset.y = monster_UI.name_label.offset.y * global_scale_modifier;
 
-	monster.health_UI = health_UI_entity.new(
+	monster_UI.health_UI = health_UI_entity.new(
 		cached_config.health.visibility,
 		cached_config.health.bar,
 		cached_config.health.text_label,
@@ -91,17 +96,26 @@ function small_monster.init_UI(monster)
 		cached_config.health.percentage_label
 	);
 
-	monster.ailment_UI = ailment_UI_entity.new(
+	monster_UI.ailment_UI = ailment_UI_entity.new(
 		cached_config.ailments.visibility,
 		cached_config.ailments.bar,
 		cached_config.ailments.ailment_name_label,
 		cached_config.ailments.text_label,
 		cached_config.ailments.value_label,
-		cached_config.ailments.percentage_label,
+		cached_config.ailments.percentage_label, 
 		cached_config.ailments.timer_label
 	);
 
-	ailments.init_ailment_buildup_small_UI(monster.ailments);
+	monster_UI.ailment_buildup_UI = ailment_buildup_UI_entity.new(
+		cached_config.ailment_buildups.buildup_bar,
+		cached_config.ailment_buildups.highlighted_buildup_bar,
+		cached_config.ailment_buildups.ailment_name_label,
+		cached_config.ailment_buildups.player_name_label,
+		cached_config.ailment_buildups.buildup_value_label,
+		cached_config.ailment_buildups.buildup_percentage_label,
+		cached_config.ailment_buildups.total_buildup_label,
+		cached_config.ailment_buildups.total_buildup_value_label
+	);
 end
 
 local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
@@ -171,11 +185,10 @@ function small_monster.update_health(enemy, monster)
 	end
 end
 
-function small_monster.draw(monster, position_on_screen, opacity_scale)
-	local cached_config = config.current_config.small_monster_UI;
+function small_monster.draw(monster, cached_config, position_on_screen, opacity_scale)
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
-	drawing.draw_label(monster.name_label, position_on_screen, opacity_scale, monster.name);
+	drawing.draw_label(monster.UI.name_label, position_on_screen, opacity_scale, monster.name);
 
 	local health_position_on_screen = {
 		x = position_on_screen.x + cached_config.health.offset.x * global_scale_modifier,
@@ -192,9 +205,9 @@ function small_monster.draw(monster, position_on_screen, opacity_scale)
 		y = position_on_screen.y + cached_config.ailment_buildups.offset.y * global_scale_modifier
 	};
 
-	health_UI_entity.draw(monster, monster.health_UI, health_position_on_screen, opacity_scale);
-	ailments.draw_small(monster, ailments_position_on_screen, opacity_scale);
-	ailment_buildup.draw_small(monster, ailment_buildups_position_on_screen, opacity_scale);
+	health_UI_entity.draw(monster, monster.UI.health_UI, health_position_on_screen, opacity_scale);
+	ailments.draw(monster, monster.UI.ailment_UI, cached_config, ailments_position_on_screen, opacity_scale);
+	ailment_buildup.draw(monster, monster.UI.ailment_buildup_UI, cached_config, ailment_buildups_position_on_screen, opacity_scale);
 end
 
 function small_monster.init_list()
@@ -213,6 +226,7 @@ function small_monster.init_module()
 	ailments = require("MHR_Overlay.Monsters.ailments");
 	ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
 	ailment_buildup = require("MHR_Overlay.Monsters.ailment_buildup");
+	ailment_buildup_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_buildup_UI_entity");
 end
 
 return small_monster;

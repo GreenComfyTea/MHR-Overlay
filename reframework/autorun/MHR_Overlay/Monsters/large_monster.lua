@@ -9,6 +9,8 @@ local stamina_UI_entity;
 local rage_UI_entity;
 local ailment_UI_entity;
 local ailment_buildup;
+local ailment_buildup_UI_entity;
+local body_part_UI_entity;
 local screen;
 local drawing;
 local ailments;
@@ -83,10 +85,14 @@ function large_monster.new(enemy)
 
 	monster.rider_id = -1;
 
+	monster.dynamic_UI = {};
+	monster.static_UI = {};
+	monster.highlighted_UI = {};
+
 	large_monster.init(monster, enemy);
-	large_monster.init_static_UI(monster);
-	large_monster.init_dynamic_UI(monster);
-	large_monster.init_highlighted_UI(monster);
+	large_monster.init_UI(monster, monster.dynamic_UI, config.current_config.large_monster_UI.dynamic);
+	large_monster.init_UI(monster, monster.static_UI, config.current_config.large_monster_UI.static);
+	large_monster.init_UI(monster, monster.highlighted_UI, config.current_config.large_monster_UI.highlighted);
 
 	if large_monster.list[enemy] == nil then
 		large_monster.list[enemy] = monster;
@@ -190,13 +196,12 @@ function large_monster.init(monster, enemy)
 	end
 end
 
-function large_monster.init_dynamic_UI(monster)
-	local cached_config = config.current_config.large_monster_UI.dynamic;
+function large_monster.init_UI(monster, monster_UI, cached_config)
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
-	monster.dynamic_name_label = table_helpers.deep_copy(cached_config.monster_name_label);
+	monster_UI.monster_name_label = table_helpers.deep_copy(cached_config.monster_name_label);
 
-	monster.health_dynamic_UI = health_UI_entity.new(
+	monster_UI.health_UI = health_UI_entity.new(
 		cached_config.health.visibility,
 		cached_config.health.bar,
 		cached_config.health.text_label,
@@ -204,18 +209,14 @@ function large_monster.init_dynamic_UI(monster)
 		cached_config.health.percentage_label
 	);
 
-	monster.health_dynamic_UI.bar.capture_line.offset.x = monster.health_dynamic_UI.bar.capture_line.offset.x *
-		global_scale_modifier;
-	monster.health_dynamic_UI.bar.capture_line.offset.y = monster.health_dynamic_UI.bar.capture_line.offset.y *
-		global_scale_modifier;
-	monster.health_dynamic_UI.bar.capture_line.size.width = monster.health_dynamic_UI.bar.capture_line.size.width *
-		global_scale_modifier;
-	monster.health_dynamic_UI.bar.capture_line.size.height = monster.health_dynamic_UI.bar.capture_line.size.height *
-		global_scale_modifier;
+	monster_UI.health_UI.bar.capture_line.offset.x = monster_UI.health_UI.bar.capture_line.offset.x * global_scale_modifier;
+	monster_UI.health_UI.bar.capture_line.offset.y = monster_UI.health_UI.bar.capture_line.offset.y * global_scale_modifier;
+	monster_UI.health_UI.bar.capture_line.size.width = monster_UI.health_UI.bar.capture_line.size.width * global_scale_modifier;
+	monster_UI.health_UI.bar.capture_line.size.height = monster_UI.health_UI.bar.capture_line.size.height * global_scale_modifier;
 
-	monster.health_dynamic_UI.bar.colors = cached_config.health.bar.normal_colors;
+	monster_UI.health_UI.bar.colors = monster_UI.health_UI.bar.normal_colors;
 
-	monster.stamina_dynamic_UI = stamina_UI_entity.new(
+	monster_UI.stamina_UI = stamina_UI_entity.new(
 		cached_config.stamina.visibility,
 		cached_config.stamina.bar,
 		cached_config.stamina.text_label,
@@ -224,7 +225,7 @@ function large_monster.init_dynamic_UI(monster)
 		cached_config.stamina.timer_label
 	);
 
-	monster.rage_dynamic_UI = rage_UI_entity.new(
+	monster_UI.rage_UI = rage_UI_entity.new(
 		cached_config.rage.visibility,
 		cached_config.rage.bar,
 		cached_config.rage.text_label,
@@ -233,11 +234,27 @@ function large_monster.init_dynamic_UI(monster)
 		cached_config.rage.timer_label
 	);
 
-	for REpart, part in pairs(monster.parts) do
-		body_part.init_dynamic_UI(part);
-	end
+	monster_UI.part_UI = body_part_UI_entity.new(
+		cached_config.body_parts.visibility,
+		cached_config.body_parts.part_name_label,
+		cached_config.body_parts.part_health.visibility,
+		cached_config.body_parts.part_health.bar,
+		cached_config.body_parts.part_health.text_label,
+		cached_config.body_parts.part_health.value_label,
+		cached_config.body_parts.part_health.percentage_label,
+		cached_config.body_parts.part_break.visibility,
+		cached_config.body_parts.part_break.bar,
+		cached_config.body_parts.part_break.text_label,
+		cached_config.body_parts.part_break.value_label,
+		cached_config.body_parts.part_break.percentage_label,
+		cached_config.body_parts.part_loss.visibility,
+		cached_config.body_parts.part_loss.bar,
+		cached_config.body_parts.part_loss.text_label,
+		cached_config.body_parts.part_loss.value_label,
+		cached_config.body_parts.part_loss.percentage_label
+	);
 
-	monster.ailment_dynamic_UI = ailment_UI_entity.new(
+	monster_UI.ailment_UI = ailment_UI_entity.new(
 		cached_config.ailments.visibility,
 		cached_config.ailments.bar,
 		cached_config.ailments.ailment_name_label,
@@ -247,130 +264,16 @@ function large_monster.init_dynamic_UI(monster)
 		cached_config.ailments.timer_label
 	);
 
-	ailments.init_ailment_buildup_dynamic_UI(monster.ailments);
-end
-
-function large_monster.init_static_UI(monster)
-	local cached_config = config.current_config.large_monster_UI.static;
-	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
-
-	monster.static_name_label = table_helpers.deep_copy(cached_config.monster_name_label);
-
-	monster.static_name_label.offset.x = monster.static_name_label.offset.x * global_scale_modifier;
-	monster.static_name_label.offset.y = monster.static_name_label.offset.y * global_scale_modifier;
-
-	monster.health_static_UI = health_UI_entity.new(
-		cached_config.health.visibility,
-		cached_config.health.bar,
-		cached_config.health.text_label,
-		cached_config.health.value_label,
-		cached_config.health.percentage_label
+	monster_UI.ailment_buildup_UI = ailment_buildup_UI_entity.new(
+		cached_config.ailment_buildups.buildup_bar,
+		cached_config.ailment_buildups.highlighted_buildup_bar,
+		cached_config.ailment_buildups.ailment_name_label,
+		cached_config.ailment_buildups.player_name_label,
+		cached_config.ailment_buildups.buildup_value_label,
+		cached_config.ailment_buildups.buildup_percentage_label,
+		cached_config.ailment_buildups.total_buildup_label,
+		cached_config.ailment_buildups.total_buildup_value_label
 	);
-
-	monster.health_static_UI.bar.capture_line.offset.x = monster.health_static_UI.bar.capture_line.offset.x *
-		global_scale_modifier;
-	monster.health_static_UI.bar.capture_line.offset.y = monster.health_static_UI.bar.capture_line.offset.y *
-		global_scale_modifier;
-	monster.health_static_UI.bar.capture_line.size.width = monster.health_static_UI.bar.capture_line.size.width *
-		global_scale_modifier;
-	monster.health_static_UI.bar.capture_line.size.height = monster.health_static_UI.bar.capture_line.size.height *
-		global_scale_modifier;
-
-	monster.health_static_UI.bar.colors = cached_config.health.bar.normal_colors;
-
-	monster.stamina_static_UI = stamina_UI_entity.new(
-		cached_config.stamina.visibility,
-		cached_config.stamina.bar,
-		cached_config.stamina.text_label,
-		cached_config.stamina.value_label,
-		cached_config.stamina.percentage_label,
-		cached_config.stamina.timer_label
-	);
-
-	monster.rage_static_UI = rage_UI_entity.new(
-		cached_config.rage.visibility,
-		cached_config.rage.bar,
-		cached_config.rage.text_label,
-		cached_config.rage.value_label,
-		cached_config.rage.percentage_label,
-		cached_config.rage.timer_label
-	);
-
-	for REpart, part in pairs(monster.parts) do
-		body_part.init_static_UI(part);
-	end
-
-	monster.ailment_static_UI = ailment_UI_entity.new(
-		cached_config.ailments.visibility,
-		cached_config.ailments.bar,
-		cached_config.ailments.ailment_name_label,
-		cached_config.ailments.text_label,
-		cached_config.ailments.value_label,
-		cached_config.ailments.percentage_label,
-		cached_config.ailments.timer_label
-	);
-
-	ailments.init_ailment_buildup_static_UI(monster.ailments);
-end
-
-function large_monster.init_highlighted_UI(monster)
-	local cached_config = config.current_config.large_monster_UI.highlighted;
-	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
-
-	monster.highlighted_name_label = table_helpers.deep_copy(cached_config.monster_name_label);
-
-	monster.health_highlighted_UI = health_UI_entity.new(
-		cached_config.health.visibility,
-		cached_config.health.bar,
-		cached_config.health.text_label,
-		cached_config.health.value_label,
-		cached_config.health.percentage_label
-	);
-
-	monster.health_highlighted_UI.bar.capture_line.offset.x = monster.health_highlighted_UI.bar.capture_line.offset.x *
-		global_scale_modifier;
-	monster.health_highlighted_UI.bar.capture_line.offset.y = monster.health_highlighted_UI.bar.capture_line.offset.y *
-		global_scale_modifier;
-	monster.health_highlighted_UI.bar.capture_line.size.width = monster.health_highlighted_UI.bar.capture_line.size.width *
-		global_scale_modifier;
-	monster.health_highlighted_UI.bar.capture_line.size.height = monster.health_highlighted_UI.bar.capture_line.size.height
-		* global_scale_modifier;
-
-	monster.health_highlighted_UI.bar.colors = cached_config.health.bar.normal_colors;
-
-	monster.stamina_highlighted_UI = stamina_UI_entity.new(
-		cached_config.stamina.visibility,
-		cached_config.stamina.bar,
-		cached_config.stamina.text_label,
-		cached_config.stamina.value_label,
-		cached_config.stamina.percentage_label,
-		cached_config.stamina.timer_label
-	);
-
-	monster.rage_highlighted_UI = rage_UI_entity.new(
-		cached_config.rage.visibility,
-		cached_config.rage.bar,
-		cached_config.rage.text_label,
-		cached_config.rage.value_label,
-		cached_config.rage.percentage_label,
-		cached_config.rage.timer_label
-	);
-
-	for REpart, part in pairs(monster.parts) do
-		body_part.init_highlighted_UI(part);
-	end
-
-	monster.ailment_highlighted_UI = ailment_UI_entity.new(
-		cached_config.ailments.visibility,
-		cached_config.ailments.bar,
-		cached_config.ailments.ailment_name_label,
-		cached_config.ailments.text_label,
-		cached_config.ailments.value_label,
-		cached_config.ailments.percentage_label,
-		cached_config.ailments.timer_label
-	);
-
-	ailments.init_ailment_buildup_highlighted_UI(monster.ailments);
 end
 
 local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
@@ -790,38 +693,48 @@ function large_monster.update_parts(enemy, monster, physical_param)
 	end
 end
 
-function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
-	local cached_config = config.current_config.large_monster_UI.dynamic;
+function large_monster.draw(monster, type, cached_config, position_on_screen, opacity_scale)
+	local monster_UI;
+	xy = 1;
+	if type == "dynamic" then	
+		monster_UI = monster.dynamic_UI;
+	elseif type == "static" then
+		monster_UI = monster.static_UI;
+	else
+		monster_UI = monster.highlighted_UI;
+	end
+	xy = 2;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
-
+	xy = 2.01;
 	local monster_name_text = "";
 	if cached_config.monster_name_label.include.monster_name then
 		monster_name_text = string.format("%s ", monster.name);
 	end
-
+	xy = 2.02;
 	if cached_config.monster_name_label.include.monster_id then
 		monster_name_text = monster_name_text .. tostring(monster.id) .. " ";
 	end
-
+	xy = 2.03;
 	if cached_config.monster_name_label.include.crown and monster.crown ~= "" then
 		monster_name_text = monster_name_text .. string.format("%s ", monster.crown);
 	end
+	xy = 2.04;
 	if cached_config.monster_name_label.include.size then
 		monster_name_text = monster_name_text .. string.format("#%.0f ", 100 * monster.size);
 	end
-
+	xy = 2.05;
 	if cached_config.monster_name_label.include.scrown_thresholds then
 		monster_name_text = monster_name_text .. string.format("<=%.0f >=%.0f >=%.0f", 100 * monster.small_border,
 			100 * monster.big_border, 100 * monster.king_border);
 	end
-
+	xy = table_helpers.tostring(monster_UI);
 	if monster.health < monster.capture_health then
-		monster.health_dynamic_UI.bar.colors = cached_config.health.bar.capture_colors;
+		monster_UI.health_UI.bar.colors = monster_UI.health_UI.bar.capture_colors;
 	else
-		monster.health_dynamic_UI.bar.colors = cached_config.health.bar.normal_colors;
+		monster_UI.health_UI.bar.colors = monster_UI.health_UI.bar.normal_colors;
 	end
-
-	drawing.draw_label(monster.dynamic_name_label, position_on_screen, opacity_scale, monster_name_text);
+	xy = 2.1;
+	drawing.draw_label(monster_UI.monster_name_label, position_on_screen, opacity_scale, monster_name_text);
 
 	local health_position_on_screen = {
 		x = position_on_screen.x + cached_config.health.offset.x * global_scale_modifier,
@@ -853,106 +766,13 @@ function large_monster.draw_dynamic(monster, position_on_screen, opacity_scale)
 		y = position_on_screen.y + cached_config.ailment_buildups.offset.y * global_scale_modifier
 	};
 
-	health_UI_entity.draw(monster, monster.health_dynamic_UI, health_position_on_screen, opacity_scale);
 
-	drawing.draw_capture_line(monster.health_dynamic_UI, health_position_on_screen, opacity_scale,
-		monster.capture_percentage);
+	health_UI_entity.draw(monster, monster_UI.health_UI, health_position_on_screen, opacity_scale);
+	drawing.draw_capture_line(monster_UI.health_UI, health_position_on_screen, opacity_scale, monster.capture_percentage);
+	stamina_UI_entity.draw(monster, monster_UI.stamina_UI, stamina_position_on_screen, opacity_scale);
+	rage_UI_entity.draw(monster, monster_UI.rage_UI, rage_position_on_screen, opacity_scale);
 
-	stamina_UI_entity.draw(monster, monster.stamina_dynamic_UI, stamina_position_on_screen, opacity_scale);
-	rage_UI_entity.draw(monster, monster.rage_dynamic_UI, rage_position_on_screen, opacity_scale);
-
-	local last_part_position_on_screen = body_part.draw_dynamic(monster,
-		parts_position_on_screen
-		, opacity_scale);
-
-	if cached_config.ailments.settings.offset_is_relative_to_parts then
-		if last_part_position_on_screen ~= nil then
-			ailments_position_on_screen = {
-				x = last_part_position_on_screen.x +
-					config.current_config.large_monster_UI.highlighted.ailments.relative_offset.x * global_scale_modifier,
-				y = last_part_position_on_screen.y +
-					config.current_config.large_monster_UI.highlighted.ailments.relative_offset.y * global_scale_modifier
-			};
-		end
-	end
-
-	ailments.draw_dynamic(monster, ailments_position_on_screen, opacity_scale);
-	ailment_buildup.draw_dynamic(monster, ailment_buildups_position_on_screen, opacity_scale);
-end
-
-function large_monster.draw_static(monster, position_on_screen, opacity_scale)
-	local cached_config = config.current_config.large_monster_UI.static;
-	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
-
-	local monster_name_text = "";
-	if cached_config.monster_name_label.include.monster_name then
-		monster_name_text = string.format("%s ", monster.name);
-	end
-
-	if cached_config.monster_name_label.include.monster_id then
-		monster_name_text = monster_name_text .. tostring(monster.id) .. " ";
-	end
-
-	if cached_config.monster_name_label.include.crown and monster.crown ~= "" then
-		monster_name_text = monster_name_text .. string.format("%s ", monster.crown);
-	end
-	if cached_config.monster_name_label.include.size then
-		monster_name_text = monster_name_text .. string.format("#%.0f ", 100 * monster.size);
-	end
-
-	if cached_config.monster_name_label.include.scrown_thresholds then
-		monster_name_text = monster_name_text .. string.format("<=%.0f >=%.0f >=%.0f", 100 * monster.small_border,
-			100 * monster.big_border, 100 * monster.king_border);
-	end
-
-	if monster.health < monster.capture_health then
-		monster.health_static_UI.bar.colors = cached_config.health.bar.capture_colors;
-	else
-		monster.health_static_UI.bar.colors = cached_config.health.bar.normal_colors;
-	end
-
-	drawing.draw_label(monster.static_name_label, position_on_screen, opacity_scale, monster_name_text);
-
-	local health_position_on_screen = {
-		x = position_on_screen.x + cached_config.health.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.health.offset.y * global_scale_modifier
-	};
-
-	local stamina_position_on_screen = {
-		x = position_on_screen.x + cached_config.stamina.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.stamina.offset.y * global_scale_modifier
-	};
-
-	local rage_position_on_screen = {
-		x = position_on_screen.x + cached_config.rage.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.rage.offset.y * global_scale_modifier
-	};
-
-	local parts_position_on_screen = {
-		x = position_on_screen.x + cached_config.body_parts.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.body_parts.offset.y * global_scale_modifier
-	};
-
-	local ailments_position_on_screen = {
-		x = position_on_screen.x + cached_config.ailments.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.ailments.offset.y * global_scale_modifier
-	};
-
-	local ailment_buildups_position_on_screen = {
-		x = position_on_screen.x + cached_config.ailment_buildups.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.ailment_buildups.offset.y * global_scale_modifier
-	};
-
-	health_UI_entity.draw(monster, monster.health_static_UI, health_position_on_screen, opacity_scale);
-
-	drawing.draw_capture_line(monster.health_static_UI, health_position_on_screen, opacity_scale, monster.capture_percentage);
-
-	stamina_UI_entity.draw(monster, monster.stamina_static_UI, stamina_position_on_screen, opacity_scale);
-	rage_UI_entity.draw(monster, monster.rage_static_UI, rage_position_on_screen, opacity_scale);
-
-	local last_part_position_on_screen = body_part.draw_static(monster,
-		parts_position_on_screen
-		, opacity_scale);
+	local last_part_position_on_screen = body_part.draw(monster, monster_UI.part_UI, cached_config, parts_position_on_screen, opacity_scale);
 
 	if cached_config.ailments.settings.offset_is_relative_to_parts then
 		if last_part_position_on_screen ~= nil then
@@ -963,95 +783,8 @@ function large_monster.draw_static(monster, position_on_screen, opacity_scale)
 		end
 	end
 
-	ailments.draw_static(monster, ailments_position_on_screen, opacity_scale);
-	ailment_buildup.draw_static(monster, ailment_buildups_position_on_screen, opacity_scale);
-end
-
-function large_monster.draw_highlighted(monster, position_on_screen, opacity_scale)
-	local cached_config = config.current_config.large_monster_UI.highlighted;
-	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
-
-	local monster_name_text = "";
-	if cached_config.monster_name_label.include.monster_name then
-		monster_name_text = string.format("%s ", monster.name);
-	end
-
-	if cached_config.monster_name_label.include.monster_id then
-		monster_name_text = monster_name_text .. tostring(monster.id) .. " ";
-	end
-
-	if cached_config.monster_name_label.include.crown and monster.crown ~= "" then
-		monster_name_text = monster_name_text .. string.format("%s ", monster.crown);
-	end
-	if cached_config.monster_name_label.include.size then
-		monster_name_text = monster_name_text .. string.format("#%.0f ", 100 * monster.size);
-	end
-
-	if cached_config.monster_name_label.include.scrown_thresholds then
-		monster_name_text = monster_name_text .. string.format("<=%.0f >=%.0f >=%.0f", 100 * monster.small_border,
-			100 * monster.big_border, 100 * monster.king_border);
-	end
-
-	if monster.health < monster.capture_health then
-		monster.health_highlighted_UI.bar.colors = cached_config.health.bar.capture_colors;
-	else
-		monster.health_highlighted_UI.bar.colors = cached_config.health.bar.normal_colors;
-	end
-
-	drawing.draw_label(monster.highlighted_name_label, position_on_screen, opacity_scale, monster_name_text);
-
-	local health_position_on_screen = {
-		x = position_on_screen.x + cached_config.health.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.health.offset.y * global_scale_modifier
-	};
-
-	local stamina_position_on_screen = {
-		x = position_on_screen.x + cached_config.stamina.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.stamina.offset.y * global_scale_modifier
-	};
-
-	local rage_position_on_screen = {
-		x = position_on_screen.x + cached_config.rage.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.rage.offset.y * global_scale_modifier
-	};
-
-	local parts_position_on_screen = {
-		x = position_on_screen.x + cached_config.body_parts.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.body_parts.offset.y * global_scale_modifier
-	};
-
-	local ailments_position_on_screen = {
-		x = position_on_screen.x + cached_config.ailments.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.ailments.offset.y * global_scale_modifier
-	};
-
-	local ailment_buildups_position_on_screen = {
-		x = position_on_screen.x + cached_config.ailment_buildups.offset.x * global_scale_modifier,
-		y = position_on_screen.y + cached_config.ailment_buildups.offset.y * global_scale_modifier
-	};
-
-	health_UI_entity.draw(monster, monster.health_highlighted_UI, health_position_on_screen, opacity_scale);
-	drawing.draw_capture_line(monster.health_highlighted_UI, health_position_on_screen, opacity_scale,
-		monster.capture_percentage);
-
-	stamina_UI_entity.draw(monster, monster.stamina_highlighted_UI, stamina_position_on_screen, opacity_scale);
-	rage_UI_entity.draw(monster, monster.rage_highlighted_UI, rage_position_on_screen, opacity_scale);
-
-	local last_part_position_on_screen = body_part.draw_highlighted(monster,
-		parts_position_on_screen
-		, opacity_scale);
-
-	if cached_config.ailments.settings.offset_is_relative_to_parts then
-		if last_part_position_on_screen ~= nil then
-			ailments_position_on_screen = {
-				x = last_part_position_on_screen.x + cached_config.ailments.relative_offset.x * global_scale_modifier,
-				y = last_part_position_on_screen.y + cached_config.ailments.relative_offset.y * global_scale_modifier
-			};
-		end
-	end
-
-	ailments.draw_highlighted(monster, ailments_position_on_screen, opacity_scale);
-	ailment_buildup.draw_highlighted(monster, ailment_buildups_position_on_screen, opacity_scale);
+	ailments.draw(monster, monster_UI.ailment_UI, cached_config, ailments_position_on_screen, opacity_scale);
+	ailment_buildup.draw(monster, monster_UI.ailment_buildup_UI, cached_config, ailment_buildups_position_on_screen, opacity_scale);
 end
 
 function large_monster.init_list()
@@ -1069,6 +802,8 @@ function large_monster.init_module()
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
 	ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
+	ailment_buildup_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_buildup_UI_entity");
+	body_part_UI_entity = require("MHR_Overlay.UI.UI_Entities.body_part_UI_entity");
 
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	drawing = require("MHR_Overlay.UI.drawing");

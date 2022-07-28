@@ -57,7 +57,7 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 
 		local monster = large_monster.list[enemy];
 		if monster == nil then
-			customization_menu.status = "No monster hp entry";
+			customization_menu.status = "No large monster hp entry";
 			goto continue
 		end
 
@@ -137,7 +137,7 @@ function large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster)
 			opacity_scale = 1 - (monster.distance / cached_config.settings.max_distance);
 		end
 
-		large_monster.draw_dynamic(monster, position_on_screen, opacity_scale);
+		large_monster.draw(monster, "dynamic", cached_config, position_on_screen, opacity_scale);
 
 		i = i + 1;
 		::continue::
@@ -218,7 +218,7 @@ function large_monster_UI.draw_static(displayed_monsters, highlighted_monster)
 			monster_position_on_screen.y = monster_position_on_screen.y + cached_config.spacing.y * i * global_scale_modifier;
 		end
 
-		large_monster.draw_static(monster, monster_position_on_screen, 1);
+		large_monster.draw(monster, "static", cached_config, monster_position_on_screen, 1);
 
 		i = i + 1;
 		::continue::
@@ -238,7 +238,7 @@ function large_monster_UI.draw_highlighted(monster)
 		return;
 	end
 
-	large_monster.draw_highlighted(monster, position_on_screen, 1);
+	large_monster.draw(monster, "highlighted", cached_config, position_on_screen, 1);
 end
 
 function large_monster_UI.init_module()

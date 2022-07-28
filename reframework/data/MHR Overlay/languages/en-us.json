@@ -116,7 +116,7 @@
         "hide_all_active_ailments": "Hide All Active Ailments",
         "hide_all_inactive_ailments": "Hide All Inactive Ailments",
         "hide_dead_or_captured": "Hide Dead or Captured",
-        "hide_disabled_ailments": "Hide Disabled Ailments",
+        "hide_disabled_ailments": "Hide Disabled Ailments by Game",
         "hide_inactive_ailments_with_no_buildup_support": "Hide Inactive Ailments with no Buildup Support",
         "hide_inactive_creatures": "Hide Inactive Creatures",
         "hide_module_if_total_damage_is_zero": "Hide Module if Total Damage is 0",

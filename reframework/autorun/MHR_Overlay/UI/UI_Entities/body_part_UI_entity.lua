@@ -87,10 +87,8 @@ function body_part_UI_entity.new(part_visibility, part_name_label, flinch_visibi
 	return entity;
 end
 
-function body_part_UI_entity.draw_dynamic(part, position_on_screen, opacity_scale)
-	local cached_config = config.current_config.large_monster_UI.dynamic.body_parts;
-
-	if not part.body_part_dynamic_UI.part_visibility then
+function body_part_UI_entity.draw(part, part_UI, cached_config, position_on_screen, opacity_scale)
+	if not part_UI.part_visibility then
 		return;
 	end
 
@@ -122,251 +120,61 @@ function body_part_UI_entity.draw_dynamic(part, position_on_screen, opacity_scal
 	local flinch_position_on_screen = {
 		x = position_on_screen.x + cached_config.part_health.offset.x,
 		y = position_on_screen.y + cached_config.part_health.offset.y,
-		visibility = part.body_part_dynamic_UI.flinch_visibility
+		visibility = part_UI.flinch_visibility
 	};
 
 	local break_position_on_screen = {
 		x = position_on_screen.x + cached_config.part_break.offset.x,
 		y = position_on_screen.y + cached_config.part_break.offset.y,
-		visibility = part.body_part_dynamic_UI.flinch_visibility
+		visibility = part_UI.flinch_visibility
 	};
 
 	local loss_position_on_screen = {
 		x = position_on_screen.x + cached_config.part_loss.offset.x,
-		y = position_on_screen.y + cached_config.part_loss.offset.y
-
+		y = position_on_screen.y + cached_config.part_loss.offset.y,
+		part_UI = part_UI.loss_visibility
 	};
 
-	if part.body_part_dynamic_UI.flinch_visibility then
-		drawing.draw_bar(part.body_part_dynamic_UI.flinch_bar, flinch_position_on_screen, opacity_scale,
+	if part_UI.flinch_visibility then
+		drawing.draw_bar(part_UI.flinch_bar, flinch_position_on_screen, opacity_scale,
 			part.health_percentage);
 	end
 
-	if part.body_part_dynamic_UI.break_visibility and part.break_max_health ~= -1 and part.break_count <
+	if part_UI.break_visibility and part.break_max_health ~= -1 and part.break_count <
 		part.break_max_count then
-		drawing.draw_bar(part.body_part_dynamic_UI.break_bar, break_position_on_screen, opacity_scale,
+		drawing.draw_bar(part_UI.break_bar, break_position_on_screen, opacity_scale,
 			part.break_health_percentage);
 	end
 
-	if part.body_part_dynamic_UI.loss_visibility and part.loss_max_health ~= -1 and not part.is_severed then
-		drawing.draw_bar(part.body_part_dynamic_UI.loss_bar, loss_position_on_screen, opacity_scale,
+	if part_UI.loss_visibility and part.loss_max_health ~= -1 and not part.is_severed then
+		drawing.draw_bar(part_UI.loss_bar, loss_position_on_screen, opacity_scale,
 			part.loss_health_percentage);
 	end
 
-	drawing.draw_label(part.body_part_dynamic_UI.part_name_label, position_on_screen, opacity_scale, part_name);
+	drawing.draw_label(part_UI.part_name_label, position_on_screen, opacity_scale, part_name);
 
-	if part.body_part_dynamic_UI.flinch_visibility then
-		drawing.draw_label(part.body_part_dynamic_UI.flinch_text_label, flinch_position_on_screen, opacity_scale);
-		drawing.draw_label(part.body_part_dynamic_UI.flinch_value_label, flinch_position_on_screen, opacity_scale,
+	if part_UI.flinch_visibility then
+		drawing.draw_label(part_UI.flinch_text_label, flinch_position_on_screen, opacity_scale);
+		drawing.draw_label(part_UI.flinch_value_label, flinch_position_on_screen, opacity_scale,
 			health_string);
-		drawing.draw_label(part.body_part_dynamic_UI.flinch_percentage_label, flinch_position_on_screen, opacity_scale,
+		drawing.draw_label(part_UI.flinch_percentage_label, flinch_position_on_screen, opacity_scale,
 			100 * part.health_percentage);
 	end
 
-	if part.body_part_dynamic_UI.break_visibility and part.break_max_health ~= -1 and part.break_count <
+	if part_UI.break_visibility and part.break_max_health ~= -1 and part.break_count <
 		part.break_max_count then
-		drawing.draw_label(part.body_part_dynamic_UI.break_text_label, break_position_on_screen, opacity_scale);
-		drawing.draw_label(part.body_part_dynamic_UI.break_value_label, break_position_on_screen, opacity_scale,
+		drawing.draw_label(part_UI.break_text_label, break_position_on_screen, opacity_scale);
+		drawing.draw_label(part_UI.break_value_label, break_position_on_screen, opacity_scale,
 			break_health_string);
-		drawing.draw_label(part.body_part_dynamic_UI.break_percentage_label, break_position_on_screen, opacity_scale,
+		drawing.draw_label(part_UI.break_percentage_label, break_position_on_screen, opacity_scale,
 			100 * part.break_health_percentage);
 	end
 
-	if part.body_part_dynamic_UI.loss_visibility and part.loss_max_health ~= -1 and not part.is_severed then
-		drawing.draw_label(part.body_part_dynamic_UI.loss_text_label, loss_position_on_screen, opacity_scale);
-		drawing.draw_label(part.body_part_dynamic_UI.loss_value_label, loss_position_on_screen, opacity_scale,
+	if part_UI.loss_visibility and part.loss_max_health ~= -1 and not part.is_severed then
+		drawing.draw_label(part_UI.loss_text_label, loss_position_on_screen, opacity_scale);
+		drawing.draw_label(part_UI.loss_value_label, loss_position_on_screen, opacity_scale,
 			loss_health_string);
-		drawing.draw_label(part.body_part_dynamic_UI.loss_health_percentage_label, loss_position_on_screen, opacity_scale,
-			100 * part.loss_health_percentage);
-	end
-end
-
-function body_part_UI_entity.draw_static(part, position_on_screen, opacity_scale)
-	local cached_config = config.current_config.large_monster_UI.static.body_parts;
-
-	if not part.body_part_static_UI.part_visibility then
-		return;
-	end
-
-	local part_name = "";
-	if cached_config.part_name_label.include.part_name then
-		part_name = part.name .. " ";
-	end
-	if cached_config.part_name_label.include.flinch_count and part.flinch_count ~= 0 then
-		part_name = part_name .. "x" .. tostring(part.flinch_count) .. " ";
-	end
-
-	if part.break_max_count ~= 0 then
-		if cached_config.part_name_label.include.break_count then
-			if cached_config.part_name_label.include.break_max_count then
-				part_name = part_name .. tostring(part.break_count) .. "/" .. tostring(part.break_max_count);
-
-			elseif part.flinch_count ~= 0 then
-				part_name = part_name .. "x" .. tostring(part.break_count);
-			end
-		elseif cached_config.part_name_label.include.break_max_count then
-			part_name = part_name .. "/" .. tostring(part.break_max_count);
-		end
-	end
-
-	local health_string = string.format("%.0f/%.0f", part.health, part.max_health);
-	local break_health_string = string.format("%.0f/%.0f", part.break_health, part.break_max_health);
-	local loss_health_string = string.format("%.0f/%.0f", part.loss_health, part.loss_max_health);
-
-	local flinch_position_on_screen = {
-		x = position_on_screen.x + cached_config.part_health.offset.x,
-		y = position_on_screen.y + cached_config.part_health.offset.y,
-		visibility = part.body_part_static_UI.flinch_visibility
-	};
-
-	local break_position_on_screen = {
-		x = position_on_screen.x + cached_config.part_break.offset.x,
-		y = position_on_screen.y + cached_config.part_break.offset.y,
-		visibility = part.body_part_static_UI.flinch_visibility
-	};
-
-	local loss_position_on_screen = {
-		x = position_on_screen.x + cached_config.part_loss.offset.x,
-		y = position_on_screen.y + cached_config.part_loss.offset.y
-
-	};
-
-	if part.body_part_static_UI.flinch_visibility then
-		drawing.draw_bar(part.body_part_static_UI.flinch_bar, flinch_position_on_screen, opacity_scale, part.health_percentage);
-	end
-
-	if part.body_part_static_UI.break_visibility and part.break_max_health ~= -1 and part.break_count <
-		part.break_max_count then
-		drawing.draw_bar(part.body_part_static_UI.break_bar, break_position_on_screen, opacity_scale,
-			part.break_health_percentage);
-	end
-
-	if part.body_part_static_UI.loss_visibility and part.loss_max_health ~= -1 and not part.is_severed then
-		drawing.draw_bar(part.body_part_static_UI.loss_bar, loss_position_on_screen, opacity_scale,
-			part.loss_health_percentage);
-	end
-
-	drawing.draw_label(part.body_part_static_UI.part_name_label, position_on_screen, opacity_scale, part_name);
-
-	if part.body_part_static_UI.flinch_visibility then
-		drawing.draw_label(part.body_part_static_UI.flinch_text_label, flinch_position_on_screen, opacity_scale);
-		drawing.draw_label(part.body_part_static_UI.flinch_value_label, flinch_position_on_screen, opacity_scale,
-			health_string);
-		drawing.draw_label(part.body_part_static_UI.flinch_percentage_label, flinch_position_on_screen, opacity_scale,
-			100 * part.health_percentage);
-	end
-
-	if part.body_part_static_UI.break_visibility and part.break_max_health ~= -1 and part.break_count <
-		part.break_max_count then
-		drawing.draw_label(part.body_part_static_UI.break_text_label, break_position_on_screen, opacity_scale);
-		drawing.draw_label(part.body_part_static_UI.break_value_label, break_position_on_screen, opacity_scale,
-			break_health_string);
-		drawing.draw_label(part.body_part_static_UI.break_percentage_label, break_position_on_screen, opacity_scale,
-			100 * part.break_health_percentage);
-	end
-
-	if part.body_part_static_UI.loss_visibility and part.loss_max_health ~= -1 and not part.is_severed then
-		drawing.draw_label(part.body_part_static_UI.loss_text_label, loss_position_on_screen, opacity_scale);
-		drawing.draw_label(part.body_part_static_UI.loss_value_label, loss_position_on_screen, opacity_scale,
-			loss_health_string);
-		drawing.draw_label(part.body_part_static_UI.loss_health_percentage_label, loss_position_on_screen, opacity_scale,
-			100 * part.loss_health_percentage);
-	end
-end
-
-function body_part_UI_entity.draw_highlighted(part, position_on_screen, opacity_scale)
-	local cached_config = config.current_config.large_monster_UI.highlighted.body_parts;
-
-	if not part.body_part_highlighted_UI.part_visibility then
-		return;
-	end
-
-	local part_name = "";
-	if cached_config.part_name_label.include.part_name then
-		part_name = part.name .. " ";
-	end
-	if cached_config.part_name_label.include.flinch_count and part.flinch_count ~= 0 then
-		part_name = part_name .. "x" .. tostring(part.flinch_count) .. " ";
-	end
-
-	if part.break_max_count ~= 0 then
-		if cached_config.part_name_label.include.break_count then
-			if cached_config.part_name_label.include.break_max_count then
-				part_name = part_name .. tostring(part.break_count) .. "/" .. tostring(part.break_max_count);
-
-			elseif part.flinch_count ~= 0 then
-				part_name = part_name .. "x" .. tostring(part.break_count);
-			end
-		elseif cached_config.part_name_label.include.break_max_count then
-			part_name = part_name .. "/" .. tostring(part.break_max_count);
-		end
-	end
-
-	local health_string = string.format("%.0f/%.0f", part.health, part.max_health);
-	local break_health_string = string.format("%.0f/%.0f", part.break_health, part.break_max_health);
-	local loss_health_string = string.format("%.0f/%.0f", part.loss_health, part.loss_max_health);
-
-	local flinch_position_on_screen = {
-		x = position_on_screen.x + cached_config.part_health.offset.x,
-		y = position_on_screen.y + cached_config.part_health.offset.y,
-		visibility = part.body_part_highlighted_UI.flinch_visibility
-	};
-
-	local break_position_on_screen = {
-		x = position_on_screen.x + cached_config.part_break.offset.x,
-		y = position_on_screen.y + cached_config.part_break.offset.y,
-		visibility = part.body_part_highlighted_UI.flinch_visibility
-	};
-
-	local loss_position_on_screen = {
-		x = position_on_screen.x + cached_config.part_loss.offset.x,
-		y = position_on_screen.y + cached_config.part_loss.offset.y
-
-	};
-
-	local draw_health = part.body_part_highlighted_UI.flinch_visibility and part.max_health > 0;
-	local draw_break = part.body_part_highlighted_UI.break_visibility and part.break_max_health > 0 and part.break_count <
-		                   part.break_max_count;
-	local draw_loss = part.body_part_highlighted_UI.loss_visibility and part.loss_max_health > 0 and not part.is_severed;
-
-	if draw_health then
-		drawing.draw_bar(part.body_part_highlighted_UI.flinch_bar, flinch_position_on_screen, opacity_scale,
-			part.health_percentage);
-	end
-
-	if draw_break then
-		drawing.draw_bar(part.body_part_highlighted_UI.break_bar, break_position_on_screen, opacity_scale,
-			part.break_health_percentage);
-	end
-
-	if draw_loss then
-		drawing.draw_bar(part.body_part_highlighted_UI.loss_bar, loss_position_on_screen, opacity_scale,
-			part.loss_health_percentage);
-	end
-
-	drawing.draw_label(part.body_part_highlighted_UI.part_name_label, position_on_screen, opacity_scale, part_name);
-
-	if draw_health then
-		drawing.draw_label(part.body_part_highlighted_UI.flinch_text_label, flinch_position_on_screen, opacity_scale);
-		drawing.draw_label(part.body_part_highlighted_UI.flinch_value_label, flinch_position_on_screen, opacity_scale,
-			health_string);
-		drawing.draw_label(part.body_part_highlighted_UI.flinch_percentage_label, flinch_position_on_screen, opacity_scale,
-			100 * part.health_percentage);
-	end
-
-	if draw_break then
-		drawing.draw_label(part.body_part_highlighted_UI.break_text_label, break_position_on_screen, opacity_scale);
-		drawing.draw_label(part.body_part_highlighted_UI.break_value_label, break_position_on_screen, opacity_scale,
-			break_health_string);
-		drawing.draw_label(part.body_part_highlighted_UI.break_percentage_label, break_position_on_screen, opacity_scale,
-			100 * part.break_health_percentage);
-	end
-
-	if draw_loss then
-		drawing.draw_label(part.body_part_highlighted_UI.loss_text_label, loss_position_on_screen, opacity_scale);
-		drawing.draw_label(part.body_part_highlighted_UI.loss_value_label, loss_position_on_screen, opacity_scale,
-			loss_health_string);
-		drawing.draw_label(part.body_part_highlighted_UI.loss_health_percentage_label, loss_position_on_screen, opacity_scale,
+		drawing.draw_label(part_UI.loss_health_percentage_label, loss_position_on_screen, opacity_scale,
 			100 * part.loss_health_percentage);
 	end
 end

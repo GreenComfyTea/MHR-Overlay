@@ -18,7 +18,7 @@ function player.new(id, guid, name, master_rank, hunter_rank)
 	local new_player = {};
 	new_player.id = id;
 	new_player.guid = guid;
-	new_player.name = name;
+	new_player.name = name; -- 齁ODO
 	new_player.hunter_rank = hunter_rank;
 	new_player.master_rank = master_rank;
 
@@ -423,11 +423,11 @@ function player.update_player_list_(hunter_info_field_)
 	local myself_master_rank = get_master_rank_method:call(singletons.progress_manager) or 0;
 
 	local myself_id = get_master_player_id_method:call(singletons.player_manager) or -1;
-	--if quest_status.is_online then
-	--myself_id = get_master_player_id_method:call(singletons.player_manager) or -1;
-	--else
-	--myself_id = myself_quest_index_field:call(singletons.lobby_manager) or -1;
-	--end
+	-- if quest_status.is_online then
+	-- myself_id = get_master_player_id_method:call(singletons.player_manager) or -1;
+	-- else
+	-- myself_id = myself_quest_index_field:call(singletons.lobby_manager) or -1;
+	-- end
 
 	if myself_id == nil then
 		customization_menu.status = "No myself player id";
@@ -440,16 +440,15 @@ function player.update_player_list_(hunter_info_field_)
 		return;
 	end
 
-	--local myself_guid_string = guid_tostring_method:call(myself_guid);
-	--if myself_guid_string == nil then
+	-- local myself_guid_string = guid_tostring_method:call(myself_guid);
+	-- if myself_guid_string == nil then
 	--	customization_menu.status = "No myself guid string";
 	--	return;
-	--end
+	-- end
 
 	if myself_id ~= player.myself.id then
 		player.list[player.myself.id] = nil;
-		player.myself = player.new(myself_id, myself_guid, myself_player_name, myself_master_rank,
-			myself_hunter_rank);
+		player.myself = player.new(myself_id, myself_guid, myself_player_name, myself_master_rank, myself_hunter_rank);
 		player.list[myself_id] = player.myself;
 	end
 
@@ -484,11 +483,11 @@ function player.update_player_list_(hunter_info_field_)
 			return;
 		end
 
-		--local player_guid_string = guid_tostring_method:call(player_guid);
-		--if player_guid_string == nil then
+		-- local player_guid_string = guid_tostring_method:call(player_guid);
+		-- if player_guid_string == nil then
 		--	customization_menu.status = "No player guid string";
 		--	return;
-		--end
+		-- end
 
 		local player_hunter_rank = hunter_rank_field:get_data(player_info) or 0;
 		local player_master_rank = master_rank_field:get_data(player_info) or 0;
@@ -498,15 +497,13 @@ function player.update_player_list_(hunter_info_field_)
 			goto continue
 		end
 
-		if player.list[player_id] == nil or
-			not guid_equals_method:call(player.list[player_id].guid, player_guid)
-		--player.list[player_id].guid ~= player_guid
+		if player.list[player_id] == nil or not guid_equals_method:call(player.list[player_id].guid, player_guid) -- player.list[player_id].guid ~= player_guid
 		then
 			local _player = player.new(player_id, player_guid, player_name, player_master_rank, player_hunter_rank);
 			player.list[player_id] = _player;
 
-			if player_name == player.myself.name and player_hunter_rank == player.myself.hunter_rank and
-				player_master_rank == player.myself.master_rank then
+			if player_name == player.myself.name and player_hunter_rank == player.myself.hunter_rank and player_master_rank ==
+				player.myself.master_rank then
 				player.myself = _player;
 			end
 		end
@@ -518,16 +515,9 @@ end
 function player.init_UI(_player)
 	local cached_config = config.current_config.damage_meter_UI;
 
-	_player.damage_UI = damage_UI_entity.new(
-		cached_config.damage_bar,
-		cached_config.highlighted_damage_bar,
-		cached_config.player_name_label,
-		cached_config.dps_label,
-		cached_config.master_hunter_rank_label,
-		cached_config.damage_value_label,
-		cached_config.damage_percentage_label,
-		cached_config.cart_count_label
-	);
+	_player.damage_UI = damage_UI_entity.new(cached_config.damage_bar, cached_config.highlighted_damage_bar,
+		cached_config.player_name_label, cached_config.dps_label, cached_config.master_hunter_rank_label,
+		cached_config.damage_value_label, cached_config.damage_percentage_label, cached_config.cart_count_label);
 end
 
 function player.init_total_UI(_player)
@@ -544,9 +534,9 @@ function player.init_total_UI(_player)
 	_player.damage_UI.total_damage_label.offset.y = _player.damage_UI.total_damage_label.offset.y * global_scale_modifier;
 
 	_player.damage_UI.total_damage_value_label.offset.x = _player.damage_UI.total_damage_value_label.offset.x *
-		global_scale_modifier;
+		                                                      global_scale_modifier;
 	_player.damage_UI.total_damage_value_label.offset.y = _player.damage_UI.total_damage_value_label.offset.y *
-		global_scale_modifier;
+		                                                      global_scale_modifier;
 
 	_player.damage_UI.total_dps_label.offset.x = _player.damage_UI.total_dps_label.offset.x * global_scale_modifier;
 	_player.damage_UI.total_dps_label.offset.y = _player.damage_UI.total_dps_label.offset.y * global_scale_modifier;
