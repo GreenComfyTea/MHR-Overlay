@@ -319,9 +319,8 @@ end
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local find_master_player_method = player_manager_type_def:get_method("findMasterPlayer");
 
-local get_game_object_method = sdk.find_type_definition("via.Component"):get_method("get_GameObject");
-local get_transform_method = sdk.find_type_definition("via.GameObject"):get_method("get_Transform");
-local get_position_method = sdk.find_type_definition("via.Transform"):get_method("get_Position");
+local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
+local get_pos_field = player_base_type_def:get_method("get_Pos");
 
 function player.update_myself_position()
 	if singletons.player_manager == nil then
@@ -335,25 +334,10 @@ function player.update_myself_position()
 		return;
 	end
 
-	local master_player_game_object = get_game_object_method:call(master_player);
-	if master_player_game_object == nil then
-		customization_menu.status = "No master player game object";
-		return;
+	local position = get_pos_field:call(master_player);
+	if position ~= nil then
+		player.myself_position = position;
 	end
-
-	local master_player_transform = get_transform_method:call(master_player_game_object);
-	if not master_player_transform then
-		customization_menu.status = "No master player transform";
-		return;
-	end
-
-	local master_player_position = get_position_method:call(master_player_transform);
-	if master_player_position == nil then
-		customization_menu.status = "No master player position";
-		return;
-	end
-
-	player.myself_position = master_player_position;
 end
 
 function player.init()

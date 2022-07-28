@@ -53,6 +53,8 @@ customization_menu.displayed_damage_meter_UI_my_damage_bar_location_types = {};
 customization_menu.displayed_damage_meter_UI_sorting_types = {};
 customization_menu.displayed_damage_meter_UI_dps_modes = {};
 
+customization_menu.displayed_auto_highlight_modes = {};
+
 customization_menu.orientation_types = {};
 customization_menu.anchor_types = {};
 customization_menu.outline_styles = {};
@@ -69,6 +71,8 @@ customization_menu.damage_meter_UI_my_damage_bar_location_types = {};
 customization_menu.damage_meter_UI_sorting_types = {};
 customization_menu.damage_meter_UI_dps_modes = {};
 
+customization_menu.auto_highlight_modes = {};
+
 customization_menu.fonts = {"Arial", "Arial Black", "Bahnschrift", "Calibri", "Cambria", "Cambria Math", "Candara",
                             "Comic Sans MS", "Consolas", "Constantia", "Corbel", "Courier New", "Ebrima",
                             "Franklin Gothic Medium", "Gabriola", "Gadugi", "Georgia", "HoloLens MDL2 Assets", "Impact",
@@ -79,7 +83,8 @@ customization_menu.fonts = {"Arial", "Arial Black", "Bahnschrift", "Calibri", "C
                             "MV Boli", "Myanmar Text", "Nirmala UI", "Palatino Linotype", "Segoe MDL2 Assets",
                             "Segoe Print", "Segoe Script", "Segoe UI", "Segoe UI Historic", "Segoe UI Emoji",
                             "Segoe UI Symbol", "SimSun", "Sitka", "Sylfaen", "Symbol", "Tahoma", "Times New Roman",
-                            "Trebuchet MS", "Verdana", "Webdings", "Wingdings", "Yu Gothic"};
+                            "Trebuchet MS", "Verdana", "Webdings", "Wingdings", "Yu Gothic"
+};
 
 customization_menu.all_UI_waiting_for_key = false;
 customization_menu.small_monster_UI_waiting_for_key = false;
@@ -155,6 +160,13 @@ function customization_menu.init()
                                                            language.current_language.customization_menu.quest_time,
                                                            language.current_language.customization_menu.join_time};
 
+	customization_menu.displayed_auto_highlight_modes = {language.current_language.customization_menu.closest,
+												language.current_language.customization_menu.farthest,
+												language.current_language.customization_menu.lowest_health,
+												language.current_language.customization_menu.highest_health,
+												language.current_language.customization_menu.lowest_health_percentage,
+												language.current_language.customization_menu.highest_health_percentage};
+
 	customization_menu.orientation_types = {language.default_language.customization_menu.horizontal,
                                          language.default_language.customization_menu.vertical};
 	customization_menu.anchor_types = {language.default_language.customization_menu.top_left,
@@ -209,6 +221,13 @@ function customization_menu.init()
 	customization_menu.damage_meter_UI_dps_modes = {language.default_language.customization_menu.first_hit,
                                                  language.default_language.customization_menu.quest_time,
                                                  language.default_language.customization_menu.join_time};
+
+	customization_menu.auto_highlight_modes = {language.default_language.customization_menu.closest,
+                                                 language.default_language.customization_menu.farthest,
+                                                 language.default_language.customization_menu.lowest_health,
+                                                 language.default_language.customization_menu.highest_health,
+                                                 language.default_language.customization_menu.lowest_health_percentage,
+                                                 language.default_language.customization_menu.highest_health_percentage};
 end
 
 function customization_menu.draw()
@@ -1280,6 +1299,26 @@ function customization_menu.draw_large_monster_highlighted_UI()
 
 			if changed then
 				cached_config.position.anchor = customization_menu.anchor_types[index];
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.auto_highlight) then
+			changed, cached_config.auto_highlight.enabled = imgui.checkbox(
+				language.current_language.customization_menu.enabled, cached_config.auto_highlight.enabled);
+	
+			config_changed = config_changed or changed;
+
+			changed, index = imgui.combo(
+				language.current_language.customization_menu.mode,
+				table_helpers.find_index(customization_menu.auto_highlight_modes, cached_config.auto_highlight.mode),
+				customization_menu.displayed_auto_highlight_modes);
+
+			config_changed = config_changed or changed;
+
+			if changed then
+				cached_config.auto_highlight.mode = customization_menu.auto_highlight_modes[index];
 			end
 
 			imgui.tree_pop();

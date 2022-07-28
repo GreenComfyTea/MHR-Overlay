@@ -399,7 +399,16 @@ language.default_language = {
 		style = "Style",
 		inside = "Inside",
 		outside = "Outside",
-		center = "Center"
+		center = "Center",
+
+		auto_highlight = "Auto-highlight",
+		mode = "Mode",
+		closest = "Closest",
+		farthest = "Farthest",
+		lowest_health = "Lowest Health",
+		highest_health = "Highest Health",
+		lowest_health_percentage = "Lowest Health Percentage",
+		highest_health_percentage = "Highest Health Percentage"
 	}
 };
 

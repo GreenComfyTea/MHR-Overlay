@@ -38,7 +38,7 @@ function small_monster_UI.draw()
 
 		local monster = small_monster.list[enemy];
 		if monster == nil then
-			customization_menu.status = "No small monster hp entry";
+			customization_menu.status = "No small monster entry";
 			goto continue
 		end
 

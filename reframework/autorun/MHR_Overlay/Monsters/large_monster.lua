@@ -695,7 +695,7 @@ end
 
 function large_monster.draw(monster, type, cached_config, position_on_screen, opacity_scale)
 	local monster_UI;
-	xy = 1;
+
 	if type == "dynamic" then	
 		monster_UI = monster.dynamic_UI;
 	elseif type == "static" then
@@ -703,37 +703,37 @@ function large_monster.draw(monster, type, cached_config, position_on_screen, op
 	else
 		monster_UI = monster.highlighted_UI;
 	end
-	xy = 2;
+
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
-	xy = 2.01;
+
 	local monster_name_text = "";
 	if cached_config.monster_name_label.include.monster_name then
-		monster_name_text = string.format("%s ", monster.name);
+		monster_name_text = string.format("%s %s ", monster.name, tostring(monster.distance));
 	end
-	xy = 2.02;
+
 	if cached_config.monster_name_label.include.monster_id then
 		monster_name_text = monster_name_text .. tostring(monster.id) .. " ";
 	end
-	xy = 2.03;
+
 	if cached_config.monster_name_label.include.crown and monster.crown ~= "" then
 		monster_name_text = monster_name_text .. string.format("%s ", monster.crown);
 	end
-	xy = 2.04;
+
 	if cached_config.monster_name_label.include.size then
 		monster_name_text = monster_name_text .. string.format("#%.0f ", 100 * monster.size);
 	end
-	xy = 2.05;
+
 	if cached_config.monster_name_label.include.scrown_thresholds then
 		monster_name_text = monster_name_text .. string.format("<=%.0f >=%.0f >=%.0f", 100 * monster.small_border,
 			100 * monster.big_border, 100 * monster.king_border);
 	end
-	xy = table_helpers.tostring(monster_UI);
+
 	if monster.health < monster.capture_health then
 		monster_UI.health_UI.bar.colors = monster_UI.health_UI.bar.capture_colors;
 	else
 		monster_UI.health_UI.bar.colors = monster_UI.health_UI.bar.normal_colors;
 	end
-	xy = 2.1;
+
 	drawing.draw_label(monster_UI.monster_name_label, position_on_screen, opacity_scale, monster_name_text);
 
 	local health_position_on_screen = {
@@ -765,7 +765,6 @@ function large_monster.draw(monster, type, cached_config, position_on_screen, op
 		x = position_on_screen.x + cached_config.ailment_buildups.offset.x * global_scale_modifier,
 		y = position_on_screen.y + cached_config.ailment_buildups.offset.y * global_scale_modifier
 	};
-
 
 	health_UI_entity.draw(monster, monster_UI.health_UI, health_position_on_screen, opacity_scale);
 	drawing.draw_capture_line(monster_UI.health_UI, health_position_on_screen, opacity_scale, monster.capture_percentage);

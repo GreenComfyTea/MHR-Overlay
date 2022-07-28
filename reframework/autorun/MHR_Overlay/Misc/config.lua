@@ -2952,6 +2952,11 @@ function config.init()
 					anchor = "Top-Right"
 				},
 
+				auto_highlight = {
+					enabled = false,
+					mode = "Closest"
+				},
+
 				monster_name_label = {
 					visibility = true,
 					text = "%s",
