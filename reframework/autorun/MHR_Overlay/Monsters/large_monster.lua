@@ -708,7 +708,7 @@ function large_monster.draw(monster, type, cached_config, position_on_screen, op
 
 	local monster_name_text = "";
 	if cached_config.monster_name_label.include.monster_name then
-		monster_name_text = string.format("%s %s ", monster.name, tostring(monster.distance));
+		monster_name_text = string.format("%s ", monster.name);
 	end
 
 	if cached_config.monster_name_label.include.monster_id then
