@@ -30,7 +30,8 @@
   
 **neatnet** - Korean translation.  
 **s9000008** - Traditional Chinese translation.  
-**etnAtker** - Simplified Chinese translation.
+**etnAtker** - Simplified Chinese translation.  
+**AKILAND0214** - Japanese translation.
 ***
 # Support
 
