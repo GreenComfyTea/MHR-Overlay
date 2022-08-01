@@ -57,7 +57,7 @@ end
 
 function ailment_buildup_UI_entity.draw(_player, ailment_buildup_UI, cached_config, position_on_screen, opacity_scale, top_buildup)
 	local player_buildup_bar_percentage = 0;
-	xy = 11.1;
+
 	if cached_config.settings.buildup_bar_relative_to == "Total Buildup" then
 		player_buildup_bar_percentage = _player.buildup_share;
 	else
@@ -65,7 +65,7 @@ function ailment_buildup_UI_entity.draw(_player, ailment_buildup_UI, cached_conf
 			player_buildup_bar_percentage = _player.buildup / top_buildup;
 		end
 	end
-	xy = 11.2;
+
 	if _player.id == player.myself.id and cached_config.settings.highlighted_bar == "Me" then
 		drawing.draw_bar(ailment_buildup_UI.highlighted_buildup_bar, position_on_screen, opacity_scale, player_buildup_bar_percentage);
 	elseif cached_config.settings.highlighted_bar == "Top Buildup" and _player.buildup == top_buildup then
@@ -73,11 +73,10 @@ function ailment_buildup_UI_entity.draw(_player, ailment_buildup_UI, cached_conf
 	else
 		drawing.draw_bar(ailment_buildup_UI.buildup_bar, position_on_screen, opacity_scale, player_buildup_bar_percentage);
 	end
-	xy = 11.3;
+
 	drawing.draw_label(ailment_buildup_UI.player_name_label, position_on_screen, opacity_scale, player.get_player(_player.id).name);
 	drawing.draw_label(ailment_buildup_UI.buildup_value_label, position_on_screen, opacity_scale, _player.buildup);
 	drawing.draw_label(ailment_buildup_UI.buildup_percentage_label, position_on_screen, opacity_scale, 100 * _player.buildup_share);
-	xy = 11.4;
 end
 
 function ailment_buildup_UI_entity.init_module()
