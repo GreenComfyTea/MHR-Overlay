@@ -86,7 +86,7 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 
 	-- 4 is virtual player in singleplayer that "owns" 2nd otomo
 	if not quest_status.is_online and attacker_id == 4 then
-		attacker_id = player.myself.player_id;
+		attacker_id = player.myself.id;
 	end
 
 	if is_marionette_attack then
@@ -150,10 +150,10 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	-- 31 - EcSwampLeech
 	-- 32 - EcPenetrateFish
 
-	--xy = xy .. "\nPlayer: " .. tostring(attacker_id) ..
+	--xy = "\nPlayer: " .. tostring(attacker_id) ..
 	--" Damage: " .. tostring(damage_object.total_damage) ..
 	--" Type: ("	.. tostring(attacker_type) ..
-	--") " .. tostring(types[attacker_type]) ..
+	--") " ..
 	--" Condition Damage: " .. tostring(condition_damage) ..
 	--" Condition Type: ("	.. tostring(attacker_type) ..
 	--") " .. tostring(condition_type);
