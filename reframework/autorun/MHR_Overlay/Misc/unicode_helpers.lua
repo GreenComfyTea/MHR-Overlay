@@ -60,8 +60,12 @@ end
 
 -- like string.sub() but i, j are utf8 strings
 -- a utf8-safe string.sub()
-function unicode_helpers.sub(string, i, j)
-	local l = utf8.len(string);
+function unicode_helpers.sub(str, i, j)
+	if coroutine == nil then
+		return str;
+	end
+
+	local l = utf8.len(str);
 
 	i = unicode_helpers.relative_position(i, l);
 	j = j and unicode_helpers.relative_position(j, l) or l;
@@ -79,7 +83,7 @@ function unicode_helpers.sub(string, i, j)
 	end
 
 	local diff = j - i;
-	local iterator = unicode_helpers.chars(string, true);
+	local iterator = unicode_helpers.chars(str, true);
 
 	-- advance up to i
 	for _ = 1, i - 1 do
@@ -90,7 +94,7 @@ function unicode_helpers.sub(string, i, j)
 
 	-- i and j are the same, single-charaacter sub
 	if diff == 0 then
-		return string.sub(string, b, b + c - 1);
+		return string.sub(str, b, b + c - 1);
 	end
 
 	i = b;
@@ -102,7 +106,7 @@ function unicode_helpers.sub(string, i, j)
 
 	c, b = select(2, iterator());
 
-	return string.sub(string, i, b + c - 1);
+	return string.sub(str, i, b + c - 1);
 end
 
 function unicode_helpers.init_module()
