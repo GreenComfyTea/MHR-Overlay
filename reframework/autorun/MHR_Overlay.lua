@@ -326,3 +326,7 @@ if debug.enabled then
 		end);
 	end
 end
+
+if imgui.begin_table == nil then
+	re.msg(language.current_language.customization_menu.reframework_outdated);
+end

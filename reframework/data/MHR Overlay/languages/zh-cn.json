@@ -202,6 +202,7 @@
         "quest_result_screen": "任务结果页",
         "quest_time": "任务时间",
         "rage": "愤怒",
+        "reframework_outdated": "Installed REFramework version is outdated. Please, update. Otherwise, MHR Overlay won't work correctly.",
         "relative_offset": "相对偏移",
         "render_highlighted_monster": "渲染高亮怪物",
         "render_not_highlighted_monsters": "渲染非高亮怪物",

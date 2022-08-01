@@ -202,6 +202,7 @@
         "quest_result_screen": "Quest Result Screen",
         "quest_time": "Quest Time",
         "rage": "Rage",
+        "reframework_outdated": "Installed REFramework version is outdated. Please, update. Otherwise, MHR Overlay won't work correctly.",
         "relative_offset": "Relative Offset",
         "render_highlighted_monster": "Render Highlighted Monster",
         "render_not_highlighted_monsters": "Render Not Highlighted Monsters",

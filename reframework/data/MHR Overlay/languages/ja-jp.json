@@ -202,6 +202,7 @@
         "quest_result_screen": "クエストクリア画面",
         "quest_time": "クエスト時間",
         "rage": "怒り値",
+        "reframework_outdated": "Installed REFramework version is outdated. Please, update. Otherwise, MHR Overlay won't work correctly.",
         "relative_offset": "相対的な表示位置",
         "render_highlighted_monster": "ハイライトされたモンスターをレンダリング(表示)する",
         "render_not_highlighted_monsters": "ハイライトされていないモンスターをレンダリング（表示）する",

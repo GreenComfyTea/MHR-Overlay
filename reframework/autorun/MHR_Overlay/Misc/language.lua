@@ -408,7 +408,9 @@ language.default_language = {
 		lowest_health = "Lowest Health",
 		highest_health = "Highest Health",
 		lowest_health_percentage = "Lowest Health Percentage",
-		highest_health_percentage = "Highest Health Percentage"
+		highest_health_percentage = "Highest Health Percentage",
+
+		reframework_outdated = "Installed REFramework version is outdated. Please, update. Otherwise, MHR Overlay won't work correctly."
 	}
 };
 
