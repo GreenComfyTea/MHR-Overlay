@@ -46,7 +46,12 @@ function drawing.limit_text_size(text, size_limit)
 		if text_width < size_limit then
 			break
 		else
+			local old_limited_text = limited_text;
 			limited_text = unicode_helpers.sub(limited_text, 1, -5) .. "...";
+
+			if limited_text == old_limited_text then
+				break
+			end
 		end
 	end
 
