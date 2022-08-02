@@ -385,10 +385,28 @@ function part_names.init()
 			--language.current_language.parts.chest_windsac,
 			--language.current_language.parts.back_windsac
 		},
-		[99] = -- Thunder Serpent Narwa+ 99 (no parts?)
-		{},
-		[1379] = -- Narwa the Allmother+ 1379 (no parts?)
-		{},
+		[99] = -- Thunder Serpent Narwa+ 99
+		{
+			language.current_language.parts.head,
+			nil,
+			language.current_language.parts.right_arm,
+			language.current_language.parts.left_arm,
+			language.current_language.parts.tail,
+			nil,
+			language.current_language.parts.back,
+			language.current_language.parts.thundersacs
+		},
+		[1379] = -- Narwa the Allmother+ 1379
+		{
+			language.current_language.parts.head,
+			nil,
+			language.current_language.parts.right_arm,
+			language.current_language.parts.left_arm,
+			language.current_language.parts.tail,
+			nil,
+			language.current_language.parts.back,
+			language.current_language.parts.thundersacs
+		},
 		[1366] = -- Crimson Glow Valstrax 1366
 		{
 			language.current_language.parts.head,

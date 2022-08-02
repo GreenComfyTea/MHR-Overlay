@@ -121,9 +121,9 @@ function body_part.draw(monster, part_UI, cached_config, parts_position_on_scree
 
 	local displayed_parts = {};
 	for REpart, part in pairs(monster.parts) do
-		local health_supported = part.max_health >= 0;
-		local break_supported = part.break_max_health >= 0;
-		local severe_supported = part.loss_max_health >= 0;
+		local health_supported = part.max_health > 0;
+		local break_supported = part.break_max_health > 0;
+		local severe_supported = part.loss_max_health > 0;
 
 		if health_supported then
 			if break_supported then

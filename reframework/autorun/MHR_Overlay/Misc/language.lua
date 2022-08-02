@@ -87,6 +87,8 @@ language.default_language = {
 		right_foreleg = "Foreleg R",
 		chest = "Chest",
 		shell = "Shell",
+
+		thundersacs = "Thundersacs"
 	},
 
 	ailments = {

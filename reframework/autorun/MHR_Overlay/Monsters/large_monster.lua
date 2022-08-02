@@ -688,8 +688,8 @@ function large_monster.update_parts(enemy, monster, physical_param)
 			end
 		end
 
-		part_id = part_id + 1;
 		::continue::
+		part_id = part_id + 1;
 	end
 end
 
