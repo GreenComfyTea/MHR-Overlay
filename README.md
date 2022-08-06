@@ -1,4 +1,7 @@
-# Monster Hunter Rise Overlay Mod
+# "MHR Overlay" Mod for Monster Hunter: Rise
+
+Exposes in-game data about monsters, creatures, players and damage. Draws a highly customizable UI.
+
 **This mod is solely intended to empower players with means of self-improvement. Please don't use the information provided by this tool to make hurtful comments and actions toward other players.**
 
 # Links
