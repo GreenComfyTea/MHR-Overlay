@@ -1,2 +1,0 @@
-Buffs location:
-snow.player.PlayerManager -> <PlayerData> k_BackingField -> [0]
