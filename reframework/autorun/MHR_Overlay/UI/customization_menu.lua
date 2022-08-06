@@ -233,17 +233,17 @@ end
 function customization_menu.draw()
 	imgui.set_next_window_pos(customization_menu.window_position, 1 << 3, customization_menu.window_pivot);
 	imgui.set_next_window_size(customization_menu.window_size, 1 << 3);
-	imgui.push_font(customization_menu.font);
-
-	customization_menu.is_opened = imgui.begin_window(language.current_language.customization_menu.mod_name .. " " ..
-		                                                  config.current_config.version, customization_menu.is_opened,
+	
+	customization_menu.is_opened = imgui.begin_window(
+		language.current_language.customization_menu.mod_name .. " " .. config.current_config.version, customization_menu.is_opened,
 		customization_menu.window_flags);
 
 	if not customization_menu.is_opened then
 		imgui.end_window();
-		imgui.pop_font();
 		return;
 	end
+
+	imgui.push_font(customization_menu.font);
 
 	local modifiers_changed = false;
 	local modules_changed = false;
@@ -508,8 +508,8 @@ function customization_menu.draw()
 	damage_meter_UI_changed = customization_menu.draw_damage_meter_UI();
 	endemic_life_UI_changed = customization_menu.draw_endemic_life_UI()
 
-	imgui.end_window();
 	imgui.pop_font();
+	imgui.end_window();
 
 	if small_monster_UI_changed or modifiers_changed then
 		for _, monster in pairs(small_monster.list) do
@@ -1360,7 +1360,7 @@ function customization_menu.draw_time_UI()
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.anchor,
 				table_helpers.find_index(customization_menu.anchor_types, cached_config.position.anchor),
-				customization_menu.stomization_menu.displayed_anchor_types);
+				customization_menu.displayed_anchor_types);
 
 			config_changed = config_changed or changed;
 

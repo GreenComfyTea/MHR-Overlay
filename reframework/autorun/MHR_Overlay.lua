@@ -118,7 +118,7 @@ env_creature_UI.init_module();
 
 keyboard.init_module();
 
-log.info("[MHR Overlay] loaded");
+log.info("[MHR Overlay] Loaded.");
 -- #endregion
 ------------------------INIT MODULES-------------------------
 
@@ -133,6 +133,12 @@ local function main_loop()
 	quest_status.update_is_result_screen();
 	quest_status.update_is_host();
 	time.tick();
+
+	--xy = tostring(singletons.quest_manager:call("isPlayQuest")) ..
+	--"\n" .. tostring(singletons.quest_manager:call("isActiveQuest")) ..
+	--"\n" .. tostring(singletons.quest_manager:call("isSingleQuest")) ..
+	--"\n" .. tostring(singletons.quest_manager:call("isStartQuest")) ..
+	--"\n" .. tostring(quest_status.index);
 
 	player.update_player_list(quest_status.index >= 2);
 	if quest_status.index < 2 then
