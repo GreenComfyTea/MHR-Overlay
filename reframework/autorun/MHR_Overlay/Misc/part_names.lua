@@ -684,6 +684,56 @@ function part_names.init()
 			language.current_language.parts.back,
 			language.current_language.parts.tail,
 			language.current_language.parts.hind_legs
+		},
+		
+
+
+
+
+		--SUNBREAK TITLE UPDATE 1
+
+
+
+		[1398] = -- Seething Bazelgeuse
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.body,
+			language.current_language.parts.legs,
+			language.current_language.parts.left_wing,
+			language.current_language.parts.right_wing,
+			language.current_language.parts.tail
+		},
+		[514] = -- Silver Rathalos
+		{
+			language.current_language.parts.body,
+			language.current_language.parts.left_wing,
+			language.current_language.parts.right_wing,
+			language.current_language.parts.left_leg,
+			language.current_language.parts.right_leg,
+			language.current_language.parts.neck,
+			language.current_language.parts.head,
+			language.current_language.parts.tail
+		},
+		[513] = -- Gold Rathian
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.body,
+			language.current_language.parts.left_wing,
+			language.current_language.parts.right_wing,
+			language.current_language.parts.left_leg,
+			language.current_language.parts.right_leg,
+			language.current_language.parts.tail
+		},
+		[549] = -- Lucent Nargacuga
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.body,
+			language.current_language.parts.left_cutwing,
+			language.current_language.parts.tail,
+			language.current_language.parts.forelegs,
+			language.current_language.parts.left_hind_leg,
+			language.current_language.parts.right_cutwing,
+			language.current_language.parts.right_hind_leg
 		}
 	};
 end
