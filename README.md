@@ -4,6 +4,8 @@ Exposes in-game data about monsters, creatures, players and damage. Draws a high
 
 **This mod is solely intended to empower players with means of self-improvement. Please don't use the information provided by this tool to make hurtful comments and actions toward other players.**
 
+![50-1659789731-551420562](https://user-images.githubusercontent.com/30152047/183250401-9f2898dd-feb4-4903-802c-c9d398261f11.png)
+
 # Links
 * **[Nexus Mods](https://www.nexusmods.com/monsterhunterrise/mods/50)**  
 * **[Wiki](https://github.com/GreenComfyTea/MHR-Overlay/wiki)**  
