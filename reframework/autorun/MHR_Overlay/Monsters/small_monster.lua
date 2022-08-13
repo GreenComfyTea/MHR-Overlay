@@ -36,13 +36,13 @@ function small_monster.new(enemy)
 	small_monster.init(monster, enemy);
 	small_monster.init_UI(monster);
 
+	small_monster.update_position(enemy, monster);
+	small_monster.update_health(enemy, monster);
+	small_monster.update(enemy, monster);
+
 	if small_monster.list[enemy] == nil then
 		small_monster.list[enemy] = monster;
 	end
-
-	small_monster.update_position(enemy, monster);
-	small_monster.update(enemy, monster);
-	small_monster.update_health(enemy, monster);
 
 	return monster;
 end
@@ -153,9 +153,12 @@ function small_monster.update(enemy, monster)
 	end
 
 	local dead_or_captured = check_die_method:call(enemy);
-	monster.dead_or_captured = (dead_or_captured == nil and false) or dead_or_captured;
+	if dead_or_captured ~= nil then
+		monster.dead_or_captured = dead_or_captured;
+	end
 
-	ailments.update_ailments(enemy, monster);
+	--do return end;
+	pcall(ailments.update_ailments, enemy, monster, false);
 end
 
 function small_monster.update_health(enemy, monster)

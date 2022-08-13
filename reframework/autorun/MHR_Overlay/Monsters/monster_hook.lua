@@ -115,14 +115,15 @@ function monster_hook.update_large_monster(enemy)
 		updated_monsters[enemy] = true;
 	end
 
-	large_monster.update(enemy, monster);
 	large_monster.update_stamina_timer(enemy, monster, nil);
 	large_monster.update_rage_timer(enemy, monster, nil);
 
 	if quest_status.is_online and player.myself.id ~= 0 then
 		local physical_param = large_monster.update_health(enemy, monster);
-		large_monster.update_parts(enemy, monster, physical_param);
+		pcall(large_monster.update_parts, enemy, monster, physical_param);
 	end
+
+	large_monster.update(enemy, monster, false);
 end
 
 function monster_hook.update_small_monster(enemy)
@@ -169,7 +170,6 @@ function monster_hook.update_health(enemy_damage_stock_param)
 	end
 
 	local is_large = is_boss_enemy_method:call(enemy);
-
 	if is_large == nil then
 		return;
 	end
@@ -178,8 +178,7 @@ function monster_hook.update_health(enemy_damage_stock_param)
 		local monster = large_monster.get_monster(enemy);
 
 		local physical_param = large_monster.update_health(enemy, monster);
-		large_monster.update_parts(enemy, monster, physical_param);
-
+		pcall(large_monster.update_parts, enemy, monster, physical_param);
 	else
 		local monster = small_monster.get_monster(enemy);
 		small_monster.update_health(enemy, monster);

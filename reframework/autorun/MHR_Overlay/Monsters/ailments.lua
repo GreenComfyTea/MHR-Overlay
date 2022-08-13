@@ -44,6 +44,7 @@ ailments.shock_trap_id = 13;
 ailments.capture_id = 14 --tranq bomb
 ailments.koyashi_id = 15;  --dung bomb
 ailments.steel_fang_id = 16;
+
 ailments.fall_quick_sand_id = 17;
 ailments.fall_otomo_trap_id = 18;
 ailments.shock_otomo_trap_id = 19;
@@ -134,9 +135,9 @@ function ailments.init_ailments()
 	ailments.new(_ailments, ailments.capture_id); --tranq bomb
 	ailments.new(_ailments, ailments.koyashi_id); --dung bomb
 	ailments.new(_ailments, ailments.steel_fang_id);
-	ailments.new(_ailments, ailments.fall_quick_sand_id);
-	ailments.new(_ailments, ailments.fall_otomo_trap_id);
-	ailments.new(_ailments, ailments.shock_otomo_trap_id);
+	--ailments.new(_ailments, ailments.fall_quick_sand_id);
+	--ailments.new(_ailments, ailments.fall_otomo_trap_id);
+	--ailments.new(_ailments, ailments.shock_otomo_trap_id);
 
 	_ailments[ailments.poison_id].buildup = {};
 	_ailments[ailments.poison_id].buildup_share = {};
@@ -174,15 +175,17 @@ local get_limit_method = enemy_condition_damage_param_base_type_def:get_method("
 local get_active_time_method = enemy_condition_damage_param_base_type_def:get_method("get_ActiveTime");
 local get_active_timer_method = enemy_condition_damage_param_base_type_def:get_method("get_ActiveTimer");
 
-
 local poison_damage_field = poison_param_type:get_field("<Damage>k__BackingField");
 local poison_get_is_damage_method = poison_param_type:get_method("get_IsDamage");
 
-function ailments.update_ailments(enemy, monster)
+local system_array_type_def = sdk.find_type_definition("System.Array");
+local length_method = system_array_type_def:get_method("GetLength");
+local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
+
+function ailments.update_ailments(enemy, monster, is_init)
 	if enemy == nil then
 		return;
 	end
-
 	local damage_param = damage_param_field:get_data(enemy);
 	if damage_param == nil then
 		return;
@@ -200,27 +203,28 @@ function ailments.update_ailments(enemy, monster)
 		return;
 	end
 
-	local condition_param = get_condition_param_method:call(damage_param);
+	local condition_param_array = get_condition_param_method:call(damage_param);
 
-	if condition_param == nil then
+	if condition_param_array == nil then
 		return;
 	end
 
-	local condition_param_table = condition_param:get_elements();
-
-	if condition_param == nil then
+	local condition_param_array_size = condition_param_array:get_size();
+	if condition_param_array_size == nil then
 		return;
 	end
 
-
-	for index, ailment_param in ipairs(condition_param_table) do
-		local id = index - 1;
+	for id = 0, condition_param_array_size - 1 do
 		if id == ailments.stun_id or id == ailments.poison_id or id == ailments.blast_id then
 			goto continue
 		end
 
-		ailments.update_ailment(monster, ailment_param, id);
+		local ailment_param = condition_param_array[id];
+		if ailment_param == nil then
+			goto continue
+		end
 
+		ailments.update_ailment(monster, ailment_param, id, is_init);
 		::continue::
 	end
 end
@@ -242,26 +246,86 @@ function ailments.update_stun_poison_blast_ailments(monster, damage_param)
 	end
 end
 
-function ailments.update_ailment(monster, ailment_param, id)
+function ailments.update_ailment(monster, ailment_param, id, is_init)
 	local is_enable = get_is_enable_method:call(ailment_param);
-	local activate_count = get_activate_count_method:call(ailment_param):get_element(0):get_field("mValue") or 0;
-	local buildup = get_stock_method:call(ailment_param):get_element(0):get_field("mValue");
-	local buildup_limit = get_limit_method:call(ailment_param):get_element(0):get_field("mValue");
+	local activate_count_array = get_activate_count_method:call(ailment_param);
+	local buildup_array = get_stock_method:call(ailment_param);
+	local buildup_limit_array = get_limit_method:call(ailment_param);
 	local timer = get_active_timer_method:call(ailment_param);
 	local duration = get_active_time_method:call(ailment_param);
 	local is_active = get_is_active_method:call(ailment_param);
 
+	local activate_count = -999;
+	local buildup = -999;
+	local buildup_limit = 9999;
+	
+	if activate_count_array ~= nil then
+		local activate_count_array_size = activate_count_array:get_size();
+
+		if activate_count_array_size ~= nil then
+
+			if activate_count_array_size > 0 then
+				local activate_count_valuetype = activate_count_array[0];
+
+				if activate_count_valuetype ~= nil then
+					local _activate_count = activate_count_valuetype:get_field("mValue");
+
+					if _activate_count ~= nil then
+						activate_count = _activate_count;
+					end
+				end
+			end
+		end
+	end
+	
+	if buildup_array ~= nil then
+		local buildup_array_size = buildup_array:get_size();
+
+		if buildup_array_size ~= nil then 
+
+			if buildup_array_size > 0 then
+				local buildup_valuetype = buildup_array[0];
+
+				if buildup_valuetype ~= nil then
+					local _buildup = buildup_valuetype:get_field("mValue");
+
+					if _buildup ~= nil then
+						buildup = _buildup;
+					end
+				end
+			end
+		end
+	end
+	
+	if buildup_limit_array ~= nil then
+		local buildup_limit_array_size = buildup_limit_array:get_size();
+
+		if buildup_limit_array_size ~= nil then 
+
+			if buildup_limit_array_size > 0 then
+				local buildup_limit_valuetype = buildup_limit_array[0];
+
+				if buildup_limit_valuetype ~= nil then
+					local _buildup_limit = buildup_limit_valuetype:get_field("mValue");
+
+					if _buildup_limit ~= nil then
+						buildup_limit = _buildup_limit;
+					end
+				end
+			end
+		end
+	end
+
 	if is_enable == nil then
 		is_enable = true;
 	end
-
-
+	
 	if is_enable ~= monster.ailments[id].is_enable then
 		ailments.update_last_change_time(monster, id);
 	end
-
+	
 	monster.ailments[id].is_enable = is_enable;
-
+	
 	if activate_count ~= nil then
 		if activate_count ~= monster.ailments[id].activate_count then
 			ailments.update_last_change_time(monster, id);
@@ -273,7 +337,7 @@ function ailments.update_ailment(monster, ailment_param, id)
 
 		monster.ailments[id].activate_count = activate_count;
 	end
-
+	
 	if buildup ~= nil then
 		if buildup ~= monster.ailments[id].total_buildup then
 			ailments.update_last_change_time(monster, id);
@@ -281,7 +345,7 @@ function ailments.update_ailment(monster, ailment_param, id)
 
 		monster.ailments[id].total_buildup = buildup;
 	end
-
+	
 	if buildup_limit ~= nil then
 		if buildup_limit ~= monster.ailments[id].buildup_limit then
 			ailments.update_last_change_time(monster, id);
@@ -289,11 +353,11 @@ function ailments.update_ailment(monster, ailment_param, id)
 
 		monster.ailments[id].buildup_limit = buildup_limit;
 	end
-
+	
 	if buildup ~= nil and buildup_limit ~= nil and buildup_limit ~= 0 then
 		monster.ailments[id].buildup_percentage = buildup / buildup_limit;
 	end
-
+	
 	if timer ~= nil then
 		if timer ~= monster.ailments[id].timer then
 			ailments.update_last_change_time(monster, id);
@@ -301,7 +365,7 @@ function ailments.update_ailment(monster, ailment_param, id)
 
 		monster.ailments[id].timer = timer;
 	end
-
+	
 	if is_active ~= nil then
 		if is_active ~= monster.ailments[id].is_active then
 			ailments.update_last_change_time(monster, id);
@@ -309,7 +373,7 @@ function ailments.update_ailment(monster, ailment_param, id)
 
 		monster.ailments[id].is_active = is_active;
 	end
-
+	
 	if duration ~= nil and not monster.ailments[id].is_active then
 		if duration ~= monster.ailments[id].duration then
 			ailments.update_last_change_time(monster, id);
@@ -317,11 +381,11 @@ function ailments.update_ailment(monster, ailment_param, id)
 
 		monster.ailments[id].duration = duration;
 	end
-
+	
 	if duration ~= 0 and duration ~= nil then
 		monster.ailments[id].timer_percentage = timer / monster.ailments[id].duration;
 	end
-
+	
 	if is_active then
 		if timer < 0 then
 			timer = 0;
@@ -542,8 +606,7 @@ function ailments.apply_ailment_buildup(monster, attacker_id, ailment_type, ailm
 	end
 
 	-- accumulate this buildup for this attacker
-	monster.ailments[ailment_type].buildup[attacker_id] = (monster.ailments[ailment_type].buildup[attacker_id] or 0) +
-		ailment_buildup;
+	monster.ailments[ailment_type].buildup[attacker_id] = (monster.ailments[ailment_type].buildup[attacker_id] or 0) + ailment_buildup;
 
 	ailments.calculate_ailment_contribution(monster, ailment_type);
 end

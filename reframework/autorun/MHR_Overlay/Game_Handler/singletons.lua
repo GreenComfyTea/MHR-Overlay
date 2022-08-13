@@ -140,7 +140,7 @@ function singletons.init_game_keyboard()
 		--log.error("[MHR Overlay] No game keyboard");
 	end
 
-	return singletons.ggame_keyboard;
+	return singletons.game_keyboard;
 end
 
 function singletons.init_scene_manager()

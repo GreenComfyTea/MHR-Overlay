@@ -94,19 +94,23 @@ function large_monster.new(enemy)
 	large_monster.init_UI(monster, monster.static_UI, config.current_config.large_monster_UI.static);
 	large_monster.init_UI(monster, monster.highlighted_UI, config.current_config.large_monster_UI.highlighted);
 
+	large_monster.update_position(enemy, monster);
+	
+	local physical_param = large_monster.update_health(enemy, monster);
+
+
+	large_monster.update_stamina(enemy, monster, nil);
+	large_monster.update_stamina_timer(enemy, monster, nil);
+
+	large_monster.update_rage(enemy, monster, nil);
+	large_monster.update_rage_timer(enemy, monster, nil);
+
+	large_monster.update(enemy, monster, true);
+	pcall(large_monster.update_parts, enemy, monster, physical_param);
+
 	if large_monster.list[enemy] == nil then
 		large_monster.list[enemy] = monster;
 	end
-
-	large_monster.update_position(enemy, monster);
-	large_monster.update(enemy, monster);
-
-	local physical_param = large_monster.update_health(enemy, monster);
-	large_monster.update_parts(enemy, monster, physical_param);
-	large_monster.update_stamina(enemy, monster, nil);
-	large_monster.update_stamina_timer(enemy, monster, nil);
-	large_monster.update_rage(enemy, monster, nil);
-	large_monster.update_rage_timer(enemy, monster, nil);
 
 	return monster;
 end
@@ -346,7 +350,7 @@ function large_monster.update_all_riders()
 
 end
 
-function large_monster.update(enemy, monster)
+function large_monster.update(enemy, monster, is_init)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
@@ -356,12 +360,16 @@ function large_monster.update(enemy, monster)
 	end
 
 	local dead_or_captured = check_die_method:call(enemy);
-	monster.dead_or_captured = (dead_or_captured == nil and false) or dead_or_captured;
+	if dead_or_captured ~= nil then
+		monster.dead_or_captured = dead_or_captured;
+	end
+
 	local is_disp_icon_mini_map = is_disp_icon_mini_map_method:call(enemy);
-	monster.is_disp_icon_mini_map = (is_disp_icon_mini_map == nil and false) or is_disp_icon_mini_map;
+	if is_disp_icon_mini_map ~= nil then
+		monster.is_disp_icon_mini_map = is_disp_icon_mini_map;
+	end
 
-	ailments.update_ailments(enemy, monster);
-
+	pcall(ailments.update_ailments, enemy, monster, is_init);
 end
 
 function large_monster.update_health(enemy, monster)
@@ -620,6 +628,9 @@ function large_monster.update_parts(enemy, monster, physical_param)
 	end
 
 	local enemy_parts_info_array_size = enemy_parts_info_array:get_size();
+	if enemy_parts_info_array_size == nil then
+		return;
+	end
 
 	local part_id = 1;
 	for i = 0, enemy_parts_info_array_size - 1 do
@@ -734,8 +745,6 @@ function large_monster.draw(monster, type, cached_config, position_on_screen, op
 		monster_UI.health_UI.bar.colors = monster_UI.health_UI.bar.normal_colors;
 	end
 
-	drawing.draw_label(monster_UI.monster_name_label, position_on_screen, opacity_scale, monster_name_text);
-
 	local health_position_on_screen = {
 		x = position_on_screen.x + cached_config.health.offset.x * global_scale_modifier,
 		y = position_on_screen.y + cached_config.health.offset.y * global_scale_modifier
@@ -784,6 +793,8 @@ function large_monster.draw(monster, type, cached_config, position_on_screen, op
 
 	ailments.draw(monster, monster_UI.ailment_UI, cached_config, ailments_position_on_screen, opacity_scale);
 	ailment_buildup.draw(monster, monster_UI.ailment_buildup_UI, cached_config, ailment_buildups_position_on_screen, opacity_scale);
+
+	drawing.draw_label(monster_UI.monster_name_label, position_on_screen, opacity_scale, monster_name_text);
 end
 
 function large_monster.init_list()
