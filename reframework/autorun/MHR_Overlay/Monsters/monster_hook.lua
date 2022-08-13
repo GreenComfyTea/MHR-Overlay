@@ -123,7 +123,7 @@ function monster_hook.update_large_monster(enemy)
 		pcall(large_monster.update_parts, enemy, monster, physical_param);
 	end
 
-	large_monster.update(enemy, monster, false);
+	large_monster.update(enemy, monster);
 end
 
 function monster_hook.update_small_monster(enemy)

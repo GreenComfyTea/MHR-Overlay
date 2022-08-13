@@ -179,10 +179,10 @@ local poison_damage_field = poison_param_type:get_field("<Damage>k__BackingField
 local poison_get_is_damage_method = poison_param_type:get_method("get_IsDamage");
 
 local system_array_type_def = sdk.find_type_definition("System.Array");
-local length_method = system_array_type_def:get_method("GetLength");
+local length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
-function ailments.update_ailments(enemy, monster, is_init)
+function ailments.update_ailments(enemy, monster)
 	if enemy == nil then
 		return;
 	end
@@ -209,22 +209,22 @@ function ailments.update_ailments(enemy, monster, is_init)
 		return;
 	end
 
-	local condition_param_array_size = condition_param_array:get_size();
-	if condition_param_array_size == nil then
+	local condition_param_array_length = length_method:call(condition_param_array);
+	if condition_param_array_length == nil then
 		return;
 	end
 
-	for id = 0, condition_param_array_size - 1 do
+	for id = 0, condition_param_array_length - 1 do
 		if id == ailments.stun_id or id == ailments.poison_id or id == ailments.blast_id then
 			goto continue
 		end
 
-		local ailment_param = condition_param_array[id];
+		local ailment_param = get_value_method:call(condition_param_array, id);
 		if ailment_param == nil then
 			goto continue
 		end
 
-		ailments.update_ailment(monster, ailment_param, id, is_init);
+		ailments.update_ailment(monster, ailment_param, id);
 		::continue::
 	end
 end
@@ -246,7 +246,7 @@ function ailments.update_stun_poison_blast_ailments(monster, damage_param)
 	end
 end
 
-function ailments.update_ailment(monster, ailment_param, id, is_init)
+function ailments.update_ailment(monster, ailment_param, id)
 	local is_enable = get_is_enable_method:call(ailment_param);
 	local activate_count_array = get_activate_count_method:call(ailment_param);
 	local buildup_array = get_stock_method:call(ailment_param);
@@ -260,12 +260,12 @@ function ailments.update_ailment(monster, ailment_param, id, is_init)
 	local buildup_limit = 9999;
 	
 	if activate_count_array ~= nil then
-		local activate_count_array_size = activate_count_array:get_size();
+		local activate_count_array_length = length_method:call(activate_count_array);
 
-		if activate_count_array_size ~= nil then
+		if activate_count_array_length ~= nil then
 
-			if activate_count_array_size > 0 then
-				local activate_count_valuetype = activate_count_array[0];
+			if activate_count_array_length > 0 then
+				local activate_count_valuetype = get_value_method:call(activate_count_array, 0);
 
 				if activate_count_valuetype ~= nil then
 					local _activate_count = activate_count_valuetype:get_field("mValue");
@@ -279,12 +279,12 @@ function ailments.update_ailment(monster, ailment_param, id, is_init)
 	end
 	
 	if buildup_array ~= nil then
-		local buildup_array_size = buildup_array:get_size();
+		local buildup_array_length = length_method:call(buildup_array);
 
-		if buildup_array_size ~= nil then 
+		if buildup_array_length ~= nil then 
 
-			if buildup_array_size > 0 then
-				local buildup_valuetype = buildup_array[0];
+			if buildup_array_length > 0 then
+				local buildup_valuetype = get_value_method:call(buildup_array, 0);
 
 				if buildup_valuetype ~= nil then
 					local _buildup = buildup_valuetype:get_field("mValue");
@@ -298,12 +298,12 @@ function ailments.update_ailment(monster, ailment_param, id, is_init)
 	end
 	
 	if buildup_limit_array ~= nil then
-		local buildup_limit_array_size = buildup_limit_array:get_size();
+		local buildup_limit_array_length = length_method:call(buildup_limit_array);
 
-		if buildup_limit_array_size ~= nil then 
+		if buildup_limit_array_length ~= nil then 
 
-			if buildup_limit_array_size > 0 then
-				local buildup_limit_valuetype = buildup_limit_array[0];
+			if buildup_limit_array_length > 0 then
+				local buildup_limit_valuetype = get_value_method:call(buildup_limit_array, 0);
 
 				if buildup_limit_valuetype ~= nil then
 					local _buildup_limit = buildup_limit_valuetype:get_field("mValue");

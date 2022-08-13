@@ -105,7 +105,7 @@ function large_monster.new(enemy)
 	large_monster.update_rage(enemy, monster, nil);
 	large_monster.update_rage_timer(enemy, monster, nil);
 
-	large_monster.update(enemy, monster, true);
+	large_monster.update(enemy, monster);
 	pcall(large_monster.update_parts, enemy, monster, physical_param);
 
 	if large_monster.list[enemy] == nil then
@@ -320,6 +320,10 @@ local get_mario_player_index_method = mario_param_type:get_method("get_MarioPlay
 
 local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
 
+local system_array_type_def = sdk.find_type_definition("System.Array");
+local length_method = system_array_type_def:get_method("get_Length");
+local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
+
 function large_monster.update_position(enemy, monster)
 	if not config.current_config.large_monster_UI.dynamic.enabled and
 		config.current_config.large_monster_UI.static.sorting.type ~= "Distance" then
@@ -350,7 +354,7 @@ function large_monster.update_all_riders()
 
 end
 
-function large_monster.update(enemy, monster, is_init)
+function large_monster.update(enemy, monster)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
@@ -369,7 +373,7 @@ function large_monster.update(enemy, monster, is_init)
 		monster.is_disp_icon_mini_map = is_disp_icon_mini_map;
 	end
 
-	pcall(ailments.update_ailments, enemy, monster, is_init);
+	pcall(ailments.update_ailments, enemy, monster);
 end
 
 function large_monster.update_health(enemy, monster)
@@ -627,14 +631,19 @@ function large_monster.update_parts(enemy, monster, physical_param)
 		return;
 	end
 
-	local enemy_parts_info_array_size = enemy_parts_info_array:get_size();
-	if enemy_parts_info_array_size == nil then
+	local enemy_parts_info_array_length = length_method:call(enemy_parts_info_array);
+	if enemy_parts_info_array_length == nil then
 		return;
 	end
 
-	local part_id = 1;
-	for i = 0, enemy_parts_info_array_size - 1 do
-		local enemy_parts_info = enemy_parts_info_array[i];
+
+	for i = 0, enemy_parts_info_array_length - 1 do
+		local part_id = i + 1;
+
+		local enemy_parts_info = get_value_method:call(enemy_parts_info_array, i);
+		if enemy_parts_info == nil then
+			goto continue
+		end
 
 		local part = monster.parts[part_id];
 		if part == nil then
@@ -695,12 +704,11 @@ function large_monster.update_parts(enemy, monster, physical_param)
 					end
 				end
 
-				body_part.update_loss(part, part_loss_current, part_loss_max, is_severed)
+				body_part.update_loss(part, part_loss_current, part_loss_max, is_severed);
 			end
 		end
 
 		::continue::
-		part_id = part_id + 1;
 	end
 end
 

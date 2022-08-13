@@ -157,8 +157,7 @@ function small_monster.update(enemy, monster)
 		monster.dead_or_captured = dead_or_captured;
 	end
 
-	--do return end;
-	pcall(ailments.update_ailments, enemy, monster, false);
+	pcall(ailments.update_ailments, enemy, monster);
 end
 
 function small_monster.update_health(enemy, monster)
