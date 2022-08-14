@@ -235,7 +235,7 @@ function customization_menu.draw()
 	imgui.set_next_window_size(customization_menu.window_size, 1 << 3);
 	
 	customization_menu.is_opened = imgui.begin_window(
-		language.current_language.customization_menu.mod_name .. " " .. config.current_config.version, customization_menu.is_opened,
+		language.current_language.customization_menu.mod_name .. " v" .. config.current_config.version, customization_menu.is_opened,
 		customization_menu.window_flags);
 
 	if not customization_menu.is_opened then

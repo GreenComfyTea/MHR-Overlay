@@ -283,7 +283,7 @@ end
 --------------------------RE_IMGUI---------------------------
 -- #region
 re.on_draw_ui(function()
-	if imgui.button(language.current_language.customization_menu.mod_name .. " " .. config.current_config.version) then
+	if imgui.button(language.current_language.customization_menu.mod_name .. " v" .. config.current_config.version) then
 		customization_menu.is_opened = not customization_menu.is_opened;
 	end
 end);
