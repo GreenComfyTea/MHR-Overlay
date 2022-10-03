@@ -694,6 +694,8 @@ function part_names.init()
 
 
 
+
+
 		[1398] = -- Seething Bazelgeuse
 		{
 			language.current_language.parts.head,
@@ -734,6 +736,47 @@ function part_names.init()
 			language.current_language.parts.left_hind_leg,
 			language.current_language.parts.right_cutwing,
 			language.current_language.parts.right_hind_leg
+		},
+
+
+
+
+
+		--SUNBREAK TITLE UPDATE 2
+
+
+
+
+				
+		[392] = -- Flaming Espinas
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.torso,
+			language.current_language.parts.wings,
+			language.current_language.parts.legs,
+			language.current_language.parts.tail
+		},
+		[594] = -- Violet Mizutsune
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.left_foreleg,
+			language.current_language.parts.right_foreleg,
+			language.current_language.parts.left_hind_leg,
+			language.current_language.parts.right_hind_leg,
+			language.current_language.parts.body,
+			language.current_language.parts.tail,
+			language.current_language.parts.dorsal_fin
+		},
+		[2073] = -- Risen Chameleos
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.abdomen,
+			language.current_language.parts.left_foreleg,
+			language.current_language.parts.right_foreleg,
+			language.current_language.parts.left_hind_leg,
+			language.current_language.parts.right_hind_leg,
+			language.current_language.parts.tail,
+			language.current_language.parts.wings
 		}
 	};
 end
