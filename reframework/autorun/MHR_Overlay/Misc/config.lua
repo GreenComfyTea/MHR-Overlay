@@ -756,7 +756,7 @@ function config.init()
 					},
 
 					value_label = {
-						visibility = true,
+						visibility = false,
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
 							x = 5,
@@ -775,7 +775,7 @@ function config.init()
 					},
 
 					percentage_label = {
-						visibility = true,
+						visibility = false,
 						text = "%5.1f%%",
 
 						offset = {
@@ -803,7 +803,7 @@ function config.init()
 
 						size = {
 							width = 200,
-							height = 20
+							height = 7
 						},
 
 						outline = {
@@ -843,18 +843,18 @@ function config.init()
 				},
 
 				stamina = {
-					visibility = true,
+					visibility = false,
 
 					offset = {
 						x = 10,
-						y = 37
+						y = 7
 					},
 
 					text_label = {
-						visibility = true,
+						visibility = false,
 						text = "%s",
 						offset = {
-							x = 15 - 10,
+							x = -70,
 							y = 0
 						},
 						color = 0xFFA3F5F0,
@@ -870,120 +870,7 @@ function config.init()
 					},
 
 					value_label = {
-						visibility = true,
-						text = "%.0f/%.0f", -- current_health/max_health
-						offset = {
-							x = 55 - 10,
-							y = 17
-						},
-						color = 0xFFFFFFFF,
-
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-
-					percentage_label = {
-						visibility = true,
-						text = "%5.1f%%",
-
-						offset = {
-							x = 135,
-							y = 17
-						},
-						color = 0xFFFFFFFF,
-
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-
-					timer_label = {
-						visibility = true,
-						text = "%2.0f:%02.0f",
-
-						offset = {
-							x = 140,
-							y = 17
-						},
-						color = 0xFFFFFFFF,
-
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-
-					bar = {
-						visibility = true,
-						offset = {
-							x = 10 - 10,
-							y = 17
-						},
-
-						size = {
-							width = 185,
-							height = 7
-						},
-
-						outline = {
-							visibility = true,
-							thickness = 1,
-							offset = 0,
-							style = "Center"
-						},
-
-						colors = {
-							foreground = 0xB966CCC5,
-							background = 0x88000000,
-							outline = 0xC0000000
-						}
-					}
-				},
-
-				rage = {
-					visibility = true,
-
-					offset = {
-						x = 10,
-						y = 61
-					},
-
-					text_label = {
-						visibility = true,
-						text = "%s",
-						offset = {
-							x = 5,
-							y = 0
-						},
-						color = 0xFFFF9393,
-
-						shadow = {
-							visibility = true,
-							offset = {
-								x = 1,
-								y = 1
-							},
-							color = 0xFF000000
-						}
-					},
-
-					value_label = {
-						visibility = true,
+						visibility = false,
 						text = "%.0f/%.0f", -- current_health/max_health
 						offset = {
 							x = 45,
@@ -1002,7 +889,7 @@ function config.init()
 					},
 
 					percentage_label = {
-						visibility = true,
+						visibility = false,
 						text = "%5.1f%%",
 
 						offset = {
@@ -1022,7 +909,7 @@ function config.init()
 					},
 
 					timer_label = {
-						visibility = true,
+						visibility = false,
 						text = "%2.0f:%02.0f",
 
 						offset = {
@@ -1050,7 +937,7 @@ function config.init()
 
 						size = {
 							width = 185,
-							height = 7
+							height = 6
 						},
 
 						outline = {
@@ -1061,7 +948,120 @@ function config.init()
 						},
 
 						colors = {
-							foreground = 0xB9CC6666,
+							foreground = 0xB966CCC5,
+							background = 0x88000000,
+							outline = 0xC0000000
+						}
+					}
+				},
+
+				rage = {
+					visibility = false,
+
+					offset = {
+						x = 10,
+						y = 13
+					},
+
+					text_label = {
+						visibility = false,
+						text = "%s",
+						offset = {
+							x = -70,
+							y = 0
+						},
+						color = 0xFFA3F5F0,
+
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+
+					value_label = {
+						visibility = false,
+						text = "%.0f/%.0f", -- current_health/max_health
+						offset = {
+							x = 45,
+							y = 17
+						},
+						color = 0xFFFFFFFF,
+
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+
+					percentage_label = {
+						visibility = false,
+						text = "%5.1f%%",
+
+						offset = {
+							x = 135,
+							y = 17
+						},
+						color = 0xFFFFFFFF,
+
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+
+					timer_label = {
+						visibility = false,
+						text = "%2.0f:%02.0f",
+
+						offset = {
+							x = 140,
+							y = 17
+						},
+						color = 0xFFFFFFFF,
+
+						shadow = {
+							visibility = true,
+							offset = {
+								x = 1,
+								y = 1
+							},
+							color = 0xFF000000
+						}
+					},
+
+					bar = {
+						visibility = true,
+						offset = {
+							x = 0,
+							y = 17
+						},
+
+						size = {
+							width = 185,
+							height = 6
+						},
+
+						outline = {
+							visibility = true,
+							thickness = 1,
+							offset = 0,
+							style = "Center"
+						},
+
+						colors = {
+							foreground = 0xB966CCC5,
 							background = 0x88000000,
 							outline = 0xC0000000
 						}
@@ -1073,7 +1073,7 @@ function config.init()
 
 					offset = {
 						x = 10,
-						y = 111
+						y = 45
 					},
 
 					spacing = {
