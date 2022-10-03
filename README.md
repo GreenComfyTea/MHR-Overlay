@@ -34,7 +34,7 @@ Exposes in-game data about monsters, creatures, players and damage. Draws a high
 **coavins** - creator of [coavins damage meter](https://www.nexusmods.com/monsterhunterrise/mods/68) mod.  
   
 **neatnet** - Korean translation.  
-**s9000008**, **mcc1** - Traditional Chinese translation.  
+**s9000008, mcc1** - Traditional Chinese translation.  
 **etnAtker** - Simplified Chinese translation.  
 **AKILAND0214** - Japanese translation.
 ***
