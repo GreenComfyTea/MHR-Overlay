@@ -34,7 +34,39 @@ function config.init()
 			},
 
 			module_visibility = {
-				during_quest = {
+				in_lobby = {
+					endemic_life_UI = false
+				},
+
+				in_training_area = {
+					large_monster_dynamic_UI = true,
+					large_monster_static_UI = true,
+					large_monster_highlighted_UI = true,
+					damage_meter_UI = true,
+					endemic_life_UI = true
+				},
+
+				cutscene = {
+					small_monster_UI = false,
+					large_monster_dynamic_UI = false,
+					large_monster_static_UI = false,
+					large_monster_highlighted_UI = false,
+					time_UI = false,
+					damage_meter_UI = false,
+					endemic_life_UI = false
+				},
+
+				loading_quest = {
+					small_monster_UI = false,
+					large_monster_dynamic_UI = false,
+					large_monster_static_UI = false,
+					large_monster_highlighted_UI = false,
+					time_UI = false,
+					damage_meter_UI = false,
+					endemic_life_UI = false
+				},
+
+				quest_start_animation = {
 					small_monster_UI = true,
 					large_monster_dynamic_UI = true,
 					large_monster_static_UI = true,
@@ -44,7 +76,57 @@ function config.init()
 					endemic_life_UI = true
 				},
 
-				quest_result_screen = {
+				playing_quest = {
+					small_monster_UI = true,
+					large_monster_dynamic_UI = true,
+					large_monster_static_UI = true,
+					large_monster_highlighted_UI = true,
+					time_UI = true,
+					damage_meter_UI = true,
+					endemic_life_UI = true
+				},
+
+				killcam = {
+					small_monster_UI = true,
+					large_monster_dynamic_UI = true,
+					large_monster_static_UI = true,
+					large_monster_highlighted_UI = true,
+					time_UI = true,
+					damage_meter_UI = true,
+					endemic_life_UI = true
+				},
+
+				quest_end_timer = {
+					small_monster_UI = true,
+					large_monster_dynamic_UI = true,
+					large_monster_static_UI = true,
+					large_monster_highlighted_UI = true,
+					time_UI = true,
+					damage_meter_UI = true,
+					endemic_life_UI = true
+				},
+
+				quest_end_animation = {
+					small_monster_UI = false,
+					large_monster_dynamic_UI = false,
+					large_monster_static_UI = false,
+					large_monster_highlighted_UI = false,
+					time_UI = false,
+					damage_meter_UI = false,
+					endemic_life_UI = false
+				},
+
+				quest_end_screen = {
+					small_monster_UI = false,
+					large_monster_dynamic_UI = false,
+					large_monster_static_UI = false,
+					large_monster_highlighted_UI = false,
+					time_UI = false,
+					damage_meter_UI = false,
+					endemic_life_UI = false
+				},
+
+				reward_screen = {
 					small_monster_UI = false,
 					large_monster_dynamic_UI = false,
 					large_monster_static_UI = true,
@@ -54,13 +136,15 @@ function config.init()
 					endemic_life_UI = false
 				},
 
-				training_area = {
-					large_monster_dynamic_UI = true,
+				summary_screen = {
+					small_monster_UI = false,
+					large_monster_dynamic_UI = false,
 					large_monster_static_UI = true,
 					large_monster_highlighted_UI = true,
+					time_UI = true,
 					damage_meter_UI = true,
-					endemic_life_UI = true
-				}
+					endemic_life_UI = false
+				},
 			},
 
 			hotkeys_with_modifiers = {
@@ -221,7 +305,7 @@ function config.init()
 					visibility = true,
 					text = "%.0f/%.0f", -- current_health/max_health
 					offset = {
-						x = 50,
+						x = 32,
 						y = 0
 					},
 					color = 0xFFCCF4E1,

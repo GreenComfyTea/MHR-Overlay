@@ -147,10 +147,19 @@ language.default_language = {
 		large_monster_highlighted_UI = "Large Monster Highlighted UI",
 
 		language = "Language",
-		module_visibility_on_different_screens = "Module Visibility on Different Screens",
-		during_quest = "During Quest",
-		quest_result_screen = "Quest Result Screen",
-		training_area = "Training Area",
+		module_visibility_based_on_game_state = "Module Visibility based on Game State",
+		in_lobby = "In Lobby",
+		in_training_area = "In Training Area",
+		cutscene = "Cutscene",
+		loading_quest = "Loading Quest",
+		quest_start_animation = "Quest Start Animation",
+		playing_quest = "Playing Quest",
+		killcam = "Killcam",
+		quest_end_timer = "Quest End Timer",
+		quest_end_animation = "Quest End Animation",
+		quest_end_screen = "Quest End Screen",
+		reward_screen = "Reward Screen",
+		summary_screen = "Summary Screen",
 
 		performance = "Performance",
 

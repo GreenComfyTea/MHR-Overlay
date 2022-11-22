@@ -77,7 +77,7 @@ function damage_meter_UI.draw()
 	local quest_players = {};
 	if damage_meter_UI.freeze_displayed_players and damage_meter_UI.last_displayed_players ~= {} then
 		quest_players = damage_meter_UI.last_displayed_players;
-	elseif quest_status.index < 2 then
+	elseif quest_status.flow_state == quest_status.flow_states.IN_LOBBY or quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
 		local player_info_list = hunter_info_field:get_data(singletons.lobby_manager);
 		quest_players = damage_meter_UI.get_players(player_info_list);
 	else

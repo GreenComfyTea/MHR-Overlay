@@ -143,6 +143,10 @@ function large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster, 
 			break
 		end
 
+		if monster.id == 549 or monster.id == 25 or monster.id == 2073 then
+			goto continue
+		end
+
 		if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
 			goto continue
 		end

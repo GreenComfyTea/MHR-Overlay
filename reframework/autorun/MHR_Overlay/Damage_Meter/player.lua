@@ -500,8 +500,8 @@ function player.init_UI(_player)
 	local cached_config = config.current_config.damage_meter_UI;
 
 	_player.damage_UI = damage_UI_entity.new(cached_config.damage_bar, cached_config.highlighted_damage_bar,
-		cached_config.player_name_label, cached_config.dps_label, cached_config.master_hunter_rank_label,
-		cached_config.damage_value_label, cached_config.damage_percentage_label, cached_config.cart_count_label);
+	cached_config.player_name_label, cached_config.dps_label, cached_config.master_hunter_rank_label,
+	cached_config.damage_value_label, cached_config.damage_percentage_label, cached_config.cart_count_label);
 end
 
 function player.init_total_UI(_player)

@@ -23,6 +23,7 @@ local rage_customization;
 local body_parts_customization;
 local ailments_customization;
 local ailment_buildups_customization;
+local module_visibility_customization;
 
 customization_menu.font = nil;
 customization_menu.font_range = {0x1, 0xFFFF, 0};
@@ -759,129 +760,111 @@ function customization_menu.draw_global_settings()
 			imgui.tree_pop();
 		end
 
-		if imgui.tree_node(language.current_language.customization_menu.module_visibility_on_different_screens) then
-			if imgui.tree_node(language.current_language.customization_menu.during_quest) then
-				changed, cached_config.module_visibility.during_quest.small_monster_UI =
-					imgui.checkbox(language.current_language.customization_menu.small_monster_UI,
-						cached_config.module_visibility.during_quest.small_monster_UI);
+		if imgui.tree_node(language.current_language.customization_menu.module_visibility_based_on_game_state) then
+			if imgui.tree_node(language.current_language.customization_menu.in_lobby) then
 
-				config_changed = config_changed or changed;
-
-				changed, cached_config.module_visibility.during_quest.large_monster_dynamic_UI = imgui.checkbox(
-					language.current_language.customization_menu.large_monster_dynamic_UI,
-					cached_config.module_visibility.during_quest.large_monster_dynamic_UI);
-
-				config_changed = config_changed or changed;
-				imgui.same_line();
-
-				changed, cached_config.module_visibility.during_quest.large_monster_static_UI = imgui.checkbox(
-					language.current_language.customization_menu.large_monster_static_UI,
-					cached_config.module_visibility.during_quest.large_monster_static_UI);
-
-				config_changed = config_changed or changed;
-
-				changed, cached_config.module_visibility.during_quest.large_monster_highlighted_UI = imgui.checkbox(
-					language.current_language.customization_menu.large_monster_highlighted_UI,
-					cached_config.module_visibility.during_quest.large_monster_highlighted_UI);
-
-				config_changed = config_changed or changed;
-
-				changed, cached_config.module_visibility.during_quest.time_UI =
-					imgui.checkbox(language.current_language.customization_menu.time_UI,
-						cached_config.module_visibility.during_quest.time_UI);
-
-				config_changed = config_changed or changed;
-				imgui.same_line();
-
-				changed, cached_config.module_visibility.during_quest.damage_meter_UI =
-					imgui.checkbox(language.current_language.customization_menu.damage_meter_UI,
-						cached_config.module_visibility.during_quest.damage_meter_UI);
-
-				config_changed = config_changed or changed;
-
-				changed, cached_config.module_visibility.during_quest.endemic_life_UI =
-					imgui.checkbox(language.current_language.customization_menu.endemic_life_UI,
-						cached_config.module_visibility.during_quest.endemic_life_UI);
+				changed, cached_config.module_visibility.in_lobby.endemic_life_UI = imgui.checkbox(
+					language.current_language.customization_menu.endemic_life_UI,
+					cached_config.module_visibility.in_lobby.endemic_life_UI);
 
 				config_changed = config_changed or changed;
 				imgui.tree_pop();
 			end
 
-			if imgui.tree_node(language.current_language.customization_menu.quest_result_screen) then
-				changed, cached_config.module_visibility.quest_result_screen.small_monster_UI = imgui.checkbox(
-					language.current_language.customization_menu.small_monster_UI,
-					cached_config.module_visibility.quest_result_screen.small_monster_UI);
+			if imgui.tree_node(language.current_language.customization_menu.in_training_area) then
 
-				config_changed = config_changed or changed;
-
-				changed, cached_config.module_visibility.quest_result_screen.large_monster_dynamic_UI = imgui.checkbox(
+				changed, cached_config.module_visibility.in_training_area.large_monster_dynamic_UI = imgui.checkbox(
 					language.current_language.customization_menu.large_monster_dynamic_UI,
-					cached_config.module_visibility.quest_result_screen.large_monster_dynamic_UI);
+					cached_config.module_visibility.in_training_area.large_monster_dynamic_UI);
 
 				config_changed = config_changed or changed;
-				imgui.same_line();
 
-				changed, cached_config.module_visibility.quest_result_screen.large_monster_static_UI = imgui.checkbox(
+				changed, cached_config.module_visibility.in_training_area.large_monster_static_UI = imgui.checkbox(
 					language.current_language.customization_menu.large_monster_static_UI,
-					cached_config.module_visibility.quest_result_screen.large_monster_static_UI);
+					cached_config.module_visibility.in_training_area.large_monster_static_UI);
 
 				config_changed = config_changed or changed;
 
-				changed, cached_config.module_visibility.quest_result_screen.large_monster_highlighted_UI = imgui.checkbox(
+				changed, cached_config.module_visibility.in_training_area.large_monster_highlighted_UI = imgui.checkbox(
 					language.current_language.customization_menu.large_monster_highlighted_UI,
-					cached_config.module_visibility.quest_result_screen.large_monster_highlighted_UI);
+					cached_config.module_visibility.in_training_area.large_monster_highlighted_UI);
 
 				config_changed = config_changed or changed;
 
-				changed, cached_config.module_visibility.quest_result_screen.time_UI =
-					imgui.checkbox(language.current_language.customization_menu.time_UI,
-						cached_config.module_visibility.quest_result_screen.time_UI);
-
-				config_changed = config_changed or changed;
-				imgui.same_line();
-
-				changed, cached_config.module_visibility.quest_result_screen.damage_meter_UI = imgui.checkbox(
+				changed, cached_config.module_visibility.in_training_area.damage_meter_UI = imgui.checkbox(
 					language.current_language.customization_menu.damage_meter_UI,
-					cached_config.module_visibility.quest_result_screen.damage_meter_UI);
+					cached_config.module_visibility.in_training_area.damage_meter_UI);
 
 				config_changed = config_changed or changed;
 
-				changed, cached_config.module_visibility.during_quest.endemic_life_UI =
-					imgui.checkbox(language.current_language.customization_menu.endemic_life_UI,
-						cached_config.module_visibility.during_quest.endemic_life_UI);
+				changed, cached_config.module_visibility.in_training_area.endemic_life_UI = imgui.checkbox(
+					language.current_language.customization_menu.endemic_life_UI,
+					cached_config.module_visibility.in_training_area.endemic_life_UI);
 
 				config_changed = config_changed or changed;
 				imgui.tree_pop();
 			end
 
-			if imgui.tree_node(language.current_language.customization_menu.training_area) then
-				changed, cached_config.module_visibility.training_area.large_monster_dynamic_UI = imgui.checkbox(
-					language.current_language.customization_menu.large_monster_dynamic_UI,
-					cached_config.module_visibility.training_area.large_monster_dynamic_UI);
-
+			if imgui.tree_node(language.current_language.customization_menu.cutscene) then
+				changed = module_visibility_customization.draw(cached_config.module_visibility.cutscene);
 				config_changed = config_changed or changed;
-				imgui.same_line();
-
-				changed, cached_config.module_visibility.training_area.large_monster_static_UI = imgui.checkbox(
-					language.current_language.customization_menu.large_monster_static_UI,
-					cached_config.module_visibility.training_area.large_monster_static_UI);
-
-				config_changed = config_changed or changed;
-
-				changed, cached_config.module_visibility.training_area.damage_meter_UI =
-					imgui.checkbox(language.current_language.customization_menu.damage_meter_UI,
-						cached_config.module_visibility.training_area.damage_meter_UI);
-
-				config_changed = config_changed or changed;
-
-				changed, cached_config.module_visibility.during_quest.endemic_life_UI =
-					imgui.checkbox(language.current_language.customization_menu.endemic_life_UI,
-						cached_config.module_visibility.during_quest.endemic_life_UI);
-
-				config_changed = config_changed or changed;
-
 				imgui.tree_pop();
 			end
+
+			if imgui.tree_node(language.current_language.customization_menu.loading_quest) then
+				changed = module_visibility_customization.draw(cached_config.module_visibility.loading_quest);
+				config_changed = config_changed or changed;
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.quest_start_animation) then
+				changed = module_visibility_customization.draw(cached_config.module_visibility.quest_start_animation);
+				config_changed = config_changed or changed;
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.playing_quest) then
+				changed = module_visibility_customization.draw(cached_config.module_visibility.playing_quest);
+				config_changed = config_changed or changed;
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.killcam) then
+				changed = module_visibility_customization.draw(cached_config.module_visibility.killcam);
+				config_changed = config_changed or changed;
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.quest_end_timer) then
+				changed = module_visibility_customization.draw(cached_config.module_visibility.quest_end_timer);
+				config_changed = config_changed or changed;
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.quest_end_animation) then
+				changed = module_visibility_customization.draw(cached_config.module_visibility.quest_end_animation);
+				config_changed = config_changed or changed;
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.quest_end_screen) then
+				changed = module_visibility_customization.draw(cached_config.module_visibility.quest_end_screen);
+				config_changed = config_changed or changed;
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.reward_screen) then
+				changed = module_visibility_customization.draw(cached_config.module_visibility.reward_screen);
+				config_changed = config_changed or changed;
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.summary_screen) then
+				changed = module_visibility_customization.draw(cached_config.module_visibility.summary_screen);
+				config_changed = config_changed or changed;
+				imgui.tree_pop();
+			end
+
 			imgui.tree_pop();
 		end
 
@@ -2018,6 +2001,7 @@ function customization_menu.init_module()
 	body_parts_customization = require("MHR_Overlay.UI.Customizations.body_parts_customization");
 	ailments_customization = require("MHR_Overlay.UI.Customizations.ailments_customization");
 	ailment_buildups_customization = require("MHR_Overlay.UI.Customizations.ailment_buildups_customization");
+	module_visibility_customization = require("MHR_Overlay.UI.Customizations.module_visibility_customization");
 
 	customization_menu.init();
 	customization_menu.reload_font(false);
