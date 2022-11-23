@@ -35,6 +35,7 @@ function large_monster.new(enemy)
 	monster.health_percentage = 0;
 	monster.missing_health = 0;
 
+	monster.is_capturable = true;
 	monster.capture_health = 0;
 	monster.capture_percentage = 0;
 
@@ -97,7 +98,6 @@ function large_monster.new(enemy)
 	large_monster.update_position(enemy, monster);
 	
 	local physical_param = large_monster.update_health(enemy, monster);
-
 
 	large_monster.update_stamina(enemy, monster, nil);
 	large_monster.update_stamina_timer(enemy, monster, nil);
@@ -198,6 +198,25 @@ function large_monster.init(monster, enemy)
 			monster.crown = language.current_language.UI.silver;
 		end
 	end
+
+	local is_capture_enable = true;
+
+	local damage_param = enemy:get_field("<DamageParam>k__BackingField");
+	if damage_param ~= nil then
+		local capture_param = damage_param:get_field("_CaptureParam");
+
+		if capture_param ~= nil then
+			local is_capture_enable_ = capture_param:call("get_IsEnable");
+			if is_capture_enable_ ~= nil then
+				is_capture_enable = is_capture_enable_;
+			end
+		end
+	end
+
+	local curia_param = enemy:get_field("<CuriaParam>k__BackingField");
+	local is_anomaly = curia_param ~= nil;
+
+	monster.is_capturable = is_capture_enable and not is_anomaly;
 end
 
 function large_monster.init_UI(monster, monster_UI, cached_config)
@@ -372,7 +391,7 @@ function large_monster.update(enemy, monster)
 	if is_disp_icon_mini_map ~= nil then
 		monster.is_disp_icon_mini_map = is_disp_icon_mini_map;
 	end
-
+	
 	pcall(ailments.update_ailments, enemy, monster);
 end
 
@@ -747,7 +766,7 @@ function large_monster.draw(monster, type, cached_config, position_on_screen, op
 			100 * monster.big_border, 100 * monster.king_border);
 	end
 
-	if monster.health < monster.capture_health then
+	if monster.is_capturable and monster.health < monster.capture_health then
 		monster_UI.health_UI.bar.colors = monster_UI.health_UI.bar.capture_colors;
 	else
 		monster_UI.health_UI.bar.colors = monster_UI.health_UI.bar.normal_colors;
@@ -784,7 +803,11 @@ function large_monster.draw(monster, type, cached_config, position_on_screen, op
 	};
 
 	health_UI_entity.draw(monster, monster_UI.health_UI, health_position_on_screen, opacity_scale);
-	drawing.draw_capture_line(monster_UI.health_UI, health_position_on_screen, opacity_scale, monster.capture_percentage);
+
+	if monster.is_capturable then
+		drawing.draw_capture_line(monster_UI.health_UI, health_position_on_screen, opacity_scale, monster.capture_percentage);
+	end
+
 	stamina_UI_entity.draw(monster, monster_UI.stamina_UI, stamina_position_on_screen, opacity_scale);
 	rage_UI_entity.draw(monster, monster_UI.rage_UI, rage_position_on_screen, opacity_scale);
 
