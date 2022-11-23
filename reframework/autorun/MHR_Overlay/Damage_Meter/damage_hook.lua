@@ -21,6 +21,8 @@ local get_total_damage_method = enemy_calc_damage_info_type_def:get_method("get_
 local get_physical_damage_method = enemy_calc_damage_info_type_def:get_method("get_PhysicalDamage");
 local get_elemental_damage_method = enemy_calc_damage_info_type_def:get_method("get_ElementDamage");
 
+local stun_damage_field = enemy_calc_damage_info_type_def:get_field("<StunDamage>k__BackingField");
+
 local get_condition_damage_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamage");
 local get_condition_type_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamageType");
 local get_condition_damage2_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamage2");
@@ -174,18 +176,17 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 		monster = small_monster.get_monster(enemy);
 	end
 
-	local stun_damage = enemy_calc_damage_info:get_field("<StunDamage>k__BackingField");
-	if stun_damage ~= 0 and stun_damage ~= nil then
+	local stun_damage = stun_damage_field:get_data(enemy_calc_damage_info);
+	if attacking_player ~= nil then
 		ailments.apply_ailment_buildup(monster, attacker_id, ailments.stun_id, stun_damage);
-	end
 
-	ailments.apply_ailment_buildup(monster, attacker_id, condition_type, condition_damage);
-	ailments.apply_ailment_buildup(monster, attacker_id, condition_type2, condition_damage2);
-	ailments.apply_ailment_buildup(monster, attacker_id, condition_type3, condition_damage3);
+		ailments.apply_ailment_buildup(monster, attacker_id, condition_type, condition_damage);
+		ailments.apply_ailment_buildup(monster, attacker_id, condition_type2, condition_damage2);
+		ailments.apply_ailment_buildup(monster, attacker_id, condition_type3, condition_damage3);
+	end
 
 	player.update_damage(player.total, damage_source_type, is_large_monster, damage_object);
 	player.update_damage(attacking_player, damage_source_type, is_large_monster, damage_object);
-
 end
 
 --function damage_hook.on_mystery_core_break(enemy)

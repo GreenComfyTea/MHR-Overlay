@@ -595,8 +595,12 @@ end
 
 function ailments.apply_ailment_buildup(monster, attacker_id, ailment_type, ailment_buildup)
 
-	if monster == nil or player == nil or
+	if monster == nil or
 		(ailment_type ~= ailments.poison_id and ailment_type ~= ailments.blast_id and ailment_type ~= ailments.stun_id) then
+		return;
+	end
+
+	if ailment_buildup == 0 or ailment_buildup == nil then
 		return;
 	end
 

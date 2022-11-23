@@ -116,7 +116,6 @@ function ailment_buildup.draw(monster, ailment_buildup_UI, cached_config, ailmen
 			};
 
 			ailment_buildup_UI_entity.draw(_player, ailment_buildup_UI, cached_config, ailment_buildup_position_on_screen, opacity_scale, top_buildup);
-
 			last_j = j;
 		end
 
