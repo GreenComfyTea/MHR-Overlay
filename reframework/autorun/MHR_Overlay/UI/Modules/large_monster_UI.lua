@@ -143,7 +143,7 @@ function large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster, 
 			break
 		end
 
-		if monster.id == 549 or monster.id == 25 or monster.id == 2073 then
+		if monster.is_stealth then
 			goto continue
 		end
 

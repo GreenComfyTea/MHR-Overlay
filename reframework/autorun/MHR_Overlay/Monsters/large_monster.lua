@@ -41,6 +41,8 @@ function large_monster.new(enemy)
 
 	monster.dead_or_captured = false;
 	monster.is_disp_icon_mini_map = true;
+	monster.is_stealth = false;
+	monster.can_go_stealth = false;
 
 	monster.is_tired = false;
 	monster.stamina = 0;
@@ -152,6 +154,10 @@ function large_monster.init(monster, enemy)
 	end
 
 	monster.id = enemy_type;
+
+	if monster.id == 549 or monster.id == 25 or monster.id == 2073 then
+		monster.can_go_stealth = true;
+	end
 
 	local enemy_name = get_enemy_name_message_method:call(singletons.message_manager, enemy_type);
 	if enemy_name ~= nil then
@@ -390,6 +396,33 @@ function large_monster.update(enemy, monster)
 	local is_disp_icon_mini_map = is_disp_icon_mini_map_method:call(enemy);
 	if is_disp_icon_mini_map ~= nil then
 		monster.is_disp_icon_mini_map = is_disp_icon_mini_map;
+	end
+
+	if monster.id == 549 or monster.id == 25 or monster.id == 2073 then
+		monster.can_go_stealth = true;
+	end
+
+	if monster.can_go_stealth then
+		-- Lucent Nargacuga
+		if monster.id == 549 then
+			local is_stealth = enemy:call("isStealth");
+			if is_stealth ~= nil then
+				monster.is_stealth = is_stealth;
+			end
+		-- Chameleos and Risen Chameleos
+		elseif monster.id == 25 or monster.id == 2073 then
+			local stealth_controller = enemy:call("get_StealthCtrl");
+			if stealth_controller ~= nil then
+				local status = stealth_controller:call("get_CurrentStatus");
+
+				if status >= 2 then
+					monster.is_stealth = true;
+				else 
+					monster.is_stealth = false;
+				end
+			end
+		end
+		
 	end
 	
 	pcall(ailments.update_ailments, enemy, monster);
