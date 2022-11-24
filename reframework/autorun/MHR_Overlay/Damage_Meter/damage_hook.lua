@@ -34,9 +34,7 @@ local stock_mystery_core_break_damage_type_def = sdk.find_type_definition("snow.
 
 local quest_manager_type_def = sdk.find_type_definition("snow.QuestManager");
 
-local not_host_cart_method = quest_manager_type_def:get_method("netRecvForfeit");
-local host_cart_method = quest_manager_type_def:get_method("netSendForfeit");
-local offline_cart_method = quest_manager_type_def:get_method("notifyDeath");
+local quest_forfeit_method = quest_manager_type_def:get_method("questForfeit");
 
 local packet_quest_forfeit_type_def = sdk.find_type_definition("snow.QuestManager.PacketQuestForfeit");
 local dead_player_id_field = packet_quest_forfeit_type_def:get_field("_DeadPlIndex");
@@ -194,28 +192,13 @@ end
 --end
 
 -- Coavins code
-function damage_hook.cart(type, args)
-	if not quest_status.is_online then --We reach here with notifyDeath when player is offline
-		player.myself.cart_count = player.myself.cart_count + 1;
+function damage_hook.cart(dead_player_id, flag_cat_skill_insurance)
+	local player_ = player.list[dead_player_id];
+	if player_ == nil then
 		return;
 	end
 
-	if player.myself.id == 0 then -- If player is host, netSendForfeit is always correct
-		if type == "host" then
-			local player_id = sdk.to_int64(args[3]);
-			player.list[player_id].cart_count = player.list[player_id].cart_count + 1;
-		end
-	else
-		if type == "not host" then
-			local packet_quest_forfeit = sdk.to_managed_object(args[3]);
-			local player_id = dead_player_id_field:get_data(packet_quest_forfeit);
-			local is_from_host = is_from_host_field:get_data(packet_quest_forfeit)
-
-			if is_from_host then -- Data is sent twice, 1 from host and 1 from dead player. Check if from host to only add 1
-				player.list[player_id].cart_count = player.list[player_id].cart_count + 1;
-			end
-		end
-	end
+	player_.cart_count = player_.cart_count + 1;
 end
 
 --function damage_hook.on_get_finish_shoot_wall_hit_damage_rate(enemy, rate, is_part_damage)
@@ -246,20 +229,8 @@ function damage_hook.init_module()
 		return retval;
 	end);
 
-	sdk.hook(not_host_cart_method, function(args)
-		pcall(damage_hook.cart, "not host", args);
-	end, function(retval)
-		return retval;
-	end);
-
-	sdk.hook(host_cart_method, function(args)
-		pcall(damage_hook.cart, "host", args);
-	end, function(retval)
-		return retval;
-	end);
-
-	sdk.hook(offline_cart_method, function(args)
-		pcall(damage_hook.cart, "offline", args);
+	sdk.hook(quest_forfeit_method, function(args)
+		pcall(damage_hook.cart, sdk.to_int64(args[3]), (sdk.to_int64(args[4]) & 0xFFFFFFFF));
 	end, function(retval)
 		return retval;
 	end);
