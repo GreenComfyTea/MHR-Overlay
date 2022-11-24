@@ -777,6 +777,48 @@ function part_names.init()
 			language.current_language.parts.right_hind_leg,
 			language.current_language.parts.tail,
 			language.current_language.parts.wings
+		},
+
+
+
+
+
+		--SUNBREAK TITLE UPDATE 3
+
+
+
+
+
+		[1351] = -- Chaotic Gore Magala  1351
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.torso,
+			language.current_language.parts.wings,
+			language.current_language.parts.wingclaws,
+			language.current_language.parts.forelegs,
+			language.current_language.parts.hind_legs,
+			language.current_language.parts.tail,
+			language.current_language.parts.antenna
+		},
+
+		[2072] = -- Risen Kushala Daora 2072
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.back,
+			language.current_language.parts.left_leg,
+			language.current_language.parts.right_leg,
+			language.current_language.parts.wings,
+			language.current_language.parts.tail
+		},
+
+		[2075] = -- Risen Teostra 2075
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.body,
+			language.current_language.parts.forelegs,
+			language.current_language.parts.hind_legs,
+			language.current_language.parts.wings,
+			language.current_language.parts.tail
 		}
 	};
 end
