@@ -193,6 +193,8 @@ end
 
 -- Coavins code
 function damage_hook.cart(dead_player_id, flag_cat_skill_insurance)
+	-- flag_cat_skill_insurance = 0
+	-- flag_cat_skill_insurance = 1
 	local player_ = player.list[dead_player_id];
 	if player_ == nil then
 		return;
