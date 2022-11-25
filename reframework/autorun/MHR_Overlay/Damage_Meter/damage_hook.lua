@@ -5,6 +5,7 @@ local small_monster;
 local large_monster;
 local ailments;
 local table_helpers;
+local singletons;
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_after_calc_damage_damage_side_method = enemy_character_base_type_def:get_method("afterCalcDamage_DamageSide");
@@ -201,6 +202,8 @@ function damage_hook.cart(dead_player_id, flag_cat_skill_insurance)
 	end
 
 	player_.cart_count = player_.cart_count + 1;
+
+	quest_status.get_cart_count();
 end
 
 --function damage_hook.on_get_finish_shoot_wall_hit_damage_rate(enemy, rate, is_part_damage)
@@ -218,6 +221,7 @@ function damage_hook.init_module()
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	ailments = require("MHR_Overlay.Monsters.ailments");
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	singletons = require("MHR_Overlay.Game_Handler.singletons");
 
 	--sdk.hook(get_finish_shoot_wall_hit_damage_rate_method, function(args)
 	--	pcall(damage_hook.on_get_finish_shoot_wall_hit_damage_rate, sdk.to_managed_object(args[2]), sdk.to_float(args[3]), sdk.to_int64(args--[4]));

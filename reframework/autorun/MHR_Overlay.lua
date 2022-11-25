@@ -69,7 +69,6 @@ time.init_module();
 
 language.init_module();
 config.init_module();
-quest_status.init_module();
 part_names.init_module();
 
 damage_UI_entity.init_module();
@@ -82,6 +81,7 @@ body_part_UI_entity.init_module();
 
 damage_hook.init_module();
 player.init_module();
+quest_status.init_module();
 
 env_creature_hook.init_module();
 env_creature.init_module();
@@ -179,10 +179,8 @@ local function main_loop()
 	screen.update_window_size();
 	player.update_myself_position();
 	quest_status.update_is_online();
-	quest_status.update_is_quest_host();
+	--quest_status.update_is_quest_host();
 	time.tick();
-
-	--xy = xy .. quest_status.get_flow_state(quest_status.flow_state, true);
 
 	player.update_player_list(quest_status.index >= 2);
 

@@ -54,7 +54,7 @@ end
 function time.update_players_dps()
 	local cached_config = config.current_config.damage_meter_UI.settings;
 
-	if cached_config.freeze_dps_on_quest_clear and quest_status.is_quest_clear then
+	if cached_config.freeze_dps_on_quest_end and quest_status.is_quest_end then
 		return;
 	end
 

@@ -126,6 +126,7 @@ function damage_meter_UI.draw()
 		elseif #player.list == 0 then
 			table.insert(quest_players, player.myself);
 		end
+		
 		damage_meter_UI.last_displayed_players = quest_players;
 	end
 

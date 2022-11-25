@@ -1412,8 +1412,8 @@ function customization_menu.draw_damage_meter_UI()
 
 			config_changed = config_changed or changed;
 
-			changed, cached_config.settings.freeze_dps_on_quest_clear = imgui.checkbox(
-				language.current_language.customization_menu.freeze_dps_on_quest_clear, cached_config.settings.freeze_dps_on_quest_clear);
+			changed, cached_config.settings.freeze_dps_on_quest_end = imgui.checkbox(
+				language.current_language.customization_menu.freeze_dps_on_quest_end, cached_config.settings.freeze_dps_on_quest_end);
 
 			config_changed = config_changed or changed;
 
@@ -1891,6 +1891,10 @@ function customization_menu.draw_damage_meter_UI()
 
 		changed = label_customization.draw(language.current_language.customization_menu.total_damage_value_label, cached_config.total_damage_value_label);
 		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.total_cart_count_label, cached_config.total_cart_count_label);
+		config_changed = config_changed or changed;
+
 
 		changed = bar_customization.draw(language.current_language.customization_menu.damage_bar, cached_config.damage_bar);
 		config_changed = config_changed or changed;

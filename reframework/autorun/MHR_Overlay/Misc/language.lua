@@ -390,11 +390,12 @@ language.default_language = {
 
 		cart_count = "Cart Count",
 		cart_count_label = "Cart Count Label",
+		total_cart_count_label = "Total Cart Count Label",
 
 		prioritize_large_monsters = "Large Monsters on High Priority",
 		max_monster_updates_per_tick = "Max Monster Updates per Tick",
 
-		freeze_dps_on_quest_clear = "Freeze DPS when Quest is cleared",
+		freeze_dps_on_quest_end = "Freeze DPS on Quest End",
 
 
 		health_break_severe_filter = "Health + Break + Severe",

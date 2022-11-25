@@ -36,7 +36,10 @@ quest_status.flow_state = quest_status.flow_states.NONE;
 
 quest_status.index = 0;
 quest_status.is_online = false;
-quest_status.is_quest_host = false;
+--quest_status.is_quest_host = false;
+
+quest_status.cart_count = 0;
+quest_status.max_cart_count = 3;
 
 local quest_manager_type_def = sdk.find_type_definition("snow.QuestManager");
 local on_changed_game_status_method = quest_manager_type_def:get_method("onChangedGameStatus");
@@ -45,6 +48,9 @@ local set_quest_clear_method = quest_manager_type_def:get_method("setQuestClear"
 local set_quest_clear_sub_method = quest_manager_type_def:get_method("setQuestClearSub");
 local set_quest_clear_sub_hyakurui_method = quest_manager_type_def:get_method("setQuestClearSubHyakuryu");
 local set_quest_fail_method = quest_manager_type_def:get_method("setQuestFail");
+
+local get_death_num_method = quest_manager_type_def:get_method("getDeathNum");
+local get_quest_life_method = quest_manager_type_def:get_method("getQuestLife");
 
 local game_manager_type_def = sdk.find_type_definition("snow.SnowGameManager");
 local get_status_method = game_manager_type_def:get_method("getStatus");
@@ -77,7 +83,7 @@ local unique_event_manager_type_def = sdk.find_type_definition("snow.eventcut.Un
 local play_event_common_method = unique_event_manager_type_def:get_method("playEventCommon");
 local event_manager_dispose_method = unique_event_manager_type_def:get_method("dispose");
 
-function quest_status.get_flow_state(flow_state, new_line)
+function quest_status.get_flow_state_name(flow_state, new_line)
     for key, value in pairs(quest_status.flow_states) do
 		if value == flow_state then
 			if new_line then
@@ -86,6 +92,43 @@ function quest_status.get_flow_state(flow_state, new_line)
 				return tostring(key);
 			end
 		end
+	end
+end
+
+function quest_status.set_flow_state(new_flow_state)
+	quest_status.previous_flow_state = quest_status.flow_state;
+	quest_status.flow_state = new_flow_state;
+
+	if quest_status.flow_state >= quest_status.flow_states.KILLCAM then
+		damage_meter_UI.freeze_displayed_players = true;
+		quest_status.is_quest_end = true;
+	else 
+		damage_meter_UI.freeze_displayed_players = false;
+		quest_status.is_quest_end = false;
+	end
+
+	if quest_status.flow_state == quest_status.flow_states.IN_LOBBY or quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
+		player.init();
+		small_monster.init_list();
+		large_monster.init_list();
+		env_creature.init_list();
+	elseif quest_status.flow_state >= quest_status.flow_states.LOADING_QUEST then
+		quest_status.get_cart_count();
+		quest_status.get_max_cart_count();
+	end
+end
+
+function quest_status.get_cart_count()
+	local death_num = get_death_num_method:call(singletons.quest_manager);
+	if death_num ~= nil then
+		quest_status.cart_count = death_num;
+	end
+end
+
+function quest_status.get_max_cart_count()
+	local quest_life = get_quest_life_method:call(singletons.quest_manager);
+	if quest_life ~= nil then
+		quest_status.max_cart_count = quest_life;
 	end
 end
 
@@ -108,38 +151,31 @@ function quest_status.on_demo_request_activation(request_data_base)
 
 	-- QUEST_START_ANIMATION
 	if request_data_type == 2 then
-		quest_status.previous_flow_state = quest_status.flow_state;
-		quest_status.flow_state = quest_status.flow_states.QUEST_START_ANIMATION;
+		quest_status.set_flow_state(quest_status.flow_states.QUEST_START_ANIMATION);
 
 	-- KILLCAM
 	elseif request_data_type == 3 then
-		quest_status.previous_flow_state = quest_status.flow_state;
-		quest_status.flow_state = quest_status.flow_states.KILLCAM;
+		quest_status.set_flow_state(quest_status.flow_states.KILLCAM);
 
 	-- QUEST_END_ANIMATION
 	elseif request_data_type == 5 or request_data_type == 6 or request_data_type == 7 then
-		quest_status.previous_flow_state = quest_status.flow_state;
-		quest_status.flow_state = quest_status.flow_states.QUEST_END_ANIMATION;
+		quest_status.set_flow_state(quest_status.flow_states.QUEST_END_ANIMATION);
 
 	-- PLAYER_DEATH_ANIMATION
 	elseif request_data_type == 8 then
-		quest_status.previous_flow_state = quest_status.flow_state;
-		quest_status.flow_state = quest_status.flow_states.PLAYER_DEATH_ANIMATION;
+		quest_status.set_flow_state(quest_status.flow_states.PLAYER_DEATH_ANIMATION);
 
 	-- PLAYER_CART_ANIMATION
 	elseif request_data_type == 9 then
-		quest_status.previous_flow_state = quest_status.flow_state;
-		quest_status.flow_state = quest_status.flow_states.PLAYER_CART_ANIMATION;
+		quest_status.set_flow_state(quest_status.flow_states.PLAYER_CART_ANIMATION);
 
 	-- FAST_TRAVEL_ANIMATION
 	elseif request_data_type == 10 then
-		quest_status.previous_flow_state = quest_status.flow_state;
-			quest_status.flow_state = quest_status.flow_states.FAST_TRAVEL_ANIMATION;
+		quest_status.set_flow_state(quest_status.flow_states.FAST_TRAVEL_ANIMATION);
 
 	-- WYVERN_RIDING_START_ANIMATION
 	elseif request_data_type == 11 then
-		quest_status.previous_flow_state = quest_status.flow_state;
-		quest_status.flow_state = quest_status.flow_states.WYVERN_RIDING_START_ANIMATION;
+		quest_status.set_flow_state(quest_status.flow_states.WYVERN_RIDING_START_ANIMATION);
 	end
 end
 
@@ -150,62 +186,50 @@ function quest_status.on_demo_end()
 		or quest_status.flow_state == quest_status.flow_states.FAST_TRAVEL_ANIMATION
 		or quest_status.flow_state == quest_status.flow_states.WYVERN_RIDING_START_ANIMATION then
 				
-			local next_flow_state = quest_status.previous_flow_state;
-			quest_status.previous_flow_state = quest_status.flow_state;
-			quest_status.flow_state = next_flow_state;
+			quest_status.set_flow_state(quest_status.previous_flow_state);
 
 		elseif quest_status.flow_state == quest_status.flow_states.QUEST_START_ANIMATION then
 			
-			quest_status.previous_flow_state = quest_status.flow_state;
-			quest_status.flow_state = quest_status.flow_states.PLAYING_QUEST;	
+			quest_status.set_flow_state(quest_status.flow_states.PLAYING_QUEST);
 
 		elseif quest_status.flow_state == quest_status.flow_states.KILLCAM then
 			
-			quest_status.previous_flow_state = quest_status.flow_state;
-			quest_status.flow_state = quest_status.flow_states.QUEST_END_TIMER;
+			quest_status.set_flow_state(quest_status.flow_states.QUEST_END_TIMER);
 		end
 	end
 end
 
 function quest_status.on_set_quest_clear()
 	if quest_status.index == 2 and quest_status.flow_state ~= quest_status.flow_states.KILLCAM then
-		quest_status.previous_flow_state = quest_status.flow_state;
-		quest_status.flow_state = quest_status.flow_states.QUEST_END_TIMER;
+		quest_status.set_flow_state(quest_status.flow_states.QUEST_END_TIMER);
 	end
 end
 
 function quest_status.on_quest_end_set_state()
 	if quest_status.index == 2 then	
-		quest_status.previous_flow_state = quest_status.flow_state;
-		quest_status.flow_state = quest_status.flow_states.QUEST_END_SCREEN;
+		quest_status.set_flow_state(quest_status.flow_states.QUEST_END_SCREEN);
 	end
 end
 
 function quest_status.on_gui_result_reward_do_open()
 	if quest_status.index == 3 then
-		quest_status.previous_flow_state = quest_status.flow_state;
-		quest_status.flow_state = quest_status.flow_states.REWARD_SCREEN;
+		quest_status.set_flow_state(quest_status.flow_states.REWARD_SCREEN);
 	end
 end
 
 function quest_status.on_gui_result_pay_off_do_open()
 	if quest_status.index == 3 then
-		quest_status.previous_flow_state = quest_status.flow_state;
-		quest_status.flow_state = quest_status.flow_states.SUMMARY_SCREEN;
+		quest_status.set_flow_state(quest_status.flow_states.SUMMARY_SCREEN);
 	end
 end
 
 function quest_status.on_play_event_common()
-	quest_status.previous_flow_state = quest_status.flow_state;
-	quest_status.flow_state = quest_status.flow_states.CUTSCENE;
+	quest_status.set_flow_state(quest_status.flow_states.CUTSCENE);
 end
 
 function quest_status.on_event_manager_dispose()
 	if quest_status.flow_state == quest_status.flow_states.CUTSCENE then
-		
-		local next_flow_state = quest_status.previous_flow_state;
-		quest_status.previous_flow_state = quest_status.flow_state;
-		quest_status.flow_state = next_flow_state;
+		quest_status.set_flow_state(quest_status.previous_flow_state);
 	end
 end
 
@@ -215,8 +239,7 @@ function quest_status.on_set_quest_fail()
 	quest_status.flow_state == quest_status.flow_states.FAST_TRAVEL_ANIMATION or
 	quest_status.flow_state == quest_status.flow_states.WYVERN_RIDING_START_ANIMATION then
 		
-		quest_status.previous_flow_state = quest_status.flow_state;
-		quest_status.flow_state = quest_status.flow_states.QUEST_END_ANIMATION;
+		quest_status.set_flow_state(quest_status.flow_states.QUEST_END_ANIMATION);
 	end
 end
 
@@ -225,37 +248,24 @@ function quest_status.on_village_fast_travel(area)
 		return;
 	end
 
-	quest_status.previous_flow_state = quest_status.flow_state;
-	
 	if area == 7 then
-		quest_status.flow_state = quest_status.flow_states.IN_TRAINING_AREA;
+		quest_status.set_flow_state(quest_status.flow_states.IN_TRAINING_AREA);
 	else 
-		quest_status.flow_state = quest_status.flow_states.IN_LOBBY;
+		quest_status.set_flow_state(quest_status.flow_states.IN_LOBBY);
 	end
 end
 
 function quest_status.on_changed_game_status(new_quest_status)
 	quest_status.index = new_quest_status;
 
-	if quest_status.index < 3 then
-		player.init();
-		small_monster.init_list();
-		large_monster.init_list();
-		env_creature.init_list();
-
-		quest_status.is_quest_clear = false;
-		damage_meter_UI.freeze_displayed_players = false;
-		damage_meter_UI.last_displayed_players = {};
-	end
-
 	if quest_status.index == 0 then
-		quest_status.flow_state = quest_status.flow_states.NONE;
+		quest_status.set_flow_state(quest_status.flow_states.NONE);
 	elseif quest_status.index == 1 then
-		quest_status.flow_state = quest_status.flow_states.IN_LOBBY;
+		quest_status.set_flow_state(quest_status.flow_states.IN_LOBBY);
 	elseif quest_status.index == 2 then
-		quest_status.flow_state = quest_status.flow_states.LOADING_QUEST;
+		quest_status.set_flow_state(quest_status.flow_states.LOADING_QUEST);
 	elseif quest_status.index == 3 then
-		quest_status.flow_state = quest_status.flow_states.SUMMARY_SCREEN;
+		quest_status.set_flow_state(quest_status.flow_states.SUMMARY_SCREEN);
 	end
 end
 
@@ -273,16 +283,15 @@ function quest_status.init()
 	quest_status.index = new_quest_status;
 	
 	if quest_status.index == 0 then
-		quest_status.flow_state = quest_status.flow_states.NONE;
+		quest_status.set_flow_state(quest_status.flow_states.NONE);
 	elseif quest_status.index == 1 then
-		quest_status.flow_state = quest_status.flow_states.IN_LOBBY;
+		quest_status.set_flow_state(quest_status.flow_states.IN_LOBBY);
 	elseif quest_status.index == 2 then
-		quest_status.flow_state = quest_status.flow_states.PLAYING_QUEST;
+		quest_status.set_flow_state(quest_status.flow_states.PLAYING_QUEST);
 	elseif quest_status.index == 3 then
-		quest_status.flow_state = quest_status.flow_states.SUMMARY_SCREEN;
+		quest_status.set_flow_state(quest_status.flow_states.SUMMARY_SCREEN);
 	end
 
-	quest_status.update_is_online();
 	quest_status.update_is_training_area();
 end
 
@@ -296,14 +305,10 @@ function quest_status.update_is_online()
 		return;
 	end
 
-	if quest_status.is_online and not is_quest_online then
-		damage_meter_UI.freeze_displayed_players = true;
-	end
-
 	quest_status.is_online = is_quest_online;
 end
 
-function quest_status.update_is_quest_host()
+--[[function quest_status.update_is_quest_host()
 	if singletons.lobby_manager == nil then
 		return;
 	end
@@ -314,7 +319,7 @@ function quest_status.update_is_quest_host()
 	end
 
 	quest_status.is_quest_host = is_quest_host;
-end
+end--]]
 
 function quest_status.update_is_training_area()
 	if singletons.village_area_manager == nil then
@@ -328,7 +333,7 @@ function quest_status.update_is_training_area()
 	end
 
 	if _is_training_area then
-		quest_status.flow_state = quest_status.flow_states.IN_TRAINING_AREA;
+		quest_status.set_flow_state(quest_status.flow_states.IN_TRAINING_AREA);
 	end
 end
 

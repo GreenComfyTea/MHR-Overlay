@@ -4215,7 +4215,7 @@ function config.init()
 				hide_total_if_total_damage_is_zero = false,
 				total_damage_offset_is_relative = true,
 
-				freeze_dps_on_quest_clear = true,
+				freeze_dps_on_quest_end = true,
 
 				orientation = "Vertical", -- "Vertical" or "Horizontal"
 				highlighted_bar = "Me",
@@ -4313,7 +4313,7 @@ function config.init()
 			cart_count_label = {
 				visibility = false,
 
-				text = "x%d",
+				text = "%d",
 				offset = {
 					x = 315,
 					y = 0
@@ -4432,6 +4432,26 @@ function config.init()
 				text = "%.0f",
 				offset = {
 					x = 205,
+					y = 0
+				},
+				color = 0xFFFF7373,
+
+				shadow = {
+					visibility = true,
+					offset = {
+						x = 1,
+						y = 1
+					},
+					color = 0xFF000000
+				}
+			},
+
+			total_cart_count_label = {
+				visibility = true,
+
+				text = "%d/%d",
+				offset = {
+					x = 315,
 					y = 0
 				},
 				color = 0xFFFF7373,

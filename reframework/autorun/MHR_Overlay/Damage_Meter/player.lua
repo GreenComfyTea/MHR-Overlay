@@ -511,7 +511,8 @@ function player.init_total_UI(_player)
 	_player.damage_UI = {
 		total_damage_label = table_helpers.deep_copy(cached_config.total_damage_label),
 		total_damage_value_label = table_helpers.deep_copy(cached_config.total_damage_value_label),
-		total_dps_label = table_helpers.deep_copy(cached_config.total_dps_label)
+		total_dps_label = table_helpers.deep_copy(cached_config.total_dps_label),
+		total_cart_count_label = table_helpers.deep_copy(cached_config.total_cart_count_label),
 	};
 
 	_player.damage_UI.total_damage_label.offset.x = _player.damage_UI.total_damage_label.offset.x * global_scale_modifier;
@@ -524,6 +525,9 @@ function player.init_total_UI(_player)
 
 	_player.damage_UI.total_dps_label.offset.x = _player.damage_UI.total_dps_label.offset.x * global_scale_modifier;
 	_player.damage_UI.total_dps_label.offset.y = _player.damage_UI.total_dps_label.offset.y * global_scale_modifier;
+
+	_player.damage_UI.total_cart_count_label.offset.x = _player.damage_UI.total_cart_count_label.offset.x * global_scale_modifier;
+	_player.damage_UI.total_cart_count_label.offset.y = _player.damage_UI.total_cart_count_label.offset.y * global_scale_modifier;
 end
 
 function player.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)
@@ -531,11 +535,10 @@ function player.draw(_player, position_on_screen, opacity_scale, top_damage, top
 end
 
 function player.draw_total(position_on_screen, opacity_scale)
-	drawing.draw_label(player.total.damage_UI.total_damage_label, position_on_screen, opacity_scale,
-		language.current_language.UI.total_damage);
-	drawing.draw_label(player.total.damage_UI.total_damage_value_label, position_on_screen, opacity_scale,
-		player.total.display.total_damage);
+	drawing.draw_label(player.total.damage_UI.total_damage_label, position_on_screen, opacity_scale, language.current_language.UI.total_damage);
+	drawing.draw_label(player.total.damage_UI.total_damage_value_label, position_on_screen, opacity_scale, player.total.display.total_damage);
 	drawing.draw_label(player.total.damage_UI.total_dps_label, position_on_screen, opacity_scale, player.total.dps);
+	drawing.draw_label(player.total.damage_UI.total_cart_count_label, position_on_screen, opacity_scale, quest_status.cart_count,  quest_status.max_cart_count);
 end
 
 function player.init_module()
