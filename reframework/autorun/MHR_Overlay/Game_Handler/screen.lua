@@ -10,7 +10,7 @@ function screen.update_window_size()
 	local width;
 	local height;
 
-	if d2d ~= nil then
+	if d2d ~= nil and config.current_config.global_settings.renderer.use_d2d_if_available then
 		width, height = d2d.surface_size();
 	else
 		width, height = screen.get_game_window_size();

@@ -33,11 +33,11 @@ function config.init()
 				prioritize_large_monsters = false
 			},
 
-			module_visibility = {
-				in_lobby = {
-					endemic_life_UI = false
-				},
+			renderer = {
+				use_d2d_if_available = true
+			},
 
+			module_visibility = {
 				in_training_area = {
 					large_monster_dynamic_UI = true,
 					large_monster_static_UI = true,

@@ -184,17 +184,7 @@ local function main_loop()
 
 	player.update_player_list(quest_status.index >= 2);
 
-	if quest_status.flow_state == quest_status.flow_states.IN_LOBBY then
-
-		if config.current_config.endemic_life_UI.enabled and
-		config.current_config.global_settings.module_visibility.in_lobby.endemic_life_UI then
-			local success = pcall(env_creature_UI.draw);
-			if not success then
-				customization_menu.status = "[In Lobby] Endemic life drawing function threw an exception";
-			end
-		end
-
-	elseif quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
+	if quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
 
 		local large_monster_UI_config = config.current_config.large_monster_UI;
 		local module_visibility_config = config.current_config.global_settings.module_visibility.in_training_area;
@@ -277,10 +267,18 @@ end);
 if d2d ~= nil then
 	d2d.register(function()
 		drawing.init_font();
-	end, main_loop);
-else
-	re.on_frame(main_loop);
+	end, function() 
+		if config.current_config.global_settings.renderer.use_d2d_if_available then
+			main_loop();
+		end
+	end);
 end
+
+re.on_frame(function()
+	if not config.current_config.global_settings.renderer.use_d2d_if_available then
+		main_loop();
+	end
+end);
 -- #endregion
 ----------------------------D2D------------------------------
 
@@ -288,48 +286,27 @@ if debug.enabled then
 	if d2d ~= nil then
 		d2d.register(function()
 		end, function()
-			local is_ready_quest = singletons.quest_manager:call("isReadyQuest");
-			local is_ready_play_quest = singletons.quest_manager:call("isReadyPlayQuest");
-			local is_play_quest = singletons.quest_manager:call("isPlayQuest");
-			local is_stay_quest = singletons.quest_manager:call("isStayQuest");
-			local is_end_wait = singletons.quest_manager:call("isEndWait");
-			local is_active_quest = singletons.quest_manager:call("isActiveQuest");
-			local quest_clear = singletons.quest_manager:call("checkQuestClear");
-			local is_result_demo_play_start = singletons.quest_manager:call("isResultDemoPlayStart");
-			local isResultGuestDrawOff = singletons.quest_manager:call("isResultGuestDrawOff");
-
-			local game_manager = sdk.get_managed_singleton("snow.SnowGameManager");
-			local current_status = game_manager:get_field("_CurrentStatus");
-
-			local demo_camera = sdk.get_managed_singleton("snow.camera.DemoCamera");
-			local is_play_demo = demo_camera:call("IsPlayDemo");
-
-			--[[xy = "\nquest_status.index: " .. tostring(quest_status.index);
-			xy = xy .. "\nis_ready_quest: " .. tostring(is_ready_quest);
-			xy = xy .. "\nis_ready_play_quest: " .. tostring(is_ready_play_quest);
-			xy = xy .. "\nis_play_quest: " .. tostring(is_play_quest);
-			xy = xy .. "\nis_stay_quest: " .. tostring(is_stay_quest);
-			xy = xy .. "\nis_end_wait: " .. tostring(is_end_wait);
-			xy = xy .. "\nis_active_quest: " .. tostring(is_active_quest);
-			xy = xy .. "\nquest_clear: " .. tostring(quest_clear);
-			xy = xy .. "\nis_result_demo_play_start: " .. tostring(is_result_demo_play_start);
-			xy = xy .. "\nisResultGuestDrawOff: " .. tostring(isResultGuestDrawOff);
-			xy = xy .. "\ncurrent_status: " .. tostring(current_status);
-			xy = xy .. "\nis_play_demo: " .. tostring(is_play_demo);--]]
+			if not config.current_config.global_settings.renderer.use_d2d_if_available then
+				return;
+			end
 
 			if xy ~= "" then
 				d2d.text(drawing.font, "xy:\n" .. tostring(xy), 551, 11, 0xFF000000);
 				d2d.text(drawing.font, "xy:\n" .. tostring(xy), 550, 10, 0xFFFFFFFF);
 			end
 		end);
-	else
-		re.on_frame(function()
-			if xy ~= "" then
-				draw.text("xy:\n" .. tostring(xy), 550, 10, 0xFFFFFFFF);
-				draw.text("xy:\n" .. tostring(xy), 551, 11, 0xFF000000);	
-			end
-		end);
 	end
+
+	re.on_frame(function()
+		if config.current_config.global_settings.renderer.use_d2d_if_available and d2d ~= nil then
+			return;
+		end
+
+		if xy ~= "" then
+			draw.text("xy:\n" .. tostring(xy), 551, 11, 0xFF000000);	
+			draw.text("xy:\n" .. tostring(xy), 550, 10, 0xFFFFFFFF);
+		end
+	end);
 end
 
 if imgui.begin_table == nil then

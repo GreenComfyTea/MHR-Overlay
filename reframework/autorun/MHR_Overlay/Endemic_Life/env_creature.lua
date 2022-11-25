@@ -98,7 +98,7 @@ function env_creature.update(REcreature, creature)
 end
 
 function env_creature.draw(creature, position_on_screen, opacity_scale)
-	if d2d ~= nil then
+	if d2d ~= nil and config.current_config.global_settings.renderer.use_d2d_if_available then
 		local text_width, text_height = drawing.font:measure(creature.name);
 		position_on_screen.x = position_on_screen.x - text_width / 2;
 	end

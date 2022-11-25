@@ -172,6 +172,9 @@ language.default_language = {
 		bold = "Bold",
 		italic = "Italic",
 
+		renderer = "Renderer",
+		use_d2d_if_available = "Use Direct2D if available",
+
 		enabled = "Enabled",
 		settings = "Settings",
 		dynamic_positioning = "Dynamic Positioning",
@@ -422,7 +425,7 @@ language.default_language = {
 		lowest_health_percentage = "Lowest Health Percentage",
 		highest_health_percentage = "Highest Health Percentage",
 
-		reframework_outdated = "Installed REFramework version is outdated. Please, update. Otherwise, MHR Overlay won't work correctly."
+		reframework_outdated = "Installed REFramework version is outdated. Please, update. Otherwise, MHR Overlay won't work correctly.",
 	}
 };
 

@@ -760,16 +760,17 @@ function customization_menu.draw_global_settings()
 			imgui.tree_pop();
 		end
 
+		if imgui.tree_node(language.current_language.customization_menu.renderer) then
+			changed, cached_config.renderer.use_d2d_if_available =
+				imgui.checkbox(language.current_language.customization_menu.use_d2d_if_available,
+					cached_config.renderer.use_d2d_if_available);
+
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
 		if imgui.tree_node(language.current_language.customization_menu.module_visibility_based_on_game_state) then
-			if imgui.tree_node(language.current_language.customization_menu.in_lobby) then
-
-				changed, cached_config.module_visibility.in_lobby.endemic_life_UI = imgui.checkbox(
-					language.current_language.customization_menu.endemic_life_UI,
-					cached_config.module_visibility.in_lobby.endemic_life_UI);
-
-				config_changed = config_changed or changed;
-				imgui.tree_pop();
-			end
 
 			if imgui.tree_node(language.current_language.customization_menu.in_training_area) then
 

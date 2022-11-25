@@ -35,7 +35,7 @@ function drawing.argb_to_color(alpha, red, green, blue)
 end
 
 function drawing.limit_text_size(text, size_limit)
-	if d2d == nil or size_limit <= 0 then
+	if d2d == nil or not config.current_config.global_settings.renderer.use_d2d_if_available or size_limit <= 0 then
 		return text;
 	end
 
@@ -98,6 +98,8 @@ function drawing.draw_label(label, position, opacity_scale, ...)
 	local position_x = position.x + label.offset.x;
 	local position_y = position.y + label.offset.y;
 
+	local use_d2d = d2d ~= nil and config.current_config.global_settings.renderer.use_d2d_if_available;
+
 	if label.shadow.visibility then
 		local new_shadow_color = label.shadow.color;
 
@@ -105,7 +107,7 @@ function drawing.draw_label(label, position, opacity_scale, ...)
 			new_shadow_color = drawing.scale_color_opacity(new_shadow_color, opacity_scale);
 		end
 
-		if d2d ~= nil then
+		if use_d2d then
 			d2d.text(drawing.font, text, position_x + label.shadow.offset.x, position_y + label.shadow.offset.y, new_shadow_color);
 		else
 			new_shadow_color = drawing.argb_color_to_abgr_color(new_shadow_color);
@@ -118,7 +120,7 @@ function drawing.draw_label(label, position, opacity_scale, ...)
 		new_color = drawing.scale_color_opacity(new_color, opacity_scale);
 	end
 
-	if d2d ~= nil then
+	if use_d2d then
 		d2d.text(drawing.font, text, position_x, position_y, new_color);
 	else
 		new_color = drawing.argb_color_to_abgr_color(new_color);
@@ -230,7 +232,7 @@ function drawing.draw_bar(bar, position, opacity_scale, percentage)
 		outline_color = drawing.scale_color_opacity(outline_color, opacity_scale);
 	end
 
-	local use_d2d = d2d ~= nil;
+	local use_d2d = d2d ~= nil and config.current_config.global_settings.renderer.use_d2d_if_available;
 
 	-- outline
 	if outline_thickness ~= 0 then
@@ -281,7 +283,9 @@ function drawing.draw_capture_line(health_UI, position, opacity_scale, percentag
 		color = drawing.scale_color_opacity(color, opacity_scale);
 	end
 
-	if d2d ~= nil then
+	local use_d2d = d2d ~= nil and config.current_config.global_settings.renderer.use_d2d_if_available;
+
+	if use_d2d then
 		d2d.fill_rect(position_x, position_y, health_UI.bar.capture_line.size.width, health_UI.bar.capture_line.size.height,
 			color);
 	else
