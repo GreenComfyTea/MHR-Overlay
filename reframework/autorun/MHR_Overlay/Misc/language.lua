@@ -127,7 +127,10 @@ language.default_language = {
 		buildup = "Buildup:",
 		total_buildup = "Total Buildup",
 		part_break = "Break",
-		part_sever = "Sever"
+		part_sever = "Sever",
+
+		otomo = "Buddy",
+		servant = "Follower",
 	},
 
 	customization_menu = {
@@ -291,6 +294,7 @@ language.default_language = {
 		total_damage = "Total Damage",
 
 		my_damage_bar_location = "My Damage Bar Location",
+		total_damage_location = "Total Damage Bar Location",
 		first = "First",
 		last = "Last",
 
@@ -310,9 +314,12 @@ language.default_language = {
 
 		other_players = "Other Players",
 		hunter_rank = "Hunter Rank",
-		word_player = "Word \"Player\"";
-		player_id = "Player ID",
-		player_name = "Player Name",
+		id = "ID",
+		name = "Name",
+
+		show_my_otomos_separately = "Show my Buddies separately",
+		show_other_otomos_separately = "Show other Buddies separately",
+		show_followers_separately = "Show Followers separately",
 
 		dps_mode = "DPS Mode",
 		dps = "DPS",

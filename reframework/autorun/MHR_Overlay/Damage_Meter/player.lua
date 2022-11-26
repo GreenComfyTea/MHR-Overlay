@@ -3,7 +3,7 @@ local config;
 local table_helpers;
 local singletons;
 local customization_menu;
-local damage_UI_entity;
+local player_damage_UI_entity;
 local time;
 local quest_status;
 local drawing;
@@ -22,134 +22,17 @@ function player.new(id, guid, name, master_rank, hunter_rank)
 	new_player.hunter_rank = hunter_rank;
 	new_player.master_rank = master_rank;
 
+	new_player.is_player = true;
+
 	new_player.cart_count = 0;
 
 	new_player.join_time = -1;
 	new_player.first_hit_time = -1;
 	new_player.dps = 0;
 
-	new_player.small_monsters = {};
-
-	new_player.small_monsters.total_damage = 0;
-	new_player.small_monsters.physical_damage = 0;
-	new_player.small_monsters.elemental_damage = 0;
-	new_player.small_monsters.ailment_damage = 0;
-
-	new_player.small_monsters.bombs = {};
-	new_player.small_monsters.bombs.total_damage = 0;
-	new_player.small_monsters.bombs.physical_damage = 0;
-	new_player.small_monsters.bombs.elemental_damage = 0;
-	new_player.small_monsters.bombs.ailment_damage = 0;
-
-	new_player.small_monsters.kunai = {};
-	new_player.small_monsters.kunai.total_damage = 0;
-	new_player.small_monsters.kunai.physical_damage = 0;
-	new_player.small_monsters.kunai.elemental_damage = 0;
-	new_player.small_monsters.kunai.ailment_damage = 0;
-
-	new_player.small_monsters.installations = {};
-	new_player.small_monsters.installations.total_damage = 0;
-	new_player.small_monsters.installations.physical_damage = 0;
-	new_player.small_monsters.installations.elemental_damage = 0;
-	new_player.small_monsters.installations.ailment_damage = 0;
-
-	new_player.small_monsters.otomo = {};
-	new_player.small_monsters.otomo.total_damage = 0;
-	new_player.small_monsters.otomo.physical_damage = 0;
-	new_player.small_monsters.otomo.elemental_damage = 0;
-	new_player.small_monsters.otomo.ailment_damage = 0;
-
-	new_player.small_monsters.wyvern_riding = {};
-	new_player.small_monsters.wyvern_riding.total_damage = 0;
-	new_player.small_monsters.wyvern_riding.physical_damage = 0;
-	new_player.small_monsters.wyvern_riding.elemental_damage = 0;
-	new_player.small_monsters.wyvern_riding.ailment_damage = 0;
-
-	new_player.small_monsters.poison = {};
-	new_player.small_monsters.poison.total_damage = 0;
-	new_player.small_monsters.poison.physical_damage = 0;
-	new_player.small_monsters.poison.elemental_damage = 0;
-	new_player.small_monsters.poison.ailment_damage = 0;
-
-	new_player.small_monsters.blast = {};
-	new_player.small_monsters.blast.total_damage = 0;
-	new_player.small_monsters.blast.physical_damage = 0;
-	new_player.small_monsters.blast.elemental_damage = 0;
-	new_player.small_monsters.blast.ailment_damage = 0;
-
-	new_player.small_monsters.endemic_life = {};
-	new_player.small_monsters.endemic_life.total_damage = 0;
-	new_player.small_monsters.endemic_life.physical_damage = 0;
-	new_player.small_monsters.endemic_life.elemental_damage = 0;
-	new_player.small_monsters.endemic_life.ailment_damage = 0;
-
-	new_player.small_monsters.other = {};
-	new_player.small_monsters.other.total_damage = 0;
-	new_player.small_monsters.other.physical_damage = 0;
-	new_player.small_monsters.other.elemental_damage = 0;
-	new_player.small_monsters.other.ailment_damage = 0;
-
-	new_player.large_monsters = {};
-
-	new_player.large_monsters.total_damage = 0;
-	new_player.large_monsters.physical_damage = 0;
-	new_player.large_monsters.elemental_damage = 0;
-	new_player.large_monsters.ailment_damage = 0;
-
-	new_player.large_monsters.bombs = {};
-	new_player.large_monsters.bombs.total_damage = 0;
-	new_player.large_monsters.bombs.physical_damage = 0;
-	new_player.large_monsters.bombs.elemental_damage = 0;
-	new_player.large_monsters.bombs.ailment_damage = 0;
-
-	new_player.large_monsters.kunai = {};
-	new_player.large_monsters.kunai.total_damage = 0;
-	new_player.large_monsters.kunai.physical_damage = 0;
-	new_player.large_monsters.kunai.elemental_damage = 0;
-	new_player.large_monsters.kunai.ailment_damage = 0;
-
-	new_player.large_monsters.installations = {};
-	new_player.large_monsters.installations.total_damage = 0;
-	new_player.large_monsters.installations.physical_damage = 0;
-	new_player.large_monsters.installations.elemental_damage = 0;
-	new_player.large_monsters.installations.ailment_damage = 0;
-
-	new_player.large_monsters.otomo = {};
-	new_player.large_monsters.otomo.total_damage = 0;
-	new_player.large_monsters.otomo.physical_damage = 0;
-	new_player.large_monsters.otomo.elemental_damage = 0;
-	new_player.large_monsters.otomo.ailment_damage = 0;
-
-	new_player.large_monsters.wyvern_riding = {};
-	new_player.large_monsters.wyvern_riding.total_damage = 0;
-	new_player.large_monsters.wyvern_riding.physical_damage = 0;
-	new_player.large_monsters.wyvern_riding.elemental_damage = 0;
-	new_player.large_monsters.wyvern_riding.ailment_damage = 0;
-
-	new_player.large_monsters.poison = {};
-	new_player.large_monsters.poison.total_damage = 0;
-	new_player.large_monsters.poison.physical_damage = 0;
-	new_player.large_monsters.poison.elemental_damage = 0;
-	new_player.large_monsters.poison.ailment_damage = 0;
-
-	new_player.large_monsters.blast = {};
-	new_player.large_monsters.blast.total_damage = 0;
-	new_player.large_monsters.blast.physical_damage = 0;
-	new_player.large_monsters.blast.elemental_damage = 0;
-	new_player.large_monsters.blast.ailment_damage = 0;
-
-	new_player.large_monsters.endemic_life = {};
-	new_player.large_monsters.endemic_life.total_damage = 0;
-	new_player.large_monsters.endemic_life.physical_damage = 0;
-	new_player.large_monsters.endemic_life.elemental_damage = 0;
-	new_player.large_monsters.endemic_life.ailment_damage = 0;
-
-	new_player.large_monsters.other = {};
-	new_player.large_monsters.other.total_damage = 0;
-	new_player.large_monsters.other.physical_damage = 0;
-	new_player.large_monsters.other.elemental_damage = 0;
-	new_player.large_monsters.other.ailment_damage = 0;
-
+	new_player.small_monsters = player.init_damage_sources()
+	new_player.large_monsters = player.init_damage_sources();
+	
 	new_player.display = {};
 	new_player.display.total_damage = 0;
 	new_player.display.physical_damage = 0;
@@ -163,6 +46,71 @@ function player.new(id, guid, name, master_rank, hunter_rank)
 	end
 
 	return new_player;
+end
+
+function player.init_damage_sources()
+	local monster_type = {};
+
+	monster_type.total_damage = 0;
+	monster_type.physical_damage = 0;
+	monster_type.elemental_damage = 0;
+	monster_type.ailment_damage = 0;
+
+	monster_type.bombs = {};
+	monster_type.bombs.total_damage = 0;
+	monster_type.bombs.physical_damage = 0;
+	monster_type.bombs.elemental_damage = 0;
+	monster_type.bombs.ailment_damage = 0;
+
+	monster_type.kunai = {};
+	monster_type.kunai.total_damage = 0;
+	monster_type.kunai.physical_damage = 0;
+	monster_type.kunai.elemental_damage = 0;
+	monster_type.kunai.ailment_damage = 0;
+
+	monster_type.installations = {};
+	monster_type.installations.total_damage = 0;
+	monster_type.installations.physical_damage = 0;
+	monster_type.installations.elemental_damage = 0;
+	monster_type.installations.ailment_damage = 0;
+
+	monster_type.otomo = {};
+	monster_type.otomo.total_damage = 0;
+	monster_type.otomo.physical_damage = 0;
+	monster_type.otomo.elemental_damage = 0;
+	monster_type.otomo.ailment_damage = 0;
+
+	monster_type.wyvern_riding = {};
+	monster_type.wyvern_riding.total_damage = 0;
+	monster_type.wyvern_riding.physical_damage = 0;
+	monster_type.wyvern_riding.elemental_damage = 0;
+	monster_type.wyvern_riding.ailment_damage = 0;
+
+	monster_type.poison = {};
+	monster_type.poison.total_damage = 0;
+	monster_type.poison.physical_damage = 0;
+	monster_type.poison.elemental_damage = 0;
+	monster_type.poison.ailment_damage = 0;
+
+	monster_type.blast = {};
+	monster_type.blast.total_damage = 0;
+	monster_type.blast.physical_damage = 0;
+	monster_type.blast.elemental_damage = 0;
+	monster_type.blast.ailment_damage = 0;
+
+	monster_type.endemic_life = {};
+	monster_type.endemic_life.total_damage = 0;
+	monster_type.endemic_life.physical_damage = 0;
+	monster_type.endemic_life.elemental_damage = 0;
+	monster_type.endemic_life.ailment_damage = 0;
+
+	monster_type.other = {};
+	monster_type.other.total_damage = 0;
+	monster_type.other.physical_damage = 0;
+	monster_type.other.elemental_damage = 0;
+	monster_type.other.ailment_damage = 0;
+
+	return monster_type;
 end
 
 function player.get_player(player_id)
@@ -499,7 +447,7 @@ end
 function player.init_UI(_player)
 	local cached_config = config.current_config.damage_meter_UI;
 
-	_player.damage_UI = damage_UI_entity.new(cached_config.damage_bar, cached_config.highlighted_damage_bar,
+	_player.damage_UI = player_damage_UI_entity.new(cached_config.damage_bar, cached_config.highlighted_damage_bar,
 	cached_config.player_name_label, cached_config.dps_label, cached_config.master_hunter_rank_label,
 	cached_config.damage_value_label, cached_config.damage_percentage_label, cached_config.cart_count_label);
 end
@@ -531,14 +479,17 @@ function player.init_total_UI(_player)
 end
 
 function player.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)
-	damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps);
+	player_damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps);
 end
 
 function player.draw_total(position_on_screen, opacity_scale)
 	drawing.draw_label(player.total.damage_UI.total_damage_label, position_on_screen, opacity_scale, language.current_language.UI.total_damage);
 	drawing.draw_label(player.total.damage_UI.total_damage_value_label, position_on_screen, opacity_scale, player.total.display.total_damage);
 	drawing.draw_label(player.total.damage_UI.total_dps_label, position_on_screen, opacity_scale, player.total.dps);
-	drawing.draw_label(player.total.damage_UI.total_cart_count_label, position_on_screen, opacity_scale, quest_status.cart_count,  quest_status.max_cart_count);
+	
+	if quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA then
+		drawing.draw_label(player.total.damage_UI.total_cart_count_label, position_on_screen, opacity_scale, quest_status.cart_count,  quest_status.max_cart_count);
+	end
 end
 
 function player.init_module()
@@ -546,7 +497,7 @@ function player.init_module()
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
-	damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");
+	player_damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.player_damage_UI_entity");
 	time = require("MHR_Overlay.Game_Handler.time");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	drawing = require("MHR_Overlay.UI.drawing");

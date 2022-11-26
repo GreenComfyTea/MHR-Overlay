@@ -4201,7 +4201,7 @@ function config.init()
 
 			spacing = {
 				x = 300,
-				y = 24
+				y = -24
 			},
 
 			settings = {
@@ -4216,11 +4216,16 @@ function config.init()
 				total_damage_offset_is_relative = true,
 
 				freeze_dps_on_quest_end = true,
+				
+				show_my_otomos_separately = true,
+				show_other_otomos_separately = true,
+				show_followers_separately = true,
 
 				orientation = "Vertical", -- "Vertical" or "Horizontal"
 				highlighted_bar = "Me",
 				damage_bar_relative_to = "Top Damage", -- "total damage" or "top damage"
-				my_damage_bar_location = "First", -- "normal" or "first" or "last"
+				my_damage_bar_location = "Last", -- "normal" or "first" or "last"
+				total_damage_location = "First",
 				dps_mode = "First Hit",
 
 				player_name_size_limit = 150
@@ -4228,12 +4233,12 @@ function config.init()
 
 			sorting = {
 				type = "Damage", -- "normal" or "damage" or "dps"
-				reversed_order = false
+				reversed_order = true
 			},
 
 			position = {
 				x = 525,
-				y = 225,
+				y = 120,
 				-- Possible values: "Top-Left", "Top-Right", "Bottom-Left", "Bottom-Right"
 				anchor = "Bottom-Left"
 			},

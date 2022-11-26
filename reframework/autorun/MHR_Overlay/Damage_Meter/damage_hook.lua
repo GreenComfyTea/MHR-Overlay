@@ -6,6 +6,7 @@ local large_monster;
 local ailments;
 local table_helpers;
 local singletons;
+local non_players;
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_after_calc_damage_damage_side_method = enemy_character_base_type_def:get_method("afterCalcDamage_DamageSide");
@@ -87,14 +88,14 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 
 	-- 4 is virtual player in singleplayer that "owns" 2nd otomo
 	if not quest_status.is_online and attacker_id == 4 then
-		attacker_id = player.myself.id;
+		--attacker_id = player.myself.id;
 	end
 
 	if is_marionette_attack then
 		large_monster.update_all_riders();
 		for enemy, monster in pairs(large_monster.list) do
 			if monster.unique_id == attacker_id then
-				attacker_id = monster.rider_id;
+				--attacker_id = monster.rider_id;
 				break
 			end
 		end
@@ -151,22 +152,25 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	-- 31 - EcSwampLeech
 	-- 32 - EcPenetrateFish
 
-	--xy = "\nPlayer: " .. tostring(attacker_id) ..
-	--" Damage: " .. tostring(damage_object.total_damage) ..
-	--" Type: ("	.. tostring(attacker_type) ..
-	--") " ..
-	--" Condition Damage: " .. tostring(condition_damage) ..
-	--" Condition Type: ("	.. tostring(attacker_type) ..
-	--") " .. tostring(condition_type);
+	local damage_source_type = damage_hook.get_damage_source_type(attacker_type, is_marionette_attack);
 
-	--if string.len(xy) > 2300 then
-	--	xy = "";
-	--end
+	local attacking_player = non_players.get_servant(attacker_id);
+	if attacking_player == nil then
+		attacking_player = player.get_player(attacker_id);
+	end
 
-	local damage_source_type = damage_hook.get_damage_source_type(attacker_type,
-		is_marionette_attack);
+	xy = xy .. "\nPlayer: " .. tostring(attacker_id) ..
+	" " .. tostring(attacking_player.name) ..
+	" Damage: " .. tostring(damage_object.total_damage) ..
+	" Type: ("	.. tostring(attacker_type) ..
+	") " ..
+	" Condition Damage: " .. tostring(condition_damage) ..
+	" Condition Type: ("	.. tostring(attacker_type) ..
+	") " .. tostring(condition_type);
 
-	local attacking_player = player.get_player(attacker_id);
+	if string.len(xy) > 2300 then
+		xy = "";
+	end
 
 	local monster;
 	if is_large_monster then
@@ -222,6 +226,7 @@ function damage_hook.init_module()
 	ailments = require("MHR_Overlay.Monsters.ailments");
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
+	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 
 	--sdk.hook(get_finish_shoot_wall_hit_damage_rate_method, function(args)
 	--	pcall(damage_hook.on_get_finish_shoot_wall_hit_damage_rate, sdk.to_managed_object(args[2]), sdk.to_float(args[3]), sdk.to_int64(args--[4]));

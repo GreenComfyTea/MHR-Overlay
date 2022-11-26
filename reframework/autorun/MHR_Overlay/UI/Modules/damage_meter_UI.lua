@@ -3,10 +3,12 @@ local singletons;
 local config;
 local customization_menu;
 local player;
+local non_players;
 local quest_status;
 local screen;
 local drawing;
 local language;
+local table_helpers;
 
 damage_meter_UI.last_displayed_players = {};
 damage_meter_UI.freeze_displayed_players = false;
@@ -61,6 +63,12 @@ function damage_meter_UI.get_players(player_info_list)
 		end
 
 		::continue::
+	end
+
+	if cached_config.settings.show_followers_separately then
+		for id, non_player in pairs(non_players.servant_list) do
+			table.insert(quest_players, non_player);
+		end
 	end
 
 	return quest_players;
@@ -142,8 +150,32 @@ function damage_meter_UI.draw()
 		end
 	end
 
-	-- draw
 	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
+
+	-- draw total damage
+	if  cached_config.settings.total_damage_location == "First" then
+		if cached_config.settings.hide_total_damage then
+			return;
+		end
+
+		if cached_config.settings.hide_total_if_total_damage_is_zero and player.total.display.total_damage == 0 then
+			return;
+		end
+
+		player.draw_total(position_on_screen, 1);
+
+		if cached_config.settings.orientation == "Horizontal" then
+			position_on_screen.x = position_on_screen.x + cached_config.spacing.x * global_scale_modifier;
+		else
+			position_on_screen.y = position_on_screen.y + cached_config.spacing.y * global_scale_modifier;
+		end
+	end
+
+	-- draw
+	if not cached_config.settings.total_damage_offset_is_relative then
+		position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
+	end
+	
 	for _, _player in ipairs(quest_players) do
 		if _player.display.total_damage == 0 and cached_config.settings.hide_player_if_player_damage_is_zero then
 			goto continue
@@ -157,7 +189,12 @@ function damage_meter_UI.draw()
 			goto continue
 		end
 
-		player.draw(_player, position_on_screen, 1, top_damage, top_dps);
+		if _player.is_player then
+			player.draw(_player, position_on_screen, 1, top_damage, top_dps);
+		else
+			non_players.draw(_player, position_on_screen, 1, top_damage, top_dps);
+		end
+		
 
 		if cached_config.settings.orientation == "Horizontal" then
 			position_on_screen.x = position_on_screen.x + cached_config.spacing.x * global_scale_modifier;
@@ -170,19 +207,21 @@ function damage_meter_UI.draw()
 	end
 
 	-- draw total damage
-	if cached_config.settings.hide_total_damage then
-		return;
-	end
+	if  cached_config.settings.total_damage_location == "Last" then
+		if cached_config.settings.hide_total_damage then
+			return;
+		end
 
-	if cached_config.settings.hide_total_if_total_damage_is_zero and player.total.display.total_damage == 0 then
-		return;
-	end
+		if cached_config.settings.hide_total_if_total_damage_is_zero and player.total.display.total_damage == 0 then
+			return;
+		end
 
-	if not cached_config.settings.total_damage_offset_is_relative then
-		position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
-	end
+		if not cached_config.settings.total_damage_offset_is_relative then
+			position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
+		end
 
-	player.draw_total(position_on_screen, 1);
+		player.draw_total(position_on_screen, 1);
+	end
 end
 
 function damage_meter_UI.init_module()
@@ -190,10 +229,12 @@ function damage_meter_UI.init_module()
 	config = require("MHR_Overlay.Misc.config");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	player = require("MHR_Overlay.Damage_Meter.player");
+	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
+	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 end
 
 return damage_meter_UI;

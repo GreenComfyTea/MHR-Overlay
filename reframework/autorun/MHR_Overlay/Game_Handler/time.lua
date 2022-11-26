@@ -3,6 +3,7 @@ local singletons;
 local customization_menu;
 local quest_status;
 local player;
+local non_players;
 local config;
 local small_monster;
 
@@ -81,6 +82,28 @@ function time.update_players_dps()
 		new_total_dps = new_total_dps + _player.dps;
 	end
 
+	for _, servant in pairs(non_players.servant_list) do
+		if servant.join_time == -1 then
+			servant.join_time = time.total_elapsed_script_seconds;
+		end
+
+		if cached_config.dps_mode == "Quest Time" then
+			if time.total_elapsed_seconds > 0 then
+				servant.dps = servant.display.total_damage / time.total_elapsed_seconds;
+			end
+		elseif cached_config.dps_mode == "Join Time" then
+			if time.total_elapsed_script_seconds - servant.join_time > 0 then
+				servant.dps = servant.display.total_damage / (time.total_elapsed_script_seconds - servant.join_time);
+			end
+		elseif cached_config.dps_mode == "First Hit" then
+			if time.total_elapsed_script_seconds - servant.first_hit_time > 0 then
+				servant.dps = servant.display.total_damage / (time.total_elapsed_script_seconds - servant.first_hit_time);
+			end
+		end
+
+		new_total_dps = new_total_dps + servant.dps;
+	end
+
 	player.total.dps = new_total_dps;
 end
 
@@ -91,6 +114,7 @@ function time.init_module()
 	config = require("MHR_Overlay.Misc.config");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
+	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 end
 
 return time;

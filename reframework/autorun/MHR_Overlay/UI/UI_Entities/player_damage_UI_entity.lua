@@ -1,11 +1,12 @@
-local damage_UI_entity = {};
+local player_damage_UI_entity = {};
 local table_helpers;
 local drawing;
 local config;
 local player;
 local language;
+local quest_status;
 
-function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label, hunter_rank_label, value_label,
+function player_damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label, hunter_rank_label, value_label,
                               percentage_label, cart_count_label)
 	local entity = {};
 
@@ -59,7 +60,7 @@ function damage_UI_entity.new(bar, highlighted_bar, player_name_label, dps_label
 	return entity;
 end
 
-function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)
+function player_damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)
 	local cached_config = config.current_config.damage_meter_UI;
 
 	local player_include = cached_config.player_name_label.include.others;
@@ -77,20 +78,19 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 		player_name_text = string.format("[%d] ", _player.hunter_rank);
 	end
 
-	if player_include.cart_count then
+	if player_include.cart_count and quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA then
 		player_name_text = player_name_text .. string.format("x%d ", _player.cart_count);
 	end
 
-
-	if player_include.word_player then
+	if player_include.type then
 		player_name_text = player_name_text .. language.current_language.UI.player .. " ";
 	end
 
-	if player_include.player_id then
+	if player_include.id then
 		player_name_text = player_name_text .. string.format("%d ", _player.id);
 	end
 
-	if player_include.player_name then
+	if player_include.name then
 		player_name_text = player_name_text .. _player.name;
 	end
 
@@ -150,20 +150,23 @@ function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_d
 
 	player_name_text = drawing.limit_text_size(player_name_text, _player.damage_UI.player_name_size_limit);
 
-
 	drawing.draw_label(_player.damage_UI.player_name_label, position_on_screen, opacity_scale, player_name_text);
 	drawing.draw_label(_player.damage_UI.value_label, position_on_screen, opacity_scale, _player.display.total_damage);
 	drawing.draw_label(_player.damage_UI.percentage_label, position_on_screen, opacity_scale, 100 * player_damage_percentage);
 	drawing.draw_label(_player.damage_UI.dps_label, position_on_screen, opacity_scale, _player.dps);
-	drawing.draw_label(_player.damage_UI.cart_count_label, position_on_screen, opacity_scale, _player.cart_count);
+	
+	if quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA then
+		drawing.draw_label(_player.damage_UI.cart_count_label, position_on_screen, opacity_scale, _player.cart_count);
+	end
 end
 
-function damage_UI_entity.init_module()
+function player_damage_UI_entity.init_module()
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
 	player = require("MHR_Overlay.Damage_Meter.player");
 	language = require("MHR_Overlay.Misc.language");
+	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 end
 
-return damage_UI_entity;
+return player_damage_UI_entity;

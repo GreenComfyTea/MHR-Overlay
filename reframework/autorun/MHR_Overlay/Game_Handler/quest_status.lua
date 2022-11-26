@@ -8,6 +8,7 @@ local large_monster;
 local damage_meter_UI;
 local time;
 local env_creature;
+local non_players;
 
 quest_status.flow_states = {
 	NONE = 0,
@@ -109,6 +110,7 @@ function quest_status.set_flow_state(new_flow_state)
 
 	if quest_status.flow_state == quest_status.flow_states.IN_LOBBY or quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
 		player.init();
+		non_players.init();
 		small_monster.init_list();
 		large_monster.init_list();
 		env_creature.init_list();
@@ -346,6 +348,7 @@ function quest_status.init_module()
 	damage_meter_UI = require("MHR_Overlay.UI.Modules.damage_meter_UI");
 	time = require("MHR_Overlay.Game_Handler.time");
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
+	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 
 	quest_status.init();
 

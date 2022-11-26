@@ -11,6 +11,8 @@ local language;
 local part_names;
 local time_UI;
 local keyboard;
+local non_players;
+
 local label_customization;
 local bar_customization;
 local large_monster_UI_customization;
@@ -51,6 +53,7 @@ customization_menu.displayed_buildup_bar_relative_types = {};
 customization_menu.displayed_damage_meter_UI_highlighted_bar_types = {};
 customization_menu.displayed_damage_meter_UI_damage_bar_relative_types = {};
 customization_menu.displayed_damage_meter_UI_my_damage_bar_location_types = {};
+customization_menu.displayed_damage_meter_UI_total_damage_location_types = {};
 customization_menu.displayed_damage_meter_UI_sorting_types = {};
 customization_menu.displayed_damage_meter_UI_dps_modes = {};
 
@@ -69,6 +72,7 @@ customization_menu.buildup_bar_relative_types = {};
 customization_menu.damage_meter_UI_highlighted_bar_types = {};
 customization_menu.damage_meter_UI_damage_bar_relative_types = {};
 customization_menu.damage_meter_UI_my_damage_bar_location_types = {};
+customization_menu.damage_meter_UI_total_damage_location_types = {};
 customization_menu.damage_meter_UI_sorting_types = {};
 customization_menu.damage_meter_UI_dps_modes = {};
 
@@ -150,10 +154,16 @@ function customization_menu.init()
 
 	customization_menu.displayed_damage_meter_UI_damage_bar_relative_types =
 		{language.current_language.customization_menu.total_damage, language.current_language.customization_menu.top_damage};
-	customization_menu.displayed_damage_meter_UI_my_damage_bar_location_types = {language.current_language
+	
+		customization_menu.displayed_damage_meter_UI_my_damage_bar_location_types = {language.current_language
 		.customization_menu.normal, language.current_language.customization_menu.first,
                                                                               language.current_language
 		.customization_menu.last};
+
+	customization_menu.displayed_damage_meter_UI_total_damage_location_types = {
+		language.current_language.customization_menu.first,
+    	language.current_language.customization_menu.last};
+
 	customization_menu.displayed_damage_meter_UI_sorting_types =
 		{language.current_language.customization_menu.normal, language.current_language.customization_menu.damage,
    language.current_language.customization_menu.dps};
@@ -216,6 +226,11 @@ function customization_menu.init()
 	customization_menu.damage_meter_UI_my_damage_bar_location_types =
 		{language.default_language.customization_menu.normal, language.default_language.customization_menu.first,
    language.default_language.customization_menu.last};
+
+	customization_menu.damage_meter_UI_total_damage_location_types = {
+		language.current_language.customization_menu.first,
+		language.current_language.customization_menu.last};
+
 	customization_menu.damage_meter_UI_sorting_types = {language.default_language.customization_menu.normal,
                                                      language.default_language.customization_menu.damage,
                                                      language.default_language.customization_menu.dps};
@@ -543,6 +558,11 @@ function customization_menu.draw()
 	if damage_meter_UI_changed or modifiers_changed then
 		for _, _player in pairs(player.list) do
 			player.init_UI(_player);
+			
+		end
+
+		for _, servant in pairs(non_players.servant_list) do
+			non_players.init_UI(servant);
 		end
 
 		player.init_total_UI(player.total);
@@ -639,6 +659,10 @@ function customization_menu.draw_global_settings()
 
 			for _, _player in pairs(player.list) do
 				player.init_UI(_player);
+			end
+
+			for _, servant in pairs(non_players.servant_list) do
+				non_players.init_UI(servant);
 			end
 		end
 
@@ -1418,6 +1442,21 @@ function customization_menu.draw_damage_meter_UI()
 
 			config_changed = config_changed or changed;
 
+			changed, cached_config.settings.show_my_otomos_separately = imgui.checkbox(
+				language.current_language.customization_menu.show_my_otomos_separately, cached_config.settings.show_my_otomos_separately);
+
+			config_changed = config_changed or changed;
+
+			changed, cached_config.settings.show_other_otomos_separately = imgui.checkbox(
+				language.current_language.customization_menu.show_other_otomos_separately, cached_config.settings.show_other_otomos_separately);
+
+			config_changed = config_changed or changed;
+
+			changed, cached_config.settings.show_followers_separately = imgui.checkbox(
+				language.current_language.customization_menu.show_followers_separately, cached_config.settings.show_followers_separately);
+
+			config_changed = config_changed or changed;
+
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.orientation,
 				table_helpers.find_index(customization_menu.orientation_types, cached_config.settings.orientation),
@@ -1460,6 +1499,17 @@ function customization_menu.draw_damage_meter_UI()
 
 			if changed then
 				cached_config.settings.my_damage_bar_location = customization_menu.damage_meter_UI_my_damage_bar_location_types[index];
+			end
+
+			changed, index = imgui.combo(
+				language.current_language.customization_menu.total_damage_location,
+				table_helpers.find_index(customization_menu.damage_meter_UI_total_damage_location_types, cached_config.settings.total_damage_location),
+				customization_menu.displayed_damage_meter_UI_total_damage_location_types);
+
+			config_changed = config_changed or changed;
+
+			if changed then
+				cached_config.settings.total_damage_location = customization_menu.damage_meter_UI_total_damage_location_types[index];
 			end
 
 			changed, index = imgui.combo(language.current_language.customization_menu.dps_mode, 
@@ -1570,8 +1620,12 @@ function customization_menu.draw_damage_meter_UI()
 			tracked_damage_types_changed = tracked_damage_types_changed or changed;
 
 			if tracked_damage_types_changed then
-				for player_id, _player in pairs(player.list) do
+				for _, _player in pairs(player.list) do
 					player.update_display(_player);
+				end
+
+				for _, servant in pairs(non_players.servant_list) do
+					player.update_display(servant);
 				end
 
 				player.update_display(player.total);
@@ -1662,18 +1716,18 @@ function customization_menu.draw_damage_meter_UI()
 
 					config_changed = config_changed or changed;
 
-					changed, cached_config.player_name_label.include.myself.word_player = imgui.checkbox(
-						language.current_language.customization_menu.word_player, cached_config.player_name_label.include.myself.word_player);
+					changed, cached_config.player_name_label.include.myself.type = imgui.checkbox(
+						language.current_language.customization_menu.type, cached_config.player_name_label.include.myself.type);
 
 					config_changed = config_changed or changed;
 
-					changed, cached_config.player_name_label.include.myself.player_id = imgui.checkbox(
-						language.current_language.customization_menu.player_id, cached_config.player_name_label.include.myself.player_id);
+					changed, cached_config.player_name_label.include.myself.id = imgui.checkbox(
+						language.current_language.customization_menu.id, cached_config.player_name_label.include.myself.id);
 
 					config_changed = config_changed or changed;
 
-					changed, cached_config.player_name_label.include.myself.player_name = imgui.checkbox(
-						language.current_language.customization_menu.player_name, cached_config.player_name_label.include.myself.player_name);
+					changed, cached_config.player_name_label.include.myself.name = imgui.checkbox(
+						language.current_language.customization_menu.name, cached_config.player_name_label.include.myself.name);
 
 					config_changed = config_changed or changed;
 
@@ -1696,18 +1750,18 @@ function customization_menu.draw_damage_meter_UI()
 
 					config_changed = config_changed or changed;
 
-					changed, cached_config.player_name_label.include.others.word_player = imgui.checkbox(
-						language.current_language.customization_menu.word_player, cached_config.player_name_label.include.others.word_player);
+					changed, cached_config.player_name_label.include.others.type = imgui.checkbox(
+						language.current_language.customization_menu.type, cached_config.player_name_label.include.others.type);
 
 					config_changed = config_changed or changed;
 
-					changed, cached_config.player_name_label.include.others.player_id = imgui.checkbox(
-						language.current_language.customization_menu.player_id, cached_config.player_name_label.include.others.player_id);
+					changed, cached_config.player_name_label.include.others.id = imgui.checkbox(
+						language.current_language.customization_menu.id, cached_config.player_name_label.include.others.id);
 
 					config_changed = config_changed or changed;
 
-					changed, cached_config.player_name_label.include.others.player_name = imgui.checkbox(
-						language.current_language.customization_menu.player_name, cached_config.player_name_label.include.others.player_name);
+					changed, cached_config.player_name_label.include.others.name = imgui.checkbox(
+						language.current_language.customization_menu.name, cached_config.player_name_label.include.others.name);
 
 					config_changed = config_changed or changed;
 
@@ -1996,6 +2050,8 @@ function customization_menu.init_module()
 	part_names = require("MHR_Overlay.Misc.part_names");
 	time_UI = require("MHR_Overlay.UI.Modules.time_UI");
 	keyboard = require("MHR_Overlay.Game_Handler.keyboard");
+	non_players = require("MHR_Overlay.Damage_Meter.non_players");
+
 	label_customization = require("MHR_Overlay.UI.Customizations.label_customization");
 	bar_customization = require("MHR_Overlay.UI.Customizations.bar_customization");
 	large_monster_UI_customization = require("MHR_Overlay.UI.Customizations.large_monster_UI_customization");
