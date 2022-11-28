@@ -74,7 +74,6 @@ function non_players.update_servant_list()
 
 	local quest_servant_id_list = get_quest_servant_id_list_method:call(singletons.servant_manager);
 	if quest_servant_id_list == nil then
-		customization_menu.status = "No quest servant id list";
 		return;
 	end
 

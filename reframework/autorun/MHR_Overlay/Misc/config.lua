@@ -4251,18 +4251,18 @@ function config.init()
 						master_rank = true,
 						hunter_rank = true,
 						cart_count = false,
-						word_player = false,
-						player_id = false,
-						player_name = true
+						type = false,
+						id = false,
+						name = true
 					},
 
 					others = {
 						master_rank = true,
 						hunter_rank = true,
 						cart_count = false,
-						word_player = false,
-						player_id = false,
-						player_name = true
+						type = false,
+						id = false,
+						name = true
 					}
 				},
 
@@ -4594,7 +4594,7 @@ function config.init_module()
 
 	config.init();
 	config.load();
-	config.current_config.version = "2.2.1";
+	config.current_config.version = "2.3.1";
 
 	language.update(
 		table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
