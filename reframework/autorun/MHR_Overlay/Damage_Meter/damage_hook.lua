@@ -159,7 +159,7 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 		attacking_player = player.get_player(attacker_id);
 	end
 
-	xy = xy .. "\nPlayer: " .. tostring(attacker_id) ..
+	--[[xy = xy .. "\nPlayer: " .. tostring(attacker_id) ..
 	" " .. tostring(attacking_player.name) ..
 	" Damage: " .. tostring(damage_object.total_damage) ..
 	" Type: ("	.. tostring(attacker_type) ..
@@ -170,7 +170,7 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 
 	if string.len(xy) > 2300 then
 		xy = "";
-	end
+	end--]]
 
 	local monster;
 	if is_large_monster then
