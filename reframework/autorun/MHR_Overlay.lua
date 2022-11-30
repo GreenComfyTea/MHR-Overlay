@@ -280,7 +280,7 @@ if d2d ~= nil then
 end
 
 re.on_frame(function()
-	if not config.current_config.global_settings.renderer.use_d2d_if_available then
+	if d2d == nil or not config.current_config.global_settings.renderer.use_d2d_if_available then
 		main_loop();
 	end
 end);
@@ -303,7 +303,7 @@ if debug.enabled then
 	end
 
 	re.on_frame(function()
-		if config.current_config.global_settings.renderer.use_d2d_if_available and d2d ~= nil then
+		if d2d ~= nil and config.current_config.global_settings.renderer.use_d2d_if_available then
 			return;
 		end
 
