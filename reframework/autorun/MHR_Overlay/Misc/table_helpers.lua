@@ -1,5 +1,7 @@
 local table_helpers = {};
 
+local next = next;
+
 function table_helpers.deep_copy(original, copies)
 	copies = copies or {};
 	local original_type = type(original);
@@ -25,9 +27,9 @@ function table_helpers.deep_copy(original, copies)
 	return copy;
 end
 
-function table_helpers.find_index(table, value, nullable)
-	for i = 1, #table do
-		if table[i] == value then
+function table_helpers.find_index(table_, value, nullable)
+	for i = 1, #table_ do
+		if table_[i] == value then
 			return i;
 		end
 	end
@@ -43,8 +45,8 @@ function table_helpers.merge(...)
 	local tables_to_merge = { ... };
 	assert(#tables_to_merge > 1, "There should be at least two tables to merge them");
 
-	for key, table in ipairs(tables_to_merge) do
-		assert(type(table) == "table", string.format("Expected a table as function parameter %d", key));
+	for key, table_ in ipairs(tables_to_merge) do
+		assert(type(table_) == "table", string.format("Expected a table as function parameter %d", key));
 	end
 
 	local result = table_helpers.deep_copy(tables_to_merge[1]);
@@ -65,10 +67,10 @@ function table_helpers.merge(...)
 	return result;
 end
 
-function table_helpers.tostring(table)
-	if type(table) == "table" then
+function table_helpers.tostring(table_)
+	if type(table_) == "table" then
 		local s = "{ \n";
-		for k, v in pairs(table) do
+		for k, v in pairs(table_) do
 			if type(k) ~= "number" then
 				k = "\"" .. k .. "\"";
 			end
@@ -76,11 +78,16 @@ function table_helpers.tostring(table)
 		end
 		return s .. "} \n";
 	else
-		return tostring(table);
+		return tostring(table_);
 	end
 end
 
+function table_helpers.is_empty(table_)
+	return next(table_) == nil;
+end
+
 function table_helpers.init_module()
+	
 end
 
 return table_helpers;

@@ -188,7 +188,7 @@ local function main_loop()
 
 	player.update_player_list(quest_status.index >= 2);
 	non_players.update_servant_list();
-
+	
 	if quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
 
 		local large_monster_UI_config = config.current_config.large_monster_UI;

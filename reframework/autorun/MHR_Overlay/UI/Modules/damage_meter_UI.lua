@@ -83,17 +83,24 @@ function damage_meter_UI.draw()
 	end
 
 	local quest_players = {};
-	if damage_meter_UI.freeze_displayed_players and damage_meter_UI.last_displayed_players ~= {} then
+	
+	xy = string.format("freeze: %s\nis_empty: %s\n", tostring(damage_meter_UI.freeze_displayed_players), tostring(table_helpers.is_empty(damage_meter_UI.last_displayed_players)));
+	xy = xy .. table_helpers.tostring(damage_meter_UI.last_displayed_players);
+
+	if damage_meter_UI.freeze_displayed_players and not table_helpers.is_empty(damage_meter_UI.last_displayed_players) then
+		xy = 1;
 		quest_players = damage_meter_UI.last_displayed_players;
 	elseif quest_status.flow_state == quest_status.flow_states.IN_LOBBY or quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
+		xy = 2;
 		local player_info_list = hunter_info_field:get_data(singletons.lobby_manager);
 		quest_players = damage_meter_UI.get_players(player_info_list);
 	else
+		xy = 3;
 		local player_info_list = quest_hunter_info_field:get_data(singletons.lobby_manager);
 		quest_players = damage_meter_UI.get_players(player_info_list);
 	end
 
-	if not damage_meter_UI.freeze_displayed_players then
+	if not damage_meter_UI.freeze_displayed_players or table_helpers.is_empty(damage_meter_UI.last_displayed_players) then
 		if #quest_players ~= 0 then
 			-- sort here
 			if cached_config.sorting.type == "Normal" then
