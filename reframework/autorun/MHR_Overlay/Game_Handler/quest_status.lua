@@ -114,6 +114,7 @@ function quest_status.set_flow_state(new_flow_state)
 		small_monster.init_list();
 		large_monster.init_list();
 		env_creature.init_list();
+		damage_meter_UI.last_displayed_players = {};
 	elseif quest_status.flow_state >= quest_status.flow_states.LOADING_QUEST then
 		quest_status.get_cart_count();
 		quest_status.get_max_cart_count();
