@@ -4208,6 +4208,7 @@ function config.init()
 
 				hide_myself = false,
 				hide_other_players = false,
+				hide_servants = false,
 				hide_total_damage = false,
 
 				hide_module_if_total_damage_is_zero = false,
@@ -4218,8 +4219,10 @@ function config.init()
 				freeze_dps_on_quest_end = true,
 				
 				show_my_otomos_separately = true,
-				show_other_otomos_separately = true,
-				show_followers_separately = true,
+				show_other_player_otomos_separately = true,
+				show_servant_otomos_separately = true,
+				
+
 
 				orientation = "Vertical", -- "Vertical" or "Horizontal"
 				highlighted_bar = "Me",
@@ -4263,7 +4266,36 @@ function config.init()
 						type = false,
 						id = false,
 						name = true
+					},
+
+					servants = {
+						type = false,
+						id = false,
+						name = true
+					},
+					
+					my_otomos = {
+						level = true,
+						type = false,
+						id = false,
+						name = true
+					},
+
+					other_player_otomos = {
+						level = true,
+						type = false,
+						id = false,
+						name = true
+					},
+
+					servant_otomos = {
+						level = true,
+						type = false,
+						id = false,
+						name = true
 					}
+
+					
 				},
 
 				text = "%s",
@@ -4295,6 +4327,18 @@ function config.init()
 					others = {
 						master_rank = true,
 						hunter_rank = true
+					},
+
+					my_otomos = {
+						level = true,
+					},
+
+					other_player_otomos = {
+						level = true,
+					},
+
+					servant_otomos = {
+						level = true
 					}
 				},
 

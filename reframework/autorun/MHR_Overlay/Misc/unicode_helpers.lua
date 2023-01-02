@@ -39,7 +39,7 @@ function unicode_helpers.map(s, f, no_subs)
 		for b, e in s:gmatch("()" .. pattern .. "()") do
 			i = i + 1;
 			local c = e - b;
-			f(i, c, b)
+			f(i, c, b);
 		end
 	else
 		for b, c in s:gmatch("()(" .. pattern .. ")") do
@@ -50,6 +50,34 @@ function unicode_helpers.map(s, f, no_subs)
 end
 
 -- THE REST
+
+-- returns the number of characters in a UTF-8 string
+function unicode_helpers.len(s)
+	-- count the number of non-continuing bytes
+	return select(2, s:gsub('[^\128-\193]', ''));
+end
+
+-- replace all utf8 chars with mapping
+function unicode_helpers.replace(s, map)
+	return s:gsub(pattern, map);
+end
+
+-- reverse a utf8 string
+function unicode_helpers.reverse(s)
+	-- reverse the individual greater-than-single-byte characters
+	s = s:gsub(pattern,function (c)
+		return #c > 1 and c:reverse()
+	end);
+
+	return s:reverse();
+end
+
+-- strip non-ascii characters from a utf8 string
+function unicode_helpers.strip(s)
+	return s:gsub(pattern, function(c)
+		return #c > 1 and '';
+	end);
+end
 
 -- generator for the above -- to iterate over all utf8 chars
 function unicode_helpers.chars(s, no_subs)

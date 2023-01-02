@@ -317,9 +317,9 @@ language.default_language = {
 		id = "ID",
 		name = "Name",
 
-		show_my_otomos_separately = "Show my Buddies separately",
-		show_other_otomos_separately = "Show other Buddies separately",
-		show_followers_separately = "Show Followers separately",
+		show_my_otomos_separately = "Show My Buddies separately",
+		show_other_player_otomos_separately = "Show Other Player Buddies separately",
+		show_servant_otomos_separately = "Show Follower Buddies separately",
 
 		dps_mode = "DPS Mode",
 		dps = "DPS",
@@ -394,6 +394,7 @@ language.default_language = {
 
 		hide_myself = "Hide Myself",
 		hide_other_players = "Hide Other Players",
+		hide_servants = "Hide Followers",
 		hide_total_damage = "Hide Total Damage",
 
 		player_name_size_limit = "Player Name Size Limit",
@@ -433,6 +434,12 @@ language.default_language = {
 		highest_health_percentage = "Highest Health Percentage",
 
 		reframework_outdated = "Installed REFramework version is outdated. Please, update. Otherwise, MHR Overlay won't work correctly.",
+
+		servants = "Followers",
+		my_otomos = "My Buddies",
+		other_player_otomos = "Other Player Buddies",
+		servant_otomos = "Servant Buddies",
+		level = "Level"
 	}
 };
 
@@ -449,9 +456,7 @@ function language.load()
 	end
 
 	for i, language_file_name in ipairs(language_files) do
-		local language_name = language_file_name:gsub(language.language_folder, ""):gsub(".json"
-			,
-			"");
+		local language_name = language_file_name:gsub(language.language_folder, ""):gsub(".json","");
 
 		local loaded_language = json.load_file(language_file_name);
 		if loaded_language ~= nil then

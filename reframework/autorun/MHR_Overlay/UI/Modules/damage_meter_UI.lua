@@ -24,56 +24,6 @@ local get_item_method = quest_hunter_info_type_def:get_method("get_Item");
 local hunter_info_type_def = sdk.find_type_definition("snow.LobbyManager.HunterInfo");
 local member_index_field = hunter_info_type_def:get_field("_memberIndex");
 
-function damage_meter_UI.get_players(player_info_list)
-	local cached_config = config.current_config.damage_meter_UI;
-
-	-- other players
-	if player_info_list == nil then
-		customization_menu.status = "No player info list";
-		return {};
-	end
-
-	local quest_players = {};
-
-	local count = get_count_method:call(player_info_list);
-
-	if count == nil then
-		customization_menu.status = "No player info list count";
-		return {};
-	end
-
-	for i = 0, count - 1 do
-		local player_info = get_item_method:call(player_info_list, i);
-
-		if player_info == nil then
-			goto continue
-		end
-
-		local player_id = member_index_field:get_data(player_info);
-		if player_id == nil then
-			goto continue
-		end
-
-		local _player = player.get_player(player_id);
-		if _player ~= nil then
-			if _player == player.myself and cached_config.settings.my_damage_bar_location ~= "Normal" then
-				goto continue
-			end
-			table.insert(quest_players, _player);
-		end
-
-		::continue::
-	end
-
-	if cached_config.settings.show_followers_separately then
-		for id, non_player in pairs(non_players.servant_list) do
-			table.insert(quest_players, non_player);
-		end
-	end
-
-	return quest_players;
-end
-
 function damage_meter_UI.draw()
 	local cached_config = config.current_config.damage_meter_UI;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
@@ -84,60 +34,15 @@ function damage_meter_UI.draw()
 
 	local quest_players = {};
 	
+	--damage_meter_UI.freeze_displayed_players = true;
+
 	if damage_meter_UI.freeze_displayed_players and not table_helpers.is_empty(damage_meter_UI.last_displayed_players) then
 		quest_players = damage_meter_UI.last_displayed_players;
-	elseif quest_status.flow_state == quest_status.flow_states.IN_LOBBY or quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
-		local player_info_list = hunter_info_field:get_data(singletons.lobby_manager);
-		quest_players = damage_meter_UI.get_players(player_info_list);
 	else
-		local player_info_list = quest_hunter_info_field:get_data(singletons.lobby_manager);
-		quest_players = damage_meter_UI.get_players(player_info_list);
+		quest_players = player.display_list;
 	end
 
-	if not damage_meter_UI.freeze_displayed_players or table_helpers.is_empty(damage_meter_UI.last_displayed_players) then
-		if #quest_players ~= 0 then
-			-- sort here
-			if cached_config.sorting.type == "Normal" then
-				if cached_config.sorting.reversed_order then
-					local reversed_quest_players = {};
-					for i = #quest_players, 1, -1 do
-						table.insert(reversed_quest_players, quest_players[i]);
-					end
-					quest_players = reversed_quest_players;
-				end
-			elseif cached_config.sorting.type == "DPS" then
-				if cached_config.sorting.reversed_order then
-					table.sort(quest_players, function(left, right)
-						return left.dps < right.dps;
-					end);
-				else
-					table.sort(quest_players, function(left, right)
-						return left.dps > right.dps;
-					end);
-				end
-			else
-				if cached_config.sorting.reversed_order then
-					table.sort(quest_players, function(left, right)
-						return left.display.total_damage < right.display.total_damage;
-					end);
-				else
-					table.sort(quest_players, function(left, right)
-						return left.display.total_damage > right.display.total_damage;
-					end);
-				end
-			end
-		end
-
-		if cached_config.settings.my_damage_bar_location == "First" then
-			table.insert(quest_players, 1, player.myself);
-		elseif cached_config.settings.my_damage_bar_location == "Last" then
-			table.insert(quest_players, #quest_players + 1, player.myself);
-		elseif #player.list == 0 then
-			table.insert(quest_players, player.myself);
-		end
-		
-		damage_meter_UI.last_displayed_players = quest_players;
-	end
+	damage_meter_UI.last_displayed_players = quest_players;
 
 	local top_damage = 0;
 	local top_dps = 0;
@@ -178,6 +83,7 @@ function damage_meter_UI.draw()
 	end
 	
 	for _, _player in ipairs(quest_players) do
+
 		if _player.display.total_damage == 0 and cached_config.settings.hide_player_if_player_damage_is_zero then
 			goto continue
 		end
@@ -186,8 +92,14 @@ function damage_meter_UI.draw()
 			if cached_config.settings.hide_myself then
 				goto continue
 			end
-		elseif cached_config.settings.hide_other_players then
-			goto continue
+		elseif _player.is_servant then
+			if cached_config.settings.hide_servants and not _player.is_otomo then
+				goto continue
+			end
+		else
+			if cached_config.settings.hide_other_players and not _player.is_otomo then
+				goto continue
+			end
 		end
 
 		if _player.is_player then

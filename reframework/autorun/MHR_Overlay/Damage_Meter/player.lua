@@ -3,21 +3,23 @@ local config;
 local table_helpers;
 local singletons;
 local customization_menu;
-local player_damage_UI_entity;
+local damage_UI_entity;
 local time;
 local quest_status;
 local drawing;
 local language;
+local non_players;
 
 player.list = {};
 player.myself = nil;
 player.myself_position = Vector3f.new(0, 0, 0);
 player.total = nil;
 
-function player.new(id, guid, name, master_rank, hunter_rank)
+player.display_list = {}
+
+function player.new(id, name, master_rank, hunter_rank)
 	local new_player = {};
 	new_player.id = id;
-	new_player.guid = guid;
 	new_player.name = name; -- 齁ODO
 	new_player.hunter_rank = hunter_rank;
 	new_player.master_rank = master_rank;
@@ -188,7 +190,42 @@ function player.update_display(_player)
 		end
 
 		if cached_config.tracked_damage_types.otomo_damage then
-			player.merge_damage(_player.display, _player.small_monsters.otomo);
+			if _player.is_otomo then
+				if _player.id == player.myself.id or _player.id == non_players.my_second_otomo_id then
+
+					if cached_config.settings.show_my_otomos_separately then
+						player.merge_damage(_player.display, _player.small_monsters.otomo);
+					end
+				elseif _player.is_servant then
+
+					if cached_config.settings.show_servant_otomos_separately then
+						player.merge_damage(_player.display, _player.small_monsters.otomo);
+					end
+				else
+
+					if cached_config.settings.show_other_player_otomos_separately then
+						player.merge_damage(_player.display, _player.small_monsters.otomo);
+					end
+				end
+			else
+				if _player == player.myself then
+
+					if not cached_config.settings.show_my_otomos_separately then
+						player.merge_damage(_player.display, _player.small_monsters.otomo);
+					end
+				elseif _player.is_servant then
+
+					if not cached_config.settings.show_servant_otomos_separately then
+						player.merge_damage(_player.display, _player.small_monsters.otomo);
+					end
+				else
+
+					if not cached_config.settings.show_other_player_otomos_separately then
+						player.merge_damage(_player.display, _player.small_monsters.otomo);
+					end
+				end
+
+			end
 		end
 
 		if cached_config.tracked_damage_types.wyvern_riding_damage then
@@ -230,7 +267,42 @@ function player.update_display(_player)
 		end
 
 		if cached_config.tracked_damage_types.otomo_damage then
-			player.merge_damage(_player.display, _player.large_monsters.otomo);
+			if _player.is_otomo then
+				if _player.id == player.myself.id or _player.id == non_players.my_second_otomo_id then
+
+					if cached_config.settings.show_my_otomos_separately then
+						player.merge_damage(_player.display, _player.large_monsters.otomo);
+					end
+				elseif _player.is_servant then
+
+					if cached_config.settings.show_servant_otomos_separately then
+						player.merge_damage(_player.display, _player.large_monsters.otomo);
+					end
+				else
+
+					if cached_config.settings.show_other_player_otomos_separately then
+						player.merge_damage(_player.display, _player.large_monsters.otomo);
+					end
+				end
+			else
+				if _player == player.myself then
+
+					if not cached_config.settings.show_my_otomos_separately then
+						player.merge_damage(_player.display, _player.large_monsters.otomo);
+					end
+				elseif _player.is_servant then
+
+					if not cached_config.settings.show_servant_otomos_separately then
+						player.merge_damage(_player.display, _player.large_monsters.otomo);
+					end
+				else
+
+					if not cached_config.settings.show_other_player_otomos_separately then
+						player.merge_damage(_player.display, _player.large_monsters.otomo);
+					end
+				end
+
+			end
 		end
 
 		if cached_config.tracked_damage_types.wyvern_riding_damage then
@@ -264,6 +336,99 @@ function player.merge_damage(first, second)
 	return first;
 end
 
+function player.update_dps(bypass_freeze)
+	local cached_config = config.current_config.damage_meter_UI.settings;
+
+	if cached_config.freeze_dps_on_quest_end and quest_status.flow_state >= quest_status.flow_states.KILLCAM and not bypass_freeze then
+		return;
+	end
+
+	player.total.dps = 0;
+	for _, _player in pairs(player.list) do
+		player.update_player_dps(_player);
+	end
+
+	for _, servant in pairs(non_players.servant_list) do
+		player.update_player_dps(servant);
+	end
+
+	for _, otomo in pairs(non_players.otomo_list) do
+		player.update_player_dps(otomo);
+	end
+end
+
+function player.update_player_dps(_player)
+	local cached_config = config.current_config.damage_meter_UI.settings;
+
+	if _player.join_time == -1 then
+		_player.join_time = time.total_elapsed_script_seconds;
+	end
+
+	if cached_config.dps_mode == "Quest Time" then
+		if time.total_elapsed_seconds > 0 then
+			_player.dps = _player.display.total_damage / time.total_elapsed_seconds;
+		end
+	elseif cached_config.dps_mode == "Join Time" then
+		if time.total_elapsed_script_seconds - _player.join_time > 0 then
+			_player.dps = _player.display.total_damage / (time.total_elapsed_script_seconds - _player.join_time);
+		end
+	elseif cached_config.dps_mode == "First Hit" then
+		if time.total_elapsed_script_seconds - _player.first_hit_time > 0 then
+			_player.dps = _player.display.total_damage / (time.total_elapsed_script_seconds - _player.first_hit_time);
+		end
+	end
+
+	player.total.dps = player.total.dps + _player.dps;
+end
+
+function player.sort_players()
+	local cached_config = config.current_config.damage_meter_UI;
+
+	if cached_config.settings.my_damage_bar_location == "Normal" then
+		table.insert(player.display_list, player.myself);
+	end
+
+	-- sort here
+	if cached_config.sorting.type == "Normal" then
+		if cached_config.sorting.reversed_order then
+			table.sort(player.display_list, function(left, right)
+				return left.id > right.id;
+			end);
+		else
+			table.sort(player.display_list, function(left, right)
+				return left.id < right.id;
+			end);
+		end
+	elseif cached_config.sorting.type == "DPS" then
+		if cached_config.sorting.reversed_order then
+			table.sort(player.display_list, function(left, right)
+				return left.dps < right.dps;
+			end);
+		else
+			table.sort(player.display_list, function(left, right)
+				return left.dps > right.dps;
+			end);
+		end
+	else
+		if cached_config.sorting.reversed_order then
+			table.sort(player.display_list, function(left, right)
+				return left.display.total_damage < right.display.total_damage;
+			end);
+		else
+			table.sort(player.display_list, function(left, right)
+				return left.display.total_damage > right.display.total_damage;
+			end);
+		end
+	end
+
+	if cached_config.settings.my_damage_bar_location == "First" then
+		table.insert(player.display_list, 1, player.myself);
+
+	elseif cached_config.settings.my_damage_bar_location == "Last" then
+		table.insert(player.display_list, player.myself);
+	end
+end
+
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local find_master_player_method = player_manager_type_def:get_method("findMasterPlayer");
 
@@ -290,8 +455,9 @@ end
 
 function player.init()
 	player.list = {};
-	player.total = player.new(0, -2, "Total", 0, 0);
-	player.myself = player.new(-1, -1, "Dummy", -1, -1);
+	player.display_list = {};
+	player.total = player.new(0, "Total", 0, 0);
+	player.myself = player.new(-1, "Dummy", -1, -1);
 end
 
 local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
@@ -330,6 +496,8 @@ function player.update_player_list(is_on_quest)
 end
 
 function player.update_player_list_(hunter_info_field_)
+	local cached_config = config.current_config.damage_meter_UI;
+
 	if singletons.lobby_manager == nil then
 		return;
 	end
@@ -354,33 +522,16 @@ function player.update_player_list_(hunter_info_field_)
 	local myself_hunter_rank = get_hunter_rank_method:call(singletons.progress_manager) or 0;
 	local myself_master_rank = get_master_rank_method:call(singletons.progress_manager) or 0;
 
-	local myself_id = get_master_player_id_method:call(singletons.player_manager) or -1;
-	-- if quest_status.is_online then
-	-- myself_id = get_master_player_id_method:call(singletons.player_manager) or -1;
-	-- else
-	-- myself_id = myself_quest_index_field:call(singletons.lobby_manager) or -1;
-	-- end
+	local myself_id = get_master_player_id_method:call(singletons.player_manager);
 
 	if myself_id == nil then
 		customization_menu.status = "No myself player id";
 		return;
 	end
 
-	local myself_guid = hunter_unique_id_field:get_data(myself_player_info);
-	if myself_guid == nil then
-		customization_menu.status = "No myself guid";
-		return;
-	end
-
-	-- local myself_guid_string = guid_tostring_method:call(myself_guid);
-	-- if myself_guid_string == nil then
-	--	customization_menu.status = "No myself guid string";
-	--	return;
-	-- end
-
-	if myself_id ~= player.myself.id then
+	if player.myself == nil or myself_id ~= player.myself.id then
 		player.list[player.myself.id] = nil;
-		player.myself = player.new(myself_id, myself_guid, myself_player_name, myself_master_rank, myself_hunter_rank);
+		player.myself = player.new(myself_id, myself_player_name, myself_master_rank, myself_hunter_rank);
 		player.list[myself_id] = player.myself;
 	end
 
@@ -403,41 +554,33 @@ function player.update_player_list_(hunter_info_field_)
 			goto continue
 		end
 
-		local player_id = member_index_field:get_data(player_info);
+		local id = member_index_field:get_data(player_info);
 
-		if player_id == nil then
+		if id == nil then
 			goto continue
 		end
 
-		local player_guid = hunter_unique_id_field:get_data(player_info);
-		if player_guid == nil then
-			customization_menu.status = "No player guid";
-			return;
-		end
+		local hunter_rank = hunter_rank_field:get_data(player_info) or 0;
+		local master_rank = master_rank_field:get_data(player_info) or 0;
 
-		-- local player_guid_string = guid_tostring_method:call(player_guid);
-		-- if player_guid_string == nil then
-		--	customization_menu.status = "No player guid string";
-		--	return;
-		-- end
-
-		local player_hunter_rank = hunter_rank_field:get_data(player_info) or 0;
-		local player_master_rank = master_rank_field:get_data(player_info) or 0;
-
-		local player_name = name_field:get_data(player_info);
-		if player_name == nil then
+		local name = name_field:get_data(player_info);
+		if name == nil then
 			goto continue
 		end
 
-		if player.list[player_id] == nil or not guid_equals_method:call(player.list[player_id].guid, player_guid) -- player.list[player_id].guid ~= player_guid
-		then
-			local _player = player.new(player_id, player_guid, player_name, player_master_rank, player_hunter_rank);
-			player.list[player_id] = _player;
+		local player_in_list = player.list[id];
 
-			if player_name == player.myself.name and player_hunter_rank == player.myself.hunter_rank and player_master_rank ==
-				player.myself.master_rank then
-				player.myself = _player;
+		if player_in_list == nil or (player_in_list.name ~= name and player_in_list.hunter_rank ~= hunter_rank and player_in_list.master_rank ~= master_rank) then
+			local _player = player.new(id, name, master_rank, hunter_rank);
+			player.list[id] = _player;
+
+			if player_in_list.name == player.myself.name then
+				player.myself = _player
 			end
+		end
+
+		if player_in_list ~= player.myself then
+			table.insert(player.display_list, player_in_list);
 		end
 
 		::continue::
@@ -447,7 +590,7 @@ end
 function player.init_UI(_player)
 	local cached_config = config.current_config.damage_meter_UI;
 
-	_player.damage_UI = player_damage_UI_entity.new(cached_config.damage_bar, cached_config.highlighted_damage_bar,
+	_player.damage_UI = damage_UI_entity.new(cached_config.damage_bar, cached_config.highlighted_damage_bar,
 	cached_config.player_name_label, cached_config.dps_label, cached_config.master_hunter_rank_label,
 	cached_config.damage_value_label, cached_config.damage_percentage_label, cached_config.cart_count_label);
 end
@@ -479,7 +622,7 @@ function player.init_total_UI(_player)
 end
 
 function player.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)
-	player_damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps);
+	damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps);
 end
 
 function player.draw_total(position_on_screen, opacity_scale)
@@ -497,11 +640,12 @@ function player.init_module()
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
-	player_damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.player_damage_UI_entity");
+	damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");
 	time = require("MHR_Overlay.Game_Handler.time");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
+	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 
 	player.init();
 end

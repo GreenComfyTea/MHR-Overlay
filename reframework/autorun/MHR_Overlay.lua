@@ -36,8 +36,7 @@ local time_UI = require("MHR_Overlay.UI.Modules.time_UI");
 local env_creature_UI = require("MHR_Overlay.UI.Modules.env_creature_UI");
 
 local body_part_UI_entity = require("MHR_Overlay.UI.UI_Entities.body_part_UI_entity");
-local player_damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.player_damage_UI_entity");
-local non_player_damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.non_player_damage_UI_entity");
+local damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");
 local health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 local stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 local rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
@@ -73,8 +72,7 @@ language.init_module();
 config.init_module();
 part_names.init_module();
 
-player_damage_UI_entity.init_module();
-non_player_damage_UI_entity.init_module();
+damage_UI_entity.init_module();
 health_UI_entity.init_module();
 stamina_UI_entity.init_module();
 rage_UI_entity.init_module();
@@ -186,9 +184,6 @@ local function main_loop()
 	--quest_status.update_is_quest_host();
 	time.tick();
 
-	player.update_player_list(quest_status.index >= 2);
-	non_players.update_servant_list();
-	
 	if quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
 
 		local large_monster_UI_config = config.current_config.large_monster_UI;

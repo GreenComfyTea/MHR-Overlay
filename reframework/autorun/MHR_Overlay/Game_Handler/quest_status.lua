@@ -102,10 +102,8 @@ function quest_status.set_flow_state(new_flow_state)
 
 	if quest_status.flow_state >= quest_status.flow_states.KILLCAM then
 		damage_meter_UI.freeze_displayed_players = true;
-		quest_status.is_quest_end = true;
 	else 
 		damage_meter_UI.freeze_displayed_players = false;
-		quest_status.is_quest_end = false;
 	end
 
 	if quest_status.flow_state == quest_status.flow_states.IN_LOBBY or quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then

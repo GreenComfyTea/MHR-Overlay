@@ -12,6 +12,7 @@ local part_names;
 local time_UI;
 local keyboard;
 local non_players;
+local quest_status;
 
 local label_customization;
 local bar_customization;
@@ -563,6 +564,10 @@ function customization_menu.draw()
 
 		for _, servant in pairs(non_players.servant_list) do
 			non_players.init_UI(servant);
+		end
+
+		for _, otomo in pairs(non_players.otomo_list) do
+			non_players.init_UI(otomo);
 		end
 
 		player.init_total_UI(player.total);
@@ -1391,6 +1396,7 @@ end
 function customization_menu.draw_damage_meter_UI()
 	local changed = false;
 	local config_changed = false;
+	local damage_display_changed = false;
 	local index = 1;
 
 	if imgui.tree_node(language.current_language.customization_menu.damage_meter_UI) then
@@ -1409,6 +1415,11 @@ function customization_menu.draw_damage_meter_UI()
 
 			changed, cached_config.settings.hide_other_players = imgui.checkbox(
 				language.current_language.customization_menu.hide_other_players, cached_config.settings.hide_other_players);
+
+			config_changed = config_changed or changed;
+
+			changed, cached_config.settings.hide_servants = imgui.checkbox(
+				language.current_language.customization_menu.hide_servants, cached_config.settings.hide_servants);
 
 			config_changed = config_changed or changed;
 
@@ -1446,16 +1457,19 @@ function customization_menu.draw_damage_meter_UI()
 				language.current_language.customization_menu.show_my_otomos_separately, cached_config.settings.show_my_otomos_separately);
 
 			config_changed = config_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
 
-			changed, cached_config.settings.show_other_otomos_separately = imgui.checkbox(
-				language.current_language.customization_menu.show_other_otomos_separately, cached_config.settings.show_other_otomos_separately);
-
-			config_changed = config_changed or changed;
-
-			changed, cached_config.settings.show_followers_separately = imgui.checkbox(
-				language.current_language.customization_menu.show_followers_separately, cached_config.settings.show_followers_separately);
+			changed, cached_config.settings.show_other_player_otomos_separately = imgui.checkbox(
+				language.current_language.customization_menu.show_other_player_otomos_separately, cached_config.settings.show_other_player_otomos_separately);
 
 			config_changed = config_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
+
+			changed, cached_config.settings.show_servant_otomos_separately = imgui.checkbox(
+				language.current_language.customization_menu.show_servant_otomos_separately, cached_config.settings.show_servant_otomos_separately);
+
+			config_changed = config_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.orientation,
@@ -1537,99 +1551,78 @@ function customization_menu.draw_damage_meter_UI()
 				language.current_language.customization_menu.small_monsters, cached_config.tracked_monster_types.small_monsters);
 
 			config_changed = config_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
 
-			tracked_monster_types_changed = tracked_monster_types_changed or changed;
 			changed, cached_config.tracked_monster_types.large_monsters = imgui.checkbox(
 				language.current_language.customization_menu.large_monsters, cached_config.tracked_monster_types.large_monsters);
 
 			config_changed = config_changed or changed;
-			tracked_monster_types_changed = tracked_monster_types_changed or changed;
-
-			if tracked_monster_types_changed then
-				for player_id, _player in pairs(player.list) do
-					_player.update_display(player);
-				end
-
-				player.update_display(player.total);
-			end
+			damage_display_changed = damage_display_changed or changed;
 
 			imgui.tree_pop();
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.tracked_damage_types) then
-			local tracked_damage_types_changed = false;
 
 			changed, cached_config.tracked_damage_types.player_damage = imgui.checkbox(
 				language.current_language.customization_menu.player_damage, cached_config.tracked_damage_types.player_damage);
 
 			config_changed = config_changed or changed;
-			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
 
 			changed, cached_config.tracked_damage_types.bomb_damage = imgui.checkbox(
 				language.current_language.customization_menu.bomb_damage, cached_config.tracked_damage_types.bomb_damage);
 
 			config_changed = config_changed or changed;
-			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
 
 			changed, cached_config.tracked_damage_types.kunai_damage = imgui.checkbox(
 				language.current_language.customization_menu.kunai_damage, cached_config.tracked_damage_types.kunai_damage);
 
 			config_changed = config_changed or changed;
-			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
 
 			changed, cached_config.tracked_damage_types.installation_damage = imgui.checkbox(
 				language.current_language.customization_menu.installation_damage, cached_config.tracked_damage_types.installation_damage);
 
 			config_changed = config_changed or changed;
-			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
 
 			changed, cached_config.tracked_damage_types.otomo_damage = imgui.checkbox(
 				language.current_language.customization_menu.otomo_damage, cached_config.tracked_damage_types.otomo_damage);
 
 			config_changed = config_changed or changed;
-			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
 
 			changed, cached_config.tracked_damage_types.wyvern_riding_damage = imgui.checkbox(
 				language.current_language.customization_menu.wyvern_riding_damage, cached_config.tracked_damage_types.wyvern_riding_damage);
 
 			config_changed = config_changed or changed;
-			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
 
 			changed, cached_config.tracked_damage_types.poison_damage = imgui.checkbox(
 				language.current_language.customization_menu.poison_damage, cached_config.tracked_damage_types.poison_damage);
 
 			config_changed = config_changed or changed;
-			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
 
 			changed, cached_config.tracked_damage_types.blast_damage = imgui.checkbox(
 				language.current_language.customization_menu.blast_damage, cached_config.tracked_damage_types.blast_damage);
 
 			config_changed = config_changed or changed;
-			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
 
 			changed, cached_config.tracked_damage_types.endemic_life_damage = imgui.checkbox(
 				language.current_language.customization_menu.endemic_life_damage, cached_config.tracked_damage_types.endemic_life_damage);
 
 			config_changed = config_changed or changed;
-			tracked_damage_types_changed = tracked_damage_types_changed or changed;
+			damage_display_changed = damage_display_changed or changed;
 
 			changed, cached_config.tracked_damage_types.other_damage = imgui.checkbox(
 				language.current_language.customization_menu.other_damage, cached_config.tracked_damage_types.other_damage);
 
 			config_changed = config_changed or changed;
-			tracked_damage_types_changed = tracked_damage_types_changed or changed;
-
-			if tracked_damage_types_changed then
-				for _, _player in pairs(player.list) do
-					player.update_display(_player);
-				end
-
-				for _, servant in pairs(non_players.servant_list) do
-					player.update_display(servant);
-				end
-
-				player.update_display(player.total);
-			end
+			damage_display_changed = damage_display_changed or changed;
 
 			imgui.tree_pop();
 		end
@@ -1768,6 +1761,100 @@ function customization_menu.draw_damage_meter_UI()
 					imgui.tree_pop();
 				end
 
+				if imgui.tree_node(language.current_language.customization_menu.servants) then
+					changed, cached_config.player_name_label.include.servants.type = imgui.checkbox(
+						language.current_language.customization_menu.type, cached_config.player_name_label.include.servants.type);
+
+					config_changed = config_changed or changed;
+
+					changed, cached_config.player_name_label.include.servants.id = imgui.checkbox(
+						language.current_language.customization_menu.id, cached_config.player_name_label.include.servants.id);
+
+					config_changed = config_changed or changed;
+
+					changed, cached_config.player_name_label.include.servants.name = imgui.checkbox(
+						language.current_language.customization_menu.name, cached_config.player_name_label.include.servants.name);
+
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node(language.current_language.customization_menu.my_otomos) then
+					changed, cached_config.player_name_label.include.my_otomos.level = imgui.checkbox(
+						language.current_language.customization_menu.level, cached_config.player_name_label.include.my_otomos.level);
+
+					config_changed = config_changed or changed;
+
+
+					changed, cached_config.player_name_label.include.my_otomos.type = imgui.checkbox(
+						language.current_language.customization_menu.type, cached_config.player_name_label.include.my_otomos.type);
+
+					config_changed = config_changed or changed;
+
+					changed, cached_config.player_name_label.include.my_otomos.id = imgui.checkbox(
+						language.current_language.customization_menu.id, cached_config.player_name_label.include.my_otomos.id);
+
+					config_changed = config_changed or changed;
+
+					changed, cached_config.player_name_label.include.my_otomos.name = imgui.checkbox(
+						language.current_language.customization_menu.name, cached_config.player_name_label.include.my_otomos.name);
+
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node(language.current_language.customization_menu.other_player_otomos) then
+					changed, cached_config.player_name_label.include.other_player_otomos.level = imgui.checkbox(
+						language.current_language.customization_menu.level, cached_config.player_name_label.include.other_player_otomos.level);
+
+					config_changed = config_changed or changed;
+
+
+					changed, cached_config.player_name_label.include.other_player_otomos.type = imgui.checkbox(
+						language.current_language.customization_menu.type, cached_config.player_name_label.include.other_player_otomos.type);
+
+					config_changed = config_changed or changed;
+
+					changed, cached_config.player_name_label.include.other_player_otomos.id = imgui.checkbox(
+						language.current_language.customization_menu.id, cached_config.player_name_label.include.other_player_otomos.id);
+
+					config_changed = config_changed or changed;
+
+					changed, cached_config.player_name_label.include.other_player_otomos.name = imgui.checkbox(
+						language.current_language.customization_menu.name, cached_config.player_name_label.include.other_player_otomos.name);
+
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node(language.current_language.customization_menu.servant_otomos) then
+					changed, cached_config.player_name_label.include.servant_otomos.level = imgui.checkbox(
+						language.current_language.customization_menu.level, cached_config.player_name_label.include.servant_otomos.level);
+
+					config_changed = config_changed or changed;
+
+
+					changed, cached_config.player_name_label.include.servant_otomos.type = imgui.checkbox(
+						language.current_language.customization_menu.type, cached_config.player_name_label.include.servant_otomos.type);
+
+					config_changed = config_changed or changed;
+
+					changed, cached_config.player_name_label.include.servant_otomos.id = imgui.checkbox(
+						language.current_language.customization_menu.id, cached_config.player_name_label.include.servant_otomos.id);
+
+					config_changed = config_changed or changed;
+
+					changed, cached_config.player_name_label.include.servant_otomos.name = imgui.checkbox(
+						language.current_language.customization_menu.name, cached_config.player_name_label.include.servant_otomos.name);
+
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+
 				imgui.tree_pop();
 			end
 
@@ -1839,12 +1926,12 @@ function customization_menu.draw_damage_meter_UI()
 
 				if imgui.tree_node(language.current_language.customization_menu.me) then
 					changed, cached_config.master_hunter_rank_label.include.myself.master_rank = imgui.checkbox(
-						language.current_language.customization_menu.master_rank, cached_config.player_name_label.include.myself.master_rank);
+						language.current_language.customization_menu.master_rank, cached_config.master_hunter_rank_label.include.myself.master_rank);
 
 					config_changed = config_changed or changed;
 
 					changed, cached_config.master_hunter_rank_label.include.myself.hunter_rank = imgui.checkbox(
-						language.current_language.customization_menu.hunter_rank, cached_config.player_name_label.include.myself.hunter_rank);
+						language.current_language.customization_menu.hunter_rank, cached_config.master_hunter_rank_label.include.myself.hunter_rank);
 
 					config_changed = config_changed or changed;
 
@@ -1853,12 +1940,39 @@ function customization_menu.draw_damage_meter_UI()
 
 				if imgui.tree_node(language.current_language.customization_menu.other_players) then
 					changed, cached_config.master_hunter_rank_label.include.others.master_rank = imgui.checkbox(
-						language.current_language.customization_menu.master_rank, cached_config.player_name_label.include.others.master_rank);
+						language.current_language.customization_menu.master_rank, cached_config.master_hunter_rank_label.include.others.master_rank);
 
 					config_changed = config_changed or changed;
 
 					changed, cached_config.master_hunter_rank_label.include.others.hunter_rank = imgui.checkbox(
-						language.current_language.customization_menu.hunter_rank, cached_config.player_name_label.include.others.hunter_rank);
+						language.current_language.customization_menu.hunter_rank, cached_config.master_hunter_rank_label.include.others.hunter_rank);
+
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node(language.current_language.customization_menu.my_otomos) then
+					changed, cached_config.master_hunter_rank_label.include.my_otomos.level = imgui.checkbox(
+						language.current_language.customization_menu.level, cached_config.master_hunter_rank_label.include.my_otomos.level);
+
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node(language.current_language.customization_menu.other_player_otomos) then
+					changed, cached_config.master_hunter_rank_label.include.other_player_otomos.level = imgui.checkbox(
+						language.current_language.customization_menu.level, cached_config.master_hunter_rank_label.include.other_player_otomos.level);
+
+					config_changed = config_changed or changed;
+
+					imgui.tree_pop();
+				end
+
+				if imgui.tree_node(language.current_language.customization_menu.servant_otomos) then
+					changed, cached_config.master_hunter_rank_label.include.servant_otomos.level = imgui.checkbox(
+						language.current_language.customization_menu.level, cached_config.master_hunter_rank_label.include.servant_otomos.level);
 
 					config_changed = config_changed or changed;
 
@@ -1957,6 +2071,36 @@ function customization_menu.draw_damage_meter_UI()
 		changed = bar_customization.draw(language.current_language.customization_menu.highlighted_damage_bar, cached_config.highlighted_damage_bar);
 		config_changed = config_changed or changed;
 
+		if config_changed then
+			local is_on_quest = quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA;
+
+			player.display_list = {};
+			player.update_player_list(is_on_quest);
+			non_players.update_servant_list();
+			non_players.update_otomo_list(is_on_quest, quest_status.is_online);
+		end
+
+		if damage_display_changed then
+			for _, _player in pairs(player.list) do
+				player.update_display(_player);
+			end
+
+			for _, servant in pairs(non_players.servant_list) do
+				player.update_display(servant);
+			end
+
+			for _, otomo in pairs(non_players.otomo_list) do
+				player.update_display(otomo);
+			end
+
+			player.update_display(player.total);
+			player.update_dps(true);
+		end
+
+		if config_changed then
+			player.sort_players();
+		end
+
 		imgui.tree_pop();
 	end
 
@@ -2051,6 +2195,7 @@ function customization_menu.init_module()
 	time_UI = require("MHR_Overlay.UI.Modules.time_UI");
 	keyboard = require("MHR_Overlay.Game_Handler.keyboard");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
+	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 
 	label_customization = require("MHR_Overlay.UI.Customizations.label_customization");
 	bar_customization = require("MHR_Overlay.UI.Customizations.bar_customization");

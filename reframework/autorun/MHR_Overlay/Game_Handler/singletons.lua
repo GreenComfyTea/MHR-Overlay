@@ -25,6 +25,7 @@ function singletons.init()
 	singletons.init_scene_manager();
 	singletons.init_game_manager();
 	singletons.init_servant_manager();
+	singletons.init_otomo_manager();
 end
 
 function singletons.init_message_manager()
@@ -183,6 +184,19 @@ function singletons.init_servant_manager()
 	end
 
 	return singletons.servant_manager;
+end
+
+function singletons.init_otomo_manager()
+	if singletons.otomo_manager ~= nil then
+		return;
+	end
+
+	singletons.otomo_manager = sdk.get_managed_singleton("snow.otomo.OtomoManager");
+	if singletons.otomo_manager == nil then
+		--log.error("[MHR Overlay] No enemy manager");
+	end
+
+	return singletons.otomo_manager;
 end
 
 function singletons.init_module()

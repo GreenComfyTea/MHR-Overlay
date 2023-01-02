@@ -83,19 +83,17 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	end
 
 	local attacker_id = get_attacker_id_method:call(enemy_calc_damage_info);
+	local otomo_id = attacker_id;
 	local attacker_type = get_damage_attacker_type_method:call(enemy_calc_damage_info);
 	local is_marionette_attack = is_marionette_attack_method:call(enemy_calc_damage_info)
 
-	-- 4 is virtual player in singleplayer that "owns" 2nd otomo
-	if not quest_status.is_online and attacker_id == 4 then
-		--attacker_id = player.myself.id;
-	end
+	local is_otomo_attack = attacker_type >= 21 and attacker_type <= 23;
 
 	if is_marionette_attack then
 		large_monster.update_all_riders();
 		for enemy, monster in pairs(large_monster.list) do
 			if monster.unique_id == attacker_id then
-				--attacker_id = monster.rider_id;
+				attacker_id = monster.rider_id;
 				break
 			end
 		end
@@ -154,24 +152,6 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 
 	local damage_source_type = damage_hook.get_damage_source_type(attacker_type, is_marionette_attack);
 
-	local attacking_player = non_players.get_servant(attacker_id);
-	if attacking_player == nil then
-		attacking_player = player.get_player(attacker_id);
-	end
-
-	--[[xy = xy .. "\nPlayer: " .. tostring(attacker_id) ..
-	" " .. tostring(attacking_player.name) ..
-	" Damage: " .. tostring(damage_object.total_damage) ..
-	" Type: ("	.. tostring(attacker_type) ..
-	") " ..
-	" Condition Damage: " .. tostring(condition_damage) ..
-	" Condition Type: ("	.. tostring(attacker_type) ..
-	") " .. tostring(condition_type);
-
-	if string.len(xy) > 2300 then
-		xy = "";
-	end--]]
-
 	local monster;
 	if is_large_monster then
 		monster = large_monster.get_monster(enemy);
@@ -179,24 +159,70 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 		monster = small_monster.get_monster(enemy);
 	end
 
-	local stun_damage = stun_damage_field:get_data(enemy_calc_damage_info);
-	if attacking_player ~= nil then
-		ailments.apply_ailment_buildup(monster, attacker_id, ailments.stun_id, stun_damage);
+	local attacking_player = nil;
+	local attacking_otomo = nil;
 
-		ailments.apply_ailment_buildup(monster, attacker_id, condition_type, condition_damage);
-		ailments.apply_ailment_buildup(monster, attacker_id, condition_type2, condition_damage2);
-		ailments.apply_ailment_buildup(monster, attacker_id, condition_type3, condition_damage3);
+	if not is_otomo_attack then
+		attacking_player = player.get_player(attacker_id);
+
+		if attacking_player == nil then
+			attacking_player = non_players.get_servant(attacker_id);
+		end
+
+		local stun_damage = stun_damage_field:get_data(enemy_calc_damage_info);
+		if attacking_player ~= nil then
+			ailments.apply_ailment_buildup(monster, attacker_id, ailments.stun_id, stun_damage);
+
+			ailments.apply_ailment_buildup(monster, attacker_id, condition_type, condition_damage);
+			ailments.apply_ailment_buildup(monster, attacker_id, condition_type2, condition_damage2);
+			ailments.apply_ailment_buildup(monster, attacker_id, condition_type3, condition_damage3);
+		end
+	else
+		if attacker_id < 4 then
+			attacking_player = player.get_player(attacker_id);
+			attacking_otomo = non_players.get_otomo(attacker_id);
+		elseif attacker_id == 4 then
+			attacking_player = player.myself
+			attacking_otomo = non_players.get_otomo(non_players.my_second_otomo_id);
+		else 
+			attacking_player = non_players.get_servant(attacker_id - 1);
+			attacking_otomo = non_players.get_otomo(attacker_id - 1);
+		end
+
+		player.update_damage(attacking_otomo, damage_source_type, is_large_monster, damage_object);
 	end
 
 	player.update_damage(player.total, damage_source_type, is_large_monster, damage_object);
 	player.update_damage(attacking_player, damage_source_type, is_large_monster, damage_object);
+
+	--xy = xy .. "\nPlayer: " .. tostring(attacker_id) ..
+	--" " .. tostring(attacking_player.name) ..
+	--" Damage: " .. tostring(damage_object.total_damage) ..
+	--" Type: ("	.. tostring(attacker_type);
+	--") " ..
+	--" Condition Damage: " .. tostring(condition_damage) ..
+	--" Condition Type: ("	.. tostring(attacker_type) ..
+	--") " .. tostring(condition_type);
+
+	if is_otomo_attack then
+		--xy = xy .. "\nOtomo Master: " .. tostring(attacking_player.id) ..
+		--" " .. tostring(attacking_player.name) ..
+		--" Damage: " .. tostring(damage_object.total_damage);
+
+		--xy = xy .. "\nOtomo: " .. tostring(attacking_otomo.id) ..
+		--" " .. tostring(attacking_otomo.name) ..
+		--" Damage: " .. tostring(damage_object.total_damage);
+	end
+
+	if string.len(xy) > 2700 then
+		--xy = "";
+	end
 end
 
 --function damage_hook.on_mystery_core_break(enemy)
 
 --end
 
--- Coavins code
 function damage_hook.cart(dead_player_id, flag_cat_skill_insurance)
 	-- flag_cat_skill_insurance = 0
 	-- flag_cat_skill_insurance = 1
