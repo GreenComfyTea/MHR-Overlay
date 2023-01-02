@@ -1,6 +1,6 @@
 local damage_hook = {};
 local quest_status;
-local player;
+local players;
 local small_monster;
 local large_monster;
 local ailments;
@@ -163,7 +163,7 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	local attacking_otomo = nil;
 
 	if not is_otomo_attack then
-		attacking_player = player.get_player(attacker_id);
+		attacking_player = players.get_player(attacker_id);
 
 		if attacking_player == nil then
 			attacking_player = non_players.get_servant(attacker_id);
@@ -179,21 +179,21 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 		end
 	else
 		if attacker_id < 4 then
-			attacking_player = player.get_player(attacker_id);
+			attacking_player = players.get_player(attacker_id);
 			attacking_otomo = non_players.get_otomo(attacker_id);
 		elseif attacker_id == 4 then
-			attacking_player = player.myself
+			attacking_player = players.myself
 			attacking_otomo = non_players.get_otomo(non_players.my_second_otomo_id);
 		else 
 			attacking_player = non_players.get_servant(attacker_id - 1);
 			attacking_otomo = non_players.get_otomo(attacker_id - 1);
 		end
 
-		player.update_damage(attacking_otomo, damage_source_type, is_large_monster, damage_object);
+		players.update_damage(attacking_otomo, damage_source_type, is_large_monster, damage_object);
 	end
 
-	player.update_damage(player.total, damage_source_type, is_large_monster, damage_object);
-	player.update_damage(attacking_player, damage_source_type, is_large_monster, damage_object);
+	players.update_damage(players.total, damage_source_type, is_large_monster, damage_object);
+	players.update_damage(attacking_player, damage_source_type, is_large_monster, damage_object);
 
 	--xy = xy .. "\nPlayer: " .. tostring(attacker_id) ..
 	--" " .. tostring(attacking_player.name) ..
@@ -226,7 +226,7 @@ end
 function damage_hook.cart(dead_player_id, flag_cat_skill_insurance)
 	-- flag_cat_skill_insurance = 0
 	-- flag_cat_skill_insurance = 1
-	local player_ = player.list[dead_player_id];
+	local player_ = players.list[dead_player_id];
 	if player_ == nil then
 		return;
 	end
@@ -246,7 +246,7 @@ local get_finish_shoot_wall_hit_damage_rate_method = enemy_character_base_type_d
 
 function damage_hook.init_module()
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	ailments = require("MHR_Overlay.Monsters.ailments");

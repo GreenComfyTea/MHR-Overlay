@@ -3,7 +3,7 @@ local small_monster;
 local large_monster;
 local config;
 local ailments;
-local player;
+local players;
 local quest_status;
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
@@ -118,7 +118,7 @@ function monster_hook.update_large_monster(enemy)
 	large_monster.update_stamina_timer(enemy, monster, nil);
 	large_monster.update_rage_timer(enemy, monster, nil);
 
-	if quest_status.is_online and player.myself.id ~= 0 then
+	if quest_status.is_online and players.myself.id ~= 0 then
 		local physical_param = large_monster.update_health(enemy, monster);
 		pcall(large_monster.update_parts, enemy, monster, physical_param);
 	end
@@ -158,7 +158,7 @@ function monster_hook.update_small_monster(enemy)
 
 	small_monster.update(enemy, monster);
 
-	if quest_status.is_online and player.myself.id ~= 0 then
+	if quest_status.is_online and players.myself.id ~= 0 then
 		small_monster.update_health(enemy, monster);
 	end
 end
@@ -223,7 +223,7 @@ function monster_hook.init_module()
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	config = require("MHR_Overlay.Misc.config");
 	ailments = require("MHR_Overlay.Monsters.ailments");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 
 	sdk.hook(enemy_character_base_update_method, function(args)

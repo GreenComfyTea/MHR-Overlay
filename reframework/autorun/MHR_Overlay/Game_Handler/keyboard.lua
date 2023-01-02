@@ -2,7 +2,7 @@ local config = require "MHR_Overlay.Misc.config"
 local keyboard = {};
 local singletons;
 local customization_menu;
-local player;
+local players;
 local small_monster;
 local large_monster;
 local damage_meter_UI;
@@ -574,7 +574,7 @@ end
 function keyboard.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	damage_meter_UI = require("MHR_Overlay.UI.Modules.damage_meter_UI");

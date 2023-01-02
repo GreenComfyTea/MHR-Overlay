@@ -9,29 +9,27 @@ local quest_status;
 local drawing;
 local language;
 local unicode_helpers;
-local player;
+local players;
 
 non_players.servant_list = {};
 non_players.otomo_list = {};
 
 non_players.my_second_otomo_id = -1;
 
-function non_players.new(id, name, level, is_otomo, is_servant)
+function non_players.new(id, name, level, type)
 	local non_player = {};
 	non_player.id = id;
 	non_player.name = name;
 	non_player.level = level;
 
-	non_player.is_player = false;
-	non_player.is_otomo = is_otomo;
-	non_player.is_servant = is_servant;
+	non_player.type = type;
 
 	non_player.join_time = -1;
 	non_player.first_hit_time = -1;
 	non_player.dps = 0;
 
-	non_player.small_monsters = player.init_damage_sources()
-	non_player.large_monsters = player.init_damage_sources();
+	non_player.small_monsters = players.init_damage_sources()
+	non_player.large_monsters = players.init_damage_sources();
 
 	non_player.display = {};
 	non_player.display.total_damage = 0;
@@ -148,12 +146,11 @@ function non_players.update_servant_list()
 		end
 
 		if non_players.servant_list[id] == nil then
-			local servant = non_players.new(id, name, 0, false, true);
-			non_players.servant_list[id] = servant;
+			non_players.servant_list[id] = non_players.new(id, name, 0, players.types.servant);
 		end
 
 		if not cached_config.settings.hide_servants then
-			table.insert(player.display_list, non_players.servant_list[id]);
+			table.insert(players.display_list, non_players.servant_list[id]);
 		end
 
 		::continue::
@@ -191,11 +188,11 @@ function non_players.update_my_otomos()
 			local level = otomo_create_data_level_field:get_data(first_otomo) or 0;
 
 			if non_players.otomo_list[0] == nil then
-				non_players.otomo_list[0] = non_players.new(0, name, level, true, false);
+				non_players.otomo_list[0] = non_players.new(0, name, level, players.types.my_otomo);
 			end
 
 			if cached_config.settings.show_my_otomos_separately then
-				table.insert(player.display_list, non_players.otomo_list[0]);
+				table.insert(players.display_list, non_players.otomo_list[0]);
 			end
 		end
 	end
@@ -208,11 +205,11 @@ function non_players.update_my_otomos()
 
 			-- the secondary otomo is actually the 4th one!
 			if non_players.otomo_list[non_players.my_second_otomo_id] == nil then
-				non_players.otomo_list[non_players.my_second_otomo_id] = non_players.new(non_players.my_second_otomo_id, name, level, true, false);
+				non_players.otomo_list[non_players.my_second_otomo_id] = non_players.new(non_players.my_second_otomo_id, name, level, players.types.my_otomo);
 			end
 
 			if cached_config.settings.show_my_otomos_separately then
-				table.insert(player.display_list, non_players.otomo_list[non_players.my_second_otomo_id]);
+				table.insert(players.display_list, non_players.otomo_list[non_players.my_second_otomo_id]);
 			end
 		end
 	end
@@ -252,11 +249,11 @@ function non_players.update_servant_otomos()
 			--name = unicode_helpers.sub(name, 13);
 
 			if non_players.otomo_list[member_id] == nil then
-				non_players.otomo_list[member_id] = non_players.new(member_id, name, level, true, true);
+				non_players.otomo_list[member_id] = non_players.new(member_id, name, level, players.types.servant_otomo);
 			end
 
 			if cached_config.settings.show_servant_otomos_separately then
-				table.insert(player.display_list, non_players.otomo_list[member_id]);
+				table.insert(players.display_list, non_players.otomo_list[member_id]);
 			end
 		end
 
@@ -291,12 +288,6 @@ function non_players.update_otomos(otomo_info_field_)
 			goto continue;
 		end
 
-		local is_servant = false;
-		if id >= 4 then
-			is_servant = true;
-		end
-
-
 		local name = otomo_info_name_field:get_data(otomo_info);
 		if name == nil then
 			goto continue;
@@ -307,23 +298,29 @@ function non_players.update_otomos(otomo_info_field_)
 		local otomo_in_list = non_players.otomo_list[id];
 
 		if otomo_in_list == nil or (otomo_in_list.name ~= name and otomo_in_list.level) then
-			local otomo = non_players.new(id,  name, level, true, is_servant);
-			non_players.otomo_list[id] = otomo;
-		end
+			if id == players.myself.id then
+				local otomo = non_players.new(id, name, level, players.types.my_otomo);
+				non_players.otomo_list[id] = otomo;
 
-		if id == player.myself.id then
-			if cached_config.settings.show_my_otomos_separately then
-				table.insert(player.display_list, non_players.otomo_list[id]);
-			end
-		elseif is_servant then
-			if cached_config.settings.show_servant_otomos_separately then
-				table.insert(player.display_list, non_players.otomo_list[id]);
-			end
-		else
-			if cached_config.settings.show_other_player_otomos_separately then
-				table.insert(player.display_list, non_players.otomo_list[id]);
-			end
-		end 
+				if cached_config.settings.show_my_otomos_separately then
+					table.insert(players.display_list, otomo);
+				end
+			elseif id >= 4 then
+				local otomo = non_players.new(id, name, level, players.types.servant_otomo);
+				non_players.otomo_list[id] = otomo;
+
+				if cached_config.settings.show_servant_otomos_separately then
+					table.insert(players.display_list, non_players);
+				end
+			else
+				local otomo = non_players.new(id, name, level, players.types.my_otomo);
+				non_players.otomo_list[id] = otomo;
+
+				if cached_config.settings.show_other_player_otomos_separately then
+					table.insert(players.display_list, non_players);
+				end
+			end 
+		end
 
 		::continue::
 	end
@@ -332,13 +329,15 @@ end
 function non_players.init_UI(non_player)
 	local cached_config = config.current_config.damage_meter_UI;
 
-	non_player.damage_UI = damage_UI_entity.new(cached_config.damage_bar, cached_config.highlighted_damage_bar,
-	cached_config.player_name_label, cached_config.dps_label, cached_config.master_hunter_rank_label,
-	cached_config.damage_value_label, cached_config.damage_percentage_label, cached_config.cart_count_label);
-end
-
-function non_players.draw(non_player, position_on_screen, opacity_scale, top_damage, top_dps)
-	damage_UI_entity.draw(non_player, position_on_screen, opacity_scale, top_damage, top_dps);
+	if non_player.type == players.types.servant then
+		non_player.damage_UI = damage_UI_entity.new(cached_config.servants, non_player.type);
+	elseif non_player.type == players.types.my_otomo then
+		non_player.damage_UI = damage_UI_entity.new(cached_config.my_otomos, non_player.type);
+	elseif non_player.type == players.types.other_player_otomo then
+		non_player.damage_UI = damage_UI_entity.new(cached_config.other_player_otomos, non_player.type);
+	elseif non_player.type == players.types.servant_otomo then
+		non_player.damage_UI = damage_UI_entity.new(cached_config.servant_otomos, non_player.type);
+	end
 end
 
 function non_players.init_module()
@@ -351,7 +350,7 @@ function non_players.init_module()
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	unicode_helpers = require("MHR_Overlay.Misc.unicode_helpers");
 
 	non_players.init();

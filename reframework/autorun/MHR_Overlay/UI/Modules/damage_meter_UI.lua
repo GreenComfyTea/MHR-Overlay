@@ -2,7 +2,7 @@ local damage_meter_UI = {};
 local singletons;
 local config;
 local customization_menu;
-local player;
+local players;
 local non_players;
 local quest_status;
 local screen;
@@ -28,7 +28,7 @@ function damage_meter_UI.draw()
 	local cached_config = config.current_config.damage_meter_UI;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
-	if player.total.display.total_damage == 0 and cached_config.settings.hide_module_if_total_damage_is_zero then
+	if players.total.display.total_damage == 0 and cached_config.settings.hide_module_if_total_damage_is_zero then
 		return;
 	end
 
@@ -39,7 +39,7 @@ function damage_meter_UI.draw()
 	if damage_meter_UI.freeze_displayed_players and not table_helpers.is_empty(damage_meter_UI.last_displayed_players) then
 		quest_players = damage_meter_UI.last_displayed_players;
 	else
-		quest_players = player.display_list;
+		quest_players = players.display_list;
 	end
 
 	damage_meter_UI.last_displayed_players = quest_players;
@@ -64,11 +64,11 @@ function damage_meter_UI.draw()
 			return;
 		end
 
-		if cached_config.settings.hide_total_if_total_damage_is_zero and player.total.display.total_damage == 0 then
+		if cached_config.settings.hide_total_if_total_damage_is_zero and players.total.display.total_damage == 0 then
 			return;
 		end
 
-		player.draw_total(position_on_screen, 1);
+		players.draw(players.total, position_on_screen, 1, top_damage, top_dps);
 
 		if cached_config.settings.orientation == "Horizontal" then
 			position_on_screen.x = position_on_screen.x + cached_config.spacing.x * global_scale_modifier;
@@ -83,32 +83,26 @@ function damage_meter_UI.draw()
 	end
 	
 	for _, _player in ipairs(quest_players) do
-
 		if _player.display.total_damage == 0 and cached_config.settings.hide_player_if_player_damage_is_zero then
 			goto continue
 		end
 
-		if _player == player.myself then
+		if _player.type == players.types.myself then
 			if cached_config.settings.hide_myself then
 				goto continue
 			end
-		elseif _player.is_servant then
-			if cached_config.settings.hide_servants and not _player.is_otomo then
+		elseif _player.type == players.types.servant then
+			if cached_config.settings.hide_servants then
 				goto continue
 			end
-		else
-			if cached_config.settings.hide_other_players and not _player.is_otomo then
+		elseif _player.type == players.types.other_player then
+			if cached_config.settings.hide_other_players then
 				goto continue
 			end
 		end
 
-		if _player.is_player then
-			player.draw(_player, position_on_screen, 1, top_damage, top_dps);
-		else
-			non_players.draw(_player, position_on_screen, 1, top_damage, top_dps);
-		end
+		players.draw(_player, position_on_screen, 1, top_damage, top_dps);
 		
-
 		if cached_config.settings.orientation == "Horizontal" then
 			position_on_screen.x = position_on_screen.x + cached_config.spacing.x * global_scale_modifier;
 		else
@@ -125,7 +119,7 @@ function damage_meter_UI.draw()
 			return;
 		end
 
-		if cached_config.settings.hide_total_if_total_damage_is_zero and player.total.display.total_damage == 0 then
+		if cached_config.settings.hide_total_if_total_damage_is_zero and players.total.display.total_damage == 0 then
 			return;
 		end
 
@@ -133,7 +127,7 @@ function damage_meter_UI.draw()
 			position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 		end
 
-		player.draw_total(position_on_screen, 1);
+		players.draw(players.total, position_on_screen, 1);
 	end
 end
 
@@ -141,7 +135,7 @@ function damage_meter_UI.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	config = require("MHR_Overlay.Misc.config");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	screen = require("MHR_Overlay.Game_Handler.screen");

@@ -2,7 +2,7 @@ local ailment_buildup_UI_entity = {};
 local table_helpers;
 local drawing;
 local config;
-local player;
+local players;
 local language;
 
 function ailment_buildup_UI_entity.new(buildup_bar, highlighted_buildup_bar, ailment_name_label, player_name_label,
@@ -66,7 +66,7 @@ function ailment_buildup_UI_entity.draw(_player_buildup, ailment_buildup_UI, cac
 		end
 	end
 
-	if _player_buildup.id == player.myself.id and cached_config.settings.highlighted_bar == "Me" then
+	if _player_buildup.id == players.myself.id and cached_config.settings.highlighted_bar == "Me" then
 		drawing.draw_bar(ailment_buildup_UI.highlighted_buildup_bar, position_on_screen, opacity_scale, player_buildup_bar_percentage);
 	elseif cached_config.settings.highlighted_bar == "Top Buildup" and _player_buildup.buildup == top_buildup then
 		drawing.draw_bar(ailment_buildup_UI.highlighted_buildup_bar, position_on_screen, opacity_scale, player_buildup_bar_percentage);
@@ -74,7 +74,7 @@ function ailment_buildup_UI_entity.draw(_player_buildup, ailment_buildup_UI, cac
 		drawing.draw_bar(ailment_buildup_UI.buildup_bar, position_on_screen, opacity_scale, player_buildup_bar_percentage);
 	end
 
-	local _player = player.get_player(_player_buildup.id);
+	local _player = players.get_player(_player_buildup.id);
 	local player_name = "Player " .. tostring(_player_buildup.id);
 	if _player ~= nil then
 		player_name = _player.name;
@@ -89,7 +89,7 @@ function ailment_buildup_UI_entity.init_module()
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	language = require("MHR_Overlay.Misc.language");
 end
 

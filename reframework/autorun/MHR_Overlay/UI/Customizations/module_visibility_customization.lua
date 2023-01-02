@@ -3,7 +3,7 @@ local module_visibility_customization = {};
 local table_helpers;
 local config;
 local screen;
-local player;
+local players;
 local large_monster;
 local small_monster;
 local env_creature;
@@ -69,7 +69,7 @@ function module_visibility_customization.init_module()
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");

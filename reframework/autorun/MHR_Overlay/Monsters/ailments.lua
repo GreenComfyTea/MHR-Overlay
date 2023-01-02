@@ -1,5 +1,5 @@
 local ailments = {};
-local player;
+local players;
 local language;
 local config;
 local ailment_UI_entity;
@@ -664,10 +664,10 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 		damage_object.elemental_damage = 0;
 		damage_object.ailment_damage = damage_portion;
 
-		local attacking_player = player.get_player(attacker_id);
+		local attacking_player = players.get_player(attacker_id);
 
 		if attacking_player ~= nil then
-			player.update_damage(attacking_player, damage_source_type, true, damage_object);
+			players.update_damage(attacking_player, damage_source_type, true, damage_object);
 		end
 	end
 
@@ -677,11 +677,11 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 	damage_object.elemental_damage = 0;
 	damage_object.ailment_damage = ailment_damage;
 
-	player.update_damage(player.total, damage_source_type, true, damage_object);
+	players.update_damage(players.total, damage_source_type, true, damage_object);
 end
 
 function ailments.init_module()
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");

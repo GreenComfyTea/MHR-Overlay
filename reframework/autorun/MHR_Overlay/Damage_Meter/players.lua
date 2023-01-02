@@ -1,4 +1,4 @@
-local player = {};
+local players = {};
 local config;
 local table_helpers;
 local singletons;
@@ -10,21 +10,31 @@ local drawing;
 local language;
 local non_players;
 
-player.list = {};
-player.myself = nil;
-player.myself_position = Vector3f.new(0, 0, 0);
-player.total = nil;
+players.list = {};
+players.myself = nil;
+players.myself_position = Vector3f.new(0, 0, 0);
+players.total = nil;
 
-player.display_list = {}
+players.display_list = {}
 
-function player.new(id, name, master_rank, hunter_rank)
+players.types = {
+	["myself"] = 0,
+	["other_player"] = 1,
+	["servant"] = 2,
+	["my_otomo"] = 4,
+	["other_player_otomo"] = 8,
+	["servant_otomo"] = 16,
+	["total"] = 32
+}
+
+function players.new(id, name, master_rank, hunter_rank, type)
 	local new_player = {};
 	new_player.id = id;
-	new_player.name = name; -- 齁ODO
+	new_player.name = name;
 	new_player.hunter_rank = hunter_rank;
 	new_player.master_rank = master_rank;
 
-	new_player.is_player = true;
+	new_player.type = type;
 
 	new_player.cart_count = 0;
 
@@ -32,8 +42,8 @@ function player.new(id, name, master_rank, hunter_rank)
 	new_player.first_hit_time = -1;
 	new_player.dps = 0;
 
-	new_player.small_monsters = player.init_damage_sources()
-	new_player.large_monsters = player.init_damage_sources();
+	new_player.small_monsters = players.init_damage_sources()
+	new_player.large_monsters = players.init_damage_sources();
 	
 	new_player.display = {};
 	new_player.display.total_damage = 0;
@@ -41,16 +51,12 @@ function player.new(id, name, master_rank, hunter_rank)
 	new_player.display.elemental_damage = 0;
 	new_player.display.ailment_damage = 0;
 
-	if name == "Total" then
-		player.init_total_UI(new_player);
-	else
-		player.init_UI(new_player);
-	end
+	players.init_UI(new_player);
 
 	return new_player;
 end
 
-function player.init_damage_sources()
+function players.init_damage_sources()
 	local monster_type = {};
 
 	monster_type.total_damage = 0;
@@ -115,11 +121,11 @@ function player.init_damage_sources()
 	return monster_type;
 end
 
-function player.get_player(player_id)
-	return player.list[player_id];
+function players.get_player(player_id)
+	return players.list[player_id];
 end
 
-function player.update_damage(_player, damage_source_type, is_large_monster, damage_object)
+function players.update_damage(_player, damage_source_type, is_large_monster, damage_object)
 	if _player == nil then
 		return;
 	end
@@ -134,33 +140,33 @@ function player.update_damage(_player, damage_source_type, is_large_monster, dam
 	end
 
 	if damage_source_type == "player" then
-		player.merge_damage(player_monster_type, damage_object);
+		players.merge_damage(player_monster_type, damage_object);
 	elseif damage_source_type == "bomb" then
-		player.merge_damage(player_monster_type.bombs, damage_object);
+		players.merge_damage(player_monster_type.bombs, damage_object);
 	elseif damage_source_type == "kunai" then
-		player.merge_damage(player_monster_type.kunai, damage_object);
+		players.merge_damage(player_monster_type.kunai, damage_object);
 	elseif damage_source_type == "installation" then
-		player.merge_damage(player_monster_type.installations, damage_object);
+		players.merge_damage(player_monster_type.installations, damage_object);
 	elseif damage_source_type == "otomo" then
-		player.merge_damage(player_monster_type.otomo, damage_object);
+		players.merge_damage(player_monster_type.otomo, damage_object);
 	elseif damage_source_type == "wyvern riding" then
-		player.merge_damage(player_monster_type.wyvern_riding, damage_object);
+		players.merge_damage(player_monster_type.wyvern_riding, damage_object);
 	elseif damage_source_type == "poison" then
-		player.merge_damage(player_monster_type.poison, damage_object);
+		players.merge_damage(player_monster_type.poison, damage_object);
 	elseif damage_source_type == "blast" then
-		player.merge_damage(player_monster_type.blast, damage_object);
+		players.merge_damage(player_monster_type.blast, damage_object);
 	elseif damage_source_type == "endemic life" then
-		player.merge_damage(player_monster_type.endemic_life, damage_object);
+		players.merge_damage(player_monster_type.endemic_life, damage_object);
 	elseif damage_source_type == "other" then
-		player.merge_damage(player_monster_type.other, damage_object);
+		players.merge_damage(player_monster_type.other, damage_object);
 	else
-		player.merge_damage(player_monster_type, damage_object);
+		players.merge_damage(player_monster_type, damage_object);
 	end
 
-	player.update_display(_player);
+	players.update_display(_player);
 end
 
-function player.update_display(_player)
+function players.update_display(_player)
 	if _player == nil then
 		return;
 	end
@@ -174,54 +180,54 @@ function player.update_display(_player)
 
 	if cached_config.tracked_monster_types.small_monsters then
 		if cached_config.tracked_damage_types.player_damage then
-			player.merge_damage(_player.display, _player.small_monsters);
+			players.merge_damage(_player.display, _player.small_monsters);
 		end
 
 		if cached_config.tracked_damage_types.bomb_damage then
-			player.merge_damage(_player.display, _player.small_monsters.bombs);
+			players.merge_damage(_player.display, _player.small_monsters.bombs);
 		end
 
 		if cached_config.tracked_damage_types.kunai_damage then
-			player.merge_damage(_player.display, _player.small_monsters.kunai);
+			players.merge_damage(_player.display, _player.small_monsters.kunai);
 		end
 
 		if cached_config.tracked_damage_types.installation_damage then
-			player.merge_damage(_player.display, _player.small_monsters.installations);
+			players.merge_damage(_player.display, _player.small_monsters.installations);
 		end
 
 		if cached_config.tracked_damage_types.otomo_damage then
 			if _player.is_otomo then
-				if _player.id == player.myself.id or _player.id == non_players.my_second_otomo_id then
+				if _player.id == players.myself.id or _player.id == non_players.my_second_otomo_id then
 
 					if cached_config.settings.show_my_otomos_separately then
-						player.merge_damage(_player.display, _player.small_monsters.otomo);
+						players.merge_damage(_player.display, _player.small_monsters.otomo);
 					end
 				elseif _player.is_servant then
 
 					if cached_config.settings.show_servant_otomos_separately then
-						player.merge_damage(_player.display, _player.small_monsters.otomo);
+						players.merge_damage(_player.display, _player.small_monsters.otomo);
 					end
 				else
 
 					if cached_config.settings.show_other_player_otomos_separately then
-						player.merge_damage(_player.display, _player.small_monsters.otomo);
+						players.merge_damage(_player.display, _player.small_monsters.otomo);
 					end
 				end
 			else
-				if _player == player.myself then
+				if _player == players.myself then
 
 					if not cached_config.settings.show_my_otomos_separately then
-						player.merge_damage(_player.display, _player.small_monsters.otomo);
+						players.merge_damage(_player.display, _player.small_monsters.otomo);
 					end
 				elseif _player.is_servant then
 
 					if not cached_config.settings.show_servant_otomos_separately then
-						player.merge_damage(_player.display, _player.small_monsters.otomo);
+						players.merge_damage(_player.display, _player.small_monsters.otomo);
 					end
 				else
 
 					if not cached_config.settings.show_other_player_otomos_separately then
-						player.merge_damage(_player.display, _player.small_monsters.otomo);
+						players.merge_damage(_player.display, _player.small_monsters.otomo);
 					end
 				end
 
@@ -229,76 +235,76 @@ function player.update_display(_player)
 		end
 
 		if cached_config.tracked_damage_types.wyvern_riding_damage then
-			player.merge_damage(_player.display, _player.small_monsters.wyvern_riding);
+			players.merge_damage(_player.display, _player.small_monsters.wyvern_riding);
 		end
 
 		if cached_config.tracked_damage_types.poison_damage then
-			player.merge_damage(_player.display, _player.small_monsters.poison);
+			players.merge_damage(_player.display, _player.small_monsters.poison);
 		end
 
 		if cached_config.tracked_damage_types.blast_damage then
-			player.merge_damage(_player.display, _player.small_monsters.blast);
+			players.merge_damage(_player.display, _player.small_monsters.blast);
 		end
 
 		if cached_config.tracked_damage_types.endemic_life_damage then
-			player.merge_damage(_player.display, _player.small_monsters.endemic_life);
+			players.merge_damage(_player.display, _player.small_monsters.endemic_life);
 		end
 
 		if cached_config.tracked_damage_types.other_damage then
-			player.merge_damage(_player.display, _player.small_monsters.other);
+			players.merge_damage(_player.display, _player.small_monsters.other);
 		end
 	end
 
 	if cached_config.tracked_monster_types.large_monsters then
 		if cached_config.tracked_damage_types.player_damage then
-			player.merge_damage(_player.display, _player.large_monsters);
+			players.merge_damage(_player.display, _player.large_monsters);
 		end
 
 		if cached_config.tracked_damage_types.bomb_damage then
-			player.merge_damage(_player.display, _player.large_monsters.bombs);
+			players.merge_damage(_player.display, _player.large_monsters.bombs);
 		end
 
 		if cached_config.tracked_damage_types.kunai_damage then
-			player.merge_damage(_player.display, _player.large_monsters.kunai);
+			players.merge_damage(_player.display, _player.large_monsters.kunai);
 		end
 
 		if cached_config.tracked_damage_types.installation_damage then
-			player.merge_damage(_player.display, _player.large_monsters.installations);
+			players.merge_damage(_player.display, _player.large_monsters.installations);
 		end
 
 		if cached_config.tracked_damage_types.otomo_damage then
 			if _player.is_otomo then
-				if _player.id == player.myself.id or _player.id == non_players.my_second_otomo_id then
+				if _player.id == players.myself.id or _player.id == non_players.my_second_otomo_id then
 
 					if cached_config.settings.show_my_otomos_separately then
-						player.merge_damage(_player.display, _player.large_monsters.otomo);
+						players.merge_damage(_player.display, _player.large_monsters.otomo);
 					end
 				elseif _player.is_servant then
 
 					if cached_config.settings.show_servant_otomos_separately then
-						player.merge_damage(_player.display, _player.large_monsters.otomo);
+						players.merge_damage(_player.display, _player.large_monsters.otomo);
 					end
 				else
 
 					if cached_config.settings.show_other_player_otomos_separately then
-						player.merge_damage(_player.display, _player.large_monsters.otomo);
+						players.merge_damage(_player.display, _player.large_monsters.otomo);
 					end
 				end
 			else
-				if _player == player.myself then
+				if _player == players.myself then
 
 					if not cached_config.settings.show_my_otomos_separately then
-						player.merge_damage(_player.display, _player.large_monsters.otomo);
+						players.merge_damage(_player.display, _player.large_monsters.otomo);
 					end
 				elseif _player.is_servant then
 
 					if not cached_config.settings.show_servant_otomos_separately then
-						player.merge_damage(_player.display, _player.large_monsters.otomo);
+						players.merge_damage(_player.display, _player.large_monsters.otomo);
 					end
 				else
 
 					if not cached_config.settings.show_other_player_otomos_separately then
-						player.merge_damage(_player.display, _player.large_monsters.otomo);
+						players.merge_damage(_player.display, _player.large_monsters.otomo);
 					end
 				end
 
@@ -306,28 +312,28 @@ function player.update_display(_player)
 		end
 
 		if cached_config.tracked_damage_types.wyvern_riding_damage then
-			player.merge_damage(_player.display, _player.large_monsters.wyvern_riding);
+			players.merge_damage(_player.display, _player.large_monsters.wyvern_riding);
 		end
 
 		if cached_config.tracked_damage_types.poison_damage then
-			player.merge_damage(_player.display, _player.large_monsters.poison);
+			players.merge_damage(_player.display, _player.large_monsters.poison);
 		end
 
 		if cached_config.tracked_damage_types.blast_damage then
-			player.merge_damage(_player.display, _player.large_monsters.blast);
+			players.merge_damage(_player.display, _player.large_monsters.blast);
 		end
 
 		if cached_config.tracked_damage_types.endemic_life_damage then
-			player.merge_damage(_player.display, _player.large_monsters.endemic_life);
+			players.merge_damage(_player.display, _player.large_monsters.endemic_life);
 		end
 
 		if cached_config.tracked_damage_types.other_damage then
-			player.merge_damage(_player.display, _player.large_monsters.other);
+			players.merge_damage(_player.display, _player.large_monsters.other);
 		end
 	end
 end
 
-function player.merge_damage(first, second)
+function players.merge_damage(first, second)
 	first.total_damage = first.total_damage + second.total_damage;
 	first.physical_damage = first.physical_damage + second.physical_damage;
 	first.elemental_damage = first.elemental_damage + second.elemental_damage;
@@ -336,28 +342,28 @@ function player.merge_damage(first, second)
 	return first;
 end
 
-function player.update_dps(bypass_freeze)
+function players.update_dps(bypass_freeze)
 	local cached_config = config.current_config.damage_meter_UI.settings;
 
 	if cached_config.freeze_dps_on_quest_end and quest_status.flow_state >= quest_status.flow_states.KILLCAM and not bypass_freeze then
 		return;
 	end
 
-	player.total.dps = 0;
-	for _, _player in pairs(player.list) do
-		player.update_player_dps(_player);
+	players.total.dps = 0;
+	for _, _player in pairs(players.list) do
+		players.update_player_dps(_player);
 	end
 
 	for _, servant in pairs(non_players.servant_list) do
-		player.update_player_dps(servant);
+		players.update_player_dps(servant);
 	end
 
 	for _, otomo in pairs(non_players.otomo_list) do
-		player.update_player_dps(otomo);
+		players.update_player_dps(otomo);
 	end
 end
 
-function player.update_player_dps(_player)
+function players.update_player_dps(_player)
 	local cached_config = config.current_config.damage_meter_UI.settings;
 
 	if _player.join_time == -1 then
@@ -378,54 +384,54 @@ function player.update_player_dps(_player)
 		end
 	end
 
-	player.total.dps = player.total.dps + _player.dps;
+	players.total.dps = players.total.dps + _player.dps;
 end
 
-function player.sort_players()
+function players.sort_players()
 	local cached_config = config.current_config.damage_meter_UI;
 
 	if cached_config.settings.my_damage_bar_location == "Normal" then
-		table.insert(player.display_list, player.myself);
+		table.insert(players.display_list, players.myself);
 	end
 
 	-- sort here
 	if cached_config.sorting.type == "Normal" then
 		if cached_config.sorting.reversed_order then
-			table.sort(player.display_list, function(left, right)
+			table.sort(players.display_list, function(left, right)
 				return left.id > right.id;
 			end);
 		else
-			table.sort(player.display_list, function(left, right)
+			table.sort(players.display_list, function(left, right)
 				return left.id < right.id;
 			end);
 		end
 	elseif cached_config.sorting.type == "DPS" then
 		if cached_config.sorting.reversed_order then
-			table.sort(player.display_list, function(left, right)
+			table.sort(players.display_list, function(left, right)
 				return left.dps < right.dps;
 			end);
 		else
-			table.sort(player.display_list, function(left, right)
+			table.sort(players.display_list, function(left, right)
 				return left.dps > right.dps;
 			end);
 		end
 	else
 		if cached_config.sorting.reversed_order then
-			table.sort(player.display_list, function(left, right)
+			table.sort(players.display_list, function(left, right)
 				return left.display.total_damage < right.display.total_damage;
 			end);
 		else
-			table.sort(player.display_list, function(left, right)
+			table.sort(players.display_list, function(left, right)
 				return left.display.total_damage > right.display.total_damage;
 			end);
 		end
 	end
 
 	if cached_config.settings.my_damage_bar_location == "First" then
-		table.insert(player.display_list, 1, player.myself);
+		table.insert(players.display_list, 1, players.myself);
 
 	elseif cached_config.settings.my_damage_bar_location == "Last" then
-		table.insert(player.display_list, player.myself);
+		table.insert(players.display_list, players.myself);
 	end
 end
 
@@ -435,7 +441,7 @@ local find_master_player_method = player_manager_type_def:get_method("findMaster
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
 local get_pos_field = player_base_type_def:get_method("get_Pos");
 
-function player.update_myself_position()
+function players.update_myself_position()
 	if singletons.player_manager == nil then
 		customization_menu.status = "No player manager";
 		return;
@@ -449,15 +455,15 @@ function player.update_myself_position()
 
 	local position = get_pos_field:call(master_player);
 	if position ~= nil then
-		player.myself_position = position;
+		players.myself_position = position;
 	end
 end
 
-function player.init()
-	player.list = {};
-	player.display_list = {};
-	player.total = player.new(0, "Total", 0, 0);
-	player.myself = player.new(-1, "Dummy", -1, -1);
+function players.init()
+	players.list = {};
+	players.display_list = {};
+	players.total = players.new(0, "Total", 0, 0, players.types.total);
+	players.myself = players.new(-1, "Dummy", -1, -1, players.types.myself);
 end
 
 local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
@@ -487,15 +493,15 @@ local get_master_rank_method = progress_manager_type_def:get_method("get_MasterR
 
 local get_master_player_id_method = player_manager_type_def:get_method("getMasterPlayerID");
 
-function player.update_player_list(is_on_quest)
+function players.update_player_list(is_on_quest)
 	if is_on_quest then
-		player.update_player_list_(quest_hunter_info_field);
+		players.update_player_list_(quest_hunter_info_field);
 	else
-		player.update_player_list_(hunter_info_field);
+		players.update_player_list_(hunter_info_field);
 	end
 end
 
-function player.update_player_list_(hunter_info_field_)
+function players.update_player_list_(hunter_info_field_)
 	local cached_config = config.current_config.damage_meter_UI;
 
 	if singletons.lobby_manager == nil then
@@ -529,10 +535,10 @@ function player.update_player_list_(hunter_info_field_)
 		return;
 	end
 
-	if player.myself == nil or myself_id ~= player.myself.id then
-		player.list[player.myself.id] = nil;
-		player.myself = player.new(myself_id, myself_player_name, myself_master_rank, myself_hunter_rank);
-		player.list[myself_id] = player.myself;
+	if players.myself == nil or myself_id ~= players.myself.id then
+		players.list[players.myself.id] = nil;
+		players.myself = players.new(myself_id, myself_player_name, myself_master_rank, myself_hunter_rank, players.types.myself);
+		players.list[myself_id] = players.myself;
 	end
 
 	-- other players
@@ -568,74 +574,42 @@ function player.update_player_list_(hunter_info_field_)
 			goto continue
 		end
 
-		local player_in_list = player.list[id];
+		local player_in_list = players.list[id];
 
 		if player_in_list == nil or (player_in_list.name ~= name and player_in_list.hunter_rank ~= hunter_rank and player_in_list.master_rank ~= master_rank) then
-			local _player = player.new(id, name, master_rank, hunter_rank);
-			player.list[id] = _player;
-
-			if player_in_list.name == player.myself.name then
-				player.myself = _player
+			if player_in_list.name == players.myself.name then
+				players.myself = players.new(id, name, master_rank, hunter_rank, players.types.myself);
+				players.list[id] = players.myself;
+			else
+				players.list[id] = players.new(id, name, master_rank, hunter_rank, players.types.other_player);
 			end
 		end
 
-		if player_in_list ~= player.myself then
-			table.insert(player.display_list, player_in_list);
+		if player_in_list ~= players.myself then
+			table.insert(players.display_list, player_in_list);
 		end
 
 		::continue::
 	end
 end
 
-function player.init_UI(_player)
+function players.init_UI(_player)
 	local cached_config = config.current_config.damage_meter_UI;
 
-	_player.damage_UI = damage_UI_entity.new(cached_config.damage_bar, cached_config.highlighted_damage_bar,
-	cached_config.player_name_label, cached_config.dps_label, cached_config.master_hunter_rank_label,
-	cached_config.damage_value_label, cached_config.damage_percentage_label, cached_config.cart_count_label);
-end
-
-function player.init_total_UI(_player)
-	local cached_config = config.current_config.damage_meter_UI;
-	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
-
-	_player.damage_UI = {
-		total_damage_label = table_helpers.deep_copy(cached_config.total_damage_label),
-		total_damage_value_label = table_helpers.deep_copy(cached_config.total_damage_value_label),
-		total_dps_label = table_helpers.deep_copy(cached_config.total_dps_label),
-		total_cart_count_label = table_helpers.deep_copy(cached_config.total_cart_count_label),
-	};
-
-	_player.damage_UI.total_damage_label.offset.x = _player.damage_UI.total_damage_label.offset.x * global_scale_modifier;
-	_player.damage_UI.total_damage_label.offset.y = _player.damage_UI.total_damage_label.offset.y * global_scale_modifier;
-
-	_player.damage_UI.total_damage_value_label.offset.x = _player.damage_UI.total_damage_value_label.offset.x *
-		                                                      global_scale_modifier;
-	_player.damage_UI.total_damage_value_label.offset.y = _player.damage_UI.total_damage_value_label.offset.y *
-		                                                      global_scale_modifier;
-
-	_player.damage_UI.total_dps_label.offset.x = _player.damage_UI.total_dps_label.offset.x * global_scale_modifier;
-	_player.damage_UI.total_dps_label.offset.y = _player.damage_UI.total_dps_label.offset.y * global_scale_modifier;
-
-	_player.damage_UI.total_cart_count_label.offset.x = _player.damage_UI.total_cart_count_label.offset.x * global_scale_modifier;
-	_player.damage_UI.total_cart_count_label.offset.y = _player.damage_UI.total_cart_count_label.offset.y * global_scale_modifier;
-end
-
-function player.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)
-	damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps);
-end
-
-function player.draw_total(position_on_screen, opacity_scale)
-	drawing.draw_label(player.total.damage_UI.total_damage_label, position_on_screen, opacity_scale, language.current_language.UI.total_damage);
-	drawing.draw_label(player.total.damage_UI.total_damage_value_label, position_on_screen, opacity_scale, player.total.display.total_damage);
-	drawing.draw_label(player.total.damage_UI.total_dps_label, position_on_screen, opacity_scale, player.total.dps);
-	
-	if quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA then
-		drawing.draw_label(player.total.damage_UI.total_cart_count_label, position_on_screen, opacity_scale, quest_status.cart_count,  quest_status.max_cart_count);
+	if _player.type == players.types.myself then
+		_player.damage_UI = damage_UI_entity.new(cached_config.myself, _player.type);
+	elseif _player.type == players.types.other_player then
+		_player.damage_UI = damage_UI_entity.new(cached_config.other_players, _player.type);
+	elseif _player.type == players.types.total then
+		_player.damage_UI = damage_UI_entity.new(cached_config.total, _player.type);
 	end
 end
 
-function player.init_module()
+function players.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)
+	damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps);
+end
+
+function players.init_module()
 	config = require("MHR_Overlay.Misc.config");
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
@@ -647,7 +621,7 @@ function player.init_module()
 	language = require("MHR_Overlay.Misc.language");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 
-	player.init();
+	players.init();
 end
 
-return player;
+return players;

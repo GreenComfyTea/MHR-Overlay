@@ -2,7 +2,7 @@ local quest_status = {};
 
 local singletons;
 local customization_menu;
-local player;
+local players;
 local small_monster;
 local large_monster;
 local damage_meter_UI;
@@ -107,7 +107,7 @@ function quest_status.set_flow_state(new_flow_state)
 	end
 
 	if quest_status.flow_state == quest_status.flow_states.IN_LOBBY or quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
-		player.init();
+		players.init();
 		non_players.init();
 		small_monster.init_list();
 		large_monster.init_list();
@@ -341,7 +341,7 @@ end
 function quest_status.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	damage_meter_UI = require("MHR_Overlay.UI.Modules.damage_meter_UI");

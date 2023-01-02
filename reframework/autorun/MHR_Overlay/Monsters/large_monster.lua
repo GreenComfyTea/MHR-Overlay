@@ -14,7 +14,7 @@ local body_part_UI_entity;
 local screen;
 local drawing;
 local ailments;
-local player;
+local players;
 local time;
 
 local body_part;
@@ -883,7 +883,7 @@ function large_monster.init_module()
 	drawing = require("MHR_Overlay.UI.drawing");
 	part_names = require("MHR_Overlay.Misc.part_names");
 	ailments = require("MHR_Overlay.Monsters.ailments");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	time = require("MHR_Overlay.Game_Handler.time");
 	ailment_buildup = require("MHR_Overlay.Monsters.ailment_buildup");
 end

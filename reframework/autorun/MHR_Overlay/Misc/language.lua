@@ -439,7 +439,13 @@ language.default_language = {
 		my_otomos = "My Buddies",
 		other_player_otomos = "Other Player Buddies",
 		servant_otomos = "Servant Buddies",
-		level = "Level"
+		level = "Level",
+
+		name_label = "Name Label",
+		myself = "Myself",
+		total = "Total",
+
+		level_label = "Level Label"
 	}
 };
 

@@ -3,7 +3,7 @@ local customization_menu = {};
 local table_helpers;
 local config;
 local screen;
-local player;
+local players;
 local large_monster;
 local small_monster;
 local env_creature;
@@ -150,7 +150,7 @@ function customization_menu.init()
 	customization_menu.displayed_buildup_bar_relative_types = {language.current_language.customization_menu.total_buildup,
                                                             language.current_language.customization_menu.top_buildup};
 	customization_menu.displayed_damage_meter_UI_highlighted_bar_types =
-		{language.current_language.customization_menu.me, language.current_language.customization_menu.top_damage,
+		{language.current_language.customization_menu.top_damage,
    language.current_language.customization_menu.top_dps, language.current_language.customization_menu.none};
 
 	customization_menu.displayed_damage_meter_UI_damage_bar_relative_types =
@@ -217,8 +217,7 @@ function customization_menu.init()
 	customization_menu.buildup_bar_relative_types = {language.default_language.customization_menu.total_buildup,
                                                   language.default_language.customization_menu.top_buildup};
 
-	customization_menu.damage_meter_UI_highlighted_bar_types = {language.default_language.customization_menu.me,
-                                                             language.default_language.customization_menu.top_damage,
+	customization_menu.damage_meter_UI_highlighted_bar_types = {language.default_language.customization_menu.top_damage,
                                                              language.default_language.customization_menu.top_dps,
                                                              language.default_language.customization_menu.none};
 	customization_menu.damage_meter_UI_damage_bar_relative_types =
@@ -557,8 +556,8 @@ function customization_menu.draw()
 	end
 
 	if damage_meter_UI_changed or modifiers_changed then
-		for _, _player in pairs(player.list) do
-			player.init_UI(_player);
+		for _, _player in pairs(players.list) do
+			players.init_UI(_player);
 			
 		end
 
@@ -570,7 +569,7 @@ function customization_menu.draw()
 			non_players.init_UI(otomo);
 		end
 
-		player.init_total_UI(player.total);
+		players.init_total_UI(players.total);
 	end
 
 	if endemic_life_UI_changed or modifiers_changed then
@@ -659,11 +658,11 @@ function customization_menu.draw_global_settings()
 			small_monster.init_list();
 			large_monster.init_list();
 			env_creature.init_list();
-			player.init_UI(player.myself);
-			player.init_UI(player.total);
+			players.init_UI(players.myself);
+			players.init_UI(players.total);
 
-			for _, _player in pairs(player.list) do
-				player.init_UI(_player);
+			for _, _player in pairs(players.list) do
+				players.init_UI(_player);
 			end
 
 			for _, servant in pairs(non_players.servant_list) do
@@ -1685,7 +1684,7 @@ function customization_menu.draw_damage_meter_UI()
 
 			imgui.tree_pop();
 		end
-
+--[[
 		if imgui.tree_node(language.current_language.customization_menu.player_name_label) then
 			changed, cached_config.player_name_label.visibility = imgui.checkbox(
 				language.current_language.customization_menu.visible, cached_config.player_name_label.visibility);
@@ -2039,7 +2038,160 @@ function customization_menu.draw_damage_meter_UI()
 
 			imgui.tree_pop();
 		end
+]]
 
+		if imgui.tree_node(language.current_language.customization_menu.myself) then
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.myself.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.hunter_rank_label, cached_config.myself.hunter_rank_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.cart_count_label, cached_config.myself.cart_count_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.dps_label, cached_config.myself.dps_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_value_label, cached_config.myself.damage_value_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_percentage_label, cached_config.myself.damage_percentage_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.damage_bar, cached_config.myself.damage_bar);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.other_players) then
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.other_players.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.hunter_rank_label, cached_config.other_players.hunter_rank_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.cart_count_label, cached_config.other_players.cart_count_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.dps_label, cached_config.other_players.dps_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_value_label, cached_config.other_players.damage_value_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_percentage_label, cached_config.other_players.damage_percentage_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.damage_bar, cached_config.other_players.damage_bar);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.servants) then
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.servants.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.dps_label, cached_config.servants.dps_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_value_label, cached_config.servants.damage_value_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_percentage_label, cached_config.servants.damage_percentage_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.damage_bar, cached_config.servants.damage_bar);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.my_otomos) then
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.my_otomos.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.level_label, cached_config.my_otomos.hunter_rank_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.dps_label, cached_config.my_otomos.dps_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_value_label, cached_config.my_otomos.damage_value_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_percentage_label, cached_config.my_otomos.damage_percentage_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.damage_bar, cached_config.my_otomos.damage_bar);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.other_player_otomos) then
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.other_player_otomos.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.level_label, cached_config.other_player_otomos.hunter_rank_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.dps_label, cached_config.other_player_otomos.dps_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_value_label, cached_config.other_player_otomos.damage_value_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_percentage_label, cached_config.other_player_otomos.damage_percentage_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.damage_bar, cached_config.other_player_otomos.damage_bar);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.servant_otomos) then
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.servant_otomos.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.level_label, cached_config.servant_otomos.hunter_rank_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.dps_label, cached_config.servant_otomos.dps_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_value_label, cached_config.servant_otomos.damage_value_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_percentage_label, cached_config.servant_otomos.damage_percentage_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.damage_bar, cached_config.servant_otomos.damage_bar);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.total) then
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.total.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.cart_count_label, cached_config.total.cart_count_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.dps_label, cached_config.total.dps_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.damage_value_label, cached_config.total.damage_value_label);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		--[[
 		changed = label_customization.draw(language.current_language.customization_menu.cart_count_label, cached_config.cart_count_label);
 		config_changed = config_changed or changed;
 
@@ -2070,35 +2222,36 @@ function customization_menu.draw_damage_meter_UI()
 
 		changed = bar_customization.draw(language.current_language.customization_menu.highlighted_damage_bar, cached_config.highlighted_damage_bar);
 		config_changed = config_changed or changed;
+--]]
 
 		if config_changed then
 			local is_on_quest = quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA;
 
-			player.display_list = {};
-			player.update_player_list(is_on_quest);
+			players.display_list = {};
+			players.update_player_list(is_on_quest);
 			non_players.update_servant_list();
 			non_players.update_otomo_list(is_on_quest, quest_status.is_online);
 		end
 
 		if damage_display_changed then
-			for _, _player in pairs(player.list) do
-				player.update_display(_player);
+			for _, _player in pairs(players.list) do
+				players.update_display(_player);
 			end
 
 			for _, servant in pairs(non_players.servant_list) do
-				player.update_display(servant);
+				players.update_display(servant);
 			end
 
 			for _, otomo in pairs(non_players.otomo_list) do
-				player.update_display(otomo);
+				players.update_display(otomo);
 			end
 
-			player.update_display(player.total);
-			player.update_dps(true);
+			players.update_display(players.total);
+			players.update_dps(true);
 		end
 
 		if config_changed then
-			player.sort_players();
+			players.sort_players();
 		end
 
 		imgui.tree_pop();
@@ -2187,7 +2340,7 @@ function customization_menu.init_module()
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");

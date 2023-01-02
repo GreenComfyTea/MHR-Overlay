@@ -4225,7 +4225,7 @@ function config.init()
 
 
 				orientation = "Vertical", -- "Vertical" or "Horizontal"
-				highlighted_bar = "Me",
+				highlighted_bar = "None",
 				damage_bar_relative_to = "Top Damage", -- "total damage" or "top damage"
 				my_damage_bar_location = "Last", -- "normal" or "first" or "last"
 				total_damage_location = "First",
@@ -4246,11 +4246,11 @@ function config.init()
 				anchor = "Bottom-Left"
 			},
 
-			player_name_label = {
-				visibility = true,
-
-				include = {
-					myself = {
+			myself = {
+				name_label = {
+					visibility = true,
+	
+					include = {
 						master_rank = true,
 						hunter_rank = true,
 						cart_count = false,
@@ -4258,8 +4258,159 @@ function config.init()
 						id = false,
 						name = true
 					},
+	
+					text = "%s",
+					offset = {
+						x = 5,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				hunter_rank_label = {
+					visibility = false,
+	
+					include = {
+						master_rank = true,
+						hunter_rank = true
+					},
+	
+					text = "[%s]",
+					offset = {
+						x = -65,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				cart_count_label = {
+					visibility = false,
+	
+					text = "%d",
+					offset = {
+						x = 315,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				dps_label = {
+					visibility = true,
+					text = "%.1f",
+	
+					offset = {
+						x = 155,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_value_label = {
+					visibility = true,
+					text = "%.0f",
+					offset = {
+						x = 205,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+					offset = {
+						x = 262,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
 
-					others = {
+				damage_bar = {
+					visibility = true,
+					offset = {
+						x = 0,
+						y = 17
+					},
+	
+					size = {
+						width = 310,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA7CCA3F4,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
+				}
+			},
+
+			other_players = {
+				name_label = {
+					visibility = true,
+	
+					include = {
 						master_rank = true,
 						hunter_rank = true,
 						cart_count = false,
@@ -4267,281 +4418,747 @@ function config.init()
 						id = false,
 						name = true
 					},
-
-					servants = {
-						type = false,
-						id = false,
-						name = true
-					},
-					
-					my_otomos = {
-						level = true,
-						type = false,
-						id = false,
-						name = true
-					},
-
-					other_player_otomos = {
-						level = true,
-						type = false,
-						id = false,
-						name = true
-					},
-
-					servant_otomos = {
-						level = true,
-						type = false,
-						id = false,
-						name = true
-					}
-
-					
-				},
-
-				text = "%s",
-				offset = {
-					x = 5,
-					y = 0
-				},
-				color = 0xFFCCF4E1,
-
-				shadow = {
-					visibility = true,
+	
+					text = "%s",
 					offset = {
-						x = 1,
-						y = 1
+						x = 5,
+						y = 0
 					},
-					color = 0xFF000000
-				}
-			},
-
-			master_hunter_rank_label = {
-				visibility = false,
-
-				include = {
-					myself = {
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				hunter_rank_label = {
+					visibility = false,
+	
+					include = {
 						master_rank = true,
 						hunter_rank = true
 					},
-
-					others = {
-						master_rank = true,
-						hunter_rank = true
+	
+					text = "[%s]",
+					offset = {
+						x = -65,
+						y = 0
 					},
-
-					my_otomos = {
-						level = true,
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				cart_count_label = {
+					visibility = false,
+	
+					text = "%d",
+					offset = {
+						x = 315,
+						y = 0
 					},
-
-					other_player_otomos = {
-						level = true,
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				dps_label = {
+					visibility = true,
+					text = "%.1f",
+	
+					offset = {
+						x = 155,
+						y = 0
 					},
-
-					servant_otomos = {
-						level = true
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_value_label = {
+					visibility = true,
+					text = "%.0f",
+					offset = {
+						x = 205,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+					offset = {
+						x = 262,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
 					}
 				},
 
-				text = "[%s]",
-				offset = {
-					x = -65,
-					y = 0
-				},
-				color = 0xFFCCF4E1,
-
-				shadow = {
+				damage_bar = {
 					visibility = true,
 					offset = {
-						x = 1,
-						y = 1
+						x = 0,
+						y = 17
 					},
-					color = 0xFF000000
+	
+					size = {
+						width = 310,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA7CCA3F4,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
 				}
 			},
 
-			cart_count_label = {
-				visibility = false,
-
-				text = "%d",
-				offset = {
-					x = 315,
-					y = 0
+			servants = {
+				name_label = {
+					visibility = true,
+	
+					include = {
+						type = false,
+						id = false,
+						name = true
+					},
+	
+					text = "%s",
+					offset = {
+						x = 5,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-				color = 0xFFCCF4E1,
+	
+				dps_label = {
+					visibility = true,
+					text = "%.1f",
+	
+					offset = {
+						x = 155,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_value_label = {
+					visibility = true,
+					text = "%.0f",
+					offset = {
+						x = 205,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+					offset = {
+						x = 262,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
 
-				shadow = {
+				damage_bar = {
 					visibility = true,
 					offset = {
-						x = 1,
-						y = 1
+						x = 0,
+						y = 17
 					},
-					color = 0xFF000000
+	
+					size = {
+						width = 310,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA7CCA3F4,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
 				}
 			},
 
-			dps_label = {
-				visibility = true,
-				text = "%.1f",
-
-				offset = {
-					x = 155,
-					y = 0
+			my_otomos = {
+				name_label = {
+					visibility = true,
+	
+					include = {
+						level = true,
+						type = false,
+						id = false,
+						name = true
+					},
+	
+					text = "%s",
+					offset = {
+						x = 5,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-				color = 0xFFCCF4E1,
+	
+				hunter_rank_label = {
+					visibility = false,
+	
+					text = "[%s]",
+					offset = {
+						x = -30,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				dps_label = {
+					visibility = true,
+					text = "%.1f",
+	
+					offset = {
+						x = 155,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_value_label = {
+					visibility = true,
+					text = "%.0f",
+					offset = {
+						x = 205,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+					offset = {
+						x = 262,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
 
-				shadow = {
+				damage_bar = {
 					visibility = true,
 					offset = {
-						x = 1,
-						y = 1
+						x = 0,
+						y = 17
 					},
-					color = 0xFF000000
+	
+					size = {
+						width = 310,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA7CCA3F4,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
 				}
 			},
 
-			damage_value_label = {
-				visibility = true,
-				text = "%.0f",
-				offset = {
-					x = 205,
-					y = 0
+			other_player_otomos = {
+				name_label = {
+					visibility = true,
+	
+					include = {
+						level = true,
+						type = false,
+						id = false,
+						name = true
+					},
+	
+					text = "%s",
+					offset = {
+						x = 5,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-				color = 0xFFCCF4E1,
+	
+				hunter_rank_label = {
+					visibility = false,
+	
+					text = "[%s]",
+					offset = {
+						x = -30,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				dps_label = {
+					visibility = true,
+					text = "%.1f",
+	
+					offset = {
+						x = 155,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_value_label = {
+					visibility = true,
+					text = "%.0f",
+					offset = {
+						x = 205,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+					offset = {
+						x = 262,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
 
-				shadow = {
+				damage_bar = {
 					visibility = true,
 					offset = {
-						x = 1,
-						y = 1
+						x = 0,
+						y = 17
 					},
-					color = 0xFF000000
+	
+					size = {
+						width = 310,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA7CCA3F4,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
 				}
 			},
 
-			damage_percentage_label = {
-				visibility = true,
-				text = "%5.1f%%",
-				offset = {
-					x = 262,
-					y = 0
+			servant_otomos = {
+				name_label = {
+					visibility = true,
+	
+					include = {
+						level = true,
+						type = false,
+						id = false,
+						name = true
+					},
+	
+					text = "%s",
+					offset = {
+						x = 5,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-				color = 0xFFCCF4E1,
+	
+				hunter_rank_label = {
+					visibility = false,
+	
+					text = "[%s]",
+					offset = {
+						x = -30,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				dps_label = {
+					visibility = true,
+					text = "%.1f",
+	
+					offset = {
+						x = 155,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_value_label = {
+					visibility = true,
+					text = "%.0f",
+					offset = {
+						x = 205,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+					offset = {
+						x = 262,
+						y = 0
+					},
+					color = 0xFFCCF4E1,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
 
-				shadow = {
+				damage_bar = {
 					visibility = true,
 					offset = {
-						x = 1,
-						y = 1
+						x = 0,
+						y = 17
 					},
-					color = 0xFF000000
+	
+					size = {
+						width = 310,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA7CCA3F4,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
 				}
 			},
 
-			total_damage_label = {
-				visibility = true,
-				text = "%s",
-				offset = {
-					x = 5,
-					y = 0
-				},
-				color = 0xFFFF7373,
-
-				shadow = {
+			total = {
+				name_label = {
 					visibility = true,
+	
+					text = "%s",
 					offset = {
-						x = 1,
-						y = 1
+						x = 5,
+						y = 0
 					},
-					color = 0xFF000000
-				}
-			},
-
-			total_dps_label = {
-				visibility = true,
-				text = "%.1f",
-
-				offset = {
-					x = 155,
-					y = 0
+					color = 0xFFFF9393,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-				color = 0xFFFF7373,
-
-				shadow = {
-					visibility = true,
+	
+				cart_count_label = {
+					visibility = false,
+	
+					text = "%d/%d",
 					offset = {
-						x = 1,
-						y = 1
+						x = 315,
+						y = 0
 					},
-					color = 0xFF000000
-				}
-			},
-
-			total_damage_value_label = {
-				visibility = true,
-				text = "%.0f",
-				offset = {
-					x = 205,
-					y = 0
+					color = 0xFFFF9393,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-				color = 0xFFFF7373,
-
-				shadow = {
+	
+				dps_label = {
 					visibility = true,
+					text = "%.1f",
+	
 					offset = {
-						x = 1,
-						y = 1
+						x = 155,
+						y = 0
 					},
-					color = 0xFF000000
-				}
-			},
-
-			total_cart_count_label = {
-				visibility = true,
-
-				text = "%d/%d",
-				offset = {
-					x = 315,
-					y = 0
+					color = 0xFFFF9393,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
-				color = 0xFFFF7373,
-
-				shadow = {
+	
+				damage_value_label = {
 					visibility = true,
+					text = "%.0f",
 					offset = {
-						x = 1,
-						y = 1
+						x = 205,
+						y = 0
 					},
-					color = 0xFF000000
-				}
+					color = 0xFFFF9393,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
 			},
 
-			damage_bar = {
-				visibility = true,
-				offset = {
-					x = 0,
-					y = 17
-				},
-
-				size = {
-					width = 310,
-					height = 5
-				},
-
-				outline = {
-					visibility = true,
-					thickness = 1,
-					offset = 0,
-					style = "Center"
-				},
-
-				colors = {
-					foreground = 0xA7CCA3F4,
-					background = 0xA7000000,
-					outline = 0xC0000000
-				}
-			},
-
-			highlighted_damage_bar = {
+			highlighted_bar = {
 				visibility = true,
 				offset = {
 					x = 0,

@@ -4,7 +4,7 @@ local config;
 local small_monster;
 local customization_menu;
 local screen;
-local player;
+local players;
 local drawing;
 local table_helpers;
 local health_UI_entity;
@@ -53,7 +53,7 @@ function small_monster_UI.draw()
 	if cached_config.dynamic_positioning.enabled
 		or (not cached_config.dynamic_positioning.enabled and cached_config.static_sorting.type == "Distance") then
 		for _, monster in ipairs(displayed_monsters) do
-			monster.distance = (player.myself_position - monster.position):length();
+			monster.distance = (players.myself_position - monster.position):length();
 		end
 	end
 
@@ -160,7 +160,7 @@ function small_monster_UI.init_module()
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	screen = require("MHR_Overlay.Game_Handler.screen");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	drawing = require("MHR_Overlay.UI.drawing");
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");

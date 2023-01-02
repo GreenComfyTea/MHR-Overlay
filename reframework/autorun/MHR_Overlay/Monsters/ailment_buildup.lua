@@ -1,5 +1,5 @@
 local ailment_buildup = {};
-local player;
+local players;
 local language;
 local config;
 local ailments;
@@ -139,7 +139,7 @@ function ailment_buildup.draw(monster, ailment_buildup_UI, cached_config, ailmen
 end
 
 function ailment_buildup.init_module()
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	ailments = require("MHR_Overlay.Monsters.ailments");

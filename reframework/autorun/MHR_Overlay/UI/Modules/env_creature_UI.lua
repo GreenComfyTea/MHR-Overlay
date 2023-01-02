@@ -4,7 +4,7 @@ local config;
 local customization_menu;
 local large_monster;
 local screen;
-local player;
+local players;
 local drawing;
 local table_helpers;
 local health_UI_entity;
@@ -46,7 +46,7 @@ function env_creature_UI.draw()
 		position_on_screen.x = position_on_screen.x + cached_config.viewport_offset.x * global_scale_modifier;
 		position_on_screen.y = position_on_screen.y + cached_config.viewport_offset.y * global_scale_modifier;
 
-		creature.distance = (player.myself_position - creature.position):length();
+		creature.distance = (players.myself_position - creature.position):length();
 
 		local opacity_scale = 1;
 		if creature.distance > cached_config.settings.max_distance then
@@ -68,7 +68,7 @@ function env_creature_UI.init_module()
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	screen = require("MHR_Overlay.Game_Handler.screen");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	drawing = require("MHR_Overlay.UI.drawing");
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");

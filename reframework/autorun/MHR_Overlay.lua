@@ -14,7 +14,7 @@ local table_helpers = require("MHR_Overlay.Misc.table_helpers");
 local unicode_helpers = require("MHR_Overlay.Misc.unicode_helpers");
 local part_names = require("MHR_Overlay.Misc.part_names");
 
-local player = require("MHR_Overlay.Damage_Meter.player");
+local players = require("MHR_Overlay.Damage_Meter.players");
 local non_players = require("MHR_Overlay.Damage_Meter.non_players");
 local damage_hook = require("MHR_Overlay.Damage_Meter.damage_hook");
 
@@ -81,7 +81,7 @@ ailment_buildup_UI_entity.init_module();
 body_part_UI_entity.init_module();
 
 damage_hook.init_module();
-player.init_module();
+players.init_module();
 non_players.init_module();
 quest_status.init_module();
 
@@ -179,7 +179,7 @@ local function main_loop()
 	customization_menu.status = "OK";
 	singletons.init();
 	screen.update_window_size();
-	player.update_myself_position();
+	players.update_myself_position();
 	quest_status.update_is_online();
 	--quest_status.update_is_quest_host();
 	time.tick();

@@ -2,7 +2,7 @@ local time = {};
 local singletons;
 local customization_menu;
 local quest_status;
-local player;
+local players;
 local non_players;
 local config;
 local small_monster;
@@ -30,20 +30,21 @@ function time.tick()
 	end
 
 	local quest_time_elapsed_minutes = get_quest_elapsed_time_min_method:call(singletons.quest_manager);
-	if quest_time_elapsed_minutes ~= nil then
+	if quest_time_elapsed_minutes == nil then
 		customization_menu.status = "No quest time elapsed minutes";
+	else 
 		time.elapsed_minutes = quest_time_elapsed_minutes;
 	end
 
 
 
 	local quest_time_total_elapsed_seconds = get_quest_elapsed_time_sec_method:call(singletons.quest_manager);
-	if quest_time_total_elapsed_seconds ~= nil then
+	if quest_time_total_elapsed_seconds == nil then
 		customization_menu.status = "No quest time total elapsed seconds";
+	else
 		time.total_elapsed_seconds = quest_time_total_elapsed_seconds;
 	end
 
-	
 	time.elapsed_seconds = quest_time_total_elapsed_seconds - quest_time_elapsed_minutes * 60;
 
 	if time.total_elapsed_script_seconds - time.last_elapsed_script_seconds > 0.5 then
@@ -51,18 +52,18 @@ function time.tick()
 
 		local is_on_quest = quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA;
 
-		player.display_list = {};
-		player.update_player_list(is_on_quest);
+		players.display_list = {};
+		players.update_player_list(is_on_quest);
 		non_players.update_servant_list();
 		non_players.update_otomo_list(is_on_quest, quest_status.is_online);
 
-		player.update_dps(false);
-		player.sort_players();
+		players.update_dps(false);
+		players.sort_players();
 	end
 end
 
 function time.init_module()
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	config = require("MHR_Overlay.Misc.config");

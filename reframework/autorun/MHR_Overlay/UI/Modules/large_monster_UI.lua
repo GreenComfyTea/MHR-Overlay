@@ -4,7 +4,7 @@ local config;
 local customization_menu;
 local large_monster;
 local screen;
-local player;
+local players;
 local drawing;
 local table_helpers;
 local health_UI_entity;
@@ -70,7 +70,7 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 		end
 
 		if update_distance then
-			monster.distance = (player.myself_position - monster.position):length();
+			monster.distance = (players.myself_position - monster.position):length();
 		end
 
 		if cached_config.highlighted.auto_highlight.enabled then
@@ -294,7 +294,7 @@ function large_monster_UI.init_module()
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	screen = require("MHR_Overlay.Game_Handler.screen");
-	player = require("MHR_Overlay.Damage_Meter.player");
+	players = require("MHR_Overlay.Damage_Meter.players");
 	drawing = require("MHR_Overlay.UI.drawing");
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
