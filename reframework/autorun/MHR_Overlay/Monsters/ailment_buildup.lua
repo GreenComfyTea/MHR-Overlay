@@ -109,13 +109,13 @@ function ailment_buildup.draw(monster, ailment_buildup_UI, cached_config, ailmen
 		drawing.draw_label(ailment_buildup_UI.ailment_name_label, ailment_buildups_position_on_screen, opacity_scale, ailment_name);
 
 		local last_j = 0;
-		for j, _player in ipairs(displayed_players) do
+		for j, player in ipairs(displayed_players) do
 			local ailment_buildup_position_on_screen = {
 				x = ailment_buildups_position_on_screen.x + cached_config.player_spacing.x * (j - 1) * global_scale_modifier,
 				y = ailment_buildups_position_on_screen.y + cached_config.player_spacing.y * (j - 1) * global_scale_modifier;
 			};
 
-			ailment_buildup_UI_entity.draw(_player, ailment_buildup_UI, cached_config, ailment_buildup_position_on_screen, opacity_scale, top_buildup);
+			ailment_buildup_UI_entity.draw(player, ailment_buildup_UI, cached_config, ailment_buildup_position_on_screen, opacity_scale, top_buildup);
 			last_j = j;
 		end
 

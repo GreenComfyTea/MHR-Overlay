@@ -295,32 +295,39 @@ function non_players.update_otomos(otomo_info_field_)
 
 		local level = otomo_info_level_field:get_data(otomo_info) or 0;
 
-		local otomo_in_list = non_players.otomo_list[id];
+		local otomo = non_players.otomo_list[id];
 
-		if otomo_in_list == nil or (otomo_in_list.name ~= name and otomo_in_list.level) then
+		if otomo == nil or (otomo.name ~= name and level ~= otomo.level) or
+		(otomo.type == players.types.my_otomo and otomo.id ~= players.myself.id) or
+		(otomo.type ~= players.types.my_otomo and otomo.id == players.myself.id) then
 			if id == players.myself.id then
-				local otomo = non_players.new(id, name, level, players.types.my_otomo);
+				otomo = non_players.new(id, name, level, players.types.my_otomo);
 				non_players.otomo_list[id] = otomo;
 
-				if cached_config.settings.show_my_otomos_separately then
-					table.insert(players.display_list, otomo);
-				end
 			elseif id >= 4 then
-				local otomo = non_players.new(id, name, level, players.types.servant_otomo);
+				otomo = non_players.new(id, name, level, players.types.servant_otomo);
 				non_players.otomo_list[id] = otomo;
 
-				if cached_config.settings.show_servant_otomos_separately then
-					table.insert(players.display_list, non_players);
-				end
 			else
-				local otomo = non_players.new(id, name, level, players.types.my_otomo);
+				otomo = non_players.new(id, name, level, players.types.other_player_otomo);
 				non_players.otomo_list[id] = otomo;
 
-				if cached_config.settings.show_other_player_otomos_separately then
-					table.insert(players.display_list, non_players);
-				end
 			end 
 		end
+
+		if id == players.myself.id then
+			if cached_config.settings.show_my_otomos_separately then
+				table.insert(players.display_list, otomo);
+			end
+		elseif id >= 4 then
+			if cached_config.settings.show_servant_otomos_separately then
+				table.insert(players.display_list, otomo);
+			end
+		else
+			if cached_config.settings.show_other_player_otomos_separately then
+				table.insert(players.display_list, otomo);
+			end
+		end 
 
 		::continue::
 	end

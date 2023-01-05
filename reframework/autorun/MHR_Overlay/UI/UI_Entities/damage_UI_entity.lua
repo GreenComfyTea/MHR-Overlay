@@ -14,9 +14,7 @@ function damage_UI_entity.new(damage_meter_UI_elements, type)
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
-	--entity.visibility = visibility;
 	entity.bar = table_helpers.deep_copy(damage_meter_UI_elements.damage_bar);
-	entity.highlighted_bar = table_helpers.deep_copy(cached_config.highlighted_bar);
 	entity.name_label = table_helpers.deep_copy(damage_meter_UI_elements.name_label);
 	entity.hunter_rank_label = table_helpers.deep_copy(damage_meter_UI_elements.hunter_rank_label);
 	entity.cart_count_label = table_helpers.deep_copy(damage_meter_UI_elements.cart_count_label);
@@ -43,15 +41,6 @@ function damage_UI_entity.new(damage_meter_UI_elements, type)
 		entity.bar.size.height = entity.bar.size.height * global_scale_modifier;
 		entity.bar.outline.thickness = entity.bar.outline.thickness * global_scale_modifier;
 		entity.bar.outline.offset = entity.bar.outline.offset * global_scale_modifier;
-	end
-
-	if entity.highlighted_bar ~= nil then
-		entity.highlighted_bar.offset.x = entity.highlighted_bar.offset.x * global_scale_modifier;
-		entity.highlighted_bar.offset.y = entity.highlighted_bar.offset.y * global_scale_modifier;
-		entity.highlighted_bar.size.width = entity.highlighted_bar.size.width * global_scale_modifier;
-		entity.highlighted_bar.size.height = entity.highlighted_bar.size.height * global_scale_modifier;
-		entity.highlighted_bar.outline.thickness = entity.highlighted_bar.outline.thickness * global_scale_modifier;
-		entity.highlighted_bar.outline.offset = entity.highlighted_bar.outline.offset * global_scale_modifier;
 	end
 
 	if entity.name_label ~= nil then
@@ -91,110 +80,121 @@ function damage_UI_entity.new(damage_meter_UI_elements, type)
 	return entity;
 end
 
-function damage_UI_entity.draw(_player, position_on_screen, opacity_scale, top_damage, top_dps)
+function damage_UI_entity.draw(player, position_on_screen, opacity_scale, top_damage, top_dps)
 	local cached_config = config.current_config.damage_meter_UI;
 
 	local name_include = nil;
-	if _player.damage_UI.name_label ~= nil then
-		name_include = _player.damage_UI.name_label.include;
+	if player.damage_UI.name_label ~= nil then
+		name_include = player.damage_UI.name_label.include;
 	end
 
 	local hunter_rank_include = nil;
-	if _player.damage_UI.hunter_rank_label ~= nil then
-		hunter_rank_include = _player.damage_UI.hunter_rank_label.include;
+	if player.damage_UI.hunter_rank_label ~= nil then
+		hunter_rank_include = player.damage_UI.hunter_rank_label.include;
 	end
 
 	local is_on_quest = quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA;
 
 	local player_damage_percentage = 0;
 	if players.total.display.total_damage ~= 0 then
-		player_damage_percentage = _player.display.total_damage / players.total.display.total_damage;
+		player_damage_percentage = player.display.total_damage / players.total.display.total_damage;
 	end
 
 	local player_damage_bar_percentage = 0;
 
-	if _player.type ~= players.types.total then
+	if player.type ~= players.types.total then
 		if cached_config.settings.damage_bar_relative_to == "Total Damage" then
 			if players.total.display.total_damage ~= 0 then
-				player_damage_bar_percentage = _player.display.total_damage / players.total.display.total_damage;
+				player_damage_bar_percentage = player.display.total_damage / players.total.display.total_damage;
 			end
 		else
 			if top_damage ~= 0 then
-				player_damage_bar_percentage = _player.display.total_damage / top_damage;
+				player_damage_bar_percentage = player.display.total_damage / top_damage;
 			end
 		end
 	end
 
 	local name_text = "";
 
-	if _player.type == players.types.total then
-		name_text = _player.damage_UI.total_name;
+	if player.type == players.types.total then
+		name_text = player.damage_UI.total_name;
 	elseif name_include ~= nil then
 
 		if name_include.master_rank and name_include.hunter_rank then
-			name_text = string.format("[%d:%d] ", _player.master_rank, _player.hunter_rank);
+			name_text = string.format("[%d:%d] ", player.master_rank, player.hunter_rank);
 		elseif name_include.master_rank then
-			name_text = string.format("[%d] ", _player.master_rank);
+			name_text = string.format("[%d] ", player.master_rank);
 		elseif name_include.hunter_rank then
-			name_text = string.format("[%d] ", _player.hunter_rank);
+			name_text = string.format("[%d] ", player.hunter_rank);
 		elseif name_include.level then
-			name_text = string.format("[%d] ", _player.level);
+			name_text = string.format("[%d] ", player.level);
 		end
 
 		if name_include.cart_count and is_on_quest then
-			name_text = name_text .. string.format("x%d ", _player.cart_count);
+			name_text = name_text .. string.format("x%d ", player.cart_count);
 		end
 	
 		if name_include.type then
-			name_text = name_text .. _player.damage_UI.type_name .. " ";
+			name_text = name_text .. player.damage_UI.type_name .. " ";
 		end
 	
 		if name_include.id then
-			name_text = name_text .. string.format("%d ", _player.id);
+			name_text = name_text .. string.format("%d ", player.id);
 		end
 	
 		if name_include.name then
-			name_text = name_text .. _player.name;
+			name_text = name_text .. player.name;
 		end
 	end
 
 	local hunter_rank_string = "";
 
-	if _player.damage_UI.hunter_rank_label ~= nil then
+	if player.damage_UI.hunter_rank_label ~= nil then
 		if hunter_rank_include == nil then
-			hunter_rank_string = string.format("%d", _player.level);
+			hunter_rank_string = string.format("%d", player.level);
 		elseif hunter_rank_include.master_rank and hunter_rank_include.hunter_rank then
-			hunter_rank_string = string.format("%d:%d", _player.master_rank, _player.hunter_rank);
+			hunter_rank_string = string.format("%d:%d", player.master_rank, player.hunter_rank);
 
 		elseif hunter_rank_include.master_rank then
-			hunter_rank_string = string.format("%d", _player.master_rank);
+			hunter_rank_string = string.format("%d", player.master_rank);
 
 		elseif hunter_rank_include.hunter_rank then
-			hunter_rank_string = string.format("%d", _player.hunter_rank);
+			hunter_rank_string = string.format("%d", player.hunter_rank);
 		end
 	end
 
-	xy = 1
+	local bar = player.damage_UI.bar;
+	local name_label = player.damage_UI.name_label;
+	local hunter_rank_label = player.damage_UI.hunter_rank_label;
+	local value_label = player.damage_UI.value_label;
+	local percentage_label = player.damage_UI.percentage_label;
+	local dps_label = player.damage_UI.dps_label;
 
-	local bar = _player.damage_UI.bar;
-
-	if (cached_config.settings.highlighted_bar == "Top Damage" and _player.display.total_damage == top_damage) or
-	(cached_config.settings.highlighted_bar == "Top DPS" and _player.dps == top_dps) then
-		bar = _player.damage_UI.highlighted_bar;
+	if player.type ~= players.types.total then
+		if (cached_config.settings.highlighted_bar == "Top Damage" and player.display.total_damage == top_damage) or
+		(cached_config.settings.highlighted_bar == "Top DPS" and player.dps == top_dps) then
+			bar = players.highlighted_damage_UI.bar;
+			name_label = players.highlighted_damage_UI.name_label;
+			hunter_rank_label = players.highlighted_damage_UI.hunter_rank_label;
+			value_label = players.highlighted_damage_UI.value_label;
+			percentage_label = players.highlighted_damage_UI.percentage_label;
+			dps_label = players.highlighted_damage_UI.dps_label;
+		end
 	end
+	
 
 	drawing.draw_bar(bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
 
-	name_text = drawing.limit_text_size(name_text, _player.damage_UI.player_name_size_limit);
+	name_text = drawing.limit_text_size(name_text, player.damage_UI.player_name_size_limit);
 
-	drawing.draw_label(_player.damage_UI.name_label, position_on_screen, opacity_scale, name_text);
-	drawing.draw_label(_player.damage_UI.hunter_rank_label, position_on_screen, opacity_scale, hunter_rank_string);
-	drawing.draw_label(_player.damage_UI.value_label, position_on_screen, opacity_scale, _player.display.total_damage);
-	drawing.draw_label(_player.damage_UI.percentage_label, position_on_screen, opacity_scale, 100 * player_damage_percentage);
-	drawing.draw_label(_player.damage_UI.dps_label, position_on_screen, opacity_scale, _player.dps);
+	drawing.draw_label(name_label, position_on_screen, opacity_scale, name_text);
+	drawing.draw_label(hunter_rank_label, position_on_screen, opacity_scale, hunter_rank_string);
+	drawing.draw_label(value_label, position_on_screen, opacity_scale, player.display.total_damage);
+	drawing.draw_label(percentage_label, position_on_screen, opacity_scale, 100 * player_damage_percentage);
+	drawing.draw_label(dps_label, position_on_screen, opacity_scale, player.dps);
 	
 	if is_on_quest then
-		drawing.draw_label(_player.damage_UI.cart_count_label, position_on_screen, opacity_scale, _player.cart_count);
+		drawing.draw_label(player.damage_UI.cart_count_label, position_on_screen, opacity_scale, player.cart_count);
 	end
 end
 

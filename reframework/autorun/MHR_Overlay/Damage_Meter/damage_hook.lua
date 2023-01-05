@@ -204,7 +204,7 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	--" Condition Type: ("	.. tostring(attacker_type) ..
 	--") " .. tostring(condition_type);
 
-	if is_otomo_attack then
+	--if is_otomo_attack then
 		--xy = xy .. "\nOtomo Master: " .. tostring(attacking_player.id) ..
 		--" " .. tostring(attacking_player.name) ..
 		--" Damage: " .. tostring(damage_object.total_damage);
@@ -212,11 +212,11 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 		--xy = xy .. "\nOtomo: " .. tostring(attacking_otomo.id) ..
 		--" " .. tostring(attacking_otomo.name) ..
 		--" Damage: " .. tostring(damage_object.total_damage);
-	end
+	--end
 
-	if string.len(xy) > 2700 then
-		--xy = "";
-	end
+	--if string.len(xy) > 2700 then
+	--	xy = "";
+	--end
 end
 
 --function damage_hook.on_mystery_core_break(enemy)
@@ -226,12 +226,12 @@ end
 function damage_hook.cart(dead_player_id, flag_cat_skill_insurance)
 	-- flag_cat_skill_insurance = 0
 	-- flag_cat_skill_insurance = 1
-	local player_ = players.list[dead_player_id];
-	if player_ == nil then
+	local player = players.list[dead_player_id];
+	if player == nil then
 		return;
 	end
 
-	player_.cart_count = player_.cart_count + 1;
+	player.cart_count = player.cart_count + 1;
 
 	quest_status.get_cart_count();
 end

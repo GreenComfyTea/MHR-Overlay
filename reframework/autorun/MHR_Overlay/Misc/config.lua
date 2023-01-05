@@ -4264,7 +4264,7 @@ function config.init()
 						x = 5,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
@@ -4289,7 +4289,7 @@ function config.init()
 						x = -65,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
@@ -4309,7 +4309,7 @@ function config.init()
 						x = 315,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
@@ -4329,7 +4329,7 @@ function config.init()
 						x = 155,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
@@ -4348,7 +4348,7 @@ function config.init()
 						x = 205,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
@@ -4367,7 +4367,7 @@ function config.init()
 						x = 262,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
@@ -4399,7 +4399,7 @@ function config.init()
 					},
 	
 					colors = {
-						foreground = 0xA7CCA3F4,
+						foreground = 0xA7F49AC1,
 						background = 0xA7000000,
 						outline = 0xC0000000
 					}
@@ -4424,7 +4424,7 @@ function config.init()
 						x = 5,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
@@ -4449,7 +4449,7 @@ function config.init()
 						x = -65,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
@@ -4469,7 +4469,7 @@ function config.init()
 						x = 315,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
@@ -4489,7 +4489,7 @@ function config.init()
 						x = 155,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
@@ -4508,7 +4508,7 @@ function config.init()
 						x = 205,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
@@ -4527,7 +4527,7 @@ function config.init()
 						x = 262,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
@@ -4559,7 +4559,7 @@ function config.init()
 					},
 	
 					colors = {
-						foreground = 0xA7CCA3F4,
+						foreground = 0xA799E2FF,
 						background = 0xA7000000,
 						outline = 0xC0000000
 					}
@@ -4581,7 +4581,7 @@ function config.init()
 						x = 5,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
@@ -4601,7 +4601,7 @@ function config.init()
 						x = 155,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
@@ -4620,7 +4620,7 @@ function config.init()
 						x = 205,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
@@ -4639,7 +4639,7 @@ function config.init()
 						x = 262,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
@@ -4694,7 +4694,7 @@ function config.init()
 						x = 5,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
@@ -4714,7 +4714,7 @@ function config.init()
 						x = -30,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
@@ -4734,7 +4734,7 @@ function config.init()
 						x = 155,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
@@ -4753,7 +4753,7 @@ function config.init()
 						x = 205,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
@@ -4772,7 +4772,7 @@ function config.init()
 						x = 262,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
@@ -4804,7 +4804,7 @@ function config.init()
 					},
 	
 					colors = {
-						foreground = 0xA7CCA3F4,
+						foreground = 0xA7B20E42,
 						background = 0xA7000000,
 						outline = 0xC0000000
 					}
@@ -4827,7 +4827,7 @@ function config.init()
 						x = 5,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
@@ -4847,7 +4847,7 @@ function config.init()
 						x = -30,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
@@ -4867,7 +4867,7 @@ function config.init()
 						x = 155,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
@@ -4886,7 +4886,7 @@ function config.init()
 						x = 205,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
@@ -4905,7 +4905,7 @@ function config.init()
 						x = 262,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
@@ -4937,7 +4937,7 @@ function config.init()
 					},
 	
 					colors = {
-						foreground = 0xA7CCA3F4,
+						foreground = 0xA71288B2,
 						background = 0xA7000000,
 						outline = 0xC0000000
 					}
@@ -4960,7 +4960,7 @@ function config.init()
 						x = 5,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
@@ -4980,7 +4980,7 @@ function config.init()
 						x = -30,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
@@ -5000,7 +5000,7 @@ function config.init()
 						x = 155,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
@@ -5019,7 +5019,7 @@ function config.init()
 						x = 205,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
@@ -5038,7 +5038,7 @@ function config.init()
 						x = 262,
 						y = 0
 					},
-					color = 0xFFCCF4E1,
+					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
@@ -5070,7 +5070,7 @@ function config.init()
 					},
 	
 					colors = {
-						foreground = 0xA7CCA3F4,
+						foreground = 0xA7662D91,
 						background = 0xA7000000,
 						outline = 0xC0000000
 					}
@@ -5086,7 +5086,7 @@ function config.init()
 						x = 5,
 						y = 0
 					},
-					color = 0xFFFF9393,
+					color = 0xFFF27979,
 	
 					shadow = {
 						visibility = true,
@@ -5106,7 +5106,7 @@ function config.init()
 						x = 315,
 						y = 0
 					},
-					color = 0xFFFF9393,
+					color = 0xFFF27979,
 	
 					shadow = {
 						visibility = true,
@@ -5126,7 +5126,7 @@ function config.init()
 						x = 155,
 						y = 0
 					},
-					color = 0xFFFF9393,
+					color = 0xFFF27979,
 	
 					shadow = {
 						visibility = true,
@@ -5145,7 +5145,7 @@ function config.init()
 						x = 205,
 						y = 0
 					},
-					color = 0xFFFF9393,
+					color = 0xFFF27979,
 	
 					shadow = {
 						visibility = true,
@@ -5158,29 +5158,149 @@ function config.init()
 				},
 			},
 
-			highlighted_bar = {
-				visibility = true,
-				offset = {
-					x = 0,
-					y = 17
-				},
-
-				size = {
-					width = 310,
-					height = 5
-				},
-
-				outline = {
+			highlighted = {
+				name_label = {
 					visibility = true,
-					thickness = 1,
-					offset = 0,
-					style = "Center"
+	
+					text = "%s",
+					offset = {
+						x = 5,
+						y = 0
+					},
+					color = 0xFFF7BEAD,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				hunter_rank_label = {
+					visibility = false,
+	
+					text = "[%s]",
+					offset = {
+						x = -65,
+						y = 0
+					},
+					color = 0xFFF7BEAD,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				cart_count_label = {
+					visibility = false,
+	
+					text = "%d",
+					offset = {
+						x = 315,
+						y = 0
+					},
+					color = 0xFFF7BEAD,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				dps_label = {
+					visibility = true,
+					text = "%.1f",
+	
+					offset = {
+						x = 155,
+						y = 0
+					},
+					color = 0xFFF7BEAD,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_value_label = {
+					visibility = true,
+					text = "%.0f",
+					offset = {
+						x = 205,
+						y = 0
+					},
+					color = 0xFFF7BEAD,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
+				},
+	
+				damage_percentage_label = {
+					visibility = true,
+					text = "%5.1f%%",
+					offset = {
+						x = 262,
+						y = 0
+					},
+					color = 0xFFF7BEAD,
+	
+					shadow = {
+						visibility = true,
+						offset = {
+							x = 1,
+							y = 1
+						},
+						color = 0xFF000000
+					}
 				},
 
-				colors = {
-					foreground = 0xA7F4D5A3,
-					background = 0xA7000000,
-					outline = 0xC0000000
+				damage_bar = {
+					visibility = true,
+					offset = {
+						x = 0,
+						y = 17
+					},
+	
+					size = {
+						width = 310,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA7FDC689,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
 				}
 			}
 		},

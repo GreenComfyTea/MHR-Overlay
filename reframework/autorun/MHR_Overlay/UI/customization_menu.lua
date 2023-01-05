@@ -556,8 +556,8 @@ function customization_menu.draw()
 	end
 
 	if damage_meter_UI_changed or modifiers_changed then
-		for _, _player in pairs(players.list) do
-			players.init_UI(_player);
+		for _, player in pairs(players.list) do
+			players.init_UI(player);
 			
 		end
 
@@ -569,7 +569,8 @@ function customization_menu.draw()
 			non_players.init_UI(otomo);
 		end
 
-		players.init_total_UI(players.total);
+		players.init_UI(players.total);
+		players.init_highlighted_UI();
 	end
 
 	if endemic_life_UI_changed or modifiers_changed then
@@ -658,16 +659,21 @@ function customization_menu.draw_global_settings()
 			small_monster.init_list();
 			large_monster.init_list();
 			env_creature.init_list();
-			players.init_UI(players.myself);
-			players.init_UI(players.total);
 
-			for _, _player in pairs(players.list) do
-				players.init_UI(_player);
+			for _, player in pairs(players.list) do
+			players.init_UI(player);	
 			end
 
 			for _, servant in pairs(non_players.servant_list) do
 				non_players.init_UI(servant);
 			end
+
+			for _, otomo in pairs(non_players.otomo_list) do
+				non_players.init_UI(otomo);
+			end
+
+			players.init_UI(players.total);
+			players.init_highlighted_UI();
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.menu_font) then
@@ -1684,361 +1690,6 @@ function customization_menu.draw_damage_meter_UI()
 
 			imgui.tree_pop();
 		end
---[[
-		if imgui.tree_node(language.current_language.customization_menu.player_name_label) then
-			changed, cached_config.player_name_label.visibility = imgui.checkbox(
-				language.current_language.customization_menu.visible, cached_config.player_name_label.visibility);
-
-			config_changed = config_changed or changed;
-
-			if imgui.tree_node(language.current_language.customization_menu.include) then
-				if imgui.tree_node(language.current_language.customization_menu.me) then
-					changed, cached_config.player_name_label.include.myself.master_rank = imgui.checkbox(
-						language.current_language.customization_menu.master_rank, cached_config.player_name_label.include.myself.master_rank);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.myself.hunter_rank = imgui.checkbox(
-						language.current_language.customization_menu.hunter_rank, cached_config.player_name_label.include.myself.hunter_rank);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.myself.cart_count =imgui.checkbox(
-						language.current_language.customization_menu.cart_count, cached_config.player_name_label.include.myself.cart_count);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.myself.type = imgui.checkbox(
-						language.current_language.customization_menu.type, cached_config.player_name_label.include.myself.type);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.myself.id = imgui.checkbox(
-						language.current_language.customization_menu.id, cached_config.player_name_label.include.myself.id);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.myself.name = imgui.checkbox(
-						language.current_language.customization_menu.name, cached_config.player_name_label.include.myself.name);
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				if imgui.tree_node(language.current_language.customization_menu.other_players) then
-					changed, cached_config.player_name_label.include.others.master_rank = imgui.checkbox(
-						language.current_language.customization_menu.master_rank, cached_config.player_name_label.include.others.master_rank);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.others.hunter_rank = imgui.checkbox(
-						language.current_language.customization_menu.hunter_rank, cached_config.player_name_label.include.others.hunter_rank);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.others.cart_count = imgui.checkbox(
-						language.current_language.customization_menu.cart_count, cached_config.player_name_label.include.others.cart_count);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.others.type = imgui.checkbox(
-						language.current_language.customization_menu.type, cached_config.player_name_label.include.others.type);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.others.id = imgui.checkbox(
-						language.current_language.customization_menu.id, cached_config.player_name_label.include.others.id);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.others.name = imgui.checkbox(
-						language.current_language.customization_menu.name, cached_config.player_name_label.include.others.name);
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				if imgui.tree_node(language.current_language.customization_menu.servants) then
-					changed, cached_config.player_name_label.include.servants.type = imgui.checkbox(
-						language.current_language.customization_menu.type, cached_config.player_name_label.include.servants.type);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.servants.id = imgui.checkbox(
-						language.current_language.customization_menu.id, cached_config.player_name_label.include.servants.id);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.servants.name = imgui.checkbox(
-						language.current_language.customization_menu.name, cached_config.player_name_label.include.servants.name);
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				if imgui.tree_node(language.current_language.customization_menu.my_otomos) then
-					changed, cached_config.player_name_label.include.my_otomos.level = imgui.checkbox(
-						language.current_language.customization_menu.level, cached_config.player_name_label.include.my_otomos.level);
-
-					config_changed = config_changed or changed;
-
-
-					changed, cached_config.player_name_label.include.my_otomos.type = imgui.checkbox(
-						language.current_language.customization_menu.type, cached_config.player_name_label.include.my_otomos.type);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.my_otomos.id = imgui.checkbox(
-						language.current_language.customization_menu.id, cached_config.player_name_label.include.my_otomos.id);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.my_otomos.name = imgui.checkbox(
-						language.current_language.customization_menu.name, cached_config.player_name_label.include.my_otomos.name);
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				if imgui.tree_node(language.current_language.customization_menu.other_player_otomos) then
-					changed, cached_config.player_name_label.include.other_player_otomos.level = imgui.checkbox(
-						language.current_language.customization_menu.level, cached_config.player_name_label.include.other_player_otomos.level);
-
-					config_changed = config_changed or changed;
-
-
-					changed, cached_config.player_name_label.include.other_player_otomos.type = imgui.checkbox(
-						language.current_language.customization_menu.type, cached_config.player_name_label.include.other_player_otomos.type);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.other_player_otomos.id = imgui.checkbox(
-						language.current_language.customization_menu.id, cached_config.player_name_label.include.other_player_otomos.id);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.other_player_otomos.name = imgui.checkbox(
-						language.current_language.customization_menu.name, cached_config.player_name_label.include.other_player_otomos.name);
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				if imgui.tree_node(language.current_language.customization_menu.servant_otomos) then
-					changed, cached_config.player_name_label.include.servant_otomos.level = imgui.checkbox(
-						language.current_language.customization_menu.level, cached_config.player_name_label.include.servant_otomos.level);
-
-					config_changed = config_changed or changed;
-
-
-					changed, cached_config.player_name_label.include.servant_otomos.type = imgui.checkbox(
-						language.current_language.customization_menu.type, cached_config.player_name_label.include.servant_otomos.type);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.servant_otomos.id = imgui.checkbox(
-						language.current_language.customization_menu.id, cached_config.player_name_label.include.servant_otomos.id);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.include.servant_otomos.name = imgui.checkbox(
-						language.current_language.customization_menu.name, cached_config.player_name_label.include.servant_otomos.name);
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				imgui.tree_pop();
-			end
-
-			if imgui.tree_node(language.current_language.customization_menu.offset) then
-				changed, cached_config.player_name_label.offset.x = imgui.drag_float(
-					language.current_language.customization_menu.x, cached_config.player_name_label.offset.x, 0.1, -screen.width, screen.width, "%.1f");
-
-				config_changed = config_changed or changed;
-
-				changed, cached_config.player_name_label.offset.y = imgui.drag_float(
-					language.current_language.customization_menu.y, cached_config.player_name_label.offset.y, 0.1, -screen.height, screen.height, "%.1f");
-
-				config_changed = config_changed or changed;
-
-				imgui.tree_pop();
-			end
-
-			if imgui.tree_node(language.current_language.customization_menu.color) then
-				changed, cached_config.player_name_label.color = imgui.color_picker_argb(
-					"", cached_config.player_name_label.color, customization_menu.color_picker_flags);
-
-				config_changed = config_changed or changed;
-
-				imgui.tree_pop();
-			end
-
-			if imgui.tree_node(language.current_language.customization_menu.shadow) then
-				changed, cached_config.player_name_label.shadow.visibility = imgui.checkbox(
-					language.current_language.customization_menu.visible, cached_config.player_name_label.shadow.visibility);
-
-				config_changed = config_changed or changed;
-
-				if imgui.tree_node(language.current_language.customization_menu.offset) then
-					changed, cached_config.player_name_label.shadow.offset.x = imgui.drag_float(
-						language.current_language.customization_menu.x, cached_config.player_name_label.shadow.offset.x, 0.1, -screen.width, screen.width, "%.1f");
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.player_name_label.shadow.offset.y = imgui.drag_float(
-						language.current_language.customization_menu.y, cached_config.player_name_label.shadow.offset.y, 0.1, -screen.height, screen.height, "%.1f");
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				if imgui.tree_node(language.current_language.customization_menu.color) then
-					changed, cached_config.player_name_label.shadow.color = imgui.color_picker_argb(
-						"", cached_config.player_name_label.shadow.color, customization_menu.color_picker_flags);
-					
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				imgui.tree_pop();
-			end
-
-			imgui.tree_pop();
-		end
-
-		if imgui.tree_node(language.current_language.customization_menu.hunter_rank_label) then
-			changed, cached_config.master_hunter_rank_label.visibility = imgui.checkbox(
-				language.current_language.customization_menu.visible, cached_config.master_hunter_rank_label.visibility);
-
-			config_changed = config_changed or changed;
-
-			if imgui.tree_node(language.current_language.customization_menu.include) then
-
-				if imgui.tree_node(language.current_language.customization_menu.me) then
-					changed, cached_config.master_hunter_rank_label.include.myself.master_rank = imgui.checkbox(
-						language.current_language.customization_menu.master_rank, cached_config.master_hunter_rank_label.include.myself.master_rank);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.master_hunter_rank_label.include.myself.hunter_rank = imgui.checkbox(
-						language.current_language.customization_menu.hunter_rank, cached_config.master_hunter_rank_label.include.myself.hunter_rank);
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				if imgui.tree_node(language.current_language.customization_menu.other_players) then
-					changed, cached_config.master_hunter_rank_label.include.others.master_rank = imgui.checkbox(
-						language.current_language.customization_menu.master_rank, cached_config.master_hunter_rank_label.include.others.master_rank);
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.master_hunter_rank_label.include.others.hunter_rank = imgui.checkbox(
-						language.current_language.customization_menu.hunter_rank, cached_config.master_hunter_rank_label.include.others.hunter_rank);
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				if imgui.tree_node(language.current_language.customization_menu.my_otomos) then
-					changed, cached_config.master_hunter_rank_label.include.my_otomos.level = imgui.checkbox(
-						language.current_language.customization_menu.level, cached_config.master_hunter_rank_label.include.my_otomos.level);
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				if imgui.tree_node(language.current_language.customization_menu.other_player_otomos) then
-					changed, cached_config.master_hunter_rank_label.include.other_player_otomos.level = imgui.checkbox(
-						language.current_language.customization_menu.level, cached_config.master_hunter_rank_label.include.other_player_otomos.level);
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				if imgui.tree_node(language.current_language.customization_menu.servant_otomos) then
-					changed, cached_config.master_hunter_rank_label.include.servant_otomos.level = imgui.checkbox(
-						language.current_language.customization_menu.level, cached_config.master_hunter_rank_label.include.servant_otomos.level);
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				imgui.tree_pop();
-			end
-
-			if imgui.tree_node(language.current_language.customization_menu.offset) then
-				changed, cached_config.master_hunter_rank_label.offset.x = imgui.drag_float(
-					language.current_language.customization_menu.x, cached_config.master_hunter_rank_label.offset.x, 0.1, -screen.width, screen.width, "%.1f");
-				
-					config_changed = config_changed or changed;
-
-				changed, cached_config.master_hunter_rank_label.offset.y = imgui.drag_float(
-					language.current_language.customization_menu.y, cached_config.master_hunter_rank_label.offset.y, 0.1, -screen.height, screen.height, "%.1f");
-				
-				config_changed = config_changed or changed;
-
-				imgui.tree_pop();
-			end
-
-			if imgui.tree_node(language.current_language.customization_menu.color) then
-				changed, cached_config.master_hunter_rank_label.color = imgui.color_picker_argb(
-					"", cached_config.master_hunter_rank_label.color, customization_menu.color_picker_flags);
-
-				config_changed = config_changed or changed;
-
-				imgui.tree_pop();
-			end
-
-			if imgui.tree_node(language.current_language.customization_menu.shadow) then
-				changed, cached_config.master_hunter_rank_label.shadow.visibility =	imgui.checkbox(
-					language.current_language.customization_menu.visible, cached_config.master_hunter_rank_label.shadow.visibility);
-
-				config_changed = config_changed or changed;
-				
-				if imgui.tree_node(language.current_language.customization_menu.offset) then
-					changed, cached_config.master_hunter_rank_label.shadow.offset.x = imgui.drag_float(
-						language.current_language.customization_menu.x, cached_config.master_hunter_rank_label.shadow.offset.x, 0.1, -screen.width, screen.width, "%.1f");
-					
-					config_changed = config_changed or changed;
-
-					changed, cached_config.master_hunter_rank_label.shadow.offset.y = imgui.drag_float(
-						language.current_language.customization_menu.y, cached_config.master_hunter_rank_label.shadow.offset.y, 0.1, -screen.height, screen.height, "%.1f");
-					
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				if imgui.tree_node(language.current_language.customization_menu.color) then
-					changed, cached_config.master_hunter_rank_label.shadow.color = imgui.color_picker_argb(
-						"", cached_config.master_hunter_rank_label.shadow.color, customization_menu.color_picker_flags);
-					
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				imgui.tree_pop();
-			end
-
-			imgui.tree_pop();
-		end
-]]
 
 		if imgui.tree_node(language.current_language.customization_menu.myself) then
 			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.myself.name_label);
@@ -2191,38 +1842,27 @@ function customization_menu.draw_damage_meter_UI()
 			imgui.tree_pop();
 		end
 
-		--[[
-		changed = label_customization.draw(language.current_language.customization_menu.cart_count_label, cached_config.cart_count_label);
-		config_changed = config_changed or changed;
+		if imgui.tree_node(language.current_language.customization_menu.highlighted) then
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.highlighted.name_label);
+			config_changed = config_changed or changed;
 
-		changed = label_customization.draw(language.current_language.customization_menu.dps_label, cached_config.dps_label);
-		config_changed = config_changed or changed;
+			changed = label_customization.draw(language.current_language.customization_menu.hunter_rank_label, cached_config.highlighted.hunter_rank_label);
+			config_changed = config_changed or changed;
 
-		changed = label_customization.draw(language.current_language.customization_menu.damage_value_label, cached_config.damage_value_label);
-		config_changed = config_changed or changed;
+			changed = label_customization.draw(language.current_language.customization_menu.dps_label, cached_config.highlighted.dps_label);
+			config_changed = config_changed or changed;
 
-		changed = label_customization.draw(language.current_language.customization_menu.damage_percentage_label, cached_config.damage_percentage_label);
-		config_changed = config_changed or changed;
-		
-		changed = label_customization.draw(language.current_language.customization_menu.total_damage_label, cached_config.total_damage_label);
-		config_changed = config_changed or changed;
+			changed = label_customization.draw(language.current_language.customization_menu.damage_value_label, cached_config.highlighted.damage_value_label);
+			config_changed = config_changed or changed;
 
-		changed = label_customization.draw(language.current_language.customization_menu.total_dps_label, cached_config.total_dps_label);
-		config_changed = config_changed or changed;
+			changed = label_customization.draw(language.current_language.customization_menu.damage_percentage_label, cached_config.highlighted.damage_percentage_label);
+			config_changed = config_changed or changed;
 
-		changed = label_customization.draw(language.current_language.customization_menu.total_damage_value_label, cached_config.total_damage_value_label);
-		config_changed = config_changed or changed;
+			changed = bar_customization.draw(language.current_language.customization_menu.damage_bar, cached_config.highlighted.damage_bar);
+			config_changed = config_changed or changed;
 
-		changed = label_customization.draw(language.current_language.customization_menu.total_cart_count_label, cached_config.total_cart_count_label);
-		config_changed = config_changed or changed;
-
-
-		changed = bar_customization.draw(language.current_language.customization_menu.damage_bar, cached_config.damage_bar);
-		config_changed = config_changed or changed;
-
-		changed = bar_customization.draw(language.current_language.customization_menu.highlighted_damage_bar, cached_config.highlighted_damage_bar);
-		config_changed = config_changed or changed;
---]]
+			imgui.tree_pop();
+		end
 
 		if config_changed then
 			local is_on_quest = quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA;
@@ -2234,8 +1874,8 @@ function customization_menu.draw_damage_meter_UI()
 		end
 
 		if damage_display_changed then
-			for _, _player in pairs(players.list) do
-				players.update_display(_player);
+			for _, player in pairs(players.list) do
+				players.update_display(player);
 			end
 
 			for _, servant in pairs(non_players.servant_list) do

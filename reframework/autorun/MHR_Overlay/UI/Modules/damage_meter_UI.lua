@@ -34,8 +34,6 @@ function damage_meter_UI.draw()
 
 	local quest_players = {};
 	
-	--damage_meter_UI.freeze_displayed_players = true;
-
 	if damage_meter_UI.freeze_displayed_players and not table_helpers.is_empty(damage_meter_UI.last_displayed_players) then
 		quest_players = damage_meter_UI.last_displayed_players;
 	else
@@ -46,13 +44,13 @@ function damage_meter_UI.draw()
 
 	local top_damage = 0;
 	local top_dps = 0;
-	for _, _player in ipairs(quest_players) do
-		if _player.display.total_damage > top_damage then
-			top_damage = _player.display.total_damage;
+	for _, player in ipairs(quest_players) do
+		if player.display.total_damage > top_damage then
+			top_damage = player.display.total_damage;
 		end
 
-		if _player.dps > top_dps then
-			top_dps = _player.dps;
+		if player.dps > top_dps then
+			top_dps = player.dps;
 		end
 	end
 
@@ -82,26 +80,28 @@ function damage_meter_UI.draw()
 		position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 	end
 	
-	for _, _player in ipairs(quest_players) do
-		if _player.display.total_damage == 0 and cached_config.settings.hide_player_if_player_damage_is_zero then
+	
+	for _, player in ipairs(quest_players) do
+		
+		if player.display.total_damage == 0 and cached_config.settings.hide_player_if_player_damage_is_zero then
 			goto continue
 		end
 
-		if _player.type == players.types.myself then
+		if player.type == players.types.myself then
 			if cached_config.settings.hide_myself then
 				goto continue
 			end
-		elseif _player.type == players.types.servant then
+		elseif player.type == players.types.servant then
 			if cached_config.settings.hide_servants then
 				goto continue
 			end
-		elseif _player.type == players.types.other_player then
+		elseif player.type == players.types.other_player then
 			if cached_config.settings.hide_other_players then
 				goto continue
 			end
 		end
 
-		players.draw(_player, position_on_screen, 1, top_damage, top_dps);
+		players.draw(player, position_on_screen, 1, top_damage, top_dps);
 		
 		if cached_config.settings.orientation == "Horizontal" then
 			position_on_screen.x = position_on_screen.x + cached_config.spacing.x * global_scale_modifier;

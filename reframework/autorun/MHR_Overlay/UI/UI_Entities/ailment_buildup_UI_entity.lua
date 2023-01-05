@@ -74,10 +74,10 @@ function ailment_buildup_UI_entity.draw(_player_buildup, ailment_buildup_UI, cac
 		drawing.draw_bar(ailment_buildup_UI.buildup_bar, position_on_screen, opacity_scale, player_buildup_bar_percentage);
 	end
 
-	local _player = players.get_player(_player_buildup.id);
+	local player = players.get_player(_player_buildup.id);
 	local player_name = "Player " .. tostring(_player_buildup.id);
-	if _player ~= nil then
-		player_name = _player.name;
+	if player ~= nil then
+		player_name = player.name;
 	end
 
 	drawing.draw_label(ailment_buildup_UI.player_name_label, position_on_screen, opacity_scale, player_name);
