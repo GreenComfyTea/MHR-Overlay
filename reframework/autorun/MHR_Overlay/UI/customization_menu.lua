@@ -355,7 +355,7 @@ function customization_menu.draw()
 		end
 	end
 
-	if customization_menu.menu_font_changed and apply_font_requested or config_changed then
+	if customization_menu.menu_font_changed and (apply_font_requested or config_changed) then
 		customization_menu.menu_font_changed = false;
 		customization_menu.reload_font(false);
 	end
