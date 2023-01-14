@@ -103,6 +103,8 @@ customization_menu.damage_meter_UI_waiting_for_key = false;
 customization_menu.endemic_life_UI_waiting_for_key = false;
 customization_menu.menu_font_changed = false;
 
+customization_menu.config_name_input = "";
+
 function customization_menu.reload_font(pop_push)
 	customization_menu.font = imgui.load_font(language.current_language.font_name,
 		config.current_config.global_settings.menu_font.size, customization_menu.font_range);
@@ -261,6 +263,8 @@ function customization_menu.draw()
 
 	imgui.push_font(customization_menu.font);
 
+	local config_changed = false;
+	local language_changed = false;
 	local modifiers_changed = false;
 	local modules_changed = false;
 	local global_settings_changed = false;
@@ -277,8 +281,215 @@ function customization_menu.draw()
 
 	imgui.text(language.current_language.customization_menu.status .. ": " .. status_string);
 
+	config_changed, apply_font_requested = customization_menu.draw_config();
 	modules_changed = customization_menu.draw_modules();
+	customization_menu.draw_hotkeys();
+	global_settings_changed, modifiers_changed, apply_font_requested, language_changed = customization_menu.draw_global_settings(apply_font_requested, config_changed);
+	small_monster_UI_changed = customization_menu.draw_small_monster_UI();
 
+	if imgui.tree_node(language.current_language.customization_menu.large_monster_UI) then
+		large_monster_dynamic_UI_changed = customization_menu.draw_large_monster_dynamic_UI()
+		large_monster_static_UI_changed = customization_menu.draw_large_monster_static_UI()
+		large_monster_highlighted_UI_changed = customization_menu.draw_large_monster_highlighted_UI()
+		imgui.tree_pop();
+	end
+
+	time_UI_changed = customization_menu.draw_time_UI();
+	damage_meter_UI_changed = customization_menu.draw_damage_meter_UI();
+	endemic_life_UI_changed = customization_menu.draw_endemic_life_UI()
+
+	imgui.pop_font();
+	imgui.end_window();
+
+	if small_monster_UI_changed or modifiers_changed or config_changed then
+		for _, monster in pairs(small_monster.list) do
+			small_monster.init_UI(monster);
+		end
+	end
+
+	if large_monster_dynamic_UI_changed or modifiers_changed or config_changed then
+		for _, monster in pairs(large_monster.list) do
+			large_monster.init_UI(monster, monster.dynamic_UI, config.current_config.large_monster_UI.dynamic);
+		end
+	end
+
+	if large_monster_static_UI_changed or modifiers_changed or config_changed then
+		for _, monster in pairs(large_monster.list) do
+			large_monster.init_UI(monster, monster.static_UI, config.current_config.large_monster_UI.static);
+		end
+	end
+
+	if large_monster_highlighted_UI_changed or modifiers_changed or config_changed then
+		for _, monster in pairs(large_monster.list) do
+			large_monster.init_UI(monster, monster.highlighted_UI, config.current_config.large_monster_UI.highlighted);
+		end
+	end
+
+	if time_UI_changed or modifiers_changed or config_changed then
+		time_UI.init_UI();
+	end
+
+	if damage_meter_UI_changed or modifiers_changed or config_changed then
+		
+		for _, player in pairs(players.list) do
+			players.init_UI(player);
+			
+		end
+
+		for _, servant in pairs(non_players.servant_list) do
+			non_players.init_UI(servant);
+		end
+
+		for _, otomo in pairs(non_players.otomo_list) do
+			non_players.init_UI(otomo);
+		end
+
+		
+		players.init_UI(players.total);
+		players.init_highlighted_UI();
+	end
+
+	if endemic_life_UI_changed or modifiers_changed or config_changed then
+		for _, creature in pairs(env_creature.list) do
+			env_creature.init_UI(creature);
+		end
+	end
+
+	if customization_menu.menu_font_changed and apply_font_requested or config_changed then
+		customization_menu.menu_font_changed = false;
+		customization_menu.reload_font(false);
+	end
+
+	if modules_changed or global_settings_changed or small_monster_UI_changed or large_monster_dynamic_UI_changed or
+		large_monster_static_UI_changed or large_monster_highlighted_UI_changed or time_UI_changed or damage_meter_UI_changed or
+		endemic_life_UI_changed or modifiers_changed or config_changed then
+		config.save_current();
+	end
+end
+
+function customization_menu.draw_config()
+	local index = 1;
+	local changed = false;
+	local config_changed = false;
+	local apply_font_requested = false;
+	
+	if imgui.tree_node(language.current_language.customization_menu.config) then
+		
+		changed, index = imgui.combo(language.current_language.customization_menu.config,
+			table_helpers.find_index(config.config_names, config.current_config_name), config.config_names);
+		config_changed = config_changed or changed;
+
+		if changed then
+			config.current_config_name = config.config_names[index];
+			config.update(index);
+
+			language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
+			
+			customization_menu.init();
+
+			customization_menu.menu_font_changed = true;
+			apply_font_requested = true;
+		end
+			
+		changed, customization_menu.config_name_input = imgui.input_text(language.current_language.customization_menu.config_name, customization_menu.config_name_input);
+
+		changed = imgui.button(language.current_language.customization_menu.new);
+		if changed then
+			if customization_menu.config_name_input ~= "" then
+				config.new(customization_menu.config_name_input);
+				config_changed = config_changed or changed;
+
+				language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
+			
+				customization_menu.init();
+
+				customization_menu.menu_font_changed = true;
+				apply_font_requested = true;
+			end
+			
+		end
+
+		imgui.same_line();
+
+		changed =	imgui.button(language.current_language.customization_menu.duplicate);
+		if changed then
+			if customization_menu.config_name_input ~= "" then
+				config.duplicate(customization_menu.config_name_input);
+				config_changed = config_changed or changed;
+
+				language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
+			
+				customization_menu.init();
+
+				customization_menu.menu_font_changed = true;
+				apply_font_requested = true;
+			end
+			
+		end
+
+		imgui.same_line();
+
+		changed = imgui.button(language.current_language.customization_menu.reset);
+		config_changed = config_changed or changed;
+		if changed then
+				config.reset();
+
+				language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
+			
+				customization_menu.init();
+
+				customization_menu.menu_font_changed = true;
+				apply_font_requested = true;
+			end
+
+		imgui.tree_pop();
+	end
+
+	return config_changed, apply_font_requested;
+end
+
+function customization_menu.draw_modules()
+	local changed = false;
+	local config_changed = false;
+
+	if imgui.tree_node(language.current_language.customization_menu.modules) then
+		changed, config.current_config.small_monster_UI.enabled = imgui.checkbox(
+			language.current_language.customization_menu.small_monster_UI, config.current_config.small_monster_UI.enabled);
+		config_changed = config_changed or changed;
+
+		changed, config.current_config.large_monster_UI.dynamic.enabled =
+			imgui.checkbox(language.current_language.customization_menu.large_monster_dynamic_UI,
+				config.current_config.large_monster_UI.dynamic.enabled);
+		config_changed = config_changed or changed;
+
+		changed, config.current_config.large_monster_UI.static.enabled =
+			imgui.checkbox(language.current_language.customization_menu.large_monster_static_UI,
+				config.current_config.large_monster_UI.static.enabled);
+		config_changed = config_changed or changed;
+
+		changed, config.current_config.large_monster_UI.highlighted.enabled =
+			imgui.checkbox(language.current_language.customization_menu.large_monster_highlighted_UI,
+				config.current_config.large_monster_UI.highlighted.enabled);
+		config_changed = config_changed or changed;
+
+		changed, config.current_config.time_UI.enabled = imgui.checkbox(language.current_language.customization_menu.time_UI,
+			config.current_config.time_UI.enabled);
+		config_changed = config_changed or changed;
+
+		changed, config.current_config.damage_meter_UI.enabled = imgui.checkbox(
+			language.current_language.customization_menu.damage_meter_UI, config.current_config.damage_meter_UI.enabled);
+		config_changed = config_changed or changed;
+
+		changed, config.current_config.endemic_life_UI.enabled = imgui.checkbox(
+			language.current_language.customization_menu.endemic_life_UI, config.current_config.endemic_life_UI.enabled);
+		config_changed = config_changed or changed;
+		imgui.tree_pop();
+	end
+
+	return config_changed;
+end
+
+function customization_menu.draw_hotkeys()
 	if imgui.tree_node(language.current_language.customization_menu.hotkeys) then
 		if customization_menu.all_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
@@ -509,140 +720,20 @@ function customization_menu.draw()
 		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI));
 		imgui.tree_pop();
 	end
-
-	global_settings_changed, modifiers_changed, apply_font_requested = customization_menu.draw_global_settings();
-	small_monster_UI_changed = customization_menu.draw_small_monster_UI();
-
-	if imgui.tree_node(language.current_language.customization_menu.large_monster_UI) then
-		large_monster_dynamic_UI_changed = customization_menu.draw_large_monster_dynamic_UI()
-		large_monster_static_UI_changed = customization_menu.draw_large_monster_static_UI()
-		large_monster_highlighted_UI_changed = customization_menu.draw_large_monster_highlighted_UI()
-		imgui.tree_pop();
-	end
-
-	time_UI_changed = customization_menu.draw_time_UI();
-	damage_meter_UI_changed = customization_menu.draw_damage_meter_UI();
-	endemic_life_UI_changed = customization_menu.draw_endemic_life_UI()
-
-	imgui.pop_font();
-	imgui.end_window();
-
-	if small_monster_UI_changed or modifiers_changed then
-		for _, monster in pairs(small_monster.list) do
-			small_monster.init_UI(monster);
-		end
-	end
-
-	if large_monster_dynamic_UI_changed or modifiers_changed then
-		for _, monster in pairs(large_monster.list) do
-			large_monster.init_UI(monster, monster.dynamic_UI, config.current_config.large_monster_UI.dynamic);
-		end
-	end
-
-	if large_monster_static_UI_changed or modifiers_changed then
-		for _, monster in pairs(large_monster.list) do
-			large_monster.init_UI(monster, monster.static_UI, config.current_config.large_monster_UI.static);
-		end
-	end
-
-	if large_monster_highlighted_UI_changed or modifiers_changed then
-		for _, monster in pairs(large_monster.list) do
-			large_monster.init_UI(monster, monster.highlighted_UI, config.current_config.large_monster_UI.highlighted);
-		end
-	end
-
-	if time_UI_changed or modifiers_changed then
-		time_UI.init_UI();
-	end
-
-	if damage_meter_UI_changed or modifiers_changed then
-		for _, player in pairs(players.list) do
-			players.init_UI(player);
-			
-		end
-
-		for _, servant in pairs(non_players.servant_list) do
-			non_players.init_UI(servant);
-		end
-
-		for _, otomo in pairs(non_players.otomo_list) do
-			non_players.init_UI(otomo);
-		end
-
-		players.init_UI(players.total);
-		players.init_highlighted_UI();
-	end
-
-	if endemic_life_UI_changed or modifiers_changed then
-		for _, creature in pairs(env_creature.list) do
-			env_creature.init_UI(creature);
-		end
-	end
-
-	if customization_menu.menu_font_changed and apply_font_requested then
-		customization_menu.menu_font_changed = false;
-		customization_menu.reload_font(false);
-	end
-
-	if modules_changed or global_settings_changed or small_monster_UI_changed or large_monster_dynamic_UI_changed or
-		large_monster_static_UI_changed or large_monster_highlighted_UI_changed or time_UI_changed or damage_meter_UI_changed or
-		endemic_life_UI_changed then
-		config.save();
-	end
 end
 
-function customization_menu.draw_modules()
-	local changed = false;
-	local config_changed = false;
-
-	if imgui.tree_node(language.current_language.customization_menu.modules) then
-		changed, config.current_config.small_monster_UI.enabled = imgui.checkbox(
-			language.current_language.customization_menu.small_monster_UI, config.current_config.small_monster_UI.enabled);
-		config_changed = config_changed or changed;
-
-		changed, config.current_config.large_monster_UI.dynamic.enabled =
-			imgui.checkbox(language.current_language.customization_menu.large_monster_dynamic_UI,
-				config.current_config.large_monster_UI.dynamic.enabled);
-		config_changed = config_changed or changed;
-
-		changed, config.current_config.large_monster_UI.static.enabled =
-			imgui.checkbox(language.current_language.customization_menu.large_monster_static_UI,
-				config.current_config.large_monster_UI.static.enabled);
-		config_changed = config_changed or changed;
-
-		changed, config.current_config.large_monster_UI.highlighted.enabled =
-			imgui.checkbox(language.current_language.customization_menu.large_monster_highlighted_UI,
-				config.current_config.large_monster_UI.highlighted.enabled);
-		config_changed = config_changed or changed;
-
-		changed, config.current_config.time_UI.enabled = imgui.checkbox(language.current_language.customization_menu.time_UI,
-			config.current_config.time_UI.enabled);
-		config_changed = config_changed or changed;
-
-		changed, config.current_config.damage_meter_UI.enabled = imgui.checkbox(
-			language.current_language.customization_menu.damage_meter_UI, config.current_config.damage_meter_UI.enabled);
-		config_changed = config_changed or changed;
-
-		changed, config.current_config.endemic_life_UI.enabled = imgui.checkbox(
-			language.current_language.customization_menu.endemic_life_UI, config.current_config.endemic_life_UI.enabled);
-		config_changed = config_changed or changed;
-		imgui.tree_pop();
-	end
-
-	return config_changed;
-end
-
-function customization_menu.draw_global_settings()
+function customization_menu.draw_global_settings(apply_font_requested, language_changed)
 	local changed = false;
 	local config_changed = false;
 	local modifiers_changed = false;
-	local apply_font_requested = false;
 
 	local index = 1;
 
 	if imgui.tree_node(language.current_language.customization_menu.global_settings) then
 		local cached_config = config.current_config.global_settings;
+
 		imgui.text(language.current_language.customization_menu.menu_font_change_disclaimer);
+
 		changed, index = imgui.combo(language.current_language.customization_menu.language .. "*",
 			table_helpers.find_index(language.language_names, cached_config.language), language.language_names);
 		config_changed = config_changed or changed;
@@ -652,28 +743,10 @@ function customization_menu.draw_global_settings()
 			language.update(index);
 			customization_menu.init();
 
-			apply_font_requested = true;
+			language_changed = true;
 			customization_menu.menu_font_changed = true;
-
-			part_names.init();
-			small_monster.init_list();
-			large_monster.init_list();
-			env_creature.init_list();
-
-			for _, player in pairs(players.list) do
-			players.init_UI(player);	
-			end
-
-			for _, servant in pairs(non_players.servant_list) do
-				non_players.init_UI(servant);
-			end
-
-			for _, otomo in pairs(non_players.otomo_list) do
-				non_players.init_UI(otomo);
-			end
-
-			players.init_UI(players.total);
-			players.init_highlighted_UI();
+			modifiers_changed = true;
+			apply_font_requested = true;
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.menu_font) then
@@ -906,7 +979,7 @@ function customization_menu.draw_global_settings()
 		imgui.tree_pop();
 	end
 
-	return config_changed, modifiers_changed, apply_font_requested;
+	return config_changed, modifiers_changed, apply_font_requested, language_changed;
 end
 
 function customization_menu.draw_small_monster_UI()

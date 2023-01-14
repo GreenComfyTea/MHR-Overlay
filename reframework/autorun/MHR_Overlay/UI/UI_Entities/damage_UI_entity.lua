@@ -10,8 +10,6 @@ local non_players;
 function damage_UI_entity.new(damage_meter_UI_elements, type)
 	local entity = {};
 
-	local cached_config = config.current_config.damage_meter_UI;
-
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
 	entity.bar = table_helpers.deep_copy(damage_meter_UI_elements.damage_bar);

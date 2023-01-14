@@ -18,6 +18,7 @@ local bar_customization;
 function ailment_buildups_customization.draw(cached_config)
 	local changed = false;
 	local config_changed = false;
+	local index = 1;
 
 	if imgui.tree_node(language.current_language.customization_menu.ailment_buildups) then
 		changed, cached_config.visibility = imgui.checkbox(
@@ -137,90 +138,8 @@ function ailment_buildups_customization.draw(cached_config)
 			imgui.tree_pop();
 		end
 
-		if imgui.tree_node(language.current_language.customization_menu.ailment_name_label) then
-			changed, cached_config.ailment_name_label.visibility =
-				imgui.checkbox(language.current_language.customization_menu.visible,
-					cached_config.ailment_name_label.visibility);
-
-			config_changed = config_changed or changed;
-
-			if imgui.tree_node(language.current_language.customization_menu.include) then
-				changed, cached_config.ailment_name_label.include.ailment_name = imgui.checkbox(
-					language.current_language.customization_menu.ailment_name,
-					cached_config.ailment_name_label.include.ailment_name);
-
-				config_changed = config_changed or changed;
-
-				changed, cached_config.ailment_name_label.include.activation_count = imgui.checkbox(
-					language.current_language.customization_menu.activation_count,
-					cached_config.ailment_name_label.include.activation_count);
-
-				config_changed = config_changed or changed;
-
-				imgui.tree_pop();
-			end
-
-			if imgui.tree_node(language.current_language.customization_menu.offset) then
-				changed, cached_config.ailment_name_label.offset.x = imgui.drag_float(
-					language.current_language.customization_menu.x, cached_config.ailment_name_label.offset.x, 
-					0.1, -screen.width, screen.width, "%.1f");
-
-				config_changed = config_changed or changed;
-
-				changed, cached_config.ailment_name_label.offset.y = imgui.drag_float(
-					language.current_language.customization_menu.y, cached_config.ailment_name_label.offset.y, 
-					0.1, -screen.height, screen.height, "%.1f");
-
-				config_changed = config_changed or changed;
-
-				imgui.tree_pop();
-			end
-
-			if imgui.tree_node(language.current_language.customization_menu.color) then
-				changed, cached_config.ailment_name_label.color = imgui.color_picker_argb(
-					"", cached_config.ailment_name_label.color, customization_menu.color_picker_flags);
-				
-				config_changed = config_changed or changed;
-
-				imgui.tree_pop();
-			end
-
-			if imgui.tree_node(language.current_language.customization_menu.shadow) then
-				changed, cached_config.ailment_name_label.shadow.visibility = imgui.checkbox(
-					language.current_language.customization_menu.visible, cached_config.ailment_name_label.shadow.visibility);
-
-				config_changed = config_changed or changed;
-
-				if imgui.tree_node(language.current_language.customization_menu.offset) then
-					changed, cached_config.ailment_name_label.shadow.offset.x = imgui.drag_float(
-						language.current_language.customization_menu.x, cached_config.ailment_name_label.shadow.offset.x, 
-						0.1, -screen.width, screen.width, "%.1f");
-
-					config_changed = config_changed or changed;
-
-					changed, cached_config.ailment_name_label.shadow.offset.y = imgui.drag_float(
-						language.current_language.customization_menu.y, cached_config.ailment_name_label.shadow.offset.y, 
-						0.1, -screen.height, screen.height, "%.1f");
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				if imgui.tree_node(language.current_language.customization_menu.color) then
-					changed, cached_config.ailment_name_label.shadow.color = imgui.color_picker_argb(
-						"", cached_config.ailment_name_label.shadow.color, customization_menu.color_picker_flags);
-
-					config_changed = config_changed or changed;
-
-					imgui.tree_pop();
-				end
-
-				imgui.tree_pop();
-			end
-
-			imgui.tree_pop();
-		end
+		changed = label_customization.draw(language.current_language.customization_menu.ailment_name_label, cached_config.ailment_name_label);
+		config_changed = config_changed or changed;
 
 		changed = label_customization.draw(language.current_language.customization_menu.player_name_label, cached_config.player_name_label);
 		config_changed = config_changed or changed;

@@ -139,6 +139,10 @@ function players.init_damage_sources()
 end
 
 function players.get_player(player_id)
+	if player_id == non_players.my_second_otomo_id then
+		return players.myself;
+	end
+
 	return players.list[player_id];
 end
 
@@ -172,6 +176,10 @@ function players.update_damage(player, damage_source_type, is_large_monster, dam
 		players.merge_damage(player_monster_type.poison, damage_object);
 	elseif damage_source_type == "blast" then
 		players.merge_damage(player_monster_type.blast, damage_object);
+	elseif damage_source_type == "otomo poison" then
+		players.merge_damage(player_monster_type.otomo_poison, damage_object);
+	elseif damage_source_type == "otomo blast" then
+		players.merge_damage(player_monster_type.otomo_blast, damage_object);
 	elseif damage_source_type == "endemic life" then
 		players.merge_damage(player_monster_type.endemic_life, damage_object);
 	elseif damage_source_type == "other" then
@@ -188,154 +196,166 @@ function players.update_display(player)
 		return;
 	end
 
+	local cached_config = config.current_config.damage_meter_UI;
+
 	player.display.total_damage = 0;
 	player.display.physical_damage = 0;
 	player.display.elemental_damage = 0;
 	player.display.ailment_damage = 0;
 
-	local cached_config = config.current_config.damage_meter_UI;
+	local monster_types = {};
 
 	if cached_config.tracked_monster_types.small_monsters then
-		if cached_config.tracked_damage_types.player_damage then
-			players.merge_damage(player.display, player.small_monsters);
-		end
-
-		if cached_config.tracked_damage_types.bomb_damage then
-			players.merge_damage(player.display, player.small_monsters.bombs);
-		end
-
-		if cached_config.tracked_damage_types.kunai_damage then
-			players.merge_damage(player.display, player.small_monsters.kunai);
-		end
-
-		if cached_config.tracked_damage_types.installation_damage then
-			players.merge_damage(player.display, player.small_monsters.installations);
-		end
-
-		if cached_config.tracked_damage_types.otomo_damage then
-			if player.type == players.types.myself then
-
-				if not cached_config.settings.show_my_otomos_separately then
-					players.merge_damage(player.display, player.small_monsters.otomo);
-				end
-			elseif player.type == players.types.other_players then
-
-				if not cached_config.settings.show_other_player_otomos_separately then
-					players.merge_damage(player.display, player.small_monsters.otomo);
-				end
-			elseif player.type == players.types.servants then
-
-				if not cached_config.settings.show_servant_otomos_separately then
-					players.merge_damage(player.display, player.small_monsters.otomo);
-				end
-			elseif player.type == players.types.my_otomo then
-
-				if cached_config.settings.show_my_otomos_separately then
-					players.merge_damage(player.display, player.small_monsters.otomo);
-				end
-			elseif player.type == players.types.other_player_otomo then
-
-				if cached_config.settings.show_other_player_otomos_separately then
-					players.merge_damage(player.display, player.small_monsters.otomo);
-				end
-			elseif player.type == players.types.servant_otomo then
-
-				if cached_config.settings.show_servant_otomos_separately then
-					players.merge_damage(player.display, player.small_monsters.otomo);
-				end
-			end
-		end
-
-		if cached_config.tracked_damage_types.wyvern_riding_damage then
-			players.merge_damage(player.display, player.small_monsters.wyvern_riding);
-		end
-
-		if cached_config.tracked_damage_types.poison_damage then
-			players.merge_damage(player.display, player.small_monsters.poison);
-		end
-
-		if cached_config.tracked_damage_types.blast_damage then
-			players.merge_damage(player.display, player.small_monsters.blast);
-		end
-
-		if cached_config.tracked_damage_types.endemic_life_damage then
-			players.merge_damage(player.display, player.small_monsters.endemic_life);
-		end
-
-		if cached_config.tracked_damage_types.other_damage then
-			players.merge_damage(player.display, player.small_monsters.other);
-		end
+		table.insert(monster_types, player.small_monsters);
 	end
 
 	if cached_config.tracked_monster_types.large_monsters then
+		table.insert(monster_types, player.large_monsters);
+	end
+
+	for _, monster_type in ipairs(monster_types) do
 		if cached_config.tracked_damage_types.player_damage then
-			players.merge_damage(player.display, player.large_monsters);
+			players.merge_damage(player.display, monster_type);
 		end
 
 		if cached_config.tracked_damage_types.bomb_damage then
-			players.merge_damage(player.display, player.large_monsters.bombs);
+			players.merge_damage(player.display, monster_type.bombs);
 		end
 
 		if cached_config.tracked_damage_types.kunai_damage then
-			players.merge_damage(player.display, player.large_monsters.kunai);
+			players.merge_damage(player.display, monster_type.kunai);
 		end
 
 		if cached_config.tracked_damage_types.installation_damage then
-			players.merge_damage(player.display, player.large_monsters.installations);
+			players.merge_damage(player.display, monster_type.installations);
 		end
 
 		if cached_config.tracked_damage_types.otomo_damage then
 			if player.type == players.types.myself then
 
 				if not cached_config.settings.show_my_otomos_separately then
-					players.merge_damage(player.display, player.large_monsters.otomo);
+					players.merge_damage(player.display, monster_type.otomo);
 				end
-			elseif player.type == players.types.other_players then
+			elseif player.type == players.types.other_player then
 
 				if not cached_config.settings.show_other_player_otomos_separately then
-					players.merge_damage(player.display, player.large_monsters.otomo);
+					players.merge_damage(player.display, monster_type.otomo);
 				end
-			elseif player.type == players.types.servants then
-
+			elseif player.type == players.types.servant then
+				
 				if not cached_config.settings.show_servant_otomos_separately then
-					players.merge_damage(player.display, player.large_monsters.otomo);
+					players.merge_damage(player.display, monster_type.otomo);
 				end
 			elseif player.type == players.types.my_otomo then
 
 				if cached_config.settings.show_my_otomos_separately then
-					players.merge_damage(player.display, player.large_monsters.otomo);
+					players.merge_damage(player.display, monster_type.otomo);
 				end
 			elseif player.type == players.types.other_player_otomo then
 
 				if cached_config.settings.show_other_player_otomos_separately then
-					players.merge_damage(player.display, player.large_monsters.otomo);
+					players.merge_damage(player.display, monster_type.otomo);
 				end
 			elseif player.type == players.types.servant_otomo then
-				
+
 				if cached_config.settings.show_servant_otomos_separately then
-					players.merge_damage(player.display, player.large_monsters.otomo);
+					players.merge_damage(player.display, monster_type.otomo);
 				end
+			elseif player.type == players.types.total then
+
+				players.merge_damage(player.display, monster_type.otomo);
 			end
 		end
 
 		if cached_config.tracked_damage_types.wyvern_riding_damage then
-			players.merge_damage(player.display, player.large_monsters.wyvern_riding);
+			players.merge_damage(player.display, monster_type.wyvern_riding);
 		end
 
 		if cached_config.tracked_damage_types.poison_damage then
-			players.merge_damage(player.display, player.large_monsters.poison);
+			players.merge_damage(player.display, monster_type.poison);
+
+			if player.type == players.types.myself then
+
+				if not cached_config.settings.show_my_otomos_separately then
+					players.merge_damage(player.display, monster_type.otomo_poison);
+				end
+			elseif player.type == players.types.other_player then
+
+				if not cached_config.settings.show_other_player_otomos_separately then
+					players.merge_damage(player.display, monster_type.otomo_poison);
+				end
+			elseif player.type == players.types.servant then
+
+				if not cached_config.settings.show_servant_otomos_separately then
+					players.merge_damage(player.display, monster_type.otomo_poison);
+				end
+			elseif player.type == players.types.my_otomo then
+
+				if cached_config.settings.show_my_otomos_separately then
+					players.merge_damage(player.display, monster_type.otomo_poison);
+				end
+			elseif player.type == players.types.other_player_otomo then
+
+				if cached_config.settings.show_other_player_otomos_separately then
+					players.merge_damage(player.display, monster_type.otomo_poison);
+				end
+			elseif player.type == players.types.servant_otomo then
+
+				if cached_config.settings.show_servant_otomos_separately then
+					players.merge_damage(player.display, monster_type.otomo_poison);
+				end
+
+			elseif player.type == players.types.total then
+				
+				players.merge_damage(player.display, monster_type.otomo_poison);
+			end
 		end
 
 		if cached_config.tracked_damage_types.blast_damage then
-			players.merge_damage(player.display, player.large_monsters.blast);
+			players.merge_damage(player.display, monster_type.blast);
+
+			if player.type == players.types.myself then
+
+				if not cached_config.settings.show_my_otomos_separately then
+					players.merge_damage(player.display, monster_type.otomo_blast);
+				end
+			elseif player.type == players.types.other_player then
+
+				if not cached_config.settings.show_other_player_otomos_separately then
+					players.merge_damage(player.display, monster_type.otomo_blast);
+				end
+			elseif player.type == players.types.servant then
+
+				if not cached_config.settings.show_servant_otomos_separately then
+					players.merge_damage(player.display, monster_type.otomo_blast);
+				end
+			elseif player.type == players.types.my_otomo then
+
+				if cached_config.settings.show_my_otomos_separately then
+					players.merge_damage(player.display, monster_type.otomo_blast);
+				end
+			elseif player.type == players.types.other_player_otomo then
+
+				if cached_config.settings.show_other_player_otomos_separately then
+					players.merge_damage(player.display, monster_type.otomo_blast);
+				end
+			elseif player.type == players.types.servant_otomo then
+
+				if cached_config.settings.show_servant_otomos_separately then
+					players.merge_damage(player.display, monster_type.otomo_blast);
+				end
+			elseif player.type == players.types.total then
+				
+				players.merge_damage(player.display, monster_type.otomo_blast);
+			end
 		end
 
 		if cached_config.tracked_damage_types.endemic_life_damage then
-			players.merge_damage(player.display, player.large_monsters.endemic_life);
+			players.merge_damage(player.display, monster_type.endemic_life);
 		end
 
 		if cached_config.tracked_damage_types.other_damage then
-			players.merge_damage(player.display, player.large_monsters.other);
+			players.merge_damage(player.display, monster_type.other);
 		end
 	end
 end

@@ -55,34 +55,33 @@ function ailment_buildup_UI_entity.new(buildup_bar, highlighted_buildup_bar, ail
 	return entity;
 end
 
-function ailment_buildup_UI_entity.draw(_player_buildup, ailment_buildup_UI, cached_config, position_on_screen, opacity_scale, top_buildup)
+function ailment_buildup_UI_entity.draw(player, player_buildup, ailment_buildup_UI, cached_config, position_on_screen, opacity_scale, top_buildup)
 	local player_buildup_bar_percentage = 0;
 
 	if cached_config.settings.buildup_bar_relative_to == "Total Buildup" then
-		player_buildup_bar_percentage = _player_buildup.buildup_share;
+		player_buildup_bar_percentage = player_buildup.buildup_share;
 	else
 		if top_buildup ~= 0 then
-			player_buildup_bar_percentage = _player_buildup.buildup / top_buildup;
+			player_buildup_bar_percentage = player_buildup.buildup / top_buildup;
 		end
 	end
 
-	if _player_buildup.id == players.myself.id and cached_config.settings.highlighted_bar == "Me" then
+	if player.type == players.types.myself and cached_config.settings.highlighted_bar == "Me" then
 		drawing.draw_bar(ailment_buildup_UI.highlighted_buildup_bar, position_on_screen, opacity_scale, player_buildup_bar_percentage);
-	elseif cached_config.settings.highlighted_bar == "Top Buildup" and _player_buildup.buildup == top_buildup then
+	elseif cached_config.settings.highlighted_bar == "Top Buildup" and player_buildup.buildup == top_buildup then
 		drawing.draw_bar(ailment_buildup_UI.highlighted_buildup_bar, position_on_screen, opacity_scale, player_buildup_bar_percentage);
 	else
 		drawing.draw_bar(ailment_buildup_UI.buildup_bar, position_on_screen, opacity_scale, player_buildup_bar_percentage);
 	end
 
-	local player = players.get_player(_player_buildup.id);
-	local player_name = "Player " .. tostring(_player_buildup.id);
+	local player_name = tostring(player_buildup.id);
 	if player ~= nil then
 		player_name = player.name;
 	end
 
 	drawing.draw_label(ailment_buildup_UI.player_name_label, position_on_screen, opacity_scale, player_name);
-	drawing.draw_label(ailment_buildup_UI.buildup_value_label, position_on_screen, opacity_scale, _player_buildup.buildup);
-	drawing.draw_label(ailment_buildup_UI.buildup_percentage_label, position_on_screen, opacity_scale, 100 * _player_buildup.buildup_share);
+	drawing.draw_label(ailment_buildup_UI.buildup_value_label, position_on_screen, opacity_scale, player_buildup.buildup);
+	drawing.draw_label(ailment_buildup_UI.buildup_percentage_label, position_on_screen, opacity_scale, 100 * player_buildup.buildup_share);
 end
 
 function ailment_buildup_UI_entity.init_module()

@@ -303,6 +303,8 @@ function large_monster.init_UI(monster, monster_UI, cached_config)
 		cached_config.ailment_buildups.total_buildup_label,
 		cached_config.ailment_buildups.total_buildup_value_label
 	);
+
+	ailments.init_ailment_names(monster.ailments);
 end
 
 local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");

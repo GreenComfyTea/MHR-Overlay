@@ -3,6 +3,9 @@ local table_helpers;
 
 language.language_folder = "MHR Overlay\\languages\\";
 
+language.current_language = {};
+
+
 language.default_language = {
 	font_name = "NotoSansKR-Bold.otf",
 	parts = {
@@ -445,13 +448,18 @@ language.default_language = {
 		myself = "Myself",
 		total = "Total",
 
-		level_label = "Level Label"
+		level_label = "Level Label",
+
+		config = "Config",
+		rename = "Rename",
+		duplicate = "Duplicate",
+		delete = "Delete",
+		new = "New",
+		reset = "Reset"
 	}
 };
 
-language.current_language = {};
-
-language.language_names = { "default" };
+language.language_names = { "default"};
 language.languages = { language.default_language };
 
 function language.load()
@@ -466,7 +474,8 @@ function language.load()
 
 		local loaded_language = json.load_file(language_file_name);
 		if loaded_language ~= nil then
-			log.info("[MHR Overlay] " .. language_name .. ".json loaded successfully");
+
+			log.info("[MHR Overlay] " .. language_file_name .. ".json loaded successfully");
 			table.insert(language.language_names, language_name);
 
 			local merged_language = table_helpers.merge(language.default_language, loaded_language);
@@ -474,8 +483,9 @@ function language.load()
 
 			language.save(language_file_name, merged_language);
 
+
 		else
-			log.error("[MHR Overlay] Failed to load " .. language_name .. ".json");
+			log.error("[MHR Overlay] Failed to load " .. language_file_name .. ".json");
 		end
 	end
 end
@@ -483,25 +493,26 @@ end
 function language.save(file_name, language_table)
 	local success = json.dump_file(file_name, language_table);
 	if success then
-		log.info("[MHR Overlay] en-us.json saved successfully");
+		log.info("[MHR Overlay] " .. file_name .. " saved successfully");
 	else
-		log.error("[MHR Overlay] Failed to save en-us.json");
+		log.error("[MHR Overlay] Failed to save " .. file_name);
 	end
 end
 
 function language.save_default()
-	language.save(language.language_folder .. "en-us.json", language.default_language)
+	language.save(language.language_folder .. "en-us.json", language.default_language);
 end
 
 function language.update(index)
-	language.current_language = table_helpers.deep_copy(language.languages[index]);
+	language.current_language = language.languages[index];
 end
 
 function language.init_module()
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	
 	language.save_default();
 	language.load();
-	language.current_language = table_helpers.deep_copy(language.default_language);
+	language.current_language = language.default_language;
 end
 
 return language;

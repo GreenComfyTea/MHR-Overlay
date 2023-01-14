@@ -159,41 +159,40 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 		monster = small_monster.get_monster(enemy);
 	end
 
-	local attacking_player = nil;
-	local attacking_otomo = nil;
+	local player = nil;
+	local otomo = nil;
 
 	if not is_otomo_attack then
-		attacking_player = players.get_player(attacker_id);
+		player = players.get_player(attacker_id);
 
-		if attacking_player == nil then
-			attacking_player = non_players.get_servant(attacker_id);
-		end
-
-		local stun_damage = stun_damage_field:get_data(enemy_calc_damage_info);
-		if attacking_player ~= nil then
-			ailments.apply_ailment_buildup(monster, attacker_id, ailments.stun_id, stun_damage);
-
-			ailments.apply_ailment_buildup(monster, attacker_id, condition_type, condition_damage);
-			ailments.apply_ailment_buildup(monster, attacker_id, condition_type2, condition_damage2);
-			ailments.apply_ailment_buildup(monster, attacker_id, condition_type3, condition_damage3);
+		if player == nil then
+			player = non_players.get_servant(attacker_id);
 		end
 	else
 		if attacker_id < 4 then
-			attacking_player = players.get_player(attacker_id);
-			attacking_otomo = non_players.get_otomo(attacker_id);
+			player = players.get_player(attacker_id);
+			otomo = non_players.get_otomo(attacker_id);
 		elseif attacker_id == 4 then
-			attacking_player = players.myself
-			attacking_otomo = non_players.get_otomo(non_players.my_second_otomo_id);
+			player = players.myself
+			otomo = non_players.get_otomo(non_players.my_second_otomo_id);
 		else 
-			attacking_player = non_players.get_servant(attacker_id - 1);
-			attacking_otomo = non_players.get_otomo(attacker_id - 1);
+			player = non_players.get_servant(attacker_id - 1);
+			otomo = non_players.get_otomo(attacker_id - 1);
 		end
 
-		players.update_damage(attacking_otomo, damage_source_type, is_large_monster, damage_object);
+		players.update_damage(otomo, damage_source_type, is_large_monster, damage_object);
 	end
 
+	local stun_damage = stun_damage_field:get_data(enemy_calc_damage_info);
+	ailments.apply_ailment_buildup(monster, player, otomo, ailments.stun_id, stun_damage);
+
+	ailments.apply_ailment_buildup(monster, player, otomo, condition_type, condition_damage);
+	ailments.apply_ailment_buildup(monster, player, otomo, condition_type2, condition_damage2);
+	ailments.apply_ailment_buildup(monster, player, otomo, condition_type3, condition_damage3);
+
 	players.update_damage(players.total, damage_source_type, is_large_monster, damage_object);
-	players.update_damage(attacking_player, damage_source_type, is_large_monster, damage_object);
+	players.update_damage(player, damage_source_type, is_large_monster, damage_object);
+
 
 	--xy = xy .. "\nPlayer: " .. tostring(attacker_id) ..
 	--" " .. tostring(attacking_player.name) ..
@@ -204,15 +203,15 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	--" Condition Type: ("	.. tostring(attacker_type) ..
 	--") " .. tostring(condition_type);
 
-	--if is_otomo_attack then
-		--xy = xy .. "\nOtomo Master: " .. tostring(attacking_player.id) ..
-		--" " .. tostring(attacking_player.name) ..
-		--" Damage: " .. tostring(damage_object.total_damage);
+	--[[if is_otomo_attack then
+		xy = xy .. "\nOtomo Master: " .. tostring(player.id) ..
+		" " .. tostring(player.name) ..
+		" Damage: " .. tostring(damage_object.total_damage);
 
-		--xy = xy .. "\nOtomo: " .. tostring(attacking_otomo.id) ..
-		--" " .. tostring(attacking_otomo.name) ..
-		--" Damage: " .. tostring(damage_object.total_damage);
-	--end
+		xy = xy .. "\nOtomo: " .. tostring(otomo.id) ..
+		" " .. tostring(otomo.name) ..
+		" Damage: " .. tostring(damage_object.total_damage);
+	end]]
 
 	--if string.len(xy) > 2700 then
 	--	xy = "";
