@@ -582,8 +582,6 @@ function players.update_player_list_(hunter_info_field_)
 	end
 
 	for i = 0, count - 1 do
-		
-
 		local player_info = get_item_method:call(player_info_list, i);
 		if player_info == nil then
 			goto continue

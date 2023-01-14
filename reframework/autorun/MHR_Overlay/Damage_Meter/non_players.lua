@@ -187,12 +187,13 @@ function non_players.update_my_otomos()
 		if name ~= nil and name ~= "" then
 			local level = otomo_create_data_level_field:get_data(first_otomo) or 0;
 
-			if non_players.otomo_list[0] == nil then
-				non_players.otomo_list[0] = non_players.new(0, name, level, players.types.my_otomo);
+			local myself_id = players.myself.id;
+			if non_players.otomo_list[myself_id] == nil then
+				non_players.otomo_list[myself_id] = non_players.new(0, name, level, players.types.my_otomo);
 			end
 
 			if cached_config.settings.show_my_otomos_separately then
-				table.insert(players.display_list, non_players.otomo_list[0]);
+				table.insert(players.display_list, non_players.otomo_list[myself_id]);
 			end
 		end
 	end
