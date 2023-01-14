@@ -99,6 +99,18 @@ function damage_meter_UI.draw()
 			if cached_config.settings.hide_other_players then
 				goto continue
 			end
+		elseif player.type == players.types.my_otomo then
+			if not cached_config.settings.show_my_otomos_separately then
+				goto continue
+			end
+		elseif player.type == players.types.other_player_otomo then
+			if not cached_config.settings.show_other_player_otomos_separately then
+				goto continue
+			end
+		elseif player.type == players.types.servant_otomo then
+			if not cached_config.settings.show_servant_otomos_separately then
+				goto continue
+			end
 		end
 
 		players.draw(player, position_on_screen, 1, top_damage, top_dps);
