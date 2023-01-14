@@ -180,7 +180,6 @@ function damage_UI_entity.draw(player, position_on_screen, opacity_scale, top_da
 		end
 	end
 	
-
 	drawing.draw_bar(bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
 
 	name_text = drawing.limit_text_size(name_text, player.damage_UI.player_name_size_limit);
@@ -192,7 +191,12 @@ function damage_UI_entity.draw(player, position_on_screen, opacity_scale, top_da
 	drawing.draw_label(dps_label, position_on_screen, opacity_scale, player.dps);
 	
 	if is_on_quest then
-		drawing.draw_label(player.damage_UI.cart_count_label, position_on_screen, opacity_scale, player.cart_count);
+		if player.type == players.types.total then
+			drawing.draw_label(player.damage_UI.cart_count_label, position_on_screen, opacity_scale, quest_status.cart_count, quest_status.max_cart_count);
+		else
+			drawing.draw_label(player.damage_UI.cart_count_label, position_on_screen, opacity_scale, player.cart_count);
+		end
+		
 	end
 end
 
