@@ -1927,7 +1927,7 @@ function config.init_default()
 	
 				position = {
 					x = 525,
-					y = 47,
+					y = 50,
 					anchor = "Bottom-Left"
 				},
 	
