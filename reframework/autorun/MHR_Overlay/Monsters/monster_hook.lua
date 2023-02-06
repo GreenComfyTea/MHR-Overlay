@@ -43,12 +43,14 @@ local is_boss_enemy_method = enemy_character_base_type_def:get_method("get_isBos
 
 local enemy_damage_check_type_def = sdk.find_type_definition("snow.enemy.EnemyDamageCheck");
 local damage_check_update_param_update_method = enemy_damage_check_type_def:get_method("updateParam");
+local get_ref_enemy = enemy_damage_check_type_def:get_method("get_RefEnemy");
 
 local anger_param_type_def = sdk.find_type_definition("snow.enemy.EnemyAngerParam");
 local anger_add_method = anger_param_type_def:get_method("add");
 
 local stamina_param_type_def = sdk.find_type_definition("snow.enemy.EnemyStaminaParam");
 local stamina_sub_method = stamina_param_type_def:get_method("sub");
+local get_enemy_method = stamina_param_type_def:get_method("get_Em");
 
 local tick_count = 0;
 local last_update_tick = 0;
@@ -193,8 +195,8 @@ function monster_hook.update_small_monster(enemy)
 	end
 end
 
-function monster_hook.update_health(enemy_damage_stock_param)
-	local enemy = enemy_damage_stock_param:call("get_RefEnemy");
+function monster_hook.update_health(enemy_damage_check)
+	local enemy = get_ref_enemy:call(enemy_damage_check);
 	if enemy == nil then
 		return;
 	end
@@ -220,7 +222,7 @@ function monster_hook.update_stamina(stamina_param, stamina_sub)
 		return;
 	end
 
-	local enemy = stamina_param:call("get_Em");
+	local enemy = get_enemy_method:call(stamina_param);
 	if enemy == nil then
 		return;
 	end
