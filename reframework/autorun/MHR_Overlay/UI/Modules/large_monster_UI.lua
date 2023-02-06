@@ -121,14 +121,23 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 	end
 
 	if dynamic_enabled then
-		large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster, cached_config);
+		local success = pcall(large_monster_UI.draw_dynamic, displayed_monsters, highlighted_monster, cached_config);
+		if not success then
+			customization_menu.status = string.format("[%s] Dynamic Large Monster drawing function threw an exception");
+		end
 	end
 
 	if highlighted_enabled then
-		large_monster_UI.draw_highlighted(highlighted_monster, cached_config);
+		local success = pcall(large_monster_UI.draw_highlighted, highlighted_monster, cached_config);
+		if not success then
+			customization_menu.status = string.format("[%s] Highlighted Large Monster drawing function threw an exception");
+		end
 	end
 	if static_enabled then
-		large_monster_UI.draw_static(displayed_monsters, highlighted_monster, cached_config);
+		local success = pcall(large_monster_UI.draw_static, displayed_monsters, highlighted_monster, cached_config);
+		if not success then
+			customization_menu.status = string.format("[%s] Static Large Monster drawing function threw an exception");
+		end
 	end
 end
 
