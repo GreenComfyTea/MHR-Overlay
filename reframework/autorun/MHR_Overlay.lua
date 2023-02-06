@@ -291,8 +291,8 @@ if debug.enabled then
 			end
 
 			if xy ~= "" then
-				d2d.text(drawing.font, "xy:\n" .. tostring(xy), 6, 11, 0xFF000000);
-				d2d.text(drawing.font, "xy:\n" .. tostring(xy), 5, 10, 0xFFFFFFFF);
+				d2d.text(drawing.font, "xy:\n" .. tostring(xy), 6, 31, 0xFF000000);
+				d2d.text(drawing.font, "xy:\n" .. tostring(xy), 5, 30, 0xFFFFFFFF);
 			end
 		end);
 	end
@@ -303,8 +303,8 @@ if debug.enabled then
 		end
 
 		if xy ~= "" then
-			draw.text("xy:\n" .. tostring(xy), 6, 11, 0xFF000000);	
-			draw.text("xy:\n" .. tostring(xy), 5, 10, 0xFFFFFFFF);
+			draw.text("xy:\n" .. tostring(xy), 6, 31, 0xFF000000);	
+			draw.text("xy:\n" .. tostring(xy), 5, 30, 0xFFFFFFFF);
 		end
 	end);
 end

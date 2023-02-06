@@ -127,7 +127,6 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 	if highlighted_enabled then
 		large_monster_UI.draw_highlighted(highlighted_monster, cached_config);
 	end
-
 	if static_enabled then
 		large_monster_UI.draw_static(displayed_monsters, highlighted_monster, cached_config);
 	end
@@ -281,7 +280,7 @@ function large_monster_UI.draw_highlighted(monster, cached_config)
 
 	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 
-	if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
+	if monster.dead_or_captured then
 		return;
 	end
 

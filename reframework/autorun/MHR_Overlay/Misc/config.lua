@@ -3041,7 +3041,7 @@ function config.init_default()
 	
 			highlighted = {
 				enabled = true,
-	
+
 				position = {
 					x = 615,
 					y = 25, -- y = 44,
