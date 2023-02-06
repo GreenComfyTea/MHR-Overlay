@@ -1,4 +1,5 @@
 local small_monster = {};
+
 local singletons;
 local customization_menu;
 local config;
@@ -11,6 +12,35 @@ local ailments;
 local ailment_UI_entity;
 local ailment_buildup;
 local ailment_buildup_UI_entity;
+
+local sdk = sdk;
+local tostring = tostring;
+local pairs = pairs;
+local ipairs = ipairs;
+local tonumber = tonumber;
+local require = require;
+local pcall = pcall;
+local table = table;
+local string = string;
+local Vector3f = Vector3f;
+local d2d = d2d;
+local math = math;
+local json = json;
+local log = log;
+local fs = fs;
+local next = next;
+local type = type;
+local setmetatable = setmetatable;
+local getmetatable = getmetatable;
+local assert = assert;
+local select = select;
+local coroutine = coroutine;
+local utf8 = utf8;
+local re = re;
+local imgui = imgui;
+local draw = draw;
+local Vector2f = Vector2f;
+local reframework = reframework;
 
 small_monster.list = {};
 

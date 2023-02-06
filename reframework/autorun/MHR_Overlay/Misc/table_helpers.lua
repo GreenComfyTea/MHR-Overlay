@@ -1,6 +1,33 @@
 local table_helpers = {};
 
+local sdk = sdk;
+local tostring = tostring;
+local pairs = pairs;
+local ipairs = ipairs;
+local tonumber = tonumber;
+local require = require;
+local pcall = pcall;
+local table = table;
+local string = string;
+local Vector3f = Vector3f;
+local d2d = d2d;
+local math = math;
+local json = json;
+local log = log;
+local fs = fs;
 local next = next;
+local type = type;
+local setmetatable = setmetatable;
+local getmetatable = getmetatable;
+local assert = assert;
+local select = select;
+local coroutine = coroutine;
+local utf8 = utf8;
+local re = re;
+local imgui = imgui;
+local draw = draw;
+local Vector2f = Vector2f;
+local reframework = reframework;
 
 function table_helpers.deep_copy(original, copies)
 	copies = copies or {};
@@ -13,13 +40,9 @@ function table_helpers.deep_copy(original, copies)
 			copy = {};
 			copies[original] = copy;
 			for original_key, original_value in next, original, nil do
-				copy[table_helpers.deep_copy(original_key, copies)] = table_helpers.deep_copy(original_value
-					,
-					copies);
+				copy[table_helpers.deep_copy(original_key, copies)] = table_helpers.deep_copy(original_value,copies);
 			end
-			setmetatable(copy,
-				table_helpers.deep_copy(getmetatable(original)
-					, copies));
+			setmetatable(copy, table_helpers.deep_copy(getmetatable(original), copies));
 		end
 	else -- number, string, boolean, etc
 		copy = original;

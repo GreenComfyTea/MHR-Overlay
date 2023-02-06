@@ -1,5 +1,6 @@
-local config = require "MHR_Overlay.Misc.config"
 local keyboard = {};
+
+local config;
 local singletons;
 local customization_menu;
 local players;
@@ -7,6 +8,35 @@ local small_monster;
 local large_monster;
 local damage_meter_UI;
 local time;
+
+local sdk = sdk;
+local tostring = tostring;
+local pairs = pairs;
+local ipairs = ipairs;
+local tonumber = tonumber;
+local require = require;
+local pcall = pcall;
+local table = table;
+local string = string;
+local Vector3f = Vector3f;
+local d2d = d2d;
+local math = math;
+local json = json;
+local log = log;
+local fs = fs;
+local next = next;
+local type = type;
+local setmetatable = setmetatable;
+local getmetatable = getmetatable;
+local assert = assert;
+local select = select;
+local coroutine = coroutine;
+local utf8 = utf8;
+local re = re;
+local imgui = imgui;
+local draw = draw;
+local Vector2f = Vector2f;
+local reframework = reframework;
 
 local game_keyboard_type_def = sdk.find_type_definition("snow.GameKeyboard");
 local hard_keyboard_field = game_keyboard_type_def:get_field("hardKeyboard");
@@ -572,6 +602,7 @@ function keyboard.get_hotkey_name(hotkey)
 end
 
 function keyboard.init_module()
+	config = require "MHR_Overlay.Misc.config"
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	players = require("MHR_Overlay.Damage_Meter.players");
