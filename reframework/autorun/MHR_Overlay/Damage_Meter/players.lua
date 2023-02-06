@@ -57,6 +57,10 @@ function players.new(id, name, master_rank, hunter_rank, type)
 
 	players.init_UI(player);
 
+	if players.highlighted_damage_UI == nil then
+		players.init_highlighted_UI();
+	end
+
 	return player;
 end
 

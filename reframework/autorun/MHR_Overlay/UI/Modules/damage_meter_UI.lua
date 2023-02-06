@@ -79,8 +79,7 @@ function damage_meter_UI.draw()
 	if not cached_config.settings.total_damage_offset_is_relative then
 		position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 	end
-	
-	
+
 	for _, player in ipairs(quest_players) do
 		
 		if player.display.total_damage == 0 and cached_config.settings.hide_player_if_player_damage_is_zero then
