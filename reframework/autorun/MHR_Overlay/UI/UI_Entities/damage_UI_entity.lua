@@ -169,8 +169,8 @@ function damage_UI_entity.draw(player, position_on_screen, opacity_scale, top_da
 	local dps_label = player.damage_UI.dps_label;
 
 	if player.type ~= players.types.total then
-		if (cached_config.settings.highlighted_bar == "Top Damage" and player.display.total_damage == top_damage) or
-		(cached_config.settings.highlighted_bar == "Top DPS" and player.dps == top_dps) then
+		if (cached_config.settings.highlighted_bar == "Top Damage" and player.display.total_damage == top_damage and top_damage ~= 0) or
+		(cached_config.settings.highlighted_bar == "Top DPS" and player.dps == top_dps and top_dps ~= 0) then
 			bar = players.highlighted_damage_UI.bar;
 			name_label = players.highlighted_damage_UI.name_label;
 			hunter_rank_label = players.highlighted_damage_UI.hunter_rank_label;
@@ -179,7 +179,7 @@ function damage_UI_entity.draw(player, position_on_screen, opacity_scale, top_da
 			dps_label = players.highlighted_damage_UI.dps_label;
 		end
 	end
-	
+
 	drawing.draw_bar(bar, position_on_screen, opacity_scale, player_damage_bar_percentage);
 
 	name_text = drawing.limit_text_size(name_text, player.damage_UI.player_name_size_limit);
