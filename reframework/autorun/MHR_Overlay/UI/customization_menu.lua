@@ -80,7 +80,7 @@ customization_menu.displayed_ailment_buildups_sorting_types = {};
 customization_menu.displayed_highlighted_buildup_bar_types = {};
 customization_menu.displayed_buildup_bar_relative_types = {};
 
-customization_menu.displayed_damage_meter_UI_highlighted_bar_types = {};
+customization_menu.displayed_damage_meter_UI_highlighted_entity_types = {};
 customization_menu.displayed_damage_meter_UI_damage_bar_relative_types = {};
 customization_menu.displayed_damage_meter_UI_my_damage_bar_location_types = {};
 customization_menu.displayed_damage_meter_UI_total_damage_location_types = {};
@@ -99,7 +99,7 @@ customization_menu.ailment_buildups_sorting_types = {};
 customization_menu.highlighted_buildup_bar_types = {};
 customization_menu.buildup_bar_relative_types = {};
 
-customization_menu.damage_meter_UI_highlighted_bar_types = {};
+customization_menu.damage_meter_UI_highlighted_entity_types = {};
 customization_menu.damage_meter_UI_damage_bar_relative_types = {};
 customization_menu.damage_meter_UI_my_damage_bar_location_types = {};
 customization_menu.damage_meter_UI_total_damage_location_types = {};
@@ -180,7 +180,7 @@ function customization_menu.init()
 
 	customization_menu.displayed_buildup_bar_relative_types = {language.current_language.customization_menu.total_buildup,
                                                             language.current_language.customization_menu.top_buildup};
-	customization_menu.displayed_damage_meter_UI_highlighted_bar_types =
+	customization_menu.displayed_damage_meter_UI_highlighted_entity_types =
 		{language.current_language.customization_menu.top_damage,
    language.current_language.customization_menu.top_dps, language.current_language.customization_menu.none};
 
@@ -248,7 +248,7 @@ function customization_menu.init()
 	customization_menu.buildup_bar_relative_types = {language.default_language.customization_menu.total_buildup,
                                                   language.default_language.customization_menu.top_buildup};
 
-	customization_menu.damage_meter_UI_highlighted_bar_types = {language.default_language.customization_menu.top_damage,
+	customization_menu.damage_meter_UI_highlighted_entity_types = {language.default_language.customization_menu.top_damage,
                                                              language.default_language.customization_menu.top_dps,
                                                              language.default_language.customization_menu.none};
 	customization_menu.damage_meter_UI_damage_bar_relative_types =
@@ -1391,7 +1391,7 @@ function customization_menu.draw_large_monster_highlighted_UI()
 	local config_changed = false;
 	local index = 1;
 
-	if imgui.tree_node(language.current_language.customization_menu.highlighted) then
+	if imgui.tree_node(language.current_language.customization_menu.highlighted_targeted) then
 		local cached_config = config.current_config.large_monster_UI.highlighted;
 		
 		changed, cached_config.enabled = imgui.checkbox(
@@ -1590,14 +1590,14 @@ function customization_menu.draw_damage_meter_UI()
 			end
 
 			changed, index = imgui.combo(
-				language.current_language.customization_menu.highlighted_bar,
-				table_helpers.find_index(customization_menu.damage_meter_UI_highlighted_bar_types, cached_config.settings.highlighted_bar),
-				customization_menu.displayed_damage_meter_UI_highlighted_bar_types);
+				language.current_language.customization_menu.highlighted,
+				table_helpers.find_index(customization_menu.damage_meter_UI_highlighted_entity_types, cached_config.settings.highlighted_bar),
+				customization_menu.displayed_damage_meter_UI_highlighted_entity_types);
 
 			config_changed = config_changed or changed;
 
 			if changed then
-				cached_config.settings.highlighted_bar = customization_menu.damage_meter_UI_highlighted_bar_types[index];
+				cached_config.settings.highlighted_bar = customization_menu.damage_meter_UI_highlighted_entity_types[index];
 			end
 
 			changed, index = imgui.combo(

@@ -4267,7 +4267,7 @@ function config.init_default()
 	
 	
 				orientation = "Vertical", -- "Vertical" or "Horizontal"
-				highlighted_bar = "None",
+				highlight = "Top Damage",
 				damage_bar_relative_to = "Top Damage", -- "total damage" or "top damage"
 				my_damage_bar_location = "Last", -- "normal" or "first" or "last"
 				total_damage_location = "First",

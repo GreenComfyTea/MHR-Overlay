@@ -268,7 +268,7 @@ language.default_language = {
 
 		dynamically_positioned = "Dynamically Positioned",
 		statically_positioned = "Statically Positioned",
-		highlighted = "Highlighted (targeted)",
+		highlighted_targeted = "Highlighted (targeted)",
 
 		include = "Include",
 		monster_name = "Monster Name",
@@ -485,7 +485,9 @@ language.default_language = {
 		duplicate = "Duplicate",
 		delete = "Delete",
 		new = "New",
-		reset = "Reset"
+		reset = "Reset",
+
+		highlighted = "Highlighted"
 	}
 };
 
