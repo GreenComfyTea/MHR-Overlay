@@ -36,8 +36,6 @@ function time.tick()
 		time.elapsed_minutes = quest_time_elapsed_minutes;
 	end
 
-
-
 	local quest_time_total_elapsed_seconds = get_quest_elapsed_time_sec_method:call(singletons.quest_manager);
 	if quest_time_total_elapsed_seconds == nil then
 		customization_menu.status = "No quest time total elapsed seconds";

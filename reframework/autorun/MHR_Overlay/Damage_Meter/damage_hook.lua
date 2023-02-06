@@ -193,27 +193,17 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 	players.update_damage(players.total, damage_source_type, is_large_monster, damage_object);
 	players.update_damage(player, damage_source_type, is_large_monster, damage_object);
 
+	--xy = xy .. "\nPlayer: " .. tostring(player.id) ..
+	--	" " .. tostring(player.name) ..
+	--	" Damage: " .. tostring(damage_object.total_damage);
 
-	--xy = xy .. "\nPlayer: " .. tostring(attacker_id) ..
-	--" " .. tostring(attacking_player.name) ..
-	--" Damage: " .. tostring(damage_object.total_damage) ..
-	--" Type: ("	.. tostring(attacker_type);
-	--") " ..
-	--" Condition Damage: " .. tostring(condition_damage) ..
-	--" Condition Type: ("	.. tostring(attacker_type) ..
-	--") " .. tostring(condition_type);
+	--if is_otomo_attack then
+		--xy = xy .. "\nOtomo: " .. tostring(otomo.id) ..
+		--	" " .. tostring(otomo.name) ..
+		--	" Damage: " .. tostring(damage_object.total_damage);
+	--end
 
-	--[[if is_otomo_attack then
-		xy = xy .. "\nOtomo Master: " .. tostring(player.id) ..
-		" " .. tostring(player.name) ..
-		" Damage: " .. tostring(damage_object.total_damage);
-
-		xy = xy .. "\nOtomo: " .. tostring(otomo.id) ..
-		" " .. tostring(otomo.name) ..
-		" Damage: " .. tostring(damage_object.total_damage);
-	end]]
-
-	--if string.len(xy) > 2700 then
+	--if string.len(xy) > 2000 then
 	--	xy = "";
 	--end
 end

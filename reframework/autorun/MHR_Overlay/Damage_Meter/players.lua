@@ -494,7 +494,7 @@ function players.init()
 	players.list = {};
 	players.display_list = {};
 	players.total = players.new(0, "Total", 0, 0, players.types.total);
-	players.myself = players.new(-1, "Dummy", -1, -1, players.types.myself);
+	players.myself = players.new(-1, "DummyMHROverlay", -1, -1, players.types.myself);
 end
 
 local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
@@ -607,13 +607,23 @@ function players.update_player_list_(hunter_info_field_)
 
 		local player = players.list[id];
 
-		if player == nil or (player.name ~= name and player.hunter_rank ~= hunter_rank and player.master_rank ~= master_rank) then
-			if player ~= nil then
-				if player.name == players.myself.name  then
-					player = players.new(id, name, master_rank, hunter_rank, players.types.myself);
-					players.myself = player;
-					players.list[id] = player;
-				end
+		if player == nil then
+
+			if name == players.myself.name then
+				player = players.new(id, name, master_rank, hunter_rank, players.types.myself);
+				players.myself = player;
+				players.list[id] = player;
+			else
+				player = players.new(id, name, master_rank, hunter_rank, players.types.other_player);
+				players.list[id] = player;
+			end
+			
+		elseif player.name ~= name or player.hunter_rank ~= hunter_rank or player.master_rank ~= master_rank then
+
+			if name == players.myself.name then
+				player = players.new(id, name, master_rank, hunter_rank, players.types.myself);
+				players.myself = player;
+				players.list[id] = player;
 			else
 				player = players.new(id, name, master_rank, hunter_rank, players.types.other_player);
 				players.list[id] = player;
