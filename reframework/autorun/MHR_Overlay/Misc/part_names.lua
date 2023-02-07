@@ -849,7 +849,40 @@ function part_names.init()
 			language.current_language.parts.hind_legs,
 			language.current_language.parts.wings,
 			language.current_language.parts.tail
-		}
+		},
+
+
+
+
+
+		--SUNBREAK TITLE UPDATE 4
+
+
+
+
+
+		[124] = -- Velkhana 124
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.body,
+			language.current_language.parts.forelegs,
+			language.current_language.parts.hind_legs,
+			language.current_language.parts.wings,
+			language.current_language.parts.tail
+		},
+
+		[2134] = -- Risen Crimson Glow Valstrax 2134
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.body,
+			language.current_language.parts.left_wing,
+			language.current_language.parts.right_wing,
+			language.current_language.parts.left_foreleg,
+			language.current_language.parts.right_foreleg,
+			language.current_language.parts.tail,
+			language.current_language.parts.hind_legs,
+			language.current_language.parts.chest
+		},
 	};
 end
 
