@@ -13,6 +13,7 @@ local time_UI;
 local keyboard;
 local non_players;
 local quest_status;
+local buffs;
 
 local label_customization;
 local bar_customization;
@@ -79,6 +80,7 @@ customization_menu.displayed_ailments_sorting_types = {};
 customization_menu.displayed_ailment_buildups_sorting_types = {};
 customization_menu.displayed_highlighted_buildup_bar_types = {};
 customization_menu.displayed_buildup_bar_relative_types = {};
+customization_menu.displayed_buff_UI_sorting_types = {};
 
 customization_menu.displayed_damage_meter_UI_highlighted_entity_types = {};
 customization_menu.displayed_damage_meter_UI_damage_bar_relative_types = {};
@@ -98,6 +100,7 @@ customization_menu.ailments_sorting_types = {};
 customization_menu.ailment_buildups_sorting_types = {};
 customization_menu.highlighted_buildup_bar_types = {};
 customization_menu.buildup_bar_relative_types = {};
+customization_menu.buff_UI_sorting_types = {};
 
 customization_menu.damage_meter_UI_highlighted_entity_types = {};
 customization_menu.damage_meter_UI_damage_bar_relative_types = {};
@@ -107,6 +110,8 @@ customization_menu.damage_meter_UI_sorting_types = {};
 customization_menu.damage_meter_UI_dps_modes = {};
 
 customization_menu.auto_highlight_modes = {};
+
+
 
 customization_menu.fonts = {"Arial", "Arial Black", "Bahnschrift", "Calibri", "Cambria", "Cambria Math", "Candara",
                             "Comic Sans MS", "Consolas", "Constantia", "Corbel", "Courier New", "Ebrima",
@@ -145,136 +150,159 @@ function customization_menu.reload_font(pop_push)
 end
 
 function customization_menu.init()
-	customization_menu.displayed_orientation_types = {language.current_language.customization_menu.horizontal,
-                                                   language.current_language.customization_menu.vertical};
-	customization_menu.displayed_anchor_types = {language.current_language.customization_menu.top_left,
-                                              language.current_language.customization_menu.top_right,
-                                              language.current_language.customization_menu.bottom_left,
-                                              language.current_language.customization_menu.bottom_right};
+	local current = language.current_language.customization_menu;
+	local default = language.default_language.customization_menu;
 
-	customization_menu.displayed_outline_styles = {language.current_language.customization_menu.inside,
-                                                language.current_language.customization_menu.center,
-                                                language.current_language.customization_menu.outside};
-	customization_menu.displayed_monster_UI_sorting_types = {language.current_language.customization_menu.normal,
-                                                          language.current_language.customization_menu.health,
-                                                          language.current_language.customization_menu.health_percentage,
-                                                          language.current_language.customization_menu.distance};
+	customization_menu.displayed_orientation_types = {	current.horizontal,
+														current.vertical};
 
-	customization_menu.displayed_monster_UI_parts_sorting_types =
-		{language.current_language.customization_menu.normal, language.current_language.customization_menu.health,
-   language.current_language.customization_menu.health_percentage,
-   language.current_language.customization_menu.flinch_count, language.current_language.customization_menu.break_health,
-   language.current_language.customization_menu.break_health_percentage,
-   language.current_language.customization_menu.break_count, language.current_language.customization_menu.loss_health,
-   language.current_language.customization_menu.loss_health_percentage};
+	customization_menu.orientation_types = {			default.horizontal,
+														default.vertical};
 
-	customization_menu.displayed_ailments_sorting_types = {language.current_language.customization_menu.normal,
-                                                        language.current_language.customization_menu.buildup,
-                                                        language.current_language.customization_menu.buildup_percentage};
-	customization_menu.displayed_ailment_buildups_sorting_types =
-		{language.current_language.customization_menu.normal, language.current_language.customization_menu.buildup,
-   language.current_language.customization_menu.buildup_percentage};
-	customization_menu.displayed_highlighted_buildup_bar_types =
-		{language.current_language.customization_menu.me, language.current_language.customization_menu.top_buildup,
-   language.current_language.customization_menu.none};
+	customization_menu.displayed_anchor_types = {	current.top_left,
+													current.top_right,
+													current.bottom_left,
+													current.bottom_right};
 
-	customization_menu.displayed_buildup_bar_relative_types = {language.current_language.customization_menu.total_buildup,
-                                                            language.current_language.customization_menu.top_buildup};
-	customization_menu.displayed_damage_meter_UI_highlighted_entity_types =
-		{language.current_language.customization_menu.top_damage,
-   language.current_language.customization_menu.top_dps, language.current_language.customization_menu.none};
+												
+	customization_menu.anchor_types = {				default.top_left,
+													default.top_right,
+													default.bottom_left,
+													default.bottom_right};
 
-	customization_menu.displayed_damage_meter_UI_damage_bar_relative_types =
-		{language.current_language.customization_menu.total_damage, language.current_language.customization_menu.top_damage};
+	customization_menu.displayed_outline_styles = {	current.inside,
+													current.center,
+													current.outside};
+
+	customization_menu.outline_styles = {			default.inside,
+													default.center,
+													default.outside};
+
+	customization_menu.displayed_monster_UI_sorting_types = {	current.normal,
+																current.health,
+																current.health_percentage,
+																current.distance};
+
+	customization_menu.monster_UI_sorting_types = {				default.normal,
+																default.health,
+																default.health_percentage,
+																default.distance};
+
+	customization_menu.displayed_monster_UI_parts_sorting_types = {	current.normal,
+																	current.health,
+																	current.health_percentage,
+																	current.flinch_count,
+																	current.break_health,
+																	current.break_health_percentage,
+																	current.break_count,
+																	current.loss_health,
+																	current.loss_health_percentage};
+
+	customization_menu.large_monster_UI_parts_sorting_types = {		default.normal,
+																	default.health,
+																	default.health_percentage,
+																	default.flinch_count,
+																	default.break_health,
+                                                        			default.break_health_percentage,
+																	default.break_count,
+																	default.loss_health,
+																	default.loss_health_percentage};
+
+	customization_menu.displayed_ailments_sorting_types = {	current.normal,
+															current.buildup,
+															current.buildup_percentage};
+
+	customization_menu.ailments_sorting_types = {			default.normal,
+															default.buildup,
+															default.buildup_percentage};
+
+	customization_menu.displayed_buff_UI_sorting_types = {	current.name,
+															current.timer,
+															current.duration};
+
+	customization_menu.buff_UI_sorting_types = {			default.name,
+															default.timer,
+															default.duration};
+
+	customization_menu.displayed_ailment_buildups_sorting_types = {	current.normal,
+																	current.buildup,
+																	current.buildup_percentage};
+
+	customization_menu.ailment_buildups_sorting_types = {			default.normal,
+																	default.buildup,
+																	default.buildup_percentage};
+
+	customization_menu.displayed_highlighted_buildup_bar_types = {	current.me,
+																	current.top_buildup,
+																	current.none};
+
+	customization_menu.highlighted_buildup_bar_types = {			default.me,
+																	default.top_buildup,
+																	default.none};
+
+	customization_menu.displayed_buildup_bar_relative_types = {	current.total_buildup,
+																current.top_buildup};
+
+	customization_menu.buildup_bar_relative_types = {			default.total_buildup,
+																default.top_buildup};
+
+	customization_menu.displayed_damage_meter_UI_highlighted_entity_types = {	current.top_damage,
+																				current.top_dps,
+																				current.none};
+
+	customization_menu.damage_meter_UI_highlighted_entity_types = {				default.top_damage,
+																				default.top_dps,
+																				default.none};
+
+	customization_menu.displayed_damage_meter_UI_damage_bar_relative_types = {	current.total_damage,
+																				current.top_damage};
+
+	customization_menu.damage_meter_UI_damage_bar_relative_types = {			default.total_damage,
+																				default.top_damage};
 	
-		customization_menu.displayed_damage_meter_UI_my_damage_bar_location_types = {language.current_language
-		.customization_menu.normal, language.current_language.customization_menu.first,
-                                                                              language.current_language
-		.customization_menu.last};
+	customization_menu.displayed_damage_meter_UI_my_damage_bar_location_types = {	current.normal,
+																					current.first,
+																					current.last};
 
-	customization_menu.displayed_damage_meter_UI_total_damage_location_types = {
-		language.current_language.customization_menu.first,
-    	language.current_language.customization_menu.last};
+	customization_menu.damage_meter_UI_my_damage_bar_location_types = {				default.normal,
+																					default.first,
+																					default.last};
 
-	customization_menu.displayed_damage_meter_UI_sorting_types =
-		{language.current_language.customization_menu.normal, language.current_language.customization_menu.damage,
-   language.current_language.customization_menu.dps};
-	customization_menu.displayed_damage_meter_UI_dps_modes = {language.current_language.customization_menu.first_hit,
-                                                           language.current_language.customization_menu.quest_time,
-                                                           language.current_language.customization_menu.join_time};
+	customization_menu.displayed_damage_meter_UI_total_damage_location_types = {	current.first,
+																					current.last};
 
-	customization_menu.displayed_auto_highlight_modes = {language.current_language.customization_menu.closest,
-												language.current_language.customization_menu.farthest,
-												language.current_language.customization_menu.lowest_health,
-												language.current_language.customization_menu.highest_health,
-												language.current_language.customization_menu.lowest_health_percentage,
-												language.current_language.customization_menu.highest_health_percentage};
+	customization_menu.damage_meter_UI_total_damage_location_types = {				default.first,
+																					default.last};
 
-	customization_menu.orientation_types = {language.default_language.customization_menu.horizontal,
-                                         language.default_language.customization_menu.vertical};
-	customization_menu.anchor_types = {language.default_language.customization_menu.top_left,
-                                    language.default_language.customization_menu.top_right,
-                                    language.default_language.customization_menu.bottom_left,
-                                    language.default_language.customization_menu.bottom_right};
+	customization_menu.displayed_damage_meter_UI_sorting_types = {	current.normal,
+																	current.damage,
+																	current.dps};
 
-	customization_menu.outline_styles = {language.default_language.customization_menu.inside,
-                                      language.default_language.customization_menu.center,
-                                      language.default_language.customization_menu.outside};
-	customization_menu.monster_UI_sorting_types = {language.default_language.customization_menu.normal,
-                                                language.default_language.customization_menu.health,
-                                                language.default_language.customization_menu.health_percentage,
-                                                language.default_language.customization_menu.distance};
+	customization_menu.damage_meter_UI_sorting_types = {			default.normal,
+																	default.damage,
+																	default.dps};
 
-	customization_menu.large_monster_UI_parts_sorting_types = {language.default_language.customization_menu.normal,
-                                                            language.default_language.customization_menu.health,
-                                                            language.default_language.customization_menu
-		.health_percentage, language.default_language.customization_menu.flinch_count,
-                                                            language.default_language.customization_menu.break_health,
-                                                            language.default_language.customization_menu
-		.break_health_percentage, language.default_language.customization_menu.break_count,
-                                                            language.default_language.customization_menu.loss_health,
-                                                            language.default_language.customization_menu
-		.loss_health_percentage};
+	customization_menu.displayed_damage_meter_UI_dps_modes = {	current.first_hit,
+																current.quest_time,
+																current.join_time};
 
-	customization_menu.ailments_sorting_types = {language.default_language.customization_menu.normal,
-                                              language.default_language.customization_menu.buildup,
-                                              language.default_language.customization_menu.buildup_percentage};
-	customization_menu.ailment_buildups_sorting_types = {language.default_language.customization_menu.normal,
-                                                      language.default_language.customization_menu.buildup,
-                                                      language.default_language.customization_menu.buildup_percentage};
-	customization_menu.highlighted_buildup_bar_types = {language.default_language.customization_menu.me,
-                                                     language.default_language.customization_menu.top_buildup,
-                                                     language.default_language.customization_menu.none};
-	customization_menu.buildup_bar_relative_types = {language.default_language.customization_menu.total_buildup,
-                                                  language.default_language.customization_menu.top_buildup};
+	customization_menu.damage_meter_UI_dps_modes = {			default.first_hit,
+																default.quest_time,
+																default.join_time};
 
-	customization_menu.damage_meter_UI_highlighted_entity_types = {language.default_language.customization_menu.top_damage,
-                                                             language.default_language.customization_menu.top_dps,
-                                                             language.default_language.customization_menu.none};
-	customization_menu.damage_meter_UI_damage_bar_relative_types =
-		{language.default_language.customization_menu.total_damage, language.default_language.customization_menu.top_damage};
+	customization_menu.displayed_auto_highlight_modes = {	current.closest,
+															current.farthest,
+															current.lowest_health,
+															current.highest_health,
+															current.lowest_health_percentage,
+															current.highest_health_percentage};
 
-	customization_menu.damage_meter_UI_my_damage_bar_location_types =
-		{language.default_language.customization_menu.normal, language.default_language.customization_menu.first,
-   language.default_language.customization_menu.last};
-
-	customization_menu.damage_meter_UI_total_damage_location_types = {
-		language.current_language.customization_menu.first,
-		language.current_language.customization_menu.last};
-
-	customization_menu.damage_meter_UI_sorting_types = {language.default_language.customization_menu.normal,
-                                                     language.default_language.customization_menu.damage,
-                                                     language.default_language.customization_menu.dps};
-	customization_menu.damage_meter_UI_dps_modes = {language.default_language.customization_menu.first_hit,
-                                                 language.default_language.customization_menu.quest_time,
-                                                 language.default_language.customization_menu.join_time};
-
-	customization_menu.auto_highlight_modes = {language.default_language.customization_menu.closest,
-                                                 language.default_language.customization_menu.farthest,
-                                                 language.default_language.customization_menu.lowest_health,
-                                                 language.default_language.customization_menu.highest_health,
-                                                 language.default_language.customization_menu.lowest_health_percentage,
-                                                 language.default_language.customization_menu.highest_health_percentage};
+	customization_menu.auto_highlight_modes = {				default.closest,
+															default.farthest,
+															default.lowest_health,
+															default.highest_health,
+															default.lowest_health_percentage,
+															default.highest_health_percentage};
 end
 
 function customization_menu.draw()
@@ -304,6 +332,7 @@ function customization_menu.draw()
 	local time_UI_changed = false;
 	local damage_meter_UI_changed = false;
 	local endemic_life_UI_changed = false;
+	local buff_UI_changed = false;
 	local apply_font_requested = false;
 
 	local status_string = tostring(customization_menu.status);
@@ -326,6 +355,7 @@ function customization_menu.draw()
 	time_UI_changed = customization_menu.draw_time_UI();
 	damage_meter_UI_changed = customization_menu.draw_damage_meter_UI();
 	endemic_life_UI_changed = customization_menu.draw_endemic_life_UI()
+	--buff_UI_changed = customization_menu.draw_buff_UI();
 
 	imgui.pop_font();
 	imgui.end_window();
@@ -384,6 +414,12 @@ function customization_menu.draw()
 		end
 	end
 
+	--[[if buff_UI_changed or modifiers_changed or config_changed then
+		for _, buff in pairs(buffs.list) do
+			buffs.init_UI(buff);
+		end
+	end]]
+
 	if customization_menu.menu_font_changed and (apply_font_requested or config_changed) then
 		customization_menu.menu_font_changed = false;
 		customization_menu.reload_font(false);
@@ -391,7 +427,7 @@ function customization_menu.draw()
 
 	if modules_changed or global_settings_changed or small_monster_UI_changed or large_monster_dynamic_UI_changed or
 		large_monster_static_UI_changed or large_monster_highlighted_UI_changed or time_UI_changed or damage_meter_UI_changed or
-		endemic_life_UI_changed or modifiers_changed or config_changed then
+		endemic_life_UI_changed or buff_UI_changed or modifiers_changed or config_changed then
 		config.save_current();
 	end
 end
@@ -512,6 +548,11 @@ function customization_menu.draw_modules()
 		changed, config.current_config.endemic_life_UI.enabled = imgui.checkbox(
 			language.current_language.customization_menu.endemic_life_UI, config.current_config.endemic_life_UI.enabled);
 		config_changed = config_changed or changed;
+
+		--[[changed, config.current_config.buff_UI.enabled = imgui.checkbox(
+			language.current_language.customization_menu.buff_UI, config.current_config.buff_UI.enabled);
+		config_changed = config_changed or changed;]]
+
 		imgui.tree_pop();
 	end
 
@@ -939,6 +980,13 @@ function customization_menu.draw_global_settings(apply_font_requested, language_
 					cached_config.module_visibility.in_training_area.endemic_life_UI);
 
 				config_changed = config_changed or changed;
+
+				--[[changed, cached_config.module_visibility.in_training_area.buff_UI = imgui.checkbox(
+					language.current_language.customization_menu.buff_UI,
+					cached_config.module_visibility.in_training_area.buff_UI);
+
+				config_changed = config_changed or changed;]]
+
 				imgui.tree_pop();
 			end
 
@@ -2077,6 +2125,118 @@ function customization_menu.draw_endemic_life_UI()
 	return config_changed;
 end
 
+function customization_menu.draw_buff_UI()
+	local changed = false;
+	local config_changed = false;
+	local index = 0;
+
+	if imgui.tree_node(language.current_language.customization_menu.buff_UI) then
+		local cached_config = config.current_config.buff_UI;
+
+		changed, cached_config.enabled = imgui.checkbox(
+			language.current_language.customization_menu.enabled, cached_config.enabled);
+
+		config_changed = config_changed or changed;	
+
+		if imgui.tree_node(language.current_language.customization_menu.settings) then
+			changed, cached_config.settings.hide_bar_for_infinite_buffs = imgui.checkbox(
+				language.current_language.customization_menu.hide_bar_for_infinite_buffs, cached_config.settings.hide_bar_for_infinite_buffs);
+
+			config_changed = config_changed or changed;
+
+			changed, cached_config.settings.hide_timer_for_infinite_buffs = imgui.checkbox(
+				language.current_language.customization_menu.hide_timer_for_infinite_buffs, cached_config.settings.hide_timer_for_infinite_buffs);
+
+			config_changed = config_changed or changed;
+
+			changed, index = imgui.combo(
+				language.current_language.customization_menu.orientation,
+				table_helpers.find_index(customization_menu.orientation_types, cached_config.settings.orientation),
+				customization_menu.displayed_orientation_types);
+
+			config_changed = config_changed or changed;
+
+			if changed then
+				cached_config.settings.orientation = customization_menu.orientation_types[index];
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.spacing) then
+			changed, cached_config.spacing.x = imgui.drag_float(
+				language.current_language.customization_menu.x, cached_config.spacing.x, 0.1, -screen.width, screen.width, "%.1f");
+
+			config_changed = config_changed or changed;
+
+			changed, cached_config.spacing.y = imgui.drag_float(
+				language.current_language.customization_menu.y, cached_config.spacing.y, 0.1, -screen.height, screen.height, "%.1f");
+
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.position) then
+			changed, cached_config.position.x = imgui.drag_float(
+				language.current_language.customization_menu.x, cached_config.position.x, 0.1, 0, screen.width, "%.1f");
+
+			config_changed = config_changed or changed;
+
+			changed, cached_config.position.y = imgui.drag_float(
+				language.current_language.customization_menu.y, cached_config.position.y, 0.1, 0, screen.height, "%.1f");
+
+			config_changed = config_changed or changed;
+
+			changed, index = imgui.combo(
+				language.current_language.customization_menu.anchor,
+				table_helpers.find_index(customization_menu.anchor_types, cached_config.position.anchor),
+				customization_menu.displayed_anchor_types);
+
+			config_changed = config_changed or changed;
+
+			if changed then
+				cached_config.position.anchor = customization_menu.anchor_types[index];
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.sorting) then
+			changed, index = imgui.combo(
+				language.current_language.customization_menu.type,
+				table_helpers.find_index(customization_menu.buff_UI_sorting_types, cached_config.sorting.type),
+				customization_menu.displayed_buff_UI_sorting_types);
+
+			config_changed = config_changed or changed;
+
+			if changed then
+				cached_config.sorting.type = customization_menu.buff_UI_sorting_types[index];
+			end
+
+			changed, cached_config.sorting.reversed_order = imgui.checkbox(
+				language.current_language.customization_menu.reversed_order, cached_config.sorting.reversed_order);
+
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.name_label);
+		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.timer_label, cached_config.timer_label);
+		config_changed = config_changed or changed;
+
+		changed = bar_customization.draw(language.current_language.customization_menu.bar, cached_config.bar);
+		config_changed = config_changed or changed;
+
+		imgui.tree_pop();
+	end
+
+	return config_changed;
+end
+
 function customization_menu.init_module()
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	language = require("MHR_Overlay.Misc.language");
@@ -2091,6 +2251,7 @@ function customization_menu.init_module()
 	keyboard = require("MHR_Overlay.Game_Handler.keyboard");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
+	buffs = require("MHR_Overlay.Buffs.buffs");
 
 	label_customization = require("MHR_Overlay.UI.Customizations.label_customization");
 	bar_customization = require("MHR_Overlay.UI.Customizations.bar_customization");

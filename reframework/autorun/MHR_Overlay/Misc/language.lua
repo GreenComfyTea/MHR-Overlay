@@ -487,7 +487,13 @@ language.default_language = {
 		new = "New",
 		reset = "Reset",
 
-		highlighted = "Highlighted"
+		highlighted = "Highlighted",
+
+		buff_UI = "Buff UI",
+		timer = "Timer",
+		duration = "Duration",
+		hide_bar_for_infinite_buffs = "Hide Bar for infinite Buffs",
+		hide_timer_for_infinite_buffs = "Hide Timer for infinite Buffs",
 	}
 };
 

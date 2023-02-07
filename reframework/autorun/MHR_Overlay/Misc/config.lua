@@ -85,7 +85,8 @@ function config.init_default()
 					large_monster_static_UI = true,
 					large_monster_highlighted_UI = true,
 					damage_meter_UI = true,
-					endemic_life_UI = true
+					endemic_life_UI = true,
+					--buff_UI = true
 				},
 	
 				cutscene = {
@@ -95,7 +96,8 @@ function config.init_default()
 					large_monster_highlighted_UI = false,
 					time_UI = false,
 					damage_meter_UI = false,
-					endemic_life_UI = false
+					endemic_life_UI = false,
+					--buff_UI = false
 				},
 	
 				loading_quest = {
@@ -105,7 +107,8 @@ function config.init_default()
 					large_monster_highlighted_UI = false,
 					time_UI = false,
 					damage_meter_UI = false,
-					endemic_life_UI = false
+					endemic_life_UI = false,
+					--buff_UI = false
 				},
 	
 				quest_start_animation = {
@@ -115,7 +118,8 @@ function config.init_default()
 					large_monster_highlighted_UI = true,
 					time_UI = true,
 					damage_meter_UI = true,
-					endemic_life_UI = true
+					endemic_life_UI = true,
+					--buff_UI = true
 				},
 	
 				playing_quest = {
@@ -125,7 +129,8 @@ function config.init_default()
 					large_monster_highlighted_UI = true,
 					time_UI = true,
 					damage_meter_UI = true,
-					endemic_life_UI = true
+					endemic_life_UI = true,
+					--buff_UI = true
 				},
 	
 				killcam = {
@@ -135,7 +140,8 @@ function config.init_default()
 					large_monster_highlighted_UI = true,
 					time_UI = true,
 					damage_meter_UI = true,
-					endemic_life_UI = true
+					endemic_life_UI = true,
+					--buff_UI = true
 				},
 	
 				quest_end_timer = {
@@ -145,7 +151,8 @@ function config.init_default()
 					large_monster_highlighted_UI = true,
 					time_UI = true,
 					damage_meter_UI = true,
-					endemic_life_UI = true
+					endemic_life_UI = true,
+					--buff_UI = true
 				},
 	
 				quest_end_animation = {
@@ -155,7 +162,8 @@ function config.init_default()
 					large_monster_highlighted_UI = false,
 					time_UI = false,
 					damage_meter_UI = false,
-					endemic_life_UI = false
+					endemic_life_UI = false,
+					--buff_UI = false
 				},
 	
 				quest_end_screen = {
@@ -165,7 +173,8 @@ function config.init_default()
 					large_monster_highlighted_UI = false,
 					time_UI = false,
 					damage_meter_UI = false,
-					endemic_life_UI = false
+					endemic_life_UI = false,
+					--buff_UI = false
 				},
 	
 				reward_screen = {
@@ -175,7 +184,8 @@ function config.init_default()
 					large_monster_highlighted_UI = true,
 					time_UI = true,
 					damage_meter_UI = true,
-					endemic_life_UI = false
+					endemic_life_UI = false,
+					--buff_UI = false
 				},
 	
 				summary_screen = {
@@ -185,7 +195,8 @@ function config.init_default()
 					large_monster_highlighted_UI = true,
 					time_UI = true,
 					damage_meter_UI = true,
-					endemic_life_UI = false
+					endemic_life_UI = false,
+					--buff_UI = false
 				},
 			},
 	
@@ -5386,7 +5397,99 @@ function config.init_default()
 					color = 0xFF000000
 				}
 			}
-		}
+		},
+
+		--[[buff_UI = {
+			enabled = true,
+
+			settings = {
+				hide_bar_for_infinite_buffs = true,
+				hide_timer_for_infinite_buffs = true,
+				orientation = "Vertical", -- "Vertical" or "Horizontal"
+			},
+
+			spacing = {
+				x = 260,
+				y = -24
+			},
+
+			position = {
+				x = 10,
+				y = 30,
+				-- Possible values: "Top-Left", "Top-Right", "Bottom-Left", "Bottom-Right"
+				anchor = "Bottom-Left"
+			},
+	
+			sorting = {
+				type = "Name", -- "Name" or "Timer" or "Duration"
+				reversed_order = true
+			},
+
+			name_label = {
+				visibility = true,
+
+				text = "%s",
+				offset = {
+					x = 5,
+					y = 0
+				},
+				color = 0xFFFEFF88,
+
+				shadow = {
+					visibility = true,
+					offset = {
+						x = 1,
+						y = 1
+					},
+					color = 0xFF000000
+				}
+			},
+
+			timer_label = {
+				visibility = true,
+				text = "%2.0f:%02.0f",
+				offset = {
+					x = 200,
+					y = 0
+				},
+				color = 0xFFFFBF81,
+
+				shadow = {
+					visibility = true,
+					offset = {
+						x = 1,
+						y = 1
+					},
+					color = 0xFF000000
+				}
+			},
+
+			bar = {
+				visibility = true,
+				offset = {
+					x = 0,
+					y = 17
+				},
+
+				size = {
+					width = 240,
+					height = 5
+				},
+
+				outline = {
+					visibility = true,
+					thickness = 1,
+					offset = 0,
+					style = "Center"
+				},
+
+				colors = {
+					foreground = 0xA76FD456,
+					background = 0xA7000000,
+					outline = 0xC0000000
+				}
+			}
+		}]]
 	};
 end
 
