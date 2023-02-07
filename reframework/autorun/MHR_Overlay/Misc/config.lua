@@ -32,7 +32,7 @@ local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
 
-config.version = "2.4";
+config.version = "2.4.1";
 
 config.config_folder = "MHR Overlay\\configs\\";
 config.current_config_value_file_name = "MHR Overlay\\config.json";
