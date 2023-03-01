@@ -53,14 +53,14 @@ function ailment_buildup.draw(monster, ailment_buildup_UI, cached_config, ailmen
 
 	for id, ailment in pairs(monster.ailments) do
 		if id == ailments.stun_id then
-			--if not cached_config.filter.stun then
+			if not cached_config.filter.stun then
 				goto continue
-			--end
+			end
 
 		elseif id == ailments.poison_id then
-			--if not cached_config.filter.poison then
+			if not cached_config.filter.poison then
 				goto continue
-			--end
+			end
 		elseif id == ailments.blast_id then
 			if not cached_config.filter.blast then
 				goto continue
