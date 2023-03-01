@@ -203,7 +203,7 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 			player = players.get_player(attacker_id);
 			otomo = non_players.get_otomo(attacker_id);
 		elseif attacker_id == 4 then
-			player = players.myself
+			player = players.myself;
 			otomo = non_players.get_otomo(non_players.my_second_otomo_id);
 		else 
 			player = non_players.get_servant(attacker_id - 1);

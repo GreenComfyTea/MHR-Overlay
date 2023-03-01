@@ -684,7 +684,6 @@ function ailments.draw(monster, ailment_UI, cached_config, ailments_position_on_
 end
 
 function ailments.apply_ailment_buildup(monster, player, otomo, ailment_type, ailment_buildup)
-
 	if monster == nil or
 	(ailment_type ~= ailments.poison_id and ailment_type ~= ailments.blast_id and ailment_type ~= ailments.stun_id)
 	or (ailment_buildup == 0 or ailment_buildup == nil) then
@@ -723,6 +722,10 @@ function ailments.calculate_ailment_contribution(monster, ailment_type)
 		total = total + otomo_buildup;
 	end
 
+	if total == 0 then
+		total = 1;
+	end
+
 	for player, player_buildup in pairs(monster.ailments[ailment_type].buildup) do
 		-- update ratio for this player
 		monster.ailments[ailment_type].buildup_share[player] = player_buildup / total;
@@ -735,15 +738,11 @@ function ailments.calculate_ailment_contribution(monster, ailment_type)
 end
 
 function ailments.clear_ailment_contribution(monster, ailment_type)
-	for player, player_buildup in pairs(monster.ailments[ailment_type].buildup) do
-		monster.ailments[ailment_type].buildup_share[player] = 0;
-		monster.ailments[ailment_type].buildup[player] = 0;
-	end
+	monster.ailments[ailment_type].buildup = {};
+	monster.ailments[ailment_type].otomo_buildup = {};
 
-	for aotomo, otomo_buildup in pairs(monster.ailments[ailment_type].otomo_buildup) do
-		monster.ailments[ailment_type].otomo_buildup_share[aotomo] = 0;
-		monster.ailments[ailment_type].otomo_buildup[aotomo] = 0;
-	end
+	monster.ailments[ailment_type].buildup_share = {};
+	monster.ailments[ailment_type].otomo_buildup_share = {};
 end
 
 -- Code by coavins
@@ -781,7 +780,7 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 		damage_object.elemental_damage = 0;
 		damage_object.ailment_damage = damage_portion;
 
-		players.update_damage(player, damage_source_type, true, damage_object);
+		players.update_damage(player, damage_source_type, monster.is_large, damage_object);
 	end
 
 	-- split up damage according to ratio of buildup on boss for this type
@@ -797,10 +796,10 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 		local player = players.get_player(otomo.id);
 		
 		if player ~= nil then
-			players.update_damage(player, otomo_damage_source_type, true, damage_object);
+			players.update_damage(player, otomo_damage_source_type, monster.is_large, damage_object);
 		end
 		
-		players.update_damage(otomo, otomo_damage_source_type, true, damage_object);
+		players.update_damage(otomo, otomo_damage_source_type, monster.is_large, damage_object);
 	end
 
 	local damage_object = {};
@@ -809,7 +808,7 @@ function ailments.apply_ailment_damage(monster, ailment_type, ailment_damage)
 	damage_object.elemental_damage = 0;
 	damage_object.ailment_damage = ailment_damage;
 
-	players.update_damage(players.total, damage_source_type, true, damage_object);
+	players.update_damage(players.total, damage_source_type, monster.is_large, damage_object);
 end
 
 function ailments.init_module()
