@@ -494,6 +494,9 @@ language.default_language = {
 		duration = "Duration",
 		hide_bar_for_infinite_buffs = "Hide Bar for infinite Buffs",
 		hide_timer_for_infinite_buffs = "Hide Timer for infinite Buffs",
+
+		current_value = "Current Value",
+		max_value = "Max Value"
 	}
 };
 

@@ -73,6 +73,20 @@ function rage_UI_entity.draw(monster, rage_UI, position_on_screen, opacity_scale
 		return;
 	end
 
+	local rage_string = "";
+	if not monster.is_in_rage then
+		local include_current_value = rage_UI.value_label.include.current_value;
+		local include_max_value = rage_UI.value_label.include.max_value;
+	
+		if include_current_value and include_max_value then
+			rage_string = string.format("%.0f/%.0f", monster.rage_point, monster.rage_limit);
+		elseif include_current_value then
+			rage_string = string.format("%.0f", monster.rage_point);
+		elseif include_max_value then
+			rage_string = string.format("%.0f", monster.rage_limit);
+		end
+	end
+
 	if monster.is_in_rage then
 		drawing.draw_bar(rage_UI.bar, position_on_screen, opacity_scale, monster.rage_timer_percentage);
 
@@ -83,7 +97,7 @@ function rage_UI_entity.draw(monster, rage_UI, position_on_screen, opacity_scale
 		drawing.draw_bar(rage_UI.bar, position_on_screen, opacity_scale, monster.rage_percentage);
 
 		drawing.draw_label(rage_UI.text_label, position_on_screen, opacity_scale, language.current_language.UI.rage);
-		drawing.draw_label(rage_UI.value_label, position_on_screen, opacity_scale, monster.rage_point, monster.rage_limit);
+		drawing.draw_label(rage_UI.value_label, position_on_screen, opacity_scale, rage_string);
 		drawing.draw_label(rage_UI.percentage_label, position_on_screen, opacity_scale, 100 * monster.rage_percentage);
 	end
 end

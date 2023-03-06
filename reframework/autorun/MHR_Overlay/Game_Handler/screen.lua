@@ -64,9 +64,7 @@ local height_field = size_type:get_field("h");
 
 function screen.get_game_window_size()
 	if scene_view == nil then
-		scene_view = sdk.call_native_func(singletons.scene_manager,
-			sdk.find_type_definition("via.SceneManager")
-			, "get_MainView");
+		scene_view = sdk.call_native_func(singletons.scene_manager, sdk.find_type_definition("via.SceneManager") , "get_MainView");
 
 		if scene_view == nil then
 			--log.error("[MHR_Overlay.lua] No scene view");

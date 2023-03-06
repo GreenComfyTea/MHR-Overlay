@@ -85,20 +85,32 @@ function ailment_UI_entity.draw(ailment, ailment_UI, cached_config, position_on_
 		ailment_name = ailment_name .. "x" .. tostring(ailment.activate_count);
 	end
 
+	local total_buildup_string = "";
+	if not ailment.is_active then
+		local include_current_value = ailment_UI.value_label.include.current_value;
+		local include_max_value = ailment_UI.value_label.include.max_value;
+
+		if include_current_value and include_max_value then
+			total_buildup_string = string.format("%.0f/%.0f", ailment.total_buildup, ailment.buildup_limit);
+		elseif include_current_value then
+			total_buildup_string = string.format("%.0f", ailment.total_buildup);
+		elseif include_max_value then
+			total_buildup_string = string.format("%.0f", ailment.buildup_limit);
+		end
+	end
+
 	if ailment.is_active then
 		drawing.draw_bar(ailment_UI.bar, position_on_screen, opacity_scale, ailment.timer_percentage);
 
 		drawing.draw_label(ailment_UI.name_label, position_on_screen, opacity_scale, ailment_name);
 		drawing.draw_label(ailment_UI.text_label, position_on_screen, opacity_scale, language.current_language.UI.buildup);
-		drawing.draw_label(ailment_UI.timer_label, position_on_screen, opacity_scale, ailment.minutes_left,
-			ailment.seconds_left);
+		drawing.draw_label(ailment_UI.timer_label, position_on_screen, opacity_scale, ailment.minutes_left, ailment.seconds_left);
 	else
 		drawing.draw_bar(ailment_UI.bar, position_on_screen, opacity_scale, ailment.buildup_percentage);
 
 		drawing.draw_label(ailment_UI.name_label, position_on_screen, opacity_scale, ailment_name);
 		drawing.draw_label(ailment_UI.text_label, position_on_screen, opacity_scale, language.current_language.UI.buildup);
-		drawing.draw_label(ailment_UI.value_label, position_on_screen, opacity_scale, ailment.total_buildup,
-			ailment.buildup_limit);
+		drawing.draw_label(ailment_UI.value_label, position_on_screen, opacity_scale, total_buildup_string);
 		drawing.draw_label(ailment_UI.percentage_label, position_on_screen, opacity_scale, 100 * ailment.buildup_percentage);
 	end
 end

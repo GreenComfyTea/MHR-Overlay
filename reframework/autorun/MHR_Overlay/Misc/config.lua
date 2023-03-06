@@ -309,7 +309,7 @@ function config.init_default()
 	
 			monster_name_label = {
 				visibility = true,
-				text = "%s",
+				text_format = "%s",
 	
 				offset = {
 					x = 5,
@@ -337,7 +337,7 @@ function config.init_default()
 	
 				text_label = {
 					visibility = false,
-					text = "%s",
+					text_format = "%s",
 					offset = {
 						x = -22,
 						y = -5
@@ -356,7 +356,14 @@ function config.init_default()
 	
 				value_label = {
 					visibility = true,
-					text = "%.0f/%.0f", -- current_health/max_health
+
+					include = {
+						current_value = true,
+						max_value = true
+					},
+
+					text_format = "%s", -- current_health/max_health
+
 					offset = {
 						x = 32,
 						y = 0
@@ -375,7 +382,7 @@ function config.init_default()
 	
 				percentage_label = {
 					visibility = false,
-					text = "%5.1f%%",
+					text_format = "%5.1f%%",
 	
 					offset = {
 						x = -5,
@@ -475,7 +482,7 @@ function config.init_default()
 	
 				ailment_name_label = {
 					visibility = true,
-					text = "%s",
+					text_format = "%s",
 	
 					include = {
 						ailment_name = true,
@@ -500,7 +507,9 @@ function config.init_default()
 	
 				text_label = {
 					visibility = false,
+
 					text = language.current_language.UI.buildup,
+
 					offset = {
 						x = -60,
 						y = 6
@@ -519,7 +528,14 @@ function config.init_default()
 	
 				value_label = {
 					visibility = true,
-					text = "%.0f/%.0f", -- current_buildup/max_buildup
+
+					include = {
+						current_value = true,
+						max_value = true
+					},
+
+					text_format = "%s", -- current_buildup/max_buildup
+
 					offset = {
 						x = 60,
 						y = 13
@@ -538,7 +554,7 @@ function config.init_default()
 	
 				percentage_label = {
 					visibility = false,
-					text = "%5.1f%%",
+					text_format = "%5.1f%%",
 	
 					offset = {
 						x = 0,
@@ -558,7 +574,7 @@ function config.init_default()
 	
 				timer_label = {
 					visibility = true,
-					text = "%2.0f:%02.0f",
+					text_format = "%2.0f:%02.0f",
 	
 					offset = {
 						x = 140,
@@ -646,7 +662,7 @@ function config.init_default()
 						activation_count = true
 					},
 	
-					text = "%s",
+					text_format = "%s",
 					offset = {
 						x = 5,
 						y = -17
@@ -666,7 +682,7 @@ function config.init_default()
 				player_name_label = {
 					visibility = true,
 	
-					text = "%s",
+					text_format = "%s",
 					offset = {
 						x = 5,
 						y = 0
@@ -685,11 +701,14 @@ function config.init_default()
 	
 				buildup_value_label = {
 					visibility = true,
-					text = "%.0f",
+
+					text_format = "%.0f",
+
 					offset = {
 						x = 115,
 						y = 0
 					},
+
 					color = 0xFFb5dded,
 	
 					shadow = {
@@ -704,7 +723,7 @@ function config.init_default()
 	
 				buildup_percentage_label = {
 					visibility = true,
-					text = "%5.1f%%",
+					text_format = "%5.1f%%",
 					offset = {
 						x = 152,
 						y = 0
@@ -723,7 +742,7 @@ function config.init_default()
 	
 				total_buildup_label = {
 					visibility = true,
-					text = "%s",
+					text_format = "%s",
 					offset = {
 						x = 5,
 						y = 0
@@ -742,7 +761,7 @@ function config.init_default()
 	
 				total_buildup_value_label = {
 					visibility = true,
-					text = "%.0f",
+					text_format = "%.0f",
 					offset = {
 						x = 115,
 						y = 0
@@ -839,7 +858,7 @@ function config.init_default()
 	
 				monster_name_label = {
 					visibility = true,
-					text = "%s",
+					text_format = "%s",
 	
 					include = {
 						monster_name = true,
@@ -875,7 +894,7 @@ function config.init_default()
 	
 					text_label = {
 						visibility = false,
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = -25,
 							y = 2
@@ -894,7 +913,14 @@ function config.init_default()
 	
 					value_label = {
 						visibility = false,
-						text = "%.0f/%.0f", -- current_health/max_health
+
+						include = {
+							current_value = true,
+							max_value = true
+						},
+
+						text_format = "%s", -- current_health/max_health
+
 						offset = {
 							x = 5,
 							y = 2
@@ -913,7 +939,7 @@ function config.init_default()
 	
 					percentage_label = {
 						visibility = false,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 	
 						offset = {
 							x = 150,
@@ -989,7 +1015,7 @@ function config.init_default()
 	
 					text_label = {
 						visibility = false,
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = -70,
 							y = 0
@@ -1008,11 +1034,19 @@ function config.init_default()
 	
 					value_label = {
 						visibility = false,
-						text = "%.0f/%.0f", -- current_health/max_health
+
+						include = {
+							current_value = true,
+							max_value = true
+						},
+
+						text_format = "%s", -- current_current/max_stamina
+						
 						offset = {
 							x = 45,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
@@ -1027,7 +1061,7 @@ function config.init_default()
 	
 					percentage_label = {
 						visibility = false,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 	
 						offset = {
 							x = 135,
@@ -1047,7 +1081,7 @@ function config.init_default()
 	
 					timer_label = {
 						visibility = false,
-						text = "%2.0f:%02.0f",
+						text_format = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
@@ -1102,7 +1136,7 @@ function config.init_default()
 	
 					text_label = {
 						visibility = false,
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = -70,
 							y = 0
@@ -1121,7 +1155,14 @@ function config.init_default()
 	
 					value_label = {
 						visibility = false,
-						text = "%.0f/%.0f", -- current_health/max_health
+
+						include = {
+							current_value = true,
+							max_value = true
+						},
+
+						text_format = "%s", -- current_rage/max_rage
+
 						offset = {
 							x = 45,
 							y = 17
@@ -1140,7 +1181,7 @@ function config.init_default()
 	
 					percentage_label = {
 						visibility = false,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 	
 						offset = {
 							x = 135,
@@ -1160,7 +1201,7 @@ function config.init_default()
 	
 					timer_label = {
 						visibility = false,
-						text = "%2.0f:%02.0f",
+						text_format = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
@@ -1240,7 +1281,7 @@ function config.init_default()
 	
 					part_name_label = {
 						visibility = true,
-						text = "%s",
+						text_format = "%s",
 	
 						include = {
 							part_name = true,
@@ -1294,7 +1335,14 @@ function config.init_default()
 	
 						value_label = {
 							visibility = true,
-							text = "%11s", -- current_health/max_health
+
+							include = {
+								current_value = true,
+								max_value = true
+							},
+
+							text_format = "%11s", -- current_health/max_health
+
 							offset = {
 								x = 100,
 								y = -5
@@ -1313,7 +1361,7 @@ function config.init_default()
 	
 						percentage_label = {
 							visibility = false,
-							text = "%5.1f%%",
+							text_format = "%5.1f%%",
 	
 							offset = {
 								x = 190,
@@ -1387,7 +1435,14 @@ function config.init_default()
 	
 						value_label = {
 							visibility = true,
-							text = "%-9s",
+
+							include = {
+								current_value = true,
+								max_value = true
+							},
+
+							text_format = "%-9s",
+
 							offset = {
 								x = 5,
 								y = 6
@@ -1407,7 +1462,7 @@ function config.init_default()
 	
 						percentage_label = {
 							visibility = false,
-							text = "%5.1f%%",
+							text_format = "%5.1f%%",
 	
 							offset = {
 								x = 5,
@@ -1481,7 +1536,14 @@ function config.init_default()
 	
 						value_label = {
 							visibility = true,
-							text = "%11s",
+
+							include = {
+								current_value = true,
+								max_value = true
+							},
+
+							text_format = "%11s",
+
 							offset = {
 								x = 6,
 								y = 6
@@ -1500,7 +1562,7 @@ function config.init_default()
 	
 						percentage_label = {
 							visibility = false,
-							text = "%5.1f%%",
+							text_format = "%5.1f%%",
 	
 							offset = {
 								x = 41,
@@ -1606,7 +1668,7 @@ function config.init_default()
 	
 					ailment_name_label = {
 						visibility = true,
-						text = "%s",
+						text_format = "%s",
 	
 						include = {
 							ailment_name = true,
@@ -1650,7 +1712,14 @@ function config.init_default()
 	
 					value_label = {
 						visibility = true,
-						text = "%.0f/%.0f", -- current_buildup/max_buildup
+
+						include = {
+							current_value = true,
+							max_value = true
+						},
+
+						text_format = "%s", -- current_buildup/max_buildup
+
 						offset = {
 							x = 45,
 							y = 13
@@ -1669,7 +1738,7 @@ function config.init_default()
 	
 					percentage_label = {
 						visibility = true,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 	
 						offset = {
 							x = 135,
@@ -1689,7 +1758,7 @@ function config.init_default()
 	
 					timer_label = {
 						visibility = true,
-						text = "%2.0f:%02.0f",
+						text_format = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
@@ -1777,7 +1846,7 @@ function config.init_default()
 							activation_count = true
 						},
 	
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 5,
 							y = -17
@@ -1797,7 +1866,7 @@ function config.init_default()
 					player_name_label = {
 						visibility = true,
 	
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 5,
 							y = 0
@@ -1816,7 +1885,7 @@ function config.init_default()
 	
 					buildup_value_label = {
 						visibility = true,
-						text = "%.0f",
+						text_format = "%.0f",
 						offset = {
 							x = 115,
 							y = 0
@@ -1835,7 +1904,7 @@ function config.init_default()
 	
 					buildup_percentage_label = {
 						visibility = true,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 						offset = {
 							x = 152,
 							y = 0
@@ -1854,7 +1923,7 @@ function config.init_default()
 	
 					total_buildup_label = {
 						visibility = true,
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 5,
 							y = 0
@@ -1873,7 +1942,7 @@ function config.init_default()
 	
 					total_buildup_value_label = {
 						visibility = true,
-						text = "%.0f",
+						text_format = "%.0f",
 						offset = {
 							x = 115,
 							y = 0
@@ -1974,7 +2043,7 @@ function config.init_default()
 	
 				monster_name_label = {
 					visibility = true,
-					text = "%s",
+					text_format = "%s",
 	
 					include = {
 						monster_name = true,
@@ -2010,7 +2079,7 @@ function config.init_default()
 	
 					text_label = {
 						visibility = false,
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = -25,
 							y = 2
@@ -2029,7 +2098,14 @@ function config.init_default()
 	
 					value_label = {
 						visibility = true,
-						text = "%.0f/%.0f", -- current_health/max_health
+
+						include = {
+							current_value = true,
+							max_value = true
+						},
+						
+						text_format = "%s", -- current_health/max_health
+
 						offset = {
 							x = 5,
 							y = 2
@@ -2048,7 +2124,7 @@ function config.init_default()
 	
 					percentage_label = {
 						visibility = true,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 	
 						offset = {
 							x = 150,
@@ -2124,7 +2200,7 @@ function config.init_default()
 	
 					text_label = {
 						visibility = false,
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 15,
 							y = 0
@@ -2143,7 +2219,14 @@ function config.init_default()
 	
 					value_label = {
 						visibility = false,
-						text = "%.0f/%.0f", -- current_health/max_health
+
+						include = {
+							current_value = true,
+							max_value = true
+						},
+
+						text_format = "%s", -- current_stamina/max_stamina
+
 						offset = {
 							x = 55,
 							y = 17
@@ -2162,7 +2245,7 @@ function config.init_default()
 	
 					percentage_label = {
 						visibility = false,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 	
 						offset = {
 							x = 145,
@@ -2182,7 +2265,7 @@ function config.init_default()
 	
 					timer_label = {
 						visibility = true,
-						text = "%2.0f:%02.0f",
+						text_format = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
@@ -2237,7 +2320,7 @@ function config.init_default()
 	
 					text_label = {
 						visibility = false,
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 15,
 							y = 19
@@ -2256,7 +2339,14 @@ function config.init_default()
 	
 					value_label = {
 						visibility = false,
-						text = "%.0f/%.0f", -- current_health/max_health
+
+						include = {
+							current_value = true,
+							max_value = true
+						},
+
+						text_format = "%s", -- current_rage/max_rage
+
 						offset = {
 							x = 55,
 							y = 36
@@ -2275,7 +2365,7 @@ function config.init_default()
 	
 					percentage_label = {
 						visibility = true,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 	
 						offset = {
 							x = 150,
@@ -2295,7 +2385,7 @@ function config.init_default()
 	
 					timer_label = {
 						visibility = true,
-						text = "%2.0f:%02.0f",
+						text_format = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 157,
@@ -2375,7 +2465,7 @@ function config.init_default()
 	
 					part_name_label = {
 						visibility = true,
-						text = "%s",
+						text_format = "%s",
 	
 						include = {
 							part_name = true,
@@ -2429,7 +2519,14 @@ function config.init_default()
 	
 						value_label = {
 							visibility = true,
-							text = "%11s", -- current_health/max_health
+
+							include = {
+								current_value = true,
+								max_value = true
+							},
+
+							text_format = "%11s", -- current_health/max_health
+
 							offset = {
 								x = 100,
 								y = -5
@@ -2448,7 +2545,7 @@ function config.init_default()
 	
 						percentage_label = {
 							visibility = false,
-							text = "%5.1f%%",
+							text_format = "%5.1f%%",
 	
 							offset = {
 								x = 190,
@@ -2522,7 +2619,14 @@ function config.init_default()
 	
 						value_label = {
 							visibility = true,
-							text = "%-9s",
+
+							include = {
+								current_value = true,
+								max_value = true
+							},
+
+							text_format = "%-9s",
+
 							offset = {
 								x = 5,
 								y = 6
@@ -2542,7 +2646,7 @@ function config.init_default()
 	
 						percentage_label = {
 							visibility = false,
-							text = "%5.1f%%",
+							text_format = "%5.1f%%",
 	
 							offset = {
 								x = 5,
@@ -2616,7 +2720,14 @@ function config.init_default()
 	
 						value_label = {
 							visibility = true,
-							text = "%11s",
+
+							include = {
+								current_value = true,
+								max_value = true
+							},
+
+							text_format = "%11s",
+
 							offset = {
 								x = 6,
 								y = 6
@@ -2635,7 +2746,7 @@ function config.init_default()
 	
 						percentage_label = {
 							visibility = false,
-							text = "%5.1f%%",
+							text_format = "%5.1f%%",
 	
 							offset = {
 								x = 41,
@@ -2742,7 +2853,7 @@ function config.init_default()
 	
 					ailment_name_label = {
 						visibility = true,
-						text = "%s",
+						text_format = "%s",
 	
 						include = {
 							ailment_name = true,
@@ -2786,7 +2897,14 @@ function config.init_default()
 	
 					value_label = {
 						visibility = true,
-						text = "%.0f/%.0f", -- current_buildup/max_buildup
+
+						include = {
+							current_value = true,
+							max_value = true
+						},
+
+						text_format = "%s", -- current_buildup/max_buildup
+
 						offset = {
 							x = 45,
 							y = 13
@@ -2805,7 +2923,7 @@ function config.init_default()
 	
 					percentage_label = {
 						visibility = true,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 	
 						offset = {
 							x = 135,
@@ -2825,7 +2943,7 @@ function config.init_default()
 	
 					timer_label = {
 						visibility = true,
-						text = "%2.0f:%02.0f",
+						text_format = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
@@ -2913,7 +3031,7 @@ function config.init_default()
 							activation_count = true
 						},
 	
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 5,
 							y = -17
@@ -2933,7 +3051,7 @@ function config.init_default()
 					player_name_label = {
 						visibility = true,
 	
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 5,
 							y = 0
@@ -2952,7 +3070,7 @@ function config.init_default()
 	
 					buildup_value_label = {
 						visibility = true,
-						text = "%.0f",
+						text_format = "%.0f",
 						offset = {
 							x = 115,
 							y = 0
@@ -2971,7 +3089,7 @@ function config.init_default()
 	
 					buildup_percentage_label = {
 						visibility = true,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 						offset = {
 							x = 152,
 							y = 0
@@ -2990,7 +3108,7 @@ function config.init_default()
 	
 					total_buildup_label = {
 						visibility = true,
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 5,
 							y = 0
@@ -3009,7 +3127,7 @@ function config.init_default()
 	
 					total_buildup_value_label = {
 						visibility = true,
-						text = "%.0f",
+						text_format = "%.0f",
 						offset = {
 							x = 115,
 							y = 0
@@ -3096,7 +3214,7 @@ function config.init_default()
 	
 				monster_name_label = {
 					visibility = true,
-					text = "%s",
+					text_format = "%s",
 	
 					include = {
 						monster_name = true,
@@ -3132,7 +3250,7 @@ function config.init_default()
 	
 					text_label = {
 						visibility = false,
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = -25,
 							y = 2
@@ -3151,7 +3269,14 @@ function config.init_default()
 	
 					value_label = {
 						visibility = true,
-						text = "%.0f/%.0f", -- current_health/max_health
+
+						include = {
+							current_value = true,
+							max_value = true
+						},
+
+						text_format = "%s", -- current_health/max_health
+
 						offset = {
 							x = 5,
 							y = 2
@@ -3170,7 +3295,7 @@ function config.init_default()
 	
 					percentage_label = {
 						visibility = true,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 	
 						offset = {
 							x = 150,
@@ -3246,7 +3371,7 @@ function config.init_default()
 	
 					text_label = {
 						visibility = true,
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 15 - 10,
 							y = 0
@@ -3265,7 +3390,14 @@ function config.init_default()
 	
 					value_label = {
 						visibility = true,
-						text = "%.0f/%.0f", -- current_health/max_health
+
+						include = {
+							current_value = true,
+							max_value = true
+						},
+
+						text_format = "%s", -- current_stamina/max_stamina
+
 						offset = {
 							x = 45,
 							y = 17
@@ -3284,7 +3416,7 @@ function config.init_default()
 	
 					percentage_label = {
 						visibility = true,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 	
 						offset = {
 							x = 135,
@@ -3304,7 +3436,7 @@ function config.init_default()
 	
 					timer_label = {
 						visibility = true,
-						text = "%2.0f:%02.0f",
+						text_format = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
@@ -3359,7 +3491,7 @@ function config.init_default()
 	
 					text_label = {
 						visibility = true,
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 5,
 							y = 0
@@ -3378,7 +3510,14 @@ function config.init_default()
 	
 					value_label = {
 						visibility = true,
-						text = "%.0f/%.0f", -- current_health/max_health
+
+						include = {
+							current_value = true,
+							max_value = true
+						},
+
+						text_format = "%s", -- current_rage/max_rage
+
 						offset = {
 							x = 45,
 							y = 17
@@ -3397,7 +3536,7 @@ function config.init_default()
 	
 					percentage_label = {
 						visibility = true,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 	
 						offset = {
 							x = 135,
@@ -3417,7 +3556,7 @@ function config.init_default()
 	
 					timer_label = {
 						visibility = true,
-						text = "%2.0f:%02.0f",
+						text_format = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
@@ -3497,7 +3636,7 @@ function config.init_default()
 	
 					part_name_label = {
 						visibility = true,
-						text = "%s",
+						text_format = "%s",
 	
 						include = {
 							part_name = true,
@@ -3551,7 +3690,14 @@ function config.init_default()
 	
 						value_label = {
 							visibility = true,
-							text = "%11s", -- current_health/max_health
+
+							include = {
+								current_value = true,
+								max_value = true
+							},
+
+							text_format = "%11s", -- current_health/max_health
+
 							offset = {
 								x = 100,
 								y = -5
@@ -3570,7 +3716,7 @@ function config.init_default()
 	
 						percentage_label = {
 							visibility = false,
-							text = "%5.1f%%",
+							text_format = "%5.1f%%",
 	
 							offset = {
 								x = 190,
@@ -3644,7 +3790,14 @@ function config.init_default()
 	
 						value_label = {
 							visibility = true,
-							text = "%-9s",
+
+							include = {
+								current_value = true,
+								max_value = true
+							},
+
+							text_format = "%-9s",
+
 							offset = {
 								x = 5,
 								y = 6
@@ -3664,7 +3817,7 @@ function config.init_default()
 	
 						percentage_label = {
 							visibility = false,
-							text = "%5.1f%%",
+							text_format = "%5.1f%%",
 	
 							offset = {
 								x = 5,
@@ -3738,7 +3891,14 @@ function config.init_default()
 	
 						value_label = {
 							visibility = true,
-							text = "%11s",
+
+							include = {
+								current_value = true,
+								max_value = true
+							},
+
+							text_format = "%11s",
+
 							offset = {
 								x = 6,
 								y = 6
@@ -3757,7 +3917,7 @@ function config.init_default()
 	
 						percentage_label = {
 							visibility = false,
-							text = "%5.1f%%",
+							text_format = "%5.1f%%",
 	
 							offset = {
 								x = 41,
@@ -3863,7 +4023,7 @@ function config.init_default()
 	
 					ailment_name_label = {
 						visibility = true,
-						text = "%s",
+						text_format = "%s",
 	
 						include = {
 							ailment_name = true,
@@ -3907,7 +4067,14 @@ function config.init_default()
 	
 					value_label = {
 						visibility = true,
-						text = "%.0f/%.0f", -- current_buildup/max_buildup
+
+						include = {
+							current_value = true,
+							max_value = true
+						},
+
+						text_format = "%s", -- current_buildup/max_buildup
+
 						offset = {
 							x = 45,
 							y = 13
@@ -3926,7 +4093,7 @@ function config.init_default()
 	
 					percentage_label = {
 						visibility = true,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 	
 						offset = {
 							x = 135,
@@ -3946,7 +4113,7 @@ function config.init_default()
 	
 					timer_label = {
 						visibility = true,
-						text = "%2.0f:%02.0f",
+						text_format = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
@@ -4034,7 +4201,7 @@ function config.init_default()
 							activation_count = true
 						},
 	
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 5,
 							y = -17
@@ -4054,7 +4221,7 @@ function config.init_default()
 					player_name_label = {
 						visibility = true,
 	
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 5,
 							y = 0
@@ -4073,7 +4240,7 @@ function config.init_default()
 	
 					buildup_value_label = {
 						visibility = true,
-						text = "%.0f",
+						text_format = "%.0f",
 						offset = {
 							x = 115,
 							y = 0
@@ -4092,7 +4259,7 @@ function config.init_default()
 	
 					buildup_percentage_label = {
 						visibility = true,
-						text = "%5.1f%%",
+						text_format = "%5.1f%%",
 						offset = {
 							x = 152,
 							y = 0
@@ -4111,7 +4278,7 @@ function config.init_default()
 	
 					total_buildup_label = {
 						visibility = true,
-						text = "%s",
+						text_format = "%s",
 						offset = {
 							x = 5,
 							y = 0
@@ -4130,7 +4297,7 @@ function config.init_default()
 	
 					total_buildup_value_label = {
 						visibility = true,
-						text = "%.0f",
+						text_format = "%.0f",
 						offset = {
 							x = 115,
 							y = 0
@@ -4213,7 +4380,7 @@ function config.init_default()
 	
 			time_label = {
 				visibility = true,
-				text = "%02d:%06.3f",
+				text_format = "%02d:%06.3f",
 				offset = {
 					x = 0,
 					y = 0
@@ -4312,7 +4479,7 @@ function config.init_default()
 						name = true
 					},
 	
-					text = "%s",
+					text_format = "%s",
 					offset = {
 						x = 5,
 						y = 0
@@ -4337,7 +4504,7 @@ function config.init_default()
 						hunter_rank = true
 					},
 	
-					text = "[%s]",
+					text_format = "[%s]",
 					offset = {
 						x = -65,
 						y = 0
@@ -4357,7 +4524,7 @@ function config.init_default()
 				cart_count_label = {
 					visibility = false,
 	
-					text = "%d",
+					text_format = "%d",
 					offset = {
 						x = 315,
 						y = 0
@@ -4376,7 +4543,7 @@ function config.init_default()
 	
 				dps_label = {
 					visibility = true,
-					text = "%.1f",
+					text_format = "%.1f",
 	
 					offset = {
 						x = 155,
@@ -4396,7 +4563,7 @@ function config.init_default()
 	
 				damage_value_label = {
 					visibility = true,
-					text = "%.0f",
+					text_format = "%.0f",
 					offset = {
 						x = 205,
 						y = 0
@@ -4415,7 +4582,7 @@ function config.init_default()
 	
 				damage_percentage_label = {
 					visibility = true,
-					text = "%5.1f%%",
+					text_format = "%5.1f%%",
 					offset = {
 						x = 262,
 						y = 0
@@ -4472,7 +4639,7 @@ function config.init_default()
 						name = true
 					},
 	
-					text = "%s",
+					text_format = "%s",
 					offset = {
 						x = 5,
 						y = 0
@@ -4497,7 +4664,7 @@ function config.init_default()
 						hunter_rank = true
 					},
 	
-					text = "[%s]",
+					text_format = "[%s]",
 					offset = {
 						x = -65,
 						y = 0
@@ -4517,7 +4684,7 @@ function config.init_default()
 				cart_count_label = {
 					visibility = false,
 	
-					text = "%d",
+					text_format = "%d",
 					offset = {
 						x = 315,
 						y = 0
@@ -4536,7 +4703,7 @@ function config.init_default()
 	
 				dps_label = {
 					visibility = true,
-					text = "%.1f",
+					text_format = "%.1f",
 	
 					offset = {
 						x = 155,
@@ -4556,7 +4723,7 @@ function config.init_default()
 	
 				damage_value_label = {
 					visibility = true,
-					text = "%.0f",
+					text_format = "%.0f",
 					offset = {
 						x = 205,
 						y = 0
@@ -4575,7 +4742,7 @@ function config.init_default()
 	
 				damage_percentage_label = {
 					visibility = true,
-					text = "%5.1f%%",
+					text_format = "%5.1f%%",
 					offset = {
 						x = 262,
 						y = 0
@@ -4629,7 +4796,7 @@ function config.init_default()
 						name = true
 					},
 	
-					text = "%s",
+					text_format = "%s",
 					offset = {
 						x = 5,
 						y = 0
@@ -4648,7 +4815,7 @@ function config.init_default()
 	
 				dps_label = {
 					visibility = true,
-					text = "%.1f",
+					text_format = "%.1f",
 	
 					offset = {
 						x = 155,
@@ -4668,7 +4835,7 @@ function config.init_default()
 	
 				damage_value_label = {
 					visibility = true,
-					text = "%.0f",
+					text_format = "%.0f",
 					offset = {
 						x = 205,
 						y = 0
@@ -4687,7 +4854,7 @@ function config.init_default()
 	
 				damage_percentage_label = {
 					visibility = true,
-					text = "%5.1f%%",
+					text_format = "%5.1f%%",
 					offset = {
 						x = 262,
 						y = 0
@@ -4742,7 +4909,7 @@ function config.init_default()
 						name = true
 					},
 	
-					text = "%s",
+					text_format = "%s",
 					offset = {
 						x = 5,
 						y = 0
@@ -4762,7 +4929,7 @@ function config.init_default()
 				hunter_rank_label = {
 					visibility = false,
 	
-					text = "[%s]",
+					text_format = "[%s]",
 					offset = {
 						x = -30,
 						y = 0
@@ -4781,7 +4948,7 @@ function config.init_default()
 	
 				dps_label = {
 					visibility = true,
-					text = "%.1f",
+					text_format = "%.1f",
 	
 					offset = {
 						x = 155,
@@ -4801,7 +4968,7 @@ function config.init_default()
 	
 				damage_value_label = {
 					visibility = true,
-					text = "%.0f",
+					text_format = "%.0f",
 					offset = {
 						x = 205,
 						y = 0
@@ -4820,7 +4987,7 @@ function config.init_default()
 	
 				damage_percentage_label = {
 					visibility = true,
-					text = "%5.1f%%",
+					text_format = "%5.1f%%",
 					offset = {
 						x = 262,
 						y = 0
@@ -4875,7 +5042,7 @@ function config.init_default()
 						name = true
 					},
 	
-					text = "%s",
+					text_format = "%s",
 					offset = {
 						x = 5,
 						y = 0
@@ -4895,7 +5062,7 @@ function config.init_default()
 				hunter_rank_label = {
 					visibility = false,
 	
-					text = "[%s]",
+					text_format = "[%s]",
 					offset = {
 						x = -30,
 						y = 0
@@ -4914,7 +5081,7 @@ function config.init_default()
 	
 				dps_label = {
 					visibility = true,
-					text = "%.1f",
+					text_format = "%.1f",
 	
 					offset = {
 						x = 155,
@@ -4934,7 +5101,7 @@ function config.init_default()
 	
 				damage_value_label = {
 					visibility = true,
-					text = "%.0f",
+					text_format = "%.0f",
 					offset = {
 						x = 205,
 						y = 0
@@ -4953,7 +5120,7 @@ function config.init_default()
 	
 				damage_percentage_label = {
 					visibility = true,
-					text = "%5.1f%%",
+					text_format = "%5.1f%%",
 					offset = {
 						x = 262,
 						y = 0
@@ -5008,7 +5175,7 @@ function config.init_default()
 						name = true
 					},
 	
-					text = "%s",
+					text_format = "%s",
 					offset = {
 						x = 5,
 						y = 0
@@ -5028,7 +5195,7 @@ function config.init_default()
 				hunter_rank_label = {
 					visibility = false,
 	
-					text = "[%s]",
+					text_format = "[%s]",
 					offset = {
 						x = -30,
 						y = 0
@@ -5047,7 +5214,7 @@ function config.init_default()
 	
 				dps_label = {
 					visibility = true,
-					text = "%.1f",
+					text_format = "%.1f",
 	
 					offset = {
 						x = 155,
@@ -5067,7 +5234,7 @@ function config.init_default()
 	
 				damage_value_label = {
 					visibility = true,
-					text = "%.0f",
+					text_format = "%.0f",
 					offset = {
 						x = 205,
 						y = 0
@@ -5086,7 +5253,7 @@ function config.init_default()
 	
 				damage_percentage_label = {
 					visibility = true,
-					text = "%5.1f%%",
+					text_format = "%5.1f%%",
 					offset = {
 						x = 262,
 						y = 0
@@ -5134,7 +5301,7 @@ function config.init_default()
 				name_label = {
 					visibility = true,
 	
-					text = "%s",
+					text_format = "%s",
 					offset = {
 						x = 5,
 						y = 0
@@ -5154,7 +5321,7 @@ function config.init_default()
 				cart_count_label = {
 					visibility = false,
 	
-					text = "%d/%d",
+					text_format = "%d/%d",
 					offset = {
 						x = 315,
 						y = 0
@@ -5173,7 +5340,7 @@ function config.init_default()
 	
 				dps_label = {
 					visibility = true,
-					text = "%.1f",
+					text_format = "%.1f",
 	
 					offset = {
 						x = 155,
@@ -5193,7 +5360,7 @@ function config.init_default()
 	
 				damage_value_label = {
 					visibility = true,
-					text = "%.0f",
+					text_format = "%.0f",
 					offset = {
 						x = 205,
 						y = 0
@@ -5215,7 +5382,7 @@ function config.init_default()
 				name_label = {
 					visibility = true,
 	
-					text = "%s",
+					text_format = "%s",
 					offset = {
 						x = 5,
 						y = 0
@@ -5235,7 +5402,7 @@ function config.init_default()
 				hunter_rank_label = {
 					visibility = false,
 	
-					text = "[%s]",
+					text_format = "[%s]",
 					offset = {
 						x = -65,
 						y = 0
@@ -5255,7 +5422,7 @@ function config.init_default()
 				cart_count_label = {
 					visibility = false,
 	
-					text = "%d",
+					text_format = "%d",
 					offset = {
 						x = 315,
 						y = 0
@@ -5274,7 +5441,7 @@ function config.init_default()
 	
 				dps_label = {
 					visibility = true,
-					text = "%.1f",
+					text_format = "%.1f",
 	
 					offset = {
 						x = 155,
@@ -5294,7 +5461,7 @@ function config.init_default()
 	
 				damage_value_label = {
 					visibility = true,
-					text = "%.0f",
+					text_format = "%.0f",
 					offset = {
 						x = 205,
 						y = 0
@@ -5313,7 +5480,7 @@ function config.init_default()
 	
 				damage_percentage_label = {
 					visibility = true,
-					text = "%5.1f%%",
+					text_format = "%5.1f%%",
 					offset = {
 						x = 262,
 						y = 0
@@ -5380,7 +5547,7 @@ function config.init_default()
 	
 			creature_name_label = {
 				visibility = true,
-				text = "%s",
+				text_format = "%s",
 	
 				offset = {
 					x = 0,
@@ -5428,7 +5595,7 @@ function config.init_default()
 			name_label = {
 				visibility = true,
 
-				text = "%s",
+				text_format = "%s",
 				offset = {
 					x = 5,
 					y = 0
@@ -5447,7 +5614,7 @@ function config.init_default()
 
 			timer_label = {
 				visibility = true,
-				text = "%2.0f:%02.0f",
+				text_format = "%2.0f:%02.0f",
 				offset = {
 					x = 200,
 					y = 0

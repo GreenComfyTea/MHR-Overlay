@@ -69,10 +69,22 @@ function health_UI_entity.draw(monster, health_UI, position_on_screen, opacity_s
 		return;
 	end
 
+	local include_current_value = health_UI.value_label.include.current_value;
+	local include_max_value = health_UI.value_label.include.max_value;
+
+	local health_string;
+	if include_current_value and include_max_value then
+		health_string = string.format("%.0f/%.0f", monster.health, monster.max_health);
+	elseif include_current_value then
+		health_string = string.format("%.0f", monster.health);
+	elseif include_max_value then
+		health_string = string.format("%.0f", monster.max_health);
+	end
+
 	drawing.draw_bar(health_UI.bar, position_on_screen, opacity_scale, monster.health_percentage);
 
 	drawing.draw_label(health_UI.text_label, position_on_screen, opacity_scale, language.current_language.UI.HP);
-	drawing.draw_label(health_UI.value_label, position_on_screen, opacity_scale, monster.health, monster.max_health);
+	drawing.draw_label(health_UI.value_label, position_on_screen, opacity_scale, health_string);
 	drawing.draw_label(health_UI.percentage_label, position_on_screen, opacity_scale, 100 * monster.health_percentage);
 end
 

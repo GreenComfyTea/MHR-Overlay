@@ -151,9 +151,50 @@ function body_part_UI_entity.draw(part, part_UI, cached_config, position_on_scre
 		end
 	end
 
-	local health_string = string.format("%.0f/%.0f", part.health, part.max_health);
-	local break_health_string = string.format("%.0f/%.0f", part.break_health, part.break_max_health);
-	local loss_health_string = string.format("%.0f/%.0f", part.loss_health, part.loss_max_health);
+	-- health value string
+	local health_string = "";
+	if draw_health then
+		local include_health_current_value = part_UI.flinch_value_label.include.current_value;
+		local include_health_max_value = part_UI.flinch_value_label.include.max_value;
+
+		if include_health_current_value and include_health_max_value then
+			health_string = string.format("%.0f/%.0f", part.health, part.max_health);
+		elseif include_health_current_value then
+			health_string = string.format("%.0f", part.health);
+		elseif include_health_max_value then
+			health_string = string.format("%.0f", part.max_health);
+		end
+	end
+	
+	-- break health value string
+	local break_health_string = "";
+	if draw_break then
+		local include_break_health_current_value = part_UI.break_value_label.include.current_value;
+		local include_break_health_max_value = part_UI.break_value_label.include.max_value;
+
+		if include_break_health_current_value and include_break_health_max_value then
+			break_health_string = string.format("%.0f/%.0f", part.break_health, part.break_max_health);
+		elseif include_break_health_current_value then
+			break_health_string = string.format("%.0f", part.break_health);
+		elseif include_break_health_max_value then
+			break_health_string = string.format("%.0f", part.break_max_health);
+		end
+	end
+
+	-- loss health value string
+	local loss_health_string = "";
+	if draw_severe then
+		local include_loss_health_current_value = part_UI.loss_value_label.include.current_value;
+		local include_loss_health_max_value = part_UI.loss_value_label.include.max_value;
+
+		if include_loss_health_current_value and include_loss_health_max_value then
+			loss_health_string = string.format("%.0f/%.0f", part.loss_health, part.loss_max_health);
+		elseif include_loss_health_current_value then
+			loss_health_string = string.format("%.0f", part.loss_health);
+		elseif include_loss_health_max_value then
+			loss_health_string = string.format("%.0f", part.loss_max_health);
+		end
+	end
 
 	local flinch_position_on_screen = {
 		x = position_on_screen.x + cached_config.part_health.offset.x,
@@ -177,7 +218,7 @@ function body_part_UI_entity.draw(part, part_UI, cached_config, position_on_scre
 		drawing.draw_bar(part_UI.flinch_bar, flinch_position_on_screen, opacity_scale, part.health_percentage);
 	end
 
-	if draw_break  then
+	if draw_break then
 		drawing.draw_bar(part_UI.break_bar, break_position_on_screen, opacity_scale, part.break_health_percentage);
 	end
 

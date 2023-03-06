@@ -124,7 +124,12 @@ function drawing.draw_label(label, position, opacity_scale, ...)
 		return;
 	end
 
-	local text = string.format(label.text, table.unpack({...}));
+	local text = string.format(label.text_format, table.unpack({...}));
+
+	if text == "" then
+		return;
+	end
+
 	local position_x = position.x + label.offset.x;
 	local position_y = position.y + label.offset.y;
 

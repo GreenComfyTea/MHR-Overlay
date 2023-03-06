@@ -71,17 +71,30 @@ function stamina_UI_entity.draw(monster, stamina_UI, position_on_screen, opacity
 		return;
 	end
 
+	local stamina_string = "";
+	if not monster.is_tired then
+		local include_current_value = stamina_UI.value_label.include.current_value;
+		local include_max_value = stamina_UI.value_label.include.max_value;
+	
+		if include_current_value and include_max_value then
+			stamina_string = string.format("%.0f/%.0f", monster.stamina, monster.max_stamina);
+		elseif include_current_value then
+			stamina_string = string.format("%.0f", monster.stamina);
+		elseif include_max_value then
+			stamina_string = string.format("%.0f", monster.max_stamina);
+		end
+	end
+
 	drawing.draw_label(stamina_UI.text_label, position_on_screen, opacity_scale, language.current_language.UI.stamina);
 
 	if monster.is_tired then
 		drawing.draw_bar(stamina_UI.bar, position_on_screen, opacity_scale, monster.tired_timer_percentage);
 
-		drawing.draw_label(stamina_UI.timer_label, position_on_screen, opacity_scale, monster.tired_minutes_left,
-			monster.tired_seconds_left);
+		drawing.draw_label(stamina_UI.timer_label, position_on_screen, opacity_scale, monster.tired_minutes_left, monster.tired_seconds_left);
 	else
 		drawing.draw_bar(stamina_UI.bar, position_on_screen, opacity_scale, monster.stamina_percentage);
 
-		drawing.draw_label(stamina_UI.value_label, position_on_screen, opacity_scale, monster.stamina, monster.max_stamina);
+		drawing.draw_label(stamina_UI.value_label, position_on_screen, opacity_scale, stamina_string);
 		drawing.draw_label(stamina_UI.percentage_label, position_on_screen, opacity_scale, 100 * monster.stamina_percentage);
 	end
 end
