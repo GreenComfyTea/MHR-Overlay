@@ -496,7 +496,11 @@ language.default_language = {
 		hide_timer_for_infinite_buffs = "Hide Timer for infinite Buffs",
 
 		current_value = "Current Value",
-		max_value = "Max Value"
+		max_value = "Max Value",
+
+		filter_mode = "Filter Mode",
+		current_state = "Current State",
+		default_state = "Default State"
 	}
 };
 

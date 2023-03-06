@@ -1260,6 +1260,7 @@ function config.init_default()
 					},
 	
 					settings = {
+						filter_mode = "Current State",
 						hide_undamaged_parts = true,
 						time_limit = 15
 					},
@@ -2444,6 +2445,7 @@ function config.init_default()
 					},
 	
 					settings = {
+						filter_mode = "Current State",
 						hide_undamaged_parts = true,
 						time_limit = 15
 					},
@@ -3615,6 +3617,7 @@ function config.init_default()
 					},
 	
 					settings = {
+						filter_mode = "Current State",
 						hide_undamaged_parts = true,
 						time_limit = 15
 					},

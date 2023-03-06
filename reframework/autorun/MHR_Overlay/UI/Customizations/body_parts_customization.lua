@@ -87,6 +87,16 @@ function body_parts_customization.draw(cached_config)
 			
 			config_changed = config_changed or changed;
 
+			changed, index = imgui.combo(language.current_language.customization_menu.filter_mode,
+				table_helpers.find_index(customization_menu.large_monster_UI_parts_filter_types, cached_config.settings.filter_mode),
+				customization_menu.displayed_large_monster_UI_parts_filter_types);
+			
+			config_changed = config_changed or changed;
+
+			if changed then
+				cached_config.settings.filter_mode = customization_menu.large_monster_UI_parts_filter_types[index];
+			end
+
 			changed, cached_config.settings.time_limit = imgui.drag_float(
 				language.current_language.customization_menu.time_limit, cached_config.settings.time_limit, 0.1, 0, 99999, "%.1f");
 
@@ -99,7 +109,7 @@ function body_parts_customization.draw(cached_config)
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.type,
 				table_helpers.find_index(customization_menu.large_monster_UI_parts_sorting_types, cached_config.sorting.type),
-				customization_menu.displayed_monster_UI_parts_sorting_types);
+				customization_menu.displayed_large_monster_UI_parts_sorting_types);
 			
 				config_changed = config_changed or changed;
 

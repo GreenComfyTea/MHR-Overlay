@@ -75,7 +75,8 @@ customization_menu.displayed_anchor_types = {};
 customization_menu.displayed_outline_styles = {};
 
 customization_menu.displayed_monster_UI_sorting_types = {};
-customization_menu.displayed_monster_UI_parts_sorting_types = {};
+customization_menu.displayed_large_monster_UI_parts_sorting_types = {};
+customization_menu.displayed_large_monster_UI_parts_filter_types = {};
 customization_menu.displayed_ailments_sorting_types = {};
 customization_menu.displayed_ailment_buildups_sorting_types = {};
 customization_menu.displayed_highlighted_buildup_bar_types = {};
@@ -96,6 +97,8 @@ customization_menu.anchor_types = {};
 customization_menu.outline_styles = {};
 
 customization_menu.monster_UI_sorting_types = {};
+customization_menu.large_monster_UI_parts_sorting_types = {};
+customization_menu.large_monster_UI_parts_filter_types = {};
 customization_menu.ailments_sorting_types = {};
 customization_menu.ailment_buildups_sorting_types = {};
 customization_menu.highlighted_buildup_bar_types = {};
@@ -188,25 +191,31 @@ function customization_menu.init()
 																default.health_percentage,
 																default.distance};
 
-	customization_menu.displayed_monster_UI_parts_sorting_types = {	current.normal,
-																	current.health,
-																	current.health_percentage,
-																	current.flinch_count,
-																	current.break_health,
-																	current.break_health_percentage,
-																	current.break_count,
-																	current.loss_health,
-																	current.loss_health_percentage};
+	customization_menu.displayed_large_monster_UI_parts_sorting_types = {	current.normal,
+																			current.health,
+																			current.health_percentage,
+																			current.flinch_count,
+																			current.break_health,
+																			current.break_health_percentage,
+																			current.break_count,
+																			current.loss_health,
+																			current.loss_health_percentage};
 
-	customization_menu.large_monster_UI_parts_sorting_types = {		default.normal,
-																	default.health,
-																	default.health_percentage,
-																	default.flinch_count,
-																	default.break_health,
-                                                        			default.break_health_percentage,
-																	default.break_count,
-																	default.loss_health,
-																	default.loss_health_percentage};
+	customization_menu.large_monster_UI_parts_sorting_types = {				default.normal,
+																			default.health,
+																			default.health_percentage,
+																			default.flinch_count,
+																			default.break_health,
+                                                        					default.break_health_percentage,
+																			default.break_count,
+																			default.loss_health,
+																			default.loss_health_percentage};
+
+	customization_menu.displayed_large_monster_UI_parts_filter_types = {	current.current_state,
+																			current.default_state};
+
+	customization_menu.large_monster_UI_parts_filter_types = {				default.current_state,
+																			default.default_state};
 
 	customization_menu.displayed_ailments_sorting_types = {	current.normal,
 															current.buildup,

@@ -155,6 +155,16 @@ function body_part.draw(monster, part_UI, cached_config, parts_position_on_scree
 		local break_supported = part.break_max_health > 0;
 		local severe_supported = part.loss_max_health > 0;
 
+		if cached_config.settings.filter_mode == "Current State" then
+			if break_supported and part.break_count >= part.break_max_count then
+				break_supported = false;
+			end
+
+			if severe_supported and part.is_severed then
+				severe_supported = false;
+			end
+		end
+
 		if health_supported then
 			if break_supported then
 				if severe_supported then
