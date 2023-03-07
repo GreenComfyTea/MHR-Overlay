@@ -42,6 +42,7 @@ local language = require("MHR_Overlay.Misc.language");
 local table_helpers = require("MHR_Overlay.Misc.table_helpers");
 local unicode_helpers = require("MHR_Overlay.Misc.unicode_helpers");
 local part_names = require("MHR_Overlay.Misc.part_names");
+local utils = require("MHR_Overlay.Misc.utils");
 
 --local buffs = require("MHR_Overlay.Buffs.buffs");
 
@@ -99,6 +100,7 @@ screen.init_module();
 singletons.init_module();
 table_helpers.init_module();
 unicode_helpers.init_module();
+utils.init_module();
 time.init_module();
 
 language.init_module();

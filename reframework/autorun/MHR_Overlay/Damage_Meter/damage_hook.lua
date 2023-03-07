@@ -8,6 +8,7 @@ local ailments;
 local table_helpers;
 local singletons;
 local non_players;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -38,11 +39,15 @@ local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
 
+local wall_hit_damage_queue = {};
+
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local enemy_character_base_after_calc_damage_damage_side_method = enemy_character_base_type_def:get_method("afterCalcDamage_DamageSide");
 
 local is_boss_enemy_method = enemy_character_base_type_def:get_method("get_isBossEnemy");
 local check_die_method = enemy_character_base_type_def:get_method("checkDie");
+
+local stock_direct_marionette_finish_shoot_hit_parts_damage_method = enemy_character_base_type_def:get_method("stockDirectMarionetteFinishShootHitPartsDamage");
 
 local enemy_calc_damage_info_type_def = sdk.find_type_definition("snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide");
 local get_attacker_id_method = enemy_calc_damage_info_type_def:get_method("get_AttackerID");
@@ -255,13 +260,69 @@ function damage_hook.cart(dead_player_id, flag_cat_skill_insurance)
 	quest_status.get_cart_count();
 end
 
---function damage_hook.on_get_finish_shoot_wall_hit_damage_rate(enemy, rate, is_part_damage)
+function damage_hook.on_stock_direct_marionette_finish_shoot_hit_parts_damage(enemy, damage_rate, is_endure, is_ignore_multi_rate, category, no)
+	local monster = large_monster.get_monster(enemy);
 
---xy = string.format("enemy: %s\nrate: %s\nis_part_damage: %s", tostring(enemy), tostring(rate), tostring(is_part_damage));
---end
+	local damage = utils.round(monster.max_health * damage_rate);
 
+	large_monster.update_all_riders();
+	local attacker_id = monster.rider_id;
+	
+	table.insert(wall_hit_damage_queue,
+		{
+			damage = damage, 
+			is_large = monster.is_large
+		}
+	);
+	
+	if attacker_id == -1 then
+		return;
+	end
 
-local get_finish_shoot_wall_hit_damage_rate_method = enemy_character_base_type_def:get_method("stockFinishShootHitDamage");
+	local player = players.get_player(attacker_id);
+	if player == nil then
+		player = non_players.get_servant(attacker_id);
+	end
+
+	if player == nil then
+		return;
+	end
+
+	local damage_source_type = damage_hook.get_damage_source_type(0, true);
+	local is_large_monster = monster.is_large;
+
+	local large_monster_damage_object = {};
+	large_monster_damage_object.total_damage = 0;
+	large_monster_damage_object.physical_damage = 0;
+	large_monster_damage_object.elemental_damage = 0;
+	large_monster_damage_object.ailment_damage = 0;
+
+	local small_monster_damage_object = {};
+	small_monster_damage_object.total_damage = 0;
+	small_monster_damage_object.physical_damage = 0;
+	small_monster_damage_object.elemental_damage = 0;
+	small_monster_damage_object.ailment_damage = 0;
+
+	for _, damage_info in ipairs(wall_hit_damage_queue) do
+		if damage_info.is_large then
+
+			large_monster_damage_object.total_damage = large_monster_damage_object.total_damage + damage_info.damage;
+			large_monster_damage_object.physical_damage = large_monster_damage_object.physical_damage + damage_info.damage;
+		else
+			small_monster_damage_object.total_damage = small_monster_damage_object.total_damage + damage_info.damage;
+			small_monster_damage_object.physical_damage = small_monster_damage_object.physical_damage + damage_info.damage;
+		end
+		
+	end
+
+	wall_hit_damage_queue = {};
+	
+	players.update_damage(players.total, damage_source_type, false, small_monster_damage_object);
+	players.update_damage(player, damage_source_type, false, small_monster_damage_object);
+
+	players.update_damage(players.total, damage_source_type, true, large_monster_damage_object);
+	players.update_damage(player, damage_source_type, true, large_monster_damage_object);
+end
 
 function damage_hook.init_module()
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
@@ -272,12 +333,20 @@ function damage_hook.init_module()
 	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
+	utils = require("MHR_Overlay.Misc.utils");
 
-	--sdk.hook(get_finish_shoot_wall_hit_damage_rate_method, function(args)
-	--	pcall(damage_hook.on_get_finish_shoot_wall_hit_damage_rate, sdk.to_managed_object(args[2]), sdk.to_float(args[3]), sdk.to_int64(args--[4]));
-	--end, function(retval)
-	--	return retval;
-	--end);
+	sdk.hook(stock_direct_marionette_finish_shoot_hit_parts_damage_method, function(args)
+		local enemy = sdk.to_managed_object(args[2]);
+		local damage_rate = sdk.to_float(args[3]);
+		local is_endure = (sdk.to_int64(args[4]) & 1) == 1;
+		local is_ignore_multi_rate = (sdk.to_int64(args[5]) & 1) == 1;
+		local category = sdk.to_int64(args[6]); --snow.enemy.EnemyDef.VitalCategory
+		local no = sdk.to_int64(args[7]);
+
+		damage_hook.on_stock_direct_marionette_finish_shoot_hit_parts_damage(enemy, damage_rate, is_endure, is_ignore_multi_rate, category, no);
+	end, function(retval)
+		return retval;
+	end);
 
 	sdk.hook(enemy_character_base_after_calc_damage_damage_side_method, function(args)
 		pcall(damage_hook.update_damage, sdk.to_managed_object(args[2]), sdk.to_managed_object(args[3]));

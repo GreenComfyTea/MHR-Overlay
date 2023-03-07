@@ -399,13 +399,22 @@ function large_monster.update_all_riders()
 		local mario_param = enemy:get_field("<MarioParam>k__BackingField");
 		if mario_param ~= nil then
 			local is_marionette = get_is_marionette_method:call(mario_param);
+
+			if is_marionette == nil then
+				goto continue;
+			end
+
 			if is_marionette then
 				local player_id = get_mario_player_index_method:call(mario_param);
-				if monster.rider_id ~= player_id then
+				if player_id ~= nil then
 					monster.rider_id = player_id;
 				end
+			else
+				monster.rider_id = -1;
 			end
 		end
+
+		::continue::
 	end
 
 end
