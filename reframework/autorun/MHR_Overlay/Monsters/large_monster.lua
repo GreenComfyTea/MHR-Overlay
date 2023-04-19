@@ -483,7 +483,7 @@ function large_monster.update_health(enemy, monster)
 		return nil;
 	end
 
-	local physical_param = physical_param_field:get_data(enemy)
+	local physical_param = physical_param_field:get_data(enemy);
 	if physical_param == nil then
 		customization_menu.status = "No physical param";
 		return nil;
