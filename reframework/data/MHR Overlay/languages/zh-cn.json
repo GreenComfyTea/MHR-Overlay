@@ -306,6 +306,7 @@
     "font_name": "NotoSansSC-Bold.otf",
     "parts": {
         "abdomen": "腹部",
+        "amatsu_unknown": "?",
         "antenna": "触角",
         "arms": "手臂",
         "arms_mud": "手臂(泥)",

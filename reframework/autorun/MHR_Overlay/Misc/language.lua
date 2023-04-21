@@ -126,7 +126,7 @@ this.default_language = {
 
 		thundersacs = "Thundersacs",
 
-		no_name = ""
+		amatsu_unknown = "?"
 	},
 
 	ailments = {

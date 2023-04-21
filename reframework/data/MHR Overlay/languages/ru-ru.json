@@ -306,6 +306,7 @@
     "font_name": "NotoSansKR-Bold.otf",
     "parts": {
         "abdomen": "Брюхо",
+        "amatsu_unknown": "?",
         "antenna": "Антернна",
         "arms": "Передние лапы",
         "arms_mud": "Передние лапы (в грязи)",

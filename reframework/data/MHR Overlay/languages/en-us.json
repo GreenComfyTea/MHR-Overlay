@@ -306,6 +306,7 @@
     "font_name": "NotoSansKR-Bold.otf",
     "parts": {
         "abdomen": "Abdomen",
+        "amatsu_unknown": "?",
         "antenna": "Antenna",
         "arms": "Arms",
         "arms_mud": "Arms (Mud)",

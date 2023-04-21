@@ -306,6 +306,7 @@
     "font_name": "NotoSansKR-Bold.otf",
     "parts": {
         "abdomen": "배",
+        "amatsu_unknown": "?",
         "antenna": "더듬이",
         "arms": "팔",
         "arms_mud": "팔(진흙)",

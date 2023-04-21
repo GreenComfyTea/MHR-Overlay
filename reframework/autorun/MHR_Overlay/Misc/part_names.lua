@@ -915,7 +915,7 @@ function this.init()
 			language.current_language.parts.abdomen,
 			language.current_language.parts.tail,
 			language.current_language.parts.back,
-			language.current_language.parts.no_name,
+			language.current_language.parts.amatsu_unknown,
 			language.current_language.parts.left_leg,
 			language.current_language.parts.right_leg
 		},
