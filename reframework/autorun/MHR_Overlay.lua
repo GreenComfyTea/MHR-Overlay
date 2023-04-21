@@ -30,7 +30,16 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-local debug = require("MHR_Overlay.Misc.debug");
+local debug_name = "MHR_Overlay.Misc.debug";
+local debug = nil;
+for _, searcher in ipairs(package.searchers or package.loaders) do
+	local loader = searcher(debug_name);
+
+	if type(loader) == 'function' then
+		package.preload[debug_name] = loader;
+		debug = require(debug_name);
+	end
+end
 
 local keyboard = require("MHR_Overlay.Game_Handler.keyboard");
 local quest_status = require("MHR_Overlay.Game_Handler.quest_status");
