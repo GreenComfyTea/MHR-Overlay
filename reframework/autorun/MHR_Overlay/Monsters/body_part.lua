@@ -1,4 +1,4 @@
-local body_part = {};
+local this = {};
 
 local singletons;
 local customization_menu;
@@ -44,9 +44,9 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-body_part.list = {};
+this.list = {};
 
-function body_part.new(id, name)
+function this.new(id, name)
 	local part = {};
 
 	part.id = id;
@@ -73,7 +73,7 @@ function body_part.new(id, name)
 	return part;
 end
 
-function body_part.update_flinch(part, part_current, part_max)
+function this.update_flinch(part, part_current, part_max)
 	if part_current > part.health then
 		part.flinch_count = part.flinch_count + 1;
 	end
@@ -94,7 +94,7 @@ function body_part.update_flinch(part, part_current, part_max)
 	end
 end
 
-function body_part.update_break(part, part_break_current, part_break_max, part_break_count, part_break_max_count)
+function this.update_break(part, part_break_current, part_break_max, part_break_count, part_break_max_count)
 
 	if part.break_health ~= part_break_current then
 		part.last_change_time = time.total_elapsed_script_seconds;
@@ -123,7 +123,7 @@ function body_part.update_break(part, part_break_current, part_break_max, part_b
 	end
 end
 
-function body_part.update_loss(part, part_loss_current, part_loss_max, is_severed)
+function this.update_loss(part, part_loss_current, part_loss_max, is_severed)
 	if part.loss_health ~= part_loss_current then
 		part.last_change_time = time.total_elapsed_script_seconds;
 	end
@@ -147,7 +147,7 @@ function body_part.update_loss(part, part_loss_current, part_loss_max, is_severe
 
 end
 
-function body_part.draw(monster, part_UI, cached_config, parts_position_on_screen, opacity_scale)
+function this.draw(monster, part_UI, cached_config, parts_position_on_screen, opacity_scale)
 	local cached_config = cached_config.body_parts;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
@@ -340,7 +340,7 @@ function body_part.draw(monster, part_UI, cached_config, parts_position_on_scree
 	return last_part_position_on_screen;
 end
 
-function body_part.init_module()
+function this.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	config = require("MHR_Overlay.Misc.config");
@@ -354,4 +354,4 @@ function body_part.init_module()
 	time = require("MHR_Overlay.Game_Handler.time");
 end
 
-return body_part;
+return this;

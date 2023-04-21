@@ -1,4 +1,4 @@
-local part_names = {};
+local this = {};
 
 local language;
 
@@ -34,10 +34,10 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-part_names.list = {};
+this.list = {};
 
-function part_names.init()
-	part_names.list = {
+function this.init()
+	this.list = {
 		[98] = -- Great Izuchi 98
 		{
 			language.current_language.parts.head,
@@ -922,8 +922,8 @@ function part_names.init()
 	};
 end
 
-function part_names.get_part_name(monster_id, part_id)
-	local monster_parts = part_names.list[monster_id];
+function this.get_part_name(monster_id, part_id)
+	local monster_parts = this.list[monster_id];
 	if monster_parts == nil then
 		return "?";
 	end
@@ -932,10 +932,10 @@ function part_names.get_part_name(monster_id, part_id)
 	return part_name;
 end
 
-function part_names.init_module()
+function this.init_module()
 	language = require("MHR_Overlay.Misc.language");
 
-	part_names.init();
+	this.init();
 end
 
-return part_names;
+return this;

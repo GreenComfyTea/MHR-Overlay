@@ -1,4 +1,4 @@
-local ailment_UI_entity = {};
+local this = {};
 
 local config;
 local utils;
@@ -37,7 +37,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function ailment_UI_entity.new(visibility, bar, name_label, text_label, value_label, percentage_label, timer_label)
+function this.new(visibility, bar, name_label, text_label, value_label, percentage_label, timer_label)
 	local entity = {};
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
@@ -75,7 +75,7 @@ function ailment_UI_entity.new(visibility, bar, name_label, text_label, value_la
 	return entity;
 end
 
-function ailment_UI_entity.draw(ailment, ailment_UI, cached_config, position_on_screen, opacity_scale)
+function this.draw(ailment, ailment_UI, cached_config, position_on_screen, opacity_scale)
 	if not ailment_UI.visibility then
 		return;
 	end
@@ -118,11 +118,11 @@ function ailment_UI_entity.draw(ailment, ailment_UI, cached_config, position_on_
 	end
 end
 
-function ailment_UI_entity.init_module()
+function this.init_module()
 	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
 	language = require("MHR_Overlay.Misc.language");
 end
 
-return ailment_UI_entity;
+return this;

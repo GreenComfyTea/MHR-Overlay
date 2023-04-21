@@ -1,4 +1,4 @@
-local small_monster = {};
+local this = {};
 
 local singletons;
 local customization_menu;
@@ -45,9 +45,9 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-small_monster.list = {};
+this.list = {};
 
-function small_monster.new(enemy)
+function this.new(enemy)
 	local monster = {};
 	monster.is_large = false;
 
@@ -66,24 +66,24 @@ function small_monster.new(enemy)
 
 	monster.UI = {};
 
-	small_monster.init(monster, enemy);
-	small_monster.init_UI(monster);
+	this.init(monster, enemy);
+	this.init_UI(monster);
 
-	small_monster.update_position(enemy, monster);
-	small_monster.update_health(enemy, monster);
-	small_monster.update(enemy, monster);
+	this.update_position(enemy, monster);
+	this.update_health(enemy, monster);
+	this.update(enemy, monster);
 
-	if small_monster.list[enemy] == nil then
-		small_monster.list[enemy] = monster;
+	if this.list[enemy] == nil then
+		this.list[enemy] = monster;
 	end
 
 	return monster;
 end
 
-function small_monster.get_monster(enemy)
-	local monster = small_monster.list[enemy];
+function this.get_monster(enemy)
+	local monster = this.list[enemy];
 	if monster == nil then
-		monster = small_monster.new(enemy);
+		monster = this.new(enemy);
 	end
 
 	return monster;
@@ -95,7 +95,7 @@ local enemy_type_field = enemy_character_base_type_def:get_field("<EnemyType>k__
 local message_manager_type_def = sdk.find_type_definition("snow.gui.MessageManager");
 local get_enemy_name_message_method = message_manager_type_def:get_method("getEnemyNameMessage");
 
-function small_monster.init(monster, enemy)
+function this.init(monster, enemy)
 	local enemy_type = enemy_type_field:get_data(enemy);
 	if enemy_type == nil then
 		customization_menu.status = "No enemy type";
@@ -110,7 +110,7 @@ function small_monster.init(monster, enemy)
 	end
 end
 
-function small_monster.init_UI(monster)
+function this.init_UI(monster)
 	local cached_config = config.current_config.small_monster_UI;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
@@ -163,7 +163,7 @@ local get_max_method = vital_param_type:get_method("get_Max");
 
 local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
 
-function small_monster.update_position(enemy, monster)
+function this.update_position(enemy, monster)
 	local cached_config = config.current_config.small_monster_UI;
 
 	if not cached_config.enabled then
@@ -180,7 +180,7 @@ function small_monster.update_position(enemy, monster)
 	end
 end
 
-function small_monster.update(enemy, monster)
+function this.update(enemy, monster)
 	if not config.current_config.small_monster_UI.enabled then
 		return;
 	end
@@ -193,7 +193,7 @@ function small_monster.update(enemy, monster)
 	pcall(ailments.update_ailments, enemy, monster);
 end
 
-function small_monster.update_health(enemy, monster)
+function this.update_health(enemy, monster)
 	if not config.current_config.small_monster_UI.enabled or not config.current_config.small_monster_UI.health.visibility then
 		return;
 	end
@@ -220,7 +220,7 @@ function small_monster.update_health(enemy, monster)
 	end
 end
 
-function small_monster.draw(monster, cached_config, position_on_screen, opacity_scale)
+function this.draw(monster, cached_config, position_on_screen, opacity_scale)
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
 	drawing.draw_label(monster.UI.name_label, position_on_screen, opacity_scale, monster.name);
@@ -245,11 +245,11 @@ function small_monster.draw(monster, cached_config, position_on_screen, opacity_
 	ailment_buildup.draw(monster, monster.UI.ailment_buildup_UI, cached_config, ailment_buildups_position_on_screen, opacity_scale);
 end
 
-function small_monster.init_list()
-	small_monster.list = {};
+function this.init_list()
+	this.list = {};
 end
 
-function small_monster.init_module()
+function this.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	config = require("MHR_Overlay.Misc.config");
@@ -264,4 +264,4 @@ function small_monster.init_module()
 	ailment_buildup_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_buildup_UI_entity");
 end
 
-return small_monster;
+return this;

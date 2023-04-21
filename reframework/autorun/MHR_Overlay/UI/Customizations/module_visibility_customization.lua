@@ -1,4 +1,4 @@
-local module_visibility_customization = {};
+local this = {};
 
 local config;
 local screen;
@@ -46,7 +46,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function module_visibility_customization.draw(cached_config)
+function this.draw(cached_config)
 	local changed = false;
 	local config_changed = false;
 
@@ -101,7 +101,7 @@ function module_visibility_customization.draw(cached_config)
 	return config_changed;
 end
 
-function module_visibility_customization.init_module()
+function this.init_module()
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");
@@ -115,4 +115,4 @@ function module_visibility_customization.init_module()
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 end
 
-return module_visibility_customization;
+return this;

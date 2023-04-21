@@ -1,4 +1,4 @@
-local buffs = {};
+local this = {};
 
 local buff_UI_entity;
 local config;
@@ -35,9 +35,9 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-buffs.list = {};
+this.list = {};
 
-function buffs.new(name)
+function this.new(name)
 	local buff = {};
 
 	buff.name = name;
@@ -53,48 +53,48 @@ function buffs.new(name)
 
 	buff.is_infinite = false;
 
-	buffs.init_UI(buff);
+	this.init_UI(buff);
 
 	return buff;
 end
 
-function buffs.init_buffs()
-	buffs.list = {};
+function this.init_buffs()
+	this.list = {};
 end
 
-function buffs.init_UI(buff)
+function this.init_UI(buff)
 	local cached_config = config.current_config.buff_UI;
 	buff.buff_UI = buff_UI_entity.new(cached_config.bar, cached_config.name_label, cached_config.timer_label);
 end
 
-function buffs.draw(buff, buff_UI, position_on_screen, opacity_scale)
+function this.draw(buff, buff_UI, position_on_screen, opacity_scale)
 	buff_UI_entity.draw(buff, buff_UI, position_on_screen, opacity_scale);
 end
 
-function buffs.init_module()
+function this.init_module()
 	config = require("MHR_Overlay.Misc.config");
 	buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
 
 
-	local buff = buffs.new("Enviroment Damage Negated");
+	local buff = this.new("Enviroment Damage Negated");
 	buff.duration = 90;
 	buff.timer = 65;
 	buff.timer_percentage = 0.66;
 	buff.minutes_left = 1;
 	buff.seconds_left = 5
 
-	buffs.list["Enviroment Damage Negated"] = buff;
+	this.list["Enviroment Damage Negated"] = buff;
 
-	local buff = buffs.new("Sharpness Loss Reduced");
+	local buff = this.new("Sharpness Loss Reduced");
 	buff.duration = 120;
 	buff.timer = 70;
 	buff.timer_percentage = 0.583;
 	buff.minutes_left = 1;
 	buff.seconds_left = 10
 
-	buffs.list["Sharpness Loss Reduced"] = buff;
+	this.list["Sharpness Loss Reduced"] = buff;
 
-	local buff = buffs.new("Sharpness Loss Reduced 2");
+	local buff = this.new("Sharpness Loss Reduced 2");
 	buff.duration = 120;
 	buff.timer = 70;
 	buff.timer_percentage = 0.583;
@@ -102,7 +102,7 @@ function buffs.init_module()
 	buff.seconds_left = 10
 	buff.is_infinite = true;
 
-	buffs.list["Sharpness Loss Reduced 2"] = buff;
+	this.list["Sharpness Loss Reduced 2"] = buff;
 end
 
-return buffs;
+return this;

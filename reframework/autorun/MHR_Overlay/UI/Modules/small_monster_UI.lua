@@ -1,4 +1,4 @@
-local small_monster_UI = {};
+local this = {};
 
 local singletons;
 local config;
@@ -46,7 +46,7 @@ local enemy_manager_type_def = sdk.find_type_definition("snow.enemy.EnemyManager
 local get_zako_enemy_count_method = enemy_manager_type_def:get_method("getZakoEnemyCount");
 local get_zako_enemy_method = enemy_manager_type_def:get_method("getZakoEnemy");
 
-function small_monster_UI.draw()
+function this.draw()
 	if singletons.enemy_manager == nil then
 		return;
 	end
@@ -186,7 +186,7 @@ function small_monster_UI.draw()
 	end
 end
 
-function small_monster_UI.init_module()
+function this.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	config = require("MHR_Overlay.Misc.config");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -198,4 +198,4 @@ function small_monster_UI.init_module()
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 end
 
-return small_monster_UI;
+return this;

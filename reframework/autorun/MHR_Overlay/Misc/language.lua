@@ -1,4 +1,4 @@
-local language = {};
+local this = {};
 
 local utils;
 
@@ -34,12 +34,12 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-language.language_folder = "MHR Overlay\\languages\\";
+this.language_folder = "MHR Overlay\\languages\\";
 
-language.current_language = {};
+this.current_language = {};
 
 
-language.default_language = {
+this.default_language = {
 	font_name = "NotoSansKR-Bold.otf",
 	parts = {
 		head = "Head",
@@ -509,10 +509,10 @@ language.default_language = {
 	}
 };
 
-language.language_names = { "default"};
-language.languages = { language.default_language };
+this.language_names = { "default"};
+this.languages = { this.default_language };
 
-function language.load()
+function this.load()
 	local language_files = fs.glob([[MHR Overlay\\languages\\.*json]]);
 
 	if language_files == nil then
@@ -520,18 +520,18 @@ function language.load()
 	end
 
 	for i, language_file_name in ipairs(language_files) do
-		local language_name = language_file_name:gsub(language.language_folder, ""):gsub(".json","");
+		local language_name = language_file_name:gsub(this.language_folder, ""):gsub(".json","");
 
 		local loaded_language = json.load_file(language_file_name);
 		if loaded_language ~= nil then
 
 			log.info("[MHR Overlay] " .. language_file_name .. ".json loaded successfully");
-			table.insert(language.language_names, language_name);
+			table.insert(this.language_names, language_name);
 
-			local merged_language = utils.table.merge(language.default_language, loaded_language);
-			table.insert(language.languages, merged_language);
+			local merged_language = utils.table.merge(this.default_language, loaded_language);
+			table.insert(this.languages, merged_language);
 
-			language.save(language_file_name, merged_language);
+			this.save(language_file_name, merged_language);
 
 
 		else
@@ -540,7 +540,7 @@ function language.load()
 	end
 end
 
-function language.save(file_name, language_table)
+function this.save(file_name, language_table)
 	local success = json.dump_file(file_name, language_table);
 	if success then
 		log.info("[MHR Overlay] " .. file_name .. " saved successfully");
@@ -549,20 +549,20 @@ function language.save(file_name, language_table)
 	end
 end
 
-function language.save_default()
-	language.save(language.language_folder .. "en-us.json", language.default_language);
+function this.save_default()
+	this.save(this.language_folder .. "en-us.json", this.default_language);
 end
 
-function language.update(index)
-	language.current_language = language.languages[index];
+function this.update(index)
+	this.current_language = this.languages[index];
 end
 
-function language.init_module()
+function this.init_module()
 	utils = require("MHR_Overlay.Misc.utils");
 	
-	language.save_default();
-	language.load();
-	language.current_language = language.default_language;
+	this.save_default();
+	this.load();
+	this.current_language = this.default_language;
 end
 
-return language;
+return this;

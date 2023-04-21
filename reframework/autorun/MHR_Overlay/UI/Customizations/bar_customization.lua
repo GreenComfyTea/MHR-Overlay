@@ -1,4 +1,4 @@
-local bar_customization = {};
+local this = {};
 
 local utils;
 local config;
@@ -46,7 +46,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function bar_customization.draw(bar_name, bar)
+function this.draw(bar_name, bar)
 	if bar == nil then
 		return false;
 	end
@@ -191,7 +191,7 @@ function bar_customization.draw(bar_name, bar)
 	return bar_changed;
 end
 
-function bar_customization.init_module()
+function this.init_module()
 	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
@@ -207,4 +207,4 @@ function bar_customization.init_module()
 	line_customization = require("MHR_Overlay.UI.Customizations.line_customization");
 end
 
-return bar_customization;
+return this;

@@ -1,4 +1,4 @@
-local time_UI = {};
+local this = {};
 
 local time;
 local screen;
@@ -38,9 +38,9 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-time_UI.label = nil;
+this.label = nil;
 
-function time_UI.draw()
+function this.draw()
 	local elapsed_minutes = time.elapsed_minutes;
 	local elapsed_seconds = time.elapsed_seconds;
 
@@ -50,26 +50,26 @@ function time_UI.draw()
 
 	local position_on_screen = screen.calculate_absolute_coordinates(config.current_config.time_UI.position);
 
-	drawing.draw_label(time_UI.label, position_on_screen, 1, elapsed_minutes, elapsed_seconds);
+	drawing.draw_label(this.label, position_on_screen, 1, elapsed_minutes, elapsed_seconds);
 end
 
-function time_UI.init_UI()
-	time_UI.label = utils.table.deep_copy(config.current_config.time_UI.time_label);
+function this.init_UI()
+	this.label = utils.table.deep_copy(config.current_config.time_UI.time_label);
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
-	time_UI.label.offset.x = time_UI.label.offset.x * global_scale_modifier;
-	time_UI.label.offset.y = time_UI.label.offset.y * global_scale_modifier;
+	this.label.offset.x = this.label.offset.x * global_scale_modifier;
+	this.label.offset.y = this.label.offset.y * global_scale_modifier;
 end
 
-function time_UI.init_module()
+function this.init_module()
 	time = require("MHR_Overlay.Game_Handler.time");
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	config = require("MHR_Overlay.Misc.config");
 	drawing = require("MHR_Overlay.UI.drawing");
 	utils = require("MHR_Overlay.Misc.utils");
 
-	time_UI.init_UI()
+	this.init_UI()
 end
 
-return time_UI;
+return this;

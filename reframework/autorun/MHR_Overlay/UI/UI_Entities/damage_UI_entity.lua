@@ -1,4 +1,4 @@
-local damage_UI_entity = {};
+local this = {};
 
 local utils;
 local drawing;
@@ -40,7 +40,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function damage_UI_entity.new(damage_meter_UI_elements, type)
+function this.new(damage_meter_UI_elements, type)
 	local entity = {};
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
@@ -111,7 +111,7 @@ function damage_UI_entity.new(damage_meter_UI_elements, type)
 	return entity;
 end
 
-function damage_UI_entity.draw(player, position_on_screen, opacity_scale, top_damage, top_dps)
+function this.draw(player, position_on_screen, opacity_scale, top_damage, top_dps)
 	local cached_config = config.current_config.damage_meter_UI;
 
 	local name_include = nil;
@@ -233,7 +233,7 @@ function damage_UI_entity.draw(player, position_on_screen, opacity_scale, top_da
 	end
 end
 
-function damage_UI_entity.init_module()
+function this.init_module()
 	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
@@ -243,4 +243,4 @@ function damage_UI_entity.init_module()
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 end
 
-return damage_UI_entity;
+return this;

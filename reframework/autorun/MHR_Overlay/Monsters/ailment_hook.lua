@@ -1,4 +1,4 @@
-local ailment_hook = {};
+local this = {};
 
 local small_monster;
 local large_monster;
@@ -60,7 +60,7 @@ local blast_param_type = blast_param_field:get_type();
 local blast_damage_method = blast_param_type:get_method("get_BlastDamage");
 local blast_adjust_rate_method = blast_param_type:get_method("get_BlastDamageAdjustRateByEnemyLv");
 
-function ailment_hook.poison_proc(poison_param)
+function this.poison_proc(poison_param)
 	if poison_param == nil then
 		return;
 	end
@@ -88,7 +88,7 @@ function ailment_hook.poison_proc(poison_param)
 	ailments.clear_ailment_contribution(monster, ailments.poison_id);
 end
 
-function ailment_hook.blast_proc(blast_param)
+function this.blast_proc(blast_param)
 	if blast_param == nil then
 		return;
 	end
@@ -118,7 +118,7 @@ function ailment_hook.blast_proc(blast_param)
 	ailments.clear_ailment_contribution(monster, ailments.blast_id);
 end
 
-function ailment_hook.stock_damage()
+function this.stock_damage()
 	for enemy, monster in pairs(large_monster.list) do
 		local damage_param = damage_param_field:get_data(enemy);
 		if damage_param == nil then
@@ -144,29 +144,29 @@ function ailment_hook.stock_damage()
 	end
 end
 
-function ailment_hook.init_module()
+function this.init_module()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	config = require("MHR_Overlay.Misc.config");
 	ailments = require("MHR_Overlay.Monsters.ailments");
 
 	sdk.hook(stock_damage_method, function(args)
-		pcall(ailment_hook.stock_damage, sdk.to_managed_object(args[2]));
+		pcall(this.stock_damage, sdk.to_managed_object(args[2]));
 	end, function(retval)
 		return retval;
 	end);
 
 	sdk.hook(on_poison_activate_proc_method, function(args)
-		pcall(ailment_hook.poison_proc, sdk.to_managed_object(args[2]));
+		pcall(this.poison_proc, sdk.to_managed_object(args[2]));
 	end, function(retval)
 		return retval;
 	end);
 
 	sdk.hook(on_blast_activate_proc_method, function(args)
-		pcall(ailment_hook.blast_proc, sdk.to_managed_object(args[2]));
+		pcall(this.blast_proc, sdk.to_managed_object(args[2]));
 	end, function(retval)
 		return retval;
 	end);
 end
 
-return ailment_hook;
+return this;

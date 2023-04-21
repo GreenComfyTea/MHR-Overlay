@@ -1,4 +1,4 @@
-local ailment_buildup = {};
+local this = {};
 
 local players;
 local language;
@@ -42,7 +42,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function ailment_buildup.draw(monster, ailment_buildup_UI, cached_config, ailment_buildups_position_on_screen, opacity_scale)
+function this.draw(monster, ailment_buildup_UI, cached_config, ailment_buildups_position_on_screen, opacity_scale)
 
 	local cached_config = cached_config.ailment_buildups;
 	local cached_damage_meter_UI_config = config.current_config.damage_meter_UI;
@@ -231,7 +231,7 @@ function ailment_buildup.draw(monster, ailment_buildup_UI, cached_config, ailmen
 
 end
 
-function ailment_buildup.init_module()
+function this.init_module()
 	players = require("MHR_Overlay.Damage_Meter.players");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
@@ -243,4 +243,4 @@ function ailment_buildup.init_module()
 	drawing = require("MHR_Overlay.UI.drawing");
 end
 
-return ailment_buildup;
+return this;

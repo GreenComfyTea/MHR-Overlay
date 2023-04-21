@@ -1,4 +1,4 @@
-local singletons = {};
+local this = {};
 
 local sdk = sdk;
 local tostring = tostring;
@@ -32,207 +32,207 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-singletons.message_manager = nil;
-singletons.enemy_manager = nil;
-singletons.lobby_manager = nil;
-singletons.progress_manager = nil;
-singletons.quest_manager = nil;
-singletons.player_manager = nil;
-singletons.village_area_manager = nil;
-singletons.gui_manager = nil;
-singletons.game_keyboard = nil;
-singletons.scene_manager = nil;
-singletons.game_manager = nil;
+this.message_manager = nil;
+this.enemy_manager = nil;
+this.lobby_manager = nil;
+this.progress_manager = nil;
+this.quest_manager = nil;
+this.player_manager = nil;
+this.village_area_manager = nil;
+this.gui_manager = nil;
+this.game_keyboard = nil;
+this.scene_manager = nil;
+this.game_manager = nil;
 
-function singletons.init()
-	singletons.init_message_manager();
-	singletons.init_enemy_manager();
-	singletons.init_lobby_manager()
-	singletons.init_progress_manager();
-	singletons.init_quest_manager();
-	singletons.init_player_manager();
-	singletons.init_village_area_manager();
-	singletons.init_gui_manager();
-	singletons.init_game_keyboard();
-	singletons.init_scene_manager();
-	singletons.init_game_manager();
-	singletons.init_servant_manager();
-	singletons.init_otomo_manager();
+function this.init()
+	this.init_message_manager();
+	this.init_enemy_manager();
+	this.init_lobby_manager()
+	this.init_progress_manager();
+	this.init_quest_manager();
+	this.init_player_manager();
+	this.init_village_area_manager();
+	this.init_gui_manager();
+	this.init_game_keyboard();
+	this.init_scene_manager();
+	this.init_game_manager();
+	this.init_servant_manager();
+	this.init_otomo_manager();
 end
 
-function singletons.init_message_manager()
-	if singletons.message_manager ~= nil then
+function this.init_message_manager()
+	if this.message_manager ~= nil then
 		return;
 	end
 
-	singletons.message_manager = sdk.get_managed_singleton("snow.gui.MessageManager");
-	if singletons.message_manager == nil then
+	this.message_manager = sdk.get_managed_singleton("snow.gui.MessageManager");
+	if this.message_manager == nil then
 		--log.error("[MHR Overlay] No message manager");
 	end
 
-	return singletons.message_manager;
+	return this.message_manager;
 end
 
-function singletons.init_enemy_manager()
-	if singletons.enemy_manager ~= nil then
+function this.init_enemy_manager()
+	if this.enemy_manager ~= nil then
 		return;
 	end
 
-	singletons.enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager");
-	if singletons.enemy_manager == nil then
+	this.enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager");
+	if this.enemy_manager == nil then
 		--log.error("[MHR Overlay] No enemy manager");
 	end
 
-	return singletons.enemy_manager;
+	return this.enemy_manager;
 end
 
-function singletons.init_lobby_manager()
-	if singletons.lobby_manager ~= nil then
+function this.init_lobby_manager()
+	if this.lobby_manager ~= nil then
 		return;
 	end
 
-	singletons.lobby_manager = sdk.get_managed_singleton("snow.LobbyManager");
-	if singletons.lobby_manager == nil then
+	this.lobby_manager = sdk.get_managed_singleton("snow.LobbyManager");
+	if this.lobby_manager == nil then
 		--log.error("[MHR Overlay] No lobby manager");
 		return false;
 	end
 
-	return singletons.lobby_manager;
+	return this.lobby_manager;
 end
 
-function singletons.init_progress_manager()
-	if singletons.progress_manager ~= nil then
+function this.init_progress_manager()
+	if this.progress_manager ~= nil then
 		return;
 	end
 
-	singletons.progress_manager = sdk.get_managed_singleton("snow.progress.ProgressManager");
-	if singletons.progress_manager == nil then
+	this.progress_manager = sdk.get_managed_singleton("snow.progress.ProgressManager");
+	if this.progress_manager == nil then
 		--log.error("[MHR Overlay] No progress manager");
 		return false;
 	end
 
-	return singletons.progress_manager;
+	return this.progress_manager;
 end
 
-function singletons.init_quest_manager()
-	if singletons.quest_manager ~= nil then
+function this.init_quest_manager()
+	if this.quest_manager ~= nil then
 		return;
 	end
 
-	singletons.quest_manager = sdk.get_managed_singleton("snow.QuestManager");
-	if singletons.quest_manager == nil then
+	this.quest_manager = sdk.get_managed_singleton("snow.QuestManager");
+	if this.quest_manager == nil then
 		--log.error("[MHR Overlay] No quest manager");
 	end
 
-	return singletons.quest_manager;
+	return this.quest_manager;
 end
 
-function singletons.init_player_manager()
-	if singletons.player_manager ~= nil then
+function this.init_player_manager()
+	if this.player_manager ~= nil then
 		return;
 	end
 
-	singletons.player_manager = sdk.get_managed_singleton("snow.player.PlayerManager");
-	if singletons.player_manager == nil then
+	this.player_manager = sdk.get_managed_singleton("snow.player.PlayerManager");
+	if this.player_manager == nil then
 		--log.error("[MHR Overlay] No player manager");
 	end
 
-	return singletons.player_manager;
+	return this.player_manager;
 end
 
-function singletons.init_village_area_manager()
-	if singletons.village_area_manager ~= nil then
+function this.init_village_area_manager()
+	if this.village_area_manager ~= nil then
 		return;
 	end
 
-	singletons.village_area_manager = sdk.get_managed_singleton("snow.VillageAreaManager");
-	if singletons.village_area_manager == nil then
+	this.village_area_manager = sdk.get_managed_singleton("snow.VillageAreaManager");
+	if this.village_area_manager == nil then
 		--log.error("[MHR Overlay] No village area manager");
 	end
 
-	return singletons.village_area_manager;
+	return this.village_area_manager;
 end
 
-function singletons.init_gui_manager()
-	if singletons.gui_manager ~= nil then
+function this.init_gui_manager()
+	if this.gui_manager ~= nil then
 		return;
 	end
 
-	singletons.gui_manager = sdk.get_managed_singleton("snow.gui.GuiManager");
-	if singletons.gui_manager == nil then
+	this.gui_manager = sdk.get_managed_singleton("snow.gui.GuiManager");
+	if this.gui_manager == nil then
 		--log.error("[MHR Overlay] No gui manager");
 	end
 
-	return singletons.gui_manager;
+	return this.gui_manager;
 end
 
-function singletons.init_game_keyboard()
-	if singletons.game_keyboard ~= nil then
+function this.init_game_keyboard()
+	if this.game_keyboard ~= nil then
 		return;
 	end
 
-	singletons.game_keyboard = sdk.get_managed_singleton("snow.GameKeyboard");
-	if singletons.game_keyboard == nil then
+	this.game_keyboard = sdk.get_managed_singleton("snow.GameKeyboard");
+	if this.game_keyboard == nil then
 		--log.error("[MHR Overlay] No game keyboard");
 	end
 
-	return singletons.game_keyboard;
+	return this.game_keyboard;
 end
 
-function singletons.init_scene_manager()
-	if singletons.scene_manager ~= nil then
+function this.init_scene_manager()
+	if this.scene_manager ~= nil then
 		return;
 	end
 
-	singletons.scene_manager = sdk.get_native_singleton("via.SceneManager");
-	if singletons.scene_manager == nil then
+	this.scene_manager = sdk.get_native_singleton("via.SceneManager");
+	if this.scene_manager == nil then
 		--log.error("[MHR Overlay] No enemy manager");
 	end
 
-	return singletons.scene_manager;
+	return this.scene_manager;
 end
 
-function singletons.init_game_manager()
-	if singletons.game_manager ~= nil then
+function this.init_game_manager()
+	if this.game_manager ~= nil then
 		return;
 	end
 
-	singletons.game_manager = sdk.get_managed_singleton("snow.SnowGameManager");
-	if singletons.game_manager == nil then
+	this.game_manager = sdk.get_managed_singleton("snow.SnowGameManager");
+	if this.game_manager == nil then
 		--log.error("[MHR Overlay] No enemy manager");
 	end
 
-	return singletons.game_manager;
+	return this.game_manager;
 end
 
-function singletons.init_servant_manager()
-	if singletons.servant_manager ~= nil then
+function this.init_servant_manager()
+	if this.servant_manager ~= nil then
 		return;
 	end
 
-	singletons.servant_manager = sdk.get_managed_singleton("snow.ai.ServantManager");
-	if singletons.servant_manager == nil then
+	this.servant_manager = sdk.get_managed_singleton("snow.ai.ServantManager");
+	if this.servant_manager == nil then
 		--log.error("[MHR Overlay] No enemy manager");
 	end
 
-	return singletons.servant_manager;
+	return this.servant_manager;
 end
 
-function singletons.init_otomo_manager()
-	if singletons.otomo_manager ~= nil then
+function this.init_otomo_manager()
+	if this.otomo_manager ~= nil then
 		return;
 	end
 
-	singletons.otomo_manager = sdk.get_managed_singleton("snow.otomo.OtomoManager");
-	if singletons.otomo_manager == nil then
+	this.otomo_manager = sdk.get_managed_singleton("snow.otomo.OtomoManager");
+	if this.otomo_manager == nil then
 		--log.error("[MHR Overlay] No enemy manager");
 	end
 
-	return singletons.otomo_manager;
+	return this.otomo_manager;
 end
 
-function singletons.init_module()
-	singletons.init();
+function this.init_module()
+	this.init();
 end
 
-return singletons;
+return this;

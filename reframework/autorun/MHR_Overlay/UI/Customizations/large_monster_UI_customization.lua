@@ -1,4 +1,4 @@
-local large_monster_UI_customization = {};
+local this = {};
 
 local config;
 local screen;
@@ -53,7 +53,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function large_monster_UI_customization.draw(cached_config)
+function this.draw(cached_config)
 	local changed = false;
 	local config_changed = false;
 
@@ -81,7 +81,7 @@ function large_monster_UI_customization.draw(cached_config)
 	return config_changed;
 end
 
-function large_monster_UI_customization.init_module()
+function this.init_module()
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");
@@ -104,4 +104,4 @@ function large_monster_UI_customization.init_module()
 	ailment_buildups_customization = require("MHR_Overlay.UI.Customizations.ailment_buildups_customization");
 end
 
-return large_monster_UI_customization;
+return this;

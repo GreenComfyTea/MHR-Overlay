@@ -1,4 +1,4 @@
-local config = {};
+local this = {};
 
 local utils;
 local language;
@@ -35,24 +35,24 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-config.version = "2.4.1";
+this.version = "2.4.1";
 
-config.config_folder = "MHR Overlay\\configs\\";
-config.current_config_value_file_name = "MHR Overlay\\config.json";
+this.config_folder = "MHR Overlay\\configs\\";
+this.current_config_value_file_name = "MHR Overlay\\config.json";
 
-config.current_config_name = nil;
-config.current_config = nil;
+this.current_config_name = nil;
+this.current_config = nil;
 
-config.config_names = {};
-config.configs = {};
+this.config_names = {};
+this.configs = {};
 
-config.default_config = nil;
+this.default_config = nil;
 
 local is_old_config_transferred = false;
 
-function config.init_default() 
-	config.default_config = {
-		version = config.version,
+function this.init_default() 
+	this.default_config = {
+		version = this.version,
 
 		global_settings = {
 			language = "default",
@@ -5666,37 +5666,37 @@ function config.init_default()
 	};
 end
 
-function config.load_current_config_value()
-	local loaded_config = json.load_file(config.current_config_value_file_name);
+function this.load_current_config_value()
+	local loaded_config = json.load_file(this.current_config_value_file_name);
 	if loaded_config ~= nil then
 		if loaded_config.config == nil then
 			log.info("[MHR Overlay] old config.json loaded successfully");
 
 			local config_save = {
-				config = config.current_config_name
+				config = this.current_config_name
 			};
 
-			config.current_config_name = "old_config";
-			config.current_config = utils.table.merge(config.default_config, loaded_config);
-			config.current_config.version = config.version;
+			this.current_config_name = "old_config";
+			this.current_config = utils.table.merge(this.default_config, loaded_config);
+			this.current_config.version = this.version;
 
-			config.save(config.config_folder .. "old_config.json", config.current_config);
-			config.save_current_config_name();
+			this.save(this.config_folder .. "old_config.json", this.current_config);
+			this.save_current_config_name();
 
-			table.insert(config.config_names, "old_config");
-			table.insert(config.configs, config.current_config);
+			table.insert(this.config_names, "old_config");
+			table.insert(this.configs, this.current_config);
 
 			is_old_config_transferred = true;
 		else
 			log.info("[MHR Overlay] config.json loaded successfully");
-			config.current_config_name = loaded_config.config;
+			this.current_config_name = loaded_config.config;
 		end
 	else
 		log.error("[MHR Overlay] Failed to load config.json");
 	end
 end
 
-function config.load_configs()
+function this.load_configs()
 	local config_files = fs.glob([[MHR Overlay\\configs\\.*json]]);
 
 	if config_files == nil then
@@ -5705,7 +5705,7 @@ function config.load_configs()
 
 	for i, config_file_name in ipairs(config_files) do
 
-		local config_name = config_file_name:gsub(config.config_folder, ""):gsub(".json","");
+		local config_name = config_file_name:gsub(this.config_folder, ""):gsub(".json","");
 
 		if config_name == "old_config" and is_old_config_transferred then
 			goto continue;
@@ -5716,16 +5716,16 @@ function config.load_configs()
 			log.info("[MHR Overlay] " .. config_name .. ".json loaded successfully");
 			
 
-			local merged_config = utils.table.merge(config.default_config, loaded_config);
-			merged_config.version = config.version;
+			local merged_config = utils.table.merge(this.default_config, loaded_config);
+			merged_config.version = this.version;
 			
-			table.insert(config.config_names, config_name);
-			table.insert(config.configs, merged_config);
+			table.insert(this.config_names, config_name);
+			table.insert(this.configs, merged_config);
 
-			config.save(config_file_name, merged_config);
+			this.save(config_file_name, merged_config);
 
-			if config_name == config.current_config_name then
-				config.current_config = merged_config;
+			if config_name == this.current_config_name then
+				this.current_config = merged_config;
 			end
 		else
 			log.error("[MHR Overlay] Failed to load " .. config_name .. ".json");
@@ -5734,29 +5734,29 @@ function config.load_configs()
 		::continue::
 	end
 
-	if config.current_config == nil then
-		if #config.configs > 0 then
-			config.current_config_name = config.config_names[1];
-			config.current_config = config.configs[1];
+	if this.current_config == nil then
+		if #this.configs > 0 then
+			this.current_config_name = this.config_names[1];
+			this.current_config = this.configs[1];
 		else
-			config.current_config_name = "default";
-			config.current_config = utils.table.deep_copy(config.default_config);
+			this.current_config_name = "default";
+			this.current_config = utils.table.deep_copy(this.default_config);
 	
-			table.insert(config.config_names, config.current_config_name);
-			table.insert(config.configs, config.current_config);
+			table.insert(this.config_names, this.current_config_name);
+			table.insert(this.configs, this.current_config);
 	
-			config.save(config.current_config_name, config.current_config);
+			this.save(this.current_config_name, this.current_config);
 		end
 
-		config.save_current_config_name();
+		this.save_current_config_name();
 	end
 end
 
-function config.save_current_config_name()
-	config.save(config.current_config_value_file_name, { config = config.current_config_name });
+function this.save_current_config_name()
+	this.save(this.current_config_value_file_name, { config = this.current_config_name });
 end
 
-function config.save(file_name, config_table)
+function this.save(file_name, config_table)
 	-- save current config to disk, replacing any existing file
 	local success = json.dump_file(file_name, config_table);
 	if success then
@@ -5766,63 +5766,63 @@ function config.save(file_name, config_table)
 	end
 end
 
-function config.save_current()
-	config.save(config.config_folder .. config.current_config_name .. ".json", config.current_config);
+function this.save_current()
+	this.save(this.config_folder .. this.current_config_name .. ".json", this.current_config);
 end
 
-function config.create_new(config_file_name, config_table)
-	table.insert(config.config_names, config_file_name);
-	table.insert(config.configs, config_table);
+function this.create_new(config_file_name, config_table)
+	table.insert(this.config_names, config_file_name);
+	table.insert(this.configs, config_table);
 
-	config.save(config.config_folder .. config_file_name .. ".json", config_table);
+	this.save(this.config_folder .. config_file_name .. ".json", config_table);
 
-	config.current_config_name = config_file_name;
-	config.current_config = config_table;
+	this.current_config_name = config_file_name;
+	this.current_config = config_table;
 
-	config.save_current_config_name();
+	this.save_current_config_name();
 end
 
-function config.new(config_name)
+function this.new(config_name)
 	if config_name == "" then
 		return;
 	end
 
-	local new_config = utils.table.deep_copy(config.default_config);
+	local new_config = utils.table.deep_copy(this.default_config);
 	
-	config.create_new(config_name, new_config);
+	this.create_new(config_name, new_config);
 end
 
-function config.duplicate(config_name)
+function this.duplicate(config_name)
 	if config_name == "" then
 		return;
 	end
 
-	local new_config = utils.table.deep_copy(config.current_config);
+	local new_config = utils.table.deep_copy(this.current_config);
 	
-	config.create_new(config_name, new_config);
+	this.create_new(config_name, new_config);
 end
 
-function config.reset()
-	config.current_config = utils.table.deep_copy(config.default_config);
+function this.reset()
+	this.current_config = utils.table.deep_copy(this.default_config);
 
-	local index = utils.table.find_index(config.config_names, config.current_config_name);
-	config.configs[index] = config.current_config;
+	local index = utils.table.find_index(this.config_names, this.current_config_name);
+	this.configs[index] = this.current_config;
 end
 
-function config.update(index)
-	config.current_config = config.configs[index];
-	config.save_current_config_name();
+function this.update(index)
+	this.current_config = this.configs[index];
+	this.save_current_config_name();
 end
 
-function config.init_module()
+function this.init_module()
 	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
 
-	config.init_default();
-	config.load_current_config_value();
-	config.load_configs();
+	this.init_default();
+	this.load_current_config_value();
+	this.load_configs();
 
-	language.update(utils.table.find_index(language.language_names, config.current_config.global_settings.language, false));
+	language.update(utils.table.find_index(language.language_names, this.current_config.global_settings.language, false));
 end
 
-return config;
+return this;

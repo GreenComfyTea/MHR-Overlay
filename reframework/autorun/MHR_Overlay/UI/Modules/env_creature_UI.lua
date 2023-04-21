@@ -1,4 +1,4 @@
-local env_creature_UI = {};
+local this = {};
 
 local singletons;
 local config;
@@ -46,7 +46,7 @@ local package = package;
 
 local enemy_manager_type_def = sdk.find_type_definition("snow.enemy.EnemyManager");
 
-function env_creature_UI.draw()
+function this.draw()
 	if singletons.enemy_manager == nil then
 		return;
 	end
@@ -94,7 +94,7 @@ function env_creature_UI.draw()
 	end
 end
 
-function env_creature_UI.init_module()
+function this.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	config = require("MHR_Overlay.Misc.config");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -108,4 +108,4 @@ function env_creature_UI.init_module()
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
 end
 
-return env_creature_UI;
+return this;

@@ -1,4 +1,4 @@
-local env_creature = {};
+local this = {};
 
 local drawing;
 local customization_menu;
@@ -38,9 +38,9 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-env_creature.list = {};
+this.list = {};
 
-function env_creature.new(REcreature)
+function this.new(REcreature)
 	local creature = {};
 
 	creature.life = 0;
@@ -50,22 +50,22 @@ function env_creature.new(REcreature)
 	creature.position = Vector3f.new(0, 0, 0);
 	creature.distance = 0;
 
-	env_creature.init(creature, REcreature);
-	env_creature.init_UI(creature);
+	this.init(creature, REcreature);
+	this.init_UI(creature);
 
-	if env_creature.list[REcreature] == nil then
-		env_creature.list[REcreature] = creature;
+	if this.list[REcreature] == nil then
+		this.list[REcreature] = creature;
 	end
 
 	return creature;
 end
 
-function env_creature.get_creature(REcreature)
-	if env_creature.list[REcreature] == nil then
-		env_creature.list[REcreature] = env_creature.new(REcreature);
+function this.get_creature(REcreature)
+	if this.list[REcreature] == nil then
+		this.list[REcreature] = this.new(REcreature);
 	end
 
-	return env_creature.list[REcreature];
+	return this.list[REcreature];
 end
 
 local environment_creature_base_type_def = sdk.find_type_definition("snow.envCreature.EnvironmentCreatureBase");
@@ -77,7 +77,7 @@ local get_env_creature_name_message_method = message_manager_type_def:get_method
 
 local get_pos_method = environment_creature_base_type_def:get_method("get_Pos");
 
-function env_creature.init(creature, REcreature)
+function this.init(creature, REcreature)
 	local creature_type = creature_type_field:get_data(REcreature);
 	if creature_type == nil then
 		customization_menu.status = "No env creature type";
@@ -91,7 +91,7 @@ function env_creature.init(creature, REcreature)
 	end
 end
 
-function env_creature.init_UI(creature)
+function this.init_UI(creature)
 	creature.name_label = utils.table.deep_copy(config.current_config.endemic_life_UI.creature_name_label);
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
@@ -100,13 +100,13 @@ function env_creature.init_UI(creature)
 	creature.name_label.offset.y = creature.name_label.offset.y * global_scale_modifier;
 end
 
-function env_creature.update_position(REcreature, creature)
+function this.update_position(REcreature, creature)
 	if not config.current_config.endemic_life_UI.enabled then
 		return;
 	end
 
 	if creature == nil then
-		creature = env_creature.get_creature(REcreature);
+		creature = this.get_creature(REcreature);
 	end
 
 	local position = get_pos_method:call(REcreature);
@@ -115,13 +115,13 @@ function env_creature.update_position(REcreature, creature)
 	end
 end
 
-function env_creature.update(REcreature, creature)
+function this.update(REcreature, creature)
 	if not config.current_config.endemic_life_UI.enabled then
 		return;
 	end
 
 	if creature == nil then
-		creature = env_creature.get_creature(REcreature);
+		creature = this.get_creature(REcreature);
 	end
 
 	local is_inactive = creature_is_inactive_field:get_data(REcreature);
@@ -130,7 +130,7 @@ function env_creature.update(REcreature, creature)
 	end
 end
 
-function env_creature.draw(creature, position_on_screen, opacity_scale)
+function this.draw(creature, position_on_screen, opacity_scale)
 	if d2d ~= nil and config.current_config.global_settings.renderer.use_d2d_if_available then
 		local text_width, text_height = drawing.font:measure(creature.name);
 		position_on_screen.x = position_on_screen.x - text_width / 2;
@@ -139,11 +139,11 @@ function env_creature.draw(creature, position_on_screen, opacity_scale)
 	drawing.draw_label(creature.name_label, position_on_screen, opacity_scale, creature.name);
 end
 
-function env_creature.init_list()
-	env_creature.list = {};
+function this.init_list()
+	this.list = {};
 end
 
-function env_creature.init_module()
+function this.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	config = require("MHR_Overlay.Misc.config");
@@ -156,4 +156,4 @@ function env_creature.init_module()
 	--ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
 end
 
-return env_creature;
+return this;

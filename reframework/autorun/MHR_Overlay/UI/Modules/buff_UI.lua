@@ -1,4 +1,4 @@
-local buff_UI = {};
+local this = {};
 
 local buff_UI_entity;
 local config;
@@ -37,7 +37,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function buff_UI.draw()
+function this.draw()
 	local cached_config = config.current_config.buff_UI;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
@@ -110,7 +110,7 @@ function buff_UI.draw()
 	end
 end
 
-function buff_UI.init_module()
+function this.init_module()
 	config = require("MHR_Overlay.Misc.config");
 	buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
 	buffs = require("MHR_Overlay.Buffs.buffs");
@@ -124,4 +124,4 @@ function buff_UI.init_module()
 	--drawing = require("MHR_Overlay.UI.drawing");
 end
 
-return buff_UI;
+return this;

@@ -1,4 +1,4 @@
-local line_customization = {};
+local this = {};
 
 local config;
 local screen;
@@ -44,7 +44,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function line_customization.draw(line_name, line)
+function this.draw(line_name, line)
 	if line == nil then
 		return;
 	end
@@ -95,7 +95,7 @@ function line_customization.draw(line_name, line)
 	return line_changed;
 end
 
-function line_customization.init_module()
+function this.init_module()
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");
@@ -109,4 +109,4 @@ function line_customization.init_module()
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 end
 
-return line_customization;
+return this;

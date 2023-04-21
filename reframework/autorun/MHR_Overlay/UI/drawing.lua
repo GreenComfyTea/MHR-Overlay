@@ -1,4 +1,4 @@
-local drawing = {};
+local this = {};
 
 local config;
 local utils;
@@ -35,14 +35,14 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-drawing.font = nil;
+this.font = nil;
 
-function drawing.init_font()
+function this.init_font()
 	local cached_config = config.current_config.global_settings.UI_font;
-	drawing.font = d2d.Font.new(cached_config.family, cached_config.size, cached_config.bold, cached_config.italic);
+	this.font = d2d.Font.new(cached_config.family, cached_config.size, cached_config.bold, cached_config.italic);
 end
 
-function drawing.argb_color_to_abgr_color(argb_color)
+function this.argb_color_to_abgr_color(argb_color)
 	local alpha = (argb_color >> 24) & 0xFF;
 	local red = (argb_color >> 16) & 0xFF;
 	local green = (argb_color >> 8) & 0xFF;
@@ -53,7 +53,7 @@ function drawing.argb_color_to_abgr_color(argb_color)
 	return abgr_color;
 end
 
-function drawing.color_to_argb(color)
+function this.color_to_argb(color)
 	local alpha = (color >> 24) & 0xFF;
 	local red = (color >> 16) & 0xFF;
 	local green = (color >> 8) & 0xFF;
@@ -62,18 +62,18 @@ function drawing.color_to_argb(color)
 	return alpha, red, green, blue;
 end
 
-function drawing.argb_to_color(alpha, red, green, blue)
+function this.argb_to_color(alpha, red, green, blue)
 	return 0x1000000 * alpha + 0x10000 * red + 0x100 * green + blue;
 end
 
-function drawing.limit_text_size(text, size_limit)
+function this.limit_text_size(text, size_limit)
 	if d2d == nil or not config.current_config.global_settings.renderer.use_d2d_if_available or size_limit <= 0 then
 		return text;
 	end
 
 	local limited_text = text;
 	while limited_text ~= "..." do
-		local text_width, text_height = drawing.font:measure(limited_text);
+		local text_width, text_height = this.font:measure(limited_text);
 
 		if text_width < size_limit then
 			break
@@ -90,8 +90,8 @@ function drawing.limit_text_size(text, size_limit)
 	return limited_text;
 end
 
-function drawing.scale_color_opacity(color, scale)
-	local alpha, red, green, blue = drawing.color_to_argb(color);
+function this.scale_color_opacity(color, scale)
+	local alpha, red, green, blue = this.color_to_argb(color);
 	local new_alpha = math.floor(alpha * scale);
 	if new_alpha < 0 then
 		new_alpha = 0;
@@ -100,28 +100,28 @@ function drawing.scale_color_opacity(color, scale)
 		new_alpha = 255;
 	end
 
-	return drawing.argb_to_color(new_alpha, red, green, blue);
+	return this.argb_to_color(new_alpha, red, green, blue);
 end
 
-function drawing.scale_bar_opacity(bar, scale)
+function this.scale_bar_opacity(bar, scale)
 	if bar == nil or scale == nil or not bar.visibility then
 		return;
 	end
 
-	bar.colors.foreground = drawing.scale_color_opacity(bar.colors.foreground, scale);
-	bar.colors.background = drawing.scale_color_opacity(bar.colors.background, scale);
+	bar.colors.foreground = this.scale_color_opacity(bar.colors.foreground, scale);
+	bar.colors.background = this.scale_color_opacity(bar.colors.background, scale);
 end
 
-function drawing.scale_label_opacity(label, scale)
+function this.scale_label_opacity(label, scale)
 	if label == nil or scale == nil or not label.visibility then
 		return;
 	end
 
-	label.color = drawing.scale_color_opacity(label.color, scale);
-	label.shadow.color = drawing.scale_color_opacity(label.shadow.color, scale);
+	label.color = this.scale_color_opacity(label.color, scale);
+	label.shadow.color = this.scale_color_opacity(label.shadow.color, scale);
 end
 
-function drawing.draw_label(label, position, opacity_scale, ...)
+function this.draw_label(label, position, opacity_scale, ...)
 	if label == nil or not label.visibility then
 		return;
 	end
@@ -141,32 +141,32 @@ function drawing.draw_label(label, position, opacity_scale, ...)
 		local new_shadow_color = label.shadow.color;
 
 		if opacity_scale < 1 then
-			new_shadow_color = drawing.scale_color_opacity(new_shadow_color, opacity_scale);
+			new_shadow_color = this.scale_color_opacity(new_shadow_color, opacity_scale);
 		end
 
 		if use_d2d then
-			d2d.text(drawing.font, text, position_x + label.shadow.offset.x, position_y + label.shadow.offset.y, new_shadow_color);
+			d2d.text(this.font, text, position_x + label.shadow.offset.x, position_y + label.shadow.offset.y, new_shadow_color);
 		else
-			new_shadow_color = drawing.argb_color_to_abgr_color(new_shadow_color);
+			new_shadow_color = this.argb_color_to_abgr_color(new_shadow_color);
 			draw.text(text, position_x + label.shadow.offset.x, position_y + label.shadow.offset.y, new_shadow_color);
 		end
 	end
 
 	local new_color = label.color;
 	if opacity_scale < 1 then
-		new_color = drawing.scale_color_opacity(new_color, opacity_scale);
+		new_color = this.scale_color_opacity(new_color, opacity_scale);
 	end
 
 	if use_d2d then
-		d2d.text(drawing.font, text, position_x, position_y, new_color);
+		d2d.text(this.font, text, position_x, position_y, new_color);
 	else
-		new_color = drawing.argb_color_to_abgr_color(new_color);
+		new_color = this.argb_color_to_abgr_color(new_color);
 		draw.text(text, position_x, position_y, new_color);
 	end
 
 end
 
-function drawing.draw_bar(bar, position, opacity_scale, percentage)
+function this.draw_bar(bar, position, opacity_scale, percentage)
 
 	if bar == nil or not bar.visibility then
 		return;
@@ -264,9 +264,9 @@ function drawing.draw_bar(bar, position, opacity_scale, percentage)
 	local outline_color = bar.colors.outline;
 
 	if opacity_scale < 1 then
-		foreground_color = drawing.scale_color_opacity(foreground_color, opacity_scale);
-		background_color = drawing.scale_color_opacity(background_color, opacity_scale);
-		outline_color = drawing.scale_color_opacity(outline_color, opacity_scale);
+		foreground_color = this.scale_color_opacity(foreground_color, opacity_scale);
+		background_color = this.scale_color_opacity(background_color, opacity_scale);
+		outline_color = this.scale_color_opacity(outline_color, opacity_scale);
 	end
 
 	local use_d2d = d2d ~= nil and config.current_config.global_settings.renderer.use_d2d_if_available;
@@ -277,7 +277,7 @@ function drawing.draw_bar(bar, position, opacity_scale, percentage)
 			d2d.outline_rect(outline_position_x, outline_position_y, outline_width, outline_height, outline_thickness,
 				outline_color);
 		else
-			outline_color = drawing.argb_color_to_abgr_color(outline_color);
+			outline_color = this.argb_color_to_abgr_color(outline_color);
 			draw.outline_rect(outline_position_x, outline_position_y, outline_width, outline_height, outline_color);
 		end
 	end
@@ -288,7 +288,7 @@ function drawing.draw_bar(bar, position, opacity_scale, percentage)
 			d2d.fill_rect(position_x, position_y, foreground_width, height, foreground_color);
 
 		else
-			foreground_color = drawing.argb_color_to_abgr_color(foreground_color);
+			foreground_color = this.argb_color_to_abgr_color(foreground_color);
 			draw.filled_rect(position_x, position_y, foreground_width, height, foreground_color)
 		end
 	end
@@ -298,13 +298,13 @@ function drawing.draw_bar(bar, position, opacity_scale, percentage)
 		if use_d2d then
 			d2d.fill_rect(position_x + foreground_width, position_y, background_width, height, background_color);
 		else
-			background_color = drawing.argb_color_to_abgr_color(background_color);
+			background_color = this.argb_color_to_abgr_color(background_color);
 			draw.filled_rect(position_x + foreground_width, position_y, background_width, height, background_color)
 		end
 	end
 end
 
-function drawing.draw_capture_line(health_UI, position, opacity_scale, percentage)
+function this.draw_capture_line(health_UI, position, opacity_scale, percentage)
 	if health_UI == nil or not health_UI.visibility or health_UI.bar == nil or not health_UI.bar.visibility or
 		health_UI.bar.capture_line == nil or not health_UI.bar.capture_line.visibility or percentage >= 1 or percentage <= 0 then
 		return;
@@ -317,7 +317,7 @@ function drawing.draw_capture_line(health_UI, position, opacity_scale, percentag
 	local color = health_UI.bar.capture_line.color;
 
 	if opacity_scale < 1 then
-		color = drawing.scale_color_opacity(color, opacity_scale);
+		color = this.scale_color_opacity(color, opacity_scale);
 	end
 
 	local use_d2d = d2d ~= nil and config.current_config.global_settings.renderer.use_d2d_if_available;
@@ -326,15 +326,15 @@ function drawing.draw_capture_line(health_UI, position, opacity_scale, percentag
 		d2d.fill_rect(position_x, position_y, health_UI.bar.capture_line.size.width, health_UI.bar.capture_line.size.height,
 			color);
 	else
-		color = drawing.argb_color_to_abgr_color(color);
+		color = this.argb_color_to_abgr_color(color);
 		draw.filled_rect(position_x, position_y, health_UI.bar.capture_line.size.width,
 			health_UI.bar.capture_line.size.height, color)
 	end
 end
 
-function drawing.init_module()
+function this.init_module()
 	config = require("MHR_Overlay.Misc.config");
 	utils = require("MHR_Overlay.Misc.utils");
 end
 
-return drawing;
+return this;

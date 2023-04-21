@@ -1,4 +1,4 @@
-local large_monster_UI = {};
+local this = {};
 
 local singletons;
 local config;
@@ -53,7 +53,7 @@ local get_tg_camera_method = gui_manager_type_def:get_method("get_refGuiHud_TgCa
 local tg_camera_type_def = get_tg_camera_method:get_return_type();
 local get_targeting_enemy_index_field = tg_camera_type_def:get_field("OldTargetingEmIndex");
 
-function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enabled)
+function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if singletons.enemy_manager == nil then
@@ -153,27 +153,27 @@ function large_monster_UI.draw(dynamic_enabled, static_enabled, highlighted_enab
 	end
 
 	if dynamic_enabled then
-		local success = pcall(large_monster_UI.draw_dynamic, displayed_monsters, highlighted_monster, cached_config);
+		local success = pcall(this.draw_dynamic, displayed_monsters, highlighted_monster, cached_config);
 		if not success then
 			customization_menu.status = string.format("[%s] Dynamic Large Monster drawing function threw an exception");
 		end
 	end
 
 	if highlighted_enabled then
-		local success = pcall(large_monster_UI.draw_highlighted, highlighted_monster, cached_config);
+		local success = pcall(this.draw_highlighted, highlighted_monster, cached_config);
 		if not success then
 			customization_menu.status = string.format("[%s] Highlighted Large Monster drawing function threw an exception");
 		end
 	end
 	if static_enabled then
-		local success = pcall(large_monster_UI.draw_static, displayed_monsters, highlighted_monster, cached_config);
+		local success = pcall(this.draw_static, displayed_monsters, highlighted_monster, cached_config);
 		if not success then
 			customization_menu.status = string.format("[%s] Static Large Monster drawing function threw an exception");
 		end
 	end
 end
 
-function large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster, cached_config)
+function this.draw_dynamic(displayed_monsters, highlighted_monster, cached_config)
 	cached_config = cached_config.dynamic;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
@@ -230,7 +230,7 @@ function large_monster_UI.draw_dynamic(displayed_monsters, highlighted_monster, 
 	end
 end
 
-function large_monster_UI.draw_static(displayed_monsters, highlighted_monster, cached_config)
+function this.draw_static(displayed_monsters, highlighted_monster, cached_config)
 	cached_config = cached_config.static;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
@@ -311,7 +311,7 @@ function large_monster_UI.draw_static(displayed_monsters, highlighted_monster, c
 	end
 end
 
-function large_monster_UI.draw_highlighted(monster, cached_config)
+function this.draw_highlighted(monster, cached_config)
 	cached_config = cached_config.highlighted;
 
 	if monster == nil then
@@ -327,7 +327,7 @@ function large_monster_UI.draw_highlighted(monster, cached_config)
 	large_monster.draw(monster, "highlighted", cached_config, position_on_screen, 1);
 end
 
-function large_monster_UI.init_module()
+function this.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	config = require("MHR_Overlay.Misc.config");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -340,4 +340,4 @@ function large_monster_UI.init_module()
 	rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
 end
 
-return large_monster_UI;
+return this;

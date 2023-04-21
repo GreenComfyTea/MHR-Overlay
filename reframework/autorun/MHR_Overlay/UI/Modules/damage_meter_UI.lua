@@ -1,4 +1,4 @@
-local damage_meter_UI = {};
+local this = {};
 
 local singletons;
 local config;
@@ -43,8 +43,8 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-damage_meter_UI.last_displayed_players = {};
-damage_meter_UI.freeze_displayed_players = false;
+this.last_displayed_players = {};
+this.freeze_displayed_players = false;
 
 local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
 local quest_hunter_info_field = lobby_manager_type_def:get_field("_questHunterInfo");
@@ -57,7 +57,7 @@ local get_item_method = quest_hunter_info_type_def:get_method("get_Item");
 local hunter_info_type_def = sdk.find_type_definition("snow.LobbyManager.HunterInfo");
 local member_index_field = hunter_info_type_def:get_field("_memberIndex");
 
-function damage_meter_UI.draw()
+function this.draw()
 	local cached_config = config.current_config.damage_meter_UI;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
@@ -67,13 +67,13 @@ function damage_meter_UI.draw()
 
 	local quest_players = {};
 	
-	if damage_meter_UI.freeze_displayed_players and not utils.table.is_empty(damage_meter_UI.last_displayed_players) then
-		quest_players = damage_meter_UI.last_displayed_players;
+	if this.freeze_displayed_players and not utils.table.is_empty(this.last_displayed_players) then
+		quest_players = this.last_displayed_players;
 	else
 		quest_players = players.display_list;
 	end
 
-	damage_meter_UI.last_displayed_players = quest_players;
+	this.last_displayed_players = quest_players;
 
 	local top_damage = 0;
 	local top_dps = 0;
@@ -175,7 +175,7 @@ function damage_meter_UI.draw()
 	end
 end
 
-function damage_meter_UI.init_module()
+function this.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	config = require("MHR_Overlay.Misc.config");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -188,4 +188,4 @@ function damage_meter_UI.init_module()
 	utils = require("MHR_Overlay.Misc.utils");
 end
 
-return damage_meter_UI;
+return this;

@@ -1,4 +1,4 @@
-local rage_UI_entity = {};
+local this = {};
 
 local utils;
 local drawing;
@@ -37,7 +37,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function rage_UI_entity.new(visibility, bar, text_label, value_label, percentage_label, timer_label)
+function this.new(visibility, bar, text_label, value_label, percentage_label, timer_label)
 	local entity = {};
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
@@ -71,7 +71,7 @@ function rage_UI_entity.new(visibility, bar, text_label, value_label, percentage
 	return entity;
 end
 
-function rage_UI_entity.draw(monster, rage_UI, position_on_screen, opacity_scale)
+function this.draw(monster, rage_UI, position_on_screen, opacity_scale)
 	if not rage_UI.visibility then
 		return;
 	end
@@ -105,11 +105,11 @@ function rage_UI_entity.draw(monster, rage_UI, position_on_screen, opacity_scale
 	end
 end
 
-function rage_UI_entity.init_module()
+function this.init_module()
 	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 end
 
-return rage_UI_entity;
+return this;

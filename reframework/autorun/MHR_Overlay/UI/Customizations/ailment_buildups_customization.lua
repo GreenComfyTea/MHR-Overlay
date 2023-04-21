@@ -1,4 +1,4 @@
-local ailment_buildups_customization = {};
+local this = {};
 
 local utils;
 local config;
@@ -47,7 +47,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function ailment_buildups_customization.draw(cached_config)
+function this.draw(cached_config)
 	local changed = false;
 	local config_changed = false;
 	local index = 1;
@@ -200,7 +200,7 @@ function ailment_buildups_customization.draw(cached_config)
 	return config_changed;
 end
 
-function ailment_buildups_customization.init_module()
+function this.init_module()
 	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
@@ -218,4 +218,4 @@ function ailment_buildups_customization.init_module()
 	bar_customization = require("MHR_Overlay.UI.Customizations.bar_customization");
 end
 
-return ailment_buildups_customization;
+return this;

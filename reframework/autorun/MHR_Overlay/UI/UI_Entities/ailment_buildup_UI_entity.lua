@@ -1,4 +1,4 @@
-local ailment_buildup_UI_entity = {};
+local this = {};
 
 local utils;
 local drawing;
@@ -38,7 +38,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function ailment_buildup_UI_entity.new(buildup_bar, highlighted_buildup_bar, ailment_name_label, player_name_label,
+function this.new(buildup_bar, highlighted_buildup_bar, ailment_name_label, player_name_label,
                                        buildup_value_label, buildup_percentage_label, total_buildup_label,
                                        total_buildup_value_label)
 	local entity = {};
@@ -88,7 +88,7 @@ function ailment_buildup_UI_entity.new(buildup_bar, highlighted_buildup_bar, ail
 	return entity;
 end
 
-function ailment_buildup_UI_entity.draw(player, player_buildup, ailment_buildup_UI, cached_config, position_on_screen, opacity_scale, top_buildup)
+function this.draw(player, player_buildup, ailment_buildup_UI, cached_config, position_on_screen, opacity_scale, top_buildup)
 	local player_buildup_bar_percentage = 0;
 
 	if cached_config.settings.buildup_bar_relative_to == "Total Buildup" then
@@ -117,7 +117,7 @@ function ailment_buildup_UI_entity.draw(player, player_buildup, ailment_buildup_
 	drawing.draw_label(ailment_buildup_UI.buildup_percentage_label, position_on_screen, opacity_scale, 100 * player_buildup.buildup_share);
 end
 
-function ailment_buildup_UI_entity.init_module()
+function this.init_module()
 	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
@@ -125,4 +125,4 @@ function ailment_buildup_UI_entity.init_module()
 	language = require("MHR_Overlay.Misc.language");
 end
 
-return ailment_buildup_UI_entity;
+return this;

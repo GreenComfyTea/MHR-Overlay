@@ -1,4 +1,4 @@
-local non_players = {};
+local this = {};
 
 local config;
 local singletons;
@@ -42,12 +42,12 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-non_players.servant_list = {};
-non_players.otomo_list = {};
+this.servant_list = {};
+this.otomo_list = {};
 
-non_players.my_second_otomo_id = -1;
+this.my_second_otomo_id = -1;
 
-function non_players.new(id, name, level, type)
+function this.new(id, name, level, type)
 	local non_player = {};
 	non_player.id = id;
 	non_player.name = name;
@@ -68,22 +68,22 @@ function non_players.new(id, name, level, type)
 	non_player.display.elemental_damage = 0;
 	non_player.display.ailment_damage = 0;
 
-	non_players.init_UI(non_player);
+	this.init_UI(non_player);
 
 	return non_player;
 end
 
-function non_players.get_servant(servant_id)
-	return non_players.servant_list[servant_id];
+function this.get_servant(servant_id)
+	return this.servant_list[servant_id];
 end
 
-function non_players.get_otomo(otomo_id)
-	return non_players.otomo_list[otomo_id];
+function this.get_otomo(otomo_id)
+	return this.otomo_list[otomo_id];
 end
 
-function non_players.init()
-	non_players.servant_list = {};
-	non_players.otomo_list = {};
+function this.init()
+	this.servant_list = {};
+	this.otomo_list = {};
 end
 
 local servant_manager_type_def = sdk.find_type_definition("snow.ai.ServantManager");
@@ -128,7 +128,7 @@ local otomo_info_name_field = otomo_info_type_def:get_field("_Name");
 local otomo_info_level_field = otomo_info_type_def:get_field("_Level");
 local otomo_info_order_field = otomo_info_type_def:get_field("_Order");
 
-function non_players.update_servant_list()
+function this.update_servant_list()
 	local cached_config = config.current_config.damage_meter_UI;
 
 	if singletons.servant_manager == nil then
@@ -176,40 +176,40 @@ function non_players.update_servant_list()
 			goto continue;
 		end
 
-		if non_players.servant_list[id] == nil then
-			non_players.servant_list[id] = non_players.new(id, name, 0, players.types.servant);
+		if this.servant_list[id] == nil then
+			this.servant_list[id] = this.new(id, name, 0, players.types.servant);
 		end
 
 		if not cached_config.settings.hide_servants then
-			table.insert(players.display_list, non_players.servant_list[id]);
+			table.insert(players.display_list, this.servant_list[id]);
 		end
 
 		::continue::
 	end
 end
 
-function non_players.update_otomo_list(is_on_quest, is_online)
+function this.update_otomo_list(is_on_quest, is_online)
 	if is_online then
 		if is_on_quest then
 			--non_players.update_my_otomos();
-			non_players.update_otomos(quest_otomo_info_field);
+			this.update_otomos(quest_otomo_info_field);
 		else
-			non_players.update_otomos(otomo_info_field);
+			this.update_otomos(otomo_info_field);
 		end
 
 
 	else
 		if is_on_quest then
-			non_players.update_my_otomos();
-			non_players.update_servant_otomos();
+			this.update_my_otomos();
+			this.update_servant_otomos();
 		else
-			non_players.update_my_otomos();
+			this.update_my_otomos();
 		end
 
 	end
 end
 
-function non_players.update_my_otomos()
+function this.update_my_otomos()
 	local cached_config = config.current_config.damage_meter_UI;
 
 	local first_otomo = get_master_otomo_info_method:call(singletons.otomo_manager, 0);
@@ -219,12 +219,12 @@ function non_players.update_my_otomos()
 			local level = otomo_create_data_level_field:get_data(first_otomo) or 0;
 
 			local myself_id = players.myself.id;
-			if non_players.otomo_list[myself_id] == nil then
-				non_players.otomo_list[myself_id] = non_players.new(0, name, level, players.types.my_otomo);
+			if this.otomo_list[myself_id] == nil then
+				this.otomo_list[myself_id] = this.new(0, name, level, players.types.my_otomo);
 			end
 
 			if cached_config.settings.show_my_otomos_separately then
-				table.insert(players.display_list, non_players.otomo_list[myself_id]);
+				table.insert(players.display_list, this.otomo_list[myself_id]);
 			end
 		end
 	end
@@ -236,18 +236,18 @@ function non_players.update_my_otomos()
 			local level = otomo_create_data_level_field:get_data(second_otomo) or 0;
 
 			-- the secondary otomo is actually the 4th one!
-			if non_players.otomo_list[non_players.my_second_otomo_id] == nil then
-				non_players.otomo_list[non_players.my_second_otomo_id] = non_players.new(non_players.my_second_otomo_id, name, level, players.types.my_otomo);
+			if this.otomo_list[this.my_second_otomo_id] == nil then
+				this.otomo_list[this.my_second_otomo_id] = this.new(this.my_second_otomo_id, name, level, players.types.my_otomo);
 			end
 
 			if cached_config.settings.show_my_otomos_separately then
-				table.insert(players.display_list, non_players.otomo_list[non_players.my_second_otomo_id]);
+				table.insert(players.display_list, this.otomo_list[this.my_second_otomo_id]);
 			end
 		end
 	end
 end
 
-function non_players.update_servant_otomos()
+function this.update_servant_otomos()
 	local cached_config = config.current_config.damage_meter_UI;
 
 	local servant_otomo_list = get_servant_otomo_list_method:call(singletons.otomo_manager);
@@ -278,12 +278,12 @@ function non_players.update_servant_otomos()
 				goto continue;
 			end
 
-			if non_players.otomo_list[member_id] == nil then
-				non_players.otomo_list[member_id] = non_players.new(member_id, name, level, players.types.servant_otomo);
+			if this.otomo_list[member_id] == nil then
+				this.otomo_list[member_id] = this.new(member_id, name, level, players.types.servant_otomo);
 			end
 
 			if cached_config.settings.show_servant_otomos_separately then
-				table.insert(players.display_list, non_players.otomo_list[member_id]);
+				table.insert(players.display_list, this.otomo_list[member_id]);
 			end
 		end
 
@@ -292,7 +292,7 @@ function non_players.update_servant_otomos()
 	
 end
 
-function non_players.update_otomos(otomo_info_field_)
+function this.update_otomos(otomo_info_field_)
 	local cached_config = config.current_config.damage_meter_UI;
 	
 	if singletons.lobby_manager == nil then
@@ -325,22 +325,22 @@ function non_players.update_otomos(otomo_info_field_)
 
 		local level = otomo_info_level_field:get_data(otomo_info) or 0;
 
-		local otomo = non_players.otomo_list[id];
+		local otomo = this.otomo_list[id];
 
 		if otomo == nil or (otomo.name ~= name and level ~= otomo.level) or
 		(otomo.type == players.types.my_otomo and otomo.id ~= players.myself.id) or
 		(otomo.type ~= players.types.my_otomo and otomo.id == players.myself.id) then
 			if id == players.myself.id then
-				otomo = non_players.new(id, name, level, players.types.my_otomo);
-				non_players.otomo_list[id] = otomo;
+				otomo = this.new(id, name, level, players.types.my_otomo);
+				this.otomo_list[id] = otomo;
 
 			elseif id >= 4 then
-				otomo = non_players.new(id, name, level, players.types.servant_otomo);
-				non_players.otomo_list[id] = otomo;
+				otomo = this.new(id, name, level, players.types.servant_otomo);
+				this.otomo_list[id] = otomo;
 
 			else
-				otomo = non_players.new(id, name, level, players.types.other_player_otomo);
-				non_players.otomo_list[id] = otomo;
+				otomo = this.new(id, name, level, players.types.other_player_otomo);
+				this.otomo_list[id] = otomo;
 
 			end 
 		end
@@ -363,7 +363,7 @@ function non_players.update_otomos(otomo_info_field_)
 	end
 end
 
-function non_players.init_UI(non_player)
+function this.init_UI(non_player)
 	local cached_config = config.current_config.damage_meter_UI;
 
 	if non_player.type == players.types.servant then
@@ -377,7 +377,7 @@ function non_players.init_UI(non_player)
 	end
 end
 
-function non_players.init_module()
+function this.init_module()
 	config = require("MHR_Overlay.Misc.config");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -388,7 +388,7 @@ function non_players.init_module()
 	language = require("MHR_Overlay.Misc.language");
 	players = require("MHR_Overlay.Damage_Meter.players");
 
-	non_players.init();
+	this.init();
 end
 
-return non_players;
+return this;

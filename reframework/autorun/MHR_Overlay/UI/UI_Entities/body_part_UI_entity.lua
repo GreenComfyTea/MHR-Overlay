@@ -1,4 +1,4 @@
-local body_part_UI_entity = {};
+local this = {};
 
 local config;
 local utils;
@@ -36,7 +36,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function body_part_UI_entity.new(part_visibility, part_name_label, flinch_visibility, flinch_bar, flinch_text_label,
+function this.new(part_visibility, part_name_label, flinch_visibility, flinch_bar, flinch_text_label,
 	flinch_value_label, flinch_percentage_label, break_visibility, break_bar, break_text_label, break_value_label,
 	break_percentage_label, loss_visibility, loss_bar, loss_text_label, loss_value_label, loss_health_percentage_label)
 
@@ -120,7 +120,7 @@ function body_part_UI_entity.new(part_visibility, part_name_label, flinch_visibi
 	return entity;
 end
 
-function body_part_UI_entity.draw(part, part_UI, cached_config, position_on_screen, opacity_scale)
+function this.draw(part, part_UI, cached_config, position_on_screen, opacity_scale)
 	if not part_UI.part_visibility then
 		return;
 	end
@@ -250,10 +250,10 @@ function body_part_UI_entity.draw(part, part_UI, cached_config, position_on_scre
 	end
 end
 
-function body_part_UI_entity.init_module()
+function this.init_module()
 	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
 end
 
-return body_part_UI_entity;
+return this;

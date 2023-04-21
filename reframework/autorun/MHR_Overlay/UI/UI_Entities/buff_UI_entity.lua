@@ -1,4 +1,4 @@
-local buff_UI_entity = {};
+local this = {};
 
 local config;
 local utils;
@@ -37,7 +37,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function buff_UI_entity.new(bar, name_label, timer_label)
+function this.new(bar, name_label, timer_label)
 	local entity = {};
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
@@ -63,7 +63,7 @@ function buff_UI_entity.new(bar, name_label, timer_label)
 	return entity;
 end
 
-function buff_UI_entity.draw(buff, buff_UI, position_on_screen, opacity_scale)
+function this.draw(buff, buff_UI, position_on_screen, opacity_scale)
 	local cached_config = config.current_config.buff_UI;
 
 	if not buff.is_infinite then
@@ -81,11 +81,11 @@ function buff_UI_entity.draw(buff, buff_UI, position_on_screen, opacity_scale)
 	end
 end
 
-function buff_UI_entity.init_module()
+function this.init_module()
 	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
 	language = require("MHR_Overlay.Misc.language");
 end
 
-return buff_UI_entity;
+return this;

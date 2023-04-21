@@ -1,4 +1,4 @@
-local stamina_customization = {};
+local this = {};
 
 local config;
 local screen;
@@ -46,7 +46,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function stamina_customization.draw(cached_config)
+function this.draw(cached_config)
 	local changed = false;
 	local config_changed = false;
 
@@ -91,7 +91,7 @@ function stamina_customization.draw(cached_config)
 	return config_changed;
 end
 
-function stamina_customization.init_module()
+function this.init_module()
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");
@@ -107,4 +107,4 @@ function stamina_customization.init_module()
 	bar_customization = require("MHR_Overlay.UI.Customizations.bar_customization");
 end
 
-return stamina_customization;
+return this;

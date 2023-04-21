@@ -1,4 +1,4 @@
-local stamina_UI_entity = {};
+local this = {};
 
 local utils;
 local drawing;
@@ -37,7 +37,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function stamina_UI_entity.new(visibility, bar, text_label, value_label, percentage_label, timer_label)
+function this.new(visibility, bar, text_label, value_label, percentage_label, timer_label)
 	local entity = {};
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
@@ -69,7 +69,7 @@ function stamina_UI_entity.new(visibility, bar, text_label, value_label, percent
 	return entity;
 end
 
-function stamina_UI_entity.draw(monster, stamina_UI, position_on_screen, opacity_scale)
+function this.draw(monster, stamina_UI, position_on_screen, opacity_scale)
 	if not stamina_UI.visibility then
 		return;
 	end
@@ -102,11 +102,11 @@ function stamina_UI_entity.draw(monster, stamina_UI, position_on_screen, opacity
 	end
 end
 
-function stamina_UI_entity.init_module()
+function this.init_module()
 	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 end
 
-return stamina_UI_entity;
+return this;

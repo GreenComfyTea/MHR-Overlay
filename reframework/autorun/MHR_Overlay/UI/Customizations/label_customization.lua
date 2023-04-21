@@ -1,4 +1,4 @@
-local label_customization = {};
+local this = {};
 
 local config;
 local screen;
@@ -44,7 +44,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function label_customization.draw(label_name, label)
+function this.draw(label_name, label)
 	local label_changed = false;
 	local changed = false;
 
@@ -115,7 +115,7 @@ function label_customization.draw(label_name, label)
 	return label_changed;
 end
 
-function label_customization.init_module()
+function this.init_module()
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");
@@ -129,4 +129,4 @@ function label_customization.init_module()
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 end
 
-return label_customization;
+return this;
