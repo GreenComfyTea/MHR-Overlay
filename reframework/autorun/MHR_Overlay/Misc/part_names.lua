@@ -885,6 +885,40 @@ function part_names.init()
 			language.current_language.parts.hind_legs,
 			language.current_language.parts.chest
 		},
+		
+
+
+
+
+		--SUNBREAK TITLE UPDATE 5
+
+
+
+
+
+		[2120] = -- Risen Shagaru Magala 2120
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.torso,
+			language.current_language.parts.wings,
+			language.current_language.parts.wingclaws,
+			language.current_language.parts.forelegs,
+			language.current_language.parts.hind_legs,
+			language.current_language.parts.tail
+		},
+
+		[58] = -- Amatsu 58
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.left_arm,
+			language.current_language.parts.right_arm,
+			language.current_language.parts.abdomen,
+			language.current_language.parts.tail,
+			language.current_language.parts.back,
+			language.current_language.parts.no_name,
+			language.current_language.parts.left_leg,
+			language.current_language.parts.right_leg
+		},
 	};
 end
 

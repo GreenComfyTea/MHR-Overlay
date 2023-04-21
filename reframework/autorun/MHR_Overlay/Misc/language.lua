@@ -124,7 +124,9 @@ language.default_language = {
 		chest = "Chest",
 		shell = "Shell",
 
-		thundersacs = "Thundersacs"
+		thundersacs = "Thundersacs",
+
+		no_name = ""
 	},
 
 	ailments = {
