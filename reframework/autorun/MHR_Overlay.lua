@@ -30,17 +30,6 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-local debug_name = "MHR_Overlay.Misc.debug";
-local debug = nil;
-for _, searcher in ipairs(package.searchers or package.loaders) do
-	local loader = searcher(debug_name);
-
-	if type(loader) == 'function' then
-		package.preload[debug_name] = loader;
-		debug = require(debug_name);
-	end
-end
-
 local keyboard = require("MHR_Overlay.Game_Handler.keyboard");
 local quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 local screen = require("MHR_Overlay.Game_Handler.screen");
@@ -97,14 +86,9 @@ local body_parts_customization = require("MHR_Overlay.UI.Customizations.body_par
 local ailments_customization = require("MHR_Overlay.UI.Customizations.ailments_customization");
 local ailment_buildups_customization = require("MHR_Overlay.UI.Customizations.ailment_buildups_customization");
 local module_visibility_customization = require("MHR_Overlay.UI.Customizations.module_visibility_customization");
-
 local large_monster_UI_customization = require("MHR_Overlay.UI.Customizations.large_monster_UI_customization");
 
 local drawing = require("MHR_Overlay.UI.drawing");
-
-if debug ~= nil and debug.enabled then
-	xy = "";
-end
 
 ------------------------INIT MODULES-------------------------
 -- #region
@@ -345,33 +329,6 @@ re.on_frame(function()
 end);
 -- #endregion
 ----------------------------D2D------------------------------
-
-if debug ~= nil and debug.enabled then
-	if d2d ~= nil then
-		d2d.register(function()
-		end, function()
-			if not config.current_config.global_settings.renderer.use_d2d_if_available then
-				return;
-			end
-
-			if xy ~= "" then
-				d2d.text(drawing.font, "xy:\n" .. tostring(xy), 256, 71, 0xFF000000);
-				d2d.text(drawing.font, "xy:\n" .. tostring(xy), 255, 70, 0xFFFFFFFF);
-			end
-		end);
-	end
-
-	re.on_frame(function()
-		if d2d ~= nil and config.current_config.global_settings.renderer.use_d2d_if_available then
-			return;
-		end
-
-		if xy ~= "" then
-			draw.text("xy:\n" .. tostring(xy), 256, 31, 0xFF000000);	
-			draw.text("xy:\n" .. tostring(xy), 255, 30, 0xFFFFFFFF);
-		end
-	end);
-end
 
 if imgui.begin_table == nil then
 	re.msg(language.current_language.customization_menu.reframework_outdated);
