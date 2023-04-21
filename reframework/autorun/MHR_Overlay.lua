@@ -1,5 +1,3 @@
-xy = "";
-
 local sdk = sdk;
 local tostring = tostring;
 local pairs = pairs;
@@ -94,6 +92,10 @@ local module_visibility_customization = require("MHR_Overlay.UI.Customizations.m
 local large_monster_UI_customization = require("MHR_Overlay.UI.Customizations.large_monster_UI_customization");
 
 local drawing = require("MHR_Overlay.UI.drawing");
+
+if debug ~= nil and debug.enabled then
+	xy = "";
+end
 
 ------------------------INIT MODULES-------------------------
 -- #region
@@ -335,7 +337,7 @@ end);
 -- #endregion
 ----------------------------D2D------------------------------
 
-if debug.enabled then
+if debug ~= nil and debug.enabled then
 	if d2d ~= nil then
 		d2d.register(function()
 		end, function()
