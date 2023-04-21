@@ -1,7 +1,6 @@
 local players = {};
 
 local config;
-local table_helpers;
 local singletons;
 local customization_menu;
 local damage_UI_entity;
@@ -39,6 +38,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 players.list = {};
 players.myself = nil;
@@ -692,7 +694,6 @@ end
 
 function players.init_module()
 	config = require("MHR_Overlay.Misc.config");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");

@@ -1,6 +1,5 @@
 local module_visibility_customization = {};
 
-local table_helpers;
 local config;
 local screen;
 local players;
@@ -43,6 +42,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 function module_visibility_customization.draw(cached_config)
 	local changed = false;
@@ -100,7 +102,6 @@ function module_visibility_customization.draw(cached_config)
 end
 
 function module_visibility_customization.init_module()
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");

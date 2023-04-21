@@ -1,7 +1,6 @@
 local non_players = {};
 
 local config;
-local table_helpers;
 local singletons;
 local customization_menu;
 local damage_UI_entity;
@@ -9,7 +8,6 @@ local time;
 local quest_status;
 local drawing;
 local language;
-local unicode_helpers;
 local players;
 
 local sdk = sdk;
@@ -40,6 +38,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 non_players.servant_list = {};
 non_players.otomo_list = {};
@@ -277,8 +278,6 @@ function non_players.update_servant_otomos()
 				goto continue;
 			end
 
-			--name = unicode_helpers.sub(name, 13);
-
 			if non_players.otomo_list[member_id] == nil then
 				non_players.otomo_list[member_id] = non_players.new(member_id, name, level, players.types.servant_otomo);
 			end
@@ -380,7 +379,6 @@ end
 
 function non_players.init_module()
 	config = require("MHR_Overlay.Misc.config");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");
@@ -389,7 +387,6 @@ function non_players.init_module()
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
 	players = require("MHR_Overlay.Damage_Meter.players");
-	unicode_helpers = require("MHR_Overlay.Misc.unicode_helpers");
 
 	non_players.init();
 end

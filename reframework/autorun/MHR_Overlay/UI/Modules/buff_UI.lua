@@ -4,7 +4,6 @@ local buff_UI_entity;
 local config;
 local buffs;
 local screen;
-local table_helpers;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -34,6 +33,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 function buff_UI.draw()
 	local cached_config = config.current_config.buff_UI;
@@ -113,7 +115,6 @@ function buff_UI.init_module()
 	buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
 	buffs = require("MHR_Overlay.Buffs.buffs");
 	--singletons = require("MHR_Overlay.Game_Handler.singletons");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	config = require("MHR_Overlay.Misc.config");
 	--customization_menu = require("MHR_Overlay.UI.customization_menu");
 	--players = require("MHR_Overlay.Damage_Meter.players");

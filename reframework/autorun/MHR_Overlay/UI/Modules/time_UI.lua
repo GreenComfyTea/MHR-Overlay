@@ -4,7 +4,7 @@ local time;
 local screen;
 local config;
 local drawing;
-local table_helpers;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -34,6 +34,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 time_UI.label = nil;
 
@@ -51,7 +54,7 @@ function time_UI.draw()
 end
 
 function time_UI.init_UI()
-	time_UI.label = table_helpers.deep_copy(config.current_config.time_UI.time_label);
+	time_UI.label = utils.table.deep_copy(config.current_config.time_UI.time_label);
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
@@ -64,7 +67,7 @@ function time_UI.init_module()
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	config = require("MHR_Overlay.Misc.config");
 	drawing = require("MHR_Overlay.UI.drawing");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 
 	time_UI.init_UI()
 end

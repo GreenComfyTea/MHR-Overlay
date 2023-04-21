@@ -1,7 +1,7 @@
 local body_part_UI_entity = {};
 
 local config;
-local table_helpers;
+local utils;
 local drawing;
 
 local sdk = sdk;
@@ -32,6 +32,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 function body_part_UI_entity.new(part_visibility, part_name_label, flinch_visibility, flinch_bar, flinch_text_label,
 	flinch_value_label, flinch_percentage_label, break_visibility, break_bar, break_text_label, break_value_label,
@@ -46,15 +49,15 @@ function body_part_UI_entity.new(part_visibility, part_name_label, flinch_visibi
 	entity.break_visibility = break_visibility;
 	entity.loss_visibility = loss_visibility;
 
-	entity.part_name_label = table_helpers.deep_copy(part_name_label);
+	entity.part_name_label = utils.table.deep_copy(part_name_label);
 
 	entity.part_name_label.offset.x = entity.part_name_label.offset.x * global_scale_modifier;
 	entity.part_name_label.offset.y = entity.part_name_label.offset.y * global_scale_modifier;
 
-	entity.flinch_bar = table_helpers.deep_copy(flinch_bar);
-	entity.flinch_text_label = table_helpers.deep_copy(flinch_text_label);
-	entity.flinch_value_label = table_helpers.deep_copy(flinch_value_label);
-	entity.flinch_percentage_label = table_helpers.deep_copy(flinch_percentage_label);
+	entity.flinch_bar = utils.table.deep_copy(flinch_bar);
+	entity.flinch_text_label = utils.table.deep_copy(flinch_text_label);
+	entity.flinch_value_label = utils.table.deep_copy(flinch_value_label);
+	entity.flinch_percentage_label = utils.table.deep_copy(flinch_percentage_label);
 
 	entity.flinch_bar.offset.x = entity.flinch_bar.offset.x * global_scale_modifier;
 	entity.flinch_bar.offset.y = entity.flinch_bar.offset.y * global_scale_modifier;
@@ -72,10 +75,10 @@ function body_part_UI_entity.new(part_visibility, part_name_label, flinch_visibi
 	entity.flinch_percentage_label.offset.x = entity.flinch_percentage_label.offset.x * global_scale_modifier;
 	entity.flinch_percentage_label.offset.y = entity.flinch_percentage_label.offset.y * global_scale_modifier;
 
-	entity.break_bar = table_helpers.deep_copy(break_bar);
-	entity.break_text_label = table_helpers.deep_copy(break_text_label);
-	entity.break_value_label = table_helpers.deep_copy(break_value_label);
-	entity.break_percentage_label = table_helpers.deep_copy(break_percentage_label);
+	entity.break_bar = utils.table.deep_copy(break_bar);
+	entity.break_text_label = utils.table.deep_copy(break_text_label);
+	entity.break_value_label = utils.table.deep_copy(break_value_label);
+	entity.break_percentage_label = utils.table.deep_copy(break_percentage_label);
 
 	entity.break_bar.offset.x = entity.break_bar.offset.x * global_scale_modifier;
 	entity.break_bar.offset.y = entity.break_bar.offset.y * global_scale_modifier;
@@ -93,10 +96,10 @@ function body_part_UI_entity.new(part_visibility, part_name_label, flinch_visibi
 	entity.break_percentage_label.offset.x = entity.break_percentage_label.offset.x * global_scale_modifier;
 	entity.break_percentage_label.offset.y = entity.break_percentage_label.offset.y * global_scale_modifier;
 
-	entity.loss_bar = table_helpers.deep_copy(loss_bar);
-	entity.loss_text_label = table_helpers.deep_copy(loss_text_label);
-	entity.loss_value_label = table_helpers.deep_copy(loss_value_label);
-	entity.loss_health_percentage_label = table_helpers.deep_copy(loss_health_percentage_label);
+	entity.loss_bar = utils.table.deep_copy(loss_bar);
+	entity.loss_text_label = utils.table.deep_copy(loss_text_label);
+	entity.loss_value_label = utils.table.deep_copy(loss_value_label);
+	entity.loss_health_percentage_label = utils.table.deep_copy(loss_health_percentage_label);
 
 	entity.loss_bar.offset.x = entity.loss_bar.offset.x * global_scale_modifier;
 	entity.loss_bar.offset.y = entity.loss_bar.offset.y * global_scale_modifier;
@@ -248,7 +251,7 @@ function body_part_UI_entity.draw(part, part_UI, cached_config, position_on_scre
 end
 
 function body_part_UI_entity.init_module()
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
 end

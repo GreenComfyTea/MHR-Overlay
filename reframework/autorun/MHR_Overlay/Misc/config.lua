@@ -1,6 +1,6 @@
 local config = {};
 
-local table_helpers;
+local utils;
 local language;
 
 local sdk = sdk;
@@ -31,6 +31,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 config.version = "2.4.1";
 
@@ -5674,7 +5677,7 @@ function config.load_current_config_value()
 			};
 
 			config.current_config_name = "old_config";
-			config.current_config = table_helpers.merge(config.default_config, loaded_config);
+			config.current_config = utils.table.merge(config.default_config, loaded_config);
 			config.current_config.version = config.version;
 
 			config.save(config.config_folder .. "old_config.json", config.current_config);
@@ -5713,7 +5716,7 @@ function config.load_configs()
 			log.info("[MHR Overlay] " .. config_name .. ".json loaded successfully");
 			
 
-			local merged_config = table_helpers.merge(config.default_config, loaded_config);
+			local merged_config = utils.table.merge(config.default_config, loaded_config);
 			merged_config.version = config.version;
 			
 			table.insert(config.config_names, config_name);
@@ -5737,7 +5740,7 @@ function config.load_configs()
 			config.current_config = config.configs[1];
 		else
 			config.current_config_name = "default";
-			config.current_config = table_helpers.deep_copy(config.default_config);
+			config.current_config = utils.table.deep_copy(config.default_config);
 	
 			table.insert(config.config_names, config.current_config_name);
 			table.insert(config.configs, config.current_config);
@@ -5784,7 +5787,7 @@ function config.new(config_name)
 		return;
 	end
 
-	local new_config = table_helpers.deep_copy(config.default_config);
+	local new_config = utils.table.deep_copy(config.default_config);
 	
 	config.create_new(config_name, new_config);
 end
@@ -5794,15 +5797,15 @@ function config.duplicate(config_name)
 		return;
 	end
 
-	local new_config = table_helpers.deep_copy(config.current_config);
+	local new_config = utils.table.deep_copy(config.current_config);
 	
 	config.create_new(config_name, new_config);
 end
 
 function config.reset()
-	config.current_config = table_helpers.deep_copy(config.default_config);
+	config.current_config = utils.table.deep_copy(config.default_config);
 
-	local index = table_helpers.find_index(config.config_names, config.current_config_name);
+	local index = utils.table.find_index(config.config_names, config.current_config_name);
 	config.configs[index] = config.current_config;
 end
 
@@ -5812,14 +5815,14 @@ function config.update(index)
 end
 
 function config.init_module()
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
 
 	config.init_default();
 	config.load_current_config_value();
 	config.load_configs();
 
-	language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
+	language.update(utils.table.find_index(language.language_names, config.current_config.global_settings.language, false));
 end
 
 return config;

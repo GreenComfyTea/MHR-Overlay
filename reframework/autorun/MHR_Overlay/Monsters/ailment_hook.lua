@@ -4,7 +4,6 @@ local small_monster;
 local large_monster;
 local config;
 local ailments;
-local table_helpers;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -34,6 +33,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 local enemy_poison_damage_param_type_def = sdk.find_type_definition("snow.enemy.EnemyPoisonDamageParam");
 local on_poison_activate_proc_method = enemy_poison_damage_param_type_def:get_method("onActivateProc");
@@ -147,7 +149,6 @@ function ailment_hook.init_module()
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	config = require("MHR_Overlay.Misc.config");
 	ailments = require("MHR_Overlay.Monsters.ailments");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 
 	sdk.hook(stock_damage_method, function(args)
 		pcall(ailment_hook.stock_damage, sdk.to_managed_object(args[2]));

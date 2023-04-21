@@ -5,7 +5,6 @@ local players;
 local small_monster;
 local large_monster;
 local ailments;
-local table_helpers;
 local singletons;
 local non_players;
 local utils;
@@ -38,6 +37,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 local wall_hit_damage_queue = {};
 
@@ -80,8 +82,7 @@ local is_from_host_field = packet_quest_forfeit_type_def:get_field("_IsFromQuest
 function damage_hook.get_damage_source_type(damage_source_type_id, is_marionette_attack)
 	if is_marionette_attack then
 		return "wyvern riding";
-	elseif damage_source_type_id == 0 or damage_source_type_id == 7 or damage_source_type_id == 11 or
-		damage_source_type_id == 13 then
+	elseif damage_source_type_id == 0 or damage_source_type_id == 7 or damage_source_type_id == 11 or damage_source_type_id == 13 then
 		return "player";
 	elseif damage_source_type_id == 1 or damage_source_type_id == 8 then
 		return "bomb";
@@ -93,11 +94,9 @@ function damage_hook.get_damage_source_type(damage_source_type_id, is_marionette
 		return "otomo";
 	elseif damage_source_type_id >= 25 and damage_source_type_id <= 32 then
 		return "endemic life";
-	elseif damage_source_type_id == 34 then
-		return "other";
 	end
 
-	return tostring(damage_source_type_id);
+	return "other";
 end
 
 -- snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide
@@ -129,7 +128,7 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 		for enemy, monster in pairs(large_monster.list) do
 			if monster.unique_id == attacker_id then
 				attacker_id = monster.rider_id;
-				break
+				break;
 			end
 		end
 	end
@@ -227,20 +226,6 @@ function damage_hook.update_damage(enemy, enemy_calc_damage_info)
 
 	players.update_damage(players.total, damage_source_type, is_large_monster, damage_object);
 	players.update_damage(player, damage_source_type, is_large_monster, damage_object);
-
-	--xy = xy .. "\nPlayer: " .. tostring(player.id) ..
-	--	" " .. tostring(player.name) ..
-	--	" Damage: " .. tostring(damage_object.total_damage);
-
-	--if is_otomo_attack then
-		--xy = xy .. "\nOtomo: " .. tostring(otomo.id) ..
-		--	" " .. tostring(otomo.name) ..
-		--	" Damage: " .. tostring(damage_object.total_damage);
-	--end
-
-	--if string.len(xy) > 2000 then
-	--	xy = "";
-	--end
 end
 
 --function damage_hook.on_mystery_core_break(enemy)
@@ -263,7 +248,7 @@ end
 function damage_hook.on_stock_direct_marionette_finish_shoot_hit_parts_damage(enemy, damage_rate, is_endure, is_ignore_multi_rate, category, no)
 	local monster = large_monster.get_monster(enemy);
 
-	local damage = utils.round(monster.max_health * damage_rate);
+	local damage = utils.math.round(monster.max_health * damage_rate);
 
 	large_monster.update_all_riders();
 	local attacker_id = monster.rider_id;
@@ -330,7 +315,6 @@ function damage_hook.init_module()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	ailments = require("MHR_Overlay.Monsters.ailments");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	utils = require("MHR_Overlay.Misc.utils");

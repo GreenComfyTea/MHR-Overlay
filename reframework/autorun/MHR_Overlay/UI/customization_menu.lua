@@ -1,6 +1,6 @@
 local customization_menu = {};
 
-local table_helpers;
+local utils;
 local config;
 local screen;
 local players;
@@ -57,6 +57,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 customization_menu.font = nil;
 customization_menu.font_range = {0x1, 0xFFFF, 0};
@@ -450,14 +453,14 @@ function customization_menu.draw_config()
 	if imgui.tree_node(language.current_language.customization_menu.config) then
 		
 		changed, index = imgui.combo(language.current_language.customization_menu.config,
-			table_helpers.find_index(config.config_names, config.current_config_name), config.config_names);
+			utils.table.find_index(config.config_names, config.current_config_name), config.config_names);
 		config_changed = config_changed or changed;
 
 		if changed then
 			config.current_config_name = config.config_names[index];
 			config.update(index);
 
-			language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
+			language.update(utils.table.find_index(language.language_names, config.current_config.global_settings.language, false));
 			
 			customization_menu.init();
 
@@ -473,7 +476,7 @@ function customization_menu.draw_config()
 				config.new(customization_menu.config_name_input);
 				config_changed = config_changed or changed;
 
-				language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
+				language.update(utils.table.find_index(language.language_names, config.current_config.global_settings.language, false));
 			
 				customization_menu.init();
 
@@ -491,7 +494,7 @@ function customization_menu.draw_config()
 				config.duplicate(customization_menu.config_name_input);
 				config_changed = config_changed or changed;
 
-				language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
+				language.update(utils.table.find_index(language.language_names, config.current_config.global_settings.language, false));
 			
 				customization_menu.init();
 
@@ -508,7 +511,7 @@ function customization_menu.draw_config()
 		if changed then
 				config.reset();
 
-				language.update(table_helpers.find_index(language.language_names, config.current_config.global_settings.language, false));
+				language.update(utils.table.find_index(language.language_names, config.current_config.global_settings.language, false));
 			
 				customization_menu.init();
 
@@ -814,7 +817,7 @@ function customization_menu.draw_global_settings(apply_font_requested, language_
 		imgui.text(language.current_language.customization_menu.menu_font_change_disclaimer);
 
 		changed, index = imgui.combo(language.current_language.customization_menu.language .. "*",
-			table_helpers.find_index(language.language_names, cached_config.language), language.language_names);
+			utils.table.find_index(language.language_names, cached_config.language), language.language_names);
 		config_changed = config_changed or changed;
 
 		if changed then
@@ -891,7 +894,7 @@ function customization_menu.draw_global_settings(apply_font_requested, language_
 			imgui.text(language.current_language.customization_menu.UI_font_notice);
 
 			changed, index = imgui.combo(language.current_language.customization_menu.family,
-				table_helpers.find_index(customization_menu.fonts, cached_config.UI_font.family), customization_menu.fonts);
+				utils.table.find_index(customization_menu.fonts, cached_config.UI_font.family), customization_menu.fonts);
 			config_changed = config_changed or changed;
 
 			if changed then
@@ -1089,7 +1092,7 @@ function customization_menu.draw_small_monster_UI()
 			config_changed = config_changed or changed;
 
 			changed, index = imgui.combo(language.current_language.customization_menu.static_orientation,
-				table_helpers.find_index(customization_menu.orientation_types, cached_config.settings.orientation),
+				utils.table.find_index(customization_menu.orientation_types, cached_config.settings.orientation),
 				customization_menu.displayed_orientation_types);
 
 			config_changed = config_changed or changed;
@@ -1171,7 +1174,7 @@ function customization_menu.draw_small_monster_UI()
 
 			config_changed = config_changed or changed;
 
-			changed, index = imgui.combo(language.current_language.customization_menu.anchor, table_helpers.find_index(
+			changed, index = imgui.combo(language.current_language.customization_menu.anchor, utils.table.find_index(
 				customization_menu.anchor_types, cached_config.static_position.anchor), customization_menu.displayed_anchor_types);
 
 			config_changed = config_changed or changed;
@@ -1198,7 +1201,7 @@ function customization_menu.draw_small_monster_UI()
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.static_sorting) then
-			changed, index = imgui.combo(language.current_language.customization_menu.type, table_helpers.find_index(
+			changed, index = imgui.combo(language.current_language.customization_menu.type, utils.table.find_index(
 				customization_menu.monster_UI_sorting_types, cached_config.static_sorting.type),
 				customization_menu.displayed_monster_UI_sorting_types);
 
@@ -1352,7 +1355,7 @@ function customization_menu.draw_large_monster_static_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.highlighted_monster_location,
-				table_helpers.find_index(customization_menu.damage_meter_UI_my_damage_bar_location_types, cached_config.settings.highlighted_monster_location),
+				utils.table.find_index(customization_menu.damage_meter_UI_my_damage_bar_location_types, cached_config.settings.highlighted_monster_location),
 				customization_menu.displayed_damage_meter_UI_my_damage_bar_location_types);
 
 			config_changed = config_changed or changed;
@@ -1363,7 +1366,7 @@ function customization_menu.draw_large_monster_static_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.orientation,
-				table_helpers.find_index( customization_menu.orientation_types, cached_config.settings.orientation),
+				utils.table.find_index( customization_menu.orientation_types, cached_config.settings.orientation),
 				customization_menu.displayed_orientation_types);
 
 			config_changed = config_changed or changed;
@@ -1388,7 +1391,7 @@ function customization_menu.draw_large_monster_static_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.anchor,
-				table_helpers.find_index(customization_menu.anchor_types, cached_config.position.anchor),
+				utils.table.find_index(customization_menu.anchor_types, cached_config.position.anchor),
 				customization_menu.displayed_anchor_types);
 			
 			config_changed = config_changed or changed;
@@ -1417,7 +1420,7 @@ function customization_menu.draw_large_monster_static_UI()
 		if imgui.tree_node(language.current_language.customization_menu.sorting) then
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.type,
-				table_helpers.find_index(customization_menu.monster_UI_sorting_types, cached_config.sorting.type),
+				utils.table.find_index(customization_menu.monster_UI_sorting_types, cached_config.sorting.type),
 				customization_menu.displayed_monster_UI_sorting_types);
 
 			config_changed = config_changed or changed;
@@ -1469,7 +1472,7 @@ function customization_menu.draw_large_monster_highlighted_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.anchor,
-				table_helpers.find_index(customization_menu.anchor_types, cached_config.position.anchor),
+				utils.table.find_index(customization_menu.anchor_types, cached_config.position.anchor),
 				customization_menu.displayed_anchor_types);
 
 			config_changed = config_changed or changed;
@@ -1489,7 +1492,7 @@ function customization_menu.draw_large_monster_highlighted_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.mode,
-				table_helpers.find_index(customization_menu.auto_highlight_modes, cached_config.auto_highlight.mode),
+				utils.table.find_index(customization_menu.auto_highlight_modes, cached_config.auto_highlight.mode),
 				customization_menu.displayed_auto_highlight_modes);
 
 			config_changed = config_changed or changed;
@@ -1536,7 +1539,7 @@ function customization_menu.draw_time_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.anchor,
-				table_helpers.find_index(customization_menu.anchor_types, cached_config.position.anchor),
+				utils.table.find_index(customization_menu.anchor_types, cached_config.position.anchor),
 				customization_menu.displayed_anchor_types);
 
 			config_changed = config_changed or changed;
@@ -1637,7 +1640,7 @@ function customization_menu.draw_damage_meter_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.orientation,
-				table_helpers.find_index(customization_menu.orientation_types, cached_config.settings.orientation),
+				utils.table.find_index(customization_menu.orientation_types, cached_config.settings.orientation),
 				customization_menu.displayed_orientation_types);
 
 			config_changed = config_changed or changed;
@@ -1648,7 +1651,7 @@ function customization_menu.draw_damage_meter_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.highlighted,
-				table_helpers.find_index(customization_menu.damage_meter_UI_highlighted_entity_types, cached_config.settings.highlighted_bar),
+				utils.table.find_index(customization_menu.damage_meter_UI_highlighted_entity_types, cached_config.settings.highlighted_bar),
 				customization_menu.displayed_damage_meter_UI_highlighted_entity_types);
 
 			config_changed = config_changed or changed;
@@ -1659,7 +1662,7 @@ function customization_menu.draw_damage_meter_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.damage_bars_are_relative_to,
-				table_helpers.find_index(customization_menu.damage_meter_UI_damage_bar_relative_types, cached_config.settings.damage_bar_relative_to),
+				utils.table.find_index(customization_menu.damage_meter_UI_damage_bar_relative_types, cached_config.settings.damage_bar_relative_to),
 				customization_menu.displayed_damage_meter_UI_damage_bar_relative_types);
 
 			config_changed = config_changed or changed;
@@ -1670,7 +1673,7 @@ function customization_menu.draw_damage_meter_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.my_damage_bar_location,
-				table_helpers.find_index(customization_menu.damage_meter_UI_my_damage_bar_location_types, cached_config.settings.my_damage_bar_location),
+				utils.table.find_index(customization_menu.damage_meter_UI_my_damage_bar_location_types, cached_config.settings.my_damage_bar_location),
 				customization_menu.displayed_damage_meter_UI_my_damage_bar_location_types);
 
 			config_changed = config_changed or changed;
@@ -1681,7 +1684,7 @@ function customization_menu.draw_damage_meter_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.total_damage_location,
-				table_helpers.find_index(customization_menu.damage_meter_UI_total_damage_location_types, cached_config.settings.total_damage_location),
+				utils.table.find_index(customization_menu.damage_meter_UI_total_damage_location_types, cached_config.settings.total_damage_location),
 				customization_menu.displayed_damage_meter_UI_total_damage_location_types);
 
 			config_changed = config_changed or changed;
@@ -1691,7 +1694,7 @@ function customization_menu.draw_damage_meter_UI()
 			end
 
 			changed, index = imgui.combo(language.current_language.customization_menu.dps_mode, 
-				table_helpers.find_index(customization_menu.damage_meter_UI_dps_modes, cached_config.settings.dps_mode),
+				utils.table.find_index(customization_menu.damage_meter_UI_dps_modes, cached_config.settings.dps_mode),
 				customization_menu.displayed_damage_meter_UI_dps_modes);
 
 			config_changed = config_changed or changed;
@@ -1818,7 +1821,7 @@ function customization_menu.draw_damage_meter_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.anchor,
-				table_helpers.find_index(customization_menu.anchor_types, cached_config.position.anchor),
+				utils.table.find_index(customization_menu.anchor_types, cached_config.position.anchor),
 				customization_menu.displayed_anchor_types);
 
 			config_changed = config_changed or changed;
@@ -1833,7 +1836,7 @@ function customization_menu.draw_damage_meter_UI()
 		if imgui.tree_node(language.current_language.customization_menu.sorting) then
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.type,
-				table_helpers.find_index(customization_menu.damage_meter_UI_sorting_types, cached_config.sorting.type),
+				utils.table.find_index(customization_menu.damage_meter_UI_sorting_types, cached_config.sorting.type),
 				customization_menu.displayed_damage_meter_UI_sorting_types);
 
 			config_changed = config_changed or changed;
@@ -2160,7 +2163,7 @@ function customization_menu.draw_buff_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.orientation,
-				table_helpers.find_index(customization_menu.orientation_types, cached_config.settings.orientation),
+				utils.table.find_index(customization_menu.orientation_types, cached_config.settings.orientation),
 				customization_menu.displayed_orientation_types);
 
 			config_changed = config_changed or changed;
@@ -2199,7 +2202,7 @@ function customization_menu.draw_buff_UI()
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.anchor,
-				table_helpers.find_index(customization_menu.anchor_types, cached_config.position.anchor),
+				utils.table.find_index(customization_menu.anchor_types, cached_config.position.anchor),
 				customization_menu.displayed_anchor_types);
 
 			config_changed = config_changed or changed;
@@ -2214,7 +2217,7 @@ function customization_menu.draw_buff_UI()
 		if imgui.tree_node(language.current_language.customization_menu.sorting) then
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.type,
-				table_helpers.find_index(customization_menu.buff_UI_sorting_types, cached_config.sorting.type),
+				utils.table.find_index(customization_menu.buff_UI_sorting_types, cached_config.sorting.type),
 				customization_menu.displayed_buff_UI_sorting_types);
 
 			config_changed = config_changed or changed;
@@ -2247,7 +2250,7 @@ function customization_menu.draw_buff_UI()
 end
 
 function customization_menu.init_module()
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");

@@ -7,7 +7,6 @@ local large_monster;
 local screen;
 local players;
 local drawing;
-local table_helpers;
 local health_UI_entity;
 local stamina_UI_entity;
 local rage_UI_entity;
@@ -41,6 +40,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 local enemy_manager_type_def = sdk.find_type_definition("snow.enemy.EnemyManager");
 
@@ -100,7 +102,6 @@ function env_creature_UI.init_module()
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	players = require("MHR_Overlay.Damage_Meter.players");
 	drawing = require("MHR_Overlay.UI.drawing");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");

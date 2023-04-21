@@ -1,7 +1,6 @@
 local part_names = {};
 
 local language;
-local table_helpers;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -31,6 +30,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 part_names.list = {};
 
@@ -898,7 +900,6 @@ end
 
 function part_names.init_module()
 	language = require("MHR_Overlay.Misc.language");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 
 	part_names.init();
 end

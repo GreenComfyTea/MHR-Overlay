@@ -1,7 +1,7 @@
 local buff_UI_entity = {};
 
 local config;
-local table_helpers;
+local utils;
 local drawing;
 local language;
 
@@ -33,6 +33,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 function buff_UI_entity.new(bar, name_label, timer_label)
 	local entity = {};
@@ -40,9 +43,9 @@ function buff_UI_entity.new(bar, name_label, timer_label)
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
 	--entity.visibility = visibility;
-	entity.bar = table_helpers.deep_copy(bar);
-	entity.name_label = table_helpers.deep_copy(name_label);
-	entity.timer_label = table_helpers.deep_copy(timer_label);
+	entity.bar = utils.table.deep_copy(bar);
+	entity.name_label = utils.table.deep_copy(name_label);
+	entity.timer_label = utils.table.deep_copy(timer_label);
 
 	entity.bar.offset.x = entity.bar.offset.x * global_scale_modifier;
 	entity.bar.offset.y = entity.bar.offset.y * global_scale_modifier;
@@ -79,7 +82,7 @@ function buff_UI_entity.draw(buff, buff_UI, position_on_screen, opacity_scale)
 end
 
 function buff_UI_entity.init_module()
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
 	language = require("MHR_Overlay.Misc.language");

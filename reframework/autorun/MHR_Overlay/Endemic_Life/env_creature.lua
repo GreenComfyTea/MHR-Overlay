@@ -4,7 +4,7 @@ local drawing;
 local customization_menu;
 local singletons;
 local config;
-local table_helpers;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -34,6 +34,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 env_creature.list = {};
 
@@ -89,7 +92,7 @@ function env_creature.init(creature, REcreature)
 end
 
 function env_creature.init_UI(creature)
-	creature.name_label = table_helpers.deep_copy(config.current_config.endemic_life_UI.creature_name_label);
+	creature.name_label = utils.table.deep_copy(config.current_config.endemic_life_UI.creature_name_label);
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
@@ -144,7 +147,7 @@ function env_creature.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	config = require("MHR_Overlay.Misc.config");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	--health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 	--stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	--screen = require("MHR_Overlay.Game_Handler.screen");

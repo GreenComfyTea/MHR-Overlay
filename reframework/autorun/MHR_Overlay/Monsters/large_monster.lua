@@ -4,7 +4,7 @@ local singletons;
 local customization_menu;
 local config;
 local language;
-local table_helpers;
+local utils;
 local health_UI_entity;
 local stamina_UI_entity;
 local rage_UI_entity;
@@ -48,6 +48,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 large_monster.list = {};
 
@@ -257,7 +260,7 @@ end
 function large_monster.init_UI(monster, monster_UI, cached_config)
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
-	monster_UI.monster_name_label = table_helpers.deep_copy(cached_config.monster_name_label);
+	monster_UI.monster_name_label = utils.table.deep_copy(cached_config.monster_name_label);
 
 	monster_UI.health_UI = health_UI_entity.new(
 		cached_config.health.visibility,
@@ -910,7 +913,7 @@ function large_monster.init_module()
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	body_part = require("MHR_Overlay.Monsters.body_part");
 	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");

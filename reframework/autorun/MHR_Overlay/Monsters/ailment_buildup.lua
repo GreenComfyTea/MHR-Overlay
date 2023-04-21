@@ -8,7 +8,6 @@ local ailment_buildup_UI_entity;
 local time;
 local small_monster;
 local large_monster;
-local table_helpers;
 local drawing;
 
 local sdk = sdk;
@@ -39,6 +38,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 function ailment_buildup.draw(monster, ailment_buildup_UI, cached_config, ailment_buildups_position_on_screen, opacity_scale)
 
@@ -238,7 +240,6 @@ function ailment_buildup.init_module()
 	time = require("MHR_Overlay.Game_Handler.time");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
 	drawing = require("MHR_Overlay.UI.drawing");
 end
 

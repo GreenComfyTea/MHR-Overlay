@@ -1,6 +1,6 @@
 local ailment_buildups_customization = {};
 
-local table_helpers;
+local utils;
 local config;
 local screen;
 local players;
@@ -43,6 +43,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 function ailment_buildups_customization.draw(cached_config)
 	local changed = false;
@@ -100,7 +103,7 @@ function ailment_buildups_customization.draw(cached_config)
 		if imgui.tree_node(language.current_language.customization_menu.settings) then
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.highlighted_bar,
-				table_helpers.find_index(customization_menu.highlighted_buildup_bar_types, cached_config.settings.highlighted_bar),
+				utils.table.find_index(customization_menu.highlighted_buildup_bar_types, cached_config.settings.highlighted_bar),
 				customization_menu.displayed_highlighted_buildup_bar_types);
 
 			config_changed = config_changed or changed;
@@ -111,7 +114,7 @@ function ailment_buildups_customization.draw(cached_config)
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.buildup_bars_are_relative_to,
-				table_helpers.find_index(customization_menu.displayed_buildup_bar_relative_types, cached_config.settings.buildup_bar_relative_to),
+				utils.table.find_index(customization_menu.displayed_buildup_bar_relative_types, cached_config.settings.buildup_bar_relative_to),
 				customization_menu.displayed_buildup_bar_relative_types);
 
 			config_changed = config_changed or changed;
@@ -131,7 +134,7 @@ function ailment_buildups_customization.draw(cached_config)
 		if imgui.tree_node(language.current_language.customization_menu.sorting) then
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.type,
-				table_helpers.find_index(customization_menu.ailment_buildups_sorting_types, cached_config.sorting.type),
+				utils.table.find_index(customization_menu.ailment_buildups_sorting_types, cached_config.sorting.type),
 				customization_menu.displayed_ailment_buildups_sorting_types);
 			
 			config_changed = config_changed or changed;
@@ -198,7 +201,7 @@ function ailment_buildups_customization.draw(cached_config)
 end
 
 function ailment_buildups_customization.init_module()
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");

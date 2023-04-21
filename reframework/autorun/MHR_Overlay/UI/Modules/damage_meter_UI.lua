@@ -9,7 +9,7 @@ local quest_status;
 local screen;
 local drawing;
 local language;
-local table_helpers;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -39,6 +39,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 damage_meter_UI.last_displayed_players = {};
 damage_meter_UI.freeze_displayed_players = false;
@@ -64,7 +67,7 @@ function damage_meter_UI.draw()
 
 	local quest_players = {};
 	
-	if damage_meter_UI.freeze_displayed_players and not table_helpers.is_empty(damage_meter_UI.last_displayed_players) then
+	if damage_meter_UI.freeze_displayed_players and not utils.table.is_empty(damage_meter_UI.last_displayed_players) then
 		quest_players = damage_meter_UI.last_displayed_players;
 	else
 		quest_players = players.display_list;
@@ -182,7 +185,7 @@ function damage_meter_UI.init_module()
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 end
 
 return damage_meter_UI;

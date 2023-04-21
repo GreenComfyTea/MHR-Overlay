@@ -1,6 +1,6 @@
 local damage_UI_entity = {};
 
-local table_helpers;
+local utils;
 local drawing;
 local config;
 local players;
@@ -36,19 +36,22 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 function damage_UI_entity.new(damage_meter_UI_elements, type)
 	local entity = {};
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
-	entity.bar = table_helpers.deep_copy(damage_meter_UI_elements.damage_bar);
-	entity.name_label = table_helpers.deep_copy(damage_meter_UI_elements.name_label);
-	entity.hunter_rank_label = table_helpers.deep_copy(damage_meter_UI_elements.hunter_rank_label);
-	entity.cart_count_label = table_helpers.deep_copy(damage_meter_UI_elements.cart_count_label);
-	entity.dps_label = table_helpers.deep_copy(damage_meter_UI_elements.dps_label);
-	entity.value_label = table_helpers.deep_copy(damage_meter_UI_elements.damage_value_label);
-	entity.percentage_label = table_helpers.deep_copy(damage_meter_UI_elements.damage_percentage_label);
+	entity.bar = utils.table.deep_copy(damage_meter_UI_elements.damage_bar);
+	entity.name_label = utils.table.deep_copy(damage_meter_UI_elements.name_label);
+	entity.hunter_rank_label = utils.table.deep_copy(damage_meter_UI_elements.hunter_rank_label);
+	entity.cart_count_label = utils.table.deep_copy(damage_meter_UI_elements.cart_count_label);
+	entity.dps_label = utils.table.deep_copy(damage_meter_UI_elements.dps_label);
+	entity.value_label = utils.table.deep_copy(damage_meter_UI_elements.damage_value_label);
+	entity.percentage_label = utils.table.deep_copy(damage_meter_UI_elements.damage_percentage_label);
 
 	entity.player_name_size_limit = config.current_config.damage_meter_UI.settings.player_name_size_limit;
 
@@ -231,7 +234,7 @@ function damage_UI_entity.draw(player, position_on_screen, opacity_scale, top_da
 end
 
 function damage_UI_entity.init_module()
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
 	players = require("MHR_Overlay.Damage_Meter.players");

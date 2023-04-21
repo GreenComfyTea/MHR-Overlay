@@ -1,8 +1,7 @@
 local drawing = {};
 
 local config;
-local table_helpers;
-local unicode_helpers;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -32,6 +31,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 drawing.font = nil;
 
@@ -77,7 +79,7 @@ function drawing.limit_text_size(text, size_limit)
 			break
 		else
 			local old_limited_text = limited_text;
-			limited_text = unicode_helpers.sub(limited_text, 1, -5) .. "...";
+			limited_text = utils.unicode.sub(limited_text, 1, -5) .. "...";
 
 			if limited_text == old_limited_text then
 				break
@@ -332,8 +334,7 @@ end
 
 function drawing.init_module()
 	config = require("MHR_Overlay.Misc.config");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
-	unicode_helpers = require("MHR_Overlay.Misc.unicode_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 end
 
 return drawing;

@@ -1,6 +1,6 @@
 local bar_customization = {};
 
-local table_helpers;
+local utils;
 local config;
 local screen;
 local players;
@@ -42,6 +42,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 function bar_customization.draw(bar_name, bar)
 	if bar == nil then
@@ -96,7 +99,7 @@ function bar_customization.draw(bar_name, bar)
 
 
 			changed, index = imgui.combo(language.current_language.customization_menu.style,
-				table_helpers.find_index(customization_menu.outline_styles,
+				utils.table.find_index(customization_menu.outline_styles,
 					bar.outline.style),
 				customization_menu.displayed_outline_styles);
 			bar_changed = bar_changed or changed;
@@ -189,7 +192,7 @@ function bar_customization.draw(bar_name, bar)
 end
 
 function bar_customization.init_module()
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");

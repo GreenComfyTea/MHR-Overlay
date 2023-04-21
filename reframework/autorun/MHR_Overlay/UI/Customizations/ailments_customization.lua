@@ -1,6 +1,6 @@
 local ailments_customization = {};
 
-local table_helpers;
+local utils;
 local config;
 local screen;
 local players;
@@ -43,6 +43,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 function ailments_customization.draw(cached_config)
 	local changed = false;
@@ -140,7 +143,7 @@ function ailments_customization.draw(cached_config)
 		if imgui.tree_node(language.current_language.customization_menu.sorting) then
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.type, 
-				table_helpers.find_index(customization_menu.ailments_sorting_types, cached_config.sorting.type),
+				utils.table.find_index(customization_menu.ailments_sorting_types, cached_config.sorting.type),
 				customization_menu.displayed_ailments_sorting_types);
 
 			config_changed = config_changed or changed;
@@ -363,7 +366,7 @@ function ailments_customization.draw(cached_config)
 end
 
 function ailments_customization.init_module()
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");

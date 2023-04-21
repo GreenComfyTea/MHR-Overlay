@@ -1,6 +1,6 @@
 local rage_UI_entity = {};
 
-local table_helpers;
+local utils;
 local drawing;
 local language;
 local config;
@@ -33,6 +33,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 function rage_UI_entity.new(visibility, bar, text_label, value_label, percentage_label, timer_label)
 	local entity = {};
@@ -40,11 +43,11 @@ function rage_UI_entity.new(visibility, bar, text_label, value_label, percentage
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
 	entity.visibility = visibility;
-	entity.bar = table_helpers.deep_copy(bar);
-	entity.text_label = table_helpers.deep_copy(text_label);
-	entity.value_label = table_helpers.deep_copy(value_label);
-	entity.percentage_label = table_helpers.deep_copy(percentage_label);
-	entity.timer_label = table_helpers.deep_copy(timer_label);
+	entity.bar = utils.table.deep_copy(bar);
+	entity.text_label = utils.table.deep_copy(text_label);
+	entity.value_label = utils.table.deep_copy(value_label);
+	entity.percentage_label = utils.table.deep_copy(percentage_label);
+	entity.timer_label = utils.table.deep_copy(timer_label);
 
 	entity.bar.offset.x = entity.bar.offset.x * global_scale_modifier;
 	entity.bar.offset.y = entity.bar.offset.y * global_scale_modifier;
@@ -103,7 +106,7 @@ function rage_UI_entity.draw(monster, rage_UI, position_on_screen, opacity_scale
 end
 
 function rage_UI_entity.init_module()
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");

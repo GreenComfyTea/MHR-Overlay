@@ -1,6 +1,6 @@
 local ailment_buildup_UI_entity = {};
 
-local table_helpers;
+local utils;
 local drawing;
 local config;
 local players;
@@ -34,6 +34,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 function ailment_buildup_UI_entity.new(buildup_bar, highlighted_buildup_bar, ailment_name_label, player_name_label,
                                        buildup_value_label, buildup_percentage_label, total_buildup_label,
@@ -43,14 +46,14 @@ function ailment_buildup_UI_entity.new(buildup_bar, highlighted_buildup_bar, ail
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
 	--entity.visibility = visibility;
-	entity.buildup_bar = table_helpers.deep_copy(buildup_bar);
-	entity.highlighted_buildup_bar = table_helpers.deep_copy(highlighted_buildup_bar);
-	entity.ailment_name_label = table_helpers.deep_copy(ailment_name_label);
-	entity.player_name_label = table_helpers.deep_copy(player_name_label);
-	entity.buildup_value_label = table_helpers.deep_copy(buildup_value_label);
-	entity.buildup_percentage_label = table_helpers.deep_copy(buildup_percentage_label);
-	entity.total_buildup_label = table_helpers.deep_copy(total_buildup_label);
-	entity.total_buildup_value_label = table_helpers.deep_copy(total_buildup_value_label);
+	entity.buildup_bar = utils.table.deep_copy(buildup_bar);
+	entity.highlighted_buildup_bar = utils.table.deep_copy(highlighted_buildup_bar);
+	entity.ailment_name_label = utils.table.deep_copy(ailment_name_label);
+	entity.player_name_label = utils.table.deep_copy(player_name_label);
+	entity.buildup_value_label = utils.table.deep_copy(buildup_value_label);
+	entity.buildup_percentage_label = utils.table.deep_copy(buildup_percentage_label);
+	entity.total_buildup_label = utils.table.deep_copy(total_buildup_label);
+	entity.total_buildup_value_label = utils.table.deep_copy(total_buildup_value_label);
 
 	entity.buildup_bar.offset.x = entity.buildup_bar.offset.x * global_scale_modifier;
 	entity.buildup_bar.offset.y = entity.buildup_bar.offset.y * global_scale_modifier;
@@ -115,7 +118,7 @@ function ailment_buildup_UI_entity.draw(player, player_buildup, ailment_buildup_
 end
 
 function ailment_buildup_UI_entity.init_module()
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
 	players = require("MHR_Overlay.Damage_Meter.players");

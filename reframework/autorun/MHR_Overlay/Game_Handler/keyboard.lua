@@ -37,6 +37,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 local game_keyboard_type_def = sdk.find_type_definition("snow.GameKeyboard");
 local hard_keyboard_field = game_keyboard_type_def:get_field("hardKeyboard");

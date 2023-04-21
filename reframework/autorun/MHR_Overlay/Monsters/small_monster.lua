@@ -3,7 +3,7 @@ local small_monster = {};
 local singletons;
 local customization_menu;
 local config;
-local table_helpers;
+local utils;
 local health_UI_entity;
 local stamina_UI_entity;
 local screen;
@@ -41,6 +41,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 small_monster.list = {};
 
@@ -113,7 +116,7 @@ function small_monster.init_UI(monster)
 
 	local monster_UI = monster.UI;
 
-	monster_UI.name_label = table_helpers.deep_copy(cached_config.monster_name_label);
+	monster_UI.name_label = utils.table.deep_copy(cached_config.monster_name_label);
 	
 	monster_UI.name_label.offset.x = monster_UI.name_label.offset.x * global_scale_modifier;
 	monster_UI.name_label.offset.y = monster_UI.name_label.offset.y * global_scale_modifier;
@@ -250,7 +253,7 @@ function small_monster.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	config = require("MHR_Overlay.Misc.config");
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	screen = require("MHR_Overlay.Game_Handler.screen");

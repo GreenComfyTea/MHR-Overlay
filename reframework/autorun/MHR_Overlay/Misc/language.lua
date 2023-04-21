@@ -1,6 +1,6 @@
 local language = {};
 
-local table_helpers;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -30,6 +30,9 @@ local imgui = imgui;
 local draw = draw;
 local Vector2f = Vector2f;
 local reframework = reframework;
+local os = os;
+local ValueType = ValueType;
+local package = package;
 
 language.language_folder = "MHR Overlay\\languages\\";
 
@@ -523,7 +526,7 @@ function language.load()
 			log.info("[MHR Overlay] " .. language_file_name .. ".json loaded successfully");
 			table.insert(language.language_names, language_name);
 
-			local merged_language = table_helpers.merge(language.default_language, loaded_language);
+			local merged_language = utils.table.merge(language.default_language, loaded_language);
 			table.insert(language.languages, merged_language);
 
 			language.save(language_file_name, merged_language);
@@ -553,7 +556,7 @@ function language.update(index)
 end
 
 function language.init_module()
-	table_helpers = require("MHR_Overlay.Misc.table_helpers");
+	utils = require("MHR_Overlay.Misc.utils");
 	
 	language.save_default();
 	language.load();
