@@ -826,11 +826,12 @@ function this.init()
 			language.current_language.parts.head,
 			language.current_language.parts.torso,
 			language.current_language.parts.wings,
-			language.current_language.parts.wingclaws,
+			language.current_language.parts.right_wingclaw,
 			language.current_language.parts.forelegs,
 			language.current_language.parts.hind_legs,
 			language.current_language.parts.tail,
-			language.current_language.parts.antenna
+			language.current_language.parts.antenna,
+			language.current_language.parts.left_wingclaw
 		},
 
 		[2072] = -- Risen Kushala Daora 2072
