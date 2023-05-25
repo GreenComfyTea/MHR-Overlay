@@ -160,7 +160,7 @@ function this.reload_font(pop_push)
 
 		font_range = this.full_font_range;
 	end
-
+	
 	this.font = imgui.load_font(cached_language.font_name, config.current_config.global_settings.menu_font.size, font_range);
 
 	if pop_push then
@@ -449,7 +449,7 @@ function this.draw()
 
 	if this.menu_font_changed and (apply_font_requested or config_changed) then
 		this.menu_font_changed = false;
-		this.reload_font(false);
+		this.reload_font();
 	end
 
 	if modules_changed or global_settings_changed or small_monster_UI_changed or large_monster_dynamic_UI_changed or
@@ -2293,7 +2293,7 @@ function this.init_module()
 	module_visibility_customization = require("MHR_Overlay.UI.Customizations.module_visibility_customization");
 
 	this.init();
-	this.reload_font(false);
+	this.reload_font();
 end
 
 return this;
