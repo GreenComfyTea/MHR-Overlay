@@ -36,11 +36,47 @@ local package = package;
 
 this.language_folder = "MHR Overlay\\languages\\";
 
+--[[
+	EXAMPLE: 
+	unicode_glyph_ranges = {
+		0x0020, 0x00FF, -- Basic Latin + Latin Supplement
+		0x2000, 0x206F, -- General Punctuation
+		0x3000, 0x30FF, -- CJK Symbols and Punctuations, Hiragana, Katakana
+		0x31F0, 0x31FF, -- Katakana Phonetic Extensions
+		0x4e00, 0x9FAF, -- CJK Ideograms
+		0xFF00, 0xFFEF, -- Half-width characters
+		0
+	},
+]]
+
+--[[
+	EXAMPLE: 
+	unicode_glyph_ranges = {
+		0x0020, 0x00FF, -- Basic Latin + Latin Supplement
+		0x0400, 0x052F, -- Cyrillic
+		0x2000, 0x206F, -- General Punctuation
+		0xFF00, 0xFFEF, -- Half-width characters
+		0
+	},
+]]
+
+--[[
+	EXAMPLE: 
+	unicode_glyph_ranges = {
+		0x0020, 0x00FF, -- Basic Latin + Latin Supplement
+		0x1100, 0x11FF, -- Hangul Jamo
+		0x2000, 0x206F, -- General Punctuation
+		0x3130, 0x318F, -- Hangul Compatibility Jamo
+		0xAC00, 0xD7AF, -- Hangul Syllables
+		0xFF00, 0xFFEF, -- Half-width characters
+		0
+	},
+]]
+
 this.current_language = {};
-
-
 this.default_language = {
-	font_name = "NotoSansKR-Bold.otf",
+	font_name = "",
+	unicode_glyph_ranges = {0},
 	parts = {
 		head = "Head",
 		neck = "Neck",

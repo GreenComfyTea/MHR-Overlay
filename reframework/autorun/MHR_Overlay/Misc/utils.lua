@@ -215,6 +215,14 @@ function this.number.round(value)
 	return math.floor(value + 0.5);
 end
 
+function this.number.is_odd(value)
+	return value % 2 ~= 0;
+end
+
+function this.number.is_even(value)
+	return value % 2 == 0;
+end
+
 function this.string.trim(str)
 	return str:match("^%s*(.-)%s*$");
 end

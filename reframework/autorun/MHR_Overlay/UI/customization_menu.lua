@@ -62,7 +62,7 @@ local ValueType = ValueType;
 local package = package;
 
 this.font = nil;
-this.font_range = {0x1, 0xFFFF, 0};
+this.full_font_range = {0x1, 0xFFFF, 0};
 this.is_opened = false;
 this.status = "OK";
 
@@ -146,8 +146,22 @@ this.menu_font_changed = false;
 this.config_name_input = "";
 
 function this.reload_font(pop_push)
-	this.font = imgui.load_font(language.current_language.font_name,
-		config.current_config.global_settings.menu_font.size, this.font_range);
+	local cached_language = language.current_language;
+
+	local font_range = cached_language.unicode_glyph_ranges;
+
+	if cached_language.font_name == "" then
+		font_range = nil;
+
+	elseif cached_language.unicode_glyph_ranges == nil
+	or utils.table.is_empty(cached_language.unicode_glyph_ranges)
+	or #cached_language.unicode_glyph_ranges == 1
+	or not utils.number.is_odd(#cached_language.unicode_glyph_ranges) then
+
+		font_range = this.full_font_range;
+	end
+
+	this.font = imgui.load_font(cached_language.font_name, config.current_config.global_settings.menu_font.size, font_range);
 
 	if pop_push then
 		imgui.pop_font();
@@ -321,16 +335,17 @@ function this.draw()
 	imgui.set_next_window_pos(this.window_position, 1 << 3, this.window_pivot);
 	imgui.set_next_window_size(this.window_size, 1 << 3);
 	
+	imgui.push_font(this.font);
+
 	this.is_opened = imgui.begin_window(
 		language.current_language.customization_menu.mod_name .. " v" .. config.current_config.version, this.is_opened,
 		this.window_flags);
 
 	if not this.is_opened then
+		imgui.pop_font();
 		imgui.end_window();
 		return;
 	end
-
-	imgui.push_font(this.font);
 
 	local config_changed = false;
 	local language_changed = false;

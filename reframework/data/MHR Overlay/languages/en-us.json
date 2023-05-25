@@ -303,7 +303,7 @@
         "y": "Y",
         "z": "Z"
     },
-    "font_name": "NotoSansKR-Bold.otf",
+    "font_name": "",
     "parts": {
         "abdomen": "Abdomen",
         "amatsu_unknown": "?",
@@ -372,5 +372,8 @@
         "wingclaw": "Wingclaw",
         "wingclaws": "Wingclaws",
         "wings": "Wings"
-    }
+    },
+    "unicode_glyph_ranges": [
+        0
+    ]
 }
