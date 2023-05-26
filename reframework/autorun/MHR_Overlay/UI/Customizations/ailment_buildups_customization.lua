@@ -47,6 +47,61 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
+this.ailment_buildups_sorting_types = {};
+this.displayed_ailment_buildups_sorting_types = {};
+
+this.highlighted_buildup_bar_types = {};
+this.displayed_highlighted_buildup_bar_types = {};
+
+this.buildup_bar_relative_types = {};
+this.displayed_buildup_bar_relative_types = {};
+
+function this.init()
+	local default = language.default_language.customization_menu;
+	local current = language.current_language.customization_menu;
+
+	this.ailment_buildups_sorting_types =
+	{
+		default.normal,
+		default.buildup,
+		default.buildup_percentage
+	};
+
+	this.displayed_ailment_buildups_sorting_types =
+	{
+		current.normal,
+		current.buildup,
+		current.buildup_percentage
+	};
+
+	this.highlighted_buildup_bar_types =
+	{
+		default.me,
+		default.top_buildup,
+		default.none
+	};
+
+	this.displayed_highlighted_buildup_bar_types =
+	{
+		current.me,
+		current.top_buildup,
+		current.none
+	};
+
+	this.buildup_bar_relative_types =
+	{
+		default.total_buildup,
+		default.top_buildup
+	};
+
+	
+	this.displayed_buildup_bar_relative_types =
+	{
+		current.total_buildup,
+		current.top_buildup
+	};
+end
+
 function this.draw(cached_config)
 	local changed = false;
 	local config_changed = false;
@@ -103,24 +158,24 @@ function this.draw(cached_config)
 		if imgui.tree_node(language.current_language.customization_menu.settings) then
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.highlighted_bar,
-				utils.table.find_index(customization_menu.highlighted_buildup_bar_types, cached_config.settings.highlighted_bar),
-				customization_menu.displayed_highlighted_buildup_bar_types);
+				utils.table.find_index(this.highlighted_buildup_bar_types, cached_config.settings.highlighted_bar),
+				this.displayed_highlighted_buildup_bar_types);
 
 			config_changed = config_changed or changed;
 
 			if changed then
-				cached_config.settings.highlighted_bar = customization_menu.highlighted_buildup_bar_types[index];
+				cached_config.settings.highlighted_bar = this.highlighted_buildup_bar_types[index];
 			end
 
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.buildup_bars_are_relative_to,
-				utils.table.find_index(customization_menu.displayed_buildup_bar_relative_types, cached_config.settings.buildup_bar_relative_to),
-				customization_menu.displayed_buildup_bar_relative_types);
+				utils.table.find_index(this.displayed_buildup_bar_relative_types, cached_config.settings.buildup_bar_relative_to),
+				this.displayed_buildup_bar_relative_types);
 
 			config_changed = config_changed or changed;
 
 			if changed then
-				cached_config.settings.buildup_bar_relative_to = customization_menu.displayed_buildup_bar_relative_types[index];
+				cached_config.settings.buildup_bar_relative_to = this.displayed_buildup_bar_relative_types[index];
 			end
 
 			changed, cached_config.settings.time_limit = imgui.drag_float(
@@ -134,13 +189,13 @@ function this.draw(cached_config)
 		if imgui.tree_node(language.current_language.customization_menu.sorting) then
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.type,
-				utils.table.find_index(customization_menu.ailment_buildups_sorting_types, cached_config.sorting.type),
-				customization_menu.displayed_ailment_buildups_sorting_types);
+				utils.table.find_index(this.ailment_buildups_sorting_types, cached_config.sorting.type),
+				this.displayed_ailment_buildups_sorting_types);
 			
 			config_changed = config_changed or changed;
 
 			if changed then
-				cached_config.sorting.type = customization_menu.ailment_buildups_sorting_types[index];
+				cached_config.sorting.type = this.ailment_buildups_sorting_types[index];
 			end
 
 			changed, cached_config.sorting.reversed_order = imgui.checkbox(

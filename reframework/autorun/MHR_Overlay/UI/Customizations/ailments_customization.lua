@@ -47,6 +47,27 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
+this.ailments_sorting_types = {};
+this.displayed_ailments_sorting_types = {};
+
+
+function this.init()
+	local default = language.default_language.customization_menu;
+	local current = language.current_language.customization_menu;
+
+	this.ailments_sorting_types = {
+		default.normal,
+		default.buildup,
+		default.buildup_percentage
+	};
+
+	this.displayed_ailments_sorting_types = {
+		current.normal,
+		current.buildup,
+		current.buildup_percentage
+	};
+end
+
 function this.draw(cached_config)
 	local changed = false;
 	local config_changed = false;
@@ -143,13 +164,13 @@ function this.draw(cached_config)
 		if imgui.tree_node(language.current_language.customization_menu.sorting) then
 			changed, index = imgui.combo(
 				language.current_language.customization_menu.type, 
-				utils.table.find_index(customization_menu.ailments_sorting_types, cached_config.sorting.type),
-				customization_menu.displayed_ailments_sorting_types);
+				utils.table.find_index(this.ailments_sorting_types, cached_config.sorting.type),
+				this.displayed_ailments_sorting_types);
 
 			config_changed = config_changed or changed;
 
 			if changed then
-				cached_config.sorting.type = customization_menu.ailments_sorting_types[index];
+				cached_config.sorting.type = this.ailments_sorting_types[index];
 			end
 
 			changed, cached_config.sorting.reversed_order = imgui.checkbox(

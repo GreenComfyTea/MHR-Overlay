@@ -73,51 +73,44 @@ this.window_flags = 0x10120;
 this.color_picker_flags = 327680;
 this.decimal_input_flags = 33;
 
-this.displayed_orientation_types = {};
-this.displayed_anchor_types = {};
-this.displayed_outline_styles = {};
-
-this.displayed_monster_UI_sorting_types = {};
-this.displayed_large_monster_UI_parts_sorting_types = {};
-this.displayed_large_monster_UI_parts_filter_types = {};
-this.displayed_ailments_sorting_types = {};
-this.displayed_ailment_buildups_sorting_types = {};
-this.displayed_highlighted_buildup_bar_types = {};
-this.displayed_buildup_bar_relative_types = {};
-this.displayed_buff_UI_sorting_types = {};
-
-this.displayed_damage_meter_UI_highlighted_entity_types = {};
-this.displayed_damage_meter_UI_damage_bar_relative_types = {};
-this.displayed_damage_meter_UI_my_damage_bar_location_types = {};
-this.displayed_damage_meter_UI_total_damage_location_types = {};
-this.displayed_damage_meter_UI_sorting_types = {};
-this.displayed_damage_meter_UI_dps_modes = {};
-
-this.displayed_auto_highlight_modes = {};
-
 this.orientation_types = {};
+this.displayed_orientation_types = {};
+
 this.anchor_types = {};
-this.outline_styles = {};
+this.displayed_anchor_types = {};
 
 this.monster_UI_sorting_types = {};
+this.displayed_monster_UI_sorting_types = {};
+
 this.large_monster_UI_parts_sorting_types = {};
+this.displayed_large_monster_UI_parts_sorting_types = {};
+
 this.large_monster_UI_parts_filter_types = {};
-this.ailments_sorting_types = {};
-this.ailment_buildups_sorting_types = {};
-this.highlighted_buildup_bar_types = {};
-this.buildup_bar_relative_types = {};
+this.displayed_large_monster_UI_parts_filter_types = {};
+
 this.buff_UI_sorting_types = {};
+this.displayed_buff_UI_sorting_types = {};
 
 this.damage_meter_UI_highlighted_entity_types = {};
+this.displayed_damage_meter_UI_highlighted_entity_types = {};
+
 this.damage_meter_UI_damage_bar_relative_types = {};
+this.displayed_damage_meter_UI_damage_bar_relative_types = {};
+
 this.damage_meter_UI_my_damage_bar_location_types = {};
+this.displayed_damage_meter_UI_my_damage_bar_location_types = {};
+
 this.damage_meter_UI_total_damage_location_types = {};
+this.displayed_damage_meter_UI_total_damage_location_types = {};
+
 this.damage_meter_UI_sorting_types = {};
+this.displayed_damage_meter_UI_sorting_types = {};
+
 this.damage_meter_UI_dps_modes = {};
+this.displayed_damage_meter_UI_dps_modes = {};
 
 this.auto_highlight_modes = {};
-
-
+this.displayed_auto_highlight_modes = {};
 
 this.fonts = {"Arial", "Arial Black", "Bahnschrift", "Calibri", "Cambria", "Cambria Math", "Candara",
                             "Comic Sans MS", "Consolas", "Constantia", "Corbel", "Courier New", "Ebrima",
@@ -170,165 +163,208 @@ function this.reload_font(pop_push)
 end
 
 function this.init()
-	local current = language.current_language.customization_menu;
 	local default = language.default_language.customization_menu;
+	local current = language.current_language.customization_menu;
 
-	this.displayed_orientation_types = {	current.horizontal,
-														current.vertical};
+	bar_customization.init();
+	ailments_customization.init();
+	ailment_buildups_customization.init();
 
-	this.orientation_types = {			default.horizontal,
-														default.vertical};
+	this.orientation_types = 
+	{
+		default.horizontal,
+		default.vertical
+	};
 
-	this.displayed_anchor_types = {	current.top_left,
-													current.top_right,
-													current.bottom_left,
-													current.bottom_right};
+	this.displayed_orientation_types =
+	{
+		current.horizontal,
+		current.vertical
+	};
 
-												
-	this.anchor_types = {				default.top_left,
-													default.top_right,
-													default.bottom_left,
-													default.bottom_right};
+	this.anchor_types =
+	{
+		default.top_left,
+		default.top_right,
+		default.bottom_left,
+		default.bottom_right
+	};
 
-	this.displayed_outline_styles = {	current.inside,
-													current.center,
-													current.outside};
+	this.displayed_anchor_types =
+	{
+		current.top_left,
+		current.top_right,
+		current.bottom_left,
+		current.bottom_right
+	};
 
-	this.outline_styles = {			default.inside,
-													default.center,
-													default.outside};
+	this.monster_UI_sorting_types =
+	{
+		default.normal,
+		default.health,
+		default.health_percentage,
+		default.distance
+	};									
 
-	this.displayed_monster_UI_sorting_types = {	current.normal,
-																current.health,
-																current.health_percentage,
-																current.distance};
+	this.displayed_monster_UI_sorting_types =
+	{
+		current.normal,
+		current.health,
+		current.health_percentage,
+		current.distance
+	};
 
-	this.monster_UI_sorting_types = {				default.normal,
-																default.health,
-																default.health_percentage,
-																default.distance};
+	this.large_monster_UI_parts_sorting_types =
+	{
+		default.normal,
+		default.health,
+		default.health_percentage,
+		default.flinch_count,
+		default.break_health,
+		default.break_health_percentage,
+		default.break_count,
+		default.loss_health,
+		default.loss_health_percentage
+	};
 
-	this.displayed_large_monster_UI_parts_sorting_types = {	current.normal,
-																			current.health,
-																			current.health_percentage,
-																			current.flinch_count,
-																			current.break_health,
-																			current.break_health_percentage,
-																			current.break_count,
-																			current.loss_health,
-																			current.loss_health_percentage};
+	this.displayed_large_monster_UI_parts_sorting_types =
+	{
+		current.normal,
+		current.health,
+		current.health_percentage,
+		current.flinch_count,
+		current.break_health,
+		current.break_health_percentage,
+		current.break_count,
+		current.loss_health,
+		current.loss_health_percentage
+	};
 
-	this.large_monster_UI_parts_sorting_types = {				default.normal,
-																			default.health,
-																			default.health_percentage,
-																			default.flinch_count,
-																			default.break_health,
-                                                        					default.break_health_percentage,
-																			default.break_count,
-																			default.loss_health,
-																			default.loss_health_percentage};
+	this.large_monster_UI_parts_filter_types =
+	{
+		default.current_state,
+		default.default_state
+	};
 
-	this.displayed_large_monster_UI_parts_filter_types = {	current.current_state,
-																			current.default_state};
+	this.displayed_large_monster_UI_parts_filter_types =
+	{
+		current.current_state,
+		current.default_state
+	};
 
-	this.large_monster_UI_parts_filter_types = {				default.current_state,
-																			default.default_state};
+	this.buff_UI_sorting_types =
+	{
+		default.name,
+		default.timer,
+		default.duration
+	};
 
-	this.displayed_ailments_sorting_types = {	current.normal,
-															current.buildup,
-															current.buildup_percentage};
+	this.displayed_buff_UI_sorting_types =
+	{
+		current.name,
+		current.timer,
+		current.duration
+	};
 
-	this.ailments_sorting_types = {			default.normal,
-															default.buildup,
-															default.buildup_percentage};
+	this.damage_meter_UI_highlighted_entity_types =
+	{
+		default.top_damage,
+		default.top_dps,
+		default.none
+	};
 
-	this.displayed_buff_UI_sorting_types = {	current.name,
-															current.timer,
-															current.duration};
+	this.displayed_damage_meter_UI_highlighted_entity_types =
+	{
+		current.top_damage,
+		current.top_dps,
+		current.none
+	};
 
-	this.buff_UI_sorting_types = {			default.name,
-															default.timer,
-															default.duration};
+	this.damage_meter_UI_damage_bar_relative_types =
+	{
+		default.total_damage,
+		default.top_damage
+	};
 
-	this.displayed_ailment_buildups_sorting_types = {	current.normal,
-																	current.buildup,
-																	current.buildup_percentage};
+	this.displayed_damage_meter_UI_damage_bar_relative_types =
+	{
+		current.total_damage,
+		current.top_damage
+	};
 
-	this.ailment_buildups_sorting_types = {			default.normal,
-																	default.buildup,
-																	default.buildup_percentage};
-
-	this.displayed_highlighted_buildup_bar_types = {	current.me,
-																	current.top_buildup,
-																	current.none};
-
-	this.highlighted_buildup_bar_types = {			default.me,
-																	default.top_buildup,
-																	default.none};
-
-	this.displayed_buildup_bar_relative_types = {	current.total_buildup,
-																current.top_buildup};
-
-	this.buildup_bar_relative_types = {			default.total_buildup,
-																default.top_buildup};
-
-	this.displayed_damage_meter_UI_highlighted_entity_types = {	current.top_damage,
-																				current.top_dps,
-																				current.none};
-
-	this.damage_meter_UI_highlighted_entity_types = {				default.top_damage,
-																				default.top_dps,
-																				default.none};
-
-	this.displayed_damage_meter_UI_damage_bar_relative_types = {	current.total_damage,
-																				current.top_damage};
-
-	this.damage_meter_UI_damage_bar_relative_types = {			default.total_damage,
-																				default.top_damage};
+	this.damage_meter_UI_my_damage_bar_location_types =
+	{
+		default.normal,
+		default.first,
+		default.last
+	};
 	
-	this.displayed_damage_meter_UI_my_damage_bar_location_types = {	current.normal,
-																					current.first,
-																					current.last};
+	this.displayed_damage_meter_UI_my_damage_bar_location_types =
+	{
+		current.normal,
+		current.first,
+		current.last
+	};
 
-	this.damage_meter_UI_my_damage_bar_location_types = {				default.normal,
-																					default.first,
-																					default.last};
+	this.damage_meter_UI_total_damage_location_types =
+	{
+		default.first,
+		default.last
+	};
 
-	this.displayed_damage_meter_UI_total_damage_location_types = {	current.first,
-																					current.last};
+	this.displayed_damage_meter_UI_total_damage_location_types =
+	{
+		current.first,
+		current.last
+	};
 
-	this.damage_meter_UI_total_damage_location_types = {				default.first,
-																					default.last};
+	this.damage_meter_UI_sorting_types =
+	{
+		default.normal,
+		default.damage,
+		default.dps
+	};
 
-	this.displayed_damage_meter_UI_sorting_types = {	current.normal,
-																	current.damage,
-																	current.dps};
+	this.displayed_damage_meter_UI_sorting_types =
+	{
+		current.normal,
+		current.damage,
+		current.dps
+	};
 
-	this.damage_meter_UI_sorting_types = {			default.normal,
-																	default.damage,
-																	default.dps};
+	this.damage_meter_UI_dps_modes =
+	{
+		default.first_hit,
+		default.quest_time,
+		default.join_time
+	};
 
-	this.displayed_damage_meter_UI_dps_modes = {	current.first_hit,
-																current.quest_time,
-																current.join_time};
+	this.displayed_damage_meter_UI_dps_modes =
+	{
+		current.first_hit,
+		current.quest_time,
+		current.join_time
+	};
 
-	this.damage_meter_UI_dps_modes = {			default.first_hit,
-																default.quest_time,
-																default.join_time};
+	this.auto_highlight_modes =
+	{
+		default.closest,
+		default.farthest,
+		default.lowest_health,
+		default.highest_health,
+		default.lowest_health_percentage,
+		default.highest_health_percentage
+	};
 
-	this.displayed_auto_highlight_modes = {	current.closest,
-															current.farthest,
-															current.lowest_health,
-															current.highest_health,
-															current.lowest_health_percentage,
-															current.highest_health_percentage};
-
-	this.auto_highlight_modes = {				default.closest,
-															default.farthest,
-															default.lowest_health,
-															default.highest_health,
-															default.lowest_health_percentage,
-															default.highest_health_percentage};
+	this.displayed_auto_highlight_modes =
+	{
+		current.closest,
+		current.farthest,
+		current.lowest_health,
+		current.highest_health,
+		current.lowest_health_percentage,
+		current.highest_health_percentage
+	};
 end
 
 function this.draw()

@@ -46,72 +46,124 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
+local outline_styles = {};
+local displayed_outline_styles = {};
+
+local directions = {};
+local displayed_directions = {};
+
+function this.init()
+	local default = language.default_language.customization_menu;
+	local current = language.current_language.customization_menu;
+	
+	outline_styles = {
+		default.inside,
+		default.center,
+		default.outside
+	};
+
+	displayed_outline_styles = {
+		current.inside,
+		current.center,
+		current.outside
+	};
+
+	directions = {
+		default.left_to_right,
+		default.right_to_left,
+		default.top_to_bottom,
+		default.bottom_to_top
+	};
+
+	displayed_directions = {
+		current.left_to_right,
+		current.right_to_left,
+		current.top_to_bottom,
+		current.bottom_to_top
+	};
+end
+
 function this.draw(bar_name, bar)
 	if bar == nil then
 		return false;
 	end
+
+	local cached_language = language.current_language.customization_menu;
 
 	local bar_changed = false;
 	local changed = false;
 	local index = 1;
 
 	if imgui.tree_node(bar_name) then
-		changed, bar.visibility = imgui.checkbox(language.current_language.customization_menu.visible
+		changed, bar.visibility = imgui.checkbox(cached_language.visible
 			, bar.visibility);
 		bar_changed = bar_changed or changed;
 
-		if imgui.tree_node(language.current_language.customization_menu.offset) then
-			changed, bar.offset.x = imgui.drag_float(language.current_language.customization_menu.x,
+		if imgui.tree_node(cached_language.settings) then
+			local fill_direction_index = utils.table.find_index(directions, bar.settings.fill_direction);
+			changed, fill_direction_index = imgui.combo(cached_language.fill_direction, fill_direction_index, displayed_directions);
+
+			bar_changed = bar_changed or changed;
+
+			if changed then
+				bar.settings.fill_direction = directions[fill_direction_index];
+			end
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(cached_language.offset) then
+			changed, bar.offset.x = imgui.drag_float(cached_language.x,
 				bar.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 			bar_changed = bar_changed or changed;
 
-			changed, bar.offset.y = imgui.drag_float(language.current_language.customization_menu.y,
+			changed, bar.offset.y = imgui.drag_float(cached_language.y,
 				bar.offset.y, 0.1, -screen.height, screen.height, "%.1f");
 			bar_changed = bar_changed or changed;
 
 			imgui.tree_pop();
 		end
 
-		if imgui.tree_node(language.current_language.customization_menu.size) then
-			changed, bar.size.width = imgui.drag_float(language.current_language.customization_menu.width,
+		if imgui.tree_node(cached_language.size) then
+			changed, bar.size.width = imgui.drag_float(cached_language.width,
 				bar.size.width, 0.1, 0, screen.width, "%.1f");
 			bar_changed = bar_changed or changed;
 
-			changed, bar.size.height = imgui.drag_float(language.current_language.customization_menu.height,
+			changed, bar.size.height = imgui.drag_float(cached_language.height,
 				bar.size.height, 0.1, 0, screen.height, "%.1f");
 			bar_changed = bar_changed or changed;
 
 			imgui.tree_pop();
 		end
 
-		if imgui.tree_node(language.current_language.customization_menu.outline) then
-			changed, bar.outline.visibility = imgui.checkbox(language.current_language.customization_menu.visible
+		if imgui.tree_node(cached_language.outline) then
+			changed, bar.outline.visibility = imgui.checkbox(cached_language.visible
 				, bar.outline.visibility);
 			bar_changed = bar_changed or changed;
 
-			changed, bar.outline.thickness = imgui.drag_float(language.current_language.customization_menu.thickness,
+			changed, bar.outline.thickness = imgui.drag_float(cached_language.thickness,
 				bar.outline.thickness, 0.1, 0, screen.width, "%.1f");
 			bar_changed = bar_changed or changed;
 
-			changed, bar.outline.offset = imgui.drag_float(language.current_language.customization_menu.offset,
+			changed, bar.outline.offset = imgui.drag_float(cached_language.offset,
 				bar.outline.offset, 0.1, -screen.height, screen.height, "%.1f");
 			bar_changed = bar_changed or changed;
 
 
-			changed, index = imgui.combo(language.current_language.customization_menu.style,
-				utils.table.find_index(customization_menu.outline_styles,
+			changed, index = imgui.combo(cached_language.style,
+				utils.table.find_index(this.outline_styles,
 					bar.outline.style),
-				customization_menu.displayed_outline_styles);
+					this.displayed_outline_styles);
 			bar_changed = bar_changed or changed;
 
 			if changed then
-				bar.outline.style = customization_menu.outline_styles[index];
+				bar.outline.style = this.outline_styles[index];
 			end
 
 			imgui.tree_pop();
 		end
 
-		if imgui.tree_node(language.current_language.customization_menu.colors) then
+		if imgui.tree_node(cached_language.colors) then
 			local colors = nil;
 			if bar.colors ~= nil then
 				colors = bar.colors;
@@ -119,7 +171,7 @@ function this.draw(bar_name, bar)
 				colors = bar.normal_colors;
 			end
 
-			if imgui.tree_node(language.current_language.customization_menu.foreground) then
+			if imgui.tree_node(cached_language.foreground) then
 				changed, colors.foreground = imgui.color_picker_argb("", colors.foreground,
 					customization_menu.color_picker_flags);
 				bar_changed = bar_changed or changed;
@@ -127,7 +179,7 @@ function this.draw(bar_name, bar)
 				imgui.tree_pop();
 			end
 
-			if imgui.tree_node(language.current_language.customization_menu.background) then
+			if imgui.tree_node(cached_language.background) then
 				changed, colors.background = imgui.color_picker_argb("", colors.background,
 					customization_menu.color_picker_flags);
 				bar_changed = bar_changed or changed;
@@ -135,7 +187,7 @@ function this.draw(bar_name, bar)
 				imgui.tree_pop();
 			end
 
-			if imgui.tree_node(language.current_language.customization_menu.outline) then
+			if imgui.tree_node(cached_language.outline) then
 				changed, colors.outline = imgui.color_picker_argb("", colors.outline,
 					customization_menu.color_picker_flags);
 				bar_changed = bar_changed or changed;
@@ -144,8 +196,8 @@ function this.draw(bar_name, bar)
 			end
 
 			if bar.capture_colors ~= nil then
-				if imgui.tree_node(language.current_language.customization_menu.monster_can_be_captured) then
-					if imgui.tree_node(language.current_language.customization_menu.foreground) then
+				if imgui.tree_node(cached_language.monster_can_be_captured) then
+					if imgui.tree_node(cached_language.foreground) then
 						changed, bar.capture_colors.foreground = imgui.color_picker_argb("",
 							bar.capture_colors.foreground
 							,
@@ -155,7 +207,7 @@ function this.draw(bar_name, bar)
 						imgui.tree_pop();
 					end
 
-					if imgui.tree_node(language.current_language.customization_menu.background) then
+					if imgui.tree_node(cached_language.background) then
 						changed, bar.capture_colors.background = imgui.color_picker_argb("",
 							bar.capture_colors.background
 							,
@@ -165,7 +217,7 @@ function this.draw(bar_name, bar)
 						imgui.tree_pop();
 					end
 
-					if imgui.tree_node(language.current_language.customization_menu.outline) then
+					if imgui.tree_node(cached_language.outline) then
 						changed, bar.capture_colors.outline = imgui.color_picker_argb("",
 							bar.capture_colors.outline
 							,
@@ -182,7 +234,7 @@ function this.draw(bar_name, bar)
 			imgui.tree_pop();
 		end
 
-		changed = line_customization.draw(language.current_language.customization_menu.capture_line, bar.capture_line);
+		changed = line_customization.draw(cached_language.capture_line, bar.capture_line);
 		bar_changed = bar_changed or changed;
 
 		imgui.tree_pop();
