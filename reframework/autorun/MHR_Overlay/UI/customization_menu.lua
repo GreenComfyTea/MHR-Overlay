@@ -838,6 +838,7 @@ function this.draw_global_settings(apply_font_requested, language_changed)
 		if changed then
 			cached_config.language = language.language_names[index];
 			language.update(index);
+			part_names.init();
 			this.init();
 
 			language_changed = true;

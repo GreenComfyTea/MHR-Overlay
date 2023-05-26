@@ -337,6 +337,7 @@ function this.init_UI(monster, monster_UI, cached_config)
 	);
 
 	ailments.init_ailment_names(monster.ailments);
+	body_part.init_part_names(monster.id, monster.parts);
 end
 
 local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
@@ -731,7 +732,6 @@ function this.update_parts(enemy, monster, physical_param)
 		return;
 	end
 
-
 	for i = 0, enemy_parts_info_array_length - 1 do
 		local part_id = i + 1;
 
@@ -744,7 +744,7 @@ function this.update_parts(enemy, monster, physical_param)
 		if part == nil then
 			local part_name = part_names.get_part_name(monster.id, part_id);
 			if part_name == nil then
-				goto continue
+				goto continue;
 			else
 				part = body_part.new(part_id, part_name);
 				monster.parts[part_id] = part;

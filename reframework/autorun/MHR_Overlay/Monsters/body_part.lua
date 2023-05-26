@@ -11,6 +11,7 @@ local screen;
 local drawing;
 local part_names;
 local time;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -71,6 +72,12 @@ function this.new(id, name)
 	part.last_change_time = time.total_elapsed_script_seconds;
 
 	return part;
+end
+
+function this.init_part_names(monster_id, parts)
+	for part_id, part in pairs(parts) do
+		part.name = part_names.get_part_name(monster_id, part_id);
+	end
 end
 
 function this.update_flinch(part, part_current, part_max)
@@ -352,6 +359,7 @@ function this.init_module()
 	drawing = require("MHR_Overlay.UI.drawing");
 	part_names = require("MHR_Overlay.Misc.part_names");
 	time = require("MHR_Overlay.Game_Handler.time");
+	utils = require("MHR_Overlay.Misc.utils");
 end
 
 return this;
