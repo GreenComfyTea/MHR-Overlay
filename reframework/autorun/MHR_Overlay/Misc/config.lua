@@ -405,6 +405,11 @@ function this.init_default()
 	
 				bar = {
 					visibility = true,
+
+					settings = {
+						fill_direction = "Left to Right"
+					},
+
 					offset = {
 						x = 0,
 						y = 0
@@ -597,6 +602,11 @@ function this.init_default()
 	
 				bar = {
 					visibility = true,
+
+					settings = {
+						fill_direction = "Left to Right"
+					},
+
 					offset = {
 						x = 0,
 						y = 14
@@ -783,6 +793,11 @@ function this.init_default()
 	
 				buildup_bar = {
 					visibility = true,
+
+					settings = {
+						fill_direction = "Left to Right"
+					},
+
 					offset = {
 						x = 0,
 						y = 17
@@ -809,6 +824,11 @@ function this.init_default()
 	
 				highlighted_buildup_bar = {
 					visibility = true,
+
+					settings = {
+						fill_direction = "Left to Right"
+					},
+
 					offset = {
 						x = 0,
 						y = 17
@@ -962,6 +982,11 @@ function this.init_default()
 	
 					bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 0
@@ -1104,6 +1129,11 @@ function this.init_default()
 	
 					bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 17
@@ -1224,6 +1254,11 @@ function this.init_default()
 	
 					bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 17
@@ -1385,6 +1420,11 @@ function this.init_default()
 	
 						bar = {
 							visibility = true,
+
+							settings = {
+								fill_direction = "Left to Right"
+							},
+
 							offset = {
 								x = 0,
 								y = 6
@@ -1486,6 +1526,11 @@ function this.init_default()
 	
 						bar = {
 							visibility = true,
+
+							settings = {
+								fill_direction = "Left to Right"
+							},
+
 							offset = {
 								x = 0,
 								y = 7
@@ -1586,6 +1631,11 @@ function this.init_default()
 	
 						bar = {
 							visibility = true,
+
+							settings = {
+								fill_direction = "Left to Right"
+							},
+
 							offset = {
 								x = 0,
 								y = 7
@@ -1782,6 +1832,11 @@ function this.init_default()
 	
 					bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 14
@@ -1965,6 +2020,11 @@ function this.init_default()
 	
 					buildup_bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 17
@@ -1991,6 +2051,11 @@ function this.init_default()
 	
 					highlighted_buildup_bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 17
@@ -2148,6 +2213,11 @@ function this.init_default()
 	
 					bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 0
@@ -2289,6 +2359,11 @@ function this.init_default()
 	
 					bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 0
@@ -2409,6 +2484,11 @@ function this.init_default()
 	
 					bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 0
@@ -2570,6 +2650,11 @@ function this.init_default()
 	
 						bar = {
 							visibility = true,
+
+							settings = {
+								fill_direction = "Left to Right"
+							},
+
 							offset = {
 								x = 0,
 								y = 6
@@ -2671,6 +2756,11 @@ function this.init_default()
 	
 						bar = {
 							visibility = true,
+
+							settings = {
+								fill_direction = "Left to Right"
+							},
+
 							offset = {
 								x = 0,
 								y = 7
@@ -2771,6 +2861,11 @@ function this.init_default()
 	
 						bar = {
 							visibility = true,
+
+							settings = {
+								fill_direction = "Left to Right"
+							},
+
 							offset = {
 								x = 0,
 								y = 7
@@ -2968,6 +3063,11 @@ function this.init_default()
 	
 					bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 14
@@ -3151,6 +3251,11 @@ function this.init_default()
 	
 					buildup_bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 17
@@ -3177,6 +3282,11 @@ function this.init_default()
 	
 					highlighted_buildup_bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 17
@@ -3320,6 +3430,11 @@ function this.init_default()
 	
 					bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 0
@@ -3461,6 +3576,11 @@ function this.init_default()
 	
 					bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 10 - 10,
 							y = 17
@@ -3581,6 +3701,11 @@ function this.init_default()
 	
 					bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 17
@@ -3742,6 +3867,11 @@ function this.init_default()
 	
 						bar = {
 							visibility = true,
+
+							settings = {
+								fill_direction = "Left to Right"
+							},
+
 							offset = {
 								x = 0,
 								y = 6
@@ -3843,6 +3973,11 @@ function this.init_default()
 	
 						bar = {
 							visibility = true,
+
+							settings = {
+								fill_direction = "Left to Right"
+							},
+
 							offset = {
 								x = 0,
 								y = 7
@@ -3943,6 +4078,11 @@ function this.init_default()
 	
 						bar = {
 							visibility = true,
+
+							settings = {
+								fill_direction = "Left to Right"
+							},
+
 							offset = {
 								x = 0,
 								y = 7
@@ -3967,7 +4107,6 @@ function this.init_default()
 							}
 						}
 					}
-	
 				},
 	
 				ailments = {
@@ -4139,6 +4278,11 @@ function this.init_default()
 	
 					bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 14
@@ -4322,6 +4466,11 @@ function this.init_default()
 	
 					buildup_bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 17
@@ -4348,6 +4497,11 @@ function this.init_default()
 	
 					highlighted_buildup_bar = {
 						visibility = true,
+
+						settings = {
+							fill_direction = "Left to Right"
+						},
+
 						offset = {
 							x = 0,
 							y = 17
@@ -4607,6 +4761,11 @@ function this.init_default()
 	
 				damage_bar = {
 					visibility = true,
+
+					settings = {
+						fill_direction = "Left to Right"
+					},
+
 					offset = {
 						x = 0,
 						y = 17
@@ -4767,6 +4926,11 @@ function this.init_default()
 	
 				damage_bar = {
 					visibility = true,
+
+					settings = {
+						fill_direction = "Left to Right"
+					},
+
 					offset = {
 						x = 0,
 						y = 17
@@ -4879,6 +5043,11 @@ function this.init_default()
 	
 				damage_bar = {
 					visibility = true,
+
+					settings = {
+						fill_direction = "Left to Right"
+					},
+
 					offset = {
 						x = 0,
 						y = 17
@@ -5012,6 +5181,11 @@ function this.init_default()
 	
 				damage_bar = {
 					visibility = true,
+
+					settings = {
+						fill_direction = "Left to Right"
+					},
+
 					offset = {
 						x = 0,
 						y = 17
@@ -5145,6 +5319,11 @@ function this.init_default()
 	
 				damage_bar = {
 					visibility = true,
+
+					settings = {
+						fill_direction = "Left to Right"
+					},
+
 					offset = {
 						x = 0,
 						y = 17
@@ -5278,6 +5457,11 @@ function this.init_default()
 	
 				damage_bar = {
 					visibility = true,
+
+					settings = {
+						fill_direction = "Left to Right"
+					},
+
 					offset = {
 						x = 0,
 						y = 17
@@ -5505,6 +5689,11 @@ function this.init_default()
 	
 				damage_bar = {
 					visibility = true,
+
+					settings = {
+						fill_direction = "Left to Right"
+					},
+
 					offset = {
 						x = 0,
 						y = 17
@@ -5639,6 +5828,11 @@ function this.init_default()
 
 			bar = {
 				visibility = true,
+
+				settings = {
+					fill_direction = "Left to Right"
+				},
+
 				offset = {
 					x = 0,
 					y = 17

@@ -541,7 +541,13 @@ this.default_language = {
 
 		filter_mode = "Filter Mode",
 		current_state = "Current State",
-		default_state = "Default State"
+		default_state = "Default State",
+
+		fill_direction = "Fill Direction",
+		left_to_right = "Left to Right",
+		right_to_left = "Right to Left",
+		top_to_bottom = "Top to Bottom",
+		bottom_to_top = "Bottom to Top",
 	}
 };
 

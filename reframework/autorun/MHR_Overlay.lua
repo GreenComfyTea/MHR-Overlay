@@ -128,7 +128,6 @@ small_monster.init_module();
 ailment_hook.init_module();
 ailment_buildup.init_module();
 
-customization_menu.init_module();
 label_customization.init_module();
 bar_customization.init_module();
 line_customization.init_module();
@@ -143,6 +142,7 @@ body_parts_customization.init_module();
 ailments_customization.init_module();
 ailment_buildups_customization.init_module();
 module_visibility_customization.init_module();
+customization_menu.init_module();
 
 drawing.init_module();
 
