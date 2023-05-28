@@ -362,6 +362,7 @@ local get_capture_hp_vital_method = physical_param_type:get_method("get_CaptureH
 local vital_param_type = get_vital_method:get_return_type();
 local get_current_method = vital_param_type:get_method("get_Current");
 local get_max_method = vital_param_type:get_method("get_Max");
+local is_enable_method = vital_param_type:get_method("isEnable");
 
 local stamina_param_type = stamina_param_field:get_type();
 local is_tired_method = stamina_param_type:get_method("isTired");
@@ -390,6 +391,37 @@ local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
 local system_array_type_def = sdk.find_type_definition("System.Array");
 local length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
+
+-- Lucent Nargacuga
+local em037_02Character_type_def = sdk.find_type_definition("snow.enemy.em037.Em037_02Character");
+local is_stealth_method = em037_02Character_type_def:get_method("isStealth");
+
+-- Risen Chameleos and CHameleos
+local Em025Character_base_type_Def =  sdk.find_type_definition("snow.enemy.em025.Em025CharacterBase");
+local get_stealth_ctrl_method = Em025Character_base_type_Def:get_method("get_StealthCtrl");
+
+local stealth_ctrl_type_def = get_stealth_ctrl_method:get_return_type();
+local get_current_status_method = stealth_ctrl_type_def:get_method("get_CurrentStatus");
+
+local damage_param_type_def = damage_param_field:get_type();
+local enemy_parts_damage_info_field = damage_param_type_def:get_field("_EnemyPartsDamageInfo");
+
+local enemy_parts_damage_info_type_def = enemy_parts_damage_info_field:get_type();
+local get_part_info_array_method = enemy_parts_damage_info_type_def:get_method("get_PartsInfo");
+
+local enemy_parts_info_type_def = sdk.find_type_definition("snow.enemy.EnemyDamageParam.EnemyPartsDamageInfo.EnemyPartsInfo");
+local get_parts_break_damage_level_method = enemy_parts_info_type_def:get_method("get_PartsBreakDamageLevel");
+local get_parts_break_damage_max_level_method = enemy_parts_info_type_def:get_method("get_PartsBreakDamageMaxLevel");
+local get_parts_loss_state_method = enemy_parts_info_type_def:get_method("get_PartsLossState");
+
+local mystery_param_type_def = mystery_param_field:get_type();
+local core_parts_array_field = mystery_param_type_def:get_field("CoreParts");
+
+local enemy_mystery_core_parts_type_def = sdk.find_type_definition("snow.enemy.EnemyMysteryCoreParts");
+local core_parts_get_vital_method = enemy_mystery_core_parts_type_def:get_method("get_Vital");
+local core_parts_get_is_active_method = enemy_mystery_core_parts_type_def:get_method("get_IsActive");
+local core_parts_get_dying_vital_threashold_method = enemy_mystery_core_parts_type_def:get_method("get_DyingVitalThreashold");
+
 
 function this.update_position(enemy, monster)
 	if not config.current_config.large_monster_UI.dynamic.enabled and
@@ -456,15 +488,15 @@ function this.update(enemy, monster)
 	if monster.can_go_stealth then
 		-- Lucent Nargacuga
 		if monster.id == 549 then
-			local is_stealth = enemy:call("isStealth");
+			local is_stealth = is_stealth_method:call(enemy);
 			if is_stealth ~= nil then
 				monster.is_stealth = is_stealth;
 			end
 		-- Chameleos and Risen Chameleos
 		elseif monster.id == 25 or monster.id == 2073 then
-			local stealth_controller = enemy:call("get_StealthCtrl");
+			local stealth_controller = get_stealth_ctrl_method:call(enemy);
 			if stealth_controller ~= nil then
-				local status = stealth_controller:call("get_CurrentStatus");
+				local status = get_current_status_method:call(stealth_controller);
 
 				if status >= 2 then
 					monster.is_stealth = true;
@@ -722,13 +754,13 @@ function this.update_parts(enemy, monster, physical_param)
 		return;
 	end
 
-	local enemy_parts_damage_info = damage_param:get_field("_EnemyPartsDamageInfo");
+	local enemy_parts_damage_info = enemy_parts_damage_info_field:get_data(damage_param);
 	if enemy_parts_damage_info == nil then
 		customization_menu.status = "No parts damage info";
 		return;
 	end
 
-	local core_parts_array = enemy_parts_damage_info:call("get_PartsInfo");
+	local core_parts_array = get_part_info_array_method:call(enemy_parts_damage_info);
 	if core_parts_array == nil then
 		customization_menu.status = "No parts damage info array";
 		return;
@@ -761,10 +793,10 @@ function this.update_parts(enemy, monster, physical_param)
 		if cached_config.dynamic.body_parts.part_health.visibility
 		or cached_config.static.body_parts.part_health.visibility
 		or cached_config.highlighted.body_parts.part_health.visibility then
-			local part_vital = physical_param:call("getVital", 1, i);
+			local part_vital = get_vital_method:call(physical_param, 1, i);
 			if part_vital ~= nil then
-				local part_current = part_vital:call("get_Current") or -1;
-				local part_max = part_vital:call("get_Max") or -1;
+				local part_current = get_current_method:call(part_vital) or -1;
+				local part_max = get_max_method:call(part_vital) or -1;
 
 				body_part.update_flinch(part, part_current, part_max);
 
@@ -774,16 +806,16 @@ function this.update_parts(enemy, monster, physical_param)
 		if cached_config.dynamic.body_parts.part_break.visibility
 		or cached_config.static.body_parts.part_break.visibility
 		or cached_config.highlighted.body_parts.part_break.visibility then
-			local part_break_vital = physical_param:call("getVital", 2, i);
+			local part_break_vital = get_vital_method:call(physical_param, 2, i);
 			if part_break_vital ~= nil then
-				local part_break_current = part_break_vital:call("get_Current") or -1;
-				local part_break_max = part_break_vital:call("get_Max") or -1;
+				local part_break_current = get_current_method:call(part_break_vital) or -1;
+				local part_break_max = get_max_method:call(part_break_vital) or -1;
 				local part_break_count = -1;
 				local part_break_max_count = -1;
 
 				if enemy_parts_info ~= nil then
-					part_break_count = enemy_parts_info:call("get_PartsBreakDamageLevel") or part_break_count;
-					part_break_max_count = enemy_parts_info:call("get_PartsBreakDamageMaxLevel") or part_break_max_count;
+					part_break_count = get_parts_break_damage_level_method:call(enemy_parts_info) or part_break_count;
+					part_break_max_count = get_parts_break_damage_max_level_method:call(enemy_parts_info) or part_break_max_count;
 				end
 
 				body_part.update_break(part, part_break_current, part_break_max, part_break_count, part_break_max_count)
@@ -793,14 +825,14 @@ function this.update_parts(enemy, monster, physical_param)
 		if cached_config.dynamic.body_parts.part_loss.visibility
 		or cached_config.static.body_parts.part_loss.visibility
 		or cached_config.highlighted.body_parts.part_loss.visibility then
-			local part_loss_vital = physical_param:call("getVital", 3, i);
+			local part_loss_vital = get_vital_method:call(physical_param, 3, i);
 			if part_loss_vital ~= nil then
-				local part_loss_current = part_loss_vital:call("get_Current") or -1;
-				local part_loss_max = part_loss_vital:call("get_Max") or -1;
+				local part_loss_current = get_current_method:call(part_loss_vital) or -1;
+				local part_loss_max = get_max_method:call(part_loss_vital) or -1;
 				local is_severed = false;
 
 				if enemy_parts_info ~= nil then
-					local _is_severed = enemy_parts_info:call("get_PartsLossState");
+					local _is_severed = get_parts_loss_state_method:call(enemy_parts_info);
 					if _is_severed ~= nil then
 						is_severed = _is_severed;
 					end
@@ -842,7 +874,7 @@ function this.update_anomaly_parts(enemy, monster, mystery_param)
 		end
 	end
 
-	local core_parts_array = mystery_param:get_field("CoreParts");
+	local core_parts_array = core_parts_array_field:call(mystery_param);
 	if core_parts_array == nil then
 		customization_menu.status = "No core parts array";
 		return;
@@ -873,18 +905,18 @@ function this.update_anomaly_parts(enemy, monster, mystery_param)
 			end
 		end
 
-		local part_vital = core_part:call("get_Vital");
-		local part_is_active = core_part:get_IsActive();
-		local part_dying_vital_threshold = core_part:get_DyingVitalThreashold();
+		local part_vital = core_parts_get_vital_method:call(core_part);
+		local part_is_active = core_parts_get_is_active_method:call(core_part);
+		--local part_dying_vital_threshold = core_parts_get_dying_vital_threashold_method:call(core_part);
 
 		if part_is_active == nil then
 			part_is_active = false;
 		end
 
 		if part_vital ~= nil then
-			local part_current = part_vital:call("get_Current") or -1;
-			local part_max = part_vital:call("get_Max") or -1;
-			local part_is_enabled = part_vital:call("isEnable");
+			local part_current = get_current_method:call(part_vital) or -1;
+			local part_max = get_max_method:call(part_vital) or -1;
+			local part_is_enabled = is_enable_method:call(part_vital);
 
 
 			if not part_is_enabled then
