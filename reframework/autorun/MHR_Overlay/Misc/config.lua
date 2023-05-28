@@ -516,7 +516,7 @@ function this.init_default()
 				text_label = {
 					visibility = false,
 
-					text = language.current_language.UI.buildup,
+					text_format = language.current_language.UI.buildup,
 
 					offset = {
 						x = -60,
@@ -1285,11 +1285,11 @@ function this.init_default()
 				},
 	
 				body_parts = {
-					visibility = false,
+					visibility = true,
 	
 					offset = {
 						x = 10,
-						y = 45
+						y = 111
 					},
 	
 					spacing = {
@@ -1298,8 +1298,9 @@ function this.init_default()
 					},
 	
 					settings = {
-						filter_mode = "Current State",
+						render_inactive_anomaly_cores = false, 
 						hide_undamaged_parts = true,
+						filter_mode = "Current State",
 						time_limit = 15
 					},
 	
@@ -1309,13 +1310,25 @@ function this.init_default()
 					},
 	
 					filter = {
-						health_break_severe = true,
+						health_break_sever_anomaly = true,
+
+						health_break_sever = true,
+						health_break_anomaly = true,
+						health_sever_anomaly = true,
+						break_sever_anomaly = true,
+
 						health_break = true,
-						health_severe = true,
+						health_sever = true,
+						health_anomaly = true,
+
+						break_sever = true,
+						break_anomaly = true,
+						sever_anomaly = true,
+
 						health = true,
-						break_severe = true,
 						break_ = true,
-						severe = true
+						sever = true,
+						anomaly = true
 					},
 	
 					part_name_label = {
@@ -1355,7 +1368,7 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text = language.current_language.UI.HP,
+							text_format = language.current_language.UI.HP,
 							offset = {
 								x = 100,
 								y = -5
@@ -1377,7 +1390,7 @@ function this.init_default()
 
 							include = {
 								current_value = true,
-								max_value = true
+								max_value = false
 							},
 
 							text_format = "%11s", -- current_health/max_health
@@ -1460,7 +1473,7 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text = language.current_language.UI.part_break,
+							text_format = language.current_language.UI.part_break,
 							offset = {
 								x = -42,
 								y = 6
@@ -1482,7 +1495,7 @@ function this.init_default()
 
 							include = {
 								current_value = true,
-								max_value = true
+								max_value = false
 							},
 
 							text_format = "%-9s",
@@ -1549,7 +1562,7 @@ function this.init_default()
 							},
 	
 							colors = {
-								foreground = 0xB999bfff,
+								foreground = 0xB999BFFF,
 								background = 0x88000000,
 								outline = 0xC0000000
 							}
@@ -1566,7 +1579,7 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text = language.current_language.UI.part_sever,
+							text_format = language.current_language.UI.part_sever,
 							offset = {
 								x = 97,
 								y = 5
@@ -1588,7 +1601,7 @@ function this.init_default()
 
 							include = {
 								current_value = true,
-								max_value = true
+								max_value = false
 							},
 
 							text_format = "%11s",
@@ -1654,13 +1667,118 @@ function this.init_default()
 							},
 	
 							colors = {
-								foreground = 0xB9e57386,
+								foreground = 0xB9E57386,
+								background = 0x88000000,
+								outline = 0xC0000000
+							}
+						}
+					},
+
+					part_anomaly = {
+						visibility = true,
+	
+						offset = {
+							x = -10,
+							y = 0
+						},
+	
+						text_label = {
+							visibility = false,
+							text_format = language.current_language.UI.part_anomaly_core,
+							offset = {
+								x = -90,
+								y = 1
+							},
+							color = 0xFFFF6680,
+	
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+	
+						value_label = {
+							visibility = true,
+
+							include = {
+								current_value = false,
+								max_value = false
+							},
+
+							text_format = "%11s",
+
+							offset = {
+								x = -84,
+								y = 12
+							},
+
+							color = 0xFFFFFFFF,
+	
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+	
+						percentage_label = {
+							visibility = false,
+							text_format = "%5.1f%%",
+	
+							offset = {
+								x = -48,
+								y = 24
+							},
+							color = 0xFFFFFFFF,
+	
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+	
+						bar = {
+							visibility = true,
+
+							settings = {
+								fill_direction = "Bottom to Top"
+							},
+
+							offset = {
+								x = 0,
+								y = 9
+							},
+	
+							size = {
+								width = 5,
+								height = 24
+							},
+	
+							outline = {
+								visibility = true,
+								thickness = 1,
+								offset = 0,
+								style = "Center"
+							},
+	
+							colors = {
+								foreground = 0xB9E53956,
 								background = 0x88000000,
 								outline = 0xC0000000
 							}
 						}
 					}
-	
 				},
 	
 				ailments = {
@@ -1747,7 +1865,7 @@ function this.init_default()
 	
 					text_label = {
 						visibility = false,
-						text = language.current_language.UI.buildup,
+						text_format = language.current_language.UI.buildup,
 						offset = {
 							x = -60,
 							y = 7
@@ -2515,11 +2633,11 @@ function this.init_default()
 				},
 	
 				body_parts = {
-					visibility = false,
+					visibility = true,
 	
 					offset = {
 						x = 10,
-						y = 60
+						y = 111
 					},
 	
 					spacing = {
@@ -2528,8 +2646,9 @@ function this.init_default()
 					},
 	
 					settings = {
-						filter_mode = "Current State",
+						render_inactive_anomaly_cores = false, 
 						hide_undamaged_parts = true,
+						filter_mode = "Current State",
 						time_limit = 15
 					},
 	
@@ -2539,13 +2658,25 @@ function this.init_default()
 					},
 	
 					filter = {
-						health_break_severe = true,
+						health_break_sever_anomaly = true,
+
+						health_break_sever = true,
+						health_break_anomaly = true,
+						health_sever_anomaly = true,
+						break_sever_anomaly = true,
+
 						health_break = true,
-						health_severe = true,
+						health_sever = true,
+						health_anomaly = true,
+
+						break_sever = true,
+						break_anomaly = true,
+						sever_anomaly = true,
+
 						health = true,
-						break_severe = true,
 						break_ = true,
-						severe = true
+						sever = true,
+						anomaly = true
 					},
 	
 					part_name_label = {
@@ -2585,7 +2716,7 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text = language.current_language.UI.HP,
+							text_format = language.current_language.UI.HP,
 							offset = {
 								x = 100,
 								y = -5
@@ -2607,7 +2738,7 @@ function this.init_default()
 
 							include = {
 								current_value = true,
-								max_value = true
+								max_value = false
 							},
 
 							text_format = "%11s", -- current_health/max_health
@@ -2690,7 +2821,7 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text = language.current_language.UI.part_break,
+							text_format = language.current_language.UI.part_break,
 							offset = {
 								x = -42,
 								y = 6
@@ -2712,7 +2843,7 @@ function this.init_default()
 
 							include = {
 								current_value = true,
-								max_value = true
+								max_value = false
 							},
 
 							text_format = "%-9s",
@@ -2796,7 +2927,7 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text = language.current_language.UI.part_sever,
+							text_format = language.current_language.UI.part_sever,
 							offset = {
 								x = 97,
 								y = 5
@@ -2818,7 +2949,7 @@ function this.init_default()
 
 							include = {
 								current_value = true,
-								max_value = true
+								max_value = false
 							},
 
 							text_format = "%11s",
@@ -2889,8 +3020,113 @@ function this.init_default()
 								outline = 0xC0000000
 							}
 						}
-					}
+					},
+
+					part_anomaly = {
+						visibility = true,
 	
+						offset = {
+							x = -10,
+							y = 0
+						},
+	
+						text_label = {
+							visibility = false,
+							text_format = language.current_language.UI.part_anomaly_core,
+							offset = {
+								x = -90,
+								y = 1
+							},
+							color = 0xFFFF6680,
+	
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+	
+						value_label = {
+							visibility = true,
+
+							include = {
+								current_value = false,
+								max_value = false
+							},
+
+							text_format = "%11s",
+
+							offset = {
+								x = -84,
+								y = 12
+							},
+
+							color = 0xFFFFFFFF,
+	
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+	
+						percentage_label = {
+							visibility = false,
+							text_format = "%5.1f%%",
+	
+							offset = {
+								x = -48,
+								y = 24
+							},
+							color = 0xFFFFFFFF,
+	
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+	
+						bar = {
+							visibility = true,
+
+							settings = {
+								fill_direction = "Bottom to Top"
+							},
+
+							offset = {
+								x = 0,
+								y = 9
+							},
+	
+							size = {
+								width = 5,
+								height = 24
+							},
+	
+							outline = {
+								visibility = true,
+								thickness = 1,
+								offset = 0,
+								style = "Center"
+							},
+	
+							colors = {
+								foreground = 0xB9E53956,
+								background = 0x88000000,
+								outline = 0xC0000000
+							}
+						}
+					}
 				},
 	
 				ailments = {
@@ -2978,7 +3214,7 @@ function this.init_default()
 	
 					text_label = {
 						visibility = false,
-						text = language.current_language.UI.buildup,
+						text_format = language.current_language.UI.buildup,
 						offset = {
 							x = -60,
 							y = 7
@@ -3745,8 +3981,9 @@ function this.init_default()
 					},
 	
 					settings = {
-						filter_mode = "Current State",
+						render_inactive_anomaly_cores = false, 
 						hide_undamaged_parts = true,
+						filter_mode = "Current State",
 						time_limit = 15
 					},
 	
@@ -3756,13 +3993,25 @@ function this.init_default()
 					},
 	
 					filter = {
-						health_break_severe = true,
+						health_break_sever_anomaly = true,
+
+						health_break_sever = true,
+						health_break_anomaly = true,
+						health_sever_anomaly = true,
+						break_sever_anomaly = true,
+
 						health_break = true,
-						health_severe = true,
+						health_sever = true,
+						health_anomaly = true,
+
+						break_sever = true,
+						break_anomaly = true,
+						sever_anomaly = true,
+
 						health = true,
-						break_severe = true,
 						break_ = true,
-						severe = true
+						sever = true,
+						anomaly = true
 					},
 	
 					part_name_label = {
@@ -3802,7 +4051,7 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text = language.current_language.UI.HP,
+							text_format = language.current_language.UI.HP,
 							offset = {
 								x = 100,
 								y = -5
@@ -3824,7 +4073,7 @@ function this.init_default()
 
 							include = {
 								current_value = true,
-								max_value = true
+								max_value = false
 							},
 
 							text_format = "%11s", -- current_health/max_health
@@ -3907,7 +4156,7 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text = language.current_language.UI.part_break,
+							text_format = language.current_language.UI.part_break,
 							offset = {
 								x = -42,
 								y = 6
@@ -3929,7 +4178,7 @@ function this.init_default()
 
 							include = {
 								current_value = true,
-								max_value = true
+								max_value = false
 							},
 
 							text_format = "%-9s",
@@ -4013,7 +4262,7 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text = language.current_language.UI.part_sever,
+							text_format = language.current_language.UI.part_sever,
 							offset = {
 								x = 97,
 								y = 5
@@ -4035,7 +4284,7 @@ function this.init_default()
 
 							include = {
 								current_value = true,
-								max_value = true
+								max_value = false
 							},
 
 							text_format = "%11s",
@@ -4102,6 +4351,112 @@ function this.init_default()
 	
 							colors = {
 								foreground = 0xB9E57386,
+								background = 0x88000000,
+								outline = 0xC0000000
+							}
+						}
+					},
+
+					part_anomaly = {
+						visibility = true,
+	
+						offset = {
+							x = -10,
+							y = 0
+						},
+	
+						text_label = {
+							visibility = false,
+							text_format = language.current_language.UI.part_anomaly_core,
+							offset = {
+								x = -90,
+								y = 1
+							},
+							color = 0xFFFF6680,
+	
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+	
+						value_label = {
+							visibility = true,
+
+							include = {
+								current_value = false,
+								max_value = false
+							},
+
+							text_format = "%11s",
+
+							offset = {
+								x = -84,
+								y = 12
+							},
+
+							color = 0xFFFFFFFF,
+	
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+	
+						percentage_label = {
+							visibility = false,
+							text_format = "%5.1f%%",
+	
+							offset = {
+								x = -48,
+								y = 24
+							},
+							color = 0xFFFFFFFF,
+	
+							shadow = {
+								visibility = true,
+								offset = {
+									x = 1,
+									y = 1
+								},
+								color = 0xFF000000
+							}
+						},
+	
+						bar = {
+							visibility = true,
+
+							settings = {
+								fill_direction = "Bottom to Top"
+							},
+
+							offset = {
+								x = 0,
+								y = 9
+							},
+	
+							size = {
+								width = 5,
+								height = 24
+							},
+	
+							outline = {
+								visibility = true,
+								thickness = 1,
+								offset = 0,
+								style = "Center"
+							},
+	
+							colors = {
+								foreground = 0xB9E53956,
 								background = 0x88000000,
 								outline = 0xC0000000
 							}
@@ -4193,7 +4548,7 @@ function this.init_default()
 	
 					text_label = {
 						visibility = false,
-						text = language.current_language.UI.buildup,
+						text_format = language.current_language.UI.buildup,
 						offset = {
 							x = -60,
 							y = 7

@@ -202,6 +202,7 @@ this.default_language = {
 		total_buildup = "Total Buildup",
 		part_break = "Break",
 		part_sever = "Sever",
+		part_anomaly_core = "Anomaly Core",
 
 		otomo = "Buddy",
 		servant = "Follower",
@@ -319,6 +320,7 @@ this.default_language = {
 		rage = "Rage",
 		body_parts = "Body Parts",
 		hide_undamaged_parts = "Hide Undamaged Parts",
+		render_inactive_anomaly_cores = "Render Inactive Anomaly Cores",
 		part_name = "Part Name",
 		flinch_count = "Flinch Count",
 		break_count = "Break Count",
@@ -453,6 +455,8 @@ this.default_language = {
 		break_health_percentage = "Break Health Percentage",
 		loss_health = "Sever Health",
 		loss_health_percentage = "Sever Health Percentage",
+		anomaly_health = "Anomaly Core Health",
+		anomaly_health_percentage = "Anomaly Core Health Percentage",
 
 		monster_id = "Monster ID",
 
@@ -482,14 +486,24 @@ this.default_language = {
 
 		freeze_dps_on_quest_end = "Freeze DPS on Quest End",
 
+		health_break_sever_anomaly_filter = "Health + Break + Sever + Anomaly Core",
+		health_break_sever_filter = "Health + Break + Sever",
+		health_break_anomaly_filter = "Health + Break + Anomaly Core",
+		health_sever_anomaly_filter = "Health + Sever + Anomaly Core",
+		break_sever_anomaly_filter = "Break + Sever + Anomaly Core",
 
-		health_break_severe_filter = "Health + Break + Severe",
 		health_break_filter = "Health + Break",
-		health_severe_filter = "Health + Severe",
+		health_sever_filter = "Health + Sever",
+		health_anomaly_filter = "Health + Anomaly Core",
+
+		break_sever_filter = "Break + Sever",
+		break_anomaly_filter = "Break + Anomaly Core",
+		sever_anomaly_filter = "Sever + Anomaly Core",
+
 		health_filter = "Health",
-		break_severe_filter = "Break + Severe",
 		break_filter = "Break",
-		severe_filter = "Severe",
+		sever_filter = "Sever",
+		anomaly_filter = "Anomaly Core",
 
 		outline = "Outline",
 		thickness = "Thickness",

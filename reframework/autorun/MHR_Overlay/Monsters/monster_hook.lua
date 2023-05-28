@@ -156,6 +156,7 @@ function this.update_large_monster(enemy)
 	if quest_status.is_online and players.myself.id ~= 0 then
 		local physical_param = large_monster.update_health(enemy, monster);
 		pcall(large_monster.update_parts, enemy, monster, physical_param);
+		pcall(large_monster.update_anomaly_parts, enemy, monster, nil);
 	end
 
 	large_monster.update(enemy, monster);
@@ -214,6 +215,7 @@ function this.update_health(enemy_damage_check)
 
 		local physical_param = large_monster.update_health(enemy, monster);
 		pcall(large_monster.update_parts, enemy, monster, physical_param);
+		pcall(large_monster.update_anomaly_parts, enemy, monster, nil);
 	else
 		local monster = small_monster.get_monster(enemy);
 		small_monster.update_health(enemy, monster);

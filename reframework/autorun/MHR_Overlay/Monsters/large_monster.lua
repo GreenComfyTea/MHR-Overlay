@@ -141,6 +141,7 @@ function this.new(enemy)
 
 	this.update(enemy, monster);
 	pcall(this.update_parts, enemy, monster, physical_param);
+	pcall(this.update_anomaly_parts, enemy, monster, nil);
 
 	if this.list[enemy] == nil then
 		this.list[enemy] = monster;
@@ -312,7 +313,12 @@ function this.init_UI(monster, monster_UI, cached_config)
 		cached_config.body_parts.part_loss.bar,
 		cached_config.body_parts.part_loss.text_label,
 		cached_config.body_parts.part_loss.value_label,
-		cached_config.body_parts.part_loss.percentage_label
+		cached_config.body_parts.part_loss.percentage_label,
+		cached_config.body_parts.part_anomaly.visibility,
+		cached_config.body_parts.part_anomaly.bar,
+		cached_config.body_parts.part_anomaly.text_label,
+		cached_config.body_parts.part_anomaly.value_label,
+		cached_config.body_parts.part_anomaly.percentage_label
 	);
 
 	monster_UI.ailment_UI = ailment_UI_entity.new(
@@ -344,6 +350,7 @@ local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalP
 local stamina_param_field = enemy_character_base_type_def:get_field("<StaminaParam>k__BackingField");
 local anger_param_field = enemy_character_base_type_def:get_field("<AngerParam>k__BackingField");
 local damage_param_field = enemy_character_base_type_def:get_field("<DamageParam>k__BackingField");
+local mystery_param_field = enemy_character_base_type_def:get_field("<MysteryParam>k__BackingField");
 
 local check_die_method = enemy_character_base_type_def:get_method("checkDie");
 local is_disp_icon_mini_map_method = enemy_character_base_type_def:get_method("isDispIconMiniMap");
@@ -386,7 +393,7 @@ local get_value_method = system_array_type_def:get_method("GetValue(System.Int32
 
 function this.update_position(enemy, monster)
 	if not config.current_config.large_monster_UI.dynamic.enabled and
-		config.current_config.large_monster_UI.static.sorting.type ~= "Distance" then
+	config.current_config.large_monster_UI.static.sorting.type ~= "Distance" then
 		return;
 	end
 
@@ -427,8 +434,8 @@ function this.update(enemy, monster)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-		and not cached_config.static.enabled
-		and not cached_config.highlighted.enabled then
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
 		return;
 	end
 
@@ -476,14 +483,14 @@ function this.update_health(enemy, monster)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-		and not cached_config.static.enabled
-		and not cached_config.highlighted.enabled then
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
 		return;
 	end
 
 	if not cached_config.dynamic.health.visibility
-		and not cached_config.static.health.visibility
-		and not cached_config.highlighted.health.visibility then
+	and not cached_config.static.health.visibility
+	and not cached_config.highlighted.health.visibility then
 		return nil;
 	end
 
@@ -516,14 +523,14 @@ function this.update_stamina(enemy, monster, stamina_param)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-		and not cached_config.static.enabled
-		and not cached_config.highlighted.enabled then
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
 		return;
 	end
 
 	if not cached_config.dynamic.stamina.visibility
-		and not cached_config.static.stamina.visibility
-		and not cached_config.highlighted.stamina.visibility then
+	and not cached_config.static.stamina.visibility
+	and not cached_config.highlighted.stamina.visibility then
 		return;
 	end
 
@@ -553,14 +560,14 @@ function this.update_stamina_timer(enemy, monster, stamina_param)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-		and not cached_config.static.enabled
-		and not cached_config.highlighted.enabled then
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
 		return;
 	end
 
 	if not cached_config.dynamic.stamina.visibility
-		and not cached_config.static.stamina.visibility
-		and not cached_config.highlighted.stamina.visibility then
+	and not cached_config.static.stamina.visibility
+	and not cached_config.highlighted.stamina.visibility then
 		return;
 	end
 
@@ -600,14 +607,14 @@ function this.update_rage(enemy, monster, anger_param)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-		and not cached_config.static.enabled
-		and not cached_config.highlighted.enabled then
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
 		return;
 	end
 
 	if not cached_config.dynamic.rage.visibility
-		and not cached_config.static.rage.visibility
-		and not cached_config.highlighted.rage.visibility then
+	and not cached_config.static.rage.visibility
+	and not cached_config.highlighted.rage.visibility then
 		return;
 	end
 
@@ -632,14 +639,14 @@ function this.update_rage_timer(enemy, monster, anger_param)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-		and not cached_config.static.enabled
-		and not cached_config.highlighted.enabled then
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
 		return;
 	end
 
 	if not cached_config.dynamic.rage.visibility
-		and not cached_config.static.rage.visibility
-		and not cached_config.highlighted.rage.visibility then
+	and not cached_config.static.rage.visibility
+	and not cached_config.highlighted.rage.visibility then
 		return;
 	end
 
@@ -678,26 +685,26 @@ function this.update_parts(enemy, monster, physical_param)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled
-		and not cached_config.static.enabled
-		and not cached_config.highlighted.enabled then
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
 		return;
 	end
 
 	if not cached_config.dynamic.body_parts.visibility
-		and not cached_config.static.body_parts.visibility
-		and not cached_config.highlighted.body_parts.visibility then
+	and not cached_config.static.body_parts.visibility
+	and not cached_config.highlighted.body_parts.visibility then
 		return;
 	end
 
 	if not cached_config.dynamic.body_parts.part_health.visibility
-		and not cached_config.dynamic.body_parts.part_break.visibility
-		and not cached_config.dynamic.body_parts.part_loss.visibility
-		and not cached_config.static.body_parts.part_health.visibility
-		and not cached_config.static.body_parts.part_break.visibility
-		and not cached_config.static.body_parts.part_loss.visibility
-		and not cached_config.highlighted.body_parts.part_health.visibility
-		and not cached_config.highlighted.body_parts.part_break.visibility
-		and not cached_config.highlighted.body_parts.part_loss.visibility then
+	and not cached_config.dynamic.body_parts.part_break.visibility
+	and not cached_config.dynamic.body_parts.part_loss.visibility
+	and not cached_config.static.body_parts.part_health.visibility
+	and not cached_config.static.body_parts.part_break.visibility
+	and not cached_config.static.body_parts.part_loss.visibility
+	and not cached_config.highlighted.body_parts.part_health.visibility
+	and not cached_config.highlighted.body_parts.part_break.visibility
+	and not cached_config.highlighted.body_parts.part_loss.visibility then
 		return;
 	end
 
@@ -705,7 +712,7 @@ function this.update_parts(enemy, monster, physical_param)
 		physical_param = physical_param_field:get_data(enemy)
 		if physical_param == nil then
 			customization_menu.status = "No physical param";
-			return nil;
+			return;
 		end
 	end
 
@@ -721,21 +728,21 @@ function this.update_parts(enemy, monster, physical_param)
 		return;
 	end
 
-	local enemy_parts_info_array = enemy_parts_damage_info:call("get_PartsInfo");
-	if enemy_parts_info_array == nil then
+	local core_parts_array = enemy_parts_damage_info:call("get_PartsInfo");
+	if core_parts_array == nil then
 		customization_menu.status = "No parts damage info array";
 		return;
 	end
 
-	local enemy_parts_info_array_length = length_method:call(enemy_parts_info_array);
-	if enemy_parts_info_array_length == nil then
+	local core_parts_array_length = length_method:call(core_parts_array);
+	if core_parts_array_length == nil then
 		return;
 	end
 
-	for i = 0, enemy_parts_info_array_length - 1 do
+	for i = 0, core_parts_array_length - 1 do
 		local part_id = i + 1;
 
-		local enemy_parts_info = get_value_method:call(enemy_parts_info_array, i);
+		local enemy_parts_info = get_value_method:call(core_parts_array, i);
 		if enemy_parts_info == nil then
 			goto continue
 		end
@@ -752,8 +759,8 @@ function this.update_parts(enemy, monster, physical_param)
 		end
 
 		if cached_config.dynamic.body_parts.part_health.visibility
-			or cached_config.static.body_parts.part_health.visibility
-			or cached_config.highlighted.body_parts.part_health.visibility then
+		or cached_config.static.body_parts.part_health.visibility
+		or cached_config.highlighted.body_parts.part_health.visibility then
 			local part_vital = physical_param:call("getVital", 1, i);
 			if part_vital ~= nil then
 				local part_current = part_vital:call("get_Current") or -1;
@@ -765,8 +772,8 @@ function this.update_parts(enemy, monster, physical_param)
 		end
 
 		if cached_config.dynamic.body_parts.part_break.visibility
-			or cached_config.static.body_parts.part_break.visibility
-			or cached_config.highlighted.body_parts.part_break.visibility then
+		or cached_config.static.body_parts.part_break.visibility
+		or cached_config.highlighted.body_parts.part_break.visibility then
 			local part_break_vital = physical_param:call("getVital", 2, i);
 			if part_break_vital ~= nil then
 				local part_break_current = part_break_vital:call("get_Current") or -1;
@@ -784,8 +791,8 @@ function this.update_parts(enemy, monster, physical_param)
 		end
 
 		if cached_config.dynamic.body_parts.part_loss.visibility
-			or cached_config.static.body_parts.part_loss.visibility
-			or cached_config.highlighted.body_parts.part_loss.visibility then
+		or cached_config.static.body_parts.part_loss.visibility
+		or cached_config.highlighted.body_parts.part_loss.visibility then
 			local part_loss_vital = physical_param:call("getVital", 3, i);
 			if part_loss_vital ~= nil then
 				local part_loss_current = part_loss_vital:call("get_Current") or -1;
@@ -801,6 +808,91 @@ function this.update_parts(enemy, monster, physical_param)
 
 				body_part.update_loss(part, part_loss_current, part_loss_max, is_severed);
 			end
+		end
+
+		::continue::
+	end
+end
+
+function this.update_anomaly_parts(enemy, monster, mystery_param)
+	local cached_config = config.current_config.large_monster_UI;
+
+	if not cached_config.dynamic.enabled
+	and not cached_config.static.enabled
+	and not cached_config.highlighted.enabled then
+		return;
+	end
+
+	if not cached_config.dynamic.body_parts.visibility
+	and not cached_config.static.body_parts.visibility
+	and not cached_config.highlighted.body_parts.visibility then
+		return;
+	end
+
+	if not cached_config.dynamic.body_parts.part_anomaly.visibility
+	and not cached_config.static.body_parts.part_anomaly.visibility
+	and not cached_config.highlighted.body_parts.part_anomaly.visibility then
+		return;
+	end
+
+	if mystery_param == nil then
+		mystery_param = mystery_param_field:get_data(enemy)
+		if mystery_param == nil then
+			return;
+		end
+	end
+
+	local core_parts_array = mystery_param:get_field("CoreParts");
+	if core_parts_array == nil then
+		customization_menu.status = "No core parts array";
+		return;
+	end
+
+	local core_parts_array_length = length_method:call(core_parts_array);
+	if core_parts_array_length == nil then
+		return;
+	end
+
+	for i = 0, core_parts_array_length - 1 do
+
+		local part_id = i + 1;
+
+		local core_part = get_value_method:call(core_parts_array, i);
+		if core_part == nil then
+			goto continue
+		end
+
+		local part = monster.parts[part_id];
+		if part == nil then
+			local part_name = part_names.get_part_name(monster.id, part_id);
+			if part_name == nil then
+				goto continue;
+			else
+				part = body_part.new(part_id, part_name);
+				monster.parts[part_id] = part;
+			end
+		end
+
+		local part_vital = core_part:call("get_Vital");
+		local part_is_active = core_part:get_IsActive();
+		local part_dying_vital_threshold = core_part:get_DyingVitalThreashold();
+
+		if part_is_active == nil then
+			part_is_active = false;
+		end
+
+		if part_vital ~= nil then
+			local part_current = part_vital:call("get_Current") or -1;
+			local part_max = part_vital:call("get_Max") or -1;
+			local part_is_enabled = part_vital:call("isEnable");
+
+
+			if not part_is_enabled then
+				goto continue;
+			end
+
+			body_part.update_anomaly(part, part_current, part_max, part_is_active);
+
 		end
 
 		::continue::

@@ -36,9 +36,11 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function this.new(part_visibility, part_name_label, flinch_visibility, flinch_bar, flinch_text_label,
-	flinch_value_label, flinch_percentage_label, break_visibility, break_bar, break_text_label, break_value_label,
-	break_percentage_label, loss_visibility, loss_bar, loss_text_label, loss_value_label, loss_health_percentage_label)
+function this.new(part_visibility, part_name_label,
+	flinch_visibility, flinch_bar, flinch_text_label, flinch_value_label, flinch_percentage_label,
+	break_visibility, break_bar, break_text_label, break_value_label, break_percentage_label,
+	loss_visibility, loss_bar, loss_text_label, loss_value_label, loss_health_percentage_label,
+	anomaly_visibility, anomaly_bar, anomaly_text_label, anomaly_value_label, anomaly_health_percentage_label)
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
@@ -48,6 +50,7 @@ function this.new(part_visibility, part_name_label, flinch_visibility, flinch_ba
 	entity.flinch_visibility = flinch_visibility;
 	entity.break_visibility = break_visibility;
 	entity.loss_visibility = loss_visibility;
+	entity.anomaly_visibility = anomaly_visibility;
 
 	entity.part_name_label = utils.table.deep_copy(part_name_label);
 
@@ -117,6 +120,27 @@ function this.new(part_visibility, part_name_label, flinch_visibility, flinch_ba
 	entity.loss_health_percentage_label.offset.x = entity.loss_health_percentage_label.offset.x * global_scale_modifier;
 	entity.loss_health_percentage_label.offset.y = entity.loss_health_percentage_label.offset.y * global_scale_modifier;
 
+	entity.anomaly_bar = utils.table.deep_copy(anomaly_bar);
+	entity.anomaly_text_label = utils.table.deep_copy(anomaly_text_label);
+	entity.anomaly_value_label = utils.table.deep_copy(anomaly_value_label);
+	entity.anomaly_health_percentage_label = utils.table.deep_copy(anomaly_health_percentage_label);
+
+	entity.anomaly_bar.offset.x = entity.anomaly_bar.offset.x * global_scale_modifier;
+	entity.anomaly_bar.offset.y = entity.anomaly_bar.offset.y * global_scale_modifier;
+	entity.anomaly_bar.size.width = entity.anomaly_bar.size.width * global_scale_modifier;
+	entity.anomaly_bar.size.height = entity.anomaly_bar.size.height * global_scale_modifier;
+	entity.anomaly_bar.outline.thickness = entity.anomaly_bar.outline.thickness * global_scale_modifier;
+	entity.anomaly_bar.outline.offset = entity.anomaly_bar.outline.offset * global_scale_modifier;
+
+	entity.anomaly_text_label.offset.x = entity.anomaly_text_label.offset.x * global_scale_modifier;
+	entity.anomaly_text_label.offset.y = entity.anomaly_text_label.offset.y * global_scale_modifier;
+
+	entity.anomaly_value_label.offset.x = entity.anomaly_value_label.offset.x * global_scale_modifier;
+	entity.anomaly_value_label.offset.y = entity.anomaly_value_label.offset.y * global_scale_modifier;
+
+	entity.anomaly_health_percentage_label.offset.x = entity.anomaly_health_percentage_label.offset.x * global_scale_modifier;
+	entity.anomaly_health_percentage_label.offset.y = entity.anomaly_health_percentage_label.offset.y * global_scale_modifier;
+
 	return entity;
 end
 
@@ -127,9 +151,10 @@ function this.draw(part, part_UI, cached_config, position_on_screen, opacity_sca
 
 	local draw_health = part_UI.flinch_visibility and part.max_health > 0;
 	local draw_break = part_UI.break_visibility and part.break_max_health > 0 and part.break_count < part.break_max_count;
-	local draw_severe = part_UI.loss_visibility and part.loss_max_health > 0 and not part.is_severed;
+	local draw_sever = part_UI.loss_visibility and part.loss_max_health > 0 and not part.is_severed;
+	local draw_anomaly = part_UI.anomaly_visibility and part.anomaly_max_health > 0 and (part.anomaly_is_active or cached_config.settings.render_inactive_anomaly_cores);
 
-	if not draw_health and not draw_break and not draw_severe then
+	if not draw_health and not draw_break and not draw_sever and not draw_anomaly then
 		return;
 	end
 
@@ -186,7 +211,7 @@ function this.draw(part, part_UI, cached_config, position_on_screen, opacity_sca
 
 	-- loss health value string
 	local loss_health_string = "";
-	if draw_severe then
+	if draw_sever then
 		local include_loss_health_current_value = part_UI.loss_value_label.include.current_value;
 		local include_loss_health_max_value = part_UI.loss_value_label.include.max_value;
 
@@ -199,22 +224,39 @@ function this.draw(part, part_UI, cached_config, position_on_screen, opacity_sca
 		end
 	end
 
+	-- anomaly health value string
+	local anomaly_health_string = "";
+	if draw_anomaly then
+		local include_anomaly_health_current_value = part_UI.anomaly_value_label.include.current_value;
+		local include_anomaly_health_max_value = part_UI.anomaly_value_label.include.max_value;
+
+		if include_anomaly_health_current_value and include_anomaly_health_max_value then
+			anomaly_health_string = string.format("%.0f/%.0f", part.anomaly_health, part.anomaly_max_health);
+		elseif include_anomaly_health_current_value then
+			anomaly_health_string = string.format("%.0f", part.anomaly_health);
+		elseif include_anomaly_health_max_value then
+			anomaly_health_string = string.format("%.0f", part.anomaly_max_health);
+		end
+	end
+
 	local flinch_position_on_screen = {
 		x = position_on_screen.x + cached_config.part_health.offset.x,
 		y = position_on_screen.y + cached_config.part_health.offset.y,
-		visibility = part_UI.flinch_visibility
 	};
 
 	local break_position_on_screen = {
 		x = position_on_screen.x + cached_config.part_break.offset.x,
 		y = position_on_screen.y + cached_config.part_break.offset.y,
-		visibility = part_UI.flinch_visibility
 	};
 
 	local loss_position_on_screen = {
 		x = position_on_screen.x + cached_config.part_loss.offset.x,
 		y = position_on_screen.y + cached_config.part_loss.offset.y,
-		part_UI = part_UI.loss_visibility
+	};
+
+	local anomaly_position_on_screen = {
+		x = position_on_screen.x + cached_config.part_anomaly.offset.x,
+		y = position_on_screen.y + cached_config.part_anomaly.offset.y,
 	};
 
 	if draw_health then
@@ -225,8 +267,12 @@ function this.draw(part, part_UI, cached_config, position_on_screen, opacity_sca
 		drawing.draw_bar(part_UI.break_bar, break_position_on_screen, opacity_scale, part.break_health_percentage);
 	end
 
-	if draw_severe then
+	if draw_sever then
 		drawing.draw_bar(part_UI.loss_bar, loss_position_on_screen, opacity_scale, part.loss_health_percentage);
+	end
+
+	if draw_anomaly then
+		drawing.draw_bar(part_UI.anomaly_bar, anomaly_position_on_screen, opacity_scale, part.anomaly_health_percentage);
 	end
 
 	drawing.draw_label(part_UI.part_name_label, position_on_screen, opacity_scale, part_name);
@@ -243,10 +289,16 @@ function this.draw(part, part_UI, cached_config, position_on_screen, opacity_sca
 		drawing.draw_label(part_UI.break_percentage_label, break_position_on_screen, opacity_scale, 100 * part.break_health_percentage);
 	end
 
-	if draw_severe then
+	if draw_sever then
 		drawing.draw_label(part_UI.loss_text_label, loss_position_on_screen, opacity_scale);
 		drawing.draw_label(part_UI.loss_value_label, loss_position_on_screen, opacity_scale, loss_health_string);
 		drawing.draw_label(part_UI.loss_health_percentage_label, loss_position_on_screen, opacity_scale, 100 * part.loss_health_percentage);
+	end
+
+	if draw_anomaly then
+		drawing.draw_label(part_UI.anomaly_text_label, anomaly_position_on_screen, opacity_scale);
+		drawing.draw_label(part_UI.anomaly_value_label, anomaly_position_on_screen, opacity_scale, anomaly_health_string);
+		drawing.draw_label(part_UI.anomaly_health_percentage_label, anomaly_position_on_screen, opacity_scale, 100 * part.anomaly_health_percentage);
 	end
 end
 

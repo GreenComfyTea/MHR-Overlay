@@ -50,24 +50,30 @@ this.list = {};
 function this.new(id, name)
 	local part = {};
 
-	part.id = id;
 
-	part.health = 9999;
-	part.max_health = 99999;
+	part.id = id;
+	part.name = name;
+
+	part.health = -9;
+	part.max_health = -10;
 	part.health_percentage = 0;
 
-	part.break_health = 9999;
-	part.break_max_health = 99999;
+	part.break_health = -9;
+	part.break_max_health = -10;
 	part.break_health_percentage = 0;
 
-	part.lost_health = 9999;
-	part.loss_max_health = 99999;
+	part.lost_health = -9;
+	part.loss_max_health = -10;
 	part.loss_health_percentage = 0;
 
-	part.name = name;
 	part.flinch_count = 0;
 	part.break_count = 0;
 	part.break_max_count = 0;
+
+	part.anomaly_health = -9;
+	part.anomaly_max_health = -10;
+	part.anomaly_health_percentage = 0;
+	part.anomaly_is_active = false;
 
 	part.last_change_time = time.total_elapsed_script_seconds;
 
@@ -81,7 +87,7 @@ function this.init_part_names(monster_id, parts)
 end
 
 function this.update_flinch(part, part_current, part_max)
-	if part_current > part.health then
+	if part_current > part.health and part.max_health > 0 then
 		part.flinch_count = part.flinch_count + 1;
 	end
 
@@ -154,6 +160,124 @@ function this.update_loss(part, part_loss_current, part_loss_max, is_severed)
 
 end
 
+function this.update_anomaly(part, part_anomaly_current, part_anomaly_max, part_is_active)
+	if part.anomaly_health ~= part_anomaly_current then
+		part.last_change_time = time.total_elapsed_script_seconds;
+	end
+
+	if part.anomaly_max_health ~= part_anomaly_max then
+		part.last_change_time = time.total_elapsed_script_seconds;
+	end
+
+	if part.anomaly_is_active ~= part_is_active then
+		part.last_change_time = time.total_elapsed_script_seconds;
+	end
+
+	part.anomaly_health = part_anomaly_current;
+	part.anomaly_max_health = part_anomaly_max;
+	part.anomaly_is_active = part_is_active;
+
+	if part.anomaly_max_health ~= 0 then
+		part.anomaly_health_percentage = part.anomaly_health / part.anomaly_max_health;
+	end
+end
+
+function this.is_filtered_out(cached_config, health_supported, break_supported, sever_supported, anomaly_supported)
+	if health_supported then
+		if break_supported then
+			if sever_supported then
+				if anomaly_supported then
+					if not cached_config.filter.health_break_sever_anomaly then
+						return true;
+					end
+				else
+					if not cached_config.filter.health_break_sever then
+						return true;
+					end
+				end
+			else
+				if anomaly_supported then
+					if not cached_config.filter.health_break_anomaly then
+						return true;
+					end
+				else
+					if not cached_config.filter.health_break then
+						return true;
+					end
+				end
+			end
+		else
+			if sever_supported then
+				if anomaly_supported then
+					if not cached_config.filter.health_sever_anomaly then
+						return true;
+					end
+				else
+					if not cached_config.filter.health_sever then
+						return true;
+					end
+				end
+			else
+				if anomaly_supported then
+					if not cached_config.filter.health_anomaly then
+						return true;
+					end
+				else
+					if not cached_config.filter.health then
+						return true;
+					end
+				end
+			end
+		end
+	else
+		if break_supported then
+			if sever_supported then
+				if anomaly_supported then
+					if not cached_config.filter.break_sever_anomaly then
+						return true;
+					end
+				else
+					if not cached_config.filter.break_sever then
+						return true;
+					end
+				end
+			else
+				if anomaly_supported then
+					if not cached_config.filter.break_anomaly then
+						return true;
+					end
+				else
+					if not cached_config.filter.break_ then
+						return true;
+					end
+				end
+			end
+		else
+			if sever_supported then
+				if anomaly_supported then
+					if not cached_config.filter.sever_anomaly then
+						return true;
+					end
+				else
+					if not cached_config.filter.sever then
+						return true;
+					end
+				end
+			else
+				if anomaly_supported then
+					if not cached_config.filter.anomaly then
+						return true;
+					end
+				else
+					return true;
+				end
+			end
+		end
+	end
+
+	return false;
+end
+
 function this.draw(monster, part_UI, cached_config, parts_position_on_screen, opacity_scale)
 	local cached_config = cached_config.body_parts;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
@@ -162,72 +286,41 @@ function this.draw(monster, part_UI, cached_config, parts_position_on_screen, op
 	for REpart, part in pairs(monster.parts) do
 		local health_supported = part.max_health > 0;
 		local break_supported = part.break_max_health > 0;
-		local severe_supported = part.loss_max_health > 0;
+		local sever_supported = part.loss_max_health > 0;
+		local anomaly_supported = part.anomaly_max_health > 0;
+
 
 		if cached_config.settings.filter_mode == "Current State" then
 			if break_supported and part.break_count >= part.break_max_count then
 				break_supported = false;
 			end
 
-			if severe_supported and part.is_severed then
-				severe_supported = false;
+			if sever_supported and part.is_severed then
+				sever_supported = false;
+			end
+
+			if anomaly_supported and not part.anomaly_is_active then
+				anomaly_supported = false;
 			end
 		end
 
-		if health_supported then
-			if break_supported then
-				if severe_supported then
-					if not cached_config.filter.health_break_severe then
-						goto continue
-					end
-				else
-					if not cached_config.filter.health_break then
-						goto continue
-					end
-				end
-			else
-				if severe_supported then
-					if not cached_config.filter.health_severe then
-						goto continue
-					end
-				else
-					if not cached_config.filter.health then
-						goto continue
-					end
-				end
-			end
-		else
-			if break_supported then
-				if severe_supported then
-					if not cached_config.filter.break_severe then
-						goto continue
-					end
-				else
-					if not cached_config.filter.break_ then
-						goto continue
-					end
-				end
-			else
-				if severe_supported then
-					if not cached_config.filter.severe then
-						goto continue
-					end
-				else
-					goto continue
-				end
-			end
+		local is_filtered_out = this.is_filtered_out(cached_config, health_supported, break_supported, sever_supported, anomaly_supported);
+		if is_filtered_out then
+			goto continue;
 		end
 
 		if cached_config.settings.hide_undamaged_parts
-			and ((part.health == part.max_health and part.flinch_count == 0) or not health_supported)
-			and ((part.break_health == part.break_max_health and part.break_count == 0) or not break_supported)
-			and ((part.loss_health == part.loss_max_health and not part.is_severed) or not severe_supported) then
+		and ((part.health == part.max_health and part.flinch_count == 0) or not health_supported)
+		and ((part.break_health == part.break_max_health and part.break_count == 0) or not break_supported)
+		and ((part.loss_health == part.loss_max_health and not part.is_severed) or not sever_supported)
+		and ((part.anomaly_health == part.anomaly_max_health) or not anomaly_supported) then
 			goto continue
 		end
 
 		if (not part_UI.flinch_visibility or not health_supported)
-			and (not part_UI.break_visibility or not break_supported or part.break_count >= part.break_max_count)
-			and (not part_UI.loss_visibility or not severe_supported or part.is_severed) then
+		and (not part_UI.break_visibility or not break_supported or part.break_count >= part.break_max_count)
+		and (not part_UI.loss_visibility or not sever_supported or part.is_severed)
+		and (not part_UI.anomaly_visibility or not anomaly_supported) then
 			goto continue
 		end
 
@@ -328,6 +421,26 @@ function this.draw(monster, part_UI, cached_config, parts_position_on_screen, op
 		else
 			table.sort(displayed_parts, function(left, right)
 				return left.loss_health_percentage < right.loss_health_percentage;
+			end);
+		end
+	elseif cached_config.sorting.type == "Anomaly Core Health" then
+		if cached_config.sorting.reversed_order then
+			table.sort(displayed_parts, function(left, right)
+				return left.anomaly_health > right.anomaly_health;
+			end);
+		else
+			table.sort(displayed_parts, function(left, right)
+				return left.anomaly_health < right.anomaly_health;
+			end);
+		end
+	elseif cached_config.sorting.type == "Anomaly Core Health Percentage" then
+		if cached_config.sorting.reversed_order then
+			table.sort(displayed_parts, function(left, right)
+				return left.anomaly_health_percentage > right.anomaly_health_percentage;
+			end);
+		else
+			table.sort(displayed_parts, function(left, right)
+				return left.anomaly_health_percentage < right.anomaly_health_percentage;
 			end);
 		end
 	end

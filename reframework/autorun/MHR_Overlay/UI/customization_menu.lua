@@ -82,12 +82,6 @@ this.displayed_anchor_types = {};
 this.monster_UI_sorting_types = {};
 this.displayed_monster_UI_sorting_types = {};
 
-this.large_monster_UI_parts_sorting_types = {};
-this.displayed_large_monster_UI_parts_sorting_types = {};
-
-this.large_monster_UI_parts_filter_types = {};
-this.displayed_large_monster_UI_parts_filter_types = {};
-
 this.buff_UI_sorting_types = {};
 this.displayed_buff_UI_sorting_types = {};
 
@@ -169,6 +163,7 @@ function this.init()
 	bar_customization.init();
 	ailments_customization.init();
 	ailment_buildups_customization.init();
+	body_parts_customization.init();
 
 	this.orientation_types = 
 	{
@@ -212,44 +207,6 @@ function this.init()
 		current.health,
 		current.health_percentage,
 		current.distance
-	};
-
-	this.large_monster_UI_parts_sorting_types =
-	{
-		default.normal,
-		default.health,
-		default.health_percentage,
-		default.flinch_count,
-		default.break_health,
-		default.break_health_percentage,
-		default.break_count,
-		default.loss_health,
-		default.loss_health_percentage
-	};
-
-	this.displayed_large_monster_UI_parts_sorting_types =
-	{
-		current.normal,
-		current.health,
-		current.health_percentage,
-		current.flinch_count,
-		current.break_health,
-		current.break_health_percentage,
-		current.break_count,
-		current.loss_health,
-		current.loss_health_percentage
-	};
-
-	this.large_monster_UI_parts_filter_types =
-	{
-		default.current_state,
-		default.default_state
-	};
-
-	this.displayed_large_monster_UI_parts_filter_types =
-	{
-		current.current_state,
-		current.default_state
 	};
 
 	this.buff_UI_sorting_types =
