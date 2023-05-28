@@ -179,6 +179,81 @@ local get_set_info_method = enemy_character_base_type_def:get_method("get_SetInf
 local set_info_type = get_set_info_method:get_return_type();
 local get_unique_id_method = set_info_type:get_method("get_UniqueId");
 
+local get_physical_param_method = enemy_character_base_type_def:get_method("get_PhysicalParam");
+local get_stamina_param_method = enemy_character_base_type_def:get_method("get_StaminaParam");
+local get_anger_param_method = enemy_character_base_type_def:get_method("get_AngerParam");
+local get_damage_param_method = enemy_character_base_type_def:get_method("get_DamageParam");
+local get_mystery_param_method = enemy_character_base_type_def:get_method("get_MysteryParam");
+local get_mario_param_method =  enemy_character_base_type_def:get_method("get_MarioParam");
+
+local check_die_method = enemy_character_base_type_def:get_method("checkDie");
+local is_disp_icon_mini_map_method = enemy_character_base_type_def:get_method("isDispIconMiniMap");
+
+local physical_param_type = get_physical_param_method:get_return_type();
+local get_vital_method = physical_param_type:get_method("getVital");
+local get_capture_hp_vital_method = physical_param_type:get_method("get_CaptureHpVital");
+
+local vital_param_type = get_vital_method:get_return_type();
+local get_current_method = vital_param_type:get_method("get_Current");
+local get_max_method = vital_param_type:get_method("get_Max");
+local is_enable_method = vital_param_type:get_method("isEnable");
+
+local stamina_param_type = get_stamina_param_method:get_return_type();
+local is_tired_method = stamina_param_type:get_method("isTired");
+local get_stamina_method = stamina_param_type:get_method("getStamina");
+local get_max_stamina_method = stamina_param_type:get_method("getMaxStamina");
+
+local get_remaining_tired_time_method = stamina_param_type:get_method("getStaminaRemainingTime");
+local get_total_tired_time_method = stamina_param_type:get_method("get_TiredSec");
+
+local anger_param_type = get_anger_param_method:get_return_type();
+local is_anger_method = anger_param_type:get_method("isAnger");
+local get_anger_point_method = anger_param_type:get_method("get_AngerPoint");
+local get_limit_anger_method = anger_param_type:get_method("get_LimitAnger");
+
+local get_remaining_anger_time_method = anger_param_type:get_method("getAngerRemainingTime");
+local get_total_anger_time_method = anger_param_type:get_method("get_TimerAnger");
+
+local mario_param_type = get_mario_param_method:get_return_type();
+local get_is_marionette_method = mario_param_type:get_method("get_IsMarionette");
+local get_mario_player_index_method = mario_param_type:get_method("get_MarioPlayerIndex");
+
+local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
+
+local system_array_type_def = sdk.find_type_definition("System.Array");
+local length_method = system_array_type_def:get_method("get_Length");
+local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
+
+-- Lucent Nargacuga
+local em037_02Character_type_def = sdk.find_type_definition("snow.enemy.em037.Em037_02Character");
+local is_stealth_method = em037_02Character_type_def:get_method("isStealth");
+
+-- Risen Chameleos and CHameleos
+local Em025Character_base_type_Def =  sdk.find_type_definition("snow.enemy.em025.Em025CharacterBase");
+local get_stealth_ctrl_method = Em025Character_base_type_Def:get_method("get_StealthCtrl");
+
+local stealth_ctrl_type_def = get_stealth_ctrl_method:get_return_type();
+local get_current_status_method = stealth_ctrl_type_def:get_method("get_CurrentStatus");
+
+local damage_param_type_def = get_damage_param_method:get_return_type();
+local enemy_parts_damage_info_field = damage_param_type_def:get_field("_EnemyPartsDamageInfo");
+
+local enemy_parts_damage_info_type_def = enemy_parts_damage_info_field:get_type();
+local get_part_info_array_method = enemy_parts_damage_info_type_def:get_method("get_PartsInfo");
+
+local enemy_parts_info_type_def = sdk.find_type_definition("snow.enemy.EnemyDamageParam.EnemyPartsDamageInfo.EnemyPartsInfo");
+local get_parts_break_damage_level_method = enemy_parts_info_type_def:get_method("get_PartsBreakDamageLevel");
+local get_parts_break_damage_max_level_method = enemy_parts_info_type_def:get_method("get_PartsBreakDamageMaxLevel");
+local get_parts_loss_state_method = enemy_parts_info_type_def:get_method("get_PartsLossState");
+
+local mystery_param_type_def = get_mystery_param_method:get_return_type();
+local core_parts_array_field = mystery_param_type_def:get_field("CoreParts");
+
+local enemy_mystery_core_parts_type_def = sdk.find_type_definition("snow.enemy.EnemyMysteryCoreParts");
+local core_parts_get_vital_method = enemy_mystery_core_parts_type_def:get_method("get_Vital");
+local core_parts_get_is_active_method = enemy_mystery_core_parts_type_def:get_method("get_IsActive");
+local core_parts_get_dying_vital_threashold_method = enemy_mystery_core_parts_type_def:get_method("get_DyingVitalThreashold");
+
 function this.init(monster, enemy)
 	local enemy_type = enemy_type_field:get_data(enemy);
 	if enemy_type == nil then
@@ -240,7 +315,7 @@ function this.init(monster, enemy)
 
 	local is_capture_enable = true;
 
-	local damage_param = enemy:get_field("<DamageParam>k__BackingField");
+	local damage_param = get_damage_param_method:call(enemy);
 	if damage_param ~= nil then
 		local capture_param = damage_param:get_field("_CaptureParam");
 
@@ -252,8 +327,9 @@ function this.init(monster, enemy)
 		end
 	end
 
-	local curia_param = enemy:get_field("<CuriaParam>k__BackingField");
-	local is_anomaly = curia_param ~= nil;
+	--local curia_param = enemy:get_field("<CuriaParam>k__BackingField");
+	local mystery_param =  get_mystery_param_method:call(enemy);
+	local is_anomaly = mystery_param ~= nil;
 
 	monster.is_capturable = is_capture_enable and not is_anomaly;
 end
@@ -346,83 +422,6 @@ function this.init_UI(monster, monster_UI, cached_config)
 	body_part.init_part_names(monster.id, monster.parts);
 end
 
-local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
-local stamina_param_field = enemy_character_base_type_def:get_field("<StaminaParam>k__BackingField");
-local anger_param_field = enemy_character_base_type_def:get_field("<AngerParam>k__BackingField");
-local damage_param_field = enemy_character_base_type_def:get_field("<DamageParam>k__BackingField");
-local mystery_param_field = enemy_character_base_type_def:get_field("<MysteryParam>k__BackingField");
-
-local check_die_method = enemy_character_base_type_def:get_method("checkDie");
-local is_disp_icon_mini_map_method = enemy_character_base_type_def:get_method("isDispIconMiniMap");
-
-local physical_param_type = physical_param_field:get_type();
-local get_vital_method = physical_param_type:get_method("getVital");
-local get_capture_hp_vital_method = physical_param_type:get_method("get_CaptureHpVital");
-
-local vital_param_type = get_vital_method:get_return_type();
-local get_current_method = vital_param_type:get_method("get_Current");
-local get_max_method = vital_param_type:get_method("get_Max");
-local is_enable_method = vital_param_type:get_method("isEnable");
-
-local stamina_param_type = stamina_param_field:get_type();
-local is_tired_method = stamina_param_type:get_method("isTired");
-local get_stamina_method = stamina_param_type:get_method("getStamina");
-local get_max_stamina_method = stamina_param_type:get_method("getMaxStamina");
-
-local get_remaining_tired_time_method = stamina_param_type:get_method("getStaminaRemainingTime");
-local get_total_tired_time_method = stamina_param_type:get_method("get_TiredSec");
-
-local anger_param_type = anger_param_field:get_type();
-local is_anger_method = anger_param_type:get_method("isAnger");
-local get_anger_point_method = anger_param_type:get_method("get_AngerPoint");
-local get_limit_anger_method = anger_param_type:get_method("get_LimitAnger");
-
-local get_remaining_anger_time_method = anger_param_type:get_method("getAngerRemainingTime");
-local get_total_anger_time_method = anger_param_type:get_method("get_TimerAnger");
-
-local mario_param_field = enemy_character_base_type_def:get_field("<MarioParam>k__BackingField");
-
-local mario_param_type = mario_param_field:get_type();
-local get_is_marionette_method = mario_param_type:get_method("get_IsMarionette");
-local get_mario_player_index_method = mario_param_type:get_method("get_MarioPlayerIndex");
-
-local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
-
-local system_array_type_def = sdk.find_type_definition("System.Array");
-local length_method = system_array_type_def:get_method("get_Length");
-local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
-
--- Lucent Nargacuga
-local em037_02Character_type_def = sdk.find_type_definition("snow.enemy.em037.Em037_02Character");
-local is_stealth_method = em037_02Character_type_def:get_method("isStealth");
-
--- Risen Chameleos and CHameleos
-local Em025Character_base_type_Def =  sdk.find_type_definition("snow.enemy.em025.Em025CharacterBase");
-local get_stealth_ctrl_method = Em025Character_base_type_Def:get_method("get_StealthCtrl");
-
-local stealth_ctrl_type_def = get_stealth_ctrl_method:get_return_type();
-local get_current_status_method = stealth_ctrl_type_def:get_method("get_CurrentStatus");
-
-local damage_param_type_def = damage_param_field:get_type();
-local enemy_parts_damage_info_field = damage_param_type_def:get_field("_EnemyPartsDamageInfo");
-
-local enemy_parts_damage_info_type_def = enemy_parts_damage_info_field:get_type();
-local get_part_info_array_method = enemy_parts_damage_info_type_def:get_method("get_PartsInfo");
-
-local enemy_parts_info_type_def = sdk.find_type_definition("snow.enemy.EnemyDamageParam.EnemyPartsDamageInfo.EnemyPartsInfo");
-local get_parts_break_damage_level_method = enemy_parts_info_type_def:get_method("get_PartsBreakDamageLevel");
-local get_parts_break_damage_max_level_method = enemy_parts_info_type_def:get_method("get_PartsBreakDamageMaxLevel");
-local get_parts_loss_state_method = enemy_parts_info_type_def:get_method("get_PartsLossState");
-
-local mystery_param_type_def = mystery_param_field:get_type();
-local core_parts_array_field = mystery_param_type_def:get_field("CoreParts");
-
-local enemy_mystery_core_parts_type_def = sdk.find_type_definition("snow.enemy.EnemyMysteryCoreParts");
-local core_parts_get_vital_method = enemy_mystery_core_parts_type_def:get_method("get_Vital");
-local core_parts_get_is_active_method = enemy_mystery_core_parts_type_def:get_method("get_IsActive");
-local core_parts_get_dying_vital_threashold_method = enemy_mystery_core_parts_type_def:get_method("get_DyingVitalThreashold");
-
-
 function this.update_position(enemy, monster)
 	if not config.current_config.large_monster_UI.dynamic.enabled and
 	config.current_config.large_monster_UI.static.sorting.type ~= "Distance" then
@@ -439,7 +438,7 @@ end
 function this.update_all_riders()
 	for enemy, monster in pairs(this.list) do
 		-- get marionette rider
-		local mario_param = enemy:get_field("<MarioParam>k__BackingField");
+		local mario_param = get_mario_param_method:call(enemy);
 		if mario_param ~= nil then
 			local is_marionette = get_is_marionette_method:call(mario_param);
 
@@ -526,7 +525,7 @@ function this.update_health(enemy, monster)
 		return nil;
 	end
 
-	local physical_param = physical_param_field:get_data(enemy);
+	local physical_param = get_physical_param_method:call(enemy);
 	if physical_param == nil then
 		customization_menu.status = "No physical param";
 		return nil;
@@ -567,7 +566,7 @@ function this.update_stamina(enemy, monster, stamina_param)
 	end
 
 	if stamina_param == nil then
-		stamina_param = stamina_param_field:get_data(enemy);
+		stamina_param =get_stamina_param_method:call(enemy);
 		if stamina_param == nil then
 			customization_menu.status = "No stamina param";
 			return;
@@ -604,7 +603,7 @@ function this.update_stamina_timer(enemy, monster, stamina_param)
 	end
 
 	if stamina_param == nil then
-		stamina_param = stamina_param_field:get_data(enemy);
+		stamina_param = get_stamina_param_method:call(enemy);
 		if stamina_param == nil then
 			customization_menu.status = "No stamina param";
 			return;
@@ -651,7 +650,7 @@ function this.update_rage(enemy, monster, anger_param)
 	end
 
 	if anger_param == nil then
-		anger_param = anger_param_field:get_data(enemy);
+		anger_param = get_anger_param_method:call(enemy);
 		if anger_param == nil then
 			customization_menu.status = "No anger param";
 			return;
@@ -683,7 +682,7 @@ function this.update_rage_timer(enemy, monster, anger_param)
 	end
 
 	if anger_param == nil then
-		anger_param = anger_param_field:get_data(enemy);
+		anger_param = get_anger_param_method:call(enemy);
 		if anger_param == nil then
 			customization_menu.status = "No anger param";
 			return;
@@ -741,14 +740,14 @@ function this.update_parts(enemy, monster, physical_param)
 	end
 
 	if physical_param == nil then
-		physical_param = physical_param_field:get_data(enemy)
+		physical_param = get_physical_param_method:call(enemy);
 		if physical_param == nil then
 			customization_menu.status = "No physical param";
 			return;
 		end
 	end
 
-	local damage_param = damage_param_field:get_data(enemy);
+	local damage_param = get_damage_param_method:call(enemy);
 	if damage_param == nil then
 		customization_menu.status = "No damage param";
 		return;
@@ -868,13 +867,13 @@ function this.update_anomaly_parts(enemy, monster, mystery_param)
 	end
 
 	if mystery_param == nil then
-		mystery_param = mystery_param_field:get_data(enemy)
+		mystery_param = get_mystery_param_method:call(enemy);
 		if mystery_param == nil then
 			return;
 		end
 	end
 
-	local core_parts_array = core_parts_array_field:call(mystery_param);
+	local core_parts_array = core_parts_array_field:get_data(mystery_param);
 	if core_parts_array == nil then
 		customization_menu.status = "No core parts array";
 		return;
@@ -886,7 +885,6 @@ function this.update_anomaly_parts(enemy, monster, mystery_param)
 	end
 
 	for i = 0, core_parts_array_length - 1 do
-
 		local part_id = i + 1;
 
 		local core_part = get_value_method:call(core_parts_array, i);

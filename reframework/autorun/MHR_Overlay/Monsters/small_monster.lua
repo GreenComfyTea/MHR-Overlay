@@ -151,10 +151,10 @@ function this.init_UI(monster)
 	);
 end
 
-local physical_param_field = enemy_character_base_type_def:get_field("<PhysicalParam>k__BackingField");
+local get_physical_param_method = enemy_character_base_type_def:get_method("get_PhysicalParam");
 local check_die_method = enemy_character_base_type_def:get_method("checkDie");
 
-local physical_param_type = physical_param_field:get_type();
+local physical_param_type = get_physical_param_method:get_return_type();
 local get_vital_method = physical_param_type:get_method("getVital");
 
 local vital_param_type = get_vital_method:get_return_type();
@@ -198,7 +198,7 @@ function this.update_health(enemy, monster)
 		return;
 	end
 
-	local physical_param = physical_param_field:get_data(enemy)
+	local physical_param = get_physical_param_method:call(enemy);
 	if physical_param == nil then
 		customization_menu.status = "No physical param";
 		return;

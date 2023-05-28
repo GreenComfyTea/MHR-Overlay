@@ -47,7 +47,7 @@ local enemy_condition_damage_param_base_type_def = sdk.find_type_definition("sno
 local get_enemy_method = enemy_condition_damage_param_base_type_def:get_method("get_Em");
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
-local damage_param_field = enemy_character_base_type_def:get_field("<DamageParam>k__BackingField");
+local get_damage_param_method = enemy_character_base_type_def:get_method("get_DamageParam");
 local is_boss_enemy_method = enemy_character_base_type_def:get_method("get_isBossEnemy");
 
 local enemy_damage_param_type_def = sdk.find_type_definition("snow.enemy.EnemyDamageParam");
@@ -120,7 +120,7 @@ end
 
 function this.stock_damage()
 	for enemy, monster in pairs(large_monster.list) do
-		local damage_param = damage_param_field:get_data(enemy);
+		local damage_param = get_damage_param_method:call(enemy);
 		if damage_param == nil then
 			goto continue
 		end
@@ -132,7 +132,7 @@ function this.stock_damage()
 	end
 
 	for enemy, monster in pairs(small_monster.list) do
-		local damage_param = damage_param_field:get_data(enemy);
+		local damage_param = get_damage_param_method:call(enemy);
 		if damage_param == nil then
 			goto continue
 		end

@@ -245,20 +245,20 @@ function this.init_ailment_names(_ailments)
 end
 
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
+local get_damage_param_method = enemy_character_base_type_def:get_method("get_DamageParam");
+
+
+
+local damage_param_type_def = get_damage_param_method:get_return_type();
+local get_condition_param_method = damage_param_type_def:get_method("get_ConditionParam");
+
+local stun_param_field = damage_param_type_def:get_field("_StunParam");
+local poison_param_field = damage_param_type_def:get_field("_PoisonParam");
+local blast_param_field = damage_param_type_def:get_field("_BlastParam");
+
+local blast_param_type_def = blast_param_field:get_type();
+
 local enemy_condition_damage_param_base_type_def = sdk.find_type_definition("snow.enemy.EnemyConditionDamageParamBase");
-
-local damage_param_field = enemy_character_base_type_def:get_field("<DamageParam>k__BackingField");
-local damage_param_type = damage_param_field:get_type();
-local get_condition_param_method = damage_param_type:get_method("get_ConditionParam");
-
-local stun_param_field = damage_param_type:get_field("_StunParam");
-local poison_param_field = damage_param_type:get_field("_PoisonParam");
-local blast_param_field = damage_param_type:get_field("_BlastParam");
-
-
-local poison_param_type = poison_param_field:get_type();
-local blast_param_type = blast_param_field:get_type();
-
 local get_is_enable_method = enemy_condition_damage_param_base_type_def:get_method("get_IsEnable");
 local get_is_active_method = enemy_condition_damage_param_base_type_def:get_method("get_IsActive");
 local get_activate_count_method = enemy_condition_damage_param_base_type_def:get_method("get_ActivateCount");
@@ -267,8 +267,9 @@ local get_limit_method = enemy_condition_damage_param_base_type_def:get_method("
 local get_active_time_method = enemy_condition_damage_param_base_type_def:get_method("get_ActiveTime");
 local get_active_timer_method = enemy_condition_damage_param_base_type_def:get_method("get_ActiveTimer");
 
-local poison_damage_field = poison_param_type:get_field("<Damage>k__BackingField");
-local poison_get_is_damage_method = poison_param_type:get_method("get_IsDamage");
+local poison_param_type_def = poison_param_field:get_type();
+local poison_damage_field = poison_param_type_def:get_field("<Damage>k__BackingField");
+local poison_get_is_damage_method = poison_param_type_def:get_method("get_IsDamage");
 
 local system_array_type_def = sdk.find_type_definition("System.Array");
 local length_method = system_array_type_def:get_method("get_Length");
@@ -278,7 +279,7 @@ function this.update_ailments(enemy, monster)
 	if enemy == nil then
 		return;
 	end
-	local damage_param = damage_param_field:get_data(enemy);
+	local damage_param = get_damage_param_method:call(enemy);
 	if damage_param == nil then
 		return;
 	end
