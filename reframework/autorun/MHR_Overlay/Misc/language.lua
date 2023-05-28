@@ -562,6 +562,8 @@ this.default_language = {
 		right_to_left = "Right to Left",
 		top_to_bottom = "Top to Bottom",
 		bottom_to_top = "Bottom to Top",
+
+		right_alignment_shift = "Right Alignment Shift"
 	}
 };
 

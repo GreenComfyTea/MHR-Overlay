@@ -312,20 +312,28 @@ function this.init_default()
 	
 			monster_name_label = {
 				visibility = true,
-				text_format = "%s",
+
+				settings = {
+					right_alignment_shift = 0
+				},
+
+				text_formatting = "%s",
 	
 				offset = {
 					x = 5,
 					y = 0
 				},
+
 				color = 0xFFCCF4E1,
 	
 				shadow = {
 					visibility = true,
+
 					offset = {
 						x = 1,
 						y = 1
 					},
+
 					color = 0xFF000000
 				}
 			},
@@ -340,7 +348,13 @@ function this.init_default()
 	
 				text_label = {
 					visibility = false,
-					text_format = "%s",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
+					
 					offset = {
 						x = -22,
 						y = -5
@@ -349,10 +363,12 @@ function this.init_default()
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -360,45 +376,60 @@ function this.init_default()
 				value_label = {
 					visibility = true,
 
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s", -- current_health/max_health
+
 					include = {
 						current_value = true,
 						max_value = true
 					},
 
-					text_format = "%s", -- current_health/max_health
-
 					offset = {
 						x = 32,
 						y = 0
 					},
+
 					color = 0xFFCCF4E1,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				percentage_label = {
 					visibility = false,
-					text_format = "%5.1f%%",
+
+					settings = {
+						right_alignment_shift = 6
+					},
+
+					text_formatting = "%.1f%%",
 	
 					offset = {
 						x = -5,
 						y = 0
 					},
+
 					color = 0xFFCCF4E1,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -490,7 +521,12 @@ function this.init_default()
 	
 				ailment_name_label = {
 					visibility = true,
-					text_format = "%s",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
 	
 					include = {
 						ailment_name = true,
@@ -501,14 +537,17 @@ function this.init_default()
 						x = 5,
 						y = 0
 					},
+
 					color = 0xFFffb2e2,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -516,20 +555,27 @@ function this.init_default()
 				text_label = {
 					visibility = false,
 
-					text_format = language.current_language.UI.buildup,
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = language.current_language.UI.buildup,
 
 					offset = {
 						x = -60,
 						y = 6
 					},
+
 					color = 0xF1F4A3CC,
 	
 					shadow = {
 						visibility = true,
+						
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -537,65 +583,88 @@ function this.init_default()
 				value_label = {
 					visibility = true,
 
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s", -- current_buildup/max_buildup
+
 					include = {
 						current_value = true,
 						max_value = true
 					},
 
-					text_format = "%s", -- current_buildup/max_buildup
-
 					offset = {
 						x = 60,
 						y = 13
 					},
+
 					color = 0xFFFFFFFF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				percentage_label = {
 					visibility = false,
-					text_format = "%5.1f%%",
+
+					settings = {
+						right_alignment_shift = 6
+					},
+
+					text_formatting = "%.1f%%",
 	
 					offset = {
 						x = 0,
 						y = 13
 					},
+
 					color = 0xFFFFFFFF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				timer_label = {
 					visibility = true,
-					text_format = "%2.0f:%02.0f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%2.0f:%02.0f",
 	
 					offset = {
 						x = 140,
 						y = 13
 					},
+
 					color = 0xFFFFFFFF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -669,45 +738,61 @@ function this.init_default()
 	
 				ailment_name_label = {
 					visibility = true,
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
 	
 					include = {
 						ailment_name = true,
 						activation_count = true
 					},
-	
-					text_format = "%s",
+
 					offset = {
 						x = 5,
 						y = -17
 					},
+
 					color = 0xFF7cdbff,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				player_name_label = {
 					visibility = true,
+
+					settings = {
+						right_alignment_shift = 0
+					},
 	
-					text_format = "%s",
+					text_formatting = "%s",
+
 					offset = {
 						x = 5,
 						y = 0
 					},
+
 					color = 0xFFb5dded,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -715,7 +800,11 @@ function this.init_default()
 				buildup_value_label = {
 					visibility = true,
 
-					text_format = "%.0f",
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.0f",
 
 					offset = {
 						x = 115,
@@ -726,21 +815,30 @@ function this.init_default()
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				buildup_percentage_label = {
 					visibility = true,
-					text_format = "%5.1f%%",
+
+					settings = {
+						right_alignment_shift = 6
+					},
+
+					text_formatting = "%.1f%%",
+
 					offset = {
 						x = 152,
 						y = 0
 					},
+
 					color = 0xFFb5dded,
 	
 					shadow = {
@@ -755,38 +853,56 @@ function this.init_default()
 	
 				total_buildup_label = {
 					visibility = true,
-					text_format = "%s",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
+
 					offset = {
 						x = 5,
 						y = 0
 					},
+
 					color = 0xFFFF9393,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				total_buildup_value_label = {
 					visibility = true,
-					text_format = "%.0f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.0f",
+
 					offset = {
 						x = 115,
 						y = 0
 					},
+
 					color = 0xFFFF9393,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -881,7 +997,12 @@ function this.init_default()
 	
 				monster_name_label = {
 					visibility = true,
-					text_format = "%s",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
 	
 					include = {
 						monster_name = true,
@@ -895,14 +1016,17 @@ function this.init_default()
 						x = 5,
 						y = 0
 					},
+
 					color = 0xFFCCF4E1,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -917,19 +1041,28 @@ function this.init_default()
 	
 					text_label = {
 						visibility = false,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
+
 						offset = {
 							x = -25,
 							y = 2
 						},
+
 						color = 0xFFCCF4E1,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -937,45 +1070,60 @@ function this.init_default()
 					value_label = {
 						visibility = false,
 
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s", -- current_health/max_health
+
 						include = {
 							current_value = true,
 							max_value = true
 						},
 
-						text_format = "%s", -- current_health/max_health
-
 						offset = {
 							x = 5,
 							y = 2
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					percentage_label = {
 						visibility = false,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
 	
 						offset = {
 							x = 150,
 							y = 2
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -1043,19 +1191,28 @@ function this.init_default()
 	
 					text_label = {
 						visibility = false,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
+
 						offset = {
 							x = -70,
 							y = 0
 						},
+
 						color = 0xFFA3F5F0,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -1063,12 +1220,16 @@ function this.init_default()
 					value_label = {
 						visibility = false,
 
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s", -- current_current/max_stamina
+
 						include = {
 							current_value = true,
 							max_value = true
 						},
-
-						text_format = "%s", -- current_current/max_stamina
 						
 						offset = {
 							x = 45,
@@ -1079,6 +1240,7 @@ function this.init_default()
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
@@ -1089,40 +1251,56 @@ function this.init_default()
 	
 					percentage_label = {
 						visibility = false,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
 	
 						offset = {
 							x = 135,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					timer_label = {
 						visibility = false,
-						text_format = "%2.0f:%02.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -1169,19 +1347,28 @@ function this.init_default()
 	
 					text_label = {
 						visibility = false,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
+
 						offset = {
 							x = -70,
 							y = 0
 						},
+
 						color = 0xFFA3F5F0,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -1189,65 +1376,88 @@ function this.init_default()
 					value_label = {
 						visibility = false,
 
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s", -- current_rage/max_rage
+
 						include = {
 							current_value = true,
 							max_value = true
 						},
 
-						text_format = "%s", -- current_rage/max_rage
-
 						offset = {
 							x = 45,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					percentage_label = {
 						visibility = false,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
 	
 						offset = {
 							x = 135,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					timer_label = {
 						visibility = false,
-						text_format = "%2.0f:%02.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -1333,7 +1543,12 @@ function this.init_default()
 	
 					part_name_label = {
 						visibility = true,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
 	
 						include = {
 							part_name = true,
@@ -1346,14 +1561,17 @@ function this.init_default()
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFf9d9ff,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+							
 							color = 0xFF000000
 						}
 					},
@@ -1368,19 +1586,28 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text_format = language.current_language.UI.HP,
+
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = language.current_language.UI.HP,
+
 							offset = {
 								x = 100,
 								y = -5
 							},
+
 							color = 0xFFF4A3CC,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -1388,45 +1615,60 @@ function this.init_default()
 						value_label = {
 							visibility = true,
 
+							settings = {
+								right_alignment_shift = 11
+							},
+
+							text_formatting = "%s", -- current_health/max_health
+
 							include = {
 								current_value = true,
 								max_value = false
 							},
 
-							text_format = "%11s", -- current_health/max_health
-
 							offset = {
 								x = 100,
 								y = -5
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
 	
 						percentage_label = {
 							visibility = false,
-							text_format = "%5.1f%%",
+
+							settings = {
+								right_alignment_shift = 6
+							},
+
+							text_formatting = "%.1f%%",
 	
 							offset = {
 								x = 190,
 								y = -5
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -1473,19 +1715,28 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text_format = language.current_language.UI.part_break,
+
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = language.current_language.UI.part_break,
+
 							offset = {
 								x = -42,
 								y = 6
 							},
+
 							color = 0xFFb2d0ff,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -1493,46 +1744,61 @@ function this.init_default()
 						value_label = {
 							visibility = true,
 
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = "%s",
+
 							include = {
 								current_value = true,
 								max_value = false
 							},
-
-							text_format = "%-9s",
 
 							offset = {
 								x = 5,
 								y = 6
 	
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
 	
 						percentage_label = {
 							visibility = false,
-							text_format = "%5.1f%%",
+
+							settings = {
+								right_alignment_shift = 6
+							},
+
+							text_formatting = "%.1f%%",
 	
 							offset = {
 								x = 5,
 								y = 17
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -1579,52 +1845,73 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text_format = language.current_language.UI.part_sever,
+
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = language.current_language.UI.part_sever,
+
 							offset = {
 								x = 97,
 								y = 5
 							},
+
 							color = 0xFFff8095,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
 	
 						value_label = {
 							visibility = true,
+							
+							settings = {
+								right_alignment_shift = 11
+							},
+
+							text_formatting = "%s",
 
 							include = {
 								current_value = true,
 								max_value = false
 							},
 
-							text_format = "%11s",
-
 							offset = {
 								x = 6,
 								y = 6
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
 	
 						percentage_label = {
 							visibility = false,
-							text_format = "%5.1f%%",
+
+							settings = {
+								right_alignment_shift = 6
+							},
+
+							text_formatting = "%.1f%%",
 	
 							offset = {
 								x = 41,
@@ -1634,10 +1921,12 @@ function this.init_default()
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+								
 								color = 0xFF000000
 							}
 						},
@@ -1684,19 +1973,28 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text_format = language.current_language.UI.part_anomaly_core,
+
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = language.current_language.UI.part_anomaly_core,
+
 							offset = {
 								x = -90,
 								y = 1
 							},
+
 							color = 0xFFFF6680,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -1704,12 +2002,16 @@ function this.init_default()
 						value_label = {
 							visibility = true,
 
-							include = {
-								current_value = false,
-								max_value = false
+							settings = {
+								right_alignment_shift = 11
 							},
 
-							text_format = "%11s",
+							text_formatting = "%s",
+
+							include = {
+								current_value = true,
+								max_value = false
+							},
 
 							offset = {
 								x = -84,
@@ -1720,30 +2022,40 @@ function this.init_default()
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
 	
 						percentage_label = {
 							visibility = false,
-							text_format = "%5.1f%%",
+
+							settings = {
+								right_alignment_shift = 6
+							},
+
+							text_formatting = "%.1f%%",
 	
 							offset = {
 								x = -48,
 								y = 24
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -1840,7 +2152,12 @@ function this.init_default()
 	
 					ailment_name_label = {
 						visibility = true,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
 	
 						include = {
 							ailment_name = true,
@@ -1851,33 +2168,45 @@ function this.init_default()
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFffb2e2,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					text_label = {
 						visibility = false,
-						text_format = language.current_language.UI.buildup,
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = language.current_language.UI.buildup,
+
 						offset = {
 							x = -60,
 							y = 7
 						},
+
 						color = 0xFFffb2e2,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -1885,65 +2214,88 @@ function this.init_default()
 					value_label = {
 						visibility = true,
 
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s", -- current_buildup/max_buildup
+
 						include = {
 							current_value = true,
 							max_value = true
 						},
 
-						text_format = "%s", -- current_buildup/max_buildup
-
 						offset = {
 							x = 45,
 							y = 13
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					percentage_label = {
 						visibility = true,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
 	
 						offset = {
 							x = 135,
 							y = 13
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					timer_label = {
 						visibility = true,
-						text_format = "%2.0f:%02.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
 							y = 13
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -2017,75 +2369,108 @@ function this.init_default()
 	
 					ailment_name_label = {
 						visibility = true,
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+							
+						text_formatting = "%s",
 	
 						include = {
 							ailment_name = true,
 							activation_count = true
 						},
-	
-						text_format = "%s",
+
 						offset = {
 							x = 5,
 							y = -17
 						},
+
 						color = 0xFF7cdbff,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					player_name_label = {
 						visibility = true,
+
+						settings = {
+							right_alignment_shift = 0
+						},
 	
-						text_format = "%s",
+						text_formatting = "%s",
+
 						offset = {
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFB5DDED,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+							
 							color = 0xFF000000
 						}
 					},
 	
 					buildup_value_label = {
 						visibility = true,
-						text_format = "%.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%.0f",
+
 						offset = {
 							x = 115,
 							y = 0
 						},
+
 						color = 0xFFB5DDED,
 	
 						shadow = {
 							visibility = true,
+							
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					buildup_percentage_label = {
 						visibility = true,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
+
 						offset = {
 							x = 152,
 							y = 0
 						},
+
 						color = 0xFFB5DDED,
 	
 						shadow = {
@@ -2094,44 +2479,63 @@ function this.init_default()
 								x = 1,
 								y = 1
 							},
+							
 							color = 0xFF000000
 						}
 					},
 	
 					total_buildup_label = {
 						visibility = true,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
+
 						offset = {
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFF27979,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					total_buildup_value_label = {
 						visibility = true,
-						text_format = "%.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%.0f",
+
 						offset = {
 							x = 115,
 							y = 0
 						},
+
 						color = 0xFFF27979,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -2230,7 +2634,12 @@ function this.init_default()
 	
 				monster_name_label = {
 					visibility = true,
-					text_format = "%s",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
 	
 					include = {
 						monster_name = true,
@@ -2244,14 +2653,17 @@ function this.init_default()
 						x = 5,
 						y = 0
 					},
+
 					color = 0xFFCCF4E1,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -2266,19 +2678,28 @@ function this.init_default()
 	
 					text_label = {
 						visibility = false,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
+
 						offset = {
 							x = -25,
 							y = 2
 						},
+
 						color = 0xFFCCF4E1,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -2286,45 +2707,60 @@ function this.init_default()
 					value_label = {
 						visibility = true,
 
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s", -- current_health/max_health
+
 						include = {
 							current_value = true,
 							max_value = true
 						},
-						
-						text_format = "%s", -- current_health/max_health
-
+					
 						offset = {
 							x = 5,
 							y = 2
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					percentage_label = {
 						visibility = true,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
 	
 						offset = {
 							x = 150,
 							y = 2
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -2392,19 +2828,28 @@ function this.init_default()
 	
 					text_label = {
 						visibility = false,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
+
 						offset = {
 							x = 15,
 							y = 0
 						},
+
 						color = 0xFFA3F5F0,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -2412,65 +2857,88 @@ function this.init_default()
 					value_label = {
 						visibility = false,
 
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s", -- current_stamina/max_stamina
+
 						include = {
 							current_value = true,
 							max_value = true
 						},
 
-						text_format = "%s", -- current_stamina/max_stamina
-
 						offset = {
 							x = 55,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					percentage_label = {
 						visibility = false,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
 	
 						offset = {
 							x = 145,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					timer_label = {
 						visibility = true,
-						text_format = "%2.0f:%02.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -2517,19 +2985,28 @@ function this.init_default()
 	
 					text_label = {
 						visibility = false,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
+
 						offset = {
 							x = 15,
 							y = 19
 						},
+
 						color = 0xFFFF9393,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -2537,65 +3014,88 @@ function this.init_default()
 					value_label = {
 						visibility = false,
 
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s", -- current_rage/max_rage
+
 						include = {
 							current_value = true,
 							max_value = true
 						},
 
-						text_format = "%s", -- current_rage/max_rage
-
 						offset = {
 							x = 55,
 							y = 36
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					percentage_label = {
 						visibility = true,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
 	
 						offset = {
 							x = 150,
 							y = -9
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					timer_label = {
 						visibility = true,
-						text_format = "%2.0f:%02.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 157,
 							y = -9
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -2681,7 +3181,12 @@ function this.init_default()
 	
 					part_name_label = {
 						visibility = true,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
 	
 						include = {
 							part_name = true,
@@ -2694,14 +3199,17 @@ function this.init_default()
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFf9d9ff,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -2716,19 +3224,28 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text_format = language.current_language.UI.HP,
+
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = language.current_language.UI.HP,
+
 							offset = {
 								x = 100,
 								y = -5
 							},
+
 							color = 0xFFF4A3CC,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -2736,45 +3253,60 @@ function this.init_default()
 						value_label = {
 							visibility = true,
 
+							settings = {
+								right_alignment_shift = 11
+							},
+
+							text_formatting = "%s", -- current_health/max_health
+
 							include = {
 								current_value = true,
 								max_value = false
 							},
 
-							text_format = "%11s", -- current_health/max_health
-
 							offset = {
 								x = 100,
 								y = -5
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
 	
 						percentage_label = {
 							visibility = false,
-							text_format = "%5.1f%%",
+
+							settings = {
+								right_alignment_shift = 6
+							},
+
+							text_formatting = "%.1f%%",
 	
 							offset = {
 								x = 190,
 								y = -5
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -2821,19 +3353,28 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text_format = language.current_language.UI.part_break,
+
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = language.current_language.UI.part_break,
+
 							offset = {
 								x = -42,
 								y = 6
 							},
+
 							color = 0xFFb2d0ff,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -2841,46 +3382,61 @@ function this.init_default()
 						value_label = {
 							visibility = true,
 
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = "%s",
+
 							include = {
 								current_value = true,
 								max_value = false
 							},
-
-							text_format = "%-9s",
 
 							offset = {
 								x = 5,
 								y = 6
 	
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
 	
 						percentage_label = {
 							visibility = false,
-							text_format = "%5.1f%%",
+
+							settings = {
+								right_alignment_shift = 6
+							},
+
+							text_formatting = "%.1f%%",
 	
 							offset = {
 								x = 5,
 								y = 17
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -2927,19 +3483,28 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text_format = language.current_language.UI.part_sever,
+
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = language.current_language.UI.part_sever,
+
 							offset = {
 								x = 97,
 								y = 5
 							},
+
 							color = 0xFFff8095,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -2947,45 +3512,60 @@ function this.init_default()
 						value_label = {
 							visibility = true,
 
+							settings = {
+								right_alignment_shift = 11
+							},
+
+							text_formatting = "%s",
+
 							include = {
 								current_value = true,
 								max_value = false
 							},
 
-							text_format = "%11s",
-
 							offset = {
 								x = 6,
 								y = 6
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
 	
 						percentage_label = {
 							visibility = false,
-							text_format = "%5.1f%%",
+
+							settings = {
+								right_alignment_shift = 6
+							},
+
+							text_formatting = "%.1f%%",
 	
 							offset = {
 								x = 41,
 								y = 17
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -3032,19 +3612,28 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text_format = language.current_language.UI.part_anomaly_core,
+
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = language.current_language.UI.part_anomaly_core,
+
 							offset = {
 								x = -90,
 								y = 1
 							},
+
 							color = 0xFFFF6680,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -3052,12 +3641,16 @@ function this.init_default()
 						value_label = {
 							visibility = true,
 
-							include = {
-								current_value = false,
-								max_value = false
+							settings = {
+								right_alignment_shift = 11
 							},
 
-							text_format = "%11s",
+							text_formatting = "%s",
+
+							include = {
+								current_value = true,
+								max_value = false
+							},
 
 							offset = {
 								x = -84,
@@ -3068,30 +3661,40 @@ function this.init_default()
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
 	
 						percentage_label = {
 							visibility = false,
-							text_format = "%5.1f%%",
+
+							settings = {
+								right_alignment_shift = 6
+							},
+
+							text_formatting = "%.1f%%",
 	
 							offset = {
 								x = -48,
 								y = 24
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -3189,7 +3792,12 @@ function this.init_default()
 	
 					ailment_name_label = {
 						visibility = true,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
 	
 						include = {
 							ailment_name = true,
@@ -3200,33 +3808,45 @@ function this.init_default()
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFffb2e2,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					text_label = {
 						visibility = false,
-						text_format = language.current_language.UI.buildup,
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = language.current_language.UI.buildup,
+
 						offset = {
 							x = -60,
 							y = 7
 						},
+
 						color = 0xFFffb2e2,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -3234,65 +3854,88 @@ function this.init_default()
 					value_label = {
 						visibility = true,
 
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s", -- current_buildup/max_buildup
+
 						include = {
 							current_value = true,
 							max_value = true
 						},
 
-						text_format = "%s", -- current_buildup/max_buildup
-
 						offset = {
 							x = 45,
 							y = 13
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					percentage_label = {
 						visibility = true,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
 	
 						offset = {
 							x = 135,
 							y = 13
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					timer_label = {
 						visibility = true,
-						text_format = "%2.0f:%02.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
 							y = 13
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+							
 							color = 0xFF000000
 						}
 					},
@@ -3366,121 +4009,174 @@ function this.init_default()
 	
 					ailment_name_label = {
 						visibility = true,
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
 	
 						include = {
 							ailment_name = true,
 							activation_count = true
 						},
-	
-						text_format = "%s",
+
+
 						offset = {
 							x = 5,
 							y = -17
 						},
+
 						color = 0xFF7cdbff,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					player_name_label = {
 						visibility = true,
+
+						settings = {
+							right_alignment_shift = 0
+						},
 	
-						text_format = "%s",
+						text_formatting = "%s",
+
 						offset = {
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFb5dded,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					buildup_value_label = {
 						visibility = true,
-						text_format = "%.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%.0f",
+
 						offset = {
 							x = 115,
 							y = 0
 						},
+
 						color = 0xFFb5dded,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					buildup_percentage_label = {
 						visibility = true,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
+
 						offset = {
 							x = 152,
 							y = 0
 						},
+
 						color = 0xFFb5dded,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					total_buildup_label = {
 						visibility = true,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
+
 						offset = {
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFFF9393,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+							
 							color = 0xFF000000
 						}
 					},
 	
 					total_buildup_value_label = {
 						visibility = true,
-						text_format = "%.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%.0f",
+
 						offset = {
 							x = 115,
 							y = 0
 						},
+
 						color = 0xFFFF9393,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -3565,7 +4261,12 @@ function this.init_default()
 	
 				monster_name_label = {
 					visibility = true,
-					text_format = "%s",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
 	
 					include = {
 						monster_name = true,
@@ -3579,14 +4280,17 @@ function this.init_default()
 						x = 5,
 						y = 0
 					},
+
 					color = 0xFFCCF4E1,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -3601,19 +4305,28 @@ function this.init_default()
 	
 					text_label = {
 						visibility = false,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
+
 						offset = {
 							x = -25,
 							y = 2
 						},
+
 						color = 0xFFCCF4E1,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -3621,45 +4334,60 @@ function this.init_default()
 					value_label = {
 						visibility = true,
 
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s", -- current_health/max_health
+
 						include = {
 							current_value = true,
 							max_value = true
 						},
 
-						text_format = "%s", -- current_health/max_health
-
 						offset = {
 							x = 5,
 							y = 2
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					percentage_label = {
 						visibility = true,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
 	
 						offset = {
 							x = 150,
 							y = 2
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -3727,19 +4455,28 @@ function this.init_default()
 	
 					text_label = {
 						visibility = true,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
+
 						offset = {
 							x = 15 - 10,
 							y = 0
 						},
+
 						color = 0xFFA3F5F0,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -3747,65 +4484,88 @@ function this.init_default()
 					value_label = {
 						visibility = true,
 
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s", -- current_stamina/max_stamina
+
 						include = {
 							current_value = true,
 							max_value = true
 						},
 
-						text_format = "%s", -- current_stamina/max_stamina
-
 						offset = {
 							x = 45,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					percentage_label = {
 						visibility = true,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
 	
 						offset = {
 							x = 135,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					timer_label = {
 						visibility = true,
-						text_format = "%2.0f:%02.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -3852,19 +4612,28 @@ function this.init_default()
 	
 					text_label = {
 						visibility = true,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
+
 						offset = {
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFFF9393,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -3872,65 +4641,88 @@ function this.init_default()
 					value_label = {
 						visibility = true,
 
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s", -- current_rage/max_rage
+
 						include = {
 							current_value = true,
 							max_value = true
 						},
 
-						text_format = "%s", -- current_rage/max_rage
-
 						offset = {
 							x = 45,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					percentage_label = {
 						visibility = true,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
 	
 						offset = {
 							x = 135,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					timer_label = {
 						visibility = true,
-						text_format = "%2.0f:%02.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
 							y = 17
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -4016,7 +4808,12 @@ function this.init_default()
 	
 					part_name_label = {
 						visibility = true,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
 	
 						include = {
 							part_name = true,
@@ -4029,14 +4826,17 @@ function this.init_default()
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFf9d9ff,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -4051,19 +4851,28 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text_format = language.current_language.UI.HP,
+
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = language.current_language.UI.HP,
+
 							offset = {
 								x = 100,
 								y = -5
 							},
+
 							color = 0xFFF4A3CC,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -4071,45 +4880,60 @@ function this.init_default()
 						value_label = {
 							visibility = true,
 
+							settings = {
+								right_alignment_shift = 11
+							},
+
+							text_formatting = "%s", -- current_health/max_health
+
 							include = {
 								current_value = true,
 								max_value = false
 							},
 
-							text_format = "%11s", -- current_health/max_health
-
 							offset = {
 								x = 100,
 								y = -5
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
 	
 						percentage_label = {
 							visibility = false,
-							text_format = "%5.1f%%",
+
+							settings = {
+								right_alignment_shift = 6
+							},
+
+							text_formatting = "%.1f%%",
 	
 							offset = {
 								x = 190,
 								y = -5
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -4156,19 +4980,28 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text_format = language.current_language.UI.part_break,
+
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = language.current_language.UI.part_break,
+
 							offset = {
 								x = -42,
 								y = 6
 							},
+
 							color = 0xFFb2d0ff,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -4176,46 +5009,61 @@ function this.init_default()
 						value_label = {
 							visibility = true,
 
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = "%s",
+
 							include = {
 								current_value = true,
 								max_value = false
 							},
-
-							text_format = "%-9s",
 
 							offset = {
 								x = 5,
 								y = 6
 	
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
 	
 						percentage_label = {
 							visibility = false,
-							text_format = "%5.1f%%",
+
+							settings = {
+								right_alignment_shift = 6
+							},
+
+							text_formatting = "%.1f%%",
 	
 							offset = {
 								x = 5,
 								y = 17
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -4262,19 +5110,28 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text_format = language.current_language.UI.part_sever,
+
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = language.current_language.UI.part_sever,
+
 							offset = {
 								x = 97,
 								y = 5
 							},
+
 							color = 0xFFff8095,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -4282,45 +5139,60 @@ function this.init_default()
 						value_label = {
 							visibility = true,
 
+							settings = {
+								right_alignment_shift = 11
+							},
+
+							text_formatting = "%s",
+
 							include = {
 								current_value = true,
 								max_value = false
 							},
 
-							text_format = "%11s",
-
 							offset = {
 								x = 6,
 								y = 6
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+								
 								color = 0xFF000000
 							}
 						},
 	
 						percentage_label = {
 							visibility = false,
-							text_format = "%5.1f%%",
+
+							settings = {
+								right_alignment_shift = 6
+							},
+
+							text_formatting = "%.1f%%",
 	
 							offset = {
 								x = 41,
 								y = 17
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -4367,19 +5239,28 @@ function this.init_default()
 	
 						text_label = {
 							visibility = false,
-							text_format = language.current_language.UI.part_anomaly_core,
+
+							settings = {
+								right_alignment_shift = 0
+							},
+
+							text_formatting = language.current_language.UI.part_anomaly_core,
+
 							offset = {
 								x = -90,
 								y = 1
 							},
+
 							color = 0xFFFF6680,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -4387,12 +5268,16 @@ function this.init_default()
 						value_label = {
 							visibility = true,
 
-							include = {
-								current_value = false,
-								max_value = false
+							settings = {
+								right_alignment_shift = 11
 							},
 
-							text_format = "%11s",
+							text_formatting = "%s",
+
+							include = {
+								current_value = true,
+								max_value = false
+							},
 
 							offset = {
 								x = -84,
@@ -4403,30 +5288,40 @@ function this.init_default()
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
 	
 						percentage_label = {
 							visibility = false,
-							text_format = "%5.1f%%",
+
+							settings = {
+								right_alignment_shift = 6
+							},
+
+							text_formatting = "%.1f%%",
 	
 							offset = {
 								x = -48,
 								y = 24
 							},
+
 							color = 0xFFFFFFFF,
 	
 							shadow = {
 								visibility = true,
+
 								offset = {
 									x = 1,
 									y = 1
 								},
+
 								color = 0xFF000000
 							}
 						},
@@ -4523,7 +5418,12 @@ function this.init_default()
 	
 					ailment_name_label = {
 						visibility = true,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
 	
 						include = {
 							ailment_name = true,
@@ -4534,33 +5434,45 @@ function this.init_default()
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFffb2e2,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					text_label = {
 						visibility = false,
-						text_format = language.current_language.UI.buildup,
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = language.current_language.UI.buildup,
+
 						offset = {
 							x = -60,
 							y = 7
 						},
+
 						color = 0xFFffb2e2,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -4568,65 +5480,88 @@ function this.init_default()
 					value_label = {
 						visibility = true,
 
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s", -- current_buildup/max_buildup
+
 						include = {
 							current_value = true,
 							max_value = true
 						},
 
-						text_format = "%s", -- current_buildup/max_buildup
-
 						offset = {
 							x = 45,
 							y = 13
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					percentage_label = {
 						visibility = true,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
 	
 						offset = {
 							x = 135,
 							y = 13
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					timer_label = {
 						visibility = true,
-						text_format = "%2.0f:%02.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%2.0f:%02.0f",
 	
 						offset = {
 							x = 140,
 							y = 13
 						},
+
 						color = 0xFFFFFFFF,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -4700,121 +5635,173 @@ function this.init_default()
 	
 					ailment_name_label = {
 						visibility = true,
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
 	
 						include = {
 							ailment_name = true,
 							activation_count = true
 						},
-	
-						text_format = "%s",
+
 						offset = {
 							x = 5,
 							y = -17
 						},
+
 						color = 0xFF7cdbff,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					player_name_label = {
 						visibility = true,
+
+						settings = {
+							right_alignment_shift = 0
+						},
 	
-						text_format = "%s",
+						text_formatting = "%s",
+
 						offset = {
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFb5dded,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					buildup_value_label = {
 						visibility = true,
-						text_format = "%.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%.0f",
+
 						offset = {
 							x = 115,
 							y = 0
 						},
+
 						color = 0xFFb5dded,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					buildup_percentage_label = {
 						visibility = true,
-						text_format = "%5.1f%%",
+
+						settings = {
+							right_alignment_shift = 6
+						},
+
+						text_formatting = "%.1f%%",
+
 						offset = {
 							x = 152,
 							y = 0
 						},
+
 						color = 0xFFb5dded,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					total_buildup_label = {
 						visibility = true,
-						text_format = "%s",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%s",
+
 						offset = {
 							x = 5,
 							y = 0
 						},
+
 						color = 0xFFFF9393,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
 	
 					total_buildup_value_label = {
 						visibility = true,
-						text_format = "%.0f",
+
+						settings = {
+							right_alignment_shift = 0
+						},
+
+						text_formatting = "%.0f",
+
 						offset = {
 							x = 115,
 							y = 0
 						},
+
 						color = 0xFFFF9393,
 	
 						shadow = {
 							visibility = true,
+
 							offset = {
 								x = 1,
 								y = 1
 							},
+
 							color = 0xFF000000
 						}
 					},
@@ -4895,19 +5882,28 @@ function this.init_default()
 	
 			time_label = {
 				visibility = true,
-				text_format = "%02d:%06.3f",
+
+				settings = {
+					right_alignment_shift = 0
+				},
+
+				text_formatting = "%02d:%06.3f",
+
 				offset = {
 					x = 0,
 					y = 0
 				},
+
 				color = 0xFFCCF4E1,
 	
 				shadow = {
 					visibility = true,
+
 					offset = {
 						x = 1,
 						y = 1
 					},
+
 					color = 0xFF000000
 				}
 			}
@@ -4984,6 +5980,12 @@ function this.init_default()
 			myself = {
 				name_label = {
 					visibility = true,
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
 	
 					include = {
 						master_rank = true,
@@ -4993,92 +5995,124 @@ function this.init_default()
 						id = false,
 						name = true
 					},
-	
-					text_format = "%s",
+
 					offset = {
 						x = 5,
 						y = 0
 					},
+
 					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				hunter_rank_label = {
 					visibility = false,
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "[%s]",
 	
 					include = {
 						master_rank = true,
 						hunter_rank = true
 					},
-	
-					text_format = "[%s]",
+
 					offset = {
 						x = -65,
 						y = 0
 					},
+
 					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				cart_count_label = {
 					visibility = false,
+
+					settings = {
+						right_alignment_shift = 0
+					},
 	
-					text_format = "%d",
+					text_formatting = "%d",
+
 					offset = {
 						x = 315,
 						y = 0
 					},
+
 					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				dps_label = {
 					visibility = true,
-					text_format = "%.1f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.1f",
 	
 					offset = {
 						x = 155,
 						y = 0
 					},
+
 					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_value_label = {
 					visibility = true,
-					text_format = "%.0f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.0f",
+
 					offset = {
 						x = 205,
 						y = 0
@@ -5087,29 +6121,40 @@ function this.init_default()
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_percentage_label = {
 					visibility = true,
-					text_format = "%5.1f%%",
+
+					settings = {
+						right_alignment_shift = 6
+					},
+
+					text_formatting = "%.1f%%",
+
 					offset = {
 						x = 262,
 						y = 0
 					},
+
 					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -5149,6 +6194,12 @@ function this.init_default()
 			other_players = {
 				name_label = {
 					visibility = true,
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
 	
 					include = {
 						master_rank = true,
@@ -5158,8 +6209,7 @@ function this.init_default()
 						id = false,
 						name = true
 					},
-	
-					text_format = "%s",
+
 					offset = {
 						x = 5,
 						y = 0
@@ -5168,113 +6218,157 @@ function this.init_default()
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				hunter_rank_label = {
 					visibility = false,
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "[%s]",
 	
 					include = {
 						master_rank = true,
 						hunter_rank = true
 					},
-	
-					text_format = "[%s]",
+
 					offset = {
 						x = -65,
 						y = 0
 					},
+
 					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				cart_count_label = {
 					visibility = false,
+
+					settings = {
+						right_alignment_shift = 0
+					},
 	
-					text_format = "%d",
+					text_formatting = "%d",
+
 					offset = {
 						x = 315,
 						y = 0
 					},
+
 					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				dps_label = {
 					visibility = true,
-					text_format = "%.1f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.1f",
 	
 					offset = {
 						x = 155,
 						y = 0
 					},
+
 					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_value_label = {
 					visibility = true,
-					text_format = "%.0f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.0f",
+
 					offset = {
 						x = 205,
 						y = 0
 					},
+
 					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_percentage_label = {
 					visibility = true,
-					text_format = "%5.1f%%",
+
+					settings = {
+						right_alignment_shift = 6
+					},
+
+					text_formatting = "%.1f%%",
+
 					offset = {
 						x = 262,
 						y = 0
 					},
+
 					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -5314,84 +6408,118 @@ function this.init_default()
 			servants = {
 				name_label = {
 					visibility = true,
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
 	
 					include = {
 						type = false,
 						id = false,
 						name = true
 					},
-	
-					text_format = "%s",
+
 					offset = {
 						x = 5,
 						y = 0
 					},
+
 					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				dps_label = {
 					visibility = true,
-					text_format = "%.1f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.1f",
 	
 					offset = {
 						x = 155,
 						y = 0
 					},
+
 					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_value_label = {
 					visibility = true,
-					text_format = "%.0f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.0f",
+
 					offset = {
 						x = 205,
 						y = 0
 					},
+
 					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_percentage_label = {
 					visibility = true,
-					text_format = "%5.1f%%",
+
+					settings = {
+						right_alignment_shift = 6
+					},
+
+					text_formatting = "%.1f%%",
+
 					offset = {
 						x = 262,
 						y = 0
 					},
+
 					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -5431,6 +6559,12 @@ function this.init_default()
 			my_otomos = {
 				name_label = {
 					visibility = true,
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
 	
 					include = {
 						level = true,
@@ -5438,98 +6572,134 @@ function this.init_default()
 						id = false,
 						name = true
 					},
-	
-					text_format = "%s",
+
 					offset = {
 						x = 5,
 						y = 0
 					},
+
 					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				hunter_rank_label = {
 					visibility = false,
+
+					settings = {
+						right_alignment_shift = 0
+					},
 	
-					text_format = "[%s]",
+					text_formatting = "[%s]",
+
 					offset = {
 						x = -30,
 						y = 0
 					},
+
 					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				dps_label = {
 					visibility = true,
-					text_format = "%.1f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.1f",
 	
 					offset = {
 						x = 155,
 						y = 0
 					},
+
 					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_value_label = {
 					visibility = true,
-					text_format = "%.0f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.0f",
+
 					offset = {
 						x = 205,
 						y = 0
 					},
+					
 					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
+						
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_percentage_label = {
 					visibility = true,
-					text_format = "%5.1f%%",
+
+					settings = {
+						right_alignment_shift = 6
+					},
+
+					text_formatting = "%.1f%%",
+
 					offset = {
 						x = 262,
 						y = 0
 					},
+
 					color = 0xFFF59FC4,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -5569,6 +6739,12 @@ function this.init_default()
 			other_player_otomos = {
 				name_label = {
 					visibility = true,
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
 	
 					include = {
 						level = true,
@@ -5576,98 +6752,134 @@ function this.init_default()
 						id = false,
 						name = true
 					},
-	
-					text_format = "%s",
+
 					offset = {
 						x = 5,
 						y = 0
 					},
+
 					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				hunter_rank_label = {
 					visibility = false,
+
+					settings = {
+						right_alignment_shift = 0
+					},
 	
-					text_format = "[%s]",
+					text_formatting = "[%s]",
+
 					offset = {
 						x = -30,
 						y = 0
 					},
+
 					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				dps_label = {
 					visibility = true,
-					text_format = "%.1f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.1f",
 	
 					offset = {
 						x = 155,
 						y = 0
 					},
+
 					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_value_label = {
 					visibility = true,
-					text_format = "%.0f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.0f",
+
 					offset = {
 						x = 205,
 						y = 0
 					},
+
 					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_percentage_label = {
 					visibility = true,
-					text_format = "%5.1f%%",
+
+					settings = {
+						right_alignment_shift = 6
+					},
+
+					text_formatting = "%.1f%%",
+
 					offset = {
 						x = 262,
 						y = 0
 					},
+
 					color = 0xFF99E2FF,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -5707,6 +6919,12 @@ function this.init_default()
 			servant_otomos = {
 				name_label = {
 					visibility = true,
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%s",
 	
 					include = {
 						level = true,
@@ -5714,16 +6932,17 @@ function this.init_default()
 						id = false,
 						name = true
 					},
-	
-					text_format = "%s",
+
 					offset = {
 						x = 5,
 						y = 0
 					},
+
 					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
@@ -5734,8 +6953,13 @@ function this.init_default()
 	
 				hunter_rank_label = {
 					visibility = false,
+
+					settings = {
+						right_alignment_shift = 0
+					},
 	
-					text_format = "[%s]",
+					text_formatting = "[%s]",
+
 					offset = {
 						x = -30,
 						y = 0
@@ -5754,7 +6978,12 @@ function this.init_default()
 	
 				dps_label = {
 					visibility = true,
-					text_format = "%.1f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.1f",
 	
 					offset = {
 						x = 155,
@@ -5774,38 +7003,56 @@ function this.init_default()
 	
 				damage_value_label = {
 					visibility = true,
-					text_format = "%.0f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.0f",
+
 					offset = {
 						x = 205,
 						y = 0
 					},
+
 					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_percentage_label = {
 					visibility = true,
-					text_format = "%5.1f%%",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%6.1f%%",
+
 					offset = {
 						x = 262,
 						y = 0
 					},
+
 					color = 0xFFCDAAF2,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -5845,8 +7092,13 @@ function this.init_default()
 			total = {
 				name_label = {
 					visibility = true,
+
+					settings = {
+						right_alignment_shift = 0
+					},
 	
-					text_format = "%s",
+					text_formatting = "%s",
+
 					offset = {
 						x = 5,
 						y = 0
@@ -5865,59 +7117,84 @@ function this.init_default()
 	
 				cart_count_label = {
 					visibility = false,
+
+					settings = {
+						right_alignment_shift = 0
+					},
 	
-					text_format = "%d/%d",
+					text_formatting = "%d/%d",
+
 					offset = {
 						x = 315,
 						y = 0
 					},
+
 					color = 0xFFF27979,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				dps_label = {
 					visibility = true,
-					text_format = "%.1f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.1f",
 	
 					offset = {
 						x = 155,
 						y = 0
 					},
+
 					color = 0xFFF27979,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+						
 						color = 0xFF000000
 					}
 				},
 	
 				damage_value_label = {
 					visibility = true,
-					text_format = "%.0f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+					
+					text_formatting = "%.0f",
+
 					offset = {
 						x = 205,
 						y = 0
 					},
+
 					color = 0xFFF27979,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -5926,118 +7203,168 @@ function this.init_default()
 			highlighted = {
 				name_label = {
 					visibility = true,
+
+					settings = {
+						right_alignment_shift = 0
+					},
 	
-					text_format = "%s",
+					text_formatting = "%s",
+
 					offset = {
 						x = 5,
 						y = 0
 					},
+
 					color = 0xFFF7BEAD,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				hunter_rank_label = {
 					visibility = false,
+
+					settings = {
+						right_alignment_shift = 0
+					},
 	
-					text_format = "[%s]",
+					text_formatting = "[%s]",
+
 					offset = {
 						x = -65,
 						y = 0
 					},
+
 					color = 0xFFF7BEAD,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				cart_count_label = {
 					visibility = false,
+
+					settings = {
+						right_alignment_shift = 0
+					},
 	
-					text_format = "%d",
+					text_formatting = "%d",
+
 					offset = {
 						x = 315,
 						y = 0
 					},
+
 					color = 0xFFF7BEAD,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				dps_label = {
 					visibility = true,
-					text_format = "%.1f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.1f",
 	
 					offset = {
 						x = 155,
 						y = 0
 					},
+
 					color = 0xFFF7BEAD,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_value_label = {
 					visibility = true,
-					text_format = "%.0f",
+
+					settings = {
+						right_alignment_shift = 0
+					},
+
+					text_formatting = "%.0f",
+
 					offset = {
 						x = 205,
 						y = 0
 					},
+
 					color = 0xFFF7BEAD,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
 	
 				damage_percentage_label = {
 					visibility = true,
-					text_format = "%5.1f%%",
+
+					settings = {
+						right_alignment_shift = 6
+					},
+
+					text_formatting = "%.1f%%",
+
 					offset = {
 						x = 262,
 						y = 0
 					},
+
 					color = 0xFFF7BEAD,
 	
 					shadow = {
 						visibility = true,
+
 						offset = {
 							x = 1,
 							y = 1
 						},
+
 						color = 0xFF000000
 					}
 				},
@@ -6097,20 +7424,28 @@ function this.init_default()
 	
 			creature_name_label = {
 				visibility = true,
-				text_format = "%s",
+
+				settings = {
+					right_alignment_shift = 0
+				},
+
+				text_formatting = "%s",
 	
 				offset = {
 					x = 0,
 					y = 0
 				},
+
 				color = 0xFFf4f3ab,
 	
 				shadow = {
 					visibility = true,
+
 					offset = {
 						x = 1,
 						y = 1
 					},
+
 					color = 0xFF000000
 				}
 			}
@@ -6145,38 +7480,55 @@ function this.init_default()
 			name_label = {
 				visibility = true,
 
-				text_format = "%s",
+				settings = {
+					right_alignment_shift = 0
+				},
+
+				text_formatting = "%s",
+
 				offset = {
 					x = 5,
 					y = 0
 				},
+
 				color = 0xFFFEFF88,
 
 				shadow = {
 					visibility = true,
+
 					offset = {
 						x = 1,
 						y = 1
 					},
+
 					color = 0xFF000000
 				}
 			},
 
 			timer_label = {
 				visibility = true,
-				text_format = "%2.0f:%02.0f",
+
+				settings = {
+					right_alignment_shift = 0
+				},
+
+				text_formatting = "%2.0f:%02.0f",
+
 				offset = {
 					x = 200,
 					y = 0
 				},
+
 				color = 0xFFFFBF81,
 
 				shadow = {
 					visibility = true,
+
 					offset = {
 						x = 1,
 						y = 1
 					},
+					
 					color = 0xFF000000
 				}
 			},

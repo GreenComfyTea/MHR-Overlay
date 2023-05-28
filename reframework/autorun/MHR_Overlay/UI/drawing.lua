@@ -126,10 +126,17 @@ function this.draw_label(label, position, opacity_scale, ...)
 		return;
 	end
 
-	local text = string.format(label.text_format, table.unpack({...}));
+	local text = string.format(label.text_formatting, table.unpack({...}));
 
 	if text == "" then
 		return;
+	end
+
+	local right_alignment_shift = label.settings.right_alignment_shift;
+
+	if right_alignment_shift ~= 0 then
+		local right_aligment_format = string.format("%%%ds", right_alignment_shift);
+		text = string.format(right_aligment_format, text);
 	end
 
 	local position_x = position.x + label.offset.x;
