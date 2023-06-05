@@ -5927,6 +5927,7 @@ function this.init_default()
 				poison_damage = true,
 				blast_damage = true,
 				endemic_life_damage = true,
+				mystery_core_damage = true,
 				other_damage = true -- note that installations during narwa fight are counted as other damage
 			},
 	

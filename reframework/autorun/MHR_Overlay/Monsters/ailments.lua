@@ -755,20 +755,20 @@ function this.apply_ailment_damage(monster, ailment_type, ailment_damage)
 		return;
 	end
 
-	local damage_source_type = "";
-	local otomo_damage_source_type = "";
+	local damage_source_type = players.damage_types.other;
+	local otomo_damage_source_type = players.damage_types.other;
 	local buildup_share = monster.ailments[ailment_type].buildup_share;
 	local otomo_buildup_share = monster.ailments[ailment_type].otomo_buildup_share;
 	
 	if ailment_type == this.poison_id then
-		damage_source_type = "poison";
-		otomo_damage_source_type = "otomo poison";
+		damage_source_type = players.damage_types.poison;
+		otomo_damage_source_type = players.damage_types.otomo_poison;
 		buildup_share = monster.ailments[ailment_type].cached_buildup_share;
 		otomo_buildup_share = monster.ailments[ailment_type].cached_otomo_buildup_share;
 		
 	elseif ailment_type == this.blast_id then
-		damage_source_type = "blast";
-		otomo_damage_source_type = "otomo blast";
+		damage_source_type = players.damage_types.blast;
+		otomo_damage_source_type = players.damage_types.otomo_blast;
 	else
 		return;
 	end

@@ -383,8 +383,12 @@ this.default_language = {
 		installation_damage = "Installation Damage",
 		otomo_damage = "Buddy Damage",
 		monster_damage = "Monster Damage",
+		wyvern_riding_damage = "Wyvern Riding Damage",
 		poison_damage = "Poison Damage",
 		blast_damage = "Blast Damage",
+		endemic_life_damage = "Endemic Life Damage",
+		mystery_core_damage = "Anomaly Core Damage",
+		other_damage = "Other Damage",
 
 		damage = "Damage",
 
@@ -465,10 +469,6 @@ this.default_language = {
 		menu_font_change_disclaimer = "Changing Language and Menu Font Size several times will cause a crash!",
 
 		master_rank = "Master Rank",
-
-		other_damage = "Other Damage",
-		wyvern_riding_damage = "Wyvern Riding Damage",
-		endemic_life_damage = "Endemic Life Damage",
 
 		hide_myself = "Hide Myself",
 		hide_other_players = "Hide Other Players",

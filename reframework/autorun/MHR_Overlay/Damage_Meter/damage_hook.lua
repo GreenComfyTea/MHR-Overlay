@@ -50,6 +50,7 @@ local is_boss_enemy_method = enemy_character_base_type_def:get_method("get_isBos
 local check_die_method = enemy_character_base_type_def:get_method("checkDie");
 
 local stock_direct_marionette_finish_shoot_hit_parts_damage_method = enemy_character_base_type_def:get_method("stockDirectMarionetteFinishShootHitPartsDamage");
+local get_mystery_core_break_damage_rate_method = enemy_character_base_type_def:get_method("getMysteryCoreBreakDamageRate");
 
 local enemy_calc_damage_info_type_def = sdk.find_type_definition("snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide");
 local get_attacker_id_method = enemy_calc_damage_info_type_def:get_method("get_AttackerID");
@@ -69,7 +70,7 @@ local get_condition_type2_method = enemy_calc_damage_info_type_def:get_method("g
 local get_condition_damage3_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamage3");
 local get_condition_type3_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamageType3");
 
-local stock_mystery_core_break_damage_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase.stockMysteryCoreBreakDamage");
+local stock_mystery_core_break_damage_method = enemy_character_base_type_def:get_method("stockMysteryCoreBreakDamage");
 
 local quest_manager_type_def = sdk.find_type_definition("snow.QuestManager");
 
@@ -81,22 +82,22 @@ local is_from_host_field = packet_quest_forfeit_type_def:get_field("_IsFromQuest
 
 function this.get_damage_source_type(damage_source_type_id, is_marionette_attack)
 	if is_marionette_attack then
-		return "wyvern riding";
+		return players.damage_types.wyvern_riding;
 	elseif damage_source_type_id == 0 or damage_source_type_id == 7 or damage_source_type_id == 11 or damage_source_type_id == 13 then
-		return "player";
+		return players.damage_types.player;
 	elseif damage_source_type_id == 1 or damage_source_type_id == 8 then
-		return "bomb";
+		return players.damage_types.bombs;
 	elseif damage_source_type_id == 9 then
-		return "kunai";
+		return players.damage_types.kunai;
 	elseif damage_source_type_id >= 14 and damage_source_type_id <= 20 then
-		return "installation";
+		return players.damage_types.installations;
 	elseif damage_source_type_id >= 21 and damage_source_type_id <= 23 then
-		return "otomo";
+		return players.damage_types.otomo;
 	elseif damage_source_type_id >= 25 and damage_source_type_id <= 32 then
-		return "endemic life";
+		return players.damage_types.endemic_life;
 	end
 
-	return "other";
+	return players.damage_types.other;
 end
 
 -- snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide
@@ -226,11 +227,34 @@ function this.update_damage(enemy, enemy_calc_damage_info)
 
 	players.update_damage(players.total, damage_source_type, is_large_monster, damage_object);
 	players.update_damage(player, damage_source_type, is_large_monster, damage_object);
+
+	--[[xy = string.format(
+		
+			PhysicalPartsVitalDamage(): 		%s
+			PhysicalPartsBreakVitalDamage():	%s
+			PhysicalPartsLossVitalDamage():		%s
+			PhysicalMultiPartsVitalDamage():	%s
+
+			ElementPartsVitalDamage():			%s
+			ElementPartsBreakVitalDamage():		%s
+			ElementPartsLossVitalDamage():		%s
+			ElementMultiPartsVitalDamage():		%s
+
+			IsBreakPartsDamage():				%s
+		,
+		tostring(enemy_calc_damage_info:get_PhysicalPartsVitalDamage()),
+		tostring(enemy_calc_damage_info:get_PhysicalPartsBreakVitalDamage()),
+		tostring(enemy_calc_damage_info:get_PhysicalPartsLossVitalDamage()),
+		tostring(enemy_calc_damage_info:get_PhysicalMultiPartsVitalDamage()),
+
+		tostring(enemy_calc_damage_info:get_ElementPartsVitalDamage()),
+		tostring(enemy_calc_damage_info:get_ElementPartsBreakVitalDamage()),
+		tostring(enemy_calc_damage_info:get_ElementPartsLossVitalDamage()),
+		tostring(enemy_calc_damage_info:get_ElementMultiPartsVitalDamage()),
+
+		tostring(enemy_calc_damage_info:get_IsBreakPartsDamage())
+	);]]
 end
-
---function damage_hook.on_mystery_core_break(enemy)
-
---end
 
 function this.cart(dead_player_id, flag_cat_skill_insurance)
 	-- flag_cat_skill_insurance = 0
@@ -309,6 +333,28 @@ function this.on_stock_direct_marionette_finish_shoot_hit_parts_damage(enemy, da
 	players.update_damage(player, damage_source_type, true, large_monster_damage_object);
 end
 
+function this.on_mystery_core_break(enemy, part_id)
+	local monster = large_monster.get_monster(enemy);
+	if monster == nil then
+		return;
+	end
+
+	local mystery_core_break_damage_rate = get_mystery_core_break_damage_rate_method:call(enemy);
+	if mystery_core_break_damage_rate == nil then
+		return;
+	end
+
+	local mystery_core_break_damage = utils.math.round(mystery_core_break_damage_rate * monster.max_health);
+
+	local damage_object = {};
+	damage_object.total_damage = mystery_core_break_damage;
+	damage_object.physical_damage = 0;
+	damage_object.elemental_damage = 0;
+	damage_object.ailment_damage = mystery_core_break_damage;
+
+	players.update_damage(players.total, players.damage_types.mystery_core, true, damage_object);
+end
+
 function this.init_module()
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	players = require("MHR_Overlay.Damage_Meter.players");
@@ -343,6 +389,20 @@ function this.init_module()
 	end, function(retval)
 		return retval;
 	end);
+
+	sdk.hook(stock_mystery_core_break_damage_method, function(args)
+		-- break core group is same as hit group?
+		-- break core group is part id which exploded
+		local enemy = sdk.to_managed_object(args[2]);
+		local break_core_group = sdk.to_int64(args[3]);
+		local hit_group = sdk.to_int64(args[4]);
+
+		this.on_mystery_core_break(enemy, hit_group);
+	end, function(retval)
+		return retval;
+	end);
+
+	--snow.enemy.EnemyCharacterBase.procDamageMystery(snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide)
 
 	--sdk.hook(stock_mystery_core_break_damage_type_def, function(args)
 	--	pcall(damage_hook.on_mystery_core_break, sdk.to_managed_object(args[2]));

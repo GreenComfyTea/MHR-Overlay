@@ -9,6 +9,7 @@ local quest_status;
 local drawing;
 local language;
 local non_players;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -51,6 +52,22 @@ this.display_list = {};
 
 this.highlighted_damage_UI = nil;
 
+this.damage_types = {
+	["player"] = "player",
+	["bombs"] = "bombs",
+	["kunai"] = "kunai",
+	["installations"] = "installations",
+	["otomo"] = "otomo",
+	["wyvern_riding"] = "wyvern_riding",
+	["poison"] = "poison",
+	["otomo_poison"] = "otomo_poison",
+	["blast"] = "blast",
+	["otomo_blast"] = "otomo_blast",
+	["endemic_life"] = "endemic_life",
+	["mystery_core"] = "mystery_core",
+	["other"] = "other"
+};
+
 this.types = {
 	["myself"] = 0,
 	["other_player"] = 1,
@@ -60,8 +77,7 @@ this.types = {
 	["servant_otomo"] = 16,
 	["total"] = 32,
 	["highlight"] = 64
-
-}
+};
 
 function this.new(id, name, master_rank, hunter_rank, type)
 	local player = {};
@@ -78,7 +94,7 @@ function this.new(id, name, master_rank, hunter_rank, type)
 	player.first_hit_time = -1;
 	player.dps = 0;
 
-	player.small_monsters = this.init_damage_sources()
+	player.small_monsters = this.init_damage_sources();
 	player.large_monsters = this.init_damage_sources();
 	
 	player.display = {};
@@ -98,78 +114,15 @@ end
 
 function this.init_damage_sources()
 	local monster_type = {};
-
-	monster_type.total_damage = 0;
-	monster_type.physical_damage = 0;
-	monster_type.elemental_damage = 0;
-	monster_type.ailment_damage = 0;
-
-	monster_type.bombs = {};
-	monster_type.bombs.total_damage = 0;
-	monster_type.bombs.physical_damage = 0;
-	monster_type.bombs.elemental_damage = 0;
-	monster_type.bombs.ailment_damage = 0;
-
-	monster_type.kunai = {};
-	monster_type.kunai.total_damage = 0;
-	monster_type.kunai.physical_damage = 0;
-	monster_type.kunai.elemental_damage = 0;
-	monster_type.kunai.ailment_damage = 0;
-
-	monster_type.installations = {};
-	monster_type.installations.total_damage = 0;
-	monster_type.installations.physical_damage = 0;
-	monster_type.installations.elemental_damage = 0;
-	monster_type.installations.ailment_damage = 0;
-
-	monster_type.otomo = {};
-	monster_type.otomo.total_damage = 0;
-	monster_type.otomo.physical_damage = 0;
-	monster_type.otomo.elemental_damage = 0;
-	monster_type.otomo.ailment_damage = 0;
-
-	monster_type.wyvern_riding = {};
-	monster_type.wyvern_riding.total_damage = 0;
-	monster_type.wyvern_riding.physical_damage = 0;
-	monster_type.wyvern_riding.elemental_damage = 0;
-	monster_type.wyvern_riding.ailment_damage = 0;
-
-	monster_type.poison = {};
-	monster_type.poison.total_damage = 0;
-	monster_type.poison.physical_damage = 0;
-	monster_type.poison.elemental_damage = 0;
-	monster_type.poison.ailment_damage = 0;
-
-	monster_type.otomo_poison = {};
-	monster_type.otomo_poison.total_damage = 0;
-	monster_type.otomo_poison.physical_damage = 0;
-	monster_type.otomo_poison.elemental_damage = 0;
-	monster_type.otomo_poison.ailment_damage = 0;
-
-
-	monster_type.blast = {};
-	monster_type.blast.total_damage = 0;
-	monster_type.blast.physical_damage = 0;
-	monster_type.blast.elemental_damage = 0;
-	monster_type.blast.ailment_damage = 0;
-
-	monster_type.otomo_blast = {};
-	monster_type.otomo_blast.total_damage = 0;
-	monster_type.otomo_blast.physical_damage = 0;
-	monster_type.otomo_blast.elemental_damage = 0;
-	monster_type.otomo_blast.ailment_damage = 0;
-
-	monster_type.endemic_life = {};
-	monster_type.endemic_life.total_damage = 0;
-	monster_type.endemic_life.physical_damage = 0;
-	monster_type.endemic_life.elemental_damage = 0;
-	monster_type.endemic_life.ailment_damage = 0;
-
-	monster_type.other = {};
-	monster_type.other.total_damage = 0;
-	monster_type.other.physical_damage = 0;
-	monster_type.other.elemental_damage = 0;
-	monster_type.other.ailment_damage = 0;
+	
+	for damage_type_name, _ in pairs(this.damage_types) do
+		monster_type[damage_type_name] = {
+			total_damage = 0,
+			physical_damage = 0,
+			elemental_damage = 0,
+			ailment_damage = 0
+		};
+	end
 
 	return monster_type;
 end
@@ -191,37 +144,10 @@ function this.update_damage(player, damage_source_type, is_large_monster, damage
 		player.first_hit_time = time.total_elapsed_script_seconds;
 	end
 
-	local player_monster_type = player.small_monsters;
 	if is_large_monster then
-		player_monster_type = player.large_monsters;
-	end
-
-	if damage_source_type == "player" then
-		this.merge_damage(player_monster_type, damage_object);
-	elseif damage_source_type == "bomb" then
-		this.merge_damage(player_monster_type.bombs, damage_object);
-	elseif damage_source_type == "kunai" then
-		this.merge_damage(player_monster_type.kunai, damage_object);
-	elseif damage_source_type == "installation" then
-		this.merge_damage(player_monster_type.installations, damage_object);
-	elseif damage_source_type == "otomo" then
-		this.merge_damage(player_monster_type.otomo, damage_object);
-	elseif damage_source_type == "wyvern riding" then
-		this.merge_damage(player_monster_type.wyvern_riding, damage_object);
-	elseif damage_source_type == "poison" then
-		this.merge_damage(player_monster_type.poison, damage_object);
-	elseif damage_source_type == "blast" then
-		this.merge_damage(player_monster_type.blast, damage_object);
-	elseif damage_source_type == "otomo poison" then
-		this.merge_damage(player_monster_type.otomo_poison, damage_object);
-	elseif damage_source_type == "otomo blast" then
-		this.merge_damage(player_monster_type.otomo_blast, damage_object);
-	elseif damage_source_type == "endemic life" then
-		this.merge_damage(player_monster_type.endemic_life, damage_object);
-	elseif damage_source_type == "other" then
-		this.merge_damage(player_monster_type.other, damage_object);
+		this.merge_damage(player.large_monsters[damage_source_type], damage_object);
 	else
-		this.merge_damage(player_monster_type, damage_object);
+		this.merge_damage(player.small_monsters[damage_source_type], damage_object);
 	end
 
 	this.update_display(player);
@@ -251,7 +177,7 @@ function this.update_display(player)
 
 	for _, monster_type in ipairs(monster_types) do
 		if cached_config.tracked_damage_types.player_damage then
-			this.merge_damage(player.display, monster_type);
+			this.merge_damage(player.display, monster_type.player);
 		end
 
 		if cached_config.tracked_damage_types.bomb_damage then
@@ -388,6 +314,10 @@ function this.update_display(player)
 
 		if cached_config.tracked_damage_types.endemic_life_damage then
 			this.merge_damage(player.display, monster_type.endemic_life);
+		end
+
+		if cached_config.tracked_damage_types.mystery_core_damage then
+			this.merge_damage(player.display, monster_type.mystery_core);
 		end
 
 		if cached_config.tracked_damage_types.other_damage then
@@ -702,6 +632,7 @@ function this.init_module()
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
+	utils = require("MHR_Overlay.Misc.utils");
 
 	this.init();
 end
