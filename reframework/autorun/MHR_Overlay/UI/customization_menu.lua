@@ -1740,68 +1740,68 @@ function this.draw_damage_meter_UI()
 
 		if imgui.tree_node(language.current_language.customization_menu.tracked_damage_types) then
 
-			changed, cached_config.tracked_damage_types.player_damage = imgui.checkbox(
-				language.current_language.customization_menu.player_damage, cached_config.tracked_damage_types.player_damage);
+			changed, cached_config.tracked_damage_types.players = imgui.checkbox(
+				language.current_language.customization_menu.players, cached_config.tracked_damage_types.players);
 
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;
 
-			changed, cached_config.tracked_damage_types.bomb_damage = imgui.checkbox(
-				language.current_language.customization_menu.bomb_damage, cached_config.tracked_damage_types.bomb_damage);
+			changed, cached_config.tracked_damage_types.bombs = imgui.checkbox(
+				language.current_language.customization_menu.bombs, cached_config.tracked_damage_types.bombs);
 
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;
 
-			changed, cached_config.tracked_damage_types.kunai_damage = imgui.checkbox(
-				language.current_language.customization_menu.kunai_damage, cached_config.tracked_damage_types.kunai_damage);
+			changed, cached_config.tracked_damage_types.kunai = imgui.checkbox(
+				language.current_language.customization_menu.kunai, cached_config.tracked_damage_types.kunai);
 
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;
 
-			changed, cached_config.tracked_damage_types.installation_damage = imgui.checkbox(
-				language.current_language.customization_menu.installation_damage, cached_config.tracked_damage_types.installation_damage);
+			changed, cached_config.tracked_damage_types.installations = imgui.checkbox(
+				language.current_language.customization_menu.installations, cached_config.tracked_damage_types.installations);
 
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;
 
-			changed, cached_config.tracked_damage_types.otomo_damage = imgui.checkbox(
-				language.current_language.customization_menu.otomo_damage, cached_config.tracked_damage_types.otomo_damage);
+			changed, cached_config.tracked_damage_types.otomos = imgui.checkbox(
+				language.current_language.customization_menu.otomos, cached_config.tracked_damage_types.otomos);
 
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;
 
-			changed, cached_config.tracked_damage_types.wyvern_riding_damage = imgui.checkbox(
-				language.current_language.customization_menu.wyvern_riding_damage, cached_config.tracked_damage_types.wyvern_riding_damage);
+			changed, cached_config.tracked_damage_types.wyvern_riding = imgui.checkbox(
+				language.current_language.customization_menu.wyvern_riding, cached_config.tracked_damage_types.wyvern_riding);
 
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;
 
-			changed, cached_config.tracked_damage_types.poison_damage = imgui.checkbox(
-				language.current_language.customization_menu.poison_damage, cached_config.tracked_damage_types.poison_damage);
+			changed, cached_config.tracked_damage_types.poison = imgui.checkbox(
+				language.current_language.customization_menu.poison, cached_config.tracked_damage_types.poison);
 
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;
 
-			changed, cached_config.tracked_damage_types.blast_damage = imgui.checkbox(
-				language.current_language.customization_menu.blast_damage, cached_config.tracked_damage_types.blast_damage);
+			changed, cached_config.tracked_damage_types.blast = imgui.checkbox(
+				language.current_language.customization_menu.blast, cached_config.tracked_damage_types.blast);
 
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;
 
-			changed, cached_config.tracked_damage_types.endemic_life_damage = imgui.checkbox(
-				language.current_language.customization_menu.endemic_life_damage, cached_config.tracked_damage_types.endemic_life_damage);
+			changed, cached_config.tracked_damage_types.endemic_life = imgui.checkbox(
+				language.current_language.customization_menu.endemic_life, cached_config.tracked_damage_types.endemic_life);
 
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;
 
-			changed, cached_config.tracked_damage_types.mystery_core_damage = imgui.checkbox(
-				language.current_language.customization_menu.mystery_core_damage, cached_config.tracked_damage_types.mystery_core_damage);
+			changed, cached_config.tracked_damage_types.mystery_cores = imgui.checkbox(
+				language.current_language.customization_menu.mystery_cores, cached_config.tracked_damage_types.mystery_cores);
 
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;
 
-			changed, cached_config.tracked_damage_types.other_damage = imgui.checkbox(
-				language.current_language.customization_menu.other_damage, cached_config.tracked_damage_types.other_damage);
+			changed, cached_config.tracked_damage_types.other = imgui.checkbox(
+				language.current_language.customization_menu.other, cached_config.tracked_damage_types.other);
 
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;

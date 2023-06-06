@@ -5918,17 +5918,17 @@ function this.init_default()
 			},
 	
 			tracked_damage_types = {
-				player_damage = true,
-				bomb_damage = true,
-				kunai_damage = true,
-				installation_damage = true, -- hunting_installations like ballista, cannon, etc.
-				otomo_damage = true,
-				wyvern_riding_damage = true,
-				poison_damage = true,
-				blast_damage = true,
-				endemic_life_damage = true,
-				mystery_core_damage = true,
-				other_damage = true -- note that installations during narwa fight are counted as other damage
+				players = true,
+				bombs = true,
+				kunai = true,
+				installations = true, -- hunting_installations like ballista, cannon, etc.
+				otomos = true,
+				wyvern_riding = true,
+				poison = true,
+				blast = true,
+				endemic_life = true,
+				mystery_cores = true,
+				other = true -- note that installations during narwa fight are counted as other damage
 			},
 	
 			spacing = {

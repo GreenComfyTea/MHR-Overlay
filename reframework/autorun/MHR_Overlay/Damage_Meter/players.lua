@@ -176,23 +176,23 @@ function this.update_display(player)
 	end
 
 	for _, monster_type in ipairs(monster_types) do
-		if cached_config.tracked_damage_types.player_damage then
+		if cached_config.tracked_damage_types.players then
 			this.merge_damage(player.display, monster_type.player);
 		end
 
-		if cached_config.tracked_damage_types.bomb_damage then
+		if cached_config.tracked_damage_types.bombs then
 			this.merge_damage(player.display, monster_type.bombs);
 		end
 
-		if cached_config.tracked_damage_types.kunai_damage then
+		if cached_config.tracked_damage_types.kunai then
 			this.merge_damage(player.display, monster_type.kunai);
 		end
 
-		if cached_config.tracked_damage_types.installation_damage then
+		if cached_config.tracked_damage_types.installations then
 			this.merge_damage(player.display, monster_type.installations);
 		end
 
-		if cached_config.tracked_damage_types.otomo_damage then
+		if cached_config.tracked_damage_types.otomos then
 			if player.type == this.types.myself then
 
 				if not cached_config.settings.show_my_otomos_separately then
@@ -229,11 +229,11 @@ function this.update_display(player)
 			end
 		end
 
-		if cached_config.tracked_damage_types.wyvern_riding_damage then
+		if cached_config.tracked_damage_types.wyvern_riding then
 			this.merge_damage(player.display, monster_type.wyvern_riding);
 		end
 
-		if cached_config.tracked_damage_types.poison_damage then
+		if cached_config.tracked_damage_types.poison then
 			this.merge_damage(player.display, monster_type.poison);
 
 			if player.type == this.types.myself then
@@ -273,7 +273,7 @@ function this.update_display(player)
 			end
 		end
 
-		if cached_config.tracked_damage_types.blast_damage then
+		if cached_config.tracked_damage_types.blast then
 			this.merge_damage(player.display, monster_type.blast);
 
 			if player.type == this.types.myself then
@@ -312,15 +312,15 @@ function this.update_display(player)
 			end
 		end
 
-		if cached_config.tracked_damage_types.endemic_life_damage then
+		if cached_config.tracked_damage_types.endemic_life then
 			this.merge_damage(player.display, monster_type.endemic_life);
 		end
 
-		if cached_config.tracked_damage_types.mystery_core_damage then
+		if cached_config.tracked_damage_types.mystery_cores then
 			this.merge_damage(player.display, monster_type.mystery_core);
 		end
 
-		if cached_config.tracked_damage_types.other_damage then
+		if cached_config.tracked_damage_types.other then
 			this.merge_damage(player.display, monster_type.other);
 		end
 	end
