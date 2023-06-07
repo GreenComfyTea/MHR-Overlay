@@ -70,6 +70,7 @@ function this.new(id, name)
 	part.break_count = 0;
 	part.break_max_count = 0;
 
+	part.anomaly_ref = nil;
 	part.anomaly_health = -9;
 	part.anomaly_max_health = -10;
 	part.anomaly_health_percentage = 0;
@@ -160,7 +161,7 @@ function this.update_loss(part, part_loss_current, part_loss_max, is_severed)
 
 end
 
-function this.update_anomaly(part, part_anomaly_current, part_anomaly_max, part_is_active)
+function this.update_anomaly(part, part_anomaly_ref, part_anomaly_current, part_anomaly_max, part_is_active)
 	if part.anomaly_health ~= part_anomaly_current then
 		part.last_change_time = time.total_elapsed_script_seconds;
 	end
@@ -173,10 +174,11 @@ function this.update_anomaly(part, part_anomaly_current, part_anomaly_max, part_
 		part.last_change_time = time.total_elapsed_script_seconds;
 	end
 
+	part.anomaly_core_ref = part_anomaly_ref;
 	part.anomaly_health = part_anomaly_current;
 	part.anomaly_max_health = part_anomaly_max;
 	part.anomaly_is_active = part_is_active;
-
+	
 	if part.anomaly_max_health ~= 0 then
 		part.anomaly_health_percentage = part.anomaly_health / part.anomaly_max_health;
 	end

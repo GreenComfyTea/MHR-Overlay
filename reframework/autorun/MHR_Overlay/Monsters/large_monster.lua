@@ -114,6 +114,7 @@ function this.new(enemy)
 	monster.king_border = 10;
 	monster.crown = "";
 
+	monster.is_anomaly = false;
 	monster.parts = {};
 
 	monster.ailments = ailments.init_ailments();
@@ -253,6 +254,7 @@ local enemy_mystery_core_parts_type_def = sdk.find_type_definition("snow.enemy.E
 local core_parts_get_vital_method = enemy_mystery_core_parts_type_def:get_method("get_Vital");
 local core_parts_get_is_active_method = enemy_mystery_core_parts_type_def:get_method("get_IsActive");
 local core_parts_get_dying_vital_threashold_method = enemy_mystery_core_parts_type_def:get_method("get_DyingVitalThreashold");
+local on_break_method = enemy_mystery_core_parts_type_def:get_method("onBreak");
 
 function this.init(monster, enemy)
 	local enemy_type = enemy_type_field:get_data(enemy);
@@ -331,6 +333,7 @@ function this.init(monster, enemy)
 	local mystery_param =  get_mystery_param_method:call(enemy);
 	local is_anomaly = mystery_param ~= nil;
 
+	monster.is_anomaly = is_anomaly;
 	monster.is_capturable = is_capture_enable and not is_anomaly;
 end
 
@@ -921,7 +924,7 @@ function this.update_anomaly_parts(enemy, monster, mystery_param)
 				goto continue;
 			end
 
-			body_part.update_anomaly(part, part_current, part_max, part_is_active);
+			body_part.update_anomaly(part, core_part, part_current, part_max, part_is_active);
 
 		end
 

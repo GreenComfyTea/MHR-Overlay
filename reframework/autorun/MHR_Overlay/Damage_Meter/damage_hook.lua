@@ -70,8 +70,6 @@ local get_condition_type2_method = enemy_calc_damage_info_type_def:get_method("g
 local get_condition_damage3_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamage3");
 local get_condition_type3_method = enemy_calc_damage_info_type_def:get_method("get_ConditionDamageType3");
 
-local stock_mystery_core_break_damage_method = enemy_character_base_type_def:get_method("stockMysteryCoreBreakDamage");
-
 local quest_manager_type_def = sdk.find_type_definition("snow.QuestManager");
 
 local quest_forfeit_method = quest_manager_type_def:get_method("questForfeit");
@@ -79,6 +77,9 @@ local quest_forfeit_method = quest_manager_type_def:get_method("questForfeit");
 local packet_quest_forfeit_type_def = sdk.find_type_definition("snow.QuestManager.PacketQuestForfeit");
 local dead_player_id_field = packet_quest_forfeit_type_def:get_field("_DeadPlIndex");
 local is_from_host_field = packet_quest_forfeit_type_def:get_field("_IsFromQuestHostPacket");
+
+local enemy_mystery_core_parts_type_def = sdk.find_type_definition("snow.enemy.EnemyMysteryCoreParts");
+local on_break_method = enemy_mystery_core_parts_type_def:get_method("onBreak");
 
 function this.get_damage_source_type(damage_source_type_id, is_marionette_attack)
 	if is_marionette_attack then
@@ -333,26 +334,43 @@ function this.on_stock_direct_marionette_finish_shoot_hit_parts_damage(enemy, da
 	players.update_damage(player, damage_source_type, true, large_monster_damage_object);
 end
 
-function this.on_mystery_core_break(enemy, part_id)
-	local monster = large_monster.get_monster(enemy);
-	if monster == nil then
+function this.on_anomaly_core_break(anomaly_core_part)
+	local anomaly_monster = nil;
+	for enemy, monster in pairs(large_monster.list) do
+
+		if monster.is_anomaly then
+			for part_id, part in pairs(monster.parts) do
+
+				if part.anomaly_core_ref == anomaly_core_part then
+					anomaly_monster = monster;
+					break;
+				end
+			end
+
+			if anomaly_monster ~= nil then
+				break;
+			end
+		end
+	end
+
+	if anomaly_monster == nil then
 		return;
 	end
 
-	local mystery_core_break_damage_rate = get_mystery_core_break_damage_rate_method:call(enemy);
-	if mystery_core_break_damage_rate == nil then
+	local anomaly_core_break_damage_rate = get_mystery_core_break_damage_rate_method:call(anomaly_monster.enemy);
+	if anomaly_core_break_damage_rate == nil then
 		return;
 	end
 
-	local mystery_core_break_damage = utils.math.round(mystery_core_break_damage_rate * monster.max_health);
+	local anomaly_core_break_damage = utils.math.round(anomaly_core_break_damage_rate * anomaly_monster.max_health);
 
 	local damage_object = {};
-	damage_object.total_damage = mystery_core_break_damage;
+	damage_object.total_damage = anomaly_core_break_damage;
 	damage_object.physical_damage = 0;
 	damage_object.elemental_damage = 0;
-	damage_object.ailment_damage = mystery_core_break_damage;
+	damage_object.ailment_damage = anomaly_core_break_damage;
 
-	players.update_damage(players.total, players.damage_types.mystery_core, true, damage_object);
+	players.update_damage(players.total, players.damage_types.anomaly_core, true, damage_object);
 end
 
 function this.init_module()
@@ -390,25 +408,15 @@ function this.init_module()
 		return retval;
 	end);
 
-	sdk.hook(stock_mystery_core_break_damage_method, function(args)
+	sdk.hook(on_break_method, function(args)
 		-- break core group is same as hit group?
 		-- break core group is part id which exploded
-		local enemy = sdk.to_managed_object(args[2]);
-		local break_core_group = sdk.to_int64(args[3]);
-		local hit_group = sdk.to_int64(args[4]);
+		local anomaly_core_part = sdk.to_managed_object(args[2]);
 
-		this.on_mystery_core_break(enemy, hit_group);
+		this.on_anomaly_core_break(anomaly_core_part);
 	end, function(retval)
 		return retval;
 	end);
-
-	--snow.enemy.EnemyCharacterBase.procDamageMystery(snow.hit.EnemyCalcDamageInfo.AfterCalcInfo_DamageSide)
-
-	--sdk.hook(stock_mystery_core_break_damage_type_def, function(args)
-	--	pcall(damage_hook.on_mystery_core_break, sdk.to_managed_object(args[2]));
-	--end, function(retval)
-	--	return retval;
-	--end);
 end
 
 return this;
