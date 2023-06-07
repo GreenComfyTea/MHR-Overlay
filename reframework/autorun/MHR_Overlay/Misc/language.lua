@@ -387,7 +387,7 @@ this.default_language = {
 		poison = "Poison",
 		blast = "Blast",
 		endemic_life = "Endemic Life",
-		mystery_cores = "Anomaly Cores",
+		anomaly_cores = "Anomaly Cores",
 		other = "Other",
 
 		damage = "Damage",

@@ -1495,7 +1495,7 @@ function this.init_default()
 				},
 	
 				body_parts = {
-					visibility = true,
+					visibility = false,
 	
 					offset = {
 						x = 10,
@@ -5927,7 +5927,7 @@ function this.init_default()
 				poison = true,
 				blast = true,
 				endemic_life = true,
-				mystery_cores = true,
+				anomaly_cores = true,
 				other = true -- note that installations during narwa fight are counted as other damage
 			},
 	

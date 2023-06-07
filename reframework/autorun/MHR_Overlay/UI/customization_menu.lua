@@ -1794,8 +1794,8 @@ function this.draw_damage_meter_UI()
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;
 
-			changed, cached_config.tracked_damage_types.mystery_cores = imgui.checkbox(
-				language.current_language.customization_menu.mystery_cores, cached_config.tracked_damage_types.mystery_cores);
+			changed, cached_config.tracked_damage_types.anomaly_cores = imgui.checkbox(
+				language.current_language.customization_menu.anomaly_cores, cached_config.tracked_damage_types.anomaly_cores);
 
 			config_changed = config_changed or changed;
 			damage_display_changed = damage_display_changed or changed;

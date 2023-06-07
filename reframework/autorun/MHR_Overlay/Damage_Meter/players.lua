@@ -64,7 +64,7 @@ this.damage_types = {
 	["blast"] = "blast",
 	["otomo_blast"] = "otomo_blast",
 	["endemic_life"] = "endemic_life",
-	["mystery_core"] = "mystery_core",
+	["anomaly_core"] = "anomaly_core",
 	["other"] = "other"
 };
 
@@ -316,8 +316,8 @@ function this.update_display(player)
 			this.merge_damage(player.display, monster_type.endemic_life);
 		end
 
-		if cached_config.tracked_damage_types.mystery_cores then
-			this.merge_damage(player.display, monster_type.mystery_core);
+		if cached_config.tracked_damage_types.anomaly_cores then
+			this.merge_damage(player.display, monster_type.anomaly_core);
 		end
 
 		if cached_config.tracked_damage_types.other then
