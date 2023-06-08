@@ -282,7 +282,7 @@ local function main_loop()
 		draw_modules(config.current_config.global_settings.module_visibility.reward_screen, "Reward Screen");
 	elseif quest_status.flow_state == quest_status.flow_states.SUMMARY_SCREEN then
 		draw_modules(config.current_config.global_settings.module_visibility.summary_screen, "Summary Screen");
-	end 
+	end
 end
 
 -- #endregion

@@ -543,7 +543,7 @@ function this.init()
 			language.current_language.parts.right_foreleg,
 			language.current_language.parts.hind_legs,
 			language.current_language.parts.wings,
-			language.current_language.parts.tail,
+			language.current_language.parts.tail
 		},
 		[19] = -- Daimyo Hermitaur 19
 		{
@@ -920,6 +920,27 @@ function this.init()
 			language.current_language.parts.left_leg,
 			language.current_language.parts.right_leg
 		},
+
+
+
+
+
+		--SUNBREAK BONUS UPDATE
+
+
+
+
+
+		[1412] = -- Primordial Malzeno 1412
+		{
+			language.current_language.parts.head,
+			language.current_language.parts.torso,
+			language.current_language.parts.left_foreleg,
+			language.current_language.parts.right_foreleg,
+			language.current_language.parts.hind_legs,
+			language.current_language.parts.wings,
+			language.current_language.parts.tail,
+		}
 	};
 end
 
