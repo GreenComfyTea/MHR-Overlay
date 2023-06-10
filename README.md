@@ -100,8 +100,12 @@
 		<img alt="Twitch" src="https://img.shields.io/twitch/status/greencomfytea" />
 	</a>
 </p>
-  
-![50-1659789731-551420562](https://user-images.githubusercontent.com/30152047/183250401-9f2898dd-feb4-4903-802c-c9d398261f11.png)
+
+<p align="center">
+	<a>
+		<img align="center" src="https://user-images.githubusercontent.com/30152047/183250401-9f2898dd-feb4-4903-802c-c9d398261f11.png" />
+	</a>
+</p>
 
 # Links
 * **[Nexus Mods](https://www.nexusmods.com/monsterhunterrise/mods/50)**  
