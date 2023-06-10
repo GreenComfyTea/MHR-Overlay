@@ -22,13 +22,13 @@
 	</a>
 </p>
 <p align="center">
-	<a href="https://github.com/GreenComfyTea/MHR-Overlay/blob/main/LICENSE">
+	<a href="https://github.com/greencomfytea/mhr-overlay/blob/main/LICENSE">
 		<img alt="License" src="https://img.shields.io/github/license/greencomfytea/mhr-overlay" />
 	</a>
-	<a href="https://github.com/GreenComfyTea/MHR-Overlay/releases">
+	<a href="https://github.com/greencomfytea/mhr-overlay/releases">
 		<img alt="Release Version" src="https://img.shields.io/github/v/release/greencomfytea/mhr-overlay" />
 	</a>
-	<a href="https://github.com/GreenComfyTea/MHR-Overlay/releases">
+	<a href="https://github.com/greencomfytea/mhr-overlay/releases">
 		<img alt="Release Date" src="https://img.shields.io/github/release-date/greencomfytea/mhr-overlay" />
 	</a>
 	<a href="">
@@ -48,18 +48,18 @@
 </p>
 <p align="center">
 	<a href="">
-		<img alt="Repo Size" src="https://img.shields.io/github/repo-size/greencomfytea/MHR-Overlay" />
+		<img alt="Repo Size" src="https://img.shields.io/github/repo-size/greencomfytea/mhr-overlay" />
 	</a>
 	<a href="">
-		<img alt="Goto Counter" src="https://img.shields.io/github/search/greencomfytea/MHR-Overlay/goto" />
+		<img alt="Goto Counter" src="https://img.shields.io/github/search/greencomfytea/mhr-overlay/goto" />
 	</a>
-	<a href="https://github.com/sponsors/GreenComfyTea">
+	<a href="https://github.com/sponsors/greencomfytea">
 		<img alt="Sponsors" src="https://img.shields.io/github/sponsors/greencomfytea" />
 	</a>
 	<a href="">
 		<img alt="Watchers" src="https://img.shields.io/github/watchers/greencomfytea/mhr-overlay" />
 	</a>
-	<a href="https://github.com/GreenComfyTea/MHR-Overlay/forks">
+	<a href="https://github.com/greencomfytea/mhr-overlay/forks">
 		<img alt="Forks" src="https://img.shields.io/github/forks/greencomfytea/mhr-overlay" />
 	</a>
 	<a href="">
@@ -67,22 +67,22 @@
 	</a>
 </p>
 <p align="center">
-	<a href="https://github.com/GreenComfyTea/MHR-Overlay/commits/main">
+	<a href="https://github.com/greencomfytea/mhr-overlay/commits/main">
 		<img alt="Last Commit" src="https://img.shields.io/github/last-commit/greencomfytea/mhr-overlay" />
 	</a>
-	<a href="https://github.com/GreenComfyTea/MHR-Overlay/commits/main">
+	<a href="https://github.com/greencomfytea/mhr-overlay/commits/main">
 		<img alt="Commits Since" src="https://img.shields.io/github/commits-since/greencomfytea/mhr-overlay/latest" />
 	</a>
-	<a href="https://github.com/GreenComfyTea/MHR-Overlay/graphs/commit-activity">
+	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/commit-activity">
 		<img alt="Commit Activity" src="https://img.shields.io/github/commit-activity/t/greencomfytea/mhr-overlay" />
 	</a>
-	<a href="https://github.com/GreenComfyTea/MHR-Overlay/graphs/commit-activity">
+	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/commit-activity">
 		<img alt="Commit Activity (Year)" src="https://img.shields.io/github/commit-activity/y/greencomfytea/mhr-overlay" />
 	</a>
-	<a href="https://github.com/GreenComfyTea/MHR-Overlay/graphs/commit-activity">
+	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/commit-activity">
 		<img alt="Commit Activity (Month)" src="https://img.shields.io/github/commit-activity/m/greencomfytea/mhr-overlay" />
 	</a>
-	<a href="https://github.com/GreenComfyTea/MHR-Overlay/graphs/commit-activity">
+	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/commit-activity">
 		<img alt="Commit Activity (Week)" src="https://img.shields.io/github/commit-activity/w/greencomfytea/mhr-overlay" />
 	</a>
 </p>
@@ -90,13 +90,13 @@
 	<a href="https://www.nexusmods.com/monsterhunterrise/mods/50">
 		<img alt="Website" src="https://img.shields.io/website?down_color=red&down_message=down&up_color=green&up_message=up&url=https://www.nexusmods.com/monsterhunterrise/mods/50" />
 	</a>
-	<a href="https://github.com/GreenComfyTea?tab=followers">
+	<a href="https://github.com/greencomfytea?tab=followers">
 		<img alt="Followers" src="https://img.shields.io/github/followers/greencomfytea" />
 	</a>
-	<a href="https://twitter.com/GreenComfyTea">
-		<img alt="Twitter" src="https://img.shields.io/twitter/follow/GreenComfyTea" />
+	<a href="https://twitter.com/greencomfytea">
+		<img alt="Twitter" src="https://img.shields.io/twitter/follow/greencomfytea" />
 	</a>
-	<a href="https://www.twitch.tv/GreenComfyTea">
+	<a href="https://www.twitch.tv/greencomfytea">
 		<img alt="Twitch" src="https://img.shields.io/twitch/status/greencomfytea" />
 	</a>
 </p>
