@@ -16,7 +16,7 @@ Exposes in-game data about monsters, creatures, players and damage. Draws a high
 
 # Requirements
 1. [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26) (v1.503 or above);
-2. [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134) (v0.4.0 or above).
+2. [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134) (v0.4.0 or above) - Needed for Unicode Support.
 
 # How to install:
 1. Install [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26);
