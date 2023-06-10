@@ -31,10 +31,10 @@
 	<a href="https://github.com/GreenComfyTea/MHR-Overlay/releases">
 		<img alt="Release Date" src="https://img.shields.io/github/release-date/greencomfytea/mhr-overlay" />
 	</a>
-	<a>
+	<a href="">
 		<img alt="Platform" src="https://img.shields.io/badge/platform-win%20%7C%20linux%20%7C%20steam%20deck-lightgrey" />
 	</a>
-	<a>
+	<a href="">
 		<img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2023" />
 	</a>
 </p>
@@ -47,22 +47,22 @@
 	</a>
 </p>
 <p align="center">
-	<a>
+	<a href="">
 		<img alt="Repo Size" src="https://img.shields.io/github/repo-size/greencomfytea/MHR-Overlay" />
 	</a>
-	<a>
+	<a href="">
 		<img alt="Goto Counter" src="https://img.shields.io/github/search/greencomfytea/MHR-Overlay/goto" />
 	</a>
 	<a href="https://github.com/sponsors/GreenComfyTea">
 		<img alt="Sponsors" src="https://img.shields.io/github/sponsors/greencomfytea" />
 	</a>
-	<a>
+	<a href="">
 		<img alt="Watchers" src="https://img.shields.io/github/watchers/greencomfytea/mhr-overlay" />
 	</a>
 	<a href="https://github.com/GreenComfyTea/MHR-Overlay/forks">
 		<img alt="Forks" src="https://img.shields.io/github/forks/greencomfytea/mhr-overlay" />
 	</a>
-	<a>
+	<a href="">
 		<img alt="Stars" src="https://img.shields.io/github/stars/greencomfytea/mhr-overlay" />
 	</a>
 </p>
@@ -154,4 +154,3 @@ You can support me by donating! I would appreciate it! But anyway, thank you for
 <a href="https://ko-fi.com/greencomfytea">
   <img alt="Qries" src="https://panels.twitch.tv/panel-48897356-image-c2fcf835-87e4-408e-81e8-790789c7acbc">
 </a>
-
