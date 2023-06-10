@@ -90,6 +90,8 @@ function this.tick()
 
 		players.update_dps(false);
 		players.sort_players();
+
+		quest_status.get_cart_count();
 	end
 end
 

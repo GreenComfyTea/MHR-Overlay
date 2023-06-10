@@ -260,6 +260,7 @@ end
 function this.cart(dead_player_id, flag_cat_skill_insurance)
 	-- flag_cat_skill_insurance = 0
 	-- flag_cat_skill_insurance = 1
+
 	local player = players.list[dead_player_id];
 	if player == nil then
 		return;
