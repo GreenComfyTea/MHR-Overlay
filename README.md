@@ -1,6 +1,128 @@
-# "MHR Overlay" Mod for Monster Hunter: Rise
+<p align="center">
+	<h2 align="center"><b>"MHR Overlay" Mod for Monster Hunter: Rise<b/></h2>
+	<p align="center">Exposes in-game data about monsters, creatures, players and damage. Draws a highly customizable UI.</p>
+</p>
 
-Exposes in-game data about monsters, creatures, players and damage. Draws a highly customizable UI.
+
+
+<p align="center">
+	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/contributors">
+		<img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/greencomfytea/MHR-Overlay" />
+	</a>
+	<a href="https://github.com/greencomfytea/mhr-overlay/issues">
+		<img alt="Issues" src="https://img.shields.io/github/issues/greencomfytea/MHR-Overlay" />
+	</a>
+	<a href="https://github.com/greencomfytea/mhr-overlay/pulls">
+		<img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/greencomfytea/MHR-Overlay" />
+	</a>
+</p>
+<p align="center">
+	<a href="">
+		<img src="https://img.shields.io/github/repo-size/greencomfytea/MHR-Overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/search/greencomfytea/MHR-Overlay/goto" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/sponsors/greencomfytea" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/issues/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/issues-closed/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/issues-pr/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/issues-pr-closed/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/license/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/followers/greencomfytea?style=social" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/forks/greencomfytea/mhr-overlay?style=social" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/stars/greencomfytea/mhr-overlay?style=social" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/watchers/greencomfytea/mhr-overlay?style=social" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/twitch/status/greencomfytea?style=social" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/twitter/follow/GreenComfyTea?style=social" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/v/release/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/website?down_color=red&down_message=down&up_color=green&up_message=up&url=https://www.nexusmods.com/monsterhunterrise/mods/50" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/commit-activity/w/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/commit-activity/m/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/commit-activity/y/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/commit-activity/t/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/commits-since/greencomfytea/mhr-overlay/latest" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/last-commit/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/github/release-date/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img src="https://img.shields.io/maintenance/yes/2023" />
+	</a>
+   
+  
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+  </p>
+  
 
 **This mod is solely intended to empower players with means of self-improvement. Please don't use the information provided by this tool to make hurtful comments and actions toward other players.**
 
