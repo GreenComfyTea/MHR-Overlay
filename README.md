@@ -1,9 +1,8 @@
 <p align="center">
-	<h2 align="center"><b>"MHR Overlay" Mod for Monster Hunter: Rise<b/></h2>
+	<h2 align="center"><b>"MHR Overlay" Mod for Monster Hunter: Rise</b></h2>
 	<p align="center">Exposes in-game data about monsters, creatures, players and damage. Draws a highly customizable UI.</p>
 	<p align="center">This mod is solely intended to empower players with means of self-improvement. Please don't use the information provided by this tool to make hurtful comments and actions toward other players.</p>
 </p>
-
 
 <p align="center">
 	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/contributors">
@@ -131,7 +130,7 @@
 4. Extract the mod from the archive and place it in MonsterHunterRise folder. Refer to [FAQ](https://github.com/GreenComfyTea/MHR-Overlay/wiki/FAQ) to verify how the file hierarchy should look like if everything is done correctly.
 
 # Credits
-**GreenComfyTea** - creator of the mod and it's main contributor.
+**GreenComfyTea** - creator of the mod and it's main contributor.  
 **cursecat** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26), [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134) plugin and [Monster Has HP Bar](https://www.nexusmods.com/monsterhunterrise/mods/43) mod, which provided an example on how to retrieve monster HP data.  
 **praydog2** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26). Contributed huge improvements to the performance of the mod.  
 **coavins** - creator of [coavins damage meter](https://www.nexusmods.com/monsterhunterrise/mods/68) mod.  
