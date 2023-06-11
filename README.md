@@ -45,26 +45,6 @@
 	</a>
 	<br>
 	<br>
-	<a href="https://github.com/greencomfytea/mhr-overlay/commits/main">
-		<img alt="Last Commit" src="https://custom-icon-badges.demolab.com/github/last-commit/greencomfytea/mhr-overlay?logo=git-commit" />
-	</a>
-	<a href="https://github.com/greencomfytea/mhr-overlay/commits/main">
-		<img alt="Commits Since" src="https://custom-icon-badges.demolab.com/github/commits-since/greencomfytea/mhr-overlay/latest?logo=git-commit" />
-	</a>
-	<a href="https://github.com/greencomfytea/mhr-overlay/commits/main">
-		<img alt="Commits" src="https://custom-icon-badges.demolab.com/github/commit-activity/t/greencomfytea/mhr-overlay?logo=git-commit" />
-	</a>
-	<br>
-	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/commit-activity">
-		<img alt="Commit Activity (Year)" src="https://custom-icon-badges.demolab.com/github/commit-activity/y/greencomfytea/mhr-overlay?logo=pulse" />
-	</a>
-	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/commit-activity">
-		<img alt="Commit Activity (Month)" src="https://custom-icon-badges.demolab.com/github/commit-activity/m/greencomfytea/mhr-overlay?logo=pulse" />
-	</a>
-	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/commit-activity">
-		<img alt="Commit Activity (Week)" src="https://custom-icon-badges.demolab.com/github/commit-activity/w/greencomfytea/mhr-overlay?logo=pulse" />
-	</a>
-	<br>
 	<a href="">
 		<img alt="Repo Size" src="https://custom-icon-badges.demolab.com/github/repo-size/greencomfytea/mhr-overlay?logo=database" />
 	</a>
@@ -85,6 +65,26 @@
 	</a>
 	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/traffic">
 		<img alt="Hits" src="https://custom-icon-badges.demolab.com/endpoint?url=https://hits.dwyl.com/greencomfytea/mhr-overlay.json?color=blue&logo=eye" />
+	</a>
+	<br>
+	<a href="https://github.com/greencomfytea/mhr-overlay/commits/main">
+		<img alt="Last Commit" src="https://custom-icon-badges.demolab.com/github/last-commit/greencomfytea/mhr-overlay?logo=git-commit" />
+	</a>
+	<a href="https://github.com/greencomfytea/mhr-overlay/commits/main">
+		<img alt="Commits Since" src="https://custom-icon-badges.demolab.com/github/commits-since/greencomfytea/mhr-overlay/latest?logo=git-commit" />
+	</a>
+	<a href="https://github.com/greencomfytea/mhr-overlay/commits/main">
+		<img alt="Commits" src="https://custom-icon-badges.demolab.com/github/commit-activity/t/greencomfytea/mhr-overlay?logo=git-commit" />
+	</a>
+	<br>
+	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/commit-activity">
+		<img alt="Commit Activity (Year)" src="https://custom-icon-badges.demolab.com/github/commit-activity/y/greencomfytea/mhr-overlay?logo=pulse" />
+	</a>
+	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/commit-activity">
+		<img alt="Commit Activity (Month)" src="https://custom-icon-badges.demolab.com/github/commit-activity/m/greencomfytea/mhr-overlay?logo=pulse" />
+	</a>
+	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/commit-activity">
+		<img alt="Commit Activity (Week)" src="https://custom-icon-badges.demolab.com/github/commit-activity/w/greencomfytea/mhr-overlay?logo=pulse" />
 	</a>
 	<br>
 	<br>
