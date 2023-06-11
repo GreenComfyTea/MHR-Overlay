@@ -44,6 +44,7 @@
 		<img alt="REFramework Direct2D Dependency" src="https://custom-icon-badges.demolab.com/badge/dependency-REFramework%20Direct2D%20v0.4.0%2B-yellow?logo=package-dependencies" />
 	</a>
 	<br>
+	<br>
 	<a href="https://github.com/greencomfytea/mhr-overlay/commits/main">
 		<img alt="Last Commit" src="https://custom-icon-badges.demolab.com/github/last-commit/greencomfytea/mhr-overlay?logo=git-commit" />
 	</a>
@@ -85,6 +86,7 @@
 	<a href="https://github.com/greencomfytea/mhr-overlay/graphs/traffic">
 		<img alt="Hits" src="https://custom-icon-badges.demolab.com/endpoint?url=https://hits.dwyl.com/greencomfytea/mhr-overlay.json?color=blue&logo=eye" />
 	</a>
+	<br>
 	<br>
 	<a href="https://www.nexusmods.com/monsterhunterrise/mods/50">
 		<img alt="Website" src="https://custom-icon-badges.demolab.com/website?down_color=red&down_message=down&up_color=brightgreen&up_message=up&logo=link&url=https://www.nexusmods.com/monsterhunterrise/mods/50" />
