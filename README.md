@@ -70,7 +70,10 @@
 		<img alt="Repo Size" src="https://custom-icon-badges.demolab.com/github/repo-size/greencomfytea/mhr-overlay?logo=database" />
 	</a>
 	<a href="">
-		<img alt="Line Count" src="[https://custom-icon-badges.demolab.com/github/repo-size/greencomfytea/mhr-overlay?logo=database](https://sloc.xyz/github/greencomfytea/mhr-overlay)" />
+		<img alt="Line Count" src="https://sloc.xyz/github/greencomfytea/mhr-overlay" />
+	</a>
+	<a href="">
+		<img alt="COCOMO" src="https://sloc.xyz/github/greencomfytea/mhr-overlay/?category=cocomo" />
 	</a>
 	<a href="">
 		<img alt="Goto Counter" src="https://custom-icon-badges.demolab.com/github/search/greencomfytea/mhr-overlay/goto?logo=git-compare" />
