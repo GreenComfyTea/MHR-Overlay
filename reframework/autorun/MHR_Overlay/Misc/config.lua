@@ -89,7 +89,7 @@ function this.init_default()
 					large_monster_highlighted_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = true,
-					--buff_UI = true
+					buff_UI = true
 				},
 	
 				cutscene = {
@@ -100,7 +100,7 @@ function this.init_default()
 					time_UI = false,
 					damage_meter_UI = false,
 					endemic_life_UI = false,
-					--buff_UI = false
+					buff_UI = false
 				},
 	
 				loading_quest = {
@@ -111,7 +111,7 @@ function this.init_default()
 					time_UI = false,
 					damage_meter_UI = false,
 					endemic_life_UI = false,
-					--buff_UI = false
+					buff_UI = false
 				},
 	
 				quest_start_animation = {
@@ -122,7 +122,7 @@ function this.init_default()
 					time_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = true,
-					--buff_UI = true
+					buff_UI = true
 				},
 	
 				playing_quest = {
@@ -133,7 +133,7 @@ function this.init_default()
 					time_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = true,
-					--buff_UI = true
+					buff_UI = true
 				},
 	
 				killcam = {
@@ -144,7 +144,7 @@ function this.init_default()
 					time_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = true,
-					--buff_UI = true
+					buff_UI = true
 				},
 	
 				quest_end_timer = {
@@ -155,7 +155,7 @@ function this.init_default()
 					time_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = true,
-					--buff_UI = true
+					buff_UI = true
 				},
 	
 				quest_end_animation = {
@@ -166,7 +166,7 @@ function this.init_default()
 					time_UI = false,
 					damage_meter_UI = false,
 					endemic_life_UI = false,
-					--buff_UI = false
+					buff_UI = false
 				},
 	
 				quest_end_screen = {
@@ -177,7 +177,7 @@ function this.init_default()
 					time_UI = false,
 					damage_meter_UI = false,
 					endemic_life_UI = false,
-					--buff_UI = false
+					buff_UI = false
 				},
 	
 				reward_screen = {
@@ -188,7 +188,7 @@ function this.init_default()
 					time_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = false,
-					--buff_UI = false
+					buff_UI = false
 				},
 	
 				summary_screen = {
@@ -199,7 +199,7 @@ function this.init_default()
 					time_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = false,
-					--buff_UI = false
+					buff_UI = false
 				},
 			},
 	
@@ -7452,7 +7452,7 @@ function this.init_default()
 			}
 		},
 
-		--[[buff_UI = {
+		buff_UI = {
 			enabled = true,
 
 			settings = {
@@ -7564,7 +7564,7 @@ function this.init_default()
 					outline = 0xC0000000
 				}
 			}
-		}]]
+		}
 	};
 end
 

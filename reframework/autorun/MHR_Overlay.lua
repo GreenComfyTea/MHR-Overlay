@@ -41,7 +41,8 @@ local language = require("MHR_Overlay.Misc.language");
 local part_names = require("MHR_Overlay.Misc.part_names");
 local utils = require("MHR_Overlay.Misc.utils");
 
---local buffs = require("MHR_Overlay.Buffs.buffs");
+local buffs = require("MHR_Overlay.Buffs.buffs");
+local consumables = require("MHR_Overlay.Buffs.consumables");
 
 local players = require("MHR_Overlay.Damage_Meter.players");
 local non_players = require("MHR_Overlay.Damage_Meter.non_players");
@@ -63,7 +64,7 @@ local large_monster_UI = require("MHR_Overlay.UI.Modules.large_monster_UI");
 local small_monster_UI = require("MHR_Overlay.UI.Modules.small_monster_UI");
 local time_UI = require("MHR_Overlay.UI.Modules.time_UI");
 local env_creature_UI = require("MHR_Overlay.UI.Modules.env_creature_UI");
---local buff_UI = require("MHR_Overlay.UI.Modules.buff_UI");
+local buff_UI = require("MHR_Overlay.UI.Modules.buff_UI");
 
 local body_part_UI_entity = require("MHR_Overlay.UI.UI_Entities.body_part_UI_entity");
 local damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");
@@ -72,7 +73,7 @@ local stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity"
 local rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
 local ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
 local ailment_buildup_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_buildup_UI_entity");
---local buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
+local buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
 
 local customization_menu = require("MHR_Overlay.UI.customization_menu");
 local label_customization = require("MHR_Overlay.UI.Customizations.label_customization");
@@ -108,9 +109,10 @@ rage_UI_entity.init_module();
 ailment_UI_entity.init_module();
 ailment_buildup_UI_entity.init_module();
 body_part_UI_entity.init_module();
---buff_UI_entity.init_module();
+buff_UI_entity.init_module();
 
---buffs.init_module();
+buffs.init_module();
+consumables.init_module();
 
 damage_hook.init_module();
 players.init_module();
@@ -151,7 +153,7 @@ large_monster_UI.init_module();
 small_monster_UI.init_module();
 time_UI.init_module();
 env_creature_UI.init_module();
---buff_UI.init_module();
+buff_UI.init_module();
 
 keyboard.init_module();
 
@@ -207,12 +209,12 @@ local function draw_modules(module_visibility_config, flow_state_name)
 		end
 	end
 
-	--[[if config.current_config.buff_UI.enabled and module_visibility_config.buff_UI then
-		local success = truepcall(buff_UI.draw);
+	if config.current_config.buff_UI.enabled and module_visibility_config.buff_UI then
+		local success = pcall(buff_UI.draw);
 		if not success then
 			customization_menu.status = string.format("[%s] Buff UI Drawing Function threw an Exception", flow_state_name);
 		end
-	end]]
+	end
 end
 
 local function main_loop()
@@ -223,6 +225,9 @@ local function main_loop()
 	quest_status.update_is_online();
 	--quest_status.update_is_quest_host();
 	time.tick();
+	consumables.update();
+
+	--buffs.debug();
 
 	if quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
 

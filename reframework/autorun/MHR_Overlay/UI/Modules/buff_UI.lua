@@ -3,6 +3,7 @@ local this = {};
 local buff_UI_entity;
 local config;
 local buffs;
+local consumables;
 local screen;
 
 local sdk = sdk;
@@ -50,6 +51,17 @@ function this.draw()
 		end
 
 		table.insert(displayed_buffs, buff);
+
+		::continue::
+	end
+
+	for _, consumable in pairs(consumables.list) do
+		
+		if not consumable.is_active then
+			goto continue
+		end
+
+		table.insert(displayed_buffs, consumable);
 
 		::continue::
 	end
@@ -113,6 +125,7 @@ end
 function this.init_module()
 	config = require("MHR_Overlay.Misc.config");
 	buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
+	consumables = require("MHR_Overlay.Buffs.consumables");
 	buffs = require("MHR_Overlay.Buffs.buffs");
 	--singletons = require("MHR_Overlay.Game_Handler.singletons");
 	config = require("MHR_Overlay.Misc.config");
