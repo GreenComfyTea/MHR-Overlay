@@ -165,6 +165,7 @@ function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 			customization_menu.status = string.format("[%s] Highlighted Large Monster drawing function threw an exception");
 		end
 	end
+	
 	if static_enabled then
 		local success = pcall(this.draw_static, displayed_monsters, highlighted_monster, cached_config);
 		if not success then

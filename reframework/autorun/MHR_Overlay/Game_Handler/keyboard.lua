@@ -353,7 +353,7 @@ function this.update()
 
 
 	if new_hotkey_registered then
-		config.save();
+		config.save_current();
 	else
 		this.check_hotkeys(hard_keyboard);
 	end
