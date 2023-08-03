@@ -5,6 +5,7 @@ local config;
 local buffs;
 local consumables;
 local screen;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -58,12 +59,12 @@ function this.draw()
 	for _, consumable in pairs(consumables.list) do
 		
 		if not consumable.is_active then
-			goto continue
+			goto continue2
 		end
 
 		table.insert(displayed_buffs, consumable);
 
-		::continue::
+		::continue2::
 	end
 
 	-- sort
@@ -99,15 +100,13 @@ function this.draw()
 		end
 	end
 
-
-
 	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 
 	-- draw
 	for _, buff in ipairs(displayed_buffs) do
 		
 		if not buff.is_active then
-			goto continue2
+			goto continue3
 		end
 
 		buffs.draw(buff, buff.buff_UI, position_on_screen, 1);
@@ -118,7 +117,7 @@ function this.draw()
 			position_on_screen.y = position_on_screen.y + cached_config.spacing.y * global_scale_modifier;
 		end
 
-		::continue2::
+		::continue3::
 	end
 end
 
@@ -135,6 +134,7 @@ function this.init_module()
 	--quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	--drawing = require("MHR_Overlay.UI.drawing");
+	utils = require("MHR_Overlay.Misc.utils");
 end
 
 return this;
