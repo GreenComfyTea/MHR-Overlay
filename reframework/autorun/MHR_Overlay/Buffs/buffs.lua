@@ -94,7 +94,7 @@ function this.update_timer(buff, timer)
 
 	buff.timer = timer;
 	buff.minutes_left = minutes_left;
-	buff.seconds_left = timer - 60 * minutes_left;
+	buff.seconds_left = math.floor(timer - 60 * minutes_left);
 
 	if buff.duration ~= 0 then
 		buff.timer_percentage = timer / buff.duration;
