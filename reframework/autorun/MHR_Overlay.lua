@@ -259,12 +259,12 @@ local function main_loop()
 			end
 		end
 
-		--[[if config.current_config.buff_UI.enabled and module_visibility_config.buff_UI then
+		if config.current_config.buff_UI.enabled and module_visibility_config.buff_UI then
 			local success = pcall(buff_UI.draw);
 			if not success then
 				customization_menu.status = "[In Training Area] Buff UI Drawing Function threw an Exception";
 			end
-		end]]
+		end
 
 
 	elseif quest_status.flow_state == quest_status.flow_states.CUTSCENE then

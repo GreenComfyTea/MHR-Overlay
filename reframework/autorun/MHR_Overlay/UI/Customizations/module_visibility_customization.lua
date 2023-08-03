@@ -92,11 +92,11 @@ function this.draw(cached_config)
 
 	config_changed = config_changed or changed;
 
-	--[[changed, cached_config.buff_UI = imgui.checkbox(
+	changed, cached_config.buff_UI = imgui.checkbox(
 		language.current_language.customization_menu.buff_UI,
 		cached_config.buff_UI);
 
-	config_changed = config_changed or changed;]]
+	config_changed = config_changed or changed;
 
 	return config_changed;
 end

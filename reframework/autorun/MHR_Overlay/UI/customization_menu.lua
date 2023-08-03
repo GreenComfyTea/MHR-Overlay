@@ -375,7 +375,7 @@ function this.draw()
 	time_UI_changed = this.draw_time_UI();
 	damage_meter_UI_changed = this.draw_damage_meter_UI();
 	endemic_life_UI_changed = this.draw_endemic_life_UI()
-	--buff_UI_changed = customization_menu.draw_buff_UI();
+	buff_UI_changed = this.draw_buff_UI();
 
 	imgui.pop_font();
 	imgui.end_window();
@@ -434,11 +434,11 @@ function this.draw()
 		end
 	end
 
-	--[[if buff_UI_changed or modifiers_changed or config_changed then
+	if buff_UI_changed or modifiers_changed or config_changed then
 		for _, buff in pairs(buffs.list) do
 			buffs.init_UI(buff);
 		end
-	end]]
+	end
 
 	if this.menu_font_changed and (apply_font_requested or config_changed) then
 		this.menu_font_changed = false;
@@ -569,9 +569,9 @@ function this.draw_modules()
 			language.current_language.customization_menu.endemic_life_UI, config.current_config.endemic_life_UI.enabled);
 		config_changed = config_changed or changed;
 
-		--[[changed, config.current_config.buff_UI.enabled = imgui.checkbox(
+		changed, config.current_config.buff_UI.enabled = imgui.checkbox(
 			language.current_language.customization_menu.buff_UI, config.current_config.buff_UI.enabled);
-		config_changed = config_changed or changed;]]
+		config_changed = config_changed or changed;
 
 		imgui.tree_pop();
 	end
@@ -1002,11 +1002,11 @@ function this.draw_global_settings(apply_font_requested, language_changed)
 
 				config_changed = config_changed or changed;
 
-				--[[changed, cached_config.module_visibility.in_training_area.buff_UI = imgui.checkbox(
+				changed, cached_config.module_visibility.in_training_area.buff_UI = imgui.checkbox(
 					language.current_language.customization_menu.buff_UI,
 					cached_config.module_visibility.in_training_area.buff_UI);
 
-				config_changed = config_changed or changed;]]
+				config_changed = config_changed or changed;
 
 				imgui.tree_pop();
 			end
