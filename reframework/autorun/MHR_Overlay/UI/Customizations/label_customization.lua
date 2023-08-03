@@ -61,6 +61,17 @@ function this.draw(label_name, label)
 			imgui.tree_pop();
 		end
 
+		if label.include ~= nil then
+			if imgui.tree_node(cached_language.include) then
+				for include_name, include in pairs(label.include) do
+					changed, label.include[include_name] = imgui.checkbox(cached_language[include_name], label.include[include_name]);
+					label_changed = label_changed or changed;
+				end
+
+				imgui.tree_pop();
+			end
+		end
+
 		if imgui.tree_node(cached_language.offset) then
 			changed, label.offset.x = imgui.drag_float(cached_language.x, label.offset.x, 0.1, -screen.width, screen.width, "%.1f");
 			label_changed = label_changed or changed;
@@ -79,8 +90,7 @@ function this.draw(label_name, label)
 		end
 
 		if imgui.tree_node(cached_language.shadow) then
-			changed, label.shadow.visibility = imgui.checkbox(cached_language
-					.visible, label.shadow.visibility);
+			changed, label.shadow.visibility = imgui.checkbox(cached_language.visible, label.shadow.visibility);
 			label_changed = label_changed or changed;
 
 			if imgui.tree_node(cached_language.offset) then
