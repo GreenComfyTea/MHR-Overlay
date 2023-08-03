@@ -1,13 +1,11 @@
 local this = {};
 
-local buff_UI_entity;
-local config;
-local singletons;
-
 local buffs;
 local buff_UI_entity;
 local config;
 local singletons;
+local players;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -63,7 +61,6 @@ this.list = {
 	might_seed = nil,
 	adamant_seed = nil,
 	hardshell_powder = nil,
-	hardshell_powder = nil,
 	immunizer = nil,
 	dash_juice = nil
 };
@@ -118,7 +115,7 @@ function this.update()
 		return;
 	end
 
-	local player_data = get_value_method:call(player_data_array, 0);
+	local player_data = get_value_method:call(player_data_array, players.myself.id);
 	if player_data == nil then
 		return;
 	end
@@ -373,6 +370,7 @@ end
 
 function this.update_dash_juice(player_data, item_parameter)
 	local dash_juice_timer = stamina_up_buff_second_timer_field:get_data(player_data);
+
 	if dash_juice_timer == nil then
 		return;
 	end
@@ -399,8 +397,10 @@ end
 function this.init_module()
 	buffs = require("MHR_Overlay.Buffs.buffs");
 	config = require("MHR_Overlay.Misc.config");
+	utils = require("MHR_Overlay.Misc.utils");
 	buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
+	players = require("MHR_Overlay.Damage_Meter.players");
 end
 
 return this;
