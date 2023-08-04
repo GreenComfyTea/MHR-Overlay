@@ -189,6 +189,50 @@ this.default_language = {
 		shock_otomo_trap = "Shock Buddy Trap"
 	},
 
+	consumables = {
+		demondrug = "Demondrug",
+		mega_demondrug = "Mega Demondrug",
+		armorskin = "Armorskin",
+		mega_armorskin = "Mega Armorskin",
+		might_seed = "Might Seed",
+		adamant_seed = "Adamant Seed",
+		demon_powder = "Demon Powder",
+		hardshell_powder = "Hardshell Powder",
+		immunizer = "Immunizer",
+		dash_juice = "Dash Juice"
+	},
+
+	melody_effects = {
+		self_improvement = "Self-Improvement",
+		attack_up = "Attack Up",
+		defense_up = "Defense Up",
+		affinity_up = "Affinity Up",
+		elemental_attack_boost = "Elemental Attack Boost",
+		attack_and_defense_up = "Attack and Defense Up",
+		attack_and_affinity_up = "Attack and Affinity Up",
+		knockbacks_negated = "Knockbacks Negated",
+		earplugs_s = "Earplugs (S)",
+		earplugs_l = "Earplugs (L)",
+		tremors_negated = "Tremors Negated",
+		wind_pressure_negated = "Wind Pressure Negated",
+		stun_negated = "Stun Negated",
+		blight_negated = "Blight Negated",
+		divine_protection = "Divine Protection",
+		health_recovery_s = "Health Recovery (S)",
+		health_recovery_l = "Health Recovery (L)",
+		health_recovery_s_antidote = "Health Recovery (S) + Antidote",
+		health_regeneration = "Health Regeneration",
+		stamina_use_reduced = "Stamina Use Reduced",
+		stamina_recovery_up = "Stamina Recovery Up",
+		sharpness_loss_reduced = "Sharpness Loss Reduced",
+		environment_damage_negated = "Environment Damage Negated",
+		sonic_wave = "Sonic Wave",
+		sonic_barrier = "Sonic Barrier",
+		infernal_melody = "Infernal Melody",
+		sharpness_regeneration = "Sharpness Regeneration",
+		sharpness_extension = "Sharpness Extension"
+	},
+
 	UI = {
 		HP = "HP:",
 		stamina = "Stamina:",

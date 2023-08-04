@@ -6,6 +6,7 @@ local config;
 local singletons;
 local players;
 local utils;
+local language;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -38,20 +39,6 @@ local reframework = reframework;
 local os = os;
 local ValueType = ValueType;
 local package = package;
-
-
-local ids = {
-	demondrug = 0,
-	mega_demondrug = 1,
-	armorskin = 2,
-	mega_armorskin = 4,
-	might_seed = 8,
-	adamant_seed = 16,
-	demon_powder = 32,
-	hardshell_powder = 64,
-	immunizer = 128,
-	dash_juice = 256
-};
 
 this.list = {
 	demondrug = nil,
@@ -109,17 +96,7 @@ local system_array_type_def = sdk.find_type_definition("System.Array");
 local length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
-function this.update()
-	local player_data_array = get_player_data_method:call(singletons.player_manager);
-	if player_data_array == nil then
-		return;
-	end
-
-	local player_data = get_value_method:call(player_data_array, players.myself.id);
-	if player_data == nil then
-		return;
-	end
-
+function this.update(player_data)
 	local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
 	if item_parameter == nil then
 		return;
@@ -141,6 +118,7 @@ function this.update_demondrug(player_data, item_parameter)
 		return;
 	end
 
+
 	if demondrug == 0 then
 		this.list.demondrug = nil;
 		this.list.mega_demondrug = nil;
@@ -156,14 +134,17 @@ function this.update_demondrug(player_data, item_parameter)
 	if mega_demondrug_const_value == nil then
 		return;
 	end
-
 	if demondrug == demondrug_const_value then
 		local buff = this.list.demondrug;
 		if buff ~= nil and buff.value == demondrug then
 			return;
 		end
 
-		this.list.demondrug = buffs.new("Demondrug", demondrug);
+		local name = language.current_language.consumables.demondrug;
+
+
+
+		this.list.demondrug = buffs.new(buffs.types.consumable, "demondrug", name, demondrug);
 		this.list.mega_demondrug = nil;
 	
 	elseif demondrug == mega_demondrug_const_value then
@@ -172,8 +153,10 @@ function this.update_demondrug(player_data, item_parameter)
 			return;
 		end
 
+		local name = language.current_language.consumables.mega_demondrug;
+
 		this.list.demondrug = nil;
-		this.list.mega_demondrug = buffs.new("Mega Demondrug", demondrug);
+		this.list.mega_demondrug = buffs.new(buffs.types.consumable, "mega_demondrug", name, demondrug);
 	end
 end
 
@@ -205,7 +188,9 @@ function this.update_armorskin(player_data, item_parameter)
 			return;
 		end
 
-		this.list.armorskin = buffs.new("Armorskin", armorskin);
+		local name = language.current_language.consumables.armorskin;
+
+		this.list.armorskin = buffs.new(buffs.types.consumable, "armorskin", name, armorskin);
 		this.list.mega_armorskin = nil;
 
 	elseif armorskin == mega_armorskin_const_value then
@@ -214,8 +199,10 @@ function this.update_armorskin(player_data, item_parameter)
 			return;
 		end
 
+		local name = language.current_language.consumables.mega_armorskin;
+
 		this.list.armorskin = nil;
-		this.list.mega_armorskin = buffs.new("Mega Armorskin", armorskin);
+		this.list.mega_armorskin = buffs.new(buffs.types.consumable, "mega_armorskin", name, armorskin);
 	end
 end
 
@@ -242,7 +229,9 @@ function this.update_might_seed(player_data, item_parameter)
 			return;
 		end
 
-		buff = buffs.new("Might Seed", might_seed, might_seed_timer_const_value);
+		local name = language.current_language.consumables.might_seed;
+
+		buff = buffs.new(buffs.types.consumable, "might_seed", name, might_seed, might_seed_timer_const_value);
 		this.list.might_seed = buff;
 	else
 		buff.value = might_seed;
@@ -273,7 +262,9 @@ function this.update_adamant_seed(player_data, item_parameter)
 			return;
 		end
 
-		buff = buffs.new("Adamant Seed", adamant_seed, adamant_seed_timer_const_value);
+		local name = language.current_language.consumables.adamant_seed;
+
+		buff = buffs.new(buffs.types.consumable, "adamant_seed", name, adamant_seed, adamant_seed_timer_const_value);
 		this.list.adamant_seed = buff;
 	else
 		buff.value = adamant_seed;
@@ -304,7 +295,9 @@ function this.update_demon_powder(player_data, item_parameter)
 			return;
 		end
 
-		buff = buffs.new("Demon Powder", demon_powder, demon_powder_timer_const_value);
+		local name = language.current_language.consumables.demon_powder;
+
+		buff = buffs.new(buffs.types.consumable, "demon_powder", name, demon_powder, demon_powder_timer_const_value);
 		this.list.demon_powder = buff;
 	else
 		buff.value = demon_powder;
@@ -335,7 +328,9 @@ function this.update_hardshell_powder(player_data, item_parameter)
 			return;
 		end
 
-		buff = buffs.new("Hardshell Powder", hardshell_powder, demon_powder_timer_const_value);
+		local name = language.current_language.consumables.hardshell_powder;
+
+		buff = buffs.new(buffs.types.consumable, "hardshell_powder", name, hardshell_powder, demon_powder_timer_const_value);
 		this.list.hardshell_powder = buff;
 	else
 		buff.value = hardshell_powder;
@@ -361,7 +356,9 @@ function this.update_immunizer(player_data, item_parameter)
 			return;
 		end
 
-		buff = buffs.new("Immunizer", 0, immunizer_timer_const_value);
+		local name = language.current_language.consumables.immunizer;
+
+		buff = buffs.new(buffs.types.consumable, "immunizer", name, 0, immunizer_timer_const_value);
 		this.list.immunizer = buff;
 	else
 		buffs.update_timer(buff, immunizer_timer / 60);
@@ -381,16 +378,25 @@ function this.update_dash_juice(player_data, item_parameter)
 	end
 
 	local buff = this.list.dash_juice;
+
 	if buff == nil then
 		local dash_juice_timer_const_value = stamina_up_buff_second_field:get_data(item_parameter);
 		if dash_juice_timer_const_value == nil then
 			return;
 		end
 
-		buff = buffs.new("Dash Juice", 0, dash_juice_timer_const_value);
+		local name = language.current_language.consumables.dash_juice;
+
+		buff = buffs.new(buffs.types.consumable, "dash_juice", name, 0, dash_juice_timer_const_value);
 		this.list.dash_juice = buff;
 	else
 		buffs.update_timer(buff, dash_juice_timer / 60);
+	end
+end
+
+function this.init_names()
+	for key, buff in pairs(this.list) do
+		buff.name = language.current_language.consumables[key];
 	end
 end
 
@@ -401,6 +407,7 @@ function this.init_module()
 	buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	players = require("MHR_Overlay.Damage_Meter.players");
+	language = require("MHR_Overlay.Misc.language");
 end
 
 return this;

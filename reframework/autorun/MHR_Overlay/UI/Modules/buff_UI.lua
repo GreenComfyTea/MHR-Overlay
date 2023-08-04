@@ -4,6 +4,7 @@ local buff_UI_entity;
 local config;
 local buffs;
 local consumables;
+local melody_effects;
 local screen;
 local utils;
 
@@ -45,26 +46,26 @@ function this.draw()
 
 	local displayed_buffs = {};
 
-	for _, buff in pairs(buffs.list) do
-		
-		if not buff.is_active then
-			goto continue
-		end
-
-		table.insert(displayed_buffs, buff);
-
-		::continue::
-	end
-
-	for _, consumable in pairs(consumables.list) do
+	for key, consumable in pairs(consumables.list) do
 		
 		if not consumable.is_active then
-			goto continue2
+			goto continue2;
 		end
 
 		table.insert(displayed_buffs, consumable);
 
 		::continue2::
+	end
+
+	for _, melody_effect in pairs(melody_effects.list) do
+		
+		if not melody_effect.is_active then
+			goto continue3;
+		end
+
+		table.insert(displayed_buffs, melody_effect);
+
+		::continue3::
 	end
 
 	-- sort
@@ -106,7 +107,7 @@ function this.draw()
 	for _, buff in ipairs(displayed_buffs) do
 		
 		if not buff.is_active then
-			goto continue3
+			goto continue4;
 		end
 
 		buffs.draw(buff, buff.buff_UI, position_on_screen, 1);
@@ -117,7 +118,7 @@ function this.draw()
 			position_on_screen.y = position_on_screen.y + cached_config.spacing.y * global_scale_modifier;
 		end
 
-		::continue3::
+		::continue4::
 	end
 end
 
@@ -125,6 +126,7 @@ function this.init_module()
 	config = require("MHR_Overlay.Misc.config");
 	buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
 	consumables = require("MHR_Overlay.Buffs.consumables");
+	melody_effects = require("MHR_Overlay.Buffs.melody_effects");
 	buffs = require("MHR_Overlay.Buffs.buffs");
 	--singletons = require("MHR_Overlay.Game_Handler.singletons");
 	config = require("MHR_Overlay.Misc.config");

@@ -43,6 +43,7 @@ local utils = require("MHR_Overlay.Misc.utils");
 
 local buffs = require("MHR_Overlay.Buffs.buffs");
 local consumables = require("MHR_Overlay.Buffs.consumables");
+local melody_effects = require("MHR_Overlay.Buffs.melody_effects");
 
 local players = require("MHR_Overlay.Damage_Meter.players");
 local non_players = require("MHR_Overlay.Damage_Meter.non_players");
@@ -113,6 +114,7 @@ buff_UI_entity.init_module();
 
 buffs.init_module();
 consumables.init_module();
+melody_effects.init_module();
 
 damage_hook.init_module();
 players.init_module();
@@ -218,6 +220,7 @@ local function draw_modules(module_visibility_config, flow_state_name)
 end
 
 local function main_loop()
+
 	customization_menu.status = "OK";
 	singletons.init();
 	screen.update_window_size();
@@ -225,7 +228,7 @@ local function main_loop()
 	quest_status.update_is_online();
 	--quest_status.update_is_quest_host();
 	time.tick();
-	consumables.update();
+	buffs.update();
 
 	--buffs.debug();
 
