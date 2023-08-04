@@ -7034,10 +7034,10 @@ function this.init_default()
 					visibility = true,
 
 					settings = {
-						right_alignment_shift = 0
+						right_alignment_shift = 6
 					},
 
-					text_formatting = "%6.1f%%",
+					text_formatting = "%.1f%%",
 
 					offset = {
 						x = 262,
