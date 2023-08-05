@@ -13,6 +13,7 @@ local keyboard;
 local customization_menu;
 local label_customization;
 local bar_customization;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -105,6 +106,7 @@ function this.init_dependencies()
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	label_customization = require("MHR_Overlay.UI.Customizations.label_customization");
 	bar_customization = require("MHR_Overlay.UI.Customizations.bar_customization");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

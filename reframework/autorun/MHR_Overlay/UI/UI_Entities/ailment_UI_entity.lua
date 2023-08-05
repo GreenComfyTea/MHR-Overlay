@@ -4,6 +4,7 @@ local config;
 local utils;
 local drawing;
 local language;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -123,6 +124,7 @@ function this.init_dependencies()
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
 	language = require("MHR_Overlay.Misc.language");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

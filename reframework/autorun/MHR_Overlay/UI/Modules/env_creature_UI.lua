@@ -11,6 +11,7 @@ local health_UI_entity;
 local stamina_UI_entity;
 local rage_UI_entity;
 local env_creature;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -44,8 +45,6 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-local enemy_manager_type_def = sdk.find_type_definition("snow.enemy.EnemyManager");
-
 function this.draw()
 	if singletons.enemy_manager == nil then
 		return;
@@ -57,11 +56,11 @@ function this.draw()
 	for REcreature, creature in pairs(env_creature.list) do
 
 		if cached_config.settings.max_distance == 0 then
-			break
+			break;
 		end
 
 		if cached_config.settings.hide_inactive_creatures and creature.is_inactive then
-			goto continue
+			goto continue;
 		end
 
 		local position_on_screen = {};
@@ -72,7 +71,7 @@ function this.draw()
 		position_on_screen = draw.world_to_screen(creature.position + world_offset);
 
 		if position_on_screen == nil then
-			goto continue
+			goto continue;
 		end
 
 		position_on_screen.x = position_on_screen.x + cached_config.viewport_offset.x * global_scale_modifier;
@@ -82,7 +81,7 @@ function this.draw()
 
 		local opacity_scale = 1;
 		if creature.distance > cached_config.settings.max_distance then
-			goto continue
+			goto continue;
 		end
 
 		if cached_config.settings.opacity_falloff then
@@ -106,6 +105,7 @@ function this.init_dependencies()
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

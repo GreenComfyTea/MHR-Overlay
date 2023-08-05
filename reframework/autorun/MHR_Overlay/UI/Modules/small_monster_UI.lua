@@ -9,6 +9,7 @@ local players;
 local drawing;
 local health_UI_entity;
 local stamina_UI_entity;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -57,33 +58,33 @@ function this.draw()
 
 	local enemy_count = get_zako_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
-		customization_menu.status = "No enemy count";
+		error_handler.report("small_monster_UI.draw", "Failed to Access Data: enemy_count");
 		return;
 	end
 
 	for i = 0, enemy_count - 1 do
 		local enemy = get_zako_enemy_method:call(singletons.enemy_manager, i);
 		if enemy == nil then
-			customization_menu.status = "No enemy";
-			goto continue
+			error_handler.report("small_monster_UI.draw", "Failed to Access Data: enemy No. " .. tostring(i));
+			goto continue;
 		end
 
 		local monster = small_monster.list[enemy];
 		if monster == nil then
-			customization_menu.status = "No small monster entry";
-			goto continue
+			error_handler.report("small_monster_UI.draw", "Missing Entry: monster No. " .. tostring(i));
+			goto continue;
 		end
 
 		if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
-			goto continue
-		end
+			goto continue;
+		end;
 
 		table.insert(displayed_monsters, monster);
 		::continue::
 	end
 
 	if cached_config.dynamic_positioning.enabled
-		or (not cached_config.dynamic_positioning.enabled and cached_config.static_sorting.type == "Distance") then
+	or (not cached_config.dynamic_positioning.enabled and cached_config.static_sorting.type == "Distance") then
 		for _, monster in ipairs(displayed_monsters) do
 			monster.distance = (players.myself_position - monster.position):length();
 		end
@@ -159,9 +160,6 @@ function this.draw()
 			end
 		end
 
-
-
-
 		local opacity_scale = 1;
 		if cached_config.dynamic_positioning.enabled then
 			if cached_config.dynamic_positioning.max_distance == 0 then
@@ -176,8 +174,6 @@ function this.draw()
 				opacity_scale = 1 - (monster.distance / cached_config.dynamic_positioning.max_distance);
 			end
 		end
-
-
 
 		small_monster.draw(monster, cached_config, position_on_screen, opacity_scale);
 
@@ -196,6 +192,7 @@ function this.init_dependencies()
 	drawing = require("MHR_Overlay.UI.drawing");
 	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

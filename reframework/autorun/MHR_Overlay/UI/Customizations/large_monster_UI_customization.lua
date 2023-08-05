@@ -11,6 +11,7 @@ local part_names;
 local time_UI;
 local keyboard;
 local customization_menu;
+local error_handler;
 
 local label_customization;
 local bar_customization;
@@ -93,9 +94,10 @@ function this.init_dependencies()
 	time_UI = require("MHR_Overlay.UI.Modules.time_UI");
 	keyboard = require("MHR_Overlay.Game_Handler.keyboard");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
+
 	label_customization = require("MHR_Overlay.UI.Customizations.label_customization");
 	bar_customization = require("MHR_Overlay.UI.Customizations.bar_customization");
-
 	health_customization = require("MHR_Overlay.UI.Customizations.health_customization");
 	stamina_customization = require("MHR_Overlay.UI.Customizations.stamina_customization");
 	rage_customization = require("MHR_Overlay.UI.Customizations.rage_customization");

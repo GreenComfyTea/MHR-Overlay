@@ -1,6 +1,7 @@
 local this = {};
 
 local language;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -956,6 +957,7 @@ end
 
 function this.init_dependencies()
 	language = require("MHR_Overlay.Misc.language");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

@@ -8,6 +8,7 @@ local ailments;
 local singletons;
 local non_players;
 local utils;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -106,11 +107,13 @@ function this.update_damage(enemy, enemy_calc_damage_info)
 	local is_large_monster = is_boss_enemy_method:call(enemy);
 
 	if is_large_monster == nil then
+		error_handler.report("damage_hook.update_damage", "Failed to Access Data: is_large_monster");
 		return;
 	end
 
 	local dead_or_captured = check_die_method:call(enemy);
 	if dead_or_captured == nil then
+		error_handler.report("damage_hook.update_damage", "Failed to Access Data: dead_or_captured");
 		return;
 	end
 
@@ -263,6 +266,7 @@ function this.cart(dead_player_id, flag_cat_skill_insurance)
 
 	local player = players.list[dead_player_id];
 	if player == nil then
+		error_handler.report("damage_hook.cart", "No Dead Player Found");
 		return;
 	end
 
@@ -296,6 +300,7 @@ function this.on_stock_direct_marionette_finish_shoot_hit_parts_damage(enemy, da
 	end
 
 	if player == nil then
+		error_handler.report("damage_hook.on_stock_direct_marionette_finish_shoot_hit_parts_damage", "Failed to Create Player Entry");
 		return;
 	end
 
@@ -355,11 +360,13 @@ function this.on_anomaly_core_break(anomaly_core_part)
 	end
 
 	if anomaly_monster == nil then
+		error_handler.report("damage_hook.on_anomaly_core_break", "No Anomaly Monster Found");
 		return;
 	end
 
 	local anomaly_core_break_damage_rate = get_mystery_core_break_damage_rate_method:call(anomaly_monster.enemy);
 	if anomaly_core_break_damage_rate == nil then
+		error_handler.report("damage_hook.on_anomaly_core_break", "Failed to Access Data: anomaly_core_break_damage_rate");
 		return;
 	end
 
@@ -383,10 +390,10 @@ function this.init_dependencies()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	utils = require("MHR_Overlay.Misc.utils");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()
-
 	sdk.hook(stock_direct_marionette_finish_shoot_hit_parts_damage_method, function(args)
 		local enemy = sdk.to_managed_object(args[2]);
 		local damage_rate = sdk.to_float(args[3]);

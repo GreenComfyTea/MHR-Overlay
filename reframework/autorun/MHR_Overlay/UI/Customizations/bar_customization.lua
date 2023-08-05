@@ -13,6 +13,7 @@ local time_UI;
 local keyboard;
 local customization_menu;
 local line_customization;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -257,6 +258,7 @@ function this.init_dependencies()
 	keyboard = require("MHR_Overlay.Game_Handler.keyboard");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	line_customization = require("MHR_Overlay.UI.Customizations.line_customization");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

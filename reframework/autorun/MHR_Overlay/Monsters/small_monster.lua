@@ -12,6 +12,7 @@ local ailments;
 local ailment_UI_entity;
 local ailment_buildup;
 local ailment_buildup_UI_entity;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -98,16 +99,18 @@ local get_enemy_name_message_method = message_manager_type_def:get_method("getEn
 function this.init(monster, enemy)
 	local enemy_type = enemy_type_field:get_data(enemy);
 	if enemy_type == nil then
-		customization_menu.status = "No enemy type";
+		error_handler.report("small_monster.init", "Failed to Access Data: enemy_type");
 		return;
 	end
 
 	monster.id = enemy_type;
 
 	local enemy_name = get_enemy_name_message_method:call(singletons.message_manager, enemy_type);
-	if enemy_name ~= nil then
-		monster.name = enemy_name;
+	if enemy_name == nil then
+		error_handler.report("small_monster.init", "Failed to Access Data: enemy_name");
 	end
+
+	monster.name = enemy_name;
 end
 
 function this.init_UI(monster)
@@ -175,9 +178,11 @@ function this.update_position(enemy, monster)
 	end
 
 	local position = get_pos_field:call(enemy);
-	if position ~= nil then
-		monster.position = position;
+	if position == nil then
+		error_handler.report("small_monster.update_position", "Failed to Access Data: position");
 	end
+	
+	monster.position = position;
 end
 
 function this.update(enemy, monster)
@@ -188,6 +193,8 @@ function this.update(enemy, monster)
 	local dead_or_captured = check_die_method:call(enemy);
 	if dead_or_captured ~= nil then
 		monster.dead_or_captured = dead_or_captured;
+	else
+		error_handler.report("small_monster.update", "Failed to Access Data: dead_or_captured");
 	end
 
 	pcall(ailments.update_ailments, enemy, monster);
@@ -200,23 +207,35 @@ function this.update_health(enemy, monster)
 
 	local physical_param = get_physical_param_method:call(enemy);
 	if physical_param == nil then
-		customization_menu.status = "No physical param";
+		error_handler.report("small_monster.update_health", "Failed to Access Data: physical_param");
 		return;
 	end
 
 	local vital_param = get_vital_method:call(physical_param, 0, 0);
 	if vital_param == nil then
-		customization_menu.status = "No vital param";
+		error_handler.report("small_monster.update_health", "Failed to Access Data: vital_param");
 		return;
 	end
 
-	monster.health = get_current_method:call(vital_param) or monster.health;
-	monster.max_health = get_max_method:call(vital_param) or monster.max_health;
+	local health = get_current_method:call(vital_param);
+	if health ~= nil then
+		monster.health = health;
+	else
+		error_handler.report("small_monster.update_health", "Failed to Access Data: health");
+		return;
+	end
 
-	monster.missing_health = monster.max_health - monster.health;
-	if monster.max_health ~= 0 then
-		monster.health_percentage = monster.health / monster.max_health;
-		monster.capture_percentage = monster.capture_health / monster.max_health;
+	local max_health = get_max_method:call(vital_param);
+	if max_health ~= nil then
+		monster.max_health = max_health;
+	else
+		error_handler.report("small_monster.update_health", "Failed to Access Data: max_health");
+		return;
+	end
+
+	monster.missing_health = max_health - health;
+	if max_health ~= 0 then
+		monster.health_percentage = health / max_health;
 	end
 end
 
@@ -262,6 +281,7 @@ function this.init_dependencies()
 	ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
 	ailment_buildup = require("MHR_Overlay.Monsters.ailment_buildup");
 	ailment_buildup_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_buildup_UI_entity");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

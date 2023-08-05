@@ -1,5 +1,7 @@
 local this = {};
 
+local error_handler;
+
 local sdk = sdk;
 local tostring = tostring;
 local pairs = pairs;
@@ -414,6 +416,7 @@ function this.unicode.sub(str, i, j)
 end
 
 function this.init_dependencies()
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

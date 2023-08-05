@@ -35,6 +35,7 @@ local quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 local screen = require("MHR_Overlay.Game_Handler.screen");
 local singletons = require("MHR_Overlay.Game_Handler.singletons");
 local time = require("MHR_Overlay.Game_Handler.time");
+local error_handler = require("MHR_Overlay.Misc.error_handler");
 
 local config = require("MHR_Overlay.Misc.config");
 local language = require("MHR_Overlay.Misc.language");
@@ -95,6 +96,7 @@ local drawing = require("MHR_Overlay.UI.drawing");
 ------------------------INIT MODULES-------------------------
 -- #region
 
+error_handler.init_dependencies();
 screen.init_dependencies();
 singletons.init_dependencies();
 utils.init_dependencies();
@@ -162,6 +164,7 @@ keyboard.init_dependencies();
 
 ------------------------------------------------------------
 
+error_handler.init_module();
 language.init_module();
 config.init_module();
 part_names.init_module();
@@ -238,7 +241,7 @@ local function draw_modules(module_visibility_config, flow_state_name)
 	if module_visibility_config.small_monster_UI and config.current_config.small_monster_UI.enabled then
 		local success = pcall(small_monster_UI.draw);
 		if not success then
-			customization_menu.status = string.format("[%s] Small Monster UI Drawing Function threw an Exception", flow_state_name);
+			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Small Monster UI Drawing Function threw an Exception", flow_state_name));
 		end
 	end
 
@@ -254,41 +257,40 @@ local function draw_modules(module_visibility_config, flow_state_name)
 	if dynamic_enabled or static_enabled or highlighted_enabled then
 		local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
 		if not success then
-			customization_menu.status = string.format("[%s] Large Monster UI Drawing Function threw an Exception", flow_state_name);
+			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Large Monster UI Drawing Function threw an Exception", flow_state_name));
 		end
 	end
 
 	if config.current_config.time_UI.enabled and module_visibility_config.time_UI then
 		local success = pcall(time_UI.draw);
 		if not success then
-			customization_menu.status = string.format("[%s] Time UI Drawing Function threw an Exception", flow_state_name);
+			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Time UI Drawing Function threw an Exception", flow_state_name));
 		end
 	end
 
 	if config.current_config.damage_meter_UI.enabled and module_visibility_config.damage_meter_UI then
 		local success = pcall(damage_meter_UI.draw);
 		if not success then
-			customization_menu.status = string.format("[%s] Damage Meter UI Drawing Function threw an Exception", flow_state_name);
+			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Damage Meter UI Drawing Function threw an Exception", flow_state_name));
 		end
 	end
 
 	if config.current_config.endemic_life_UI.enabled and module_visibility_config.endemic_life_UI then
 		local success = pcall(env_creature_UI.draw);
 		if not success then
-			customization_menu.status = string.format("[%s] Endemic Life UI Drawing Function threw an Exception", flow_state_name);
+			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Endemic Life UI Drawing Function threw an Exception", flow_state_name));
 		end
 	end
 
 	if config.current_config.buff_UI.enabled and module_visibility_config.buff_UI then
 		local success = pcall(buff_UI.draw);
 		if not success then
-			customization_menu.status = string.format("[%s] Buff UI Drawing Function threw an Exception", flow_state_name);
+			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Buff UI Drawing Function threw an Exception", flow_state_name));
 		end
 	end
 end
 
 local function main_loop()
-	customization_menu.status = "OK";
 	time.update_timers();
 
 	if quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
@@ -303,28 +305,28 @@ local function main_loop()
 		if dynamic_enabled or static_enabled or highlighted_enabled then
 			local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
 			if not success then
-				customization_menu.status = "[In Training Area] Large Monster UI Drawing Function threw an Exception";
+				error_handler.report("MHR_Overlay.main_loop", "[In Training Area] Large Monster UI Drawing Function threw an Exception");
 			end
 		end
 
 		if config.current_config.damage_meter_UI.enabled and module_visibility_config.damage_meter_UI then
 			local success = pcall(damage_meter_UI.draw);
 			if not success then
-				customization_menu.status = "[In Training Area] Damage Meter UI Drawing Function threw an Exception";
+				error_handler.report("MHR_Overlay.main_loop", "[In Training Area] Damage Meter UI Drawing Function threw an Exception");
 			end
 		end
 
 		if config.current_config.endemic_life_UI.enabled and module_visibility_config.endemic_life_UI then
 			local success = pcall(env_creature_UI.draw);
 			if not success then
-				customization_menu.status = "[In Training Area] Endemic Life UI Drawing Function threw an Exception";
+				error_handler.report("MHR_Overlay.main_loop", "[In Training Area] Endemic Life UI Drawing Function threw an Exception");
 			end
 		end
 
 		if config.current_config.buff_UI.enabled and module_visibility_config.buff_UI then
 			local success = pcall(buff_UI.draw);
 			if not success then
-				customization_menu.status = "[In Training Area] Buff UI Drawing Function threw an Exception";
+				error_handler.report("MHR_Overlay.main_loop", "[In Training Area] Buff UI Drawing Function threw an Exception");
 			end
 		end
 

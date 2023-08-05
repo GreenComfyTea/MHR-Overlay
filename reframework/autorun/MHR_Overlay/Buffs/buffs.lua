@@ -10,6 +10,7 @@ local utils;
 local language;
 local time;
 local quest_status;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -112,6 +113,11 @@ function this.init_names()
 end
 
 function this.update()
+	if singletons.player_manager == nil then
+		error_handler.report("buffs.update", "Failed to Access Data: player_manager");
+		return;
+	end
+
 	if quest_status.flow_state == quest_status.flow_states.IN_LOBBY
 	or quest_status.flow_state >= quest_status.flow_states.QUEST_END_ANIMATION then
 		return;
@@ -119,12 +125,15 @@ function this.update()
 
 	local master_player = find_master_player_method:call(singletons.player_manager); 
 	if master_player == nil then
+		error_handler.report("buffs.update", "Failed to Access Data: master_player");
 		return;
 	end
 
 	local master_player_data = get_player_data_method:call(master_player);
 	if master_player_data ~= nil then
 		consumables.update(master_player_data);
+	else
+		error_handler.report("buffs.update", "Failed to Access Data: master_player_data");
 	end
 
 	local music_data_array = music_data_field:get_data(master_player);
@@ -135,6 +144,7 @@ function this.update()
 		for i = 0, length do
 			local music_data = get_value_method:call(music_data_array, i);
 			if music_data == nil then
+				error_handler.report("buffs.update", "Failed to Access Data: music_data No." .. tostring(i));
 				music_data = "";
 			end
 
@@ -142,6 +152,8 @@ function this.update()
 		end
 
 		melody_effects.update(music_data_table);
+	else
+		error_handler.report("buffs.update", "Failed to Access Data: music_data_array");
 	end
 end
 
@@ -176,6 +188,7 @@ function this.init_dependencies()
 	language = require("MHR_Overlay.Misc.language");
 	time = require("MHR_Overlay.Game_Handler.time");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

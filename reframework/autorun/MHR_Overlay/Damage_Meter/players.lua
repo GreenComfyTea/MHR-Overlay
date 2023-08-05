@@ -10,6 +10,7 @@ local drawing;
 local language;
 local non_players;
 local utils;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -137,6 +138,7 @@ end
 
 function this.update_damage(player, damage_source_type, is_large_monster, damage_object)
 	if player == nil then
+		error_handler.report("players.update_damage", "Missing Parameter: player");
 		return;
 	end
 
@@ -155,6 +157,7 @@ end
 
 function this.update_display(player)
 	if player == nil then
+		error_handler.report("players.update_display", "Missing Parameter: player");
 		return;
 	end
 
@@ -450,20 +453,22 @@ local get_pos_field = player_base_type_def:get_method("get_Pos");
 
 function this.update_myself_position()
 	if singletons.player_manager == nil then
-		customization_menu.status = "No player manager";
+		error_handler.report("players.update_myself_position", "Failed to Access Data: player_manager");
 		return;
 	end
 
 	local master_player = find_master_player_method:call(singletons.player_manager);
 	if master_player == nil then
-		customization_menu.status = "No master player";
+		error_handler.report("players.update_myself_position", "Failed to Access Data: master_player");
 		return;
 	end
 
 	local position = get_pos_field:call(master_player);
-	if position ~= nil then
-		this.myself_position = position;
+	if position == nil then
+		error_handler.report("players.update_myself_position", "Failed to Access Data: position");
 	end
+
+	this.myself_position = position;
 end
 
 function this.init()
@@ -512,23 +517,25 @@ function this.update_player_list_(hunter_info_field_)
 	local cached_config = config.current_config.damage_meter_UI;
 
 	if singletons.lobby_manager == nil then
+		error_handler.report("players.update_player_list_", "Failed to Access Data: lobby_manager");
 		return;
 	end
 
 	if singletons.progress_manager == nil then
+		error_handler.report("players.update_player_list_", "Failed to Access Data: progress_manager");
 		return;
 	end
 
 	-- myself player
 	local myself_player_info = my_hunter_info_field:get_data(singletons.lobby_manager);
 	if myself_player_info == nil then
-		customization_menu.status = "No myself player info list";
+		error_handler.report("players.update_player_list_", "Failed to Access Data: myself_player_info");
 		return;
 	end
 
 	local myself_player_name = name_field:get_data(myself_player_info);
 	if myself_player_name == nil then
-		customization_menu.status = "No myself player name";
+		error_handler.report("players.update_player_list_", "Failed to Access Data: myself_player_name");
 		return;
 	end
 
@@ -538,7 +545,7 @@ function this.update_player_list_(hunter_info_field_)
 	local myself_id = get_master_player_id_method:call(singletons.player_manager);
 
 	if myself_id == nil then
-		customization_menu.status = "No myself player id";
+		error_handler.report("players.update_player_list_", "Failed to Access Data: myself_id");
 		return;
 	end
 
@@ -551,25 +558,26 @@ function this.update_player_list_(hunter_info_field_)
 	-- other players
 	local player_info_list = hunter_info_field_:get_data(singletons.lobby_manager);
 	if player_info_list == nil then
-		customization_menu.status = "No player info list";
+		error_handler.report("players.update_player_list_", "Failed to Access Data: player_info_list");
 		return;
 	end
 
 	local count = get_count_method:call(player_info_list);
 	if count == nil then
-		customization_menu.status = "No player info list count";
+		error_handler.report("players.update_player_list_", "Failed to Access Data: player_info_list -> count");
 		return;
 	end
 
 	for i = 0, count - 1 do
 		local player_info = get_item_method:call(player_info_list, i);
 		if player_info == nil then
+			error_handler.report("players.update_player_list_", "Failed to Access Data: player_info No. " .. tostring(i));
 			goto continue
 		end
 
 		local id = member_index_field:get_data(player_info);
-
 		if id == nil then
+			error_handler.report("players.update_player_list_", string.format("Failed to Access Data: player_info No. %d -> id", i));
 			goto continue
 		end
 
@@ -578,13 +586,13 @@ function this.update_player_list_(hunter_info_field_)
 
 		local name = name_field:get_data(player_info);
 		if name == nil then
+			error_handler.report("players.update_player_list_", string.format("Failed to Access Data: player_info No. %d -> name", i));
 			goto continue
 		end
 
 		local player = this.list[id];
 
 		if player == nil then
-
 			if name == this.myself.name then
 				player = this.new(id, name, master_rank, hunter_rank, this.types.myself);
 				this.myself = player;
@@ -647,7 +655,7 @@ function this.init_dependencies()
 	language = require("MHR_Overlay.Misc.language");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	utils = require("MHR_Overlay.Misc.utils");
-
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

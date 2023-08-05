@@ -7,6 +7,7 @@ local consumables;
 local melody_effects;
 local screen;
 local utils;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -49,23 +50,23 @@ function this.draw()
 	for key, consumable in pairs(consumables.list) do
 		
 		if not consumable.is_active then
-			goto continue2;
+			goto continue;
 		end
 
 		table.insert(displayed_buffs, consumable);
 
-		::continue2::
+		::continue::
 	end
 
 	for _, melody_effect in pairs(melody_effects.list) do
 		
 		if not melody_effect.is_active then
-			goto continue3;
+			goto continue2;
 		end
 
 		table.insert(displayed_buffs, melody_effect);
 
-		::continue3::
+		::continue2::
 	end
 
 	-- sort
@@ -107,7 +108,7 @@ function this.draw()
 	for _, buff in ipairs(displayed_buffs) do
 		
 		if not buff.is_active then
-			goto continue4;
+			goto continue3;
 		end
 
 		buffs.draw(buff, buff.buff_UI, position_on_screen, 1);
@@ -118,7 +119,7 @@ function this.draw()
 			position_on_screen.y = position_on_screen.y + cached_config.spacing.y * global_scale_modifier;
 		end
 
-		::continue4::
+		::continue3::
 	end
 end
 
@@ -137,6 +138,7 @@ function this.init_dependencies()
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	--drawing = require("MHR_Overlay.UI.drawing");
 	utils = require("MHR_Overlay.Misc.utils");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

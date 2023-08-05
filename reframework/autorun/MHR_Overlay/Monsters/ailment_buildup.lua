@@ -9,6 +9,7 @@ local time;
 local small_monster;
 local large_monster;
 local drawing;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -51,7 +52,6 @@ function this.draw(monster, ailment_buildup_UI, cached_config, ailment_buildups_
 	if not cached_config.visibility then
 		return;
 	end
-
 
 	for id, ailment in pairs(monster.ailments) do
 		if id == ailments.stun_id then
@@ -239,6 +239,7 @@ function this.init_dependencies()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	drawing = require("MHR_Overlay.UI.drawing");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

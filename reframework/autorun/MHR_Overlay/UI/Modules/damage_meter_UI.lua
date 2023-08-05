@@ -10,6 +10,7 @@ local screen;
 local drawing;
 local language;
 local utils;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -45,17 +46,6 @@ local package = package;
 
 this.last_displayed_players = {};
 this.freeze_displayed_players = false;
-
-local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
-local quest_hunter_info_field = lobby_manager_type_def:get_field("_questHunterInfo");
-local hunter_info_field = lobby_manager_type_def:get_field("_hunterInfo");
-
-local quest_hunter_info_type_def = quest_hunter_info_field:get_type();
-local get_count_method = quest_hunter_info_type_def:get_method("get_Count");
-local get_item_method = quest_hunter_info_type_def:get_method("get_Item");
-
-local hunter_info_type_def = sdk.find_type_definition("snow.LobbyManager.HunterInfo");
-local member_index_field = hunter_info_type_def:get_field("_memberIndex");
 
 function this.draw()
 	local cached_config = config.current_config.damage_meter_UI;
@@ -116,32 +106,32 @@ function this.draw()
 	for _, player in ipairs(quest_players) do
 		
 		if player.display.total_damage == 0 and cached_config.settings.hide_player_if_player_damage_is_zero then
-			goto continue
+			goto continue;
 		end
 
 		if player.type == players.types.myself then
 			if cached_config.settings.hide_myself then
-				goto continue
+				goto continue;
 			end
 		elseif player.type == players.types.servant then
 			if cached_config.settings.hide_servants then
-				goto continue
+				goto continue;
 			end
 		elseif player.type == players.types.other_player then
 			if cached_config.settings.hide_other_players then
-				goto continue
+				goto continue;
 			end
 		elseif player.type == players.types.my_otomo then
 			if not cached_config.settings.show_my_otomos_separately then
-				goto continue
+				goto continue;
 			end
 		elseif player.type == players.types.other_player_otomo then
 			if not cached_config.settings.show_other_player_otomos_separately then
-				goto continue
+				goto continue;
 			end
 		elseif player.type == players.types.servant_otomo then
 			if not cached_config.settings.show_servant_otomos_separately then
-				goto continue
+				goto continue;
 			end
 		end
 
@@ -154,7 +144,6 @@ function this.draw()
 		end
 
 		::continue::
-
 	end
 
 	-- draw total damage
@@ -186,6 +175,7 @@ function this.init_dependencies()
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
 	utils = require("MHR_Overlay.Misc.utils");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

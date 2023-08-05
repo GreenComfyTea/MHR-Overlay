@@ -5,6 +5,7 @@ local drawing;
 local config;
 local players;
 local language;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -123,6 +124,7 @@ function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	players = require("MHR_Overlay.Damage_Meter.players");
 	language = require("MHR_Overlay.Misc.language");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

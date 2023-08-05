@@ -5,6 +5,7 @@ local customization_menu;
 local singletons;
 local config;
 local utils;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -80,13 +81,13 @@ local get_pos_method = environment_creature_base_type_def:get_method("get_Pos");
 function this.init(creature, REcreature)
 	local creature_type = creature_type_field:get_data(REcreature);
 	if creature_type == nil then
-		customization_menu.status = "No env creature type";
+		error_handler.report("env_creature.init", "Failed to Access Data: creature_type");
 		return;
 	end
 
-	local creature_name = get_env_creature_name_message_method:call(singletons.message_manager,
-		creature_type);
+	local creature_name = get_env_creature_name_message_method:call(singletons.message_manager, creature_type);
 	if creature_name ~= nil then
+		error_handler.report("env_creature.init", "Failed to Access Data: creature_name");
 		creature.name = creature_name;
 	end
 end
@@ -110,9 +111,11 @@ function this.update_position(REcreature, creature)
 	end
 
 	local position = get_pos_method:call(REcreature);
-	if position ~= nil then
-		creature.position = position;
+	if position == nil then
+		error_handler.report("env_creature.update_position", "Failed to Access Data: position");
 	end
+	
+	creature.position = position;
 end
 
 function this.update(REcreature, creature)
@@ -125,9 +128,11 @@ function this.update(REcreature, creature)
 	end
 
 	local is_inactive = creature_is_inactive_field:get_data(REcreature);
-	if is_inactive ~= nil then
-		creature.is_inactive = is_inactive;
+	if is_inactive == nil then
+		error_handler.report("env_creature.update", "Failed to Access Data: is_inactive");
 	end
+	
+	creature.is_inactive = is_inactive;
 end
 
 function this.draw(creature, position_on_screen, opacity_scale)
@@ -154,6 +159,7 @@ function this.init_dependencies()
 	drawing = require("MHR_Overlay.UI.drawing");
 	--ailments = require("MHR_Overlay.Monsters.ailments");
 	--ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

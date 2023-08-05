@@ -8,6 +8,7 @@ local non_players;
 local config;
 local small_monster;
 local utils;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -50,7 +51,6 @@ this.elapsed_minutes = 0;
 this.elapsed_seconds = 0;
 
 this.total_elapsed_script_seconds = 0;
-this.last_elapsed_script_seconds = 0;
 
 this.list = {};
 
@@ -60,7 +60,6 @@ function this.new_timer(callback, cooldown_seconds, start_offset_seconds)
 	if callback == nil or cooldown_seconds == nil then
 		return;
 	end
-
 	local timer = {};
 	timer.callback = callback;
 	timer.cooldown = cooldown_seconds;
@@ -69,7 +68,6 @@ function this.new_timer(callback, cooldown_seconds, start_offset_seconds)
 
 	table.insert(this.list, timer);
 
-	callback();
 end
 
 function this.update_timers()
@@ -99,14 +97,14 @@ function this.update_quest_time()
 
 	local quest_time_elapsed_minutes = get_quest_elapsed_time_min_method:call(singletons.quest_manager);
 	if quest_time_elapsed_minutes == nil then
-		customization_menu.status = "No quest time elapsed minutes";
+		error_handler.report("time.update_quest_time", "Failed to Access Data: quest_time_elapsed_minutes");
 	else 
 		this.elapsed_minutes = quest_time_elapsed_minutes;
 	end
 
 	local quest_time_total_elapsed_seconds = get_quest_elapsed_time_sec_method:call(singletons.quest_manager);
 	if quest_time_total_elapsed_seconds == nil then
-		customization_menu.status = "No quest time total elapsed seconds";
+		error_handler.report("time.update_quest_time", "Failed to Access Data: quest_time_total_elapsed_seconds");
 	else
 		this.total_elapsed_seconds = quest_time_total_elapsed_seconds;
 	end
@@ -123,6 +121,7 @@ function this.init_dependencies()
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	utils = require("MHR_Overlay.Misc.utils");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

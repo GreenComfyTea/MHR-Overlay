@@ -14,6 +14,8 @@ local keyboard;
 local non_players;
 local quest_status;
 local buffs;
+local error_handler;
+local time;
 
 local label_customization;
 local bar_customization;
@@ -64,7 +66,6 @@ local package = package;
 this.font = nil;
 this.full_font_range = {0x1, 0xFFFF, 0};
 this.is_opened = false;
-this.status = "OK";
 
 this.window_position = Vector2f.new(480, 200);
 this.window_pivot = Vector2f.new(0, 0);
@@ -353,11 +354,8 @@ function this.draw()
 	local damage_meter_UI_changed = false;
 	local endemic_life_UI_changed = false;
 	local buff_UI_changed = false;
+	local debug_changed = false;
 	local apply_font_requested = false;
-
-	local status_string = tostring(this.status);
-
-	imgui.text(language.current_language.customization_menu.status .. ": " .. status_string);
 
 	config_changed, apply_font_requested = this.draw_config();
 	modules_changed = this.draw_modules();
@@ -376,6 +374,9 @@ function this.draw()
 	damage_meter_UI_changed = this.draw_damage_meter_UI();
 	endemic_life_UI_changed = this.draw_endemic_life_UI()
 	buff_UI_changed = this.draw_buff_UI();
+	
+	imgui.new_line();
+	debug_changed = this.draw_debug();
 
 	imgui.pop_font();
 	imgui.end_window();
@@ -447,7 +448,7 @@ function this.draw()
 
 	if modules_changed or global_settings_changed or small_monster_UI_changed or large_monster_dynamic_UI_changed or
 		large_monster_static_UI_changed or large_monster_highlighted_UI_changed or time_UI_changed or damage_meter_UI_changed or
-		endemic_life_UI_changed or buff_UI_changed or modifiers_changed or config_changed then
+		endemic_life_UI_changed or buff_UI_changed or modifiers_changed or config_changed or debug_changed then
 		config.save_current();
 	end
 end
@@ -2264,6 +2265,63 @@ function this.draw_buff_UI()
 	return config_changed;
 end
 
+function this.draw_debug()
+	local cached_config = config.current_config.debug;
+
+	local changed = false;
+	local config_changed = false;
+
+	if imgui.tree_node(language.current_language.customization_menu.debug) then
+		
+		if error_handler.is_empty then
+			imgui.text(language.current_language.customization_menu.everything_seems_to_be_ok);
+		else
+			imgui.text_colored("Current Script Time:", 0xFFAAAA66);
+			imgui.same_line();
+			imgui.text(string.format("%.3fs", time.total_elapsed_script_seconds));
+
+			for error_key, error in pairs(error_handler.list) do
+
+				imgui.button(string.format("%.3fs", error.time));
+				imgui.same_line();
+				imgui.text_colored(error_key, 0xFFAA66AA);
+				imgui.same_line();
+				imgui.text(error.message);
+			end
+	
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.error_history) then
+
+			changed, cached_config.history_size = imgui.drag_int(
+				language.current_language.customization_menu.history_size, cached_config.history_size, 1, 0, 1024);
+
+			config_changed = config_changed or changed;
+
+			if changed then
+				error_handler.history = {};
+			end
+
+			for index, error in pairs(error_handler.history) do
+				imgui.text_colored(index, 0xFF66AA66);
+				imgui.same_line();
+				imgui.button(string.format("%.3fs", error.time));
+				imgui.same_line();
+				imgui.text_colored(error.key, 0xFFAA66AA);
+				imgui.same_line();
+				imgui.text(error.message);
+			end
+
+
+			imgui.tree_pop();
+		end
+
+		imgui.tree_pop();
+	end
+
+	return config_changed;
+end
+
 function this.init_dependencies()
 	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
@@ -2279,6 +2337,8 @@ function this.init_dependencies()
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	buffs = require("MHR_Overlay.Buffs.buffs");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
+	time = require("MHR_Overlay.Game_Handler.time");
 
 	label_customization = require("MHR_Overlay.UI.Customizations.label_customization");
 	bar_customization = require("MHR_Overlay.UI.Customizations.bar_customization");

@@ -7,6 +7,7 @@ local singletons;
 local players;
 local utils;
 local language;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -115,6 +116,7 @@ function this.update(melody_data_table)
 
 		local melody_timer = time_field:get_data(melody_data);
 		if melody_timer == nil then
+			error_handler.report("melody_effects.update", "Failed to Access Data: melody_timer No. " .. tostring(lua_index - 1));
 			goto continue;
 		end
 
@@ -153,6 +155,7 @@ function this.init_dependencies()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	players = require("MHR_Overlay.Damage_Meter.players");
 	language = require("MHR_Overlay.Misc.language");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

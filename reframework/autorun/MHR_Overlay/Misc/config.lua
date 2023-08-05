@@ -2,6 +2,7 @@ local this = {};
 
 local utils;
 local language;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -7564,6 +7565,10 @@ function this.init_default()
 					outline = 0xC0000000
 				}
 			}
+		},
+
+		debug = {
+			history_size = 64
 		}
 	};
 end
@@ -7572,7 +7577,7 @@ function this.load_current_config_value()
 	local loaded_config = json.load_file(this.current_config_value_file_name);
 	if loaded_config ~= nil then
 		if loaded_config.config == nil then
-			log.info("[MHR Overlay] old config.json loaded successfully");
+			log.info("[MHR Overlay] Old config.json Loaded Successfully");
 
 			local config_save = {
 				config = this.current_config_name
@@ -7590,11 +7595,12 @@ function this.load_current_config_value()
 
 			is_old_config_transferred = true;
 		else
-			log.info("[MHR Overlay] config.json loaded successfully");
+			log.info("[MHR Overlay] config.json Loaded Successfully");
 			this.current_config_name = loaded_config.config;
 		end
 	else
-		log.error("[MHR Overlay] Failed to load config.json");
+		log.error("[MHR Overlay] Failed to Load config.json");
+		error_handler.report("config.load_current_config_value", "Failed to Load config.json");
 	end
 end
 
@@ -7615,8 +7621,7 @@ function this.load_configs()
 
 		local loaded_config = json.load_file(config_file_name);
 		if loaded_config ~= nil then
-			log.info("[MHR Overlay] " .. config_name .. ".json loaded successfully");
-			
+			log.info(string.format("[MHR Overlay] %s.json Loaded Successfully", config_name));
 
 			local merged_config = utils.table.merge(this.default_config, loaded_config);
 			merged_config.version = this.version;
@@ -7630,7 +7635,8 @@ function this.load_configs()
 				this.current_config = merged_config;
 			end
 		else
-			log.error("[MHR Overlay] Failed to load " .. config_name .. ".json");
+			log.error(string.format("[MHR Overlay] Failed to Load %s.json", config_name));
+			error_handler.report("config.load_configs", string.format("Failed to Load %s.json", config_name));
 		end
 
 		::continue::
@@ -7664,7 +7670,8 @@ function this.save(file_name, config_table)
 	if success then
 		log.info("[MHR Overlay] " .. file_name .. " saved successfully");
 	else
-		log.error("[MHR Overlay] Failed to save " .. file_name);
+		error_handler.report("config.load_configs", string.format("Failed to Save %s", file_name));
+		log.error(string.format("[MHR Overlay] Failed to Save %s", file_name));
 	end
 end
 
@@ -7719,6 +7726,7 @@ end
 function this.init_dependencies()
 	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

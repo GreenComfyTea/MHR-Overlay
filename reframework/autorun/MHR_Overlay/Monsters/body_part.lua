@@ -12,6 +12,7 @@ local drawing;
 local part_names;
 local time;
 local utils;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -49,7 +50,6 @@ this.list = {};
 
 function this.new(id, name)
 	local part = {};
-
 
 	part.id = id;
 	part.name = name;
@@ -475,6 +475,7 @@ function this.init_dependencies()
 	part_names = require("MHR_Overlay.Misc.part_names");
 	time = require("MHR_Overlay.Game_Handler.time");
 	utils = require("MHR_Overlay.Misc.utils");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

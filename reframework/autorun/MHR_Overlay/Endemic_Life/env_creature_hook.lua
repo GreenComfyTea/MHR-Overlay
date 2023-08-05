@@ -3,6 +3,7 @@ local this = {};
 local env_creature;
 local config;
 local time;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -49,6 +50,7 @@ function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
 	time = require("MHR_Overlay.Game_Handler.time");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

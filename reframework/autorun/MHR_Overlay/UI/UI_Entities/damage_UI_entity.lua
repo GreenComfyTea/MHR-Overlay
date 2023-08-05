@@ -7,6 +7,7 @@ local players;
 local language;
 local quest_status;
 local non_players;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -241,6 +242,7 @@ function this.init_dependencies()
 	language = require("MHR_Overlay.Misc.language");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

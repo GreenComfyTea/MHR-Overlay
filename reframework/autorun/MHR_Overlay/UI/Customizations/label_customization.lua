@@ -11,6 +11,7 @@ local part_names;
 local time_UI;
 local keyboard;
 local customization_menu;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -134,6 +135,7 @@ function this.init_dependencies()
 	time_UI = require("MHR_Overlay.UI.Modules.time_UI");
 	keyboard = require("MHR_Overlay.Game_Handler.keyboard");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

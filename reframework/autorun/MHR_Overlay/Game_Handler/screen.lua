@@ -4,6 +4,7 @@ local config;
 local singletons;
 local utils;
 local time;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -72,26 +73,26 @@ function this.get_game_window_size()
 		scene_view = sdk.call_native_func(singletons.scene_manager, sdk.find_type_definition("via.SceneManager") , "get_MainView");
 
 		if scene_view == nil then
-			--log.error("[MHR_Overlay.lua] No scene view");
+			error_handler.report("screen.get_game_window_size", "Failed to Access Data: scene_view");
 			return;
 		end
 	end
 
 	local size = get_size_method:call(scene_view);
 	if size == nil then
-		--log.error("[MHR_Overlay.lua] No scene view size");
+		error_handler.report("screen.get_game_window_size", "Failed to Access Data: size");
 		return;
 	end
 
 	local screen_width = width_field:get_data(size);
 	if screen_width == nil then
-		--log.error("[MHR_Overlay.lua] No screen width");
+		error_handler.report("screen.get_game_window_size", "Failed to Access Data: screen_width");
 		return;
 	end
 
 	local screen_height = height_field:get_data(size);
 	if screen_height == nil then
-		--log.error("[MHR_Overlay.lua] No screen height");
+		error_handler.report("screen.get_game_window_size", "Failed to Access Data: screen_height");
 		return;
 	end
 
@@ -138,6 +139,7 @@ function this.init_dependencies()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	time = require("MHR_Overlay.Game_Handler.time");
 	utils = require("MHR_Overlay.Misc.utils");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

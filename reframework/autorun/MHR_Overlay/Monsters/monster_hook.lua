@@ -6,6 +6,7 @@ local config;
 local ailments;
 local players;
 local quest_status;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -118,8 +119,8 @@ function this.update_large_monster(enemy)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if not cached_config.dynamic.enabled and
-		not cached_config.static.enabled and
-		not cached_config.highlighted.enabled then
+	not cached_config.static.enabled and
+	not cached_config.highlighted.enabled then
 		return;
 	end
 
@@ -202,11 +203,13 @@ end
 function this.update_health(enemy_damage_check)
 	local enemy = get_ref_enemy:call(enemy_damage_check);
 	if enemy == nil then
+		error_handler.report("monster_hook.update_health", "Failed to Access Data: enemy");
 		return;
 	end
 
 	local is_large = is_boss_enemy_method:call(enemy);
 	if is_large == nil then
+		error_handler.report("monster_hook.update_health", "Failed to Access Data: is_large");
 		return;
 	end
 
@@ -229,6 +232,7 @@ function this.update_stamina(stamina_param, stamina_sub)
 
 	local enemy = get_enemy_method:call(stamina_param);
 	if enemy == nil then
+		error_handler.report("monster_hook.update_stamina", "Failed to Access Data: enemy");
 		return;
 	end
 
@@ -262,6 +266,7 @@ function this.init_dependencies()
 	ailments = require("MHR_Overlay.Monsters.ailments");
 	players = require("MHR_Overlay.Damage_Meter.players");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

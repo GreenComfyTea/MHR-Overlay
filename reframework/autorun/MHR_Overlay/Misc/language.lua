@@ -1,6 +1,7 @@
 local this = {};
 
 local utils;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -607,7 +608,12 @@ this.default_language = {
 		top_to_bottom = "Top to Bottom",
 		bottom_to_top = "Bottom to Top",
 
-		right_alignment_shift = "Right Alignment Shift"
+		right_alignment_shift = "Right Alignment Shift",
+
+		debug = "Debug",
+		everything_seems_to_be_ok = "Everything seems to be OK!",
+		error_history = "Error History",
+		history_size = "History Size"
 	}
 };
 
@@ -626,18 +632,17 @@ function this.load()
 
 		local loaded_language = json.load_file(language_file_name);
 		if loaded_language ~= nil then
+			log.info(string.format("[MHR Overlay] %s.json Loaded Successfully", language_file_name));
 
-			log.info("[MHR Overlay] " .. language_file_name .. ".json loaded successfully");
 			table.insert(this.language_names, language_name);
 
 			local merged_language = utils.table.merge(this.default_language, loaded_language);
 			table.insert(this.languages, merged_language);
 
 			this.save(language_file_name, merged_language);
-
-
 		else
-			log.error("[MHR Overlay] Failed to load " .. language_file_name .. ".json");
+			error_handler.report("language.load", string.format("Failed to load %s.json", language_file_name));
+			log.error(string.format("[MHR Overlay] Failed to Load %s.json", language_file_name));
 		end
 	end
 end
@@ -645,9 +650,10 @@ end
 function this.save(file_name, language_table)
 	local success = json.dump_file(file_name, language_table);
 	if success then
-		log.info("[MHR Overlay] " .. file_name .. " saved successfully");
+		log.info(string.format("[MHR Overlay] %s Saved Successfully", file_name));
 	else
-		log.error("[MHR Overlay] Failed to save " .. file_name);
+		error_handler.report("language.save", string.format("[MHR Overlay] Failed to Save %s", file_name));
+		log.error(string.format("[MHR Overlay] Failed to Save %s", file_name));
 	end
 end
 
@@ -661,6 +667,7 @@ end
 
 function this.init_dependencies()
 	utils = require("MHR_Overlay.Misc.utils");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

@@ -2,6 +2,7 @@ local this = {};
 
 local config;
 local utils;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -82,7 +83,7 @@ function this.limit_text_size(text, size_limit)
 			limited_text = utils.unicode.sub(limited_text, 1, -5) .. "...";
 
 			if limited_text == old_limited_text then
-				break
+				break;
 			end
 		end
 	end
@@ -379,6 +380,7 @@ end
 function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	utils = require("MHR_Overlay.Misc.utils");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

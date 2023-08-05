@@ -9,6 +9,7 @@ local time;
 local small_monster;
 local large_monster;
 local non_players;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -247,8 +248,6 @@ end
 local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
 local get_damage_param_method = enemy_character_base_type_def:get_method("get_DamageParam");
 
-
-
 local damage_param_type_def = get_damage_param_method:get_return_type();
 local get_condition_param_method = damage_param_type_def:get_method("get_ConditionParam");
 
@@ -277,10 +276,13 @@ local get_value_method = system_array_type_def:get_method("GetValue(System.Int32
 
 function this.update_ailments(enemy, monster)
 	if enemy == nil then
+		error_handler.report("ailments.update_ailments", "Missing Parameter: enemy");
 		return;
 	end
+
 	local damage_param = get_damage_param_method:call(enemy);
 	if damage_param == nil then
+		error_handler.report("ailments.update_ailments", "Failed to Access Data: damage_param");
 		return;
 	end
 
@@ -297,13 +299,14 @@ function this.update_ailments(enemy, monster)
 	end
 
 	local condition_param_array = get_condition_param_method:call(damage_param);
-
 	if condition_param_array == nil then
+		error_handler.report("ailments.update_ailments", "Failed to Access Data: condition_param_array");
 		return;
 	end
 
 	local condition_param_array_length = length_method:call(condition_param_array);
 	if condition_param_array_length == nil then
+		error_handler.report("ailments.update_ailments", "Failed to Access Data: condition_param_array_length");
 		return;
 	end
 
@@ -314,6 +317,7 @@ function this.update_ailments(enemy, monster)
 
 		local ailment_param = get_value_method:call(condition_param_array, id);
 		if ailment_param == nil then
+			error_handler.report("ailments.update_ailments", "Failed to Access Data: ailment_param No. " .. tostring(id));
 			goto continue
 		end
 
@@ -326,16 +330,22 @@ function this.update_stun_poison_blast_ailments(monster, damage_param)
 	local stun_param = stun_param_field:get_data(damage_param);
 	if stun_param ~= nil then
 		this.update_ailment(monster, stun_param, this.stun_id);
+	else
+		error_handler.report("ailments.update_stun_poison_blast_ailments", "Failed to Access Data: stun_param");
 	end
 
 	local poison_param = poison_param_field:get_data(damage_param);
 	if poison_param ~= nil then
 		this.update_ailment(monster, poison_param, this.poison_id);
+	else
+		error_handler.report("ailments.update_stun_poison_blast_ailments", "Failed to Access Data: poison_param");
 	end
 
 	local blast_param = blast_param_field:get_data(damage_param);
 	if blast_param ~= nil then
 		this.update_ailment(monster, blast_param, this.blast_id);
+	else
+		error_handler.report("ailments.update_stun_poison_blast_ailments", "Failed to Access Data: blast_param");
 	end
 end
 
@@ -348,9 +358,9 @@ function this.update_ailment(monster, ailment_param, id)
 	local duration = get_active_time_method:call(ailment_param);
 	local is_active = get_is_active_method:call(ailment_param);
 
-	local activate_count = -999;
-	local buildup = -999;
-	local buildup_limit = 9999;
+	local activate_count = nil;
+	local buildup = nil;
+	local buildup_limit = nil;
 	
 	if activate_count_array ~= nil then
 		local activate_count_array_length = length_method:call(activate_count_array);
@@ -361,14 +371,16 @@ function this.update_ailment(monster, ailment_param, id)
 				local activate_count_valuetype = get_value_method:call(activate_count_array, 0);
 
 				if activate_count_valuetype ~= nil then
-					local _activate_count = activate_count_valuetype:get_field("mValue");
-
-					if _activate_count ~= nil then
-						activate_count = _activate_count;
-					end
+					activate_count = activate_count_valuetype:get_field("mValue");
+				else
+					error_handler.report("ailments.update_ailment", "Failed to Access Data: activate_count_valuetype");
 				end
 			end
+		else
+			error_handler.report("ailments.update_ailment", "Failed to Access Data: activate_count_array_length");
 		end
+	else
+		error_handler.report("ailments.update_ailment", "Failed to Access Data: activate_count_array");
 	end
 	
 	if buildup_array ~= nil then
@@ -380,14 +392,16 @@ function this.update_ailment(monster, ailment_param, id)
 				local buildup_valuetype = get_value_method:call(buildup_array, 0);
 
 				if buildup_valuetype ~= nil then
-					local _buildup = buildup_valuetype:get_field("mValue");
-
-					if _buildup ~= nil then
-						buildup = _buildup;
-					end
+					buildup = buildup_valuetype:get_field("mValue");
+				else
+					error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_valuetype");
 				end
 			end
+		else
+			error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_array_length");
 		end
+	else
+		error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_array");
 	end
 	
 	if buildup_limit_array ~= nil then
@@ -399,14 +413,16 @@ function this.update_ailment(monster, ailment_param, id)
 				local buildup_limit_valuetype = get_value_method:call(buildup_limit_array, 0);
 
 				if buildup_limit_valuetype ~= nil then
-					local _buildup_limit = buildup_limit_valuetype:get_field("mValue");
-
-					if _buildup_limit ~= nil then
-						buildup_limit = _buildup_limit;
-					end
+					buildup_limit = buildup_limit_valuetype:get_field("mValue");
+				else
+					error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_limit_valuetype");
 				end
 			end
+		else
+			error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_limit_array_length");
 		end
+	else
+		error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_limit_array");
 	end
 
 	if is_enable == nil then
@@ -429,6 +445,8 @@ function this.update_ailment(monster, ailment_param, id)
 		end
 
 		monster.ailments[id].activate_count = activate_count;
+	else
+		error_handler.report("ailments.update_ailment", "Failed to Access Data: activate_count");
 	end
 	
 	if buildup ~= nil then
@@ -437,6 +455,8 @@ function this.update_ailment(monster, ailment_param, id)
 		end
 
 		monster.ailments[id].total_buildup = buildup;
+	else
+		error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup");
 	end
 	
 	if buildup_limit ~= nil then
@@ -445,6 +465,8 @@ function this.update_ailment(monster, ailment_param, id)
 		end
 
 		monster.ailments[id].buildup_limit = buildup_limit;
+	else
+		error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_limit");
 	end
 	
 	if buildup ~= nil and buildup_limit ~= nil and buildup_limit ~= 0 then
@@ -503,18 +525,29 @@ end
 -- Code by coavins
 function this.update_poison(monster, poison_param)
 	if monster == nil then
+		error_handler.report("ailments.update_poison", "Missing Parameter: monster");
 		return;
 	end
 
-	if poison_param ~= nil then
-		--if poison tick, apply damage
-		local is_damage = poison_get_is_damage_method:call(poison_param);
-		if is_damage then
-			local poison_damage = poison_damage_field:get_data(poison_param);
-
-			this.apply_ailment_damage(monster, this.poison_id, poison_damage);
-		end
+	if poison_param == nil then
+		error_handler.report("ailments.update_poison", "Missing Parameter: poison_param");
+		return;
 	end
+
+	--if poison tick, apply damage
+	local is_damage = poison_get_is_damage_method:call(poison_param);
+	if is_damage == nil then
+		error_handler.report("ailments.update_poison", "Failed to Access Data: is_damage");
+		return;
+	end
+	
+	local poison_damage = poison_damage_field:get_data(poison_param);
+	if poison_damage == nil then
+		error_handler.report("ailments.update_poison", "Failed to Access Data: poison_damage");
+		return;
+	end
+
+	this.apply_ailment_damage(monster, this.poison_id, poison_damage);
 end
 
 function this.draw(monster, ailment_UI, cached_config, ailments_position_on_screen, opacity_scale)
@@ -608,14 +641,17 @@ function this.draw(monster, ailment_UI, cached_config, ailments_position_on_scre
 			goto continue
 		end
 
-		if cached_config.settings.hide_ailments_with_zero_buildup and ailment.total_buildup == 0 and
-			ailment.buildup_limit ~= 0
-			and ailment.activate_count == 0 and not ailment.is_active then
+		if cached_config.settings.hide_ailments_with_zero_buildup
+		and ailment.total_buildup == 0
+		and ailment.buildup_limit ~= 0
+		and ailment.activate_count == 0
+		and not ailment.is_active then
 			goto continue
 		end
 
-		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support and ailment.buildup_limit == 0 and
-			not ailment.is_active then
+		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support
+		and ailment.buildup_limit == 0 
+		and not ailment.is_active then
 			goto continue
 		end
 
@@ -631,9 +667,9 @@ function this.draw(monster, ailment_UI, cached_config, ailments_position_on_scre
 			goto continue
 		end
 
-		if cached_config.settings.time_limit ~= 0 and
-			time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit and
-			not ailment.is_active then
+		if cached_config.settings.time_limit ~= 0
+		and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit
+		and not ailment.is_active then
 			goto continue
 		end
 
@@ -682,14 +718,21 @@ function this.draw(monster, ailment_UI, cached_config, ailments_position_on_scre
 
 		ailment_UI_entity.draw(ailment, ailment_UI, cached_config, ailment_position_on_screen, opacity_scale);
 	end
-
-
 end
 
 function this.apply_ailment_buildup(monster, player, otomo, ailment_type, ailment_buildup)
-	if monster == nil or
-	(ailment_type ~= this.poison_id and ailment_type ~= this.blast_id and ailment_type ~= this.stun_id)
-	or (ailment_buildup == 0 or ailment_buildup == nil) then
+	if monster == nil then
+		error_handler.report("ailments.apply_ailment_buildup", "Missing Parameter: monster");
+		return;
+	end
+
+	if ailment_buildup == nil then
+		error_handler.report("ailments.apply_ailment_buildup", "Missing Parameter: ailment_buildup");
+		return;
+	end
+
+	if (ailment_type ~= this.poison_id and ailment_type ~= this.blast_id and ailment_type ~= this.stun_id)
+	or ailment_buildup == 0 then
 		return;
 	end
 
@@ -708,7 +751,6 @@ function this.apply_ailment_buildup(monster, player, otomo, ailment_type, ailmen
 	else
 		monster.ailments[ailment_type].otomo_buildup[otomo] = (monster.ailments[ailment_type].otomo_buildup[otomo] or 0) + ailment_buildup;
 	end
-
 
 	this.calculate_ailment_contribution(monster, ailment_type);
 end
@@ -751,7 +793,17 @@ end
 -- Code by coavins
 function this.apply_ailment_damage(monster, ailment_type, ailment_damage)
 	-- we only track poison and blast for now
-	if ailment_type == nil or ailment_damage == nil then
+	if monster == nil then
+		error_handler.report("ailments.apply_ailment_damage", "Missing Parameter: monster");
+	end
+
+	if ailment_type == nil then
+		error_handler.report("ailments.apply_ailment_damage", "Missing Parameter: ailment_type");
+		return;
+	end
+
+	if ailment_damage == nil then
+		error_handler.report("ailments.apply_ailment_damage", "Missing Parameter: ailment_damage");
 		return;
 	end
 
@@ -824,6 +876,7 @@ function this.init_dependencies()
 	time = require("MHR_Overlay.Game_Handler.time");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()

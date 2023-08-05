@@ -10,6 +10,7 @@ local drawing;
 local health_UI_entity;
 local stamina_UI_entity;
 local rage_UI_entity;
+local error_handler;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -78,6 +79,7 @@ function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 			highlighted_id = get_targeting_enemy_index_field:get_data(gui_hud_target_camera);
 
 			if highlighted_id == nil then
+				error_handler.report("large_monster_UI.draw", "Failed to Access Data: highlighted_id");
 				highlighted_id = -1;
 			end
 		end
@@ -85,20 +87,21 @@ function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 
 	local enemy_count = get_boss_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
+		error_handler.report("large_monster_UI.draw", "Failed to Access Data: enemy_count");
 		return;
 	end
 
 	for i = 0, enemy_count - 1 do
 		local enemy = get_boss_enemy_method:call(singletons.enemy_manager, i);
 		if enemy == nil then
-			customization_menu.status = "No enemy";
-			goto continue
+			error_handler.report("large_monster_UI.draw", "Failed to Access Data: enemy No. " .. tostring(i));
+			goto continue;
 		end
 
 		local monster = large_monster.list[enemy];
 		if monster == nil then
-			customization_menu.status = "No large monster entry";
-			goto continue
+			error_handler.report("large_monster_UI.draw", "Missing Entry: monster No. " .. tostring(i));
+			goto continue;
 		end
 
 		if update_distance then
@@ -155,21 +158,21 @@ function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 	if dynamic_enabled then
 		local success = pcall(this.draw_dynamic, displayed_monsters, highlighted_monster, cached_config);
 		if not success then
-			customization_menu.status = string.format("[%s] Dynamic Large Monster drawing function threw an exception");
+			error_handler.report("large_monster_UI.draw", "Dynamic Large Monster drawing function threw an exception");
 		end
 	end
 
 	if highlighted_enabled then
 		local success = pcall(this.draw_highlighted, highlighted_monster, cached_config);
 		if not success then
-			customization_menu.status = string.format("[%s] Highlighted Large Monster drawing function threw an exception");
+			error_handler.report("large_monster_UI.draw", "Highlighted Large Monster drawing function threw an exception");
 		end
 	end
 	
 	if static_enabled then
 		local success = pcall(this.draw_static, displayed_monsters, highlighted_monster, cached_config);
 		if not success then
-			customization_menu.status = string.format("[%s] Static Large Monster drawing function threw an exception");
+			error_handler.report("large_monster_UI.draw", "Static Large Monster drawing function threw an exception");
 		end
 	end
 end
@@ -181,24 +184,24 @@ function this.draw_dynamic(displayed_monsters, highlighted_monster, cached_confi
 	local i = 0;
 	for _, monster in ipairs(displayed_monsters) do
 		if cached_config.settings.max_distance == 0 then
-			break
+			break;
 		end
 
 		if monster.is_stealth then
-			goto continue
+			goto continue;
 		end
 
 		if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
-			goto continue
+			goto continue;
 		end
 
 		if monster == highlighted_monster then
 			if not cached_config.settings.render_highlighted_monster then
-				goto continue
+				goto continue;
 			end
 		else
 			if not cached_config.settings.render_not_highlighted_monsters then
-				goto continue
+				goto continue;
 			end
 		end
 
@@ -281,16 +284,16 @@ function this.draw_static(displayed_monsters, highlighted_monster, cached_config
 	local i = 0;
 	for _, monster in ipairs(displayed_monsters) do
 		if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
-			goto continue
+			goto continue;
 		end
 
 		if monster == highlighted_monster then
 			if not cached_config.settings.render_highlighted_monster then
-				goto continue
+				goto continue;
 			end
 		else
 			if not cached_config.settings.render_not_highlighted_monsters then
-				goto continue
+				goto continue;
 			end
 		end
 
@@ -339,6 +342,7 @@ function this.init_dependencies()
 	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
+	error_handler = require("MHR_Overlay.Misc.error_handler");
 end
 
 function this.init_module()
