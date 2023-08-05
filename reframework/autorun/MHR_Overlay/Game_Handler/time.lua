@@ -7,6 +7,7 @@ local players;
 local non_players;
 local config;
 local small_monster;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -51,14 +52,48 @@ this.elapsed_seconds = 0;
 this.total_elapsed_script_seconds = 0;
 this.last_elapsed_script_seconds = 0;
 
+this.list = {};
+
+function this.new_timer(callback, cooldown_seconds, start_offset_seconds)
+	start_offset_seconds = start_offset_seconds or 0;
+
+	if callback == nil or cooldown_seconds == nil then
+		return;
+	end
+
+	local timer = {};
+	timer.callback = callback;
+	timer.cooldown = cooldown_seconds;
+	
+	timer.last_trigger_time = os.clock() + start_offset_seconds;
+
+	table.insert(this.list, timer);
+
+	callback();
+end
+
+function this.update_timers()
+	this.update_script_time();
+
+	for _, timer in ipairs(this.list) do
+		if this.total_elapsed_script_seconds - timer.last_trigger_time > timer.cooldown then
+			timer.last_trigger_time = this.total_elapsed_script_seconds;
+			timer.callback();
+		end
+	end
+end
+
 function this.update_script_time()
 	this.total_elapsed_script_seconds = os.clock();
 end
 
-function this.tick()
-	this.update_script_time();
-
+function this.update_quest_time()
 	if singletons.quest_manager == nil then
+		return;
+	end
+
+	if quest_status.flow_state == quest_status.flow_states.IN_LOBBY
+	or quest_status.flow_state >= quest_status.flow_states.QUEST_END_TIMER then
 		return;
 	end
 
@@ -77,22 +112,6 @@ function this.tick()
 	end
 
 	this.elapsed_seconds = quest_time_total_elapsed_seconds - quest_time_elapsed_minutes * 60;
-
-	if this.total_elapsed_script_seconds - this.last_elapsed_script_seconds > 0.5 then
-		this.last_elapsed_script_seconds = this.total_elapsed_script_seconds;
-
-		local is_on_quest = quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA;
-
-		players.display_list = {};
-		players.update_player_list(is_on_quest);
-		non_players.update_servant_list();
-		non_players.update_otomo_list(is_on_quest, quest_status.is_online);
-
-		players.update_dps(false);
-		players.sort_players();
-
-		quest_status.get_cart_count();
-	end
 end
 
 function this.init_module()
@@ -103,6 +122,7 @@ function this.init_module()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
+	utils = require("MHR_Overlay.Misc.utils");
 end
 
 return this;

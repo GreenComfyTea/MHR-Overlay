@@ -227,10 +227,8 @@ local function main_loop()
 	players.update_myself_position();
 	quest_status.update_is_online();
 	--quest_status.update_is_quest_host();
-	time.tick();
+	time.update_timers();
 	buffs.update();
-
-	--buffs.debug();
 
 	if quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
 
@@ -341,3 +339,9 @@ end);
 if imgui.begin_table == nil then
 	re.msg(language.current_language.customization_menu.reframework_outdated);
 end
+
+--------------------------Timers-----------------------------
+time.new_timer(buffs.update, 0.5);
+time.new_timer(players.update_display_list, 0.5, 0.3);
+time.new_timer(time.update_quest_time, 1 / 60, 0.6);
+--------------------------Timers-----------------------------

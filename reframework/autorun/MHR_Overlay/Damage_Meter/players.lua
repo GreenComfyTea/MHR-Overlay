@@ -335,6 +335,20 @@ function this.merge_damage(first, second)
 	return first;
 end
 
+function this.update_display_list()
+	local is_on_quest = quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA;
+
+	this.display_list = {};
+	this.update_player_list(is_on_quest);
+	non_players.update_servant_list();
+	non_players.update_otomo_list(is_on_quest, quest_status.is_online);
+
+	this.update_dps(false);
+	this.sort_players();
+
+	quest_status.get_cart_count();
+end
+
 function this.update_dps(bypass_freeze)
 	local cached_config = config.current_config.damage_meter_UI.settings;
 

@@ -8,6 +8,8 @@ local consumables;
 local melody_effects;
 local utils;
 local language;
+local time;
+local quest_status;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -110,6 +112,11 @@ function this.init_names()
 end
 
 function this.update()
+	if quest_status.flow_state == quest_status.flow_states.IN_LOBBY
+	or quest_status.flow_state >= quest_status.flow_states.QUEST_END_ANIMATION then
+		return;
+	end
+
 	local master_player = find_master_player_method:call(singletons.player_manager); 
 	if master_player == nil then
 		return;
@@ -167,6 +174,8 @@ function this.init_module()
 	melody_effects = require("MHR_Overlay.Buffs.melody_effects");
 	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
+	time = require("MHR_Overlay.Game_Handler.time");
+	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 end
 
 return this;
