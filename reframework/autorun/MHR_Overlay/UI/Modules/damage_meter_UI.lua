@@ -175,7 +175,7 @@ function this.draw()
 	end
 end
 
-function this.init_module()
+function this.init_dependencies()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	config = require("MHR_Overlay.Misc.config");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -186,6 +186,9 @@ function this.init_module()
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
 	utils = require("MHR_Overlay.Misc.utils");
+end
+
+function this.init_module()
 end
 
 return this;

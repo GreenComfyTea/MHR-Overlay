@@ -105,11 +105,14 @@ function this.draw(monster, rage_UI, position_on_screen, opacity_scale)
 	end
 end
 
-function this.init_module()
+function this.init_dependencies()
 	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
+end
+
+function this.init_module()
 end
 
 return this;

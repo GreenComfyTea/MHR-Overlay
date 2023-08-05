@@ -2,6 +2,8 @@ local this = {};
 
 local config;
 local singletons;
+local utils;
+local time;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -131,9 +133,15 @@ function this.calculate_absolute_coordinates(position)
 	return { x = _position.x, y = _position.y };
 end
 
-function this.init_module()
+function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
+	time = require("MHR_Overlay.Game_Handler.time");
+	utils = require("MHR_Overlay.Misc.utils");
+end
+
+function this.init_module()
+	time.new_timer(this.update_window_size, 1);
 end
 
 return this;

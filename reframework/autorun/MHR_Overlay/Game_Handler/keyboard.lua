@@ -604,7 +604,7 @@ function this.get_hotkey_name(hotkey)
 	return hotkey_name .. tostring(this.keys[hotkey.key]);
 end
 
-function this.init_module()
+function this.init_dependencies()
 	config = require "MHR_Overlay.Misc.config"
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -613,6 +613,9 @@ function this.init_module()
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	damage_meter_UI = require("MHR_Overlay.UI.Modules.damage_meter_UI");
 	time = require("MHR_Overlay.Game_Handler.time");
+end
+
+function this.init_module()
 end
 
 return this;

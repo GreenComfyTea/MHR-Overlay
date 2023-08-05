@@ -62,13 +62,15 @@ function this.init_UI()
 	this.label.offset.y = this.label.offset.y * global_scale_modifier;
 end
 
-function this.init_module()
+function this.init_dependencies()
 	time = require("MHR_Overlay.Game_Handler.time");
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	config = require("MHR_Overlay.Misc.config");
 	drawing = require("MHR_Overlay.UI.drawing");
 	utils = require("MHR_Overlay.Misc.utils");
+end
 
+function this.init_module()
 	this.init_UI()
 end
 

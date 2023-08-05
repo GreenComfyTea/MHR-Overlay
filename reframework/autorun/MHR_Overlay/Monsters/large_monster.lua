@@ -1033,7 +1033,7 @@ function this.init_list()
 	this.list = {};
 end
 
-function this.init_module()
+function this.init_dependencies()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	language = require("MHR_Overlay.Misc.language");
@@ -1054,6 +1054,9 @@ function this.init_module()
 	players = require("MHR_Overlay.Damage_Meter.players");
 	time = require("MHR_Overlay.Game_Handler.time");
 	ailment_buildup = require("MHR_Overlay.Monsters.ailment_buildup");
+end
+
+function this.init_module()
 end
 
 return this;

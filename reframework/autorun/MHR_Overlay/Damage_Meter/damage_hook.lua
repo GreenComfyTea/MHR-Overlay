@@ -374,7 +374,7 @@ function this.on_anomaly_core_break(anomaly_core_part)
 	players.update_damage(players.total, players.damage_types.anomaly_core, true, damage_object);
 end
 
-function this.init_module()
+function this.init_dependencies()
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	players = require("MHR_Overlay.Damage_Meter.players");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
@@ -383,6 +383,9 @@ function this.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	utils = require("MHR_Overlay.Misc.utils");
+end
+
+function this.init_module()
 
 	sdk.hook(stock_direct_marionette_finish_shoot_hit_parts_damage_method, function(args)
 		local enemy = sdk.to_managed_object(args[2]);

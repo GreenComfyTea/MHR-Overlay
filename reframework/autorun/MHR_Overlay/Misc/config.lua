@@ -7716,10 +7716,12 @@ function this.update(index)
 	this.save_current_config_name();
 end
 
-function this.init_module()
+function this.init_dependencies()
 	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
+end
 
+function this.init_module()
 	this.init_default();
 	this.load_current_config_value();
 	this.load_configs();

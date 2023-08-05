@@ -376,9 +376,12 @@ function this.draw_capture_line(health_UI, position, opacity_scale, percentage)
 	end
 end
 
-function this.init_module()
+function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	utils = require("MHR_Overlay.Misc.utils");
+end
+
+function this.init_module()
 end
 
 return this;

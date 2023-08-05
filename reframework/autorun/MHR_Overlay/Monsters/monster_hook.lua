@@ -255,14 +255,16 @@ function this.update_rage_timer(anger_param, enemy)
 	large_monster.update_rage_timer(enemy, monster, anger_param);
 end
 
-function this.init_module()
+function this.init_dependencies()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	config = require("MHR_Overlay.Misc.config");
 	ailments = require("MHR_Overlay.Monsters.ailments");
 	players = require("MHR_Overlay.Damage_Meter.players");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
+end
 
+function this.init_module()
 	sdk.hook(enemy_character_base_update_method, function(args)
 		pcall(this.update_monster, sdk.to_managed_object(args[2]));
 	end, function(retval)

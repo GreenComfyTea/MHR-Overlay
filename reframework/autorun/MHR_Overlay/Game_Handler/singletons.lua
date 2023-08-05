@@ -1,5 +1,8 @@
 local this = {};
 
+local time;
+local utils;
+
 local sdk = sdk;
 local tostring = tostring;
 local pairs = pairs;
@@ -231,8 +234,13 @@ function this.init_otomo_manager()
 	return this.otomo_manager;
 end
 
+function this.init_dependencies()
+	time = require("MHR_Overlay.Game_Handler.time");
+	utils = require("MHR_Overlay.Misc.utils");
+end
+
 function this.init_module()
-	this.init();
+	time.new_timer(this.init, 1);
 end
 
 return this;

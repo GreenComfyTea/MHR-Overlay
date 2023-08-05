@@ -659,9 +659,11 @@ function this.update(index)
 	this.current_language = this.languages[index];
 end
 
-function this.init_module()
+function this.init_dependencies()
 	utils = require("MHR_Overlay.Misc.utils");
-	
+end
+
+function this.init_module()
 	this.save_default();
 	this.load();
 	this.current_language = this.default_language;

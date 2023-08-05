@@ -45,11 +45,13 @@ function this.update(REcreature)
 	env_creature.update_position(REcreature, creature);
 end
 
-function this.init_module()
+function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
 	time = require("MHR_Overlay.Game_Handler.time");
+end
 
+function this.init_module()
 	sdk.hook(update_method, function(args)
 		pcall(this.update, sdk.to_managed_object(args[2]));
 	end, function(retval)

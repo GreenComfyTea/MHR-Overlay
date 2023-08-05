@@ -328,7 +328,7 @@ function this.draw_highlighted(monster, cached_config)
 	large_monster.draw(monster, "highlighted", cached_config, position_on_screen, 1);
 end
 
-function this.init_module()
+function this.init_dependencies()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	config = require("MHR_Overlay.Misc.config");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -339,6 +339,9 @@ function this.init_module()
 	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
+end
+
+function this.init_module()
 end
 
 return this;

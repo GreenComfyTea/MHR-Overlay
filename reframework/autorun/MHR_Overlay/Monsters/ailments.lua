@@ -814,7 +814,7 @@ function this.apply_ailment_damage(monster, ailment_type, ailment_damage)
 	players.update_damage(players.total, damage_source_type, monster.is_large, damage_object);
 end
 
-function this.init_module()
+function this.init_dependencies()
 	players = require("MHR_Overlay.Damage_Meter.players");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	language = require("MHR_Overlay.Misc.language");
@@ -824,6 +824,9 @@ function this.init_module()
 	time = require("MHR_Overlay.Game_Handler.time");
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
+end
+
+function this.init_module()
 end
 
 return this;

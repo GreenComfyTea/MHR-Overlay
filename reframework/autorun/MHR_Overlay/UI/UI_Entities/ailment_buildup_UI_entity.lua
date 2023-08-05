@@ -117,12 +117,15 @@ function this.draw(player, player_buildup, ailment_buildup_UI, cached_config, po
 	drawing.draw_label(ailment_buildup_UI.buildup_percentage_label, position_on_screen, opacity_scale, 100 * player_buildup.buildup_share);
 end
 
-function this.init_module()
+function this.init_dependencies()
 	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
 	players = require("MHR_Overlay.Damage_Meter.players");
 	language = require("MHR_Overlay.Misc.language");
+end
+
+function this.init_module()
 end
 
 return this;

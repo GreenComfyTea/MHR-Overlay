@@ -94,14 +94,82 @@ local drawing = require("MHR_Overlay.UI.drawing");
 
 ------------------------INIT MODULES-------------------------
 -- #region
-screen.init_module();
-singletons.init_module();
-utils.init_module();
-time.init_module();
+
+screen.init_dependencies();
+singletons.init_dependencies();
+utils.init_dependencies();
+time.init_dependencies();
+
+language.init_dependencies();
+config.init_dependencies();
+part_names.init_dependencies();
+
+damage_UI_entity.init_dependencies();
+health_UI_entity.init_dependencies();
+stamina_UI_entity.init_dependencies();
+rage_UI_entity.init_dependencies();
+ailment_UI_entity.init_dependencies();
+ailment_buildup_UI_entity.init_dependencies();
+body_part_UI_entity.init_dependencies();
+buff_UI_entity.init_dependencies();
+
+buffs.init_dependencies();
+consumables.init_dependencies();
+melody_effects.init_dependencies();
+
+damage_hook.init_dependencies();
+players.init_dependencies();
+non_players.init_dependencies();
+quest_status.init_dependencies();
+
+env_creature_hook.init_dependencies();
+env_creature.init_dependencies();
+
+body_part.init_dependencies();
+ailments.init_dependencies();
+large_monster.init_dependencies();
+monster_hook.init_dependencies();
+small_monster.init_dependencies();
+ailment_hook.init_dependencies();
+ailment_buildup.init_dependencies();
+
+label_customization.init_dependencies();
+bar_customization.init_dependencies();
+line_customization.init_dependencies();
+large_monster_UI_customization.init_dependencies();
+
+label_customization.init_dependencies();
+bar_customization.init_dependencies();
+health_customization.init_dependencies();
+stamina_customization.init_dependencies();
+rage_customization.init_dependencies();
+body_parts_customization.init_dependencies();
+ailments_customization.init_dependencies();
+ailment_buildups_customization.init_dependencies();
+module_visibility_customization.init_dependencies();
+customization_menu.init_dependencies();
+
+drawing.init_dependencies();
+
+damage_meter_UI.init_dependencies();
+large_monster_UI.init_dependencies();
+small_monster_UI.init_dependencies();
+time_UI.init_dependencies();
+env_creature_UI.init_dependencies();
+buff_UI.init_dependencies();
+
+keyboard.init_dependencies();
+
+------------------------------------------------------------
 
 language.init_module();
 config.init_module();
 part_names.init_module();
+
+screen.init_module();
+singletons.init_module();
+utils.init_module();
+time.init_module();
 
 damage_UI_entity.init_module();
 health_UI_entity.init_module();
@@ -220,15 +288,8 @@ local function draw_modules(module_visibility_config, flow_state_name)
 end
 
 local function main_loop()
-
 	customization_menu.status = "OK";
-	singletons.init();
-	screen.update_window_size();
-	players.update_myself_position();
-	quest_status.update_is_online();
-	--quest_status.update_is_quest_host();
 	time.update_timers();
-	buffs.update();
 
 	if quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
 
@@ -339,9 +400,3 @@ end);
 if imgui.begin_table == nil then
 	re.msg(language.current_language.customization_menu.reframework_outdated);
 end
-
---------------------------Timers-----------------------------
-time.new_timer(buffs.update, 0.5);
-time.new_timer(players.update_display_list, 0.5, 0.3);
-time.new_timer(time.update_quest_time, 1 / 60, 0.6);
---------------------------Timers-----------------------------

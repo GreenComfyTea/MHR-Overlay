@@ -400,7 +400,7 @@ function this.init_names()
 	end
 end
 
-function this.init_module()
+function this.init_dependencies()
 	buffs = require("MHR_Overlay.Buffs.buffs");
 	config = require("MHR_Overlay.Misc.config");
 	utils = require("MHR_Overlay.Misc.utils");
@@ -408,6 +408,9 @@ function this.init_module()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	players = require("MHR_Overlay.Damage_Meter.players");
 	language = require("MHR_Overlay.Misc.language");
+end
+
+function this.init_module()
 end
 
 return this;

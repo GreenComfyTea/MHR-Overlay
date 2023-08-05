@@ -227,11 +227,9 @@ function this.draw(monster, ailment_buildup_UI, cached_config, ailment_buildups_
 
 		::continue::
 	end
-
-
 end
 
-function this.init_module()
+function this.init_dependencies()
 	players = require("MHR_Overlay.Damage_Meter.players");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
@@ -241,6 +239,9 @@ function this.init_module()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	drawing = require("MHR_Overlay.UI.drawing");
+end
+
+function this.init_module()
 end
 
 return this;

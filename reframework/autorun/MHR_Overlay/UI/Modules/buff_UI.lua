@@ -122,7 +122,7 @@ function this.draw()
 	end
 end
 
-function this.init_module()
+function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
 	consumables = require("MHR_Overlay.Buffs.consumables");
@@ -137,6 +137,9 @@ function this.init_module()
 	screen = require("MHR_Overlay.Game_Handler.screen");
 	--drawing = require("MHR_Overlay.UI.drawing");
 	utils = require("MHR_Overlay.Misc.utils");
+end
+
+function this.init_module()
 end
 
 return this;

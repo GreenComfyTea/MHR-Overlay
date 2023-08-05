@@ -165,7 +165,7 @@ function this.update_timer(buff, timer)
 	end
 end
 
-function this.init_module()
+function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
@@ -176,6 +176,10 @@ function this.init_module()
 	language = require("MHR_Overlay.Misc.language");
 	time = require("MHR_Overlay.Game_Handler.time");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
+end
+
+function this.init_module()
+	time.new_timer(this.update, 0.5);
 end
 
 return this;

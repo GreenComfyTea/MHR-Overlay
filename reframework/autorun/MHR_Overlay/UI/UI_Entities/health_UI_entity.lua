@@ -91,11 +91,14 @@ function this.draw(monster, health_UI, position_on_screen, opacity_scale)
 	drawing.draw_label(health_UI.percentage_label, position_on_screen, opacity_scale, 100 * monster.health_percentage);
 end
 
-function this.init_module()
+function this.init_dependencies()
 	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
+end
+
+function this.init_module()
 end
 
 return this;

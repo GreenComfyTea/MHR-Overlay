@@ -91,7 +91,7 @@ function this.draw(cached_config)
 	return config_changed;
 end
 
-function this.init_module()
+function this.init_dependencies()
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
 	screen = require("MHR_Overlay.Game_Handler.screen");
@@ -105,6 +105,9 @@ function this.init_module()
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	label_customization = require("MHR_Overlay.UI.Customizations.label_customization");
 	bar_customization = require("MHR_Overlay.UI.Customizations.bar_customization");
+end
+
+function this.init_module()
 end
 
 return this;

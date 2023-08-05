@@ -370,7 +370,7 @@ function this.update_is_training_area()
 	end
 end
 
-function this.init_module()
+function this.init_dependencies()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	players = require("MHR_Overlay.Damage_Meter.players");
@@ -380,8 +380,12 @@ function this.init_module()
 	time = require("MHR_Overlay.Game_Handler.time");
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
+end
 
+function this.init_module()
 	this.init();
+
+	time.new_timer(this.update_is_online, 1);
 
 	sdk.hook(on_changed_game_status_method, function(args)
 		this.on_changed_game_status(sdk.to_int64(args[3]));

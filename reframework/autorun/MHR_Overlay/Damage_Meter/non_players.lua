@@ -377,7 +377,7 @@ function this.init_UI(non_player)
 	end
 end
 
-function this.init_module()
+function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -387,7 +387,9 @@ function this.init_module()
 	drawing = require("MHR_Overlay.UI.drawing");
 	language = require("MHR_Overlay.Misc.language");
 	players = require("MHR_Overlay.Damage_Meter.players");
+end
 
+function this.init_module()
 	this.init();
 end
 

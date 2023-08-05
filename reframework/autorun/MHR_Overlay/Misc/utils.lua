@@ -413,6 +413,9 @@ function this.unicode.sub(str, i, j)
 	return string.sub(str, i, b + c - 1);
 end
 
+function this.init_dependencies()
+end
+
 function this.init_module()
 end
 

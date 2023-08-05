@@ -243,7 +243,7 @@ function this.draw(bar_name, bar)
 	return bar_changed;
 end
 
-function this.init_module()
+function this.init_dependencies()
 	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
@@ -257,6 +257,9 @@ function this.init_module()
 	keyboard = require("MHR_Overlay.Game_Handler.keyboard");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	line_customization = require("MHR_Overlay.UI.Customizations.line_customization");
+end
+
+function this.init_module()
 end
 
 return this;

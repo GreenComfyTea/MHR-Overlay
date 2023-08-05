@@ -2264,7 +2264,7 @@ function this.draw_buff_UI()
 	return config_changed;
 end
 
-function this.init_module()
+function this.init_dependencies()
 	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
 	config = require("MHR_Overlay.Misc.config");
@@ -2291,7 +2291,9 @@ function this.init_module()
 	ailments_customization = require("MHR_Overlay.UI.Customizations.ailments_customization");
 	ailment_buildups_customization = require("MHR_Overlay.UI.Customizations.ailment_buildups_customization");
 	module_visibility_customization = require("MHR_Overlay.UI.Customizations.module_visibility_customization");
+end
 
+function this.init_module()
 	this.init();
 	this.reload_font();
 end

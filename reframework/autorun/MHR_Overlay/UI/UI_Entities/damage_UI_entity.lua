@@ -233,7 +233,7 @@ function this.draw(player, position_on_screen, opacity_scale, top_damage, top_dp
 	end
 end
 
-function this.init_module()
+function this.init_dependencies()
 	utils = require("MHR_Overlay.Misc.utils");
 	drawing = require("MHR_Overlay.UI.drawing");
 	config = require("MHR_Overlay.Misc.config");
@@ -241,6 +241,9 @@ function this.init_module()
 	language = require("MHR_Overlay.Misc.language");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
+end
+
+function this.init_module()
 end
 
 return this;

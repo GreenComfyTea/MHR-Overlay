@@ -55,7 +55,7 @@ this.last_elapsed_script_seconds = 0;
 this.list = {};
 
 function this.new_timer(callback, cooldown_seconds, start_offset_seconds)
-	start_offset_seconds = start_offset_seconds or 0;
+	start_offset_seconds = start_offset_seconds or utils.math.random();
 
 	if callback == nil or cooldown_seconds == nil then
 		return;
@@ -114,7 +114,7 @@ function this.update_quest_time()
 	this.elapsed_seconds = quest_time_total_elapsed_seconds - quest_time_elapsed_minutes * 60;
 end
 
-function this.init_module()
+function this.init_dependencies()
 	players = require("MHR_Overlay.Damage_Meter.players");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -123,6 +123,10 @@ function this.init_module()
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	utils = require("MHR_Overlay.Misc.utils");
+end
+
+function this.init_module()
+	this.new_timer(this.update_quest_time, 1 / 60);
 end
 
 return this;

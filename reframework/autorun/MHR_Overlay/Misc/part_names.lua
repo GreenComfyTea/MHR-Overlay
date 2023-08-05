@@ -954,9 +954,11 @@ function this.get_part_name(monster_id, part_id)
 	return part_name;
 end
 
-function this.init_module()
+function this.init_dependencies()
 	language = require("MHR_Overlay.Misc.language");
+end
 
+function this.init_module()
 	this.init();
 end
 

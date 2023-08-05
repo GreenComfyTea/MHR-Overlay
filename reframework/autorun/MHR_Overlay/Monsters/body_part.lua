@@ -462,7 +462,7 @@ function this.draw(monster, part_UI, cached_config, parts_position_on_screen, op
 	return last_part_position_on_screen;
 end
 
-function this.init_module()
+function this.init_dependencies()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	config = require("MHR_Overlay.Misc.config");
@@ -475,6 +475,9 @@ function this.init_module()
 	part_names = require("MHR_Overlay.Misc.part_names");
 	time = require("MHR_Overlay.Game_Handler.time");
 	utils = require("MHR_Overlay.Misc.utils");
+end
+
+function this.init_module()
 end
 
 return this;

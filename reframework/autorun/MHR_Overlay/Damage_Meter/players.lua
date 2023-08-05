@@ -636,7 +636,7 @@ function this.draw(player, position_on_screen, opacity_scale, top_damage, top_dp
 	damage_UI_entity.draw(player, position_on_screen, opacity_scale, top_damage, top_dps);
 end
 
-function this.init_module()
+function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -648,7 +648,12 @@ function this.init_module()
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	utils = require("MHR_Overlay.Misc.utils");
 
+end
+
+function this.init_module()
 	this.init();
+	time.new_timer(this.update_display_list, 0.5);
+	time.new_timer(this.update_myself_position, 1);
 end
 
 return this;

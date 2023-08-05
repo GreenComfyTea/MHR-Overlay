@@ -249,7 +249,7 @@ function this.init_list()
 	this.list = {};
 end
 
-function this.init_module()
+function this.init_dependencies()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
 	config = require("MHR_Overlay.Misc.config");
@@ -262,6 +262,9 @@ function this.init_module()
 	ailment_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_UI_entity");
 	ailment_buildup = require("MHR_Overlay.Monsters.ailment_buildup");
 	ailment_buildup_UI_entity = require("MHR_Overlay.UI.UI_Entities.ailment_buildup_UI_entity");
+end
+
+function this.init_module()
 end
 
 return this;

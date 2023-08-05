@@ -144,12 +144,14 @@ function this.stock_damage()
 	end
 end
 
-function this.init_module()
+function this.init_dependencies()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	config = require("MHR_Overlay.Misc.config");
 	ailments = require("MHR_Overlay.Monsters.ailments");
+end
 
+function this.init_module()
 	sdk.hook(stock_damage_method, function(args)
 		pcall(this.stock_damage, sdk.to_managed_object(args[2]));
 	end, function(retval)
