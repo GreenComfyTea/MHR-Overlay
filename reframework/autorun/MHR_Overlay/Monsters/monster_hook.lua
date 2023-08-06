@@ -154,7 +154,8 @@ function this.update_large_monster(enemy)
 	large_monster.update_stamina_timer(enemy, monster, nil);
 	large_monster.update_rage_timer(enemy, monster, nil);
 
-	if quest_status.is_online and players.myself.id ~= 0 then
+	if (quest_status.is_online and players.myself.id ~= 0)
+	or not monster.is_health_initialized then
 		local physical_param = large_monster.update_health(enemy, monster);
 		pcall(large_monster.update_parts, enemy, monster, physical_param);
 		pcall(large_monster.update_anomaly_parts, enemy, monster, nil);
@@ -195,7 +196,8 @@ function this.update_small_monster(enemy)
 
 	small_monster.update(enemy, monster);
 
-	if quest_status.is_online and players.myself.id ~= 0 then
+	if (quest_status.is_online and players.myself.id ~= 0)
+	or not monster.is_health_initialized then
 		small_monster.update_health(enemy, monster);
 	end
 end

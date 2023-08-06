@@ -52,7 +52,6 @@ function this.draw()
 
 	local cached_config = config.current_config.endemic_life_UI;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
-
 	for REcreature, creature in pairs(env_creature.list) do
 		if cached_config.settings.max_distance == 0 then
 			break;

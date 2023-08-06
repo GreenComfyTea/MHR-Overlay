@@ -71,7 +71,6 @@ function this.new(enemy)
 	this.init_UI(monster);
 
 	this.update_position(enemy, monster);
-	this.update_health(enemy, monster);
 	this.update(enemy, monster);
 
 	if this.list[enemy] == nil then
