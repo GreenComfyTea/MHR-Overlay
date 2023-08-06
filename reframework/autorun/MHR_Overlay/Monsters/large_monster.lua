@@ -54,6 +54,7 @@ local ValueType = ValueType;
 local package = package;
 
 this.list = {};
+this.higlighted_id = -1;
 
 function this.new(enemy)
 	local monster = {};
@@ -257,6 +258,12 @@ local core_parts_get_vital_method = enemy_mystery_core_parts_type_def:get_method
 local core_parts_get_is_active_method = enemy_mystery_core_parts_type_def:get_method("get_IsActive");
 local core_parts_get_dying_vital_threashold_method = enemy_mystery_core_parts_type_def:get_method("get_DyingVitalThreashold");
 local on_break_method = enemy_mystery_core_parts_type_def:get_method("onBreak");
+
+local gui_manager_type_def = sdk.find_type_definition("snow.gui.GuiManager");
+local get_tg_camera_method = gui_manager_type_def:get_method("get_refGuiHud_TgCamera");
+
+local tg_camera_type_def = get_tg_camera_method:get_return_type();
+local get_targeting_enemy_index_field = tg_camera_type_def:get_field("OldTargetingEmIndex");
 
 function this.init(monster, enemy)
 	local enemy_type = enemy_type_field:get_data(enemy);
@@ -1128,6 +1135,35 @@ function this.update_anomaly_parts(enemy, monster, mystery_param)
 	end
 end
 
+function this.update_higlighted_id()
+	if singletons.gui_manager == nil then
+		error_handler.report("large_monster.update_higlighted_id", "Failed to Access Data: gui_manager");
+		return;
+	end
+
+	--xy = xy .. tostring(1.2) .. "\n";
+	--xy = xy .. tostring(get_tg_camera_method) .. "\n";
+	--xy = xy .. tostring(singletons.gui_manager) .. "\n";
+	local gui_hud_target_camera = get_tg_camera_method:call(singletons.gui_manager);
+	--xy = xy .. tostring(1.3) .. "\n";
+	if gui_hud_target_camera == nil then
+		error_handler.report("large_monster.update_higlighted_id", "Failed to Access Data: gui_hud_target_camera");
+		return;
+	end
+
+	--xy = xy .. tostring(1.4) .. "\n";
+	local highlighted_id = get_targeting_enemy_index_field:get_data(gui_hud_target_camera);
+	--xy = xy .. tostring(1.5) .. "\n";
+	if highlighted_id == nil then
+	--	xy = xy .. tostring(1.6) .. "\n";
+		error_handler.report("large_monster_UI.update_higlighted_id", "Failed to Access Data: highlighted_id");
+		return;
+	end
+
+	this.highlighted_id = highlighted_id;
+	--xy = xy .. tostring(1.8) .. "\n";
+end
+
 function this.draw(monster, type, cached_config, position_on_screen, opacity_scale)
 	local monster_UI;
 
@@ -1254,6 +1290,7 @@ function this.init_dependencies()
 end
 
 function this.init_module()
+	time.new_timer(this.update_higlighted_id, 1/30);
 end
 
 return this;

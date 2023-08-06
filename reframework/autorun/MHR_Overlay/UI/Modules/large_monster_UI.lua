@@ -69,21 +69,8 @@ function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 			and (cached_config.highlighted.auto_highlight.mode == "Closest" or cached_config.highlighted.auto_highlight.mode == "Furthest")
 		);
 
-	local highlighted_id = -1;
 	local monster_id_shift = 0;
 	local highlighted_monster = nil;
-
-	if not cached_config.highlighted.auto_highlight.enabled and singletons.gui_manager ~= nil then
-		local gui_hud_target_camera = get_tg_camera_method:call(singletons.gui_manager);
-		if gui_hud_target_camera ~= nil then
-			highlighted_id = get_targeting_enemy_index_field:get_data(gui_hud_target_camera);
-
-			if highlighted_id == nil then
-				error_handler.report("large_monster_UI.draw", "Failed to Access Data: highlighted_id");
-				highlighted_id = -1;
-			end
-		end
-	end
 
 	local enemy_count = get_boss_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
@@ -98,11 +85,13 @@ function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 			goto continue;
 		end
 
-		local monster = large_monster.list[enemy];
+		local monster = large_monster.get_monster(enemy);
 		if monster == nil then
-			error_handler.report("large_monster_UI.draw", "Missing Entry: monster No. " .. tostring(i));
+			error_handler.report("large_monster_UI.draw", "Failed to Create Large Monster Entry No. " .. tostring(i));
 			goto continue;
 		end
+
+		large_monster.update_position(enemy, monster);
 
 		if update_distance then
 			monster.distance = (players.myself_position - monster.position):length();
@@ -146,7 +135,7 @@ function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 			if monster.dead_or_captured or not monster.is_disp_icon_mini_map then
 				monster_id_shift = monster_id_shift + 1;
 
-			elseif i == highlighted_id + monster_id_shift then
+			elseif i == large_monster.highlighted_id + monster_id_shift then
 				highlighted_monster = monster;
 			end
 		end
@@ -168,7 +157,7 @@ function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 			error_handler.report("large_monster_UI.draw", "Highlighted Large Monster drawing function threw an exception");
 		end
 	end
-	
+
 	if static_enabled then
 		local success = pcall(this.draw_static, displayed_monsters, highlighted_monster, cached_config);
 		if not success then
@@ -212,7 +201,7 @@ function this.draw_dynamic(displayed_monsters, highlighted_monster, cached_confi
 		position_on_screen = draw.world_to_screen(monster.position + world_offset);
 
 		if position_on_screen == nil then
-			goto continue
+			goto continue;
 		end
 
 		position_on_screen.x = position_on_screen.x + cached_config.viewport_offset.x * global_scale_modifier;
@@ -220,7 +209,7 @@ function this.draw_dynamic(displayed_monsters, highlighted_monster, cached_confi
 
 		local opacity_scale = 1;
 		if monster.distance > cached_config.settings.max_distance then
-			goto continue
+			goto continue;
 		end
 
 		if cached_config.settings.opacity_falloff then
