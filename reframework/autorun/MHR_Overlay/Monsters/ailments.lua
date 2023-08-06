@@ -850,10 +850,7 @@ function this.apply_ailment_damage(monster, ailment_type, ailment_damage)
 
 		local player = players.get_player(otomo.id);
 		
-		if player ~= nil then
-			players.update_damage(player, otomo_damage_source_type, monster.is_large, damage_object);
-		end
-		
+		players.update_damage(player, otomo_damage_source_type, monster.is_large, damage_object);
 		players.update_damage(otomo, otomo_damage_source_type, monster.is_large, damage_object);
 	end
 
