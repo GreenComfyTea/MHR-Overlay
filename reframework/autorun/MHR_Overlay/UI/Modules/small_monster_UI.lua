@@ -69,15 +69,19 @@ function this.draw()
 			goto continue;
 		end
 
-		local monster = small_monster.list[enemy];
+		local monster = small_monster.get_monster(enemy);
 		if monster == nil then
-			error_handler.report("small_monster_UI.draw", "Missing Entry: monster No. " .. tostring(i));
+			error_handler.report("small_monster_UI.draw", "Failed to Create Small Monster Entry No. " .. tostring(i));
 			goto continue;
 		end
 
+	-- causes VMContext corruption and call failures
+	--for enemy, monster in pairs(small_monster.list) do
 		if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
 			goto continue;
 		end;
+
+		small_monster.update_position(enemy, monster);
 
 		table.insert(displayed_monsters, monster);
 		::continue::
