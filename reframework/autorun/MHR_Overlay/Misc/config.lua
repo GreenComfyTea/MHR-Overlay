@@ -7586,7 +7586,7 @@ function this.init_default()
 
 			size = {
 				width = 785,
-				height = 610
+				height = 500
 			},
 
 			pivot = {
