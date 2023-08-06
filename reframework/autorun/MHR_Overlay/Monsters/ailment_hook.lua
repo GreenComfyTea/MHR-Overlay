@@ -69,13 +69,13 @@ function this.poison_proc(poison_param)
 
 	local enemy = get_enemy_method:call(poison_param);
 	if enemy == nil then
-		error_handler.report("ailment_hook.poison_proc", "Failed to Access Data: enemy");
+		error_handler.report("ailment_hook.poison_proc", "Failed to access Data: enemy");
 		return;
 	end
 
 	local is_large = is_boss_enemy_method:call(enemy);
 	if is_large == nil then
-		error_handler.report("ailment_hook.poison_proc", "Failed to Access Data: is_large");
+		error_handler.report("ailment_hook.poison_proc", "Failed to access Data: is_large");
 		return;
 	end
 
@@ -100,13 +100,13 @@ function this.blast_proc(blast_param)
 
 	local enemy = get_enemy_method:call(blast_param);
 	if enemy == nil then
-		error_handler.report("ailment_hook.blast_proc", "Failed to Access Data: enemy");
+		error_handler.report("ailment_hook.blast_proc", "Failed to access Data: enemy");
 		return;
 	end
 
 	local is_large = is_boss_enemy_method:call(enemy);
 	if is_large == nil then
-		error_handler.report("ailment_hook.blast_proc", "Failed to Access Data: is_large");
+		error_handler.report("ailment_hook.blast_proc", "Failed to access Data: is_large");
 		return;
 	end
 
@@ -129,13 +129,13 @@ function this.stock_damage()
 	for enemy, monster in pairs(large_monster.list) do
 		local damage_param = get_damage_param_method:call(enemy);
 		if damage_param == nil then
-			error_handler.report("ailment_hook.stock_damage", "Failed to Access Data: large_monster -> damage_param");
+			error_handler.report("ailment_hook.stock_damage", "Failed to access Data: large_monster -> damage_param");
 			goto continue;
 		end
 
 		local poison_param = poison_param_field:get_data(damage_param);
 		if poison_param == nil then
-			error_handler.report("ailment_hook.stock_damage", "Failed to Access Data: large_monster -> poison_param");
+			error_handler.report("ailment_hook.stock_damage", "Failed to access Data: large_monster -> poison_param");
 			goto continue;
 		end
 
@@ -146,13 +146,13 @@ function this.stock_damage()
 	for enemy, monster in pairs(small_monster.list) do
 		local damage_param = get_damage_param_method:call(enemy);
 		if damage_param == nil then
-			error_handler.report("ailment_hook.stock_damage", "Failed to Access Data: small_monster -> damage_param");
+			error_handler.report("ailment_hook.stock_damage", "Failed to access Data: small_monster -> damage_param");
 			goto continue
 		end
 
 		local poison_param = poison_param_field:get_data(damage_param);
 		if poison_param == nil then
-			error_handler.report("ailment_hook.stock_damage", "Failed to Access Data: small_monster -> poison_param");
+			error_handler.report("ailment_hook.stock_damage", "Failed to access Data: small_monster -> poison_param");
 			goto continue;
 		end
 

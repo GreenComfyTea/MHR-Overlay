@@ -116,7 +116,7 @@ function this.update(melody_data_table)
 
 		local melody_timer = time_field:get_data(melody_data);
 		if melody_timer == nil then
-			error_handler.report("melody_effects.update", "Failed to Access Data: melody_timer No. " .. tostring(lua_index - 1));
+			error_handler.report("melody_effects.update", "Failed to access Data: melody_timer No. " .. tostring(lua_index - 1));
 			goto continue;
 		end
 

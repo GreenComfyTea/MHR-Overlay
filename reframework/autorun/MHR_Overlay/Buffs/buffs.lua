@@ -114,7 +114,7 @@ end
 
 function this.update()
 	if singletons.player_manager == nil then
-		error_handler.report("buffs.update", "Failed to Access Data: player_manager");
+		error_handler.report("buffs.update", "Failed to access Data: player_manager");
 		return;
 	end
 
@@ -126,7 +126,7 @@ function this.update()
 
 	local master_player = find_master_player_method:call(singletons.player_manager); 
 	if master_player == nil then
-		error_handler.report("buffs.update", "Failed to Access Data: master_player");
+		error_handler.report("buffs.update", "Failed to access Data: master_player");
 		return;
 	end
 
@@ -134,7 +134,7 @@ function this.update()
 	if master_player_data ~= nil then
 		consumables.update(master_player_data);
 	else
-		error_handler.report("buffs.update", "Failed to Access Data: master_player_data");
+		error_handler.report("buffs.update", "Failed to access Data: master_player_data");
 	end
 
 	local music_data_array = music_data_field:get_data(master_player);
@@ -145,7 +145,7 @@ function this.update()
 		for i = 0, length do
 			local music_data = get_value_method:call(music_data_array, i);
 			if music_data == nil then
-				error_handler.report("buffs.update", "Failed to Access Data: music_data No." .. tostring(i));
+				error_handler.report("buffs.update", "Failed to access Data: music_data No." .. tostring(i));
 				music_data = "";
 			end
 
@@ -154,7 +154,7 @@ function this.update()
 
 		melody_effects.update(music_data_table);
 	else
-		error_handler.report("buffs.update", "Failed to Access Data: music_data_array");
+		error_handler.report("buffs.update", "Failed to access Data: music_data_array");
 	end
 end
 

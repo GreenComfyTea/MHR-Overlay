@@ -58,25 +58,23 @@ function this.draw()
 
 	local enemy_count = get_zako_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
-		error_handler.report("small_monster_UI.draw", "Failed to Access Data: enemy_count");
+		error_handler.report("small_monster_UI.draw", "Failed to access Data: enemy_count");
 		return;
 	end
 
 	for i = 0, enemy_count - 1 do
 		local enemy = get_zako_enemy_method:call(singletons.enemy_manager, i);
 		if enemy == nil then
-			error_handler.report("small_monster_UI.draw", "Failed to Access Data: enemy No. " .. tostring(i));
+			error_handler.report("small_monster_UI.draw", "Failed to access Data: enemy No. " .. tostring(i));
 			goto continue;
 		end
 
 		local monster = small_monster.get_monster(enemy);
 		if monster == nil then
-			error_handler.report("small_monster_UI.draw", "Failed to Create Small Monster Entry No. " .. tostring(i));
+			error_handler.report("small_monster_UI.draw", "Failed to create Small Monster Entry No. " .. tostring(i));
 			goto continue;
 		end
 
-	-- causes VMContext corruption and call failures
-	--for enemy, monster in pairs(small_monster.list) do
 		if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
 			goto continue;
 		end;

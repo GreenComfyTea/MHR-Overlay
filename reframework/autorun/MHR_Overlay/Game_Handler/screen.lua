@@ -73,26 +73,26 @@ function this.get_game_window_size()
 		scene_view = sdk.call_native_func(singletons.scene_manager, sdk.find_type_definition("via.SceneManager") , "get_MainView");
 
 		if scene_view == nil then
-			error_handler.report("screen.get_game_window_size", "Failed to Access Data: scene_view");
+			error_handler.report("screen.get_game_window_size", "Failed to access Data: scene_view");
 			return;
 		end
 	end
 
 	local size = get_size_method:call(scene_view);
 	if size == nil then
-		error_handler.report("screen.get_game_window_size", "Failed to Access Data: size");
+		error_handler.report("screen.get_game_window_size", "Failed to access Data: size");
 		return;
 	end
 
 	local screen_width = width_field:get_data(size);
 	if screen_width == nil then
-		error_handler.report("screen.get_game_window_size", "Failed to Access Data: screen_width");
+		error_handler.report("screen.get_game_window_size", "Failed to access Data: screen_width");
 		return;
 	end
 
 	local screen_height = height_field:get_data(size);
 	if screen_height == nil then
-		error_handler.report("screen.get_game_window_size", "Failed to Access Data: screen_height");
+		error_handler.report("screen.get_game_window_size", "Failed to access Data: screen_height");
 		return;
 	end
 

@@ -205,13 +205,13 @@ end
 function this.update_health(enemy_damage_check)
 	local enemy = get_ref_enemy:call(enemy_damage_check);
 	if enemy == nil then
-		error_handler.report("monster_hook.update_health", "Failed to Access Data: enemy");
+		error_handler.report("monster_hook.update_health", "Failed to access Data: enemy");
 		return;
 	end
 
 	local is_large = is_boss_enemy_method:call(enemy);
 	if is_large == nil then
-		error_handler.report("monster_hook.update_health", "Failed to Access Data: is_large");
+		error_handler.report("monster_hook.update_health", "Failed to access Data: is_large");
 		return;
 	end
 
@@ -234,7 +234,7 @@ function this.update_stamina(stamina_param, stamina_sub)
 
 	local enemy = get_enemy_method:call(stamina_param);
 	if enemy == nil then
-		error_handler.report("monster_hook.update_stamina", "Failed to Access Data: enemy");
+		error_handler.report("monster_hook.update_stamina", "Failed to access Data: enemy");
 		return;
 	end
 

@@ -155,7 +155,7 @@ end
 function this.get_cart_count()
 	local death_num = get_death_num_method:call(singletons.quest_manager);
 	if death_num == nil then
-		error_handler.report("quest_status.get_cart_count", "Failed to Access Data: death_num");
+		error_handler.report("quest_status.get_cart_count", "Failed to access Data: death_num");
 	end
 	
 	this.cart_count = death_num;
@@ -164,7 +164,7 @@ end
 function this.get_max_cart_count()
 	local quest_life = get_quest_life_method:call(singletons.quest_manager);
 	if quest_life == nil then
-		error_handler.report("quest_status.get_max_cart_count", "Failed to Access Data: quest_life");
+		error_handler.report("quest_status.get_max_cart_count", "Failed to access Data: quest_life");
 	end
 	
 	this.max_cart_count = quest_life;
@@ -185,7 +185,7 @@ function this.on_demo_request_activation(request_data_base)
 
 	local request_data_type = request_data_base:call("get_Type");
 	if request_data_type == nil then
-		error_handler.report("quest_status.on_demo_request_activation", "Failed to Access Data: request_data_type");
+		error_handler.report("quest_status.on_demo_request_activation", "Failed to access Data: request_data_type");
 		return;
 	end
 
@@ -317,13 +317,13 @@ end
 
 function this.init()
 	if singletons.quest_manager == nil then
-		error_handler.report("quest_status.init", "Failed to Access Data: quest_manager");
+		error_handler.report("quest_status.init", "Failed to access Data: quest_manager");
 		return;
 	end
 
 	local new_quest_status = get_status_method:call(singletons.game_manager);
 	if new_quest_status == nil then
-		error_handler.report("quest_status.init", "Failed to Access Data: new_quest_status");
+		error_handler.report("quest_status.init", "Failed to access Data: new_quest_status");
 		return;
 	end
 
@@ -344,13 +344,13 @@ end
 
 function this.update_is_online()
 	if singletons.lobby_manager == nil then
-		error_handler.report("quest_status.update_is_online", "Failed to Access Data: lobby_manager");
+		error_handler.report("quest_status.update_is_online", "Failed to access Data: lobby_manager");
 		return;
 	end
 
 	local is_quest_online = is_quest_online_method:call(singletons.lobby_manager);
 	if is_quest_online == nil then
-		error_handler.report("quest_status.update_is_online", "Failed to Access Data: is_quest_online");
+		error_handler.report("quest_status.update_is_online", "Failed to access Data: is_quest_online");
 		return;
 	end
 
@@ -359,13 +359,13 @@ end
 
 --[[function quest_status.update_is_quest_host()
 	if singletons.lobby_manager == nil then
-		error_handler.report("quest_status.update_is_quest_host", "Failed to Access Data: lobby_manager");
+		error_handler.report("quest_status.update_is_quest_host", "Failed to access Data: lobby_manager");
 		return;
 	end
 
 	local is_quest_host = is_quest_host_method:call(singletons.lobby_manager, true);
 	if is_quest_host == nil then
-		error_handler.report("quest_status.update_is_quest_host", "Failed to Access Data: is_quest_host");
+		error_handler.report("quest_status.update_is_quest_host", "Failed to access Data: is_quest_host");
 		return;
 	end
 
@@ -374,13 +374,13 @@ end--]]
 
 function this.update_is_training_area()
 	if singletons.village_area_manager == nil then
-		error_handler.report("quest_status.update_is_training_area", "Failed to Access Data: village_area_manager");
+		error_handler.report("quest_status.update_is_training_area", "Failed to access Data: village_area_manager");
 		return;
 	end
 
 	local is_training_area = check_current_area_training_area_method:call(singletons.village_area_manager);
 	if is_training_area == nil then
-		error_handler.report("quest_status.update_is_training_area", "Failed to Access Data: is_training_area");
+		error_handler.report("quest_status.update_is_training_area", "Failed to access Data: is_training_area");
 		return;
 	end
 

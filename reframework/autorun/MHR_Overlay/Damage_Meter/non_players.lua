@@ -133,19 +133,19 @@ function this.update_servant_list()
 	local cached_config = config.current_config.damage_meter_UI;
 
 	if singletons.servant_manager == nil then
-		error_handler.report("non_players.update_servant_list", "Failed to Access Data: servant_manager");
+		error_handler.report("non_players.update_servant_list", "Failed to access Data: servant_manager");
 		return;
 	end
 
 	local quest_servant_id_list = get_quest_servant_id_list_method:call(singletons.servant_manager);
 	if quest_servant_id_list == nil then
-		error_handler.report("non_players.update_servant_list", "Failed to Access Data: quest_servant_id_list");
+		error_handler.report("non_players.update_servant_list", "Failed to access Data: quest_servant_id_list");
 		return;
 	end
 
 	local servant_count = servant_get_count_method:call(quest_servant_id_list);
 	if servant_count == nil then
-		error_handler.report("non_players.update_servant_list", "Failed to Access Data: servant_count");
+		error_handler.report("non_players.update_servant_list", "Failed to access Data: servant_count");
 		return;
 	end
 
@@ -153,20 +153,20 @@ function this.update_servant_list()
 	for i = 0, servant_count - 1 do
 		local servant_id = servant_get_item_method:call(quest_servant_id_list, i);
 		if servant_id == nil then
-			error_handler.report("non_players.update_servant_list", "Failed to Access Data: servant_id No." .. tostring(i));
+			error_handler.report("non_players.update_servant_list", "Failed to access Data: servant_id No." .. tostring(i));
 			goto continue;
 		end
 
 
 		local ai_control = get_ai_control_by_servant_id_method:call(singletons.servant_manager, servant_id);
 		if ai_control == nil then
-			error_handler.report("non_players.update_servant_list", "Failed to Access Data: ai_control No." .. tostring(i));
+			error_handler.report("non_players.update_servant_list", "Failed to access Data: ai_control No." .. tostring(i));
 			goto continue;
 		end
 
 		local servant_info = get_servant_info_method:call(ai_control);
 		if servant_info == nil then
-			error_handler.report("non_players.update_servant_list", "Failed to Access Data: servant_info No." .. tostring(i));
+			error_handler.report("non_players.update_servant_list", "Failed to access Data: servant_info No." .. tostring(i));
 			goto continue;
 		end
 
@@ -218,11 +218,11 @@ function this.update_my_otomos()
 
 	local first_otomo = get_master_otomo_info_method:call(singletons.otomo_manager, 0);
 	if first_otomo == nil then
-		error_handler.report("non_players.update_my_otomos", "Failed to Access Data: first_otomo");
+		error_handler.report("non_players.update_my_otomos", "Failed to access Data: first_otomo");
 	else
 		local name = otomo_create_data_name_field:get_data(first_otomo);
 		if name == nil then
-			error_handler.report("non_players.update_my_otomos", "Failed to Access Data: first_otomo -> name");
+			error_handler.report("non_players.update_my_otomos", "Failed to access Data: first_otomo -> name");
 		end
 
 		if name ~= nil and name ~= "" then
@@ -241,11 +241,11 @@ function this.update_my_otomos()
 
 	local second_otomo = get_master_otomo_info_method:call(singletons.otomo_manager, 1);
 	if second_otomo == nil then
-		error_handler.report("non_players.update_my_otomos", "Failed to Access Data: second_otomo");
+		error_handler.report("non_players.update_my_otomos", "Failed to access Data: second_otomo");
 	else
 		local name = otomo_create_data_name_field:get_data(second_otomo);
 		if name == nil then
-			error_handler.report("non_players.update_my_otomos", "Failed to Access Data: second_otomo -> name");
+			error_handler.report("non_players.update_my_otomos", "Failed to access Data: second_otomo -> name");
 		end
 
 		if name ~= nil and name ~= "" then
@@ -268,20 +268,20 @@ function this.update_servant_otomos()
 
 	local servant_otomo_list = get_servant_otomo_list_method:call(singletons.otomo_manager);
 	if servant_otomo_list == nil then
-		error_handler.report("non_players.update_servant_otomos", "Failed to Access Data: servant_otomo_list");
+		error_handler.report("non_players.update_servant_otomos", "Failed to access Data: servant_otomo_list");
 		return;
 	end
 
 	local count = otomo_get_count_method:call(servant_otomo_list);
 	if count == nil then
-		error_handler.report("non_players.update_servant_otomos", "Failed to Access Data: servant_otomo_list -> count");
+		error_handler.report("non_players.update_servant_otomos", "Failed to access Data: servant_otomo_list -> count");
 		return;
 	end
 
 	for i = 0, count - 1 do
 		local servant_otomo = otomo_get_item_method:call(servant_otomo_list, i);
 		if servant_otomo == nil then
-			error_handler.report("non_players.update_servant_otomos", "Failed to Access Data: servant_otomo No. " .. tostring(i));
+			error_handler.report("non_players.update_servant_otomos", "Failed to access Data: servant_otomo No. " .. tostring(i));
 			goto continue
 		end
 
@@ -292,7 +292,7 @@ function this.update_servant_otomos()
 			local member_id = otomo_create_data:get_field("MemberID");
 			
 			if name == nil then
-				error_handler.report("non_players.update_servant_otomos", string.format("Failed to Access Data: servant_otomo No. %d -> name", i));
+				error_handler.report("non_players.update_servant_otomos", string.format("Failed to access Data: servant_otomo No. %d -> name", i));
 				goto continue;
 			end
 
@@ -314,33 +314,33 @@ function this.update_otomos(otomo_info_field_)
 	local cached_config = config.current_config.damage_meter_UI;
 	
 	if singletons.lobby_manager == nil then
-		error_handler.report("non_players.update_otomos", "Failed to Access Data: lobby_manager");
+		error_handler.report("non_players.update_otomos", "Failed to access Data: lobby_manager");
 		return;
 	end
 
 	-- other players
 	local otomo_info_list = otomo_info_field_:get_data(singletons.lobby_manager);
 	if otomo_info_list == nil then
-		error_handler.report("non_players.update_otomos", "Failed to Access Data: otomo_info_list");
+		error_handler.report("non_players.update_otomos", "Failed to access Data: otomo_info_list");
 		return;
 	end
 
 	local count = otomo_info_get_count_method:call(otomo_info_list);
 	if count == nil then
-		error_handler.report("non_players.update_otomos", "Failed to Access Data: otomo_info_list -> count");
+		error_handler.report("non_players.update_otomos", "Failed to access Data: otomo_info_list -> count");
 		return;
 	end
 
 	for id = 0, count - 1 do
 		local otomo_info = otomo_info_get_item_method:call(otomo_info_list, id);
 		if otomo_info == nil then
-			error_handler.report("non_players.update_otomos", "Failed to Access Data: otomo_info No. " .. tostring(id));
+			error_handler.report("non_players.update_otomos", "Failed to access Data: otomo_info No. " .. tostring(id));
 			goto continue;
 		end
 
 		local name = otomo_info_name_field:get_data(otomo_info);
 		if name == nil then
-			error_handler.report("non_players.update_otomos", string.format("Failed to Access Data: otomo_info No. %d -> name", id));
+			error_handler.report("non_players.update_otomos", string.format("Failed to access Data: otomo_info No. %d -> name", id));
 			goto continue;
 		end
 

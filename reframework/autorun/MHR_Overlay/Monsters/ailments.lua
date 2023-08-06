@@ -282,7 +282,7 @@ function this.update_ailments(enemy, monster)
 
 	local damage_param = get_damage_param_method:call(enemy);
 	if damage_param == nil then
-		error_handler.report("ailments.update_ailments", "Failed to Access Data: damage_param");
+		error_handler.report("ailments.update_ailments", "Failed to access Data: damage_param");
 		return;
 	end
 
@@ -300,13 +300,13 @@ function this.update_ailments(enemy, monster)
 
 	local condition_param_array = get_condition_param_method:call(damage_param);
 	if condition_param_array == nil then
-		error_handler.report("ailments.update_ailments", "Failed to Access Data: condition_param_array");
+		error_handler.report("ailments.update_ailments", "Failed to access Data: condition_param_array");
 		return;
 	end
 
 	local condition_param_array_length = length_method:call(condition_param_array);
 	if condition_param_array_length == nil then
-		error_handler.report("ailments.update_ailments", "Failed to Access Data: condition_param_array_length");
+		error_handler.report("ailments.update_ailments", "Failed to access Data: condition_param_array_length");
 		return;
 	end
 
@@ -317,7 +317,7 @@ function this.update_ailments(enemy, monster)
 
 		local ailment_param = get_value_method:call(condition_param_array, id);
 		if ailment_param == nil then
-			error_handler.report("ailments.update_ailments", "Failed to Access Data: ailment_param No. " .. tostring(id));
+			error_handler.report("ailments.update_ailments", "Failed to access Data: ailment_param No. " .. tostring(id));
 			goto continue
 		end
 
@@ -331,21 +331,21 @@ function this.update_stun_poison_blast_ailments(monster, damage_param)
 	if stun_param ~= nil then
 		this.update_ailment(monster, stun_param, this.stun_id);
 	else
-		error_handler.report("ailments.update_stun_poison_blast_ailments", "Failed to Access Data: stun_param");
+		error_handler.report("ailments.update_stun_poison_blast_ailments", "Failed to access Data: stun_param");
 	end
 
 	local poison_param = poison_param_field:get_data(damage_param);
 	if poison_param ~= nil then
 		this.update_ailment(monster, poison_param, this.poison_id);
 	else
-		error_handler.report("ailments.update_stun_poison_blast_ailments", "Failed to Access Data: poison_param");
+		error_handler.report("ailments.update_stun_poison_blast_ailments", "Failed to access Data: poison_param");
 	end
 
 	local blast_param = blast_param_field:get_data(damage_param);
 	if blast_param ~= nil then
 		this.update_ailment(monster, blast_param, this.blast_id);
 	else
-		error_handler.report("ailments.update_stun_poison_blast_ailments", "Failed to Access Data: blast_param");
+		error_handler.report("ailments.update_stun_poison_blast_ailments", "Failed to access Data: blast_param");
 	end
 end
 
@@ -373,14 +373,14 @@ function this.update_ailment(monster, ailment_param, id)
 				if activate_count_valuetype ~= nil then
 					activate_count = activate_count_valuetype:get_field("mValue");
 				else
-					error_handler.report("ailments.update_ailment", "Failed to Access Data: activate_count_valuetype");
+					error_handler.report("ailments.update_ailment", "Failed to access Data: activate_count_valuetype");
 				end
 			end
 		else
-			error_handler.report("ailments.update_ailment", "Failed to Access Data: activate_count_array_length");
+			error_handler.report("ailments.update_ailment", "Failed to access Data: activate_count_array_length");
 		end
 	else
-		error_handler.report("ailments.update_ailment", "Failed to Access Data: activate_count_array");
+		error_handler.report("ailments.update_ailment", "Failed to access Data: activate_count_array");
 	end
 	
 	if buildup_array ~= nil then
@@ -394,14 +394,14 @@ function this.update_ailment(monster, ailment_param, id)
 				if buildup_valuetype ~= nil then
 					buildup = buildup_valuetype:get_field("mValue");
 				else
-					error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_valuetype");
+					error_handler.report("ailments.update_ailment", "Failed to access Data: buildup_valuetype");
 				end
 			end
 		else
-			error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_array_length");
+			error_handler.report("ailments.update_ailment", "Failed to access Data: buildup_array_length");
 		end
 	else
-		error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_array");
+		error_handler.report("ailments.update_ailment", "Failed to access Data: buildup_array");
 	end
 	
 	if buildup_limit_array ~= nil then
@@ -415,14 +415,14 @@ function this.update_ailment(monster, ailment_param, id)
 				if buildup_limit_valuetype ~= nil then
 					buildup_limit = buildup_limit_valuetype:get_field("mValue");
 				else
-					error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_limit_valuetype");
+					error_handler.report("ailments.update_ailment", "Failed to access Data: buildup_limit_valuetype");
 				end
 			end
 		else
-			error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_limit_array_length");
+			error_handler.report("ailments.update_ailment", "Failed to access Data: buildup_limit_array_length");
 		end
 	else
-		error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_limit_array");
+		error_handler.report("ailments.update_ailment", "Failed to access Data: buildup_limit_array");
 	end
 
 	if is_enable == nil then
@@ -446,7 +446,7 @@ function this.update_ailment(monster, ailment_param, id)
 
 		monster.ailments[id].activate_count = activate_count;
 	else
-		error_handler.report("ailments.update_ailment", "Failed to Access Data: activate_count");
+		error_handler.report("ailments.update_ailment", "Failed to access Data: activate_count");
 	end
 	
 	if buildup ~= nil then
@@ -456,7 +456,7 @@ function this.update_ailment(monster, ailment_param, id)
 
 		monster.ailments[id].total_buildup = buildup;
 	else
-		error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup");
+		error_handler.report("ailments.update_ailment", "Failed to access Data: buildup");
 	end
 	
 	if buildup_limit ~= nil then
@@ -466,7 +466,7 @@ function this.update_ailment(monster, ailment_param, id)
 
 		monster.ailments[id].buildup_limit = buildup_limit;
 	else
-		error_handler.report("ailments.update_ailment", "Failed to Access Data: buildup_limit");
+		error_handler.report("ailments.update_ailment", "Failed to access Data: buildup_limit");
 	end
 	
 	if buildup ~= nil and buildup_limit ~= nil and buildup_limit ~= 0 then
@@ -537,13 +537,13 @@ function this.update_poison(monster, poison_param)
 	--if poison tick, apply damage
 	local is_damage = poison_get_is_damage_method:call(poison_param);
 	if is_damage == nil then
-		error_handler.report("ailments.update_poison", "Failed to Access Data: is_damage");
+		error_handler.report("ailments.update_poison", "Failed to access Data: is_damage");
 		return;
 	end
 	
 	local poison_damage = poison_damage_field:get_data(poison_param);
 	if poison_damage == nil then
-		error_handler.report("ailments.update_poison", "Failed to Access Data: poison_damage");
+		error_handler.report("ailments.update_poison", "Failed to access Data: poison_damage");
 		return;
 	end
 

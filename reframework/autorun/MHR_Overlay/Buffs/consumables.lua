@@ -100,7 +100,7 @@ local get_value_method = system_array_type_def:get_method("GetValue(System.Int32
 function this.update(player_data)
 	local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
 	if item_parameter == nil then
-		error_handler.report("consumables.update", "Failed to Access Data: item_parameter");
+		error_handler.report("consumables.update", "Failed to access Data: item_parameter");
 		return;
 	end
 
@@ -117,7 +117,7 @@ end
 function this.update_demondrug(player_data, item_parameter)
 	local demondrug_value = atk_up_alive_field:get_data(player_data);
 	if demondrug_value == nil then
-		error_handler.report("consumables.update_demondrug", "Failed to Access Data: demondrug_value");
+		error_handler.report("consumables.update_demondrug", "Failed to access Data: demondrug_value");
 		return;
 	end
 
@@ -129,13 +129,13 @@ function this.update_demondrug(player_data, item_parameter)
 
 	local demondrug_const_value = demondrug_atk_up_field:get_data(item_parameter);
 	if demondrug_const_value == nil then
-		error_handler.report("consumables.update_demondrug", "Failed to Access Data: demondrug_const_value");
+		error_handler.report("consumables.update_demondrug", "Failed to access Data: demondrug_const_value");
 		return;
 	end
 
 	local mega_demondrug_const_value = great_demondrug_atk_up_field:get_data(item_parameter);
 	if mega_demondrug_const_value == nil then
-		error_handler.report("consumables.update_demondrug", "Failed to Access Data: mega_demondrug_const_value");
+		error_handler.report("consumables.update_demondrug", "Failed to access Data: mega_demondrug_const_value");
 		return;
 	end
 	if demondrug_value == demondrug_const_value then
@@ -165,7 +165,7 @@ end
 function this.update_armorskin(player_data, item_parameter)
 	local armorskin_value = def_up_alive_field:get_data(player_data);
 	if armorskin_value == nil then
-		error_handler.report("consumables.update_armorskin", "Failed to Access Data: armorskin_value");
+		error_handler.report("consumables.update_armorskin", "Failed to access Data: armorskin_value");
 		return;
 	end
 
@@ -177,13 +177,13 @@ function this.update_armorskin(player_data, item_parameter)
 
 	local armorskin_const_value = armorskin_def_up_field:get_data(item_parameter);
 	if armorskin_const_value == nil then
-		error_handler.report("consumables.update_armorskin", "Failed to Access Data: armorskin_const_value");
+		error_handler.report("consumables.update_armorskin", "Failed to access Data: armorskin_const_value");
 		return;
 	end
 
 	local mega_armorskin_const_value = great_armorskin_def_up_field:get_data(item_parameter);
 	if mega_armorskin_const_value == nil then
-		error_handler.report("consumables.update_armorskin", "Failed to Access Data: mega_armorskin_const_value");
+		error_handler.report("consumables.update_armorskin", "Failed to access Data: mega_armorskin_const_value");
 		return;
 	end
 
@@ -214,7 +214,7 @@ end
 function this.update_might_seed(player_data, item_parameter)
 	local might_seed_value = atk_up_buff_second_field:get_data(player_data);
 	if might_seed_value == nil then
-		error_handler.report("consumables.update_might_seed", "Failed to Access Data: might_seed_value");
+		error_handler.report("consumables.update_might_seed", "Failed to access Data: might_seed_value");
 		return;
 	end
 
@@ -225,7 +225,7 @@ function this.update_might_seed(player_data, item_parameter)
 
 	local might_seed_timer = atk_up_buff_second_timer_field:get_data(player_data);
 	if might_seed_timer == nil then
-		error_handler.report("consumables.update_might_seed", "Failed to Access Data: might_seed_timer");
+		error_handler.report("consumables.update_might_seed", "Failed to access Data: might_seed_timer");
 		return;
 	end
 
@@ -233,7 +233,7 @@ function this.update_might_seed(player_data, item_parameter)
 	if buff == nil then
 		local might_seed_timer_const_value = might_seed_timer_field:get_data(item_parameter);
 		if might_seed_timer_const_value == nil then
-			error_handler.report("consumables.update_might_seed", "Failed to Access Data: might_seed_timer_const_value");
+			error_handler.report("consumables.update_might_seed", "Failed to access Data: might_seed_timer_const_value");
 			return;
 		end
 
@@ -250,7 +250,7 @@ end
 function this.update_adamant_seed(player_data, item_parameter)
 	local adamant_seed_value = def_up_buff_second_field:get_data(player_data);
 	if adamant_seed_value == nil then
-		error_handler.report("consumables.update_adamant_seed", "Failed to Access Data: adamant_seed_value");
+		error_handler.report("consumables.update_adamant_seed", "Failed to access Data: adamant_seed_value");
 		return;
 	end
 
@@ -261,7 +261,7 @@ function this.update_adamant_seed(player_data, item_parameter)
 
 	local adamant_seed_timer = def_up_buff_second_timer_field:get_data(player_data);
 	if adamant_seed_timer == nil then
-		error_handler.report("consumables.update_adamant_seed", "Failed to Access Data: adamant_seed_timer");
+		error_handler.report("consumables.update_adamant_seed", "Failed to access Data: adamant_seed_timer");
 		return;
 	end
 
@@ -269,7 +269,7 @@ function this.update_adamant_seed(player_data, item_parameter)
 	if buff == nil then
 		local adamant_seed_timer_const_value = adamant_seed_timer_field:get_data(item_parameter);
 		if adamant_seed_timer_const_value == nil then
-			error_handler.report("consumables.update_adamant_seed", "Failed to Access Data: adamant_seed_timer_const_value");
+			error_handler.report("consumables.update_adamant_seed", "Failed to access Data: adamant_seed_timer_const_value");
 			return;
 		end
 
@@ -286,7 +286,7 @@ end
 function this.update_demon_powder(player_data, item_parameter)
 	local demon_powder_value = atk_up_item_second_field:get_data(player_data);
 	if demon_powder_value == nil then
-		error_handler.report("consumables.update_demon_powder", "Failed to Access Data: demon_powder_value");
+		error_handler.report("consumables.update_demon_powder", "Failed to access Data: demon_powder_value");
 		return;
 	end
 
@@ -297,7 +297,7 @@ function this.update_demon_powder(player_data, item_parameter)
 
 	local demon_powder_timer = atk_up_item_second_timer_field:get_data(player_data);
 	if demon_powder_timer == nil then
-		error_handler.report("consumables.update_demon_powder", "Failed to Access Data: demon_powder_timer");
+		error_handler.report("consumables.update_demon_powder", "Failed to access Data: demon_powder_timer");
 		return;
 	end
 
@@ -305,7 +305,7 @@ function this.update_demon_powder(player_data, item_parameter)
 	if buff == nil then
 		local demon_powder_timer_const_value = demondrug_powder_timer_field:get_data(item_parameter);
 		if demon_powder_timer_const_value == nil then
-			error_handler.report("consumables.update_demon_powder", "Failed to Access Data: demon_powder_timer_const_value");
+			error_handler.report("consumables.update_demon_powder", "Failed to access Data: demon_powder_timer_const_value");
 			return;
 		end
 
@@ -322,7 +322,7 @@ end
 function this.update_hardshell_powder(player_data, item_parameter)
 	local hardshell_powder_value = def_up_item_second_field:get_data(player_data);
 	if hardshell_powder_value == nil then
-		error_handler.report("consumables.update_hardshell_powder", "Failed to Access Data: hardshell_powder_value");
+		error_handler.report("consumables.update_hardshell_powder", "Failed to access Data: hardshell_powder_value");
 		return;
 	end
 
@@ -333,7 +333,7 @@ function this.update_hardshell_powder(player_data, item_parameter)
 
 	local hardshell_powder_timer = def_up_item_second_timer_field:get_data(player_data);
 	if hardshell_powder_timer == nil then
-		error_handler.report("consumables.update_hardshell_powder", "Failed to Access Data: hardshell_powder_timer");
+		error_handler.report("consumables.update_hardshell_powder", "Failed to access Data: hardshell_powder_timer");
 		return;
 	end
 
@@ -341,7 +341,7 @@ function this.update_hardshell_powder(player_data, item_parameter)
 	if buff == nil then
 		local demon_powder_timer_const_value = armorskin_powder_timer_field:get_data(item_parameter);
 		if demon_powder_timer_const_value == nil then
-			error_handler.report("consumables.update_hardshell_powder", "Failed to Access Data: demon_powder_timer_const_value");
+			error_handler.report("consumables.update_hardshell_powder", "Failed to access Data: demon_powder_timer_const_value");
 			return;
 		end
 
@@ -358,7 +358,7 @@ end
 function this.update_immunizer(player_data, item_parameter)
 	local immunizer_timer = vitalizer_timer_field:get_data(player_data);
 	if immunizer_timer == nil then
-		error_handler.report("consumables.update_immunizer", "Failed to Access Data: immunizer_timer");
+		error_handler.report("consumables.update_immunizer", "Failed to access Data: immunizer_timer");
 		return;
 	end
 
@@ -371,7 +371,7 @@ function this.update_immunizer(player_data, item_parameter)
 	if buff == nil then
 		local immunizer_timer_const_value = vitalizer_timer_const_field:get_data(item_parameter);
 		if immunizer_timer_const_value == nil then
-			error_handler.report("consumables.update_immunizer", "Failed to Access Data: immunizer_timer_const_value");
+			error_handler.report("consumables.update_immunizer", "Failed to access Data: immunizer_timer_const_value");
 			return;
 		end
 
@@ -387,7 +387,7 @@ end
 function this.update_dash_juice(player_data, item_parameter)
 	local dash_juice_timer = stamina_up_buff_second_timer_field:get_data(player_data);
 	if dash_juice_timer == nil then
-		error_handler.report("consumables.update_dash_juice", "Failed to Access Data: dash_juice_timer");
+		error_handler.report("consumables.update_dash_juice", "Failed to access Data: dash_juice_timer");
 		return;
 	end
 
@@ -401,7 +401,7 @@ function this.update_dash_juice(player_data, item_parameter)
 	if buff == nil then
 		local dash_juice_timer_const_value = stamina_up_buff_second_field:get_data(item_parameter);
 		if dash_juice_timer_const_value == nil then
-			error_handler.report("consumables.update_dash_juice", "Failed to Access Data: dash_juice_timer");
+			error_handler.report("consumables.update_dash_juice", "Failed to access Data: dash_juice_timer");
 			return;
 		end
 

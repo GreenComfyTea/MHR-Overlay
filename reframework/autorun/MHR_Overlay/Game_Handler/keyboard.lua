@@ -336,13 +336,13 @@ this.keys = {
 
 function this.update()
 	if singletons.game_keyboard == nil then
-		error_handler.report("keyboard.update", "Failed to Access Data: game_keyboard");
+		error_handler.report("keyboard.update", "Failed to access Data: game_keyboard");
 		return;
 	end
 
 	local hard_keyboard = hard_keyboard_field:get_data(singletons.game_keyboard);
 	if hard_keyboard == nil then
-		error_handler.report("keyboard.update", "Failed to Access Data: hard_keyboard");
+		error_handler.report("keyboard.update", "Failed to access Data: hard_keyboard");
 		return;
 	end
 
@@ -495,7 +495,7 @@ function this.check_hotkeys(hard_keyboard)
 		local all_UI_key_release = get_release_method:call(hard_keyboard, math.tointeger(cached_config.all_UI.key));
 
 		if all_UI_key_release == nil then
-			error_handler.report("keyboard.check_hotkeys", "Failed to Access Data: all_UI_key_release");
+			error_handler.report("keyboard.check_hotkeys", "Failed to access Data: all_UI_key_release");
 
 		elseif all_UI_key_release then
 			local is_any_enabled = config.current_config.time_UI.enabled
@@ -521,7 +521,7 @@ function this.check_hotkeys(hard_keyboard)
 		local small_monster_UI_key_release = get_release_method:call(hard_keyboard, math.tointeger(cached_config.small_monster_UI.key));
 
 		if small_monster_UI_key_release == nil then
-			error_handler.report("keyboard.check_hotkeys", "Failed to Access Data: small_monster_UI_key_release");
+			error_handler.report("keyboard.check_hotkeys", "Failed to access Data: small_monster_UI_key_release");
 
 		elseif small_monster_UI_key_release then
 			config.current_config.small_monster_UI.enabled = not config.current_config.small_monster_UI.enabled;
@@ -535,7 +535,7 @@ function this.check_hotkeys(hard_keyboard)
 		local large_monster_UI_key_release = get_release_method:call(hard_keyboard, math.tointeger(cached_config.large_monster_UI.key));
 
 		if large_monster_UI_key_release == nil then
-			error_handler.report("keyboard.check_hotkeys", "Failed to Access Data: large_monster_UI_key_release");
+			error_handler.report("keyboard.check_hotkeys", "Failed to access Data: large_monster_UI_key_release");
 
 		elseif large_monster_UI_key_release then
 			local is_any_enabled = config.current_config.large_monster_UI.dynamic.enabled
@@ -555,7 +555,7 @@ function this.check_hotkeys(hard_keyboard)
 		local large_monster_dynamic_UI_key_release = get_release_method:call(hard_keyboard, math.tointeger(cached_config.large_monster_dynamic_UI.key));
 
 		if large_monster_dynamic_UI_key_release == nil then
-			error_handler.report("keyboard.check_hotkeys", "Failed to Access Data: large_monster_dynamic_UI_key_release");
+			error_handler.report("keyboard.check_hotkeys", "Failed to access Data: large_monster_dynamic_UI_key_release");
 
 		elseif large_monster_dynamic_UI_key_release then
 			config.current_config.large_monster_UI.dynamic.enabled = not config.current_config.large_monster_UI.dynamic.enabled;
@@ -569,7 +569,7 @@ function this.check_hotkeys(hard_keyboard)
 		local large_monster_static_UI_key_release = get_release_method:call(hard_keyboard, math.tointeger(cached_config.large_monster_static_UI.key));
 
 		if large_monster_static_UI_key_release == nil then
-			error_handler.report("keyboard.check_hotkeys", "Failed to Access Data: large_monster_static_UI_key_release");
+			error_handler.report("keyboard.check_hotkeys", "Failed to access Data: large_monster_static_UI_key_release");
 
 		elseif large_monster_static_UI_key_release then
 			config.current_config.large_monster_UI.static.enabled = not config.current_config.large_monster_UI.static.enabled;
@@ -583,7 +583,7 @@ function this.check_hotkeys(hard_keyboard)
 		local large_monster_highlighted_UI_key_release = get_release_method:call(hard_keyboard, math.tointeger(cached_config.large_monster_highlighted_UI.key));
 
 		if large_monster_highlighted_UI_key_release == nil then
-			error_handler.report("keyboard.check_hotkeys", "Failed to Access Data: large_monster_highlighted_UI_key_release");
+			error_handler.report("keyboard.check_hotkeys", "Failed to access Data: large_monster_highlighted_UI_key_release");
 
 		elseif large_monster_highlighted_UI_key_release then
 			config.current_config.large_monster_UI.highlighted.enabled = not config.current_config.large_monster_UI.highlighted.enabled;
@@ -597,7 +597,7 @@ function this.check_hotkeys(hard_keyboard)
 		local time_UI_key_release = get_release_method:call(hard_keyboard, math.tointeger(cached_config.time_UI.key));
 
 		if time_UI_key_release == nil then
-			error_handler.report("keyboard.check_hotkeys", "Failed to Access Data: time_UI_key_release");
+			error_handler.report("keyboard.check_hotkeys", "Failed to access Data: time_UI_key_release");
 
 		elseif time_UI_key_release then
 			config.current_config.time_UI.enabled = not config.current_config.time_UI.enabled;
@@ -611,7 +611,7 @@ function this.check_hotkeys(hard_keyboard)
 		local damage_meter_UI_key_release = get_release_method:call(hard_keyboard, math.tointeger(cached_config.damage_meter_UI.key));
 
 		if damage_meter_UI_key_release == nil then
-			error_handler.report("keyboard.check_hotkeys", "Failed to Access Data: damage_meter_UI_key_release");
+			error_handler.report("keyboard.check_hotkeys", "Failed to access Data: damage_meter_UI_key_release");
 
 		elseif damage_meter_UI_key_release then
 			config.current_config.damage_meter_UI.enabled = not config.current_config.damage_meter_UI.enabled;
@@ -625,7 +625,7 @@ function this.check_hotkeys(hard_keyboard)
 		local endemic_life_UI_key_release = get_release_method:call(hard_keyboard, math.tointeger(cached_config.endemic_life_UI.key));
 
 		if endemic_life_UI_key_release == nil then
-			error_handler.report("keyboard.check_hotkeys", "Failed to Access Data: endemic_life_UI_key_release");
+			error_handler.report("keyboard.check_hotkeys", "Failed to access Data: endemic_life_UI_key_release");
 
 		elseif endemic_life_UI_key_release then
 			config.current_config.endemic_life_UI.enabled = not config.current_config.endemic_life_UI.enabled;

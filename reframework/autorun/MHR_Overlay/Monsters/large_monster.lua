@@ -272,7 +272,7 @@ local get_targeting_enemy_index_field = tg_camera_type_def:get_field("OldTargeti
 function this.init(monster, enemy)
 	local monster_id = enemy_type_field:get_data(enemy);
 	if monster_id == nil then
-		error_handler.report("large_monster.init", "Failed to Access Data: enemy_type");
+		error_handler.report("large_monster.init", "Failed to access Data: enemy_type");
 		return;
 	end
 
@@ -286,7 +286,7 @@ function this.init(monster, enemy)
 	if enemy_name ~= nil then
 		monster.name = enemy_name;
 	else
-		error_handler.report("large_monster.init", "Failed to Access Data: enemy_name");
+		error_handler.report("large_monster.init", "Failed to access Data: enemy_name");
 	end
 
 	if monster_id ~= this.monster_ids.toadversary then
@@ -296,10 +296,10 @@ function this.init(monster, enemy)
 			if unique_id ~= nil then
 				monster.unique_id = unique_id;
 			else
-				error_handler.report("large_monster.init", "Failed to Access Data: unique_id");
+				error_handler.report("large_monster.init", "Failed to access Data: unique_id");
 			end
 		else
-			error_handler.report("large_monster.init", "Failed to Access Data: set_info");
+			error_handler.report("large_monster.init", "Failed to access Data: set_info");
 		end
 
 		local size_info = find_enemy_size_info_method:call(singletons.enemy_manager, monster_id);
@@ -313,25 +313,25 @@ function this.init(monster, enemy)
 			if small_border ~= nil then
 				monster.small_border = small_border;
 			else
-				error_handler.report("large_monster.init", "Failed to Access Data: small_border");
+				error_handler.report("large_monster.init", "Failed to access Data: small_border");
 			end
 
 			if big_border ~= nil then
 				monster.big_border = big_border;
 			else
-				error_handler.report("large_monster.init", "Failed to Access Data: big_border");
+				error_handler.report("large_monster.init", "Failed to access Data: big_border");
 			end
 
 			if king_border ~= nil then
 				monster.king_border = king_border;
 			else
-				error_handler.report("large_monster.init", "Failed to Access Data: king_border");
+				error_handler.report("large_monster.init", "Failed to access Data: king_border");
 			end
 
 			if size ~= nil then
 				monster.size = size;
 			else
-				error_handler.report("large_monster.init", "Failed to Access Data: size");
+				error_handler.report("large_monster.init", "Failed to access Data: size");
 			end
 
 			if monster.size <= monster.small_border then
@@ -342,7 +342,7 @@ function this.init(monster, enemy)
 				monster.crown = language.current_language.UI.silver;
 			end
 		else
-			error_handler.report("large_monster.init", "Failed to Access Data: size_info");
+			error_handler.report("large_monster.init", "Failed to access Data: size_info");
 		end
 	end
 
@@ -357,13 +357,13 @@ function this.init(monster, enemy)
 			if is_capture_enable_ ~= nil then
 				is_capture_enable = is_capture_enable_;
 			else
-				error_handler.report("large_monster.init", "Failed to Access Data: is_capture_enable_");
+				error_handler.report("large_monster.init", "Failed to access Data: is_capture_enable_");
 			end
 		else
-			error_handler.report("large_monster.init", "Failed to Access Data: capture_param");
+			error_handler.report("large_monster.init", "Failed to access Data: capture_param");
 		end
 	else
-		error_handler.report("large_monster.init", "Failed to Access Data: damage_param");
+		error_handler.report("large_monster.init", "Failed to access Data: damage_param");
 	end
 
 	local mystery_param =  get_mystery_param_method:call(enemy);
@@ -469,7 +469,7 @@ function this.update_position(enemy, monster)
 
 	local position = get_pos_field:call(enemy);
 	if position == nil then
-		error_handler.report("large_monster.update_position", "Failed to Access Data: position");
+		error_handler.report("large_monster.update_position", "Failed to access Data: position");
 	end
 	
 	monster.position = position;
@@ -481,20 +481,20 @@ function this.update_all_riders()
 		-- get marionette rider
 		local mario_param = get_mario_param_method:call(enemy);
 		if mario_param == nil then
-			error_handler.report("large_monster.update_all_riders", "Failed to Access Data: mario_param");
+			error_handler.report("large_monster.update_all_riders", "Failed to access Data: mario_param");
 			goto continue;
 		end
 
 		local is_marionette = get_is_marionette_method:call(mario_param);
 		if is_marionette == nil then
-			error_handler.report("large_monster.update_all_riders", "Failed to Access Data: is_marionette");
+			error_handler.report("large_monster.update_all_riders", "Failed to access Data: is_marionette");
 			goto continue;
 		end
 
 		if is_marionette then
 			local player_id = get_mario_player_index_method:call(mario_param);
 			if player_id == nil then
-				error_handler.report("large_monster.update_all_riders", "Failed to Access Data: player_id");
+				error_handler.report("large_monster.update_all_riders", "Failed to access Data: player_id");
 				goto continue;
 			end
 			
@@ -520,14 +520,14 @@ function this.update(enemy, monster)
 	if dead_or_captured ~= nil then
 		monster.dead_or_captured = dead_or_captured;
 	else
-		error_handler.report("large_monster.update", "Failed to Access Data: dead_or_captured");
+		error_handler.report("large_monster.update", "Failed to access Data: dead_or_captured");
 	end
 
 	local is_disp_icon_mini_map = is_disp_icon_mini_map_method:call(enemy);
 	if is_disp_icon_mini_map ~= nil then
 		monster.is_disp_icon_mini_map = is_disp_icon_mini_map;
 	else
-		error_handler.report("large_monster.update", "Failed to Access Data: is_disp_icon_mini_map");
+		error_handler.report("large_monster.update", "Failed to access Data: is_disp_icon_mini_map");
 	end
 
 	if monster.id == this.monster_ids.lucent_nargacuga or monster.id == this.monster_ids.chameleos or monster.id == this.monster_ids.risen_chameleos then
@@ -541,7 +541,7 @@ function this.update(enemy, monster)
 			if is_stealth == nil then
 				monster.is_stealth = is_stealth;
 			else
-				error_handler.report("large_monster.update", "Failed to Access Data: is_stealth");
+				error_handler.report("large_monster.update", "Failed to access Data: is_stealth");
 			end
 			
 		-- Chameleos and Risen Chameleos
@@ -551,14 +551,14 @@ function this.update(enemy, monster)
 				local status = get_current_status_method:call(stealth_controller);
 
 				if status == nil then
-					error_handler.report("large_monster.update", "Failed to Access Data: status");
+					error_handler.report("large_monster.update", "Failed to access Data: status");
 				elseif status >= 2 then
 					monster.is_stealth = true;
 				else 
 					monster.is_stealth = false;
 				end
 			else
-				error_handler.report("large_monster.update", "Failed to Access Data: stealth_controller");
+				error_handler.report("large_monster.update", "Failed to access Data: stealth_controller");
 			end
 		end
 	end
@@ -583,13 +583,13 @@ function this.update_health(enemy, monster)
 
 	local physical_param = get_physical_param_method:call(enemy);
 	if physical_param == nil then
-		error_handler.report("large_monster.update_health", "Failed to Access Data: physical_param");
+		error_handler.report("large_monster.update_health", "Failed to access Data: physical_param");
 		return nil;
 	end
 
 	local vital_param = get_vital_method:call(physical_param, 0, 0);
 	if vital_param == nil then
-		error_handler.report("large_monster.update_health", "Failed to Access Data: vital_param");
+		error_handler.report("large_monster.update_health", "Failed to access Data: vital_param");
 		return nil;
 	end
 
@@ -597,21 +597,21 @@ function this.update_health(enemy, monster)
 	if health ~= nil then
 		monster.health = health;
 	else 
-		error_handler.report("large_monster.update_health", "Failed to Access Data: health");
+		error_handler.report("large_monster.update_health", "Failed to access Data: health");
 	end
 
 	local max_health = get_max_method:call(vital_param);
 	if max_health ~= nil then
 		monster.max_health = max_health;
 	else 
-		error_handler.report("large_monster.update_health", "Failed to Access Data: max_health");
+		error_handler.report("large_monster.update_health", "Failed to access Data: max_health");
 	end
 
 	local capture_health = get_capture_hp_vital_method:call(physical_param);
 	if capture_health ~= nil then
 		monster.capture_health = capture_health;
 	else 
-		error_handler.report("large_monster.update_health", "Failed to Access Data: capture_health");
+		error_handler.report("large_monster.update_health", "Failed to access Data: capture_health");
 	end
 
 	monster.missing_health = max_health - health;
@@ -641,7 +641,7 @@ function this.update_stamina(enemy, monster, stamina_param)
 	if stamina_param == nil then
 		stamina_param = get_stamina_param_method:call(enemy);
 		if stamina_param == nil then
-			error_handler.report("large_monster.update_stamina", "Failed to Access Data: stamina_param");
+			error_handler.report("large_monster.update_stamina", "Failed to access Data: stamina_param");
 			return;
 		end
 	end
@@ -650,7 +650,7 @@ function this.update_stamina(enemy, monster, stamina_param)
 	if is_tired ~= nil then
 		monster.is_tired = is_tired;
 	else
-		error_handler.report("large_monster.update_stamina", "Failed to Access Data: is_tired");
+		error_handler.report("large_monster.update_stamina", "Failed to access Data: is_tired");
 		return;
 	end
 
@@ -662,7 +662,7 @@ function this.update_stamina(enemy, monster, stamina_param)
 	if stamina ~= nil then
 		monster.stamina = stamina;
 	else
-		error_handler.report("large_monster.update_stamina", "Failed to Access Data: stamina");
+		error_handler.report("large_monster.update_stamina", "Failed to access Data: stamina");
 		return;
 	end
 
@@ -670,7 +670,7 @@ function this.update_stamina(enemy, monster, stamina_param)
 	if max_stamina ~= nil then
 		monster.max_stamina = max_stamina;
 	else
-		error_handler.report("large_monster.update_stamina", "Failed to Access Data: max_stamina");
+		error_handler.report("large_monster.update_stamina", "Failed to access Data: max_stamina");
 		return;
 	end
 
@@ -698,7 +698,7 @@ function this.update_stamina_timer(enemy, monster, stamina_param)
 	if stamina_param == nil then
 		stamina_param = get_stamina_param_method:call(enemy);
 		if stamina_param == nil then
-			error_handler.report("large_monster.update_stamina_timer", "Failed to Access Data: stamina_param");
+			error_handler.report("large_monster.update_stamina_timer", "Failed to access Data: stamina_param");
 			return;
 		end
 	end
@@ -707,7 +707,7 @@ function this.update_stamina_timer(enemy, monster, stamina_param)
 	if is_tired ~= nil then
 		monster.is_tired = is_tired;
 	else
-		error_handler.report("large_monster.update_stamina_timer", "Failed to Access Data: is_tired");
+		error_handler.report("large_monster.update_stamina_timer", "Failed to access Data: is_tired");
 		return;
 	end
 	
@@ -719,7 +719,7 @@ function this.update_stamina_timer(enemy, monster, stamina_param)
 	if tired_timer ~= nil then
 		monster.tired_timer = tired_timer;
 	else
-		error_handler.report("large_monster.update_stamina_timer", "Failed to Access Data: tired_timer");
+		error_handler.report("large_monster.update_stamina_timer", "Failed to access Data: tired_timer");
 		return;
 	end
 
@@ -727,7 +727,7 @@ function this.update_stamina_timer(enemy, monster, stamina_param)
 	if tired_duration ~= nil then
 		monster.tired_duration = tired_duration;
 	else
-		error_handler.report("large_monster.update_stamina_timer", "Failed to Access Data: tired_duration");
+		error_handler.report("large_monster.update_stamina_timer", "Failed to access Data: tired_duration");
 		return;
 	end
 
@@ -762,7 +762,7 @@ function this.update_rage(enemy, monster, anger_param)
 	if anger_param == nil then
 		anger_param = get_anger_param_method:call(enemy);
 		if anger_param == nil then
-			error_handler.report("large_monster.update_rage", "Failed to Access Data: anger_param");
+			error_handler.report("large_monster.update_rage", "Failed to access Data: anger_param");
 			return;
 		end
 	end
@@ -771,7 +771,7 @@ function this.update_rage(enemy, monster, anger_param)
 	if is_in_rage ~= nil then
 		monster.is_in_rage = is_in_rage;
 	else
-		error_handler.report("large_monster.update_rage", "Failed to Access Data: is_in_rage");
+		error_handler.report("large_monster.update_rage", "Failed to access Data: is_in_rage");
 		return;
 	end
 
@@ -783,7 +783,7 @@ function this.update_rage(enemy, monster, anger_param)
 	if rage_point ~= nil then
 		monster.rage_point = rage_point;
 	else
-		error_handler.report("large_monster.update_rage", "Failed to Access Data: rage_point");
+		error_handler.report("large_monster.update_rage", "Failed to access Data: rage_point");
 		return;
 	end
 
@@ -791,7 +791,7 @@ function this.update_rage(enemy, monster, anger_param)
 	if rage_limit ~= nil then
 		monster.rage_limit = rage_limit;
 	else
-		error_handler.report("large_monster.update_rage", "Failed to Access Data: rage_limit");
+		error_handler.report("large_monster.update_rage", "Failed to access Data: rage_limit");
 		return;
 	end
 
@@ -818,7 +818,7 @@ function this.update_rage_timer(enemy, monster, anger_param)
 	if anger_param == nil then
 		anger_param = get_anger_param_method:call(enemy);
 		if anger_param == nil then
-			error_handler.report("large_monster.update_rage_timer", "Failed to Access Data: anger_param");
+			error_handler.report("large_monster.update_rage_timer", "Failed to access Data: anger_param");
 			return;
 		end
 	end
@@ -827,7 +827,7 @@ function this.update_rage_timer(enemy, monster, anger_param)
 	if is_in_rage ~= nil then
 		monster.is_in_rage = is_in_rage;
 	else
-		error_handler.report("large_monster.update_rage_timer", "Failed to Access Data: is_in_rage");
+		error_handler.report("large_monster.update_rage_timer", "Failed to access Data: is_in_rage");
 		return;
 	end
 
@@ -839,7 +839,7 @@ function this.update_rage_timer(enemy, monster, anger_param)
 	if rage_timer ~= nil then
 		monster.rage_timer = rage_timer;
 	else
-		error_handler.report("large_monster.update_rage_timer", "Failed to Access Data: rage_timer");
+		error_handler.report("large_monster.update_rage_timer", "Failed to access Data: rage_timer");
 		return;
 	end
 
@@ -847,7 +847,7 @@ function this.update_rage_timer(enemy, monster, anger_param)
 	if rage_duration ~= nil then
 		monster.rage_duration = rage_duration;
 	else
-		error_handler.report("large_monster.update_rage_timer", "Failed to Access Data: rage_duration");
+		error_handler.report("large_monster.update_rage_timer", "Failed to access Data: rage_duration");
 		return;
 	end
 
@@ -894,32 +894,32 @@ function this.update_parts(enemy, monster, physical_param)
 	if physical_param == nil then
 		physical_param = get_physical_param_method:call(enemy);
 		if physical_param == nil then
-			error_handler.report("large_monster.update_parts", "Failed to Access Data: physical_param");
+			error_handler.report("large_monster.update_parts", "Failed to access Data: physical_param");
 			return;
 		end
 	end
 
 	local damage_param = get_damage_param_method:call(enemy);
 	if damage_param == nil then
-		error_handler.report("large_monster.update_parts", "Failed to Access Data: damage_param");
+		error_handler.report("large_monster.update_parts", "Failed to access Data: damage_param");
 		return;
 	end
 
 	local enemy_parts_damage_info = enemy_parts_damage_info_field:get_data(damage_param);
 	if enemy_parts_damage_info == nil then
-		error_handler.report("large_monster.update_parts", "Failed to Access Data: enemy_parts_damage_info");
+		error_handler.report("large_monster.update_parts", "Failed to access Data: enemy_parts_damage_info");
 		return;
 	end
 
 	local core_parts_array = get_part_info_array_method:call(enemy_parts_damage_info);
 	if core_parts_array == nil then
-		error_handler.report("large_monster.update_parts", "Failed to Access Data: core_parts_array");
+		error_handler.report("large_monster.update_parts", "Failed to access Data: core_parts_array");
 		return;
 	end
 
 	local core_parts_array_length = length_method:call(core_parts_array);
 	if core_parts_array_length == nil then
-		error_handler.report("large_monster.update_parts", "Failed to Access Data: core_parts_array_length");
+		error_handler.report("large_monster.update_parts", "Failed to access Data: core_parts_array_length");
 		return;
 	end
 
@@ -928,7 +928,7 @@ function this.update_parts(enemy, monster, physical_param)
 
 		local enemy_parts_info = get_value_method:call(core_parts_array, i);
 		if enemy_parts_info == nil then
-			error_handler.report("large_monster.update_parts", "Failed to Access Data: enemy_parts_info No. " .. tostring(i));
+			error_handler.report("large_monster.update_parts", "Failed to access Data: enemy_parts_info No. " .. tostring(i));
 			goto continue;
 		end
 
@@ -952,19 +952,19 @@ function this.update_parts(enemy, monster, physical_param)
 
 				local part_current = get_current_method:call(part_vital);
 				if part_current == nil then
-					error_handler.report("large_monster.update_parts", string.format("Failed to Access Data: enemy_parts_info No. %d -> part_current", i));
+					error_handler.report("large_monster.update_parts", string.format("Failed to access Data: enemy_parts_info No. %d -> part_current", i));
 				end
 
 				local part_max = get_max_method:call(part_vital);
 				if part_max == nil then
-					error_handler.report("large_monster.update_parts", string.format("Failed to Access Data: enemy_parts_info No. %d -> part_max", i));
+					error_handler.report("large_monster.update_parts", string.format("Failed to access Data: enemy_parts_info No. %d -> part_max", i));
 				end
 
 				if part_current ~= nil and part_max ~= nil then
 					body_part.update_flinch(part, part_current, part_max);
 				end
 			else
-				error_handler.report("large_monster.update_parts", string.format("Failed to Access Data: enemy_parts_info No. %d -> part_vital", i));
+				error_handler.report("large_monster.update_parts", string.format("Failed to access Data: enemy_parts_info No. %d -> part_vital", i));
 			end
 		end
 
@@ -977,29 +977,29 @@ function this.update_parts(enemy, monster, physical_param)
 
 				local part_break_current = get_current_method:call(part_break_vital);
 				if part_break_current == nil then
-					error_handler.report("large_monster.update_parts", string.format("Failed to Access Data: enemy_parts_info No. %d -> part_break_current", i));
+					error_handler.report("large_monster.update_parts", string.format("Failed to access Data: enemy_parts_info No. %d -> part_break_current", i));
 				end
 
 				local part_break_max = get_max_method:call(part_break_vital);
 				if part_break_max == nil then
-					error_handler.report("large_monster.update_parts", string.format("Failed to Access Data: enemy_parts_info No. %d -> part_break_max", i));
+					error_handler.report("large_monster.update_parts", string.format("Failed to access Data: enemy_parts_info No. %d -> part_break_max", i));
 				end
 
 				local part_break_count = get_parts_break_damage_level_method:call(enemy_parts_info);
 				if part_break_count == nil then
-					error_handler.report("large_monster.update_parts", string.format("Failed to Access Data: enemy_parts_info No. %d -> part_break_count", i));
+					error_handler.report("large_monster.update_parts", string.format("Failed to access Data: enemy_parts_info No. %d -> part_break_count", i));
 				end
 
 				local part_break_max_count = get_parts_break_damage_max_level_method:call(enemy_parts_info);
 				if part_break_max_count == nil then
-					error_handler.report("large_monster.update_parts", string.format("Failed to Access Data: enemy_parts_info No. %d -> part_break_max_count", i));
+					error_handler.report("large_monster.update_parts", string.format("Failed to access Data: enemy_parts_info No. %d -> part_break_max_count", i));
 				end
 
 				if part_break_current ~= nil and part_break_max ~= nil and part_break_count ~= nil and part_break_max_count ~= nil then
 					body_part.update_break(part, part_break_current, part_break_max, part_break_count, part_break_max_count);
 				end
 			else
-				error_handler.report("large_monster.update_parts", string.format("Failed to Access Data: enemy_parts_info No. %d -> part_break_vital", i));
+				error_handler.report("large_monster.update_parts", string.format("Failed to access Data: enemy_parts_info No. %d -> part_break_vital", i));
 			end
 		end
 
@@ -1012,24 +1012,24 @@ function this.update_parts(enemy, monster, physical_param)
 
 				local part_loss_current = get_current_method:call(part_loss_vital);
 				if part_loss_current == nil then
-					error_handler.report("large_monster.update_parts", string.format("Failed to Access Data: enemy_parts_info No. %d -> part_loss_current", i));
+					error_handler.report("large_monster.update_parts", string.format("Failed to access Data: enemy_parts_info No. %d -> part_loss_current", i));
 				end
 
 				local part_loss_max = get_max_method:call(part_loss_vital);
 				if part_loss_max == nil then
-					error_handler.report("large_monster.update_parts", string.format("Failed to Access Data: enemy_parts_info No. %d -> part_loss_max", i));
+					error_handler.report("large_monster.update_parts", string.format("Failed to access Data: enemy_parts_info No. %d -> part_loss_max", i));
 				end
 
 				local is_severed = get_parts_loss_state_method:call(enemy_parts_info);
 				if is_severed == nil then
-					error_handler.report("large_monster.update_parts", string.format("Failed to Access Data: enemy_parts_info No. %d -> is_severed", i));
+					error_handler.report("large_monster.update_parts", string.format("Failed to access Data: enemy_parts_info No. %d -> is_severed", i));
 				end
 				
 				if part_loss_current ~= nil and part_loss_max ~= nil and is_severed ~= nil then	
 					body_part.update_loss(part, part_loss_current, part_loss_max, is_severed);
 				end
 			else
-				error_handler.report("large_monster.update_parts", string.format("Failed to Access Data: enemy_parts_info No. %d -> part_loss_vital", i));
+				error_handler.report("large_monster.update_parts", string.format("Failed to access Data: enemy_parts_info No. %d -> part_loss_vital", i));
 			end
 		end
 
@@ -1067,13 +1067,13 @@ function this.update_anomaly_parts(enemy, monster, mystery_param)
 
 	local core_parts_array = core_parts_array_field:get_data(mystery_param);
 	if core_parts_array == nil then
-		error_handler.report("large_monster.update_anomaly_parts", "Failed to Access Data: core_parts_array");
+		error_handler.report("large_monster.update_anomaly_parts", "Failed to access Data: core_parts_array");
 		return;
 	end
 
 	local core_parts_array_length = length_method:call(core_parts_array);
 	if core_parts_array_length == nil then
-		error_handler.report("large_monster.update_anomaly_parts", "Failed to Access Data: core_parts_array_length");
+		error_handler.report("large_monster.update_anomaly_parts", "Failed to access Data: core_parts_array_length");
 		return;
 	end
 
@@ -1082,7 +1082,7 @@ function this.update_anomaly_parts(enemy, monster, mystery_param)
 
 		local core_part = get_value_method:call(core_parts_array, i);
 		if core_part == nil then
-			error_handler.report("large_monster.update_anomaly_parts", "Failed to Access Data: core_part No. " .. tostring(i));
+			error_handler.report("large_monster.update_anomaly_parts", "Failed to access Data: core_part No. " .. tostring(i));
 			goto continue;
 		end
 
@@ -1099,13 +1099,13 @@ function this.update_anomaly_parts(enemy, monster, mystery_param)
 
 		local part_vital = core_parts_get_vital_method:call(core_part);
 		if part_vital == nil then
-			error_handler.report("large_monster.update_anomaly_parts", "Failed to Access Data: part_vital No. " .. tostring(i));
+			error_handler.report("large_monster.update_anomaly_parts", "Failed to access Data: part_vital No. " .. tostring(i));
 			return;
 		end
 
 		local part_is_active = core_parts_get_is_active_method:call(core_part);
 		if part_is_active == nil then
-			error_handler.report("large_monster.update_anomaly_parts", "Failed to Access Data: part_is_active No. " .. tostring(i));
+			error_handler.report("large_monster.update_anomaly_parts", "Failed to access Data: part_is_active No. " .. tostring(i));
 			return;
 		end
 
@@ -1113,19 +1113,19 @@ function this.update_anomaly_parts(enemy, monster, mystery_param)
 
 		local part_current = get_current_method:call(part_vital);
 		if part_current == nil then
-			error_handler.report("large_monster.update_anomaly_parts", "Failed to Access Data: part_current No. " .. tostring(i));
+			error_handler.report("large_monster.update_anomaly_parts", "Failed to access Data: part_current No. " .. tostring(i));
 			goto continue;
 		end
 
 		local part_max = get_max_method:call(part_vital);
 		if part_max == nil then
-			error_handler.report("large_monster.update_anomaly_parts", "Failed to Access Data: part_max No. " .. tostring(i));
+			error_handler.report("large_monster.update_anomaly_parts", "Failed to access Data: part_max No. " .. tostring(i));
 			goto continue;
 		end
 
 		local part_is_enabled = is_enable_method:call(part_vital);
 		if part_is_enabled == nil then
-			error_handler.report("large_monster.update_anomaly_parts", "Failed to Access Data: part_is_enabled No. " .. tostring(i));
+			error_handler.report("large_monster.update_anomaly_parts", "Failed to access Data: part_is_enabled No. " .. tostring(i));
 			goto continue;
 		end
 
@@ -1147,19 +1147,19 @@ function this.update_highlighted_id()
 	end
 
 	if singletons.gui_manager == nil then
-		error_handler.report("large_monster.update_highlighted_id", "Failed to Access Data: gui_manager");
+		error_handler.report("large_monster.update_highlighted_id", "Failed to access Data: gui_manager");
 		return;
 	end
 
 	local gui_hud_target_camera = get_tg_camera_method:call(singletons.gui_manager);
 	if gui_hud_target_camera == nil then
-		error_handler.report("large_monster.update_highlighted_id", "Failed to Access Data: gui_hud_target_camera");
+		error_handler.report("large_monster.update_highlighted_id", "Failed to access Data: gui_hud_target_camera");
 		return;
 	end
 
 	local highlighted_id = get_targeting_enemy_index_field:get_data(gui_hud_target_camera);
 	if highlighted_id == nil then
-		error_handler.report("large_monster_UI.update_highlighted_id", "Failed to Access Data: highlighted_id");
+		error_handler.report("large_monster_UI.update_highlighted_id", "Failed to access Data: highlighted_id");
 		return;
 	end
 

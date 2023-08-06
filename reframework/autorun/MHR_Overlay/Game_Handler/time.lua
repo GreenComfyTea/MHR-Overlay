@@ -97,14 +97,14 @@ function this.update_quest_time()
 
 	local quest_time_elapsed_minutes = get_quest_elapsed_time_min_method:call(singletons.quest_manager);
 	if quest_time_elapsed_minutes == nil then
-		error_handler.report("time.update_quest_time", "Failed to Access Data: quest_time_elapsed_minutes");
+		error_handler.report("time.update_quest_time", "Failed to access Data: quest_time_elapsed_minutes");
 	else 
 		this.elapsed_minutes = quest_time_elapsed_minutes;
 	end
 
 	local quest_time_total_elapsed_seconds = get_quest_elapsed_time_sec_method:call(singletons.quest_manager);
 	if quest_time_total_elapsed_seconds == nil then
-		error_handler.report("time.update_quest_time", "Failed to Access Data: quest_time_total_elapsed_seconds");
+		error_handler.report("time.update_quest_time", "Failed to access Data: quest_time_total_elapsed_seconds");
 	else
 		this.total_elapsed_seconds = quest_time_total_elapsed_seconds;
 	end

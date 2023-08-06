@@ -98,7 +98,7 @@ local get_enemy_name_message_method = message_manager_type_def:get_method("getEn
 function this.init(monster, enemy)
 	local enemy_type = enemy_type_field:get_data(enemy);
 	if enemy_type == nil then
-		error_handler.report("small_monster.init", "Failed to Access Data: enemy_type");
+		error_handler.report("small_monster.init", "Failed to access Data: enemy_type");
 		return;
 	end
 
@@ -106,7 +106,7 @@ function this.init(monster, enemy)
 
 	local enemy_name = get_enemy_name_message_method:call(singletons.message_manager, enemy_type);
 	if enemy_name == nil then
-		error_handler.report("small_monster.init", "Failed to Access Data: enemy_name");
+		error_handler.report("small_monster.init", "Failed to access Data: enemy_name");
 	end
 
 	monster.name = enemy_name;
@@ -179,7 +179,7 @@ function this.update_position(enemy, monster)
 
 	local position = get_pos_method:call(enemy);
 	if position == nil then
-		error_handler.report("small_monster.update_position", "Failed to Access Data: position");
+		error_handler.report("small_monster.update_position", "Failed to access Data: position");
 	end
 	
 	monster.position = position;
@@ -194,7 +194,7 @@ function this.update(enemy, monster)
 	if dead_or_captured ~= nil then
 		monster.dead_or_captured = dead_or_captured;
 	else
-		error_handler.report("small_monster.update", "Failed to Access Data: dead_or_captured");
+		error_handler.report("small_monster.update", "Failed to access Data: dead_or_captured");
 	end
 
 	pcall(ailments.update_ailments, enemy, monster);
@@ -207,13 +207,13 @@ function this.update_health(enemy, monster)
 
 	local physical_param = get_physical_param_method:call(enemy);
 	if physical_param == nil then
-		error_handler.report("small_monster.update_health", "Failed to Access Data: physical_param");
+		error_handler.report("small_monster.update_health", "Failed to access Data: physical_param");
 		return;
 	end
 
 	local vital_param = get_vital_method:call(physical_param, 0, 0);
 	if vital_param == nil then
-		error_handler.report("small_monster.update_health", "Failed to Access Data: vital_param");
+		error_handler.report("small_monster.update_health", "Failed to access Data: vital_param");
 		return;
 	end
 
@@ -221,7 +221,7 @@ function this.update_health(enemy, monster)
 	if health ~= nil then
 		monster.health = health;
 	else
-		error_handler.report("small_monster.update_health", "Failed to Access Data: health");
+		error_handler.report("small_monster.update_health", "Failed to access Data: health");
 		return;
 	end
 
@@ -229,7 +229,7 @@ function this.update_health(enemy, monster)
 	if max_health ~= nil then
 		monster.max_health = max_health;
 	else
-		error_handler.report("small_monster.update_health", "Failed to Access Data: max_health");
+		error_handler.report("small_monster.update_health", "Failed to access Data: max_health");
 		return;
 	end
 
