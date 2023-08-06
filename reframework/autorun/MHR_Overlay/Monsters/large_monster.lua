@@ -20,6 +20,7 @@ local time;
 local body_part;
 local part_names;
 local error_handler;
+local quest_status;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -54,7 +55,14 @@ local ValueType = ValueType;
 local package = package;
 
 this.list = {};
-this.higlighted_id = -1;
+this.highlighted_id = -1;
+
+this.monster_ids = {
+	chameleos = 25,
+	toadversary = 131,
+	lucent_nargacuga = 549,
+	risen_chameleos = 2073
+}
 
 function this.new(enemy)
 	local monster = {};
@@ -65,10 +73,11 @@ function this.new(enemy)
 	monster.id = 0;
 	monster.unique_id = 0;
 
-	monster.health = 0;
-	monster.max_health = 999999;
+	monster.health = 100000;
+	monster.max_health = 100000;
 	monster.health_percentage = 0;
 	monster.missing_health = 0;
+	monster.is_health_initialized = false;
 
 	monster.is_capturable = true;
 	monster.capture_health = 0;
@@ -111,17 +120,16 @@ function this.new(enemy)
 	monster.distance = 0;
 
 	monster.name = "Large Monster";
-	monster.size = 1;
-	monster.small_border = 0;
-	monster.big_border = 5;
-	monster.king_border = 10;
+	monster.size = -1;
+	monster.small_border = -1;
+	monster.big_border = -1;
+	monster.king_border = -1;
 	monster.crown = "";
 
 	monster.is_anomaly = false;
 	monster.parts = {};
 
 	monster.ailments = ailments.init_ailments();
-
 	monster.rider_id = -1;
 
 	monster.dynamic_UI = {};
@@ -134,17 +142,12 @@ function this.new(enemy)
 	this.init_UI(monster, monster.highlighted_UI, config.current_config.large_monster_UI.highlighted);
 
 	this.update_position(enemy, monster);
-	
-	local physical_param = this.update_health(enemy, monster);
-
 	this.update_stamina(enemy, monster, nil);
 	this.update_stamina_timer(enemy, monster, nil);
 
 	this.update_rage(enemy, monster, nil);
 	this.update_rage_timer(enemy, monster, nil);
-
 	this.update(enemy, monster);
-	pcall(this.update_parts, enemy, monster, physical_param);
 	pcall(this.update_anomaly_parts, enemy, monster, nil);
 
 	if this.list[enemy] == nil then
@@ -159,6 +162,7 @@ function this.get_monster(enemy)
 	if monster == nil then
 		monster = this.new(enemy);
 	end
+	
 	return monster;
 end
 
@@ -266,78 +270,80 @@ local tg_camera_type_def = get_tg_camera_method:get_return_type();
 local get_targeting_enemy_index_field = tg_camera_type_def:get_field("OldTargetingEmIndex");
 
 function this.init(monster, enemy)
-	local enemy_type = enemy_type_field:get_data(enemy);
-	if enemy_type == nil then
+	local monster_id = enemy_type_field:get_data(enemy);
+	if monster_id == nil then
 		error_handler.report("large_monster.init", "Failed to Access Data: enemy_type");
 		return;
 	end
 
-	monster.id = enemy_type;
+	monster.id = monster_id;
 
-	if monster.id == 549 or monster.id == 25 or monster.id == 2073 then
+	if monster_id == this.monster_ids.lucent_nargacuga or monster_id == this.monster_ids.chameleos or monster_id == this.monster_ids.risen_chameleos then
 		monster.can_go_stealth = true;
 	end
 
-	local enemy_name = get_enemy_name_message_method:call(singletons.message_manager, enemy_type);
+	local enemy_name = get_enemy_name_message_method:call(singletons.message_manager, monster_id);
 	if enemy_name ~= nil then
 		monster.name = enemy_name;
 	else
 		error_handler.report("large_monster.init", "Failed to Access Data: enemy_name");
 	end
 
-	local set_info = get_set_info_method:call(enemy);
-	if set_info ~= nil then
-		local unique_id = get_unique_id_method:call(set_info);
-		if unique_id ~= nil then
-			monster.unique_id = unique_id;
+	if monster_id ~= this.monster_ids.toadversary then
+		local set_info = get_set_info_method:call(enemy);
+		if set_info ~= nil then
+			local unique_id = get_unique_id_method:call(set_info);
+			if unique_id ~= nil then
+				monster.unique_id = unique_id;
+			else
+				error_handler.report("large_monster.init", "Failed to Access Data: unique_id");
+			end
 		else
-			error_handler.report("large_monster.init", "Failed to Access Data: unique_id");
+			error_handler.report("large_monster.init", "Failed to Access Data: set_info");
 		end
-	else
-		error_handler.report("large_monster.init", "Failed to Access Data: set_info");
-	end
 
-	local size_info = find_enemy_size_info_method:call(singletons.enemy_manager, enemy_type);
-	if size_info ~= nil then
-		local small_border = get_small_border_method:call(size_info);
-		local big_border = get_big_border_method:call(size_info);
-		local king_border = get_king_border_method:call(size_info);
+		local size_info = find_enemy_size_info_method:call(singletons.enemy_manager, monster_id);
+		if size_info ~= nil then
+			local small_border = get_small_border_method:call(size_info);
+			local big_border = get_big_border_method:call(size_info);
+			local king_border = get_king_border_method:call(size_info);
 
-		local size = get_monster_list_register_scale_method:call(enemy);
+			local size = get_monster_list_register_scale_method:call(enemy);
 
-		if small_border ~= nil then
-			monster.small_border = small_border;
+			if small_border ~= nil then
+				monster.small_border = small_border;
+			else
+				error_handler.report("large_monster.init", "Failed to Access Data: small_border");
+			end
+
+			if big_border ~= nil then
+				monster.big_border = big_border;
+			else
+				error_handler.report("large_monster.init", "Failed to Access Data: big_border");
+			end
+
+			if king_border ~= nil then
+				monster.king_border = king_border;
+			else
+				error_handler.report("large_monster.init", "Failed to Access Data: king_border");
+			end
+
+			if size ~= nil then
+				monster.size = size;
+			else
+				error_handler.report("large_monster.init", "Failed to Access Data: size");
+			end
+
+			if monster.size <= monster.small_border then
+				monster.crown = language.current_language.UI.mini;
+			elseif monster.size >= monster.king_border then
+				monster.crown = language.current_language.UI.gold;
+			elseif monster.size >= monster.big_border then
+				monster.crown = language.current_language.UI.silver;
+			end
 		else
-			error_handler.report("large_monster.init", "Failed to Access Data: small_border");
+			error_handler.report("large_monster.init", "Failed to Access Data: size_info");
 		end
-
-		if big_border ~= nil then
-			monster.big_border = big_border;
-		else
-			error_handler.report("large_monster.init", "Failed to Access Data: big_border");
-		end
-
-		if king_border ~= nil then
-			monster.king_border = king_border;
-		else
-			error_handler.report("large_monster.init", "Failed to Access Data: king_border");
-		end
-
-		if size ~= nil then
-			monster.size = size;
-		else
-			error_handler.report("large_monster.init", "Failed to Access Data: size");
-		end
-
-		if monster.size <= monster.small_border then
-			monster.crown = language.current_language.UI.mini;
-		elseif monster.size >= monster.king_border then
-			monster.crown = language.current_language.UI.gold;
-		elseif monster.size >= monster.big_border then
-			monster.crown = language.current_language.UI.silver;
-		end
-	else
-		error_handler.report("large_monster.init", "Failed to Access Data: size_info");
 	end
 
 	local is_capture_enable = true;
@@ -360,9 +366,7 @@ function this.init(monster, enemy)
 		error_handler.report("large_monster.init", "Failed to Access Data: damage_param");
 	end
 
-	--local curia_param = enemy:get_field("<CuriaParam>k__BackingField");
 	local mystery_param =  get_mystery_param_method:call(enemy);
-
 	local is_anomaly = mystery_param ~= nil;
 
 	monster.is_anomaly = is_anomaly;
@@ -526,13 +530,13 @@ function this.update(enemy, monster)
 		error_handler.report("large_monster.update", "Failed to Access Data: is_disp_icon_mini_map");
 	end
 
-	if monster.id == 549 or monster.id == 25 or monster.id == 2073 then
+	if monster.id == this.monster_ids.lucent_nargacuga or monster.id == this.monster_ids.chameleos or monster.id == this.monster_ids.risen_chameleos then
 		monster.can_go_stealth = true;
 	end
 
 	if monster.can_go_stealth then
 		-- Lucent Nargacuga
-		if monster.id == 549 then
+		if monster.id == this.monster_ids.lucent_nargacuga then
 			local is_stealth = is_stealth_method:call(enemy);
 			if is_stealth == nil then
 				monster.is_stealth = is_stealth;
@@ -541,7 +545,7 @@ function this.update(enemy, monster)
 			end
 			
 		-- Chameleos and Risen Chameleos
-		elseif monster.id == 25 or monster.id == 2073 then
+		elseif monster.id == this.monster_ids.chameleos or monster.id == this.monster_ids.risen_chameleos then
 			local stealth_controller = get_stealth_ctrl_method:call(enemy);
 			if stealth_controller ~= nil then
 				local status = get_current_status_method:call(stealth_controller);
@@ -1135,33 +1139,31 @@ function this.update_anomaly_parts(enemy, monster, mystery_param)
 	end
 end
 
-function this.update_higlighted_id()
+function this.update_highlighted_id()
+	if quest_status.flow_state <= quest_status.flow_states.IN_LOBBY
+	or quest_status.flow_state == quest_status.flow_states.LOADING_QUEST
+	or quest_status.flow_state >= quest_status.flow_states.QUEST_END_ANIMATION then
+		return;
+	end
+
 	if singletons.gui_manager == nil then
-		error_handler.report("large_monster.update_higlighted_id", "Failed to Access Data: gui_manager");
+		error_handler.report("large_monster.update_highlighted_id", "Failed to Access Data: gui_manager");
 		return;
 	end
 
-	--xy = xy .. tostring(1.2) .. "\n";
-	--xy = xy .. tostring(get_tg_camera_method) .. "\n";
-	--xy = xy .. tostring(singletons.gui_manager) .. "\n";
 	local gui_hud_target_camera = get_tg_camera_method:call(singletons.gui_manager);
-	--xy = xy .. tostring(1.3) .. "\n";
 	if gui_hud_target_camera == nil then
-		error_handler.report("large_monster.update_higlighted_id", "Failed to Access Data: gui_hud_target_camera");
+		error_handler.report("large_monster.update_highlighted_id", "Failed to Access Data: gui_hud_target_camera");
 		return;
 	end
 
-	--xy = xy .. tostring(1.4) .. "\n";
 	local highlighted_id = get_targeting_enemy_index_field:get_data(gui_hud_target_camera);
-	--xy = xy .. tostring(1.5) .. "\n";
 	if highlighted_id == nil then
-	--	xy = xy .. tostring(1.6) .. "\n";
-		error_handler.report("large_monster_UI.update_higlighted_id", "Failed to Access Data: highlighted_id");
+		error_handler.report("large_monster_UI.update_highlighted_id", "Failed to Access Data: highlighted_id");
 		return;
 	end
 
 	this.highlighted_id = highlighted_id;
-	--xy = xy .. tostring(1.8) .. "\n";
 end
 
 function this.draw(monster, type, cached_config, position_on_screen, opacity_scale)
@@ -1183,20 +1185,29 @@ function this.draw(monster, type, cached_config, position_on_screen, opacity_sca
 	end
 
 	if cached_config.monster_name_label.include.monster_id then
-		monster_name_text = monster_name_text .. tostring(monster.id) .. " ";
+		monster_name_text = string.format("%s%s ", monster_name_text, tostring(monster.id));
 	end
 
 	if cached_config.monster_name_label.include.crown and monster.crown ~= "" then
-		monster_name_text = monster_name_text .. string.format("%s ", monster.crown);
+		monster_name_text = string.format("%s%s ", monster_name_text, monster.crown);
 	end
 
-	if cached_config.monster_name_label.include.size then
-		monster_name_text = monster_name_text .. string.format("#%.0f ", 100 * monster.size);
+	if cached_config.monster_name_label.include.size and monster.size ~= -1 then
+		monster_name_text = string.format("%s#%.0f ", monster_name_text, 100 * monster.size);
 	end
+	
+	if cached_config.monster_name_label.include.crown_thresholds then
+		if monster.small_border ~= -1 then
+			monster_name_text = string.format("%s<=%.0f ", monster_name_text, 100 * monster.small_border);
+		end
 
-	if cached_config.monster_name_label.include.scrown_thresholds then
-		monster_name_text = monster_name_text .. string.format("<=%.0f >=%.0f >=%.0f", 100 * monster.small_border,
-			100 * monster.big_border, 100 * monster.king_border);
+		if monster.big_border ~= -1 then
+			monster_name_text = string.format("%s>=%.0f ", monster_name_text, 100 * monster.big_border);
+		end
+
+		if monster.king_border ~= -1 then
+			monster_name_text = string.format("%s>=%.0f ", monster_name_text, 100 * monster.king_border);
+		end
 	end
 
 	if monster.is_capturable and monster.health < monster.capture_health then
@@ -1272,6 +1283,8 @@ function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	utils = require("MHR_Overlay.Misc.utils");
 	body_part = require("MHR_Overlay.Monsters.body_part");
+	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
+
 	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
@@ -1290,7 +1303,7 @@ function this.init_dependencies()
 end
 
 function this.init_module()
-	time.new_timer(this.update_higlighted_id, 1/30);
+	time.new_timer(this.update_highlighted_id, 1/30);
 end
 
 return this;

@@ -115,7 +115,7 @@ function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 				if monster.health > highlighted_monster.health then
 					highlighted_monster = monster;
 				end
-	
+
 			elseif cached_config.highlighted.auto_highlight.mode == "Lowest Health Percentage" then
 				if monster.health_percentage < highlighted_monster.health_percentage then
 					highlighted_monster = monster;
@@ -139,7 +139,6 @@ function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 				highlighted_monster = monster;
 			end
 		end
-
 		table.insert(displayed_monsters, monster);
 		::continue::
 	end
