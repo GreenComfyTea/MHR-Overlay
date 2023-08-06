@@ -138,7 +138,6 @@ end
 
 function this.update_damage(player, damage_source_type, is_large_monster, damage_object)
 	if player == nil then
-		error_handler.report("players.update_damage", "Missing Parameter: player");
 		return;
 	end
 
@@ -556,29 +555,29 @@ function this.update_player_list_(hunter_info_field_)
 	end
 
 	-- other players
-	local player_info_list = hunter_info_field_:get_data(singletons.lobby_manager);
-	if player_info_list == nil then
-		error_handler.report("players.update_player_list_", "Failed to Access Data: player_info_list");
+	local player_info_array = hunter_info_field_:get_data(singletons.lobby_manager);
+	if player_info_array == nil then
+		error_handler.report("players.update_player_list_", "Failed to Access Data: player_info_array");
 		return;
 	end
 
-	local count = get_count_method:call(player_info_list);
+	local count = get_count_method:call(player_info_array);
 	if count == nil then
-		error_handler.report("players.update_player_list_", "Failed to Access Data: player_info_list -> count");
+		error_handler.report("players.update_player_list_", "Failed to Access Data: player_info_array -> count");
 		return;
 	end
 
 	for i = 0, count - 1 do
-		local player_info = get_item_method:call(player_info_list, i);
+		local player_info = get_item_method:call(player_info_array, i);
 		if player_info == nil then
 			error_handler.report("players.update_player_list_", "Failed to Access Data: player_info No. " .. tostring(i));
-			goto continue
+			goto continue;
 		end
 
 		local id = member_index_field:get_data(player_info);
 		if id == nil then
 			error_handler.report("players.update_player_list_", string.format("Failed to Access Data: player_info No. %d -> id", i));
-			goto continue
+			goto continue;
 		end
 
 		local hunter_rank = hunter_rank_field:get_data(player_info) or 0;
@@ -587,7 +586,7 @@ function this.update_player_list_(hunter_info_field_)
 		local name = name_field:get_data(player_info);
 		if name == nil then
 			error_handler.report("players.update_player_list_", string.format("Failed to Access Data: player_info No. %d -> name", i));
-			goto continue
+			goto continue;
 		end
 
 		local player = this.list[id];
