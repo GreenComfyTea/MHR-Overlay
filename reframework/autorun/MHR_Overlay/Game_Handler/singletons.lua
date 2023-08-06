@@ -65,10 +65,6 @@ function this.init()
 end
 
 function this.init_message_manager()
-	if this.message_manager ~= nil then
-		return;
-	end
-
 	this.message_manager = sdk.get_managed_singleton("snow.gui.MessageManager");
 	if this.message_manager == nil then
 		error_handler.report("singletons.init_message_manager", "Failed to Access Data: message_manager");
@@ -78,10 +74,6 @@ function this.init_message_manager()
 end
 
 function this.init_enemy_manager()
-	if this.enemy_manager ~= nil then
-		return;
-	end
-
 	this.enemy_manager = sdk.get_managed_singleton("snow.enemy.EnemyManager");
 	if this.enemy_manager == nil then
 		error_handler.report("singletons.init_enemy_manager", "Failed to Access Data: enemy_manager");
@@ -91,10 +83,6 @@ function this.init_enemy_manager()
 end
 
 function this.init_lobby_manager()
-	if this.lobby_manager ~= nil then
-		return;
-	end
-
 	this.lobby_manager = sdk.get_managed_singleton("snow.LobbyManager");
 	if this.lobby_manager == nil then
 		error_handler.report("singletons.init_lobby_manager", "Failed to Access Data: lobby_manager");
@@ -105,10 +93,6 @@ function this.init_lobby_manager()
 end
 
 function this.init_progress_manager()
-	if this.progress_manager ~= nil then
-		return;
-	end
-
 	this.progress_manager = sdk.get_managed_singleton("snow.progress.ProgressManager");
 	if this.progress_manager == nil then
 		error_handler.report("singletons.init_lobby_manager", "Failed to Access Data: progress_manager");
@@ -119,10 +103,6 @@ function this.init_progress_manager()
 end
 
 function this.init_quest_manager()
-	if this.quest_manager ~= nil then
-		return;
-	end
-
 	this.quest_manager = sdk.get_managed_singleton("snow.QuestManager");
 	if this.quest_manager == nil then
 		error_handler.report("singletons.init_quest_manager", "Failed to Access Data: quest_manager");
@@ -132,10 +112,6 @@ function this.init_quest_manager()
 end
 
 function this.init_player_manager()
-	if this.player_manager ~= nil then
-		return;
-	end
-
 	this.player_manager = sdk.get_managed_singleton("snow.player.PlayerManager");
 	if this.player_manager == nil then
 		error_handler.report("singletons.init_player_manager", "Failed to Access Data: player_manager");
@@ -145,10 +121,6 @@ function this.init_player_manager()
 end
 
 function this.init_village_area_manager()
-	if this.village_area_manager ~= nil then
-		return;
-	end
-
 	this.village_area_manager = sdk.get_managed_singleton("snow.VillageAreaManager");
 	if this.village_area_manager == nil then
 		error_handler.report("singletons.init_village_area_manager", "Failed to Access Data: village_area_manager");
@@ -158,10 +130,6 @@ function this.init_village_area_manager()
 end
 
 function this.init_gui_manager()
-	if this.gui_manager ~= nil then
-		return;
-	end
-
 	this.gui_manager = sdk.get_managed_singleton("snow.gui.GuiManager");
 	if this.gui_manager == nil then
 		error_handler.report("singletons.init_gui_manager", "Failed to Access Data: gui_manager");
@@ -171,10 +139,6 @@ function this.init_gui_manager()
 end
 
 function this.init_game_keyboard()
-	if this.game_keyboard ~= nil then
-		return;
-	end
-
 	this.game_keyboard = sdk.get_managed_singleton("snow.GameKeyboard");
 	if this.game_keyboard == nil then
 		error_handler.report("singletons.init_game_keyboard", "Failed to Access Data: game_keyboard");
@@ -184,10 +148,6 @@ function this.init_game_keyboard()
 end
 
 function this.init_scene_manager()
-	if this.scene_manager ~= nil then
-		return;
-	end
-
 	this.scene_manager = sdk.get_native_singleton("via.SceneManager");
 	if this.scene_manager == nil then
 		error_handler.report("singletons.init_scene_manager", "Failed to Access Data: scene_manager");
@@ -197,10 +157,6 @@ function this.init_scene_manager()
 end
 
 function this.init_game_manager()
-	if this.game_manager ~= nil then
-		return;
-	end
-
 	this.game_manager = sdk.get_managed_singleton("snow.SnowGameManager");
 	if this.game_manager == nil then
 		error_handler.report("singletons.init_game_manager", "Failed to Access Data: game_manager");
@@ -210,10 +166,6 @@ function this.init_game_manager()
 end
 
 function this.init_servant_manager()
-	if this.servant_manager ~= nil then
-		return;
-	end
-
 	this.servant_manager = sdk.get_managed_singleton("snow.ai.ServantManager");
 	if this.servant_manager == nil then
 		error_handler.report("singletons.init_servant_manager", "Failed to Access Data: servant_manager");
@@ -223,10 +175,6 @@ function this.init_servant_manager()
 end
 
 function this.init_otomo_manager()
-	if this.otomo_manager ~= nil then
-		return;
-	end
-
 	this.otomo_manager = sdk.get_managed_singleton("snow.otomo.OtomoManager");
 	if this.otomo_manager == nil then
 		error_handler.report("singletons.init_otomo_manager", "Failed to Access Data: otomo_manager");
