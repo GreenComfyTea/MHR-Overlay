@@ -456,6 +456,11 @@ function this.update_myself_position()
 		return;
 	end
 
+	if quest_status.flow_state == quest_status.flow_states.NONE
+	or quest_status.flow_state == quest_status.flow_states.CUTSCENE then
+		return;
+	end
+
 	local master_player = find_master_player_method:call(singletons.player_manager);
 	if master_player == nil then
 		error_handler.report("players.update_myself_position", "Failed to Access Data: master_player");
