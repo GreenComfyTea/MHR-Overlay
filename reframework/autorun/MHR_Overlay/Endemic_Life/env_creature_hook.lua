@@ -43,7 +43,7 @@ local update_method = environment_creature_base_type_def:get_method("update");
 function this.update(REcreature)
 	local creature = env_creature.get_creature(REcreature);
 	env_creature.update(REcreature, creature);
-	env_creature.update_position(REcreature, creature);
+	--env_creature.update_position(REcreature, creature);
 end
 
 function this.init_dependencies()
