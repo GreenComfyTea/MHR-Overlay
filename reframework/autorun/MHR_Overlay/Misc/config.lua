@@ -476,6 +476,11 @@ function this.init_default()
 					x = 10,
 					y = 40
 				},
+
+				relative_offset = {
+					x = 0,
+					y = 45
+				},
 	
 				spacing = {
 					x = 0,
@@ -7569,6 +7574,25 @@ function this.init_default()
 
 		debug = {
 			history_size = 64
+		},
+
+		customization_menu = {
+			visible = false,
+
+			position = {
+				x = 360,
+				y = 50
+			},
+
+			size = {
+				width = 785,
+				height = 610
+			},
+
+			pivot = {
+				x = 0,
+				y = 0
+			}
 		}
 	};
 end

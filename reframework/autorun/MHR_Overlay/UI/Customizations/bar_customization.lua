@@ -56,7 +56,7 @@ local displayed_directions = {};
 function this.init()
 	local default = language.default_language.customization_menu;
 	local current = language.current_language.customization_menu;
-	
+
 	outline_styles = {
 		default.inside,
 		default.center,
@@ -150,15 +150,13 @@ function this.draw(bar_name, bar)
 				bar.outline.offset, 0.1, -screen.height, screen.height, "%.1f");
 			bar_changed = bar_changed or changed;
 
-
 			changed, index = imgui.combo(cached_language.style,
-				utils.table.find_index(this.outline_styles,
-					bar.outline.style),
-					this.displayed_outline_styles);
+				utils.table.find_index(outline_styles, bar.outline.style),
+				displayed_outline_styles);
 			bar_changed = bar_changed or changed;
 
 			if changed then
-				bar.outline.style = this.outline_styles[index];
+				bar.outline.style = outline_styles[index];
 			end
 
 			imgui.tree_pop();

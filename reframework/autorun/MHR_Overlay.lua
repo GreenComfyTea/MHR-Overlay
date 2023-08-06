@@ -361,16 +361,14 @@ end
 -- #region
 re.on_draw_ui(function()
 	if imgui.button(language.current_language.customization_menu.mod_name .. " v" .. config.current_config.version) then
-		customization_menu.is_opened = not customization_menu.is_opened;
+		local cached_config = config.current_config.customization_menu;
+		cached_config.visible = not cached_config.visible;
+		config.save_current();
 	end
 end);
 
 re.on_frame(function()
-	if not reframework:is_drawing_ui() then
-		customization_menu.is_opened = false;
-	end
-
-	if customization_menu.is_opened then
+	if reframework:is_drawing_ui() then
 		pcall(customization_menu.draw);
 	end
 

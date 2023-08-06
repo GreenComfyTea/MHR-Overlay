@@ -65,7 +65,6 @@ local package = package;
 
 this.font = nil;
 this.full_font_range = {0x1, 0xFFFF, 0};
-this.is_opened = false;
 
 this.window_position = Vector2f.new(480, 200);
 this.window_pivot = Vector2f.new(0, 0);
@@ -326,21 +325,33 @@ function this.init()
 end
 
 function this.draw()
-	imgui.set_next_window_pos(this.window_position, 1 << 3, this.window_pivot);
-	imgui.set_next_window_size(this.window_size, 1 << 3);
-	
-	imgui.push_font(this.font);
-
-	this.is_opened = imgui.begin_window(
-		language.current_language.customization_menu.mod_name .. " v" .. config.current_config.version, this.is_opened,
-		this.window_flags);
-
-	if not this.is_opened then
-		imgui.pop_font();
-		imgui.end_window();
+	if not config.current_config.customization_menu.visible then
 		return;
 	end
 
+	local window_position = Vector2f.new(config.current_config.customization_menu.position.x, config.current_config.customization_menu.position.y);
+	local window_pivot = Vector2f.new(config.current_config.customization_menu.pivot.x, config.current_config.customization_menu.pivot.y);
+	local window_size = Vector2f.new(config.current_config.customization_menu.size.width, config.current_config.customization_menu.size.height);
+
+	imgui.set_next_window_pos(window_position, 1 << 3, window_pivot);
+	imgui.set_next_window_size(window_size, 1 << 3);
+	
+	imgui.push_font(this.font);
+
+	config.current_config.customization_menu.visible = imgui.begin_window(
+		string.format("%s v%s", language.current_language.customization_menu.mod_name, config.current_config.version),
+		config.current_config.customization_menu.visible,
+		this.window_flags);
+
+
+	if not config.current_config.customization_menu.visible then
+		imgui.pop_font();
+		imgui.end_window();
+		config.save_current();
+		return;
+	end
+
+	local window_changed = false;
 	local config_changed = false;
 	local language_changed = false;
 	local modifiers_changed = false;
@@ -356,6 +367,28 @@ function this.draw()
 	local buff_UI_changed = false;
 	local debug_changed = false;
 	local apply_font_requested = false;
+
+	local new_window_position = imgui.get_window_pos();
+	if window_position.x ~= new_window_position.x or window_position.y ~= new_window_position.y then
+		window_changed = window_changed or true;
+
+		config.current_config.customization_menu.position.x = new_window_position.x;
+		config.current_config.customization_menu.position.y = new_window_position.y;
+	end
+
+	local new_window_size = imgui.get_window_size();
+	if window_size.x ~= new_window_size.x or window_size.y ~= new_window_size.y then
+		window_changed = window_changed or true;
+
+		config.current_config.customization_menu.size.width = new_window_size.x;
+		config.current_config.customization_menu.size.height = new_window_size.y;
+	end
+
+	xy = string.format("%s", utils.vec2.tostring(window_position));
+
+	local new_window_size = imgui.get_window_size();
+	window_changed = window_changed or new_window_size.x ~= window_size.x or new_window_size.y ~= window_size.y;
+	xy = xy .. string.format("\n%s", utils.vec2.tostring(window_size));
 
 	config_changed, apply_font_requested = this.draw_config();
 	modules_changed = this.draw_modules();
@@ -446,11 +479,12 @@ function this.draw()
 		this.reload_font();
 	end
 
-	if modules_changed or global_settings_changed or small_monster_UI_changed or large_monster_dynamic_UI_changed or
+	if window_changed or modules_changed or global_settings_changed or small_monster_UI_changed or large_monster_dynamic_UI_changed or
 		large_monster_static_UI_changed or large_monster_highlighted_UI_changed or time_UI_changed or damage_meter_UI_changed or
 		endemic_life_UI_changed or buff_UI_changed or modifiers_changed or config_changed or debug_changed then
 		config.save_current();
 	end
+
 end
 
 function this.draw_config()
@@ -2143,7 +2177,7 @@ function this.draw_endemic_life_UI()
 		end
 
 		changed = label_customization.draw(
-			language.current_language.customization_menu.creature_name_label, cached_config.creature_name_label.visibility);
+			language.current_language.customization_menu.creature_name_label, cached_config.creature_name_label);
 
 		config_changed = config_changed or changed;
 
