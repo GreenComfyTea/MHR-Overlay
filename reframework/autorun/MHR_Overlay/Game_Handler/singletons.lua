@@ -242,6 +242,7 @@ function this.init_dependencies()
 end
 
 function this.init_module()
+	this.init();
 	time.new_timer(this.init, 1);
 end
 
