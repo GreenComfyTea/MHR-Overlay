@@ -164,7 +164,7 @@ local vital_param_type = get_vital_method:get_return_type();
 local get_current_method = vital_param_type:get_method("get_Current");
 local get_max_method = vital_param_type:get_method("get_Max");
 
-local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
+local get_pos_method = enemy_character_base_type_def:get_method("get_Pos");
 
 function this.update_position(enemy, monster)
 	local cached_config = config.current_config.small_monster_UI;
@@ -177,7 +177,8 @@ function this.update_position(enemy, monster)
 		return;
 	end
 
-	local position = get_pos_field:call(enemy);
+
+	local position = get_pos_method:call(enemy);
 	if position == nil then
 		error_handler.report("small_monster.update_position", "Failed to Access Data: position");
 	end
