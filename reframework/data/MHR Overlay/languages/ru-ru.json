@@ -112,6 +112,7 @@
         "damage_meter_UI": "Интерфейс модуля урона",
         "damage_percentage_label": "Метка урона в процентах",
         "damage_value_label": "Метка значений урона",
+        "debug": "Debug",
         "debug_errors": "Debug Errors",
         "default_state": "Состояние по умолчанию",
         "delete": "Удалить",

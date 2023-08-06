@@ -112,6 +112,7 @@
         "damage_meter_UI": "傷害量計算 UI",
         "damage_percentage_label": "傷害量百分比",
         "damage_value_label": "傷害量",
+        "debug": "Debug",
         "debug_errors": "Debug Errors",
         "default_state": "Default State",
         "delete": "Delete",

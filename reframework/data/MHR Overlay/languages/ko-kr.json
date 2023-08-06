@@ -112,6 +112,7 @@
         "damage_meter_UI": "대미지 미터 UI",
         "damage_percentage_label": "대미지 비율 정보",
         "damage_value_label": "대미지 값 정보",
+        "debug": "Debug",
         "debug_errors": "Debug Errors",
         "default_state": "기본 상태",
         "delete": "삭제하기",
