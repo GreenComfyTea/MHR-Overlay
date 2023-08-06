@@ -384,11 +384,8 @@ function this.draw()
 		config.current_config.customization_menu.size.height = new_window_size.y;
 	end
 
-	xy = string.format("%s", utils.vec2.tostring(window_position));
-
 	local new_window_size = imgui.get_window_size();
 	window_changed = window_changed or new_window_size.x ~= window_size.x or new_window_size.y ~= window_size.y;
-	xy = xy .. string.format("\n%s", utils.vec2.tostring(window_size));
 
 	config_changed, apply_font_requested = this.draw_config();
 	modules_changed = this.draw_modules();
@@ -2322,7 +2319,6 @@ function this.draw_debug()
 				imgui.same_line();
 				imgui.text(error.message);
 			end
-	
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.history) then
