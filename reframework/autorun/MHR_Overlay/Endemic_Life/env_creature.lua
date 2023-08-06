@@ -86,10 +86,12 @@ function this.init(creature, REcreature)
 	end
 
 	local creature_name = get_env_creature_name_message_method:call(singletons.message_manager, creature_type);
-	if creature_name ~= nil then
+	if creature_name == nil then
 		error_handler.report("env_creature.init", "Failed to Access Data: creature_name");
-		creature.name = creature_name;
+		return;
 	end
+
+	creature.name = creature_name;
 end
 
 function this.init_UI(creature)
