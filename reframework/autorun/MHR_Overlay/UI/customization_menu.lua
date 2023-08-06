@@ -2307,13 +2307,13 @@ function this.draw_debug()
 
 	if imgui.tree_node(language.current_language.customization_menu.debug) then
 		
+		imgui.text_colored(string.format("%s:", language.current_language.customization_menu.current_time), 0xFFAAAA66);
+		imgui.same_line();
+		imgui.text(string.format("%.3fs", time.total_elapsed_script_seconds));
+
 		if error_handler.is_empty then
 			imgui.text(language.current_language.customization_menu.everything_seems_to_be_ok);
 		else
-			imgui.text_colored("Current Script Time:", 0xFFAAAA66);
-			imgui.same_line();
-			imgui.text(string.format("%.3fs", time.total_elapsed_script_seconds));
-
 			for error_key, error in pairs(error_handler.list) do
 
 				imgui.button(string.format("%.3fs", error.time));
@@ -2325,7 +2325,7 @@ function this.draw_debug()
 	
 		end
 
-		if imgui.tree_node(language.current_language.customization_menu.error_history) then
+		if imgui.tree_node(language.current_language.customization_menu.history) then
 
 			changed, cached_config.history_size = imgui.drag_int(
 				language.current_language.customization_menu.history_size, cached_config.history_size, 1, 0, 1024);

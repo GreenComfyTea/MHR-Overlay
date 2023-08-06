@@ -611,8 +611,9 @@ this.default_language = {
 		right_alignment_shift = "Right Alignment Shift",
 
 		debug = "Debug",
+		current_time = "Current Time",
 		everything_seems_to_be_ok = "Everything seems to be OK!",
-		error_history = "Error History",
+		history = "History",
 		history_size = "History Size"
 	}
 };
