@@ -147,7 +147,7 @@ function this.stock_damage()
 		local damage_param = get_damage_param_method:call(enemy);
 		if damage_param == nil then
 			error_handler.report("ailment_hook.stock_damage", "Failed to access Data: small_monster -> damage_param");
-			goto continue
+			goto continue;
 		end
 
 		local poison_param = poison_param_field:get_data(damage_param);

@@ -282,7 +282,7 @@ function this.update_servant_otomos()
 		local servant_otomo = otomo_get_item_method:call(servant_otomo_list, i);
 		if servant_otomo == nil then
 			error_handler.report("non_players.update_servant_otomos", "Failed to access Data: servant_otomo No. " .. tostring(i));
-			goto continue
+			goto continue;
 		end
 
 		local otomo_create_data = servant_otomo:call("get_OtCreateData");

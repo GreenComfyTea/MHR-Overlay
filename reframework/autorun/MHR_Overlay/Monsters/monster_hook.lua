@@ -129,7 +129,7 @@ function this.update_large_monster(enemy)
 	-- this is the VERY LEAST thing we should do all the time
 	-- so the position doesn't lag all over the place
 	-- due to how infrequently we update the monster(s).
-	--large_monster.update_position(enemy, monster);
+	large_monster.update_position(enemy, monster);
 
 	if not config.current_config.global_settings.performance.prioritize_large_monsters and updated_monsters[enemy] then
 		return;
@@ -174,7 +174,7 @@ function this.update_small_monster(enemy)
 	-- this is the VERY LEAST thing we should do all the time
 	-- so the position doesn't lag all over the place
 	-- due to how infrequently we update the monster(s).
-	--small_monster.update_position(enemy, monster);
+	small_monster.update_position(enemy, monster);
 
 	if updated_monsters[enemy] then
 		return;

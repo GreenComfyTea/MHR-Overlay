@@ -56,24 +56,24 @@ function this.draw(monster, ailment_buildup_UI, cached_config, ailment_buildups_
 	for id, ailment in pairs(monster.ailments) do
 		if id == ailments.stun_id then
 			if not cached_config.filter.stun then
-				goto continue
+				goto continue;
 			end
 
 		elseif id == ailments.poison_id then
 			if not cached_config.filter.poison then
-				goto continue
+				goto continue;
 			end
 		elseif id == ailments.blast_id then
 			if not cached_config.filter.blast then
-				goto continue
+				goto continue;
 			end
 		else
-			goto continue
+			goto continue;
 		end
 
 		if cached_config.settings.time_limit ~= 0 and
 			time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit then
-			goto continue
+			goto continue;
 		end
 
 
@@ -154,7 +154,7 @@ function this.draw(monster, ailment_buildup_UI, cached_config, ailment_buildups_
 		end
 
 		if total_buildup == 0 then
-			goto continue
+			goto continue;
 		end
 
 		if cached_config.sorting.type == "Normal" then

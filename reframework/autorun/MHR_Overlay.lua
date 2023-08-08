@@ -247,12 +247,9 @@ local function draw_modules(module_visibility_config, flow_state_name)
 
 	local large_monster_UI_config = config.current_config.large_monster_UI;
 
-	local dynamic_enabled = large_monster_UI_config.dynamic.enabled and
-		module_visibility_config.large_monster_dynamic_UI;
-	local static_enabled = large_monster_UI_config.static.enabled and
-		module_visibility_config.large_monster_static_UI;
-	local highlighted_enabled = large_monster_UI_config.highlighted.enabled and
-		module_visibility_config.large_monster_highlighted_UI;
+	local dynamic_enabled = large_monster_UI_config.dynamic.enabled and module_visibility_config.large_monster_dynamic_UI;
+	local static_enabled = large_monster_UI_config.static.enabled and module_visibility_config.large_monster_static_UI;
+	local highlighted_enabled = large_monster_UI_config.highlighted.enabled and module_visibility_config.large_monster_highlighted_UI;
 
 	if dynamic_enabled or static_enabled or highlighted_enabled then
 		local success = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);

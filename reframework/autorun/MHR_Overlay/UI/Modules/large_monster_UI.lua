@@ -91,8 +91,6 @@ function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 			goto continue;
 		end
 
-		large_monster.update_position(enemy, monster);
-
 		if update_distance then
 			monster.distance = (players.myself_position - monster.position):length();
 		end

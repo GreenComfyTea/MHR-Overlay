@@ -316,19 +316,19 @@ function this.draw(monster, part_UI, cached_config, parts_position_on_screen, op
 		and ((part.break_health == part.break_max_health and part.break_count == 0) or not break_supported)
 		and ((part.loss_health == part.loss_max_health and not part.is_severed) or not sever_supported)
 		and ((part.anomaly_health == part.anomaly_max_health) or not anomaly_supported) then
-			goto continue
+			goto continue;
 		end
 
 		if (not part_UI.flinch_visibility or not health_supported)
 		and (not part_UI.break_visibility or not break_supported or part.break_count >= part.break_max_count)
 		and (not part_UI.loss_visibility or not sever_supported or part.is_severed)
 		and (not part_UI.anomaly_visibility or not anomaly_supported) then
-			goto continue
+			goto continue;
 		end
 
 		if cached_config.settings.time_limit ~= 0 and
 			time.total_elapsed_script_seconds - part.last_change_time > cached_config.settings.time_limit then
-			goto continue
+			goto continue;
 		end
 
 		table.insert(displayed_parts, part);

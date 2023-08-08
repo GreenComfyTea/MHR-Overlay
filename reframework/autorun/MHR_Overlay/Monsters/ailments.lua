@@ -312,13 +312,13 @@ function this.update_ailments(enemy, monster)
 
 	for id = 0, condition_param_array_length - 1 do
 		if id == this.stun_id or id == this.poison_id or id == this.blast_id then
-			goto continue
+			goto continue;
 		end
 
 		local ailment_param = get_value_method:call(condition_param_array, id);
 		if ailment_param == nil then
 			error_handler.report("ailments.update_ailments", "Failed to access Data: ailment_param No. " .. tostring(id));
-			goto continue
+			goto continue;
 		end
 
 		this.update_ailment(monster, ailment_param, id);
@@ -559,86 +559,86 @@ function this.draw(monster, ailment_UI, cached_config, ailments_position_on_scre
 	for id, ailment in pairs(monster.ailments) do
 		if id == this.paralyze_id then
 			if not cached_config.filter.paralysis then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.sleep_id then
 			if not cached_config.filter.sleep then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.stun_id then
 			if not cached_config.filter.stun then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.flash_id then
 			if not cached_config.filter.flash then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.poison_id then
 			if not cached_config.filter.poison then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.blast_id then
 			if not cached_config.filter.blast then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.exhaust_id then
 			if not cached_config.filter.exhaust then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.ride_id then
 			if not cached_config.filter.ride then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.water_id then
 			if not cached_config.filter.waterblight then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.fire_id then
 			if not cached_config.filter.fireblight then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.ice_id then
 			if not cached_config.filter.iceblight then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.thunder_id then
 			if not cached_config.filter.thunderblight then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.fall_trap_id then
 			if not cached_config.filter.fall_trap then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.shock_trap_id then
 			if not cached_config.filter.shock_trap then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.capture_id then
 			if not cached_config.filter.tranq_bomb then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.koyashi_id then
 			if not cached_config.filter.dung_bomb then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.steel_fang_id then
 			if not cached_config.filter.steel_fang then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.fall_quick_sand_id then
 			if not cached_config.filter.quick_sand then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.fall_otomo_trap_id then
 			if not cached_config.filter.fall_otomo_trap then
-				goto continue
+				goto continue;
 			end
 		elseif id == this.shock_otomo_trap_id then
 			if not cached_config.filter.shock_otomo_trap then
-				goto continue
+				goto continue;
 			end
 		else
-			goto continue
+			goto continue;
 		end
 
 		if cached_config.settings.hide_ailments_with_zero_buildup
@@ -646,31 +646,31 @@ function this.draw(monster, ailment_UI, cached_config, ailments_position_on_scre
 		and ailment.buildup_limit ~= 0
 		and ailment.activate_count == 0
 		and not ailment.is_active then
-			goto continue
+			goto continue;
 		end
 
 		if cached_config.settings.hide_inactive_ailments_with_no_buildup_support
 		and ailment.buildup_limit == 0 
 		and not ailment.is_active then
-			goto continue
+			goto continue;
 		end
 
 		if cached_config.settings.hide_all_inactive_ailments and not ailment.is_active then
-			goto continue
+			goto continue;
 		end
 
 		if cached_config.settings.hide_all_active_ailments and ailment.is_active then
-			goto continue
+			goto continue;
 		end
 
 		if cached_config.settings.hide_disabled_ailments and not ailment.is_enable then
-			goto continue
+			goto continue;
 		end
 
 		if cached_config.settings.time_limit ~= 0
 		and time.total_elapsed_script_seconds - ailment.last_change_time > cached_config.settings.time_limit
 		and not ailment.is_active then
-			goto continue
+			goto continue;
 		end
 
 		table.insert(displayed_ailments, ailment);
