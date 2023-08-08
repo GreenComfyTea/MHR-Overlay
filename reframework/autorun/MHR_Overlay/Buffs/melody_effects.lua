@@ -130,10 +130,9 @@ function this.update(melody_data_table)
 			local key = melody_effect_keys[lua_index];
 			local name = language.current_language.melody_effects[key];
 
-			buff = buffs.new(buffs.types.melody_effect, key, name, melody_timer, melody_timer / 60);
+			buff = buffs.new(buffs.types.melody_effect, key, name, 1, melody_timer / 60);
 			this.list[lua_index] = buff;
 		else
-			buff.value = melody_timer;
 			buffs.update_timer(buff, melody_timer / 60);
 		end
 

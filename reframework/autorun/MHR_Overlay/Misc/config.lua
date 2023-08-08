@@ -7493,6 +7493,10 @@ function this.init_default()
 
 				text_formatting = "%s",
 
+				include = {
+					skill_level = true
+				},
+
 				offset = {
 					x = 5,
 					y = 0

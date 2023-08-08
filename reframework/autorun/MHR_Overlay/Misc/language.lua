@@ -200,7 +200,8 @@ this.default_language = {
 		demon_powder = "Demon Powder",
 		hardshell_powder = "Hardshell Powder",
 		immunizer = "Immunizer",
-		dash_juice = "Dash Juice"
+		dash_juice = "Dash Juice",
+		gourmet_fish = "Gourmet Fish"
 	},
 
 	melody_effects = {
@@ -232,6 +233,17 @@ this.default_language = {
 		infernal_melody = "Infernal Melody",
 		sharpness_regeneration = "Sharpness Regeneration",
 		sharpness_extension = "Sharpness Extension"
+	},
+
+	skills = {
+		burst = "Burst",
+		kushala_daora_soul = "Kushala Daora Soul",
+		intrepid_heart = "Intrepid Heart",
+		dereliction = "Dereliction"
+	},
+
+	dangos = {
+		dango_defender_hi = "Dango Defender (Hi)"
 	},
 
 	UI = {

@@ -41,6 +41,11 @@ local package = package;
 
 this.list = {};
 
+this.creature_ids = {
+	cutterfly = 50,
+	clothfly = 7
+};
+
 function this.new(REcreature)
 	local creature = {};
 

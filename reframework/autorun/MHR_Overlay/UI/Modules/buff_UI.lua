@@ -5,9 +5,12 @@ local config;
 local buffs;
 local consumables;
 local melody_effects;
+local endemic_life_buff;
 local screen;
 local utils;
 local error_handler;
+local skills;
+local dangos;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -67,6 +70,36 @@ function this.draw()
 		table.insert(displayed_buffs, melody_effect);
 
 		::continue2::
+	end
+
+	for key, endemic_life_buff in pairs(endemic_life_buff.list) do
+		if not endemic_life_buff.is_active then
+			goto continue3;
+		end
+
+		table.insert(displayed_buffs, endemic_life_buff);
+
+		::continue3::
+	end
+
+	for key, skill in pairs(skills.list) do
+		if not skill.is_active then
+			goto continue4;
+		end
+
+		table.insert(displayed_buffs, skill);
+
+		::continue4::
+	end
+
+	for key, dango_buff in pairs(dangos.list) do
+		if not dango_buff.is_active then
+			goto continue5;
+		end
+
+		table.insert(displayed_buffs, dango_buff);
+
+		::continue5::
 	end
 
 	-- sort
@@ -139,6 +172,9 @@ function this.init_dependencies()
 	--drawing = require("MHR_Overlay.UI.drawing");
 	utils = require("MHR_Overlay.Misc.utils");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	endemic_life_buff = require("MHR_Overlay.Buffs.endemic_life_buffs");
+	skills = require("MHR_Overlay.Buffs.skills");
+	dangos = require("MHR_Overlay.Buffs.dangos");
 end
 
 function this.init_module()

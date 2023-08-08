@@ -11,6 +11,9 @@ local language;
 local time;
 local quest_status;
 local error_handler;
+local endemic_life_buffs;
+local skills;
+local dangos;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -48,6 +51,7 @@ this.types = {
 	consumable = 0,
 	melody_effect = 1,
 	dango = 2,
+	skill = 4,
 };
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
@@ -62,10 +66,10 @@ local system_array_type_def = sdk.find_type_definition("System.Array");
 local length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
-function this.new(type, key, name, value, duration)
+function this.new(type, key, name, level, duration)
 	local is_infinite = false;
 
-	value = value or 0;
+	level = level or 1;
 
 	if duration == nil then
 		duration = 0;
@@ -77,7 +81,7 @@ function this.new(type, key, name, value, duration)
 	buff.type = type;
 	buff.key = key;
 	buff.name = name;
-	buff.value = value;
+	buff.level = level;
 
 	buff.timer = duration;
 	buff.duration = duration;
@@ -110,6 +114,9 @@ end
 function this.init_names()
 	consumables.init_names();
 	melody_effects.init_names();
+	endemic_life_buffs.init_names();
+	skills.init_names();
+	dangos.init_names();
 end
 
 function this.update()
@@ -137,9 +144,14 @@ function this.update()
 	local master_player_data = get_player_data_method:call(master_player);
 	if master_player_data ~= nil then
 		consumables.update(master_player_data);
+		endemic_life_buffs.update(master_player_data);
+		skills.update(master_player_data);
+		dangos.update(master_player_data);
 	else
 		error_handler.report("buffs.update", "Failed to access Data: master_player_data");
 	end
+
+	--xy = master_player_data._Attack;
 
 	local music_data_array = music_data_field:get_data(master_player);
 	if music_data_array ~= nil then
@@ -194,6 +206,9 @@ function this.init_dependencies()
 	time = require("MHR_Overlay.Game_Handler.time");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	endemic_life_buffs = require("MHR_Overlay.Buffs.endemic_life_buffs");
+	skills = require("MHR_Overlay.Buffs.skills");
+	dangos = require("MHR_Overlay.Buffs.dangos");
 end
 
 function this.init_module()

@@ -44,6 +44,7 @@
         "dash_juice": "Dash Juice",
         "demon_powder": "Demon Powder",
         "demondrug": "Demondrug",
+        "gourmet_fish": "Gourmet Fish",
         "hardshell_powder": "Hardshell Powder",
         "immunizer": "Immunizer",
         "mega_armorskin": "Mega Armorskin",
@@ -340,6 +341,9 @@
         "y": "Y軸",
         "z": "Z軸"
     },
+    "dangos": {
+        "dango_defender_hi": "Dango Defender (Hi)"
+    },
     "font_name": "NotoSansTC-Bold.otf",
     "melody_effects": {
         "affinity_up": "Affinity Up",
@@ -439,6 +443,12 @@
         "wingclaw": "翼爪",
         "wingclaws": "翼爪",
         "wings": "翅膀"
+    },
+    "skills": {
+        "burst": "Burst",
+        "dereliction": "Dereliction",
+        "intrepid_heart": "Intrepid Heart",
+        "kushala_daora_soul": "Kushala Daora Soul"
     },
     "unicode_glyph_ranges": [
         32,

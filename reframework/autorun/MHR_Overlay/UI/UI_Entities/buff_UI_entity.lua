@@ -73,7 +73,12 @@ function this.draw(buff, buff_UI, position_on_screen, opacity_scale)
 		drawing.draw_bar(buff_UI.bar, position_on_screen, opacity_scale, 1);
 	end
 
-	drawing.draw_label(buff_UI.name_label, position_on_screen, opacity_scale, buff.name);
+	local buff_name = buff.name;
+	if cached_config.name_label.include.skill_level and buff.level > 1 then
+		buff_name = string.format("%s %d", buff_name, buff.level);
+	end
+
+	drawing.draw_label(buff_UI.name_label, position_on_screen, opacity_scale, buff_name);
 
 	if not buff.is_infinite then
 		drawing.draw_label(buff_UI.timer_label, position_on_screen, opacity_scale, buff.minutes_left, buff.seconds_left);
