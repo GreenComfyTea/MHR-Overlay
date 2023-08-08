@@ -237,6 +237,8 @@ function this.update_health(enemy, monster)
 	if max_health ~= 0 then
 		monster.health_percentage = health / max_health;
 	end
+
+	monster.is_health_initialized = true;
 end
 
 function this.draw(monster, cached_config, position_on_screen, opacity_scale)

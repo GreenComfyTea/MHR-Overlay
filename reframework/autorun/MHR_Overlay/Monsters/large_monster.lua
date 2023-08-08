@@ -620,6 +620,8 @@ function this.update_health(enemy, monster)
 		monster.capture_percentage = capture_health / max_health;
 	end
 
+	monster.is_health_initialized = true;
+
 	return physical_param;
 end
 
