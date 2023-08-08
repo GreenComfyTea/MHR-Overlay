@@ -113,6 +113,10 @@ function this.init_names()
 end
 
 function this.update()
+	if not config.current_config.buff_UI.enabled then
+		return;
+	end
+
 	if singletons.player_manager == nil then
 		error_handler.report("buffs.update", "Failed to access Data: player_manager");
 		return;
