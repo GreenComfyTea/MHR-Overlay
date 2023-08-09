@@ -48,6 +48,7 @@ this.list = {
 	mega_armorskin = nil,
 	might_seed = nil,
 	adamant_seed = nil,
+	demon_powder = nil,
 	hardshell_powder = nil,
 	immunizer = nil,
 	dash_juice = nil,
@@ -109,13 +110,69 @@ function this.update(player_data)
 
 	this.update_demondrug(player_data, item_parameter);
 	this.update_armorskin(player_data, item_parameter);
-	this.update_might_seed(player_data, item_parameter);
-	this.update_adamant_seed(player_data, item_parameter);
-	this.update_demon_powder(player_data, item_parameter);
-	this.update_hardshell_powder(player_data, item_parameter);
-	this.update_immunizer(player_data, item_parameter);
-	this.update_dash_juice(player_data, item_parameter);
 	this.update_gourmet_fish(player_data, item_parameter);
+
+	this.update_generic("might_seed", player_data, item_parameter,
+		atk_up_buff_second_field, atk_up_buff_second_timer_field, might_seed_timer_field);
+
+	this.update_generic("adamant_seed", player_data, item_parameter,
+		def_up_buff_second_field, def_up_buff_second_timer_field, adamant_seed_timer_field);
+
+	this.update_generic("demon_powder", player_data, item_parameter,
+		atk_up_item_second_field, atk_up_item_second_timer_field, demondrug_powder_timer_field);
+
+	this.update_generic("hardshell_powder", player_data, item_parameter,
+		def_up_item_second_field, def_up_item_second_timer_field, armorskin_powder_timer_field);
+
+	this.update_generic("immunizer", player_data, item_parameter,
+		nil, vitalizer_timer_field, vitalizer_timer_const_field);
+
+	this.update_generic("dash_juice", player_data, item_parameter,
+		nil, stamina_up_buff_second_timer_field, stamina_up_buff_second_field);
+
+end
+
+function this.update_generic(consumable_key, player_data, item_parameter, value_field, timer_field, timer_const_value_field)
+	if value_field ~= nil then
+
+		local value = value_field:get_data(player_data);
+		if value == nil then
+			error_handler.report("consumables.update_generic_with_value", string.format("Failed to access Data: %s_value", consumable_key));
+			return;
+		end
+
+		if value == 0 then
+			this.list[consumable_key] = nil;
+			return;
+		end
+	end
+
+	local timer = timer_field:get_data(player_data);
+	if timer == nil then
+		error_handler.report("consumables.update_generic_with_value", string.format("Failed to access Data: %s_timer", consumable_key));
+		return;
+	end
+
+	if value_field == nil and timer == 0 then
+		this.list[consumable_key] = nil;
+		return;
+	end
+
+	local consumable = this.list[consumable_key];
+	if consumable == nil then
+		local timer_const_value = timer_const_value_field:get_data(item_parameter);
+		if timer_const_value == nil then
+			error_handler.report("consumables.update_generic_with_value", string.format("Failed to access Data: %s_timer_const_value", consumable_key));
+			return;
+		end
+
+		local name = language.current_language.consumables[consumable_key];
+
+		consumable = buffs.new(buffs.types.consumable, consumable_key, name, 1, timer_const_value);
+		this.list[consumable_key] = consumable;
+	else
+		buffs.update_timer(consumable, timer / 60);
+	end
 end
 
 function this.update_demondrug(player_data, item_parameter)
@@ -212,205 +269,6 @@ function this.update_armorskin(player_data, item_parameter)
 
 		this.list.armorskin = nil;
 		this.list.mega_armorskin = buffs.new(buffs.types.consumable, "mega_armorskin", name);
-	end
-end
-
-function this.update_might_seed(player_data, item_parameter)
-	local might_seed_value = atk_up_buff_second_field:get_data(player_data);
-	if might_seed_value == nil then
-		error_handler.report("consumables.update_might_seed", "Failed to access Data: might_seed_value");
-		return;
-	end
-
-	if might_seed_value == 0 then
-		this.list.might_seed = nil;
-		return;
-	end
-
-	local might_seed_timer = atk_up_buff_second_timer_field:get_data(player_data);
-	if might_seed_timer == nil then
-		error_handler.report("consumables.update_might_seed", "Failed to access Data: might_seed_timer");
-		return;
-	end
-
-	local buff = this.list.might_seed;
-	if buff == nil then
-		local might_seed_timer_const_value = might_seed_timer_field:get_data(item_parameter);
-		if might_seed_timer_const_value == nil then
-			error_handler.report("consumables.update_might_seed", "Failed to access Data: might_seed_timer_const_value");
-			return;
-		end
-
-		local name = language.current_language.consumables.might_seed;
-
-		buff = buffs.new(buffs.types.consumable, "might_seed", name, 1, might_seed_timer_const_value);
-		this.list.might_seed = buff;
-	else
-		buffs.update_timer(buff, might_seed_timer / 60);
-	end
-end
-
-function this.update_adamant_seed(player_data, item_parameter)
-	local adamant_seed_value = def_up_buff_second_field:get_data(player_data);
-	if adamant_seed_value == nil then
-		error_handler.report("consumables.update_adamant_seed", "Failed to access Data: adamant_seed_value");
-		return;
-	end
-
-	if adamant_seed_value == 0 then
-		this.list.adamant_seed = nil;
-		return;
-	end
-
-	local adamant_seed_timer = def_up_buff_second_timer_field:get_data(player_data);
-	if adamant_seed_timer == nil then
-		error_handler.report("consumables.update_adamant_seed", "Failed to access Data: adamant_seed_timer");
-		return;
-	end
-
-	local buff = this.list.adamant_seed;
-	if buff == nil then
-		local adamant_seed_timer_const_value = adamant_seed_timer_field:get_data(item_parameter);
-		if adamant_seed_timer_const_value == nil then
-			error_handler.report("consumables.update_adamant_seed", "Failed to access Data: adamant_seed_timer_const_value");
-			return;
-		end
-
-		local name = language.current_language.consumables.adamant_seed;
-
-		buff = buffs.new(buffs.types.consumable, "adamant_seed", name, 1, adamant_seed_timer_const_value);
-		this.list.adamant_seed = buff;
-	else
-		buffs.update_timer(buff, adamant_seed_timer / 60);
-	end
-end
-
-function this.update_demon_powder(player_data, item_parameter)
-	local demon_powder_value = atk_up_item_second_field:get_data(player_data);
-	if demon_powder_value == nil then
-		error_handler.report("consumables.update_demon_powder", "Failed to access Data: demon_powder_value");
-		return;
-	end
-
-	if demon_powder_value == 0 then
-		this.list.demon_powder = nil;
-		return;
-	end
-
-	local demon_powder_timer = atk_up_item_second_timer_field:get_data(player_data);
-	if demon_powder_timer == nil then
-		error_handler.report("consumables.update_demon_powder", "Failed to access Data: demon_powder_timer");
-		return;
-	end
-
-	local buff = this.list.demon_powder;
-	if buff == nil then
-		local demon_powder_timer_const_value = demondrug_powder_timer_field:get_data(item_parameter);
-		if demon_powder_timer_const_value == nil then
-			error_handler.report("consumables.update_demon_powder", "Failed to access Data: demon_powder_timer_const_value");
-			return;
-		end
-
-		local name = language.current_language.consumables.demon_powder;
-
-		buff = buffs.new(buffs.types.consumable, "demon_powder", name, demon_powder_timer_const_value);
-		this.list.demon_powder = buff;
-	else
-		buffs.update_timer(buff, demon_powder_timer / 60);
-	end
-end
-
-function this.update_hardshell_powder(player_data, item_parameter)
-	local hardshell_powder_value = def_up_item_second_field:get_data(player_data);
-	if hardshell_powder_value == nil then
-		error_handler.report("consumables.update_hardshell_powder", "Failed to access Data: hardshell_powder_value");
-		return;
-	end
-
-	if hardshell_powder_value == 0 then
-		this.list.hardshell_powder = nil;
-		return;
-	end
-
-	local hardshell_powder_timer = def_up_item_second_timer_field:get_data(player_data);
-	if hardshell_powder_timer == nil then
-		error_handler.report("consumables.update_hardshell_powder", "Failed to access Data: hardshell_powder_timer");
-		return;
-	end
-
-	local buff = this.list.hardshell_powder;
-	if buff == nil then
-		local demon_powder_timer_const_value = armorskin_powder_timer_field:get_data(item_parameter);
-		if demon_powder_timer_const_value == nil then
-			error_handler.report("consumables.update_hardshell_powder", "Failed to access Data: demon_powder_timer_const_value");
-			return;
-		end
-
-		local name = language.current_language.consumables.hardshell_powder;
-
-		buff = buffs.new(buffs.types.consumable, "hardshell_powder", name, 1, demon_powder_timer_const_value);
-		this.list.hardshell_powder = buff;
-	else
-		buffs.update_timer(buff, hardshell_powder_timer / 60);
-	end
-end
-
-function this.update_immunizer(player_data, item_parameter)
-	local immunizer_timer = vitalizer_timer_field:get_data(player_data);
-	if immunizer_timer == nil then
-		error_handler.report("consumables.update_immunizer", "Failed to access Data: immunizer_timer");
-		return;
-	end
-
-	if immunizer_timer == 0 then
-		this.list.immunizer = nil;
-		return;
-	end
-
-	local buff = this.list.immunizer;
-	if buff == nil then
-		local immunizer_timer_const_value = vitalizer_timer_const_field:get_data(item_parameter);
-		if immunizer_timer_const_value == nil then
-			error_handler.report("consumables.update_immunizer", "Failed to access Data: immunizer_timer_const_value");
-			return;
-		end
-
-		local name = language.current_language.consumables.immunizer;
-
-		buff = buffs.new(buffs.types.consumable, "immunizer", name, 1, immunizer_timer_const_value);
-		this.list.immunizer = buff;
-	else
-		buffs.update_timer(buff, immunizer_timer / 60);
-	end
-end
-
-function this.update_dash_juice(player_data, item_parameter)
-	local dash_juice_timer = stamina_up_buff_second_timer_field:get_data(player_data);
-	if dash_juice_timer == nil then
-		error_handler.report("consumables.update_dash_juice", "Failed to access Data: dash_juice_timer");
-		return;
-	end
-
-	if dash_juice_timer == 0 then
-		this.list.dash_juice = nil;
-		return;
-	end
-
-	local buff = this.list.dash_juice;
-
-	if buff == nil then
-		local dash_juice_timer_const_value = stamina_up_buff_second_field:get_data(item_parameter);
-		if dash_juice_timer_const_value == nil then
-			error_handler.report("consumables.update_dash_juice", "Failed to access Data: dash_juice_timer_const_value");
-			return;
-		end
-
-		local name = language.current_language.consumables.dash_juice;
-
-		buff = buffs.new(buffs.types.consumable, "dash_juice", name, 1, dash_juice_timer_const_value);
-		this.list.dash_juice = buff;
-	else
-		buffs.update_timer(buff, dash_juice_timer / 60);
 	end
 end
 
