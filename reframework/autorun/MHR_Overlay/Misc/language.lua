@@ -239,7 +239,21 @@ this.default_language = {
 		burst = "Burst",
 		kushala_daora_soul = "Kushala Daora Soul",
 		intrepid_heart = "Intrepid Heart",
-		dereliction = "Dereliction"
+		dereliction = "Dereliction",
+		latent_power = "Latent Power",
+		protective_polish = "Protective Polish",
+		wind_mantle = "Wind Mantle",
+		heaven_sent = "Heaven-Sent",
+		grinder_s = "Grinder (S)",
+		counterstrike = "Counterstrike",
+		affinity_sliding = "Affinity Sliding",
+		coalescence = "Coalescence",
+		adrenaline_rush = "Adrenaline Rush",
+		wall_runner = "Wall Runner",
+		offensive_guard = "Offensive Guard",
+		hellfire_cloak = "Hellfire Cloak",
+		agitator = "Agitator",
+		furious = "Furious"
 	},
 
 	dangos = {

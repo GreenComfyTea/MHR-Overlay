@@ -445,10 +445,24 @@
         "wings": "날개"
     },
     "skills": {
+        "adrenaline_rush": "Adrenaline Rush",
+        "affinity_sliding": "Affinity Sliding",
+        "agitator": "Agitator",
         "burst": "Burst",
+        "coalescence": "Coalescence",
+        "counterstrike": "Counterstrike",
         "dereliction": "Dereliction",
+        "furious": "Furious",
+        "grinder_s": "Grinder (S)",
+        "heaven_sent": "Heaven-Sent",
+        "hellfire_cloak": "Hellfire Cloak",
         "intrepid_heart": "Intrepid Heart",
-        "kushala_daora_soul": "Kushala Daora Soul"
+        "kushala_daora_soul": "Kushala Daora Soul",
+        "latent_power": "Latent Power",
+        "offensive_guard": "Offensive Guard",
+        "protective_polish": "Protective Polish",
+        "wall_runner": "Wall Runner",
+        "wind_mantle": "Wind Mantle"
     },
     "unicode_glyph_ranges": [
         32,
