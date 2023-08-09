@@ -110,34 +110,35 @@ local time_field = music_data_type_def:get_field("_Time");
 
 function this.update(melody_data_table)
 	for lua_index, melody_data in ipairs(melody_data_table) do
-		if melody_data == "" then
-			goto continue;
-		end
+		if melody_data ~= "" then
+			this.update_melody_effect(lua_index, melody_data);
 
-		local melody_timer = time_field:get_data(melody_data);
+		end
+	end
+end
+
+function this.update_melody_effect(lua_index, melody_data)
+	local melody_timer = time_field:get_data(melody_data);
 		if melody_timer == nil then
 			error_handler.report("melody_effects.update", "Failed to access Data: melody_timer No. " .. tostring(lua_index - 1));
-			goto continue;
+			return;
 		end
 
 		if melody_timer == 0 then
 			this.list[lua_index] = nil;
-			goto continue;
+			return;
 		end
 
-		local buff = this.list[lua_index];
-		if buff == nil then
-			local key = melody_effect_keys[lua_index];
-			local name = language.current_language.melody_effects[key];
+		local melody_effect = this.list[lua_index];
+		if melody_effect == nil then
+			local melody_effect_key = melody_effect_keys[lua_index];
+			local name = language.current_language.melody_effects[melody_effect_key];
 
-			buff = buffs.new(buffs.types.melody_effect, key, name, 1, melody_timer / 60);
-			this.list[lua_index] = buff;
+			melody_effect = buffs.new(buffs.types.melody_effect, melody_effect_key, name, 1, melody_timer / 60);
+			this.list[lua_index] = melody_effect;
 		else
-			buffs.update_timer(buff, melody_timer / 60);
+			buffs.update_timer(melody_effect, melody_timer / 60);
 		end
-
-		::continue::
-	end
 end
 
 function this.init_names()
