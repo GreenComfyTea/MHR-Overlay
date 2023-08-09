@@ -69,12 +69,19 @@ local get_value_method = system_array_type_def:get_method("GetValue(System.Int32
 function this.new(type, key, name, level, duration)
 	local is_infinite = false;
 
-	level = level or 1;
+	if name == nil then
+		name = utils.constants.uninitialized_string;
+	end
 
 	if duration == nil then
 		duration = 0;
+	end
+
+	if duration == 0 then
 		is_infinite = true;
 	end
+
+	level = level or 1;
 
 	local buff = {};
 
@@ -145,7 +152,7 @@ function this.update()
 	if master_player_data ~= nil then
 		consumables.update(master_player_data);
 		endemic_life_buffs.update(master_player_data);
-		skills.update(master_player_data);
+		skills.update(master_player, master_player_data);
 		dangos.update(master_player_data);
 	else
 		error_handler.report("buffs.update", "Failed to access Data: master_player_data");
@@ -174,10 +181,6 @@ function this.update()
 	end
 end
 
-function this.draw(buff, buff_UI, position_on_screen, opacity_scale)
-	buff_UI_entity.draw(buff, buff_UI, position_on_screen, opacity_scale);
-end
-
 function this.update_timer(buff, timer)
 	if timer < 0 then
 		timer = 0;
@@ -193,6 +196,11 @@ function this.update_timer(buff, timer)
 		buff.timer_percentage = timer / buff.duration;
 	end
 end
+
+function this.draw(buff, buff_UI, position_on_screen, opacity_scale)
+	buff_UI_entity.draw(buff, buff_UI, position_on_screen, opacity_scale);
+end
+
 
 function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
