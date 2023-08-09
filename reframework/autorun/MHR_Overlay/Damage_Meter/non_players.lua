@@ -10,6 +10,7 @@ local drawing;
 local language;
 local players;
 local error_handler;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -56,8 +57,8 @@ function this.new(id, name, level, type)
 
 	non_player.type = type;
 
-	non_player.join_time = -1;
-	non_player.first_hit_time = -1;
+	non_player.join_time = utils.constants.uninitialized_int;
+	non_player.first_hit_time = utils.constants.uninitialized_int;
 	non_player.dps = 0;
 
 	non_player.small_monsters = players.init_damage_sources()
@@ -409,6 +410,7 @@ function this.init_dependencies()
 	language = require("MHR_Overlay.Misc.language");
 	players = require("MHR_Overlay.Damage_Meter.players");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	utils = require("MHR_Overlay.Misc.utils");
 end
 
 function this.init_module()

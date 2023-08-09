@@ -91,8 +91,8 @@ function this.new(id, name, master_rank, hunter_rank, type)
 
 	player.cart_count = 0;
 
-	player.join_time = -1;
-	player.first_hit_time = -1;
+	player.join_time = utils.constants.uninitialized_int;
+	player.first_hit_time = utils.constants.uninitialized_int;
 	player.dps = 0;
 
 	player.small_monsters = this.init_damage_sources();
@@ -141,7 +141,7 @@ function this.update_damage(player, damage_source_type, is_large_monster, damage
 		return;
 	end
 
-	if player.first_hit_time == -1 then
+	if player.first_hit_time == utils.constants.uninitialized_int then
 		player.first_hit_time = time.total_elapsed_script_seconds;
 	end
 
@@ -375,7 +375,7 @@ end
 function this.update_player_dps(player)
 	local cached_config = config.current_config.damage_meter_UI.settings;
 
-	if player.join_time == -1 then
+	if player.join_time == utils.constants.uninitialized_int then
 		player.join_time = time.total_elapsed_script_seconds;
 	end
 

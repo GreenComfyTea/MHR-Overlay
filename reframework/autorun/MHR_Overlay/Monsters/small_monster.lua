@@ -53,7 +53,7 @@ function this.new(enemy)
 	monster.is_large = false;
 
 	monster.health = 0;
-	monster.max_health = 999999;
+	monster.max_health = 0;
 	monster.health_percentage = 0;
 	monster.missing_health = 0;
 	monster.capture_health = 0;

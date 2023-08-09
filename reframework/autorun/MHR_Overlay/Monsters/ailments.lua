@@ -10,6 +10,7 @@ local small_monster;
 local large_monster;
 local non_players;
 local error_handler;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -95,7 +96,7 @@ function this.new(_ailments, ailment_id)
 	new_ailment.buildup_percentage = 0;
 
 	new_ailment.timer = 0;
-	new_ailment.duration = 100000;
+	new_ailment.duration = 0;
 	new_ailment.timer_percentage = 0;
 
 	new_ailment.minutes_left = 0;
@@ -874,6 +875,7 @@ function this.init_dependencies()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	utils = require("MHR_Overlay.Misc.utils");
 end
 
 function this.init_module()

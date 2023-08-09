@@ -41,6 +41,7 @@ local is_empty;
 local unicode_map;
 local unicode_relative_position;
 local unicode_chars;
+local epsilon = 0.000001;
 
 this.table = {};
 this.number = {};
@@ -50,6 +51,11 @@ this.vec3 = {};
 this.vec4 = {};
 this.math = {};
 this.unicode = {};
+
+this.constants = {};
+this.constants.uninitialized_int = -420;
+this.constants.uninitialized_string = "Uninitialized";
+this.constants.epsilon = epsilon;
 
 function this.table.tostring(table_)
 	if type(table_) == "number" or type(table_) == "boolean" or type(table_) == "string" then
@@ -223,6 +229,14 @@ end
 
 function this.number.is_even(value)
 	return value % 2 == 0;
+end
+
+function this.number.is_equal(value1, value2)
+	if math.abs(value1 - value2) < epsilon then
+		return true;
+	end
+
+	return false;
 end
 
 function this.string.trim(str)

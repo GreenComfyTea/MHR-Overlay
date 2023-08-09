@@ -73,8 +73,8 @@ function this.new(enemy)
 	monster.id = 0;
 	monster.unique_id = 0;
 
-	monster.health = 100000;
-	monster.max_health = 100000;
+	monster.health = 0;
+	monster.max_health = 0;
 	monster.health_percentage = 0;
 	monster.missing_health = 0;
 	monster.is_health_initialized = false;
@@ -90,12 +90,12 @@ function this.new(enemy)
 
 	monster.is_tired = false;
 	monster.stamina = 0;
-	monster.max_stamina = 1000;
+	monster.max_stamina = 0;
 	monster.stamina_percentage = 0;
 	monster.missing_stamina = 0;
 
 	monster.tired_timer = 0;
-	monster.tired_duration = 600;
+	monster.tired_duration = 0;
 
 	monster.tired_total_seconds_left = 0;
 	monster.tired_minutes_left = 0;
@@ -104,12 +104,12 @@ function this.new(enemy)
 
 	monster.is_in_rage = false;
 	monster.rage_point = 0;
-	monster.rage_limit = 3000;
+	monster.rage_limit = 0;
 	monster.rage_count = 0;
 	monster.rage_percentage = 0;
 
 	monster.rage_timer = 0;
-	monster.rage_duration = 600;
+	monster.rage_duration = 0;
 
 	monster.rage_total_seconds_left = 0;
 	monster.rage_minutes_left = 0;
@@ -120,10 +120,10 @@ function this.new(enemy)
 	monster.distance = 0;
 
 	monster.name = "Large Monster";
-	monster.size = -1;
-	monster.small_border = -1;
-	monster.big_border = -1;
-	monster.king_border = -1;
+	monster.size = 0;
+	monster.small_border = 0;
+	monster.big_border = 0;
+	monster.king_border = 0;
 	monster.crown = "";
 
 	monster.is_anomaly = false;
@@ -771,6 +771,7 @@ function this.update_rage(enemy, monster, anger_param)
 
 	local is_in_rage = is_anger_method:call(anger_param);
 	if is_in_rage ~= nil then
+		--xy = xy .. tostring(is_in_rage) .. "\n";
 		monster.is_in_rage = is_in_rage;
 	else
 		error_handler.report("large_monster.update_rage", "Failed to access Data: is_in_rage");
