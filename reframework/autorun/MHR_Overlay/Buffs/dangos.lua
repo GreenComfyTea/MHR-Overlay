@@ -105,8 +105,14 @@ function this.update_dango_defender(player_data, item_parameter)
 end
 
 function this.init_names()
-	for key, buff in pairs(this.list) do
-		buff.name = language.current_language.dangos[key];
+	for dango_key, dango in pairs(this.list) do
+		local name = language.current_language.dangos[dango_key];
+
+		if name == nil then
+			name = dango_key;
+		end
+
+		dango.name = name;
 	end
 end
 
