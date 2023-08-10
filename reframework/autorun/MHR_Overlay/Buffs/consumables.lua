@@ -137,7 +137,7 @@ function this.update_generic(consumable_key, player_data, item_parameter, value_
 
 		local value = value_field:get_data(player_data);
 		if value == nil then
-			error_handler.report("consumables.update_generic_with_value", string.format("Failed to access Data: %s_value", consumable_key));
+			error_handler.report("consumables.update_generic", string.format("Failed to access Data: %s_value", consumable_key));
 			return;
 		end
 
@@ -149,7 +149,7 @@ function this.update_generic(consumable_key, player_data, item_parameter, value_
 
 	local timer = timer_field:get_data(player_data);
 	if timer == nil then
-		error_handler.report("consumables.update_generic_with_value", string.format("Failed to access Data: %s_timer", consumable_key));
+		error_handler.report("consumables.update_generic", string.format("Failed to access Data: %s_timer", consumable_key));
 		return;
 	end
 
@@ -162,7 +162,7 @@ function this.update_generic(consumable_key, player_data, item_parameter, value_
 	if consumable == nil then
 		local timer_const_value = timer_const_value_field:get_data(item_parameter);
 		if timer_const_value == nil then
-			error_handler.report("consumables.update_generic_with_value", string.format("Failed to access Data: %s_timer_const_value", consumable_key));
+			error_handler.report("consumables.update_generic", string.format("Failed to access Data: %s_timer_const_value", consumable_key));
 			return;
 		end
 
@@ -303,8 +303,14 @@ function this.update_gourmet_fish(player_data, item_parameter)
 end
 
 function this.init_names()
-	for key, buff in pairs(this.list) do
-		buff.name = language.current_language.consumables[key];
+	for consumable_key, consumable in pairs(this.list) do
+		local name = language.current_language.consumables[consumable_key];
+
+		if name == nil then
+			name = consumable_key;
+		end
+
+		consumable.name = name;
 	end
 end
 
