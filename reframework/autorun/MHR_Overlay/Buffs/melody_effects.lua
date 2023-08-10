@@ -142,8 +142,14 @@ function this.update_melody_effect(lua_index, melody_data)
 end
 
 function this.init_names()
-	for index, buff in pairs(this.list) do
-		buff.name = language.current_language.melody_effects[buff.key];
+	for index, dango in pairs(this.list) do
+		local name = language.current_language.dangos[dango.key];
+
+		if name == nil then
+			name = dango.key;
+		end
+
+		dango.name = name;
 	end
 end
 
