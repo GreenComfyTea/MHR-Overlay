@@ -11,6 +11,7 @@ local utils;
 local error_handler;
 local skills;
 local dangos;
+local abnormal_statuses;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -102,6 +103,17 @@ function this.draw()
 		::continue5::
 	end
 
+	for key, abnormal_status in pairs(abnormal_statuses.list) do
+		if not abnormal_status.is_active then
+			goto continue5;
+		end
+
+		table.insert(displayed_buffs, abnormal_status);
+
+		::continue5::
+	end
+
+
 	-- sort
 	if cached_config.sorting.type == "Name" then
 		if cached_config.sorting.reversed_order then
@@ -175,6 +187,7 @@ function this.init_dependencies()
 	endemic_life_buff = require("MHR_Overlay.Buffs.endemic_life_buffs");
 	skills = require("MHR_Overlay.Buffs.skills");
 	dangos = require("MHR_Overlay.Buffs.dangos");
+	abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
 end
 
 function this.init_module()

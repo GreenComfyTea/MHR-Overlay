@@ -175,8 +175,9 @@ this.default_language = {
 		blast = "Blast",
 		exhaust = "Exhaust",
 		ride = "Wyvern Riding",
-		waterblight = "Waterblight",
+
 		fireblight = "Fireblight",
+		waterblight = "Waterblight",
 		iceblight = "Iceblight",
 		thunderblight = "Thunderblight",
 
@@ -187,7 +188,29 @@ this.default_language = {
 		steel_fang = "Steel Fang",
 		quick_sand = "Quick Sand",
 		fall_otomo_trap = "Fall Buddy Trap",
-		shock_otomo_trap = "Shock Buddy Trap"
+		shock_otomo_trap = "Shock Buddy Trap",
+
+		dragonblight = "Dragonblight",
+		blastblight = "Blastblight",
+		bubbleblight = "Bubbleblight",
+		hellfireblight = "Hellfireblight",
+		bloodblight = "Bloodblight",
+		frostblight = "Frostblight",
+		
+		defense_down = "Defense Down",
+		resistance_down = "Resistance Down",
+		
+		tremor = "Tremor",
+		roar = "Roar",
+		webbed = "Webbed",
+		stench = "Stench",
+		leeched = "Leeched",
+		bleeding = "Bleeding",
+		engulfed = "Engulfed",
+		muck = "Muck",
+		frenzy = "Frenzy",
+		frenzy_infection = "Frenzy Infection",
+		frenzy_overcome = "Frenzy Overcome"
 	},
 
 	consumables = {
@@ -253,7 +276,9 @@ this.default_language = {
 		offensive_guard = "Offensive Guard",
 		hellfire_cloak = "Hellfire Cloak",
 		agitator = "Agitator",
-		furious = "Furious"
+		furious = "Furious",
+		heroics = "Heroics",
+		resuscitate = "Resuscitate"
 	},
 
 	dangos = {

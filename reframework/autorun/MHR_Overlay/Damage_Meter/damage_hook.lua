@@ -332,7 +332,7 @@ function this.on_stock_direct_marionette_finish_shoot_hit_parts_damage(enemy, da
 	end
 
 	wall_hit_damage_queue = {};
-	
+
 	players.update_damage(players.total, damage_source_type, false, small_monster_damage_object);
 	players.update_damage(player, damage_source_type, false, small_monster_damage_object);
 

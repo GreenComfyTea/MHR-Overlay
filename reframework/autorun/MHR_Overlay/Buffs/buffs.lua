@@ -14,6 +14,7 @@ local error_handler;
 local endemic_life_buffs;
 local skills;
 local dangos;
+local abnormal_statuses;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -52,6 +53,7 @@ this.types = {
 	melody_effect = 1,
 	dango = 2,
 	skill = 4,
+	debuff = 8
 };
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
@@ -124,6 +126,7 @@ function this.init_names()
 	endemic_life_buffs.init_names();
 	skills.init_names();
 	dangos.init_names();
+	abnormal_statuses.init_names();
 end
 
 function this.update()
@@ -147,6 +150,8 @@ function this.update()
 		error_handler.report("buffs.update", "Failed to access Data: master_player");
 		return;
 	end
+
+	abnormal_statuses.update(master_player);
 
 	local master_player_data = get_player_data_method:call(master_player);
 	if master_player_data ~= nil then
@@ -186,6 +191,10 @@ function this.update_timer(buff, timer)
 		timer = 0;
 	end
 
+	if timer > buff.duration then
+		buff.duration = timer;
+	end
+
 	local minutes_left = math.floor(timer / 60);
 
 	buff.timer = timer;
@@ -217,10 +226,11 @@ function this.init_dependencies()
 	endemic_life_buffs = require("MHR_Overlay.Buffs.endemic_life_buffs");
 	skills = require("MHR_Overlay.Buffs.skills");
 	dangos = require("MHR_Overlay.Buffs.dangos");
+	abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
 end
 
 function this.init_module()
-	time.new_timer(this.update, 0.5);
+	time.new_timer(this.update, 1/60);
 end
 
 return this;

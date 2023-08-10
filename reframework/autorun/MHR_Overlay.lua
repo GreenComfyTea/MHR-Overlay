@@ -48,6 +48,7 @@ local melody_effects = require("MHR_Overlay.Buffs.melody_effects");
 local endemic_life_buffs = require("MHR_Overlay.Buffs.endemic_life_buffs");
 local skills = require("MHR_Overlay.Buffs.skills");
 local dangos = require("MHR_Overlay.Buffs.dangos");
+local abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
 
 local players = require("MHR_Overlay.Damage_Meter.players");
 local non_players = require("MHR_Overlay.Damage_Meter.non_players");
@@ -124,6 +125,7 @@ melody_effects.init_dependencies();
 endemic_life_buffs.init_dependencies();
 skills.init_dependencies();
 dangos.init_dependencies();
+abnormal_statuses.init_dependencies();
 
 damage_hook.init_dependencies();
 players.init_dependencies();
@@ -195,6 +197,7 @@ melody_effects.init_module();
 endemic_life_buffs.init_module();
 skills.init_module();
 dangos.init_module();
+abnormal_statuses.init_module();
 
 damage_hook.init_module();
 players.init_module();

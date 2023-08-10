@@ -120,7 +120,6 @@ function this.blast_proc(blast_param)
 	local blast_damage = blast_damage_method:call(blast_param);
 	local blast_adjust_rate = blast_adjust_rate_method:call(blast_param);
 
-
 	ailments.apply_ailment_damage(monster, ailments.blast_id, blast_damage * blast_adjust_rate);
 	ailments.clear_ailment_contribution(monster, ailments.blast_id);
 end
