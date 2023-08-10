@@ -541,6 +541,10 @@ function this.update_poison(monster, poison_param)
 		error_handler.report("ailments.update_poison", "Failed to access Data: is_damage");
 		return;
 	end
+
+	if not is_damage then
+		return;
+	end 
 	
 	local poison_damage = poison_damage_field:get_data(poison_param);
 	if poison_damage == nil then
