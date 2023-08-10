@@ -58,8 +58,21 @@ this.list = {
 	offensive_guard = nil,
 	hellfire_cloak = nil,
 	agitator = nil,
-	furious = nil
+	furious = nil,
+	heaven_sent = nil,
+	heroics = nil,
+	resuscitate = nil
 };
+
+local skill_data_list = {
+	peak_performance =	{ id = 3,	is_equipped = false },
+	resentment =		{ id = 4,	is_equipped = false },
+	resuscitate =		{ id = 5,	is_equipped = false },
+	maximum_might =		{ id = 10,	is_equipped = false },
+	heroics =			{ id = 91,	is_equipped = false },
+	dragonheart =		{ id = 103, is_equipped = false },
+	dereliction =		{ id = 113, is_equipped = false }
+}
 
 local burst_breakpoint = 5;
 local kushara_daora_soul_breakpoint = 5;
@@ -119,14 +132,22 @@ local furious_skill_stamina_buff_second_timer_field = player_data_type_def:get_f
 
 
 
-
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
 local player_weapon_type_field = player_base_type_def:get_field("_playerWeaponType");
+local get_player_skill_list_method = player_base_type_def:get_method("get_PlayerSkillList");
 
 -- Latent Power
 local power_freedom_timer_field = player_base_type_def:get_field("_PowerFreedomTimer");
 -- Protective Polish
 local sharpness_gauge_boost_timer_field = player_base_type_def:get_field("_SharpnessGaugeBoostTimer");
+-- Heroics
+local is_predicament_power_up_method = player_base_type_def:get_method("isPredicamentPowerUp");
+-- Resuscitate
+local is_debuff_state_method = player_base_type_def:get_method("isDebuffState");
+
+
+local player_skill_list_type_def = get_player_skill_list_method:get_return_type();
+local has_skill_method = player_skill_list_type_def:get_method("hasSkill");
 
 local player_quest_base_type_def = sdk.find_type_definition("snow.player.PlayerQuestBase");
 -- Wind Mantle
@@ -140,46 +161,110 @@ local length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
 function this.update(player, player_data)
-	local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
-	if item_parameter == nil then
-		error_handler.report("skills.update", "Failed to access Data: item_parameter");
-		return;
-	end
+	--local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
+	--if item_parameter == nil then
+	--	error_handler.report("skills.update", "Failed to access Data: item_parameter");
+	--	return;
+	--end
+
+	this.update_equipped_skill_data(player);
 
 	this.update_dereliction(player_data);
 	this.update_wind_mantle(player);
-	this.update_heaven_sent(player);
 
-	this.update_generic("burst", player_data, rengeki_power_up_count_field, rengeki_power_up_timer_field, nil, burst_breakpoint);
-	this.update_generic("kushala_daora_soul", player_data,
-		hyakuryu_dragon_power_up_count_field, hyakuryu_dragon_power_up_timer_field, nil, kushara_daora_soul_breakpoint);
-	this.update_generic("intrepid_heart", player_data, equip_skill_223_accumulator_field, nil, intrepid_heart_minimal_value, nil, true);
-	this.update_generic("latent_power", player, nil, power_freedom_timer_field);
-	this.update_generic("protective_polish", player, nil, sharpness_gauge_boost_timer_field);
-	this.update_generic("grinder_s", player_data, nil, brand_new_sharpness_adjust_up_timer_field);
-	this.update_generic("counterstrike", player_data, nil, counterattack_powerup_timer_field);
-	this.update_generic("affinity_sliding", player_data, nil, sliding_powerup_timer_field);
-	this.update_generic("coalescence", player_data, nil, disaster_turn_powerup_timer_field);
-	this.update_generic("adrenaline_rush", player_data, nil, equip_skill_208_atk_up_field);
-	this.update_generic("wall_runner", player_data, nil, wall_run_powerup_timer_field);
-	this.update_generic("offensive_guard", player_data, nil, equip_skill_036_timer_field);
-	this.update_generic("hellfire_cloak", player_data, nil, onibi_powerup_timer_field);
-	this.update_generic("agitator", player_data, nil, challenge_timer_field, nil, nil, true);
-	this.update_generic("furious", player_data, nil, furious_skill_stamina_buff_second_timer_field);
+	this.update_generic_number_value_field("burst", player_data,
+		rengeki_power_up_count_field, rengeki_power_up_timer_field, false, nil, burst_breakpoint);
+
+	this.update_generic_number_value_field("kushala_daora_soul", player_data,
+		hyakuryu_dragon_power_up_count_field, hyakuryu_dragon_power_up_timer_field, false, nil, kushara_daora_soul_breakpoint);
+
+	this.update_generic_number_value_field("intrepid_heart", player_data, equip_skill_223_accumulator_field, nil, true, intrepid_heart_minimal_value);
+	this.update_generic_timer("latent_power", player, power_freedom_timer_field);
+	this.update_generic_timer("protective_polish", player, sharpness_gauge_boost_timer_field);
+	this.update_generic_timer("grinder_s", player_data, brand_new_sharpness_adjust_up_timer_field);
+	this.update_generic_timer("counterstrike", player_data, counterattack_powerup_timer_field);
+	this.update_generic_timer("affinity_sliding", player_data, sliding_powerup_timer_field);
+	this.update_generic_timer("coalescence", player_data, disaster_turn_powerup_timer_field);
+	this.update_generic_timer("adrenaline_rush", player_data, equip_skill_208_atk_up_field);
+	this.update_generic_timer("wall_runner", player_data, wall_run_powerup_timer_field);
+	this.update_generic_timer("offensive_guard", player_data, equip_skill_036_timer_field);
+	this.update_generic_timer("hellfire_cloak", player_data, onibi_powerup_timer_field);
+	this.update_generic_timer("agitator", player_data, challenge_timer_field, true);
+	this.update_generic_timer("furious", player_data, furious_skill_stamina_buff_second_timer_field);
+
+	this.update_generic_boolean_value_method("heaven_sent", player, is_active_equip_skill_230_method);
+	this.update_generic_boolean_value_method("heroics", player, is_predicament_power_up_method);
+	this.update_generic_boolean_value_method("resuscitate", player, is_debuff_state_method);
 end
 
-function this.update_generic(skill_key, timer_owner, value_field, timer_field, minimal_value, breakpoint, is_infinite)
-	minimal_value = minimal_value or 1;
+function this.update_equipped_skill_data(player)
+	local player_skill_list = get_player_skill_list_method:call(player);
+	if player_skill_list == nil then
+		error_handler.report("skills.update_equipped_skill_data", "Failed to access Data: player_skill_list");
+		return;
+	end
+
+	for skill_key, skill_data in pairs(skill_data_list) do
+		local has_skill = has_skill_method:call(player_skill_list, skill_data.id, 1);
+		if has_skill == nil then
+			error_handler.report("skills.update_equipped_skill_data", string.format("Failed to access Data: %s -> has_skill", skill_key));
+			goto continue;
+		end
+
+		skill_data.is_equipped = has_skill;
+
+		::continue::
+	end
+end
+
+function this.update_generic_timer(skill_key, timer_owner, timer_field, is_infinite)
+	if is_infinite == nil then is_infinite = false; end
+
+	local skill_data = skill_data_list[skill_key];
+	if skill_data ~= nil and not skill_data.is_equipped then
+		return;
+	end
+
+	local timer = nil;
+	if timer_field ~= nil then
+		timer = timer_field:get_data(timer_owner);
+		if timer == nil then
+			error_handler.report("skills.update_generic_timer", string.format("Failed to access Data: %s_timer", skill_key));
+			return;
+		end
+
+		if timer == 0 then
+			this.list[skill_key] = nil;
+			return;
+		end
+
+		if is_infinite then
+			timer = nil;
+		else
+			timer = timer / 60;
+		end
+	end
+
+	this.update_generic(skill_key, 1, timer);
+end
+
+function this.update_generic_number_value_field(skill_key, timer_owner, value_field, timer_field, is_infinite, minimal_value, breakpoint)
+	if minimal_value == nil then minimal_value = 1; end
 	breakpoint = breakpoint or 1000000;
 	if is_infinite == nil then is_infinite = false; end
+
+	local skill_data = skill_data_list[skill_key];
+	if skill_data ~= nil and not skill_data.is_equipped then
+		return;
+	end
 
 	local level = 1;
 
 	if value_field ~= nil then
-
 		local value = value_field:get_data(timer_owner);
+		
 		if value == nil then
-			error_handler.report("skills.update_generic", string.format("Failed to access Data: %s_value", skill_key));
+			error_handler.report("skills.update_generic_number_value_field", string.format("Failed to access Data: %s_value", skill_key));
 			return;
 		end
 
@@ -193,11 +278,11 @@ function this.update_generic(skill_key, timer_owner, value_field, timer_field, m
 		end
 	end
 
-	local timer;
+	local timer = nil;
 	if timer_field ~= nil then
 		timer = timer_field:get_data(timer_owner);
 		if timer == nil then
-			error_handler.report("skills.update_generic", string.format("Failed to access Data: %s_timer", skill_key));
+			error_handler.report("skills.update_generic_number_value_field", string.format("Failed to access Data: %s_timer", skill_key));
 			return;
 		end
 
@@ -206,23 +291,172 @@ function this.update_generic(skill_key, timer_owner, value_field, timer_field, m
 			return;
 		end
 
-		timer = timer / 60;
+		if is_infinite then
+			timer = nil;
+		else
+			timer = timer / 60;
+		end
 	end
 
-	local skill = this.list[skill_key];
-	if skill == nil then
-		local name = language.current_language.skills[skill_key];
+	this.update_generic(skill_key, level, timer);
+end
+
+function this.update_generic_boolean_value_field(skill_key, timer_owner, value_field, timer_field, is_infinite, minimal_value)
+	if minimal_value == nil then minimal_value = true; end
+	if is_infinite == nil then is_infinite = false; end
+
+	local skill_data = skill_data_list[skill_key];
+	if skill_data ~= nil and not skill_data.is_equipped then
+		return;
+	end
+
+	if value_field ~= nil then
+		local value = value_field:get_data(timer_owner);
+		
+		if value == nil then
+			error_handler.report("skills.update_generic_boolean_value_field", string.format("Failed to access Data: %s_value", skill_key));
+			return;
+		end
+
+		if value < minimal_value then
+			this.list[skill_key] = nil;
+			return;
+		end
+	end
+
+	local timer = nil;
+	if timer_field ~= nil then
+		timer = timer_field:get_data(timer_owner);
+		if timer == nil then
+			error_handler.report("skills.update_generic_boolean_value_field", string.format("Failed to access Data: %s_timer", skill_key));
+			return;
+		end
+
+		if value_field == nil and timer == 0 then
+			this.list[skill_key] = nil;
+			return;
+		end
 
 		if is_infinite then
 			timer = nil;
+		else
+			timer = timer / 60;
 		end
+	end
+
+	this.update_generic(skill_key, 1, timer);
+end
+
+function this.update_generic_number_value_method(skill_key, timer_owner, value_method, timer_field, is_infinite, minimal_value, breakpoint)
+	if minimal_value == nil then minimal_value = 1; end
+	breakpoint = breakpoint or 1000000;
+	if is_infinite == nil then is_infinite = false; end
+
+	local skill_data = skill_data_list[skill_key];
+	if skill_data ~= nil and not skill_data.is_equipped then
+		return;
+	end
+
+	local level = 1;
+
+	if value_method ~= nil then
+		local value = value_method:call(timer_owner);
+		
+		if value == nil then
+			error_handler.report("skills.update_generic_number_value_method", string.format("Failed to access Data: %s_value", skill_key));
+			return;
+		end
+
+		if value < minimal_value then
+			this.list[skill_key] = nil;
+			return;
+		end
+
+		if value >= breakpoint then
+			level = 2;
+		end
+	end
+
+	local timer = nil;
+	if timer_field ~= nil then
+		timer = timer_field:get_data(timer_owner);
+		if timer == nil then
+			error_handler.report("skills.update_generic_number_value_method", string.format("Failed to access Data: %s_timer", skill_key));
+			return;
+		end
+
+		if value_method == nil and timer == 0 then
+			this.list[skill_key] = nil;
+			return;
+		end
+
+		if is_infinite then
+			timer = nil;
+		else
+			timer = timer / 60;
+		end
+	end
+
+	this.update_generic(skill_key, level, timer);
+end
+
+function this.update_generic_boolean_value_method(skill_key, timer_owner, value_method, timer_field, is_infinite, minimal_value)
+	if minimal_value == nil then minimal_value = true; end
+	if is_infinite == nil then is_infinite = false; end
+
+	local skill_data = skill_data_list[skill_key];
+	if skill_data ~= nil and not skill_data.is_equipped then
+		return;
+	end
+
+	if value_method ~= nil then
+		local value = value_method:call(timer_owner);
+		
+		if value == nil then
+			error_handler.report("skills.update_generic_boolean_value_method", string.format("Failed to access Data: %s_value", skill_key));
+			return;
+		end
+
+		if value ~= minimal_value then
+			this.list[skill_key] = nil;
+			return;
+		end
+	end
+
+	local timer = nil;
+	if timer_field ~= nil then
+		timer = timer_field:get_data(timer_owner);
+		if timer == nil then
+			error_handler.report("skills.update_generic_boolean_value_method", string.format("Failed to access Data: %s_timer", skill_key));
+			return;
+		end
+
+		if value_method == nil and timer == 0 then
+			this.list[skill_key] = nil;
+			return;
+		end
+
+		if is_infinite then
+			timer = nil;
+		else
+			timer = timer / 60;
+		end
+	end
+
+	this.update_generic(skill_key, 1, timer);
+end
+
+function this.update_generic(skill_key, level, timer)
+	local skill = this.list[skill_key];
+	if skill == nil then
+		local name = language.current_language.skills[skill_key];
 
 		skill = buffs.new(buffs.types.skill, skill_key, name, level, timer);
 		this.list[skill_key] = skill;
 	else
 		skill.level = level;
 
-		if not is_infinite then
+		if timer ~= nil then
 			buffs.update_timer(skill, timer);
 		end
 	end
@@ -311,30 +545,15 @@ function this.update_wind_mantle(player)
 	end
 end
 
-function this.update_heaven_sent(player)
-	local is_heaven_sent_active = is_active_equip_skill_230_method:call(player);
-	if is_heaven_sent_active == nil then
-		error_handler.report("skills.update_heaven_sent", "Failed to access Data: is_heaven_sent_active");
-		return;
-	end
-
-	if not is_heaven_sent_active then
-		this.list.heaven_sent = nil;
-		return;
-	end
-
-	local buff = this.list.heaven_sent;
-	if buff == nil then
-		local name = language.current_language.skills.heaven_sent;
-
-		buff = buffs.new(buffs.types.skill, "heaven_sent", name, 1);
-		this.list.heaven_sent = buff;
-	end
-end
-
 function this.init_names()
-	for key, buff in pairs(this.list) do
-		buff.name = language.current_language.skills[key];
+	for skill_key, skill in pairs(this.list) do
+		local name = language.current_language.skills[skill_key];
+
+		if name == nil then
+			name = skill_key;
+		end
+
+		skill.name = name;
 	end
 end
 
