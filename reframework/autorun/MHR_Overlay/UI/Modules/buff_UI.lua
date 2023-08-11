@@ -45,11 +45,12 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function this.draw()
-	local cached_config = config.current_config.buff_UI;
-	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+local displayed_buffs = {};
 
-	local displayed_buffs = {};
+function this.update()
+	local cached_config = config.current_config.buff_UI;
+
+	local _displayed_buffs = {};
 
 	for key, consumable in pairs(consumables.list) do
 		
@@ -57,7 +58,7 @@ function this.draw()
 			goto continue;
 		end
 
-		table.insert(displayed_buffs, consumable);
+		table.insert(_displayed_buffs, consumable);
 
 		::continue::
 	end
@@ -68,7 +69,7 @@ function this.draw()
 			goto continue2;
 		end
 
-		table.insert(displayed_buffs, melody_effect);
+		table.insert(_displayed_buffs, melody_effect);
 
 		::continue2::
 	end
@@ -78,7 +79,7 @@ function this.draw()
 			goto continue3;
 		end
 
-		table.insert(displayed_buffs, endemic_life_buff);
+		table.insert(_displayed_buffs, endemic_life_buff);
 
 		::continue3::
 	end
@@ -88,7 +89,7 @@ function this.draw()
 			goto continue4;
 		end
 
-		table.insert(displayed_buffs, skill);
+		table.insert(_displayed_buffs, skill);
 
 		::continue4::
 	end
@@ -98,64 +99,71 @@ function this.draw()
 			goto continue5;
 		end
 
-		table.insert(displayed_buffs, dango_buff);
+		table.insert(_displayed_buffs, dango_buff);
 
 		::continue5::
 	end
 
 	for key, abnormal_status in pairs(abnormal_statuses.list) do
 		if not abnormal_status.is_active then
-			goto continue5;
+			goto continue6;
 		end
 
-		table.insert(displayed_buffs, abnormal_status);
+		table.insert(_displayed_buffs, abnormal_status);
 
-		::continue5::
+		::continue6::
 	end
 
+	displayed_buffs = this.sort_buffs(_displayed_buffs, cached_config);
+end
 
-	-- sort
-	if cached_config.sorting.type == "Name" then
-		if cached_config.sorting.reversed_order then
-			table.sort(displayed_buffs, function(left, right)
+function this.sort_buffs(_displayed_buffs, cached_config)
+	cached_config = cached_config.sorting;
+
+	if cached_config.type == "Name" then
+		if cached_config.reversed_order then
+			table.sort(_displayed_buffs, function(left, right)
 				return left.name > right.name;
 			end);
 		else
-			table.sort(displayed_buffs, function(left, right)
+			table.sort(_displayed_buffs, function(left, right)
 				return left.name < right.name;
 			end);
 		end
-	elseif cached_config.sorting.type == "Timer" then
-		if cached_config.sorting.reversed_order then
-			table.sort(displayed_buffs, function(left, right)
+	elseif cached_config.type == "Timer" then
+		if cached_config.reversed_order then
+			table.sort(_displayed_buffs, function(left, right)
 				return left.timer > right.timer;
 			end);
 		else
-			table.sort(displayed_buffs, function(left, right)
+			table.sort(_displayed_buffs, function(left, right)
 				return left.timer < right.timer;
 			end);
 		end
 	else
-		if cached_config.sorting.reversed_order then
-			table.sort(displayed_buffs, function(left, right)
+		if cached_config.reversed_order then
+			table.sort(_displayed_buffs, function(left, right)
 				return left.duration > right.duration;
 			end);
 		else
-			table.sort(displayed_buffs, function(left, right)
+			table.sort(_displayed_buffs, function(left, right)
 				return left.duration < right.duration;
 			end);
 		end
 	end
 
+	return _displayed_buffs;
+end
+
+function this.draw()
+	local cached_config = config.current_config.buff_UI;
+
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
 	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 
 	-- draw
 	for _, buff in ipairs(displayed_buffs) do
-		
-		if not buff.is_active then
-			goto continue3;
-		end
-
 		buffs.draw(buff, buff.buff_UI, position_on_screen, 1);
 
 		if cached_config.settings.orientation == "Horizontal" then
@@ -164,7 +172,7 @@ function this.draw()
 			position_on_screen.y = position_on_screen.y + cached_config.spacing.y * global_scale_modifier;
 		end
 
-		::continue3::
+		::continue::
 	end
 end
 

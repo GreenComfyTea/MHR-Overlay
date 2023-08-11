@@ -151,7 +151,7 @@ function this.update()
 		return;
 	end
 
-	abnormal_statuses.update(master_player);
+
 
 	local master_player_data = get_player_data_method:call(master_player);
 	if master_player_data ~= nil then
@@ -159,6 +159,7 @@ function this.update()
 		endemic_life_buffs.update(master_player_data);
 		skills.update(master_player, master_player_data);
 		dangos.update(master_player_data);
+		abnormal_statuses.update(master_player, master_player_data);
 	else
 		error_handler.report("buffs.update", "Failed to access Data: master_player_data");
 	end

@@ -54,148 +54,287 @@ local get_tg_camera_method = gui_manager_type_def:get_method("get_refGuiHud_TgCa
 local tg_camera_type_def = get_tg_camera_method:get_return_type();
 local get_targeting_enemy_index_field = tg_camera_type_def:get_field("OldTargetingEmIndex");
 
-function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
+local displayed_dynamic_monsters = {};
+local displayed_static_monsters = {};
+local highlighted_monster = nil;
+
+function this.update(dynamic_enabled, static_enabled, highlighted_enabled)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if singletons.enemy_manager == nil then
+		error_handler.report("large_monster_UI.update", "Failed to access Data: enemy_manager");
 		return;
 	end
 
-	local displayed_monsters = {};
-
-	local update_distance =
-		dynamic_enabled or cached_config.static.sorting.type == "Distance"
-		or (cached_config.highlighted.auto_highlight.enabled
-			and (cached_config.highlighted.auto_highlight.mode == "Closest" or cached_config.highlighted.auto_highlight.mode == "Furthest")
-		);
-
-	local monster_id_shift = 0;
-	local highlighted_monster = nil;
+	local large_monster_list = {};
 
 	local enemy_count = get_boss_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
-		error_handler.report("large_monster_UI.draw", "Failed to access Data: enemy_count");
+		error_handler.report("large_monster_UI.update", "Failed to access Data: enemy_count");
 		return;
 	end
+	
 
 	for i = 0, enemy_count - 1 do
 		local enemy = get_boss_enemy_method:call(singletons.enemy_manager, i);
 		if enemy == nil then
-			error_handler.report("large_monster_UI.draw", "Failed to access Data: enemy No. " .. tostring(i));
+			error_handler.report("large_monster_UI.update", "Failed to access Data: enemy No. " .. tostring(i));
 			goto continue;
 		end
 
 		local monster = large_monster.get_monster(enemy);
 		if monster == nil then
-			error_handler.report("large_monster_UI.draw", "Failed to create Large Monster Entry No. " .. tostring(i));
+			error_handler.report("large_monster_UI.update", "Failed to create Large Monster Entry No. " .. tostring(i));
 			goto continue;
 		end
 
-		if update_distance then
-			monster.distance = (players.myself_position - monster.position):length();
-		end
+		monster.distance = (players.myself_position - monster.position):length();
 
-		if cached_config.highlighted.auto_highlight.enabled then
-			if highlighted_monster == nil then
-				highlighted_monster = monster;
+		table.insert(large_monster_list, monster);
 
-			elseif cached_config.highlighted.auto_highlight.mode == "Farthest" then
-				if monster.distance > highlighted_monster.distance then
-					highlighted_monster = monster;
-				end
-	
-			elseif cached_config.highlighted.auto_highlight.mode == "Lowest Health" then
-				if monster.health < highlighted_monster.health then
-					highlighted_monster = monster;
-				end
-	
-			elseif cached_config.highlighted.auto_highlight.mode == "Highest Health" then
-				if monster.health > highlighted_monster.health then
-					highlighted_monster = monster;
-				end
-
-			elseif cached_config.highlighted.auto_highlight.mode == "Lowest Health Percentage" then
-				if monster.health_percentage < highlighted_monster.health_percentage then
-					highlighted_monster = monster;
-				end
-	
-			elseif cached_config.highlighted.auto_highlight.mode == "Highest Health Percentage" then
-				if monster.health_percentage > highlighted_monster.health_percentage then
-					highlighted_monster = monster;
-				end
-	
-			else
-				if monster.distance < highlighted_monster.distance then
-					highlighted_monster = monster;
-				end
-			end
-		else
-			if monster.dead_or_captured or not monster.is_disp_icon_mini_map then
-				monster_id_shift = monster_id_shift + 1;
-
-			elseif i == large_monster.highlighted_id + monster_id_shift then
-				highlighted_monster = monster;
-			end
-		end
-		table.insert(displayed_monsters, monster);
 		::continue::
 	end
 
-	if dynamic_enabled then
-		local success = pcall(this.draw_dynamic, displayed_monsters, highlighted_monster, cached_config);
-		if not success then
-			error_handler.report("large_monster_UI.draw", "Dynamic Large Monster drawing function threw an exception");
-		end
-	end
+	this.update_highlighted_monster(large_monster_list, cached_config.highlighted.auto_highlight);
 
-	if highlighted_enabled then
-		local success = pcall(this.draw_highlighted, highlighted_monster, cached_config);
-		if not success then
-			error_handler.report("large_monster_UI.draw", "Highlighted Large Monster drawing function threw an exception");
-		end
+	if dynamic_enabled then
+		this.update_dynamic_monsters(large_monster_list, cached_config);
 	end
 
 	if static_enabled then
-		local success = pcall(this.draw_static, displayed_monsters, highlighted_monster, cached_config);
-		if not success then
-			error_handler.report("large_monster_UI.draw", "Static Large Monster drawing function threw an exception");
-		end
+		this.update_static_monsters(large_monster_list, cached_config);
 	end
 end
 
-function this.draw_dynamic(displayed_monsters, highlighted_monster, cached_config)
-	cached_config = cached_config.dynamic;
-	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+function this.update_dynamic_monsters(large_monster_list, cached_config)
+	if not cached_config.dynamic.enabled then
+		displayed_dynamic_monsters = {};
+		return;
+	end
 
-	local i = 0;
-	for _, monster in ipairs(displayed_monsters) do
-		if cached_config.settings.max_distance == 0 then
-			break;
+	local dynamic_cached_config = cached_config.dynamic.settings;
+
+	local _displayed_dynamic_monsters = {};
+
+	if dynamic_cached_config.max_distance == 0 then
+		displayed_dynamic_monsters = {};
+		return;
+	end
+
+	for i, monster in ipairs(large_monster_list) do
+		if monster.distance > dynamic_cached_config.max_distance then
+			goto continue;
 		end
 
 		if monster.is_stealth then
 			goto continue;
 		end
 
-		if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
+		if monster.dead_or_captured and dynamic_cached_config.hide_dead_or_captured then
 			goto continue;
 		end
 
 		if monster == highlighted_monster then
-			if not cached_config.settings.render_highlighted_monster then
+			if not dynamic_cached_config.render_highlighted_monster then
 				goto continue;
 			end
 		else
-			if not cached_config.settings.render_not_highlighted_monsters then
+			if not dynamic_cached_config.render_not_highlighted_monsters then
 				goto continue;
 			end
 		end
 
-		local position_on_screen = {};
+		table.insert(_displayed_dynamic_monsters, monster);
 
+		::continue::
+	end
+
+	displayed_dynamic_monsters = _displayed_dynamic_monsters;
+end
+
+function this.update_static_monsters(large_monster_list, cached_config)
+	if not cached_config.static.enabled then
+		displayed_static_monsters = {};
+		return;
+	end
+
+	local static_cached_config = cached_config.static.settings;
+
+	local _displayed_static_monsters = {};
+
+	for i, monster in ipairs(large_monster_list) do
+		if monster.is_stealth then
+			goto continue;
+		end
+
+		if monster.dead_or_captured and static_cached_config.hide_dead_or_captured then
+			goto continue;
+		end
+
+		if monster == highlighted_monster then
+			if not static_cached_config.render_highlighted_monster then
+				goto continue;
+			end
+		else
+			if not static_cached_config.render_not_highlighted_monsters then
+				goto continue;
+			end
+		end
+
+		table.insert(_displayed_static_monsters, monster);
+		::continue::
+	end
+	
+
+	displayed_static_monsters = this.sort_static_monsters(_displayed_static_monsters, cached_config);
+end
+
+function this.sort_static_monsters(_displayed_static_monsters, cached_config)
+	cached_config = cached_config.static.sorting;
+
+	-- sort here
+	if cached_config.type == "Normal" and cached_config.reversed_order then
+		local reversed_monsters = {};
+		for i = #_displayed_static_monsters, 1, -1 do
+			table.insert(reversed_monsters, _displayed_static_monsters[i]);
+		end
+
+		_displayed_static_monsters = reversed_monsters;
+
+	elseif cached_config.type == "Health" then
+		if cached_config.reversed_order then
+			table.sort(_displayed_static_monsters, function(left, right)
+				return left.health > right.health;
+			end);
+		else
+			table.sort(_displayed_static_monsters, function(left, right)
+				return left.health < right.health;
+			end);
+		end
+	elseif cached_config.type == "Health Percentage" then
+		if cached_config.reversed_order then
+			table.sort(_displayed_static_monsters, function(left, right)
+				return left.health_percentage > right.health_percentage;
+			end);
+		else
+			table.sort(_displayed_static_monsters, function(left, right)
+				return left.health_percentage < right.health_percentage;
+			end);
+		end
+	elseif cached_config.type == "Distance" then
+		if cached_config.reversed_order then
+			table.sort(_displayed_static_monsters, function(left, right)
+				return left.distance > right.distance;
+			end);
+		else
+			table.sort(_displayed_static_monsters, function(left, right)
+				return left.distance < right.distance;
+			end);
+		end
+	end
+
+	return _displayed_static_monsters;
+end
+
+function this.update_highlighted_monster(large_monster_list, autohighlight_config)
+	local monster_id_shift = 0;
+	local _highlighted_monster = nil;
+
+	large_monster.update_highlighted_id();
+
+	if large_monster.highlighted_id == -1 then
+		highlighted_monster = nil;
+		return;
+	end
+
+	for i, monster in ipairs(large_monster_list) do
+		if monster.dead_or_captured or not monster.is_disp_icon_mini_map then
+			monster_id_shift = monster_id_shift + 1;
+			goto continue;
+		end
+	
+		if not autohighlight_config.enabled then
+			if i - 1 == large_monster.highlighted_id + monster_id_shift then
+				_highlighted_monster = monster;
+				goto continue;
+			end
+
+			goto continue;
+		end
+	
+		if _highlighted_monster == nil then
+			_highlighted_monster = monster;
+			goto continue;
+		end
+	
+		if autohighlight_config.mode == "Farthest" and monster.distance > _highlighted_monster.distance then
+			_highlighted_monster = monster;
+			goto continue;
+		end
+	
+		if autohighlight_config.mode == "Lowest Health" and monster.health < _highlighted_monster.health then
+			_highlighted_monster = monster;
+			goto continue;
+		end
+	
+		if autohighlight_config.mode == "Highest Health" and monster.health > _highlighted_monster.health then
+			_highlighted_monster = monster;
+			goto continue;
+		end
+	
+		if autohighlight_config.mode == "Lowest Health Percentage" and monster.health_percentage < _highlighted_monster.health_percentage then
+			_highlighted_monster = monster;
+			goto continue;
+		end
+	
+		if autohighlight_config.mode == "Highest Health Percentage" and monster.health_percentage > _highlighted_monster.health_percentage then
+			_highlighted_monster = monster;
+			goto continue;
+		end
+	
+		if monster.distance < _highlighted_monster.distance then
+			_highlighted_monster = monster;
+		end
+
+		::continue::
+	end
+
+	highlighted_monster = _highlighted_monster;
+end
+
+function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
+	local cached_config = config.current_config.large_monster_UI;
+
+	if dynamic_enabled then
+		local success = pcall(this.draw_dynamic, cached_config);
+		if not success then
+			error_handler.report("large_monster_UI.draw", "Dynamic Large Monster drawing function threw an exception");
+		end
+	end
+
+	if highlighted_enabled then
+		local success = pcall(this.draw_highlighted, cached_config);
+		if not success then
+			error_handler.report("large_monster_UI.draw", "Highlighted Large Monster drawing function threw an exception");
+		end
+	end
+
+	if static_enabled then
+		local success = pcall(this.draw_static, cached_config);
+		if not success then
+			error_handler.report("large_monster_UI.draw", "Static Large Monster drawing function threw an exception");
+		end
+	end
+end
+
+function this.draw_dynamic(cached_config)
+	cached_config = cached_config.dynamic;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
+	local i = 0;
+	for _, monster in ipairs(displayed_dynamic_monsters) do
 		local world_offset = Vector3f.new(cached_config.world_offset.x, cached_config.world_offset.y, cached_config.world_offset.z);
-
-		position_on_screen = draw.world_to_screen(monster.position + world_offset);
+		local position_on_screen = draw.world_to_screen(monster.position + world_offset);
 
 		if position_on_screen == nil then
 			goto continue;
@@ -205,84 +344,27 @@ function this.draw_dynamic(displayed_monsters, highlighted_monster, cached_confi
 		position_on_screen.y = position_on_screen.y + cached_config.viewport_offset.y * global_scale_modifier;
 
 		local opacity_scale = 1;
-		if monster.distance > cached_config.settings.max_distance then
-			goto continue;
-		end
-
+		
 		if cached_config.settings.opacity_falloff then
+			monster.distance = (players.myself_position - monster.position):length();
 			opacity_scale = 1 - (monster.distance / cached_config.settings.max_distance);
 		end
 
-		large_monster.draw(monster, "dynamic", cached_config, position_on_screen, opacity_scale);
+		large_monster.draw(monster, "dynamic_UI", cached_config, position_on_screen, opacity_scale);
 
 		i = i + 1;
 		::continue::
 	end
 end
 
-function this.draw_static(displayed_monsters, highlighted_monster, cached_config)
+function this.draw_static(cached_config)
 	cached_config = cached_config.static;
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
-
-	-- sort here
-	if cached_config.sorting.type == "Normal" and cached_config.sorting.reversed_order then
-		local reversed_monsters = {};
-		for i = #displayed_monsters, 1, -1 do
-			table.insert(reversed_monsters, displayed_monsters[i]);
-		end
-
-		displayed_monsters = reversed_monsters;
-
-	elseif cached_config.sorting.type == "Health" then
-		if cached_config.sorting.reversed_order then
-			table.sort(displayed_monsters, function(left, right)
-				return left.health > right.health;
-			end);
-		else
-			table.sort(displayed_monsters, function(left, right)
-				return left.health < right.health;
-			end);
-		end
-	elseif cached_config.sorting.type == "Health Percentage" then
-		if cached_config.sorting.reversed_order then
-			table.sort(displayed_monsters, function(left, right)
-				return left.health_percentage > right.health_percentage;
-			end);
-		else
-			table.sort(displayed_monsters, function(left, right)
-				return left.health_percentage < right.health_percentage;
-			end);
-		end
-	elseif cached_config.sorting.type == "Distance" then
-		if cached_config.sorting.reversed_order then
-			table.sort(displayed_monsters, function(left, right)
-				return left.distance > right.distance;
-			end);
-		else
-			table.sort(displayed_monsters, function(left, right)
-				return left.distance < right.distance;
-			end);
-		end
-	end
 
 	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 
 	local i = 0;
-	for _, monster in ipairs(displayed_monsters) do
-		if monster.dead_or_captured and cached_config.settings.hide_dead_or_captured then
-			goto continue;
-		end
-
-		if monster == highlighted_monster then
-			if not cached_config.settings.render_highlighted_monster then
-				goto continue;
-			end
-		else
-			if not cached_config.settings.render_not_highlighted_monsters then
-				goto continue;
-			end
-		end
-
+	for _, monster in ipairs(displayed_static_monsters) do
 		local monster_position_on_screen = {
 			x = position_on_screen.x,
 			y = position_on_screen.y
@@ -294,27 +376,23 @@ function this.draw_static(displayed_monsters, highlighted_monster, cached_config
 			monster_position_on_screen.y = monster_position_on_screen.y + cached_config.spacing.y * i * global_scale_modifier;
 		end
 
-		large_monster.draw(monster, "static", cached_config, monster_position_on_screen, 1);
+		large_monster.draw(monster, "static_UI", cached_config, monster_position_on_screen, 1);
 
 		i = i + 1;
 		::continue::
 	end
 end
 
-function this.draw_highlighted(monster, cached_config)
-	cached_config = cached_config.highlighted;
-
-	if monster == nil then
+function this.draw_highlighted(cached_config)
+	if highlighted_monster == nil then
 		return;
 	end
+
+	cached_config = cached_config.highlighted;
 
 	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 
-	if monster.dead_or_captured then
-		return;
-	end
-
-	large_monster.draw(monster, "highlighted", cached_config, position_on_screen, 1);
+	large_monster.draw(highlighted_monster, "highlighted_UI", cached_config, position_on_screen, 1);
 end
 
 function this.init_dependencies()

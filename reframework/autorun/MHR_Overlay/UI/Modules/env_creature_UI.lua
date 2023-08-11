@@ -45,29 +45,45 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-function this.draw()
-	if singletons.enemy_manager == nil then
+local displayed_creatures = {};
+
+function this.update()
+	local cached_config = config.current_config.endemic_life_UI;
+
+	local _displayed_creatures = {};
+
+	if cached_config.settings.max_distance == 0 then
+		displayed_creatures = {};
 		return;
 	end
 
-	local cached_config = config.current_config.endemic_life_UI;
-	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
-	
 	for REcreature, creature in pairs(env_creature.list) do
-		if cached_config.settings.max_distance == 0 then
-			break;
-		end
-
 		if cached_config.settings.hide_inactive_creatures and creature.is_inactive then
 			goto continue;
 		end
 
-		local position_on_screen = {};
+		creature.distance = (players.myself_position - creature.position):length();
+		if creature.distance > cached_config.settings.max_distance then
+			goto continue;
+		end
 
-		local world_offset = Vector3f.new(cached_config.world_offset.x, cached_config.world_offset.y,
-			cached_config.world_offset.z);
+		table.insert(_displayed_creatures, creature);
+		::continue::
+	end
+end
 
-		position_on_screen = draw.world_to_screen(creature.position + world_offset);
+function this.draw()
+	local cached_config = config.current_config.endemic_life_UI;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+	
+	for i, creature in ipairs(displayed_creatures) do
+		local world_offset = Vector3f.new(
+			cached_config.world_offset.x,
+			cached_config.world_offset.y,
+			cached_config.world_offset.z
+		);
+
+		local position_on_screen = draw.world_to_screen(creature.position + world_offset);
 
 		if position_on_screen == nil then
 			goto continue;
@@ -76,14 +92,9 @@ function this.draw()
 		position_on_screen.x = position_on_screen.x + cached_config.viewport_offset.x * global_scale_modifier;
 		position_on_screen.y = position_on_screen.y + cached_config.viewport_offset.y * global_scale_modifier;
 
-		creature.distance = (players.myself_position - creature.position):length();
-
 		local opacity_scale = 1;
-		if creature.distance > cached_config.settings.max_distance then
-			goto continue;
-		end
-
 		if cached_config.settings.opacity_falloff then
+			creature.distance = (players.myself_position - creature.position):length();
 			opacity_scale = 1 - (creature.distance / cached_config.settings.max_distance);
 		end
 

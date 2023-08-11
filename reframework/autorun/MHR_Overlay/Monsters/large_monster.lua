@@ -1171,15 +1171,7 @@ function this.update_highlighted_id()
 end
 
 function this.draw(monster, type, cached_config, position_on_screen, opacity_scale)
-	local monster_UI;
-
-	if type == "dynamic" then	
-		monster_UI = monster.dynamic_UI;
-	elseif type == "static" then
-		monster_UI = monster.static_UI;
-	else
-		monster_UI = monster.highlighted_UI;
-	end
+	local monster_UI = monster[type];
 
 	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
 
@@ -1307,7 +1299,6 @@ function this.init_dependencies()
 end
 
 function this.init_module()
-	time.new_timer(this.update_highlighted_id, 1/30);
 end
 
 return this;
