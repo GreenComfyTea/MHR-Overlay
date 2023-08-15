@@ -665,7 +665,42 @@ this.default_language = {
 		current_time = "Current Time",
 		everything_seems_to_be_ok = "Everything seems to be OK!",
 		history = "History",
-		history_size = "History Size"
+		history_size = "History Size",
+
+		value = "Value",
+
+		stats_UI = "Stats UI",
+		attack_label = "Attack Label",
+		defense_label = "Defense Label",
+		affinity_label = "Affinity Label",
+		fire_resistance_label = "Fire Resistance Label",
+		water_resistance_label = "Water Resistance Label",
+		thunder_resistance_label = "Thunder Resistance Label",
+		ice_resistance_label = "Ice Resistance Label",
+		dragon_resistance_label = "Dragon Resistance Label",
+		stamina_label = "Stamina Label",
+		element_label = "Element Label",
+		element_2_label = "Element 2 Label"
+	},
+
+	stats = {
+		attack = "Attack",
+		defense = "Defense",
+		affinity = "Affinity",
+		
+		fire_resistance = "Fire Res";
+		water_resistance = "Water Res";
+		thunder_resistance = "Thunder Res";
+		ice_resistance = "Ice Res";
+		dragon_resistance = "Dragon Res";
+
+		stamina = "Stamina",
+
+		fire = "Fire",
+		water = "Water",
+		thunder = "Thunder",
+		ice = "Ice",
+		dragon = "Dragon",
 	}
 };
 

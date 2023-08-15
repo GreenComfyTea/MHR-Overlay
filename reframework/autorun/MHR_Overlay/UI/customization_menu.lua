@@ -16,6 +16,7 @@ local quest_status;
 local buffs;
 local error_handler;
 local time;
+local stats_UI;
 
 local label_customization;
 local bar_customization;
@@ -365,6 +366,7 @@ function this.draw()
 	local damage_meter_UI_changed = false;
 	local endemic_life_UI_changed = false;
 	local buff_UI_changed = false;
+	local stats_UI_changed = false;
 	local debug_changed = false;
 	local apply_font_requested = false;
 
@@ -404,6 +406,7 @@ function this.draw()
 	damage_meter_UI_changed = this.draw_damage_meter_UI();
 	endemic_life_UI_changed = this.draw_endemic_life_UI()
 	buff_UI_changed = this.draw_buff_UI();
+	stats_UI_changed = this.draw_stats_UI()
 	
 	imgui.new_line();
 	debug_changed = this.draw_debug();
@@ -471,6 +474,11 @@ function this.draw()
 		end
 	end
 
+	if stats_UI_changed or modifiers_changed or config_changed then
+		stats_UI.init_UI();
+	end
+
+
 	if this.menu_font_changed and (apply_font_requested or config_changed) then
 		this.menu_font_changed = false;
 		this.reload_font();
@@ -478,7 +486,7 @@ function this.draw()
 
 	if window_changed or modules_changed or global_settings_changed or small_monster_UI_changed or large_monster_dynamic_UI_changed or
 		large_monster_static_UI_changed or large_monster_highlighted_UI_changed or time_UI_changed or damage_meter_UI_changed or
-		endemic_life_UI_changed or buff_UI_changed or modifiers_changed or config_changed or debug_changed then
+		endemic_life_UI_changed or buff_UI_changed or stats_UI_changed or modifiers_changed or config_changed or debug_changed then
 		config.save_current();
 	end
 
@@ -1002,6 +1010,17 @@ function this.draw_global_settings(apply_font_requested, language_changed)
 
 		if imgui.tree_node(language.current_language.customization_menu.module_visibility_based_on_game_state) then
 
+			if imgui.tree_node(language.current_language.customization_menu.in_lobby) then
+
+				changed, cached_config.module_visibility.in_lobby.stats_UI = imgui.checkbox(
+					language.current_language.customization_menu.stats_UI,
+					cached_config.module_visibility.in_lobby.stats_UI);
+
+				config_changed = config_changed or changed;
+
+				imgui.tree_pop();
+			end
+
 			if imgui.tree_node(language.current_language.customization_menu.in_training_area) then
 
 				changed, cached_config.module_visibility.in_training_area.large_monster_dynamic_UI = imgui.checkbox(
@@ -1037,6 +1056,12 @@ function this.draw_global_settings(apply_font_requested, language_changed)
 				changed, cached_config.module_visibility.in_training_area.buff_UI = imgui.checkbox(
 					language.current_language.customization_menu.buff_UI,
 					cached_config.module_visibility.in_training_area.buff_UI);
+
+				config_changed = config_changed or changed;
+
+				changed, cached_config.module_visibility.in_training_area.stats_UI = imgui.checkbox(
+					language.current_language.customization_menu.stats_UI,
+					cached_config.module_visibility.in_training_area.stats_UI);
 
 				config_changed = config_changed or changed;
 
@@ -2296,6 +2321,83 @@ function this.draw_buff_UI()
 	return config_changed;
 end
 
+function this.draw_stats_UI()
+	local changed = false;
+	local config_changed = false;
+	local index = 0;
+
+	if imgui.tree_node(language.current_language.customization_menu.stats_UI) then
+		local cached_config = config.current_config.stats_UI;
+
+		changed, cached_config.enabled = imgui.checkbox(
+			language.current_language.customization_menu.enabled, cached_config.enabled);
+
+		config_changed = config_changed or changed;	
+
+		if imgui.tree_node(language.current_language.customization_menu.position) then
+			changed, cached_config.position.x = imgui.drag_float(
+				language.current_language.customization_menu.x, cached_config.position.x, 0.1, 0, screen.width, "%.1f");
+
+			config_changed = config_changed or changed;
+
+			changed, cached_config.position.y = imgui.drag_float(
+				language.current_language.customization_menu.y, cached_config.position.y, 0.1, 0, screen.height, "%.1f");
+
+			config_changed = config_changed or changed;
+
+			changed, index = imgui.combo(
+				language.current_language.customization_menu.anchor,
+				utils.table.find_index(this.anchor_types, cached_config.position.anchor),
+				this.displayed_anchor_types);
+
+			config_changed = config_changed or changed;
+
+			if changed then
+				cached_config.position.anchor = this.anchor_types[index];
+			end
+
+			imgui.tree_pop();
+		end
+
+		changed = label_customization.draw(language.current_language.customization_menu.attack_label, cached_config.attack_label);
+		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.affinity_label, cached_config.affinity_label);
+		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.defense_label, cached_config.defense_label);
+		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.fire_resistance_label, cached_config.fire_resistance_label);
+		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.water_resistance_label, cached_config.water_resistance_label);
+		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.thunder_resistance_label, cached_config.thunder_resistance_label);
+		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.ice_resistance_label, cached_config.ice_resistance_label);
+		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.dragon_resistance_label, cached_config.dragon_resistance_label);
+		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.stamina_label, cached_config.stamina_label);
+		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.element_label, cached_config.element_label);
+		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.element_2_label, cached_config.element_2_label);
+		config_changed = config_changed or changed;
+
+		imgui.tree_pop();
+	end
+
+	return config_changed;
+end
+
 function this.draw_debug()
 	local cached_config = config.current_config.debug;
 
@@ -2369,6 +2471,7 @@ function this.init_dependencies()
 	buffs = require("MHR_Overlay.Buffs.buffs");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
 	time = require("MHR_Overlay.Game_Handler.time");
+	stats_UI = require("MHR_Overlay.UI.Modules.stats_UI");
 
 	label_customization = require("MHR_Overlay.UI.Customizations.label_customization");
 	bar_customization = require("MHR_Overlay.UI.Customizations.bar_customization");

@@ -42,6 +42,8 @@ local language = require("MHR_Overlay.Misc.language");
 local part_names = require("MHR_Overlay.Misc.part_names");
 local utils = require("MHR_Overlay.Misc.utils");
 
+local player_info = require("MHR_Overlay.Misc.player_info");
+
 local buffs = require("MHR_Overlay.Buffs.buffs");
 local consumables = require("MHR_Overlay.Buffs.consumables");
 local melody_effects = require("MHR_Overlay.Buffs.melody_effects");
@@ -71,6 +73,7 @@ local small_monster_UI = require("MHR_Overlay.UI.Modules.small_monster_UI");
 local time_UI = require("MHR_Overlay.UI.Modules.time_UI");
 local env_creature_UI = require("MHR_Overlay.UI.Modules.env_creature_UI");
 local buff_UI = require("MHR_Overlay.UI.Modules.buff_UI");
+local stats_UI = require("MHR_Overlay.UI.Modules.stats_UI");
 
 local body_part_UI_entity = require("MHR_Overlay.UI.UI_Entities.body_part_UI_entity");
 local damage_UI_entity = require("MHR_Overlay.UI.UI_Entities.damage_UI_entity");
@@ -118,6 +121,8 @@ ailment_UI_entity.init_dependencies();
 ailment_buildup_UI_entity.init_dependencies();
 body_part_UI_entity.init_dependencies();
 buff_UI_entity.init_dependencies();
+
+player_info.init_dependencies();
 
 buffs.init_dependencies();
 consumables.init_dependencies();
@@ -167,6 +172,7 @@ small_monster_UI.init_dependencies();
 time_UI.init_dependencies();
 env_creature_UI.init_dependencies();
 buff_UI.init_dependencies();
+stats_UI.init_dependencies();
 
 keyboard.init_dependencies();
 
@@ -190,6 +196,8 @@ ailment_UI_entity.init_module();
 ailment_buildup_UI_entity.init_module();
 body_part_UI_entity.init_module();
 buff_UI_entity.init_module();
+
+player_info.init_module();
 
 buffs.init_module();
 consumables.init_module();
@@ -239,6 +247,7 @@ small_monster_UI.init_module();
 time_UI.init_module();
 env_creature_UI.init_module();
 buff_UI.init_module();
+stats_UI.init_module();
 
 keyboard.init_module();
 
@@ -333,6 +342,13 @@ local function draw_modules(module_visibility_config, flow_state_name)
 			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Buff UI Draw Function threw an Exception", flow_state_name));
 		end
 	end
+
+	if config.current_config.stats_UI.enabled and module_visibility_config.stats_UI then
+		local success = pcall(stats_UI.draw);
+		if not success then
+			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Stats UI Draw Function threw an Exception", flow_state_name));
+		end
+	end
 end
 
 local function update_UI()
@@ -390,7 +406,17 @@ local function update_UI()
 end
 
 local function draw_loop()
-	if quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
+	if quest_status.flow_state == quest_status.flow_states.IN_LOBBY then
+		local module_visibility_config = config.current_config.global_settings.module_visibility.in_lobby;
+
+		if config.current_config.stats_UI.enabled and module_visibility_config.stats_UI then
+			local success = pcall(stats_UI.draw);
+			if not success then
+				error_handler.report("MHR_Overlay.main_loop", "[In Training Area] Stats UI Draw Function threw an Exception");
+			end
+		end
+
+	elseif quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
 
 		local large_monster_UI_config = config.current_config.large_monster_UI;
 		local module_visibility_config = config.current_config.global_settings.module_visibility.in_training_area;
@@ -424,6 +450,13 @@ local function draw_loop()
 			local success = pcall(buff_UI.draw);
 			if not success then
 				error_handler.report("MHR_Overlay.main_loop", "[In Training Area] Buff UI Draw Function threw an Exception");
+			end
+		end
+
+		if config.current_config.stats_UI.enabled and module_visibility_config.stats_UI then
+			local success = pcall(stats_UI.draw);
+			if not success then
+				error_handler.report("MHR_Overlay.main_loop", "[In Training Area] Stats UI Draw Function threw an Exception");
 			end
 		end
 

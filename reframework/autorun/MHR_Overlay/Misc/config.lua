@@ -84,13 +84,18 @@ function this.init_default()
 			},
 	
 			module_visibility = {
+				in_lobby = {
+					stats_UI = true
+				},
+
 				in_training_area = {
 					large_monster_dynamic_UI = true,
 					large_monster_static_UI = true,
 					large_monster_highlighted_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = true,
-					buff_UI = true
+					buff_UI = true,
+					stats_UI = true
 				},
 	
 				cutscene = {
@@ -101,7 +106,8 @@ function this.init_default()
 					time_UI = false,
 					damage_meter_UI = false,
 					endemic_life_UI = false,
-					buff_UI = false
+					buff_UI = false,
+					stats_UI = false
 				},
 	
 				loading_quest = {
@@ -112,7 +118,8 @@ function this.init_default()
 					time_UI = false,
 					damage_meter_UI = false,
 					endemic_life_UI = false,
-					buff_UI = false
+					buff_UI = false,
+					stats_UI = false
 				},
 	
 				quest_start_animation = {
@@ -123,7 +130,8 @@ function this.init_default()
 					time_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = true,
-					buff_UI = true
+					buff_UI = true,
+					stats_UI = true
 				},
 	
 				playing_quest = {
@@ -134,7 +142,8 @@ function this.init_default()
 					time_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = true,
-					buff_UI = true
+					buff_UI = true,
+					stats_UI = true
 				},
 	
 				killcam = {
@@ -145,7 +154,8 @@ function this.init_default()
 					time_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = true,
-					buff_UI = true
+					buff_UI = true,
+					stats_UI = true
 				},
 	
 				quest_end_timer = {
@@ -156,7 +166,8 @@ function this.init_default()
 					time_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = true,
-					buff_UI = true
+					buff_UI = true,
+					stats_UI = true
 				},
 	
 				quest_end_animation = {
@@ -167,7 +178,8 @@ function this.init_default()
 					time_UI = false,
 					damage_meter_UI = false,
 					endemic_life_UI = false,
-					buff_UI = false
+					buff_UI = false,
+					stats_UI = false
 				},
 	
 				quest_end_screen = {
@@ -178,7 +190,9 @@ function this.init_default()
 					time_UI = false,
 					damage_meter_UI = false,
 					endemic_life_UI = false,
-					buff_UI = false
+					buff_UI = false,
+					stats_UI = false
+
 				},
 	
 				reward_screen = {
@@ -189,7 +203,8 @@ function this.init_default()
 					time_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = false,
-					buff_UI = false
+					buff_UI = false,
+					stats_UI = false
 				},
 	
 				summary_screen = {
@@ -200,7 +215,8 @@ function this.init_default()
 					time_UI = true,
 					damage_meter_UI = true,
 					endemic_life_UI = false,
-					buff_UI = false
+					buff_UI = false,
+					stats_UI = false
 				},
 			},
 	
@@ -6124,6 +6140,7 @@ function this.init_default()
 						x = 205,
 						y = 0
 					},
+
 					color = 0xFFF59FC4,
 	
 					shadow = {
@@ -7574,6 +7591,381 @@ function this.init_default()
 					outline = 0xC0000000
 				}
 			}
+		},
+
+		stats_UI = {
+			enabled = false,
+
+			position = {
+				x = 0,
+				y = 0,
+				-- Possible values: "Top-Left", "Top-Right", "Bottom-Left", "Bottom-Right"
+				anchor = "Bottom-Right"
+			},
+
+			attack_label = {
+				visibility = true,
+
+				settings = {
+					right_alignment_shift = 11
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true
+				},
+
+				offset = {
+					x = -353,
+					y = -17
+				},
+
+				color = 0xFFF27979,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
+			
+			affinity_label = {
+				visibility = true,
+
+				settings = {
+					right_alignment_shift = 14
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true
+				},
+
+				offset = {
+					x = -242,
+					y = -17
+				},
+
+				color = 0xFFF27979,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
+
+			defense_label = {
+				visibility = true,
+
+				settings = {
+					right_alignment_shift = 13
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true
+				},
+
+				offset = {
+					x = -103,
+					y = -17
+				},
+
+				color = 0xFFBFF7FF,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
+
+			fire_resistance_label = {
+				visibility = false,
+
+				settings = {
+					right_alignment_shift = 13
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true
+				},
+
+				offset = {
+					x = -625,
+					y = -53
+				},
+
+				color = 0xFFF27979,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
+
+			water_resistance_label = {
+				visibility = false,
+
+				settings = {
+					right_alignment_shift = 14
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true
+				},
+
+				offset = {
+					x = -507,
+					y = -53
+				},
+
+				color = 0xFF7AB8F8,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
+
+			thunder_resistance_label = {
+				visibility = false,
+
+				settings = {
+					right_alignment_shift = 16
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true
+				},
+
+				offset = {
+					x = -382,
+					y = -53
+				},
+
+				color = 0xFFFEFF88,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
+
+			ice_resistance_label = {
+				visibility = false,
+
+				settings = {
+					right_alignment_shift = 12
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true
+				},
+
+				offset = {
+					x = -228,
+					y = -53
+				},
+
+				color = 0xFFBFF7FF,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
+
+			dragon_resistance_label = {
+				visibility = false,
+
+				settings = {
+					right_alignment_shift = 15
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true
+				},
+
+				offset = {
+					x = -117,
+					y = -53
+				},
+
+				color = 0xFFB999FF,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
+
+			stamina_label = {
+				visibility = false,
+
+				settings = {
+					right_alignment_shift = 16
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true,
+					max_value = true
+				},
+
+				offset = {
+					x = -382,
+					y = -35
+				},
+
+				color = 0xFFFEFF88,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
+
+			element_label = {
+				visibility = false,
+
+				settings = {
+					right_alignment_shift = 14
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true
+				},
+
+				offset = {
+					x = -110,
+					y = -35
+				},
+
+				color = 0xFFF59FC4,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
+
+			element_2_label = {
+				visibility = false,
+
+				settings = {
+					right_alignment_shift = 14
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true
+				},
+
+				offset = {
+					x = -242,
+					y = -35
+				},
+
+				color = 0xFFF59FC4,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
 		},
 
 		debug = {
