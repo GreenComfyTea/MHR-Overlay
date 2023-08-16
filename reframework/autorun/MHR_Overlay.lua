@@ -279,6 +279,13 @@ local function update_modules(module_visibility_config, flow_state_name)
 		end
 	end
 
+	if config.current_config.damage_meter_UI.enabled and module_visibility_config.damage_meter_UI then
+		local success = pcall(damage_meter_UI.update);
+		if not success then
+			error_handler.report("MHR_Overlay.update_modules", string.format("[%s] Damage Meter UI Update Function threw an Exception", flow_state_name));
+		end
+	end
+
 	if config.current_config.endemic_life_UI.enabled and module_visibility_config.endemic_life_UI then
 		local success = pcall(env_creature_UI.update);
 		if not success then
@@ -365,6 +372,13 @@ local function update_UI()
 			local success = pcall(large_monster_UI.update, dynamic_enabled, static_enabled, highlighted_enabled);
 			if not success then
 				error_handler.report("MHR_Overlay.update_loop", "[In Training Area] Large Monster UI Update Function threw an Exception");
+			end
+		end
+
+		if config.current_config.damage_meter_UI.enabled and module_visibility_config.damage_meter_UI then
+			local success = pcall(damage_meter_UI.update);
+			if not success then
+				error_handler.report("MHR_Overlay.update_modules", "[In Training Area] Damage Meter UI Update Function threw an Exception");
 			end
 		end
 

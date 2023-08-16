@@ -44,30 +44,107 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
+local top_damage = 0;
+local top_dps = 0;
+
+this.displayed_players = {};
 this.last_displayed_players = {};
 this.freeze_displayed_players = false;
 
-function this.draw()
+function this.update()
+	local is_on_quest = quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA;
 	local cached_config = config.current_config.damage_meter_UI;
-	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
+	if this.freeze_displayed_players and not utils.table.is_empty(this.last_displayed_players) then
+		this.displayed_players = this.last_displayed_players;
+		return;
+	end;
 
 	if players.total.display.total_damage == 0 and cached_config.settings.hide_module_if_total_damage_is_zero then
 		return;
 	end
 
-	local quest_players = {};
-	
-	if this.freeze_displayed_players and not utils.table.is_empty(this.last_displayed_players) then
-		quest_players = this.last_displayed_players;
-	else
-		quest_players = players.display_list;
+	this.displayed_players = {};
+
+	for id, player in pairs(players.list) do
+		if player ~= players.myself then
+			this.add_to_displayed_players_list(player, cached_config);
+		end
 	end
 
-	this.last_displayed_players = quest_players;
+	if not cached_config.settings.hide_servants then
+		for id, servant in pairs(non_players.servant_list) do
+			this.add_to_displayed_players_list(servant, cached_config);
+		end
+	end
 
-	local top_damage = 0;
-	local top_dps = 0;
-	for _, player in ipairs(quest_players) do
+	for id, otomo in pairs(non_players.otomo_list) do
+		if id == players.myself.id or id == non_players.my_second_otomo_id then
+			if cached_config.settings.show_my_otomos_separately then
+				this.add_to_displayed_players_list(otomo, cached_config);
+			end
+		elseif id >= 4 then
+			if cached_config.settings.show_servant_otomos_separately then
+				this.add_to_displayed_players_list(otomo, cached_config);
+			end
+		else
+			if cached_config.settings.show_other_player_otomos_separately then
+				this.add_to_displayed_players_list(otomo, cached_config);
+			end
+		end 
+	end
+
+	this.calculate_top_damage_and_dps();
+	this.sort();
+
+	this.last_displayed_players = this.displayed_players;
+end
+
+function this.add_to_displayed_players_list(player, cached_config, position)
+	cached_config = cached_config.settings;
+	position = position or #(this.displayed_players) + 1;
+
+	if player.display.total_damage == 0 and cached_config.hide_player_if_player_damage_is_zero then
+		return;
+	end
+
+	if player.type == players.types.myself then
+		if cached_config.hide_myself then
+			return;
+		end
+	elseif player.type == players.types.servant then
+		if cached_config.hide_servants then
+			return;
+		end
+	elseif player.type == players.types.other_player then
+		if cached_config.hide_other_players then
+			return;
+		end
+	elseif player.type == players.types.my_otomo then
+		if not cached_config.show_my_otomos_separately then
+			return;
+		end
+	elseif player.type == players.types.other_player_otomo then
+		if not cached_config.show_other_player_otomos_separately then
+			return;
+		end
+	elseif player.type == players.types.servant_otomo then
+		if not cached_config.show_servant_otomos_separately then
+			return;
+		end
+	end
+
+	--if position == nil then
+	--	table.insert(this.displayed_players, player);
+	--else
+		table.insert(this.displayed_players, position, player);
+	--end
+end
+
+function this.calculate_top_damage_and_dps()
+	top_damage = 0;
+	top_dps = 0;
+	for _, player in ipairs(this.displayed_players) do
 		if player.display.total_damage > top_damage then
 			top_damage = player.display.total_damage;
 		end
@@ -76,7 +153,64 @@ function this.draw()
 			top_dps = player.dps;
 		end
 	end
+end
 
+function this.sort()
+	local cached_config = config.current_config.damage_meter_UI;
+
+	if cached_config.settings.my_damage_bar_location == "Normal" then
+		table.insert(this.displayed_players, this.myself);
+	end
+
+	-- sort here
+	if cached_config.sorting.type == "Normal" then
+		if cached_config.sorting.reversed_order then
+			table.sort(this.displayed_players, function(left, right)
+				return left.id > right.id;
+			end);
+		else
+			table.sort(this.displayed_players, function(left, right)
+				return left.id < right.id;
+			end);
+		end
+	elseif cached_config.sorting.type == "DPS" then
+		if cached_config.sorting.reversed_order then
+			table.sort(this.displayed_players, function(left, right)
+				return left.dps < right.dps;
+			end);
+		else
+			table.sort(this.displayed_players, function(left, right)
+				return left.dps > right.dps;
+			end);
+		end
+	else
+		if cached_config.sorting.reversed_order then
+			table.sort(this.displayed_players, function(left, right)
+				return left.display.total_damage < right.display.total_damage;
+			end);
+		else
+			table.sort(this.displayed_players, function(left, right)
+				return left.display.total_damage > right.display.total_damage;
+			end);
+		end
+	end
+
+	if cached_config.settings.my_damage_bar_location == "First" then
+		this.add_to_displayed_players_list(players.myself, cached_config, 1);
+
+	elseif cached_config.settings.my_damage_bar_location == "Last" then
+		this.add_to_displayed_players_list(players.myself, cached_config);
+	end
+end
+
+function this.draw()
+	local cached_config = config.current_config.damage_meter_UI;
+	local global_scale_modifier = config.current_config.global_settings.modifiers.global_scale_modifier;
+
+	if players.total.display.total_damage == 0 and cached_config.settings.hide_module_if_total_damage_is_zero then
+		return;
+	end
+	
 	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 
 	-- draw total damage
@@ -103,37 +237,7 @@ function this.draw()
 		position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 	end
 
-	for _, player in ipairs(quest_players) do
-		
-		if player.display.total_damage == 0 and cached_config.settings.hide_player_if_player_damage_is_zero then
-			goto continue;
-		end
-
-		if player.type == players.types.myself then
-			if cached_config.settings.hide_myself then
-				goto continue;
-			end
-		elseif player.type == players.types.servant then
-			if cached_config.settings.hide_servants then
-				goto continue;
-			end
-		elseif player.type == players.types.other_player then
-			if cached_config.settings.hide_other_players then
-				goto continue;
-			end
-		elseif player.type == players.types.my_otomo then
-			if not cached_config.settings.show_my_otomos_separately then
-				goto continue;
-			end
-		elseif player.type == players.types.other_player_otomo then
-			if not cached_config.settings.show_other_player_otomos_separately then
-				goto continue;
-			end
-		elseif player.type == players.types.servant_otomo then
-			if not cached_config.settings.show_servant_otomos_separately then
-				goto continue;
-			end
-		end
+	for _, player in ipairs(this.displayed_players) do
 
 		players.draw(player, position_on_screen, 1, top_damage, top_dps);
 		

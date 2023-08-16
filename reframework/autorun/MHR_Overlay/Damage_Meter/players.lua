@@ -49,8 +49,6 @@ this.myself = nil;
 this.myself_position = Vector3f.new(0, 0, 0);
 this.total = nil;
 
-this.display_list = {};
-
 this.highlighted_damage_UI = nil;
 
 this.damage_types = {
@@ -337,20 +335,6 @@ function this.merge_damage(first, second)
 	return first;
 end
 
-function this.update_display_list()
-	local is_on_quest = quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA;
-
-	this.display_list = {};
-	this.update_player_list(is_on_quest);
-	non_players.update_servant_list();
-	non_players.update_otomo_list(is_on_quest, quest_status.is_online);
-
-	this.update_dps(false);
-	this.sort_players();
-
-	quest_status.get_cart_count();
-end
-
 function this.update_dps(bypass_freeze)
 	local cached_config = config.current_config.damage_meter_UI.settings;
 
@@ -396,54 +380,6 @@ function this.update_player_dps(player)
 	this.total.dps = this.total.dps + player.dps;
 end
 
-function this.sort_players()
-	local cached_config = config.current_config.damage_meter_UI;
-
-	if cached_config.settings.my_damage_bar_location == "Normal" then
-		table.insert(this.display_list, this.myself);
-	end
-
-	-- sort here
-	if cached_config.sorting.type == "Normal" then
-		if cached_config.sorting.reversed_order then
-			table.sort(this.display_list, function(left, right)
-				return left.id > right.id;
-			end);
-		else
-			table.sort(this.display_list, function(left, right)
-				return left.id < right.id;
-			end);
-		end
-	elseif cached_config.sorting.type == "DPS" then
-		if cached_config.sorting.reversed_order then
-			table.sort(this.display_list, function(left, right)
-				return left.dps < right.dps;
-			end);
-		else
-			table.sort(this.display_list, function(left, right)
-				return left.dps > right.dps;
-			end);
-		end
-	else
-		if cached_config.sorting.reversed_order then
-			table.sort(this.display_list, function(left, right)
-				return left.display.total_damage < right.display.total_damage;
-			end);
-		else
-			table.sort(this.display_list, function(left, right)
-				return left.display.total_damage > right.display.total_damage;
-			end);
-		end
-	end
-
-	if cached_config.settings.my_damage_bar_location == "First" then
-		table.insert(this.display_list, 1, this.myself);
-
-	elseif cached_config.settings.my_damage_bar_location == "Last" then
-		table.insert(this.display_list, this.myself);
-	end
-end
-
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local find_master_player_method = player_manager_type_def:get_method("findMasterPlayer");
 
@@ -477,7 +413,6 @@ end
 
 function this.init()
 	this.list = {};
-	this.display_list = {};
 	this.total = this.new(0, "Total", 0, 0, this.types.total);
 	this.myself = this.new(-1, "DummyMHROverlay", -1, -1, this.types.myself);
 end
@@ -508,6 +443,18 @@ local get_hunter_rank_method = progress_manager_type_def:get_method("get_HunterR
 local get_master_rank_method = progress_manager_type_def:get_method("get_MasterRank");
 
 local get_master_player_id_method = player_manager_type_def:get_method("getMasterPlayerID");
+
+function this.update_players()
+	local is_on_quest = quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA;
+
+	this.update_player_list(is_on_quest);
+	non_players.update_servant_list();
+	non_players.update_otomo_list(is_on_quest, quest_status.is_online);
+
+	this.update_dps(false);
+
+	quest_status.get_cart_count();
+end
 
 function this.update_player_list(is_on_quest)
 	if is_on_quest then
@@ -616,10 +563,6 @@ function this.update_player_list_(hunter_info_field_)
 				player = this.new(id, name, master_rank, hunter_rank, this.types.other_player);
 				this.list[id] = player;
 			end
-		end
-
-		if player ~= this.myself then
-			table.insert(this.display_list, player);
 		end
 
 		::continue::

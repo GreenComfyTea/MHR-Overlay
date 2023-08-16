@@ -185,10 +185,6 @@ function this.update_servant_list()
 			this.servant_list[id] = this.new(id, name, 0, players.types.servant);
 		end
 
-		if not cached_config.settings.hide_servants then
-			table.insert(players.display_list, this.servant_list[id]);
-		end
-
 		::continue::
 	end
 end
@@ -230,12 +226,10 @@ function this.update_my_otomos()
 			local level = otomo_create_data_level_field:get_data(first_otomo) or 0;
 
 			local myself_id = players.myself.id;
-			if this.otomo_list[myself_id] == nil then
-				this.otomo_list[myself_id] = this.new(0, name, level, players.types.my_otomo);
-			end
-
-			if cached_config.settings.show_my_otomos_separately then
-				table.insert(players.display_list, this.otomo_list[myself_id]);
+			local otomo = this.otomo_list[myself_id]
+			if otomo == nil then
+				otomo = this.new(0, name, level, players.types.my_otomo);
+				this.otomo_list[myself_id] = otomo;
 			end
 		end
 	end
@@ -253,12 +247,11 @@ function this.update_my_otomos()
 			local level = otomo_create_data_level_field:get_data(second_otomo) or 0;
 
 			-- the secondary otomo is actually the 4th one!
-			if this.otomo_list[this.my_second_otomo_id] == nil then
-				this.otomo_list[this.my_second_otomo_id] = this.new(this.my_second_otomo_id, name, level, players.types.my_otomo);
-			end
+			local otomo = this.otomo_list[this.my_second_otomo_id];
 
-			if cached_config.settings.show_my_otomos_separately then
-				table.insert(players.display_list, this.otomo_list[this.my_second_otomo_id]);
+			if otomo == nil then
+				otomo = this.new(this.my_second_otomo_id, name, level, players.types.my_otomo);
+				this.otomo_list[this.my_second_otomo_id] = otomo;
 			end
 		end
 	end
@@ -297,12 +290,11 @@ function this.update_servant_otomos()
 				goto continue;
 			end
 
-			if this.otomo_list[member_id] == nil then
-				this.otomo_list[member_id] = this.new(member_id, name, level, players.types.servant_otomo);
-			end
+			local otomo = this.otomo_list[member_id];
 
-			if cached_config.settings.show_servant_otomos_separately then
-				table.insert(players.display_list, this.otomo_list[member_id]);
+			if otomo == nil then
+				otomo = this.new(member_id, name, level, players.types.servant_otomo);
+				this.otomo_list[member_id] = otomo;
 			end
 		end
 
@@ -366,20 +358,6 @@ function this.update_otomos(otomo_info_field_)
 
 			end 
 		end
-
-		if id == players.myself.id then
-			if cached_config.settings.show_my_otomos_separately then
-				table.insert(players.display_list, otomo);
-			end
-		elseif id >= 4 then
-			if cached_config.settings.show_servant_otomos_separately then
-				table.insert(players.display_list, otomo);
-			end
-		else
-			if cached_config.settings.show_other_player_otomos_separately then
-				table.insert(players.display_list, otomo);
-			end
-		end 
 
 		::continue::
 	end

@@ -2101,7 +2101,6 @@ function this.draw_damage_meter_UI()
 		if config_changed then
 			local is_on_quest = quest_status.flow_state ~= quest_status.flow_states.IN_LOBBY and quest_status.flow_state ~= quest_status.flow_states.IN_TRAINING_AREA;
 
-			players.display_list = {};
 			players.update_player_list(is_on_quest);
 			non_players.update_servant_list();
 			non_players.update_otomo_list(is_on_quest, quest_status.is_online);

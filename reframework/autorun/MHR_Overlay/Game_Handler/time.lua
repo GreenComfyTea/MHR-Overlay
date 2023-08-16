@@ -79,7 +79,7 @@ function this.init_global_timers()
 	this.new_timer(screen.update_window_size, 1);
 	this.new_timer(quest_status.update_is_online, 1);
 	this.new_timer(this.update_quest_time, 1 / 60);
-	this.new_timer(players.update_display_list, 0.5);
+	this.new_timer(players.update_players, 0.5);
 	this.new_timer(players.update_myself_position, 1);
 	this.new_timer(buffs.update, 1/60);
 	this.new_timer(player_info.update, 0.5);
