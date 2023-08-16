@@ -141,6 +141,7 @@ function this.update()
 
 	if quest_status.flow_state <= quest_status.flow_states.IN_LOBBY
 	or quest_status.flow_state == quest_status.flow_states.CUTSCENE
+	or quest_status.flow_state == quest_status.flow_states.LOADING_QUEST
 	or quest_status.flow_state >= quest_status.flow_states.QUEST_END_ANIMATION then
 		return;
 	end

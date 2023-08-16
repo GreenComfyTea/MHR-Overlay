@@ -153,6 +153,11 @@ function this.set_flow_state(new_flow_state)
 end
 
 function this.get_cart_count()
+	if singletons.quest_manager == nil then
+		error_handler.report("quest_status.get_cart_count", "Failed to access Data: quest_manager");
+		return;
+	end
+
 	local death_num = get_death_num_method:call(singletons.quest_manager);
 	if death_num == nil then
 		error_handler.report("quest_status.get_cart_count", "Failed to access Data: death_num");
@@ -162,6 +167,11 @@ function this.get_cart_count()
 end
 
 function this.get_max_cart_count()
+	if singletons.quest_manager == nil then
+		error_handler.report("quest_status.get_max_cart_count", "Failed to access Data: quest_manager");
+		return;
+	end
+
 	local quest_life = get_quest_life_method:call(singletons.quest_manager);
 	if quest_life == nil then
 		error_handler.report("quest_status.get_max_cart_count", "Failed to access Data: quest_life");

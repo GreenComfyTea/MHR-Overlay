@@ -190,6 +190,11 @@ function this.update_servant_list()
 end
 
 function this.update_otomo_list(is_on_quest, is_online)
+	if singletons.otomo_manager == nil then
+		error_handler.report("non_players.update_otomo_list", "Failed to access Data: otomo_manager");
+		return;
+	end
+
 	if is_online then
 		if is_on_quest then
 			--non_players.update_my_otomos();
@@ -241,9 +246,10 @@ function this.update_my_otomos()
 		local name = otomo_create_data_name_field:get_data(second_otomo);
 		if name == nil then
 			error_handler.report("non_players.update_my_otomos", "Failed to access Data: second_otomo -> name");
+			return;
 		end
 
-		if name ~= nil and name ~= "" then
+		if name ~= "" then
 			local level = otomo_create_data_level_field:get_data(second_otomo) or 0;
 
 			-- the secondary otomo is actually the 4th one!
