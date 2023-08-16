@@ -85,7 +85,7 @@ function this.update_cutterfly(player_data, item_parameter)
 		return;
 	end
 
-	if cutterfly_timer == 0 then
+	if utils.number.is_equal(cutterfly_timer, 0) then
 		this.list.cutterfly = nil;
 		return;
 	end
@@ -113,7 +113,7 @@ function this.update_clothfly(player_data, item_parameter)
 		return;
 	end
 
-	if clothfly_timer == 0 then
+	if utils.number.is_equal(clothfly_timer, 0) then
 		this.list.clothfly = nil;
 		return;
 	end

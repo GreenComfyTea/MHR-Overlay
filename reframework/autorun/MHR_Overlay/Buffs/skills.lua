@@ -233,7 +233,7 @@ function this.update_generic_timer(skill_key, timer_owner, timer_field, is_infin
 			return;
 		end
 
-		if timer == 0 then
+		if utils.number.is_equal(timer, 0) then
 			this.list[skill_key] = nil;
 			return;
 		end
@@ -286,7 +286,7 @@ function this.update_generic_number_value_field(skill_key, timer_owner, value_fi
 			return;
 		end
 
-		if value_field == nil and timer == 0 then
+		if value_field == nil and utils.number.is_equal(timer, 0) then
 			this.list[skill_key] = nil;
 			return;
 		end
@@ -332,7 +332,7 @@ function this.update_generic_boolean_value_field(skill_key, timer_owner, value_f
 			return;
 		end
 
-		if value_field == nil and timer == 0 then
+		if value_field == nil and utils.number.is_equal(timer, 0) then
 			this.list[skill_key] = nil;
 			return;
 		end
@@ -385,7 +385,7 @@ function this.update_generic_number_value_method(skill_key, timer_owner, value_m
 			return;
 		end
 
-		if value_method == nil and timer == 0 then
+		if value_method == nil and utils.number.is_equal(timer, 0) then
 			this.list[skill_key] = nil;
 			return;
 		end
@@ -431,7 +431,7 @@ function this.update_generic_boolean_value_method(skill_key, timer_owner, value_
 			return;
 		end
 
-		if value_method == nil and timer == 0 then
+		if value_method == nil and utils.number.is_equal(timer, 0) then
 			this.list[skill_key] = nil;
 			return;
 		end
@@ -500,7 +500,7 @@ function this.update_wind_mantle(player)
 		return;
 	end
 
-	if wind_mantle_timer == 0 then
+	if utils.number.is_equal(wind_mantle_timer, 0) then
 		this.list.wind_mantle = nil;
 		return;
 	end

@@ -12,6 +12,7 @@ local stamina_UI_entity;
 local rage_UI_entity;
 local env_creature;
 local error_handler;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -52,7 +53,7 @@ function this.update()
 
 	local _displayed_creatures = {};
 
-	if cached_config.settings.max_distance == 0 then
+	if utils.number.is_equal(cached_config.settings.max_distance, 0) then
 		displayed_creatures = {};
 		return;
 	end
@@ -116,6 +117,7 @@ function this.init_dependencies()
 	rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	utils = require("MHR_Overlay.Misc.utils");
 end
 
 function this.init_module()

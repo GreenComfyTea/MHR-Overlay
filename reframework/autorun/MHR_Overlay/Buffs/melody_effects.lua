@@ -105,15 +105,41 @@ local melody_effect_keys = {
 
 this.list = {};
 
+local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
+local find_master_player_method = player_manager_type_def:get_method("findMasterPlayer");
+
+local player_base_type_def = find_master_player_method:get_return_type();
+local music_data_field = player_base_type_def:get_field("_MusicData");
+
 local music_data_type_def = sdk.find_type_definition("snow.player.Horn.MusicData");
 local time_field = music_data_type_def:get_field("_Time");
 
-function this.update(melody_data_table)
-	for lua_index, melody_data in ipairs(melody_data_table) do
-		if melody_data ~= "" then
-			this.update_melody_effect(lua_index, melody_data);
+local system_array_type_def = sdk.find_type_definition("System.Array");
+local length_method = system_array_type_def:get_method("get_Length");
+local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
+function this.update(master_player)
+	local music_data_array = music_data_field:get_data(master_player);
+	if music_data_array == nil then
+		error_handler.report("melody_effects.update", "Failed to access Data: music_data_array");
+		return;
+	end
+
+	local length = length_method:call(music_data_array) - 1;
+	if length == nil then
+		error_handler.report("melody_effects.update", "Failed to access Data: music_data_array -> length");
+		return;
+	end
+
+	for i = 0, length do
+		local music_data = get_value_method:call(music_data_array, i);
+		if music_data == nil then
+			error_handler.report("melody_effects.update", "Failed to access Data: music_data No." .. tostring(i));
+			goto continue;
 		end
+
+		this.update_melody_effect(i+1, music_data);
+		::continue::
 	end
 end
 
@@ -124,7 +150,7 @@ function this.update_melody_effect(lua_index, melody_data)
 			return;
 		end
 
-		if melody_timer == 0 then
+		if utils.number.is_equal(melody_timer, 0) then
 			this.list[lua_index] = nil;
 			return;
 		end

@@ -62,11 +62,8 @@ local find_master_player_method = player_manager_type_def:get_method("findMaster
 
 local player_base_type_def = find_master_player_method:get_return_type();
 local get_player_data_method = player_base_type_def:get_method("get_PlayerData");
-local music_data_field = player_base_type_def:get_field("_MusicData");
 
-local system_array_type_def = sdk.find_type_definition("System.Array");
-local length_method = system_array_type_def:get_method("get_Length");
-local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
+local player_lobby_base_type_def = sdk.find_type_definition("snow.player.PlayerLobbyBase");
 
 function this.new(type, key, name, level, duration)
 	local is_infinite = false;
@@ -79,7 +76,7 @@ function this.new(type, key, name, level, duration)
 		duration = 0;
 	end
 
-	if duration == 0 then
+	if utils.number.is_equal(duration, 0) then
 		is_infinite = true;
 	end
 
@@ -141,7 +138,6 @@ function this.update()
 
 	if quest_status.flow_state <= quest_status.flow_states.IN_LOBBY
 	or quest_status.flow_state == quest_status.flow_states.CUTSCENE
-	or quest_status.flow_state == quest_status.flow_states.LOADING_QUEST
 	or quest_status.flow_state >= quest_status.flow_states.QUEST_END_ANIMATION then
 		return;
 	end
@@ -153,6 +149,7 @@ function this.update()
 	end
 
 
+	local is_player_lobby_base = master_player:get_type_definition() == player_lobby_base_type_def;
 
 	local master_player_data = get_player_data_method:call(master_player);
 	if master_player_data ~= nil then
@@ -160,32 +157,15 @@ function this.update()
 		endemic_life_buffs.update(master_player_data);
 		skills.update(master_player, master_player_data);
 		dangos.update(master_player_data);
-		abnormal_statuses.update(master_player, master_player_data);
+
+		if not is_player_lobby_base then
+			abnormal_statuses.update(master_player, master_player_data);
+		end
 	else
 		error_handler.report("buffs.update", "Failed to access Data: master_player_data");
 	end
 
-	--xy = master_player_data._Attack;
-
-	local music_data_array = music_data_field:get_data(master_player);
-	if music_data_array ~= nil then
-		local music_data_table = {};
-
-		local length = length_method:call(music_data_array) - 1;
-		for i = 0, length do
-			local music_data = get_value_method:call(music_data_array, i);
-			if music_data == nil then
-				error_handler.report("buffs.update", "Failed to access Data: music_data No." .. tostring(i));
-				music_data = "";
-			end
-
-			table.insert(music_data_table, music_data);
-		end
-
-		melody_effects.update(music_data_table);
-	else
-		error_handler.report("buffs.update", "Failed to access Data: music_data_array");
-	end
+	melody_effects.update(master_player);
 end
 
 function this.update_timer(buff, timer)

@@ -11,6 +11,7 @@ local health_UI_entity;
 local stamina_UI_entity;
 local rage_UI_entity;
 local error_handler;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -116,7 +117,7 @@ function this.update_dynamic_monsters(large_monster_list, cached_config)
 
 	local _displayed_dynamic_monsters = {};
 
-	if dynamic_cached_config.max_distance == 0 then
+	if utils.number.is_equal(dynamic_cached_config.max_distance, 0) then
 		displayed_dynamic_monsters = {};
 		return;
 	end
@@ -407,6 +408,7 @@ function this.init_dependencies()
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	rage_UI_entity = require("MHR_Overlay.UI.UI_Entities.rage_UI_entity");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	utils = require("MHR_Overlay.Misc.utils");
 end
 
 function this.init_module()

@@ -200,7 +200,7 @@ function this.draw_bar(bar, position, opacity_scale, percentage)
 
 	local outline_offset = bar.outline.offset;
 
-	if outline_thickness == 0 then
+	if utils.number.is_equal(outline_thickness, 0) then
 		outline_offset = 0;
 	end
 	local half_outline_offset = outline_offset / 2;

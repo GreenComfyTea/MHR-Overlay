@@ -153,7 +153,7 @@ function this.update_generic(consumable_key, player_data, item_parameter, value_
 		return;
 	end
 
-	if value_field == nil and timer == 0 then
+	if value_field == nil and utils.number.is_equal(timer, 0)then
 		this.list[consumable_key] = nil;
 		return;
 	end
@@ -279,7 +279,7 @@ function this.update_gourmet_fish(player_data, item_parameter)
 		return;
 	end
 
-	if gourmet_fish_timer == 0 then
+	if utils.number.is_equal(gourmet_fish_timer, 0) then
 		this.list.gourmet_fish = nil;
 		return;
 	end

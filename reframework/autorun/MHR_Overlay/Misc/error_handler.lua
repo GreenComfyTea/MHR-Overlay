@@ -49,7 +49,7 @@ function this.report(error_key, error_message)
 
 	local error_time = time.total_elapsed_script_seconds;
 
-	if error_time == 0 then
+	if utils.number.is_equal(error_time, 0) then
 		return;
 	end
 

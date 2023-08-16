@@ -8,6 +8,7 @@ local players;
 local utils;
 local language;
 local error_handler;
+local time;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -42,19 +43,34 @@ local ValueType = ValueType;
 local package = package;
 
 this.list = {
-	--poison = nil,
-	--stun = nil,
-	--sleep = nil,
-	--paralyze = nil,
-	--quake = nil,
-	--ear = nil,
-	--defense_down = nil,
-	--resistance_down = nil,
-	--stink = nil,
-	--onibomb = nil,
-	--bomb = nil,
-	--beto = nil,
-	--fire = nil,
+	fireblight = nil,
+	waterblight = nil,
+	iceblight = nil,
+	thunderblight = nil,
+	dragonblight = nil,
+	blastblight = nil,
+	bubbleblight = nil,
+	hellfireblight = nil,
+	bloodblight = nil,
+	poison = nil,
+	stun = nil,
+	paralysis = nil,
+	sleep = nil,
+	defense_down = nil,
+	resistance_down = nil,
+	tremor = nil,
+	roar = nil,
+	webbed = nil,
+	stench = nil,
+	leeched = nil,
+	whirlwind = nil,
+	bleeding = nil,
+	frenzy = nil,
+	frenzy_overcome = nil,
+	frenzy_infection = nil,
+	engulfed = nil,
+	frostblight = nil,
+	muck = nil
 };
 
 local frenzy_infected_duration = 121;
@@ -188,7 +204,7 @@ function this.update_generic_timer(debuff_key, timer_owner, timer_field, is_infi
 		return;
 	end
 
-	if timer == 0 then
+	if utils.number.is_equal(timer, 0) then
 		this.list[debuff_key] = nil;
 		return;
 	end
@@ -251,7 +267,7 @@ function this.update_frenzy_infection(player)
 		return;
 	end
 
-	if virus_accumulator_value == 0 and virus_timer == 0 then
+	if virus_accumulator_value == 0 and utils.number.is_equal(virus_timer, 0)then
 		this.list.frenzy_infection = nil;
 		return;
 	end
@@ -300,6 +316,7 @@ function this.init_dependencies()
 	players = require("MHR_Overlay.Damage_Meter.players");
 	language = require("MHR_Overlay.Misc.language");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	time = require("MHR_Overlay.Game_Handler.time");
 end
 
 function this.init_module()

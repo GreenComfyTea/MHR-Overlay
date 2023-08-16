@@ -10,6 +10,7 @@ local drawing;
 local health_UI_entity;
 local stamina_UI_entity;
 local error_handler;
+local utils;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -52,7 +53,7 @@ local displayed_monsters = {};
 function this.update()
 	local cached_config = config.current_config.small_monster_UI;
 
-	if cached_config.dynamic_positioning.enabled and cached_config.dynamic_positioning.max_distance == 0 then
+	if cached_config.dynamic_positioning.enabled and utils.number.is_equal(cached_config.dynamic_positioning.max_distance, 0) then
 		displayed_monsters = {};
 		return;
 	end
@@ -179,6 +180,7 @@ function this.init_dependencies()
 	health_UI_entity = require("MHR_Overlay.UI.UI_Entities.health_UI_entity");
 	stamina_UI_entity = require("MHR_Overlay.UI.UI_Entities.stamina_UI_entity");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	utils = require("MHR_Overlay.Misc.utils");
 end
 
 function this.init_module()
