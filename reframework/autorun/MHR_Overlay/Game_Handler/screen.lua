@@ -143,7 +143,6 @@ function this.init_dependencies()
 end
 
 function this.init_module()
-	time.new_timer(this.update_window_size, 1);
 end
 
 return this;

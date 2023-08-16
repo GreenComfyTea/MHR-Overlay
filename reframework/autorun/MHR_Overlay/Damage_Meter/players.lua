@@ -664,8 +664,6 @@ end
 
 function this.init_module()
 	this.init();
-	time.new_timer(this.update_display_list, 0.5);
-	time.new_timer(this.update_myself_position, 1);
 end
 
 return this;

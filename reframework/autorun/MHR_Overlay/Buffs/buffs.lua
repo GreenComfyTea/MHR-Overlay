@@ -231,7 +231,7 @@ function this.init_dependencies()
 end
 
 function this.init_module()
-	time.new_timer(this.update, 1/60);
+	
 end
 
 return this;

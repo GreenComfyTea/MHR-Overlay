@@ -191,7 +191,6 @@ end
 
 function this.init_module()
 	this.init();
-	time.new_timer(this.init, 1);
 end
 
 return this;

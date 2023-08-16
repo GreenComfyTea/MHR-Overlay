@@ -532,4 +532,5 @@ if imgui.begin_table == nil then
 	re.msg(language.current_language.customization_menu.reframework_outdated);
 end
 
+time.init_global_timers();
 time.new_timer(update_UI, 0.5);

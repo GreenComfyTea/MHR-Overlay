@@ -405,8 +405,6 @@ end
 function this.init_module()
 	this.init();
 
-	time.new_timer(this.update_is_online, 1);
-
 	sdk.hook(on_changed_game_status_method, function(args)
 		this.on_changed_game_status(sdk.to_int64(args[3]));
 	end, function(retval) return retval; end);

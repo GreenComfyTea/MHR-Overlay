@@ -9,6 +9,9 @@ local config;
 local small_monster;
 local utils;
 local error_handler;
+local screen;
+local buffs;
+local player_info;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -60,23 +63,34 @@ function this.new_timer(callback, cooldown_seconds, start_offset_seconds)
 	if callback == nil or cooldown_seconds == nil then
 		return;
 	end
+
 	local timer = {};
 	timer.callback = callback;
 	timer.cooldown = cooldown_seconds;
 	
 	timer.last_trigger_time = os.clock() + start_offset_seconds;
 
-	table.insert(this.list, timer);
+	this.list[callback] =  timer;
 
+end
+
+function this.init_global_timers()
+	this.new_timer(singletons.init, 1);
+	this.new_timer(screen.update_window_size, 1);
+	this.new_timer(quest_status.update_is_online, 1);
+	this.new_timer(players.update_display_list, 0.5);
+	this.new_timer(players.update_myself_position, 1);
+	this.new_timer(buffs.update, 1/60);
+	this.new_timer(player_info.update, 0.5);
 end
 
 function this.update_timers()
 	this.update_script_time();
 
-	for _, timer in ipairs(this.list) do
+	for callback, timer in pairs(this.list) do
 		if this.total_elapsed_script_seconds - timer.last_trigger_time > timer.cooldown then
 			timer.last_trigger_time = this.total_elapsed_script_seconds;
-			timer.callback();
+			callback();
 		end
 	end
 end
@@ -122,6 +136,9 @@ function this.init_dependencies()
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	utils = require("MHR_Overlay.Misc.utils");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	screen = require("MHR_Overlay.Game_Handler.screen");
+	buffs = require("MHR_Overlay.Buffs.buffs");
+	player_info = require("MHR_Overlay.Misc.player_info");
 end
 
 function this.init_module()
