@@ -135,6 +135,7 @@ function this.get_player(player_id)
 end
 
 function this.update_damage(player, damage_source_type, is_large_monster, damage_object)
+	
 	if player == nil then
 		return;
 	end
@@ -414,7 +415,7 @@ end
 function this.init()
 	this.list = {};
 	this.total = this.new(0, "Total", 0, 0, this.types.total);
-	this.myself = this.new(-1, "DummyMHROverlay", -1, -1, this.types.myself);
+	this.myself = nil;
 end
 
 local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
@@ -501,7 +502,10 @@ function this.update_player_list_(hunter_info_field_)
 	end
 
 	if this.myself == nil or myself_id ~= this.myself.id then
-		this.list[this.myself.id] = nil;
+		if this.myself ~= nil then
+			this.list[this.myself.id] = nil;
+		end
+
 		this.myself = this.new(myself_id, myself_player_name, myself_master_rank, myself_hunter_rank, this.types.myself);
 		this.list[myself_id] = this.myself;
 	end

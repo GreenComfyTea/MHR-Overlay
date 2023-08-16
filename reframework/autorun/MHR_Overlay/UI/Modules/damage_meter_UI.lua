@@ -67,7 +67,7 @@ function this.update()
 	this.displayed_players = {};
 
 	for id, player in pairs(players.list) do
-		if player ~= players.myself then
+		if player ~= players.myself or cached_config.settings.my_damage_bar_location == "Normal" then
 			this.add_to_displayed_players_list(player, cached_config);
 		end
 	end
@@ -94,10 +94,23 @@ function this.update()
 		end 
 	end
 
-	this.calculate_top_damage_and_dps();
 	this.sort();
 
 	this.last_displayed_players = this.displayed_players;
+end
+
+function this.calculate_top_damage_and_dps()
+	top_damage = 0;
+	top_dps = 0;
+	for _, player in ipairs(this.displayed_players) do
+		if player.display.total_damage > top_damage then
+			top_damage = player.display.total_damage;
+		end
+
+		if player.dps > top_dps then
+			top_dps = player.dps;
+		end
+	end
 end
 
 function this.add_to_displayed_players_list(player, cached_config, position)
@@ -139,20 +152,6 @@ function this.add_to_displayed_players_list(player, cached_config, position)
 	--else
 		table.insert(this.displayed_players, position, player);
 	--end
-end
-
-function this.calculate_top_damage_and_dps()
-	top_damage = 0;
-	top_dps = 0;
-	for _, player in ipairs(this.displayed_players) do
-		if player.display.total_damage > top_damage then
-			top_damage = player.display.total_damage;
-		end
-
-		if player.dps > top_dps then
-			top_dps = player.dps;
-		end
-	end
 end
 
 function this.sort()
@@ -210,25 +209,22 @@ function this.draw()
 	if players.total.display.total_damage == 0 and cached_config.settings.hide_module_if_total_damage_is_zero then
 		return;
 	end
+
+	this.calculate_top_damage_and_dps();
 	
 	local position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
 
 	-- draw total damage
-	if  cached_config.settings.total_damage_location == "First" then
-		if cached_config.settings.hide_total_damage then
-			return;
-		end
+	if  cached_config.settings.total_damage_location == "First"
+	and not cached_config.settings.hide_total_damage then
+		if not (cached_config.settings.hide_total_if_total_damage_is_zero and players.total.display.total_damage == 0) then
+			players.draw(players.total, position_on_screen, 1);
 
-		if cached_config.settings.hide_total_if_total_damage_is_zero and players.total.display.total_damage == 0 then
-			return;
-		end
-
-		players.draw(players.total, position_on_screen, 1, top_damage, top_dps);
-
-		if cached_config.settings.orientation == "Horizontal" then
-			position_on_screen.x = position_on_screen.x + cached_config.spacing.x * global_scale_modifier;
-		else
-			position_on_screen.y = position_on_screen.y + cached_config.spacing.y * global_scale_modifier;
+			if cached_config.settings.orientation == "Horizontal" then
+				position_on_screen.x = position_on_screen.x + cached_config.spacing.x * global_scale_modifier;
+			else
+				position_on_screen.y = position_on_screen.y + cached_config.spacing.y * global_scale_modifier;
+			end
 		end
 	end
 
@@ -251,20 +247,17 @@ function this.draw()
 	end
 
 	-- draw total damage
-	if  cached_config.settings.total_damage_location == "Last" then
-		if cached_config.settings.hide_total_damage then
-			return;
-		end
+	if  cached_config.settings.total_damage_location == "Last"
+	and not cached_config.settings.hide_total_damage then
 
-		if cached_config.settings.hide_total_if_total_damage_is_zero and players.total.display.total_damage == 0 then
-			return;
-		end
+		if not (cached_config.settings.hide_total_if_total_damage_is_zero and players.total.display.total_damage == 0) then
 
-		if not cached_config.settings.total_damage_offset_is_relative then
-			position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
-		end
+			if not cached_config.settings.total_damage_offset_is_relative then
+				position_on_screen = screen.calculate_absolute_coordinates(cached_config.position);
+			end
 
-		players.draw(players.total, position_on_screen, 1);
+			players.draw(players.total, position_on_screen, 1);
+		end
 	end
 end
 

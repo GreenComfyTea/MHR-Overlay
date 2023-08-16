@@ -2123,10 +2123,6 @@ function this.draw_damage_meter_UI()
 			players.update_dps(true);
 		end
 
-		if config_changed then
-			players.sort_players();
-		end
-
 		imgui.tree_pop();
 	end
 

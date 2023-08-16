@@ -115,6 +115,9 @@ end
 function this.draw(player, position_on_screen, opacity_scale, top_damage, top_dps)
 	local cached_config = config.current_config.damage_meter_UI;
 
+	top_damage = top_damage or 0;
+	top_dps = top_dps or 0;
+
 	local name_include = nil;
 	if player.damage_UI.name_label ~= nil then
 		name_include = player.damage_UI.name_label.include;
