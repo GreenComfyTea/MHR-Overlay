@@ -201,6 +201,7 @@ function this.draw(player, position_on_screen, opacity_scale, top_damage, top_dp
 	local bar = player.damage_UI.bar;
 	local name_label = player.damage_UI.name_label;
 	local hunter_rank_label = player.damage_UI.hunter_rank_label;
+	local cart_count_label = player.damage_UI.cart_count_label;
 	local value_label = player.damage_UI.value_label;
 	local percentage_label = player.damage_UI.percentage_label;
 	local dps_label = player.damage_UI.dps_label;
@@ -211,6 +212,7 @@ function this.draw(player, position_on_screen, opacity_scale, top_damage, top_dp
 			bar = players.highlighted_damage_UI.bar;
 			name_label = players.highlighted_damage_UI.name_label;
 			hunter_rank_label = players.highlighted_damage_UI.hunter_rank_label;
+			cart_count_label = players.highlighted_damage_UI.cart_count_label;
 			value_label = players.highlighted_damage_UI.value_label;
 			percentage_label = players.highlighted_damage_UI.percentage_label;
 			dps_label = players.highlighted_damage_UI.dps_label;
@@ -231,7 +233,7 @@ function this.draw(player, position_on_screen, opacity_scale, top_damage, top_dp
 		if player.type == players.types.total then
 			drawing.draw_label(player.damage_UI.cart_count_label, position_on_screen, opacity_scale, quest_status.cart_count, quest_status.max_cart_count);
 		else
-			drawing.draw_label(player.damage_UI.cart_count_label, position_on_screen, opacity_scale, player.cart_count);
+			drawing.draw_label(cart_count_label, position_on_screen, opacity_scale, player.cart_count);
 		end
 		
 	end
