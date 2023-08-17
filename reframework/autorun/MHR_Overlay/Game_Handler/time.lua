@@ -55,7 +55,8 @@ this.elapsed_seconds = 0;
 
 this.total_elapsed_script_seconds = 0;
 
-this.list = {};
+this.timer_list = {};
+this.delay_timer_list = {};
 
 function this.new_timer(callback, cooldown_seconds, start_offset_seconds)
 	start_offset_seconds = start_offset_seconds or utils.math.random();
@@ -70,7 +71,22 @@ function this.new_timer(callback, cooldown_seconds, start_offset_seconds)
 	
 	timer.last_trigger_time = os.clock() + start_offset_seconds;
 
-	this.list[callback] =  timer;
+	this.timer_list[callback] =  timer;
+
+end
+
+function this.new_delay(callback, delay)
+	if callback == nil or delay == nil then
+		return;
+	end
+
+	local delay_timer = {};
+	delay_timer.callback = callback;
+	delay_timer.delay = delay;
+	
+	delay_timer.init_time = os.clock();
+
+	this.delay_timer_list[callback] =  delay_timer;
 
 end
 
@@ -89,11 +105,24 @@ end
 function this.update_timers()
 	this.update_script_time();
 
-	for callback, timer in pairs(this.list) do
+	for callback, timer in pairs(this.timer_list) do
 		if this.total_elapsed_script_seconds - timer.last_trigger_time > timer.cooldown then
 			timer.last_trigger_time = this.total_elapsed_script_seconds;
 			callback();
 		end
+	end
+
+	local remove_list = {};
+
+	for callback, delay_timer in pairs(this.delay_timer_list) do
+		if this.total_elapsed_script_seconds - delay_timer.init_time > delay_timer.delay then
+			callback();
+			remove_list.insert(callback);
+		end
+	end
+
+	for i, callback in ipairs(remove_list) do
+		this.delay_timer_list[callback] = nil;
 	end
 end
 
