@@ -117,6 +117,16 @@ local unique_event_manager_type_def = sdk.find_type_definition("snow.eventcut.Un
 local play_event_common_method = unique_event_manager_type_def:get_method("playEventCommon");
 local event_manager_dispose_method = unique_event_manager_type_def:get_method("dispose");
 
+local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
+local get_player_data_method = player_manager_type_def:get_method("get_PlayerData");
+
+local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
+local die_count_field = player_data_type_def:get_field("_DieCount");
+
+local system_array_type_def = sdk.find_type_definition("System.Array");
+local get_length_method = system_array_type_def:get_method("get_Length");
+local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
+
 function this.get_flow_state_name(flow_state, new_line)
     for key, value in pairs(this.flow_states) do
 		if value == flow_state then
@@ -145,11 +155,15 @@ function this.set_flow_state(new_flow_state)
 		small_monster.init_list();
 		large_monster.init_list();
 		env_creature.init_list();
+
 		damage_meter_UI.last_displayed_players = {};
+
 	elseif this.flow_state >= this.flow_states.LOADING_QUEST then
 		this.get_cart_count();
 		this.get_max_cart_count();
 	end
+
+	players.update_players();
 end
 
 function this.get_cart_count()
@@ -161,9 +175,47 @@ function this.get_cart_count()
 	local death_num = get_death_num_method:call(singletons.quest_manager);
 	if death_num == nil then
 		error_handler.report("quest_status.get_cart_count", "Failed to access Data: death_num");
+	else
+		this.cart_count = death_num;
 	end
-	
-	this.cart_count = death_num;
+
+	if singletons.player_manager == nil then
+		error_handler.report("quest_status.get_cart_count", "Failed to access Data: player_manager");
+		return;
+	end
+
+	local player_data_array = get_player_data_method:call(singletons.player_manager);
+	if player_data_array == nil then
+		error_handler.report("quest_status.get_cart_count", "Failed to access Data: player_data_array");
+		return;
+	end
+
+	local player_data_array_length = get_length_method:call(player_data_array);
+	if player_data_array_length == nil then
+		error_handler.report("quest_status.get_cart_count", "Failed to access Data: player_data_array_length");
+		return;
+	end
+
+	for i = 0, player_data_array_length - 1 do
+		local player_data = get_value_method:call(player_data_array, i);
+		if player_data_array_length == nil then
+			error_handler.report("quest_status.get_cart_count", string.format("Failed to access Data: player_data No. %d", i));
+			goto continue;
+		end
+
+		local die_count = die_count_field:get_data(player_data);
+		if die_count == nil then
+			error_handler.report("quest_status.get_cart_count", string.format("Failed to access Data: die_count No. %d", i));
+			goto continue;
+		end
+
+		local player = players.list[i];
+		if player ~= nil then
+			player.cart_count = die_count;
+		end
+
+		::continue::
+	end 
 end
 
 function this.get_max_cart_count()

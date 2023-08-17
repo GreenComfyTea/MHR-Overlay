@@ -264,13 +264,11 @@ function this.cart(dead_player_id, flag_cat_skill_insurance)
 	-- flag_cat_skill_insurance = 0
 	-- flag_cat_skill_insurance = 1
 
-	local player = players.list[dead_player_id];
-	if player == nil then
-		error_handler.report("damage_hook.cart", "No Dead Player Found");
-		return;
-	end
-
-	player.cart_count = player.cart_count + 1;
+	--local player = players.list[dead_player_id];
+	--if player == nil then
+	--	error_handler.report("damage_hook.cart", "No Dead Player Found");
+	--	return;
+	--end
 
 	quest_status.get_cart_count();
 end
