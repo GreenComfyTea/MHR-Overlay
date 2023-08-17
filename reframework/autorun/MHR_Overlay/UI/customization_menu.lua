@@ -2083,6 +2083,9 @@ function this.draw_damage_meter_UI()
 			changed = label_customization.draw(language.current_language.customization_menu.hunter_rank_label, cached_config.highlighted.hunter_rank_label);
 			config_changed = config_changed or changed;
 
+			changed = label_customization.draw(language.current_language.customization_menu.cart_count_label, cached_config.highlighted.cart_count_label);
+			config_changed = config_changed or changed;
+
 			changed = label_customization.draw(language.current_language.customization_menu.dps_label, cached_config.highlighted.dps_label);
 			config_changed = config_changed or changed;
 
