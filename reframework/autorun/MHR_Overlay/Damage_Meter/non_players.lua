@@ -231,7 +231,7 @@ function this.update_my_otomos()
 			local level = otomo_create_data_level_field:get_data(first_otomo) or 0;
 
 			local myself_id = players.myself.id;
-			local otomo = this.otomo_list[myself_id]
+			local otomo = this.otomo_list[myself_id];
 			if otomo == nil then
 				otomo = this.new(0, name, level, players.types.my_otomo);
 				this.otomo_list[myself_id] = otomo;

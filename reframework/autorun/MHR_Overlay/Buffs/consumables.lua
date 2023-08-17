@@ -97,10 +97,6 @@ local stamina_up_buff_second_timer_field = player_data_type_def:get_field("_Stam
 -- Gourmet Fish
 local fish_regene_enable_field = player_data_type_def:get_field("_FishRegeneEnableTimer");
 
-local system_array_type_def = sdk.find_type_definition("System.Array");
-local length_method = system_array_type_def:get_method("get_Length");
-local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
-
 function this.update(player_data)
 	local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
 	if item_parameter == nil then

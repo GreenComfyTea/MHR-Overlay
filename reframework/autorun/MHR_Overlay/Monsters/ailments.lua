@@ -272,7 +272,7 @@ local poison_damage_field = poison_param_type_def:get_field("<Damage>k__BackingF
 local poison_get_is_damage_method = poison_param_type_def:get_method("get_IsDamage");
 
 local system_array_type_def = sdk.find_type_definition("System.Array");
-local length_method = system_array_type_def:get_method("get_Length");
+local get_length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
 function this.update_ailments(enemy, monster)
@@ -305,7 +305,7 @@ function this.update_ailments(enemy, monster)
 		return;
 	end
 
-	local condition_param_array_length = length_method:call(condition_param_array);
+	local condition_param_array_length = get_length_method:call(condition_param_array);
 	if condition_param_array_length == nil then
 		error_handler.report("ailments.update_ailments", "Failed to access Data: condition_param_array_length");
 		return;
@@ -364,7 +364,7 @@ function this.update_ailment(monster, ailment_param, id)
 	local buildup_limit = nil;
 	
 	if activate_count_array ~= nil then
-		local activate_count_array_length = length_method:call(activate_count_array);
+		local activate_count_array_length = get_length_method:call(activate_count_array);
 
 		if activate_count_array_length ~= nil then
 
@@ -385,7 +385,7 @@ function this.update_ailment(monster, ailment_param, id)
 	end
 	
 	if buildup_array ~= nil then
-		local buildup_array_length = length_method:call(buildup_array);
+		local buildup_array_length = get_length_method:call(buildup_array);
 
 		if buildup_array_length ~= nil then 
 
@@ -406,7 +406,7 @@ function this.update_ailment(monster, ailment_param, id)
 	end
 	
 	if buildup_limit_array ~= nil then
-		local buildup_limit_array_length = length_method:call(buildup_limit_array);
+		local buildup_limit_array_length = get_length_method:call(buildup_limit_array);
 
 		if buildup_limit_array_length ~= nil then 
 

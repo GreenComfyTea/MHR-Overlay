@@ -115,7 +115,7 @@ local music_data_type_def = sdk.find_type_definition("snow.player.Horn.MusicData
 local time_field = music_data_type_def:get_field("_Time");
 
 local system_array_type_def = sdk.find_type_definition("System.Array");
-local length_method = system_array_type_def:get_method("get_Length");
+local get_length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
 function this.update(master_player)
@@ -125,7 +125,7 @@ function this.update(master_player)
 		return;
 	end
 
-	local length = length_method:call(music_data_array) - 1;
+	local length = get_length_method:call(music_data_array) - 1;
 	if length == nil then
 		error_handler.report("melody_effects.update", "Failed to access Data: music_data_array -> length");
 		return;

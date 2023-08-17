@@ -145,10 +145,6 @@ local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 local virus_overcome_buff_timer_field = player_data_type_def:get_field("_VirusOvercomeBuffTimer");
 
 
-local system_array_type_def = sdk.find_type_definition("System.Array");
-local length_method = system_array_type_def:get_method("get_Length");
-local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
-
 function this.update(player, player_data)
 	--local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
 	--if item_parameter == nil then
@@ -289,7 +285,6 @@ function this.update_generic(debuff_key, timer, duration)
 
 		debuff = buffs.new(buffs.types.debuff, debuff_key, name, 1, duration);
 		this.list[debuff_key] = debuff;
-
 	elseif timer ~= nil then
 		buffs.update_timer(debuff, timer);
 	end

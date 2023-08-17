@@ -156,10 +156,6 @@ local equip_skill_226_attack_off_timer_field = player_quest_base_type_def:get_fi
 -- Heaven-Sent
 local is_active_equip_skill_230_method = player_quest_base_type_def:get_method("isActiveEquipSkill230");
 
-local system_array_type_def = sdk.find_type_definition("System.Array");
-local length_method = system_array_type_def:get_method("get_Length");
-local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
-
 function this.update(player, player_data)
 	--local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
 	--if item_parameter == nil then

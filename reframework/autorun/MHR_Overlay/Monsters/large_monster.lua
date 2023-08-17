@@ -229,7 +229,7 @@ local get_mario_player_index_method = mario_param_type:get_method("get_MarioPlay
 local get_pos_field = enemy_character_base_type_def:get_method("get_Pos");
 
 local system_array_type_def = sdk.find_type_definition("System.Array");
-local length_method = system_array_type_def:get_method("get_Length");
+local get_length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
 -- Lucent Nargacuga
@@ -920,7 +920,7 @@ function this.update_parts(enemy, monster, physical_param)
 		return;
 	end
 
-	local core_parts_array_length = length_method:call(core_parts_array);
+	local core_parts_array_length = get_length_method:call(core_parts_array);
 	if core_parts_array_length == nil then
 		error_handler.report("large_monster.update_parts", "Failed to access Data: core_parts_array_length");
 		return;
@@ -1074,7 +1074,7 @@ function this.update_anomaly_parts(enemy, monster, mystery_param)
 		return;
 	end
 
-	local core_parts_array_length = length_method:call(core_parts_array);
+	local core_parts_array_length = get_length_method:call(core_parts_array);
 	if core_parts_array_length == nil then
 		error_handler.report("large_monster.update_anomaly_parts", "Failed to access Data: core_parts_array_length");
 		return;

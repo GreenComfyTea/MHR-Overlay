@@ -60,10 +60,6 @@ local crit_up_ec_second_timer_field = player_data_type_def:get_field("_CritUpEcS
 -- Clothfly
 local def_up_buff_second_rate_timer_field = player_data_type_def:get_field("_DefUpBuffSecondRateTimer");
 
-local system_array_type_def = sdk.find_type_definition("System.Array");
-local length_method = system_array_type_def:get_method("get_Length");
-local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
-
 local message_manager_type_def = sdk.find_type_definition("snow.gui.MessageManager");
 local get_env_creature_name_message_method = message_manager_type_def:get_method("getEnvCreatureNameMessage");
 

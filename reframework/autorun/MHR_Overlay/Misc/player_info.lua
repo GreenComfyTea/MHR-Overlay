@@ -88,7 +88,7 @@ local element_attack_2nd_field = player_data_type_def:get_field("_ElementAttack2
 local resistance_element_field = player_data_type_def:get_field("_ResistanceElement");
 
 local system_array_type_def = sdk.find_type_definition("System.Array");
-local length_method = system_array_type_def:get_method("get_Length");
+local get_length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
 function this.update()
