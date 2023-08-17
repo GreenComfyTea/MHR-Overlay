@@ -159,53 +159,53 @@ function this.set_flow_state(new_flow_state)
 		damage_meter_UI.last_displayed_players = {};
 
 	elseif this.flow_state >= this.flow_states.LOADING_QUEST then
-		this.get_cart_count();
+		this.update_cart_count();
 		this.get_max_cart_count();
 	end
 
 	players.update_players();
 end
 
-function this.get_cart_count()
+function this.update_cart_count()
 	if singletons.quest_manager == nil then
-		error_handler.report("quest_status.get_cart_count", "Failed to access Data: quest_manager");
+		error_handler.report("quest_status.update_cart_count", "Failed to access Data: quest_manager");
 		return;
 	end
 
 	local death_num = get_death_num_method:call(singletons.quest_manager);
 	if death_num == nil then
-		error_handler.report("quest_status.get_cart_count", "Failed to access Data: death_num");
+		error_handler.report("quest_status.update_cart_count", "Failed to access Data: death_num");
 	else
 		this.cart_count = death_num;
 	end
 
 	if singletons.player_manager == nil then
-		error_handler.report("quest_status.get_cart_count", "Failed to access Data: player_manager");
+		error_handler.report("quest_status.update_cart_count", "Failed to access Data: player_manager");
 		return;
 	end
 
 	local player_data_array = get_player_data_method:call(singletons.player_manager);
 	if player_data_array == nil then
-		error_handler.report("quest_status.get_cart_count", "Failed to access Data: player_data_array");
+		error_handler.report("quest_status.update_cart_count", "Failed to access Data: player_data_array");
 		return;
 	end
 
 	local player_data_array_length = get_length_method:call(player_data_array);
 	if player_data_array_length == nil then
-		error_handler.report("quest_status.get_cart_count", "Failed to access Data: player_data_array_length");
+		error_handler.report("quest_status.update_cart_count", "Failed to access Data: player_data_array_length");
 		return;
 	end
 
 	for i = 0, player_data_array_length - 1 do
 		local player_data = get_value_method:call(player_data_array, i);
 		if player_data_array_length == nil then
-			error_handler.report("quest_status.get_cart_count", string.format("Failed to access Data: player_data No. %d", i));
+			error_handler.report("quest_status.update_cart_count", string.format("Failed to access Data: player_data No. %d", i));
 			goto continue;
 		end
 
 		local die_count = die_count_field:get_data(player_data);
 		if die_count == nil then
-			error_handler.report("quest_status.get_cart_count", string.format("Failed to access Data: die_count No. %d", i));
+			error_handler.report("quest_status.update_cart_count", string.format("Failed to access Data: die_count No. %d", i));
 			goto continue;
 		end
 

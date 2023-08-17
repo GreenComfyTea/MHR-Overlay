@@ -570,7 +570,7 @@ function this.update_player_list(hunter_info_field_)
 	end
 
 	if update_cart_count then
-		quest_status.get_cart_count();
+		quest_status.update_cart_count();
 	end
 end
 

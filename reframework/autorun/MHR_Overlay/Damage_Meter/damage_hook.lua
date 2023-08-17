@@ -270,7 +270,7 @@ function this.cart(dead_player_id, flag_cat_skill_insurance)
 	--	return;
 	--end
 
-	quest_status.get_cart_count();
+	quest_status.update_cart_count();
 end
 
 function this.on_stock_direct_marionette_finish_shoot_hit_parts_damage(enemy, damage_rate, is_endure, is_ignore_multi_rate, category, no)
