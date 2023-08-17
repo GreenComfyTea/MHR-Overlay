@@ -11,6 +11,7 @@ local language;
 local non_players;
 local utils;
 local error_handler;
+local large_monster;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -107,6 +108,8 @@ function this.new(id, name, master_rank, hunter_rank, type)
 	if this.highlighted_damage_UI == nil then
 		this.init_highlighted_UI();
 	end
+
+	large_monster.request_health_update();
 
 	return player;
 end
@@ -458,6 +461,7 @@ function this.update_players()
 	non_players.update_otomo_list(is_on_quest, quest_status.is_online);
 
 	this.update_dps(false);
+	quest_status.update_cart_count();
 end
 
 function this.update_player_list(hunter_info_field_)
@@ -472,8 +476,6 @@ function this.update_player_list(hunter_info_field_)
 		error_handler.report("players.update_player_list", "Failed to access Data: progress_manager");
 		return;
 	end
-
-	local update_cart_count = false;
 
 	-- myself player
 	local myself_player_info = my_hunter_info_field:get_data(singletons.lobby_manager);
@@ -502,7 +504,6 @@ function this.update_player_list(hunter_info_field_)
 		this.list[this.myself.id] = nil;
 		this.myself = this.new(myself_id, myself_player_name, myself_master_rank, myself_hunter_rank, this.types.myself);
 		this.list[myself_id] = this.myself;
-		update_cart_count = true;
 	end
 
 	-- other players
@@ -558,19 +559,13 @@ function this.update_player_list(hunter_info_field_)
 				player = this.new(id, name, master_rank, hunter_rank, this.types.myself);
 				this.myself = player;
 				this.list[id] = player;
-				update_cart_count = true;
 			else
 				player = this.new(id, name, master_rank, hunter_rank, this.types.other_player);
 				this.list[id] = player;
-				update_cart_count = true;
 			end
 		end
 
 		::continue::
-	end
-
-	if update_cart_count then
-		quest_status.update_cart_count();
 	end
 end
 
@@ -608,6 +603,7 @@ function this.init_dependencies()
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	utils = require("MHR_Overlay.Misc.utils");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	large_monster = require("MHR_Overlay.Monsters.large_monster");
 end
 
 function this.init_module()

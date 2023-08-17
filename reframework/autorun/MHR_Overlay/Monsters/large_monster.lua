@@ -77,7 +77,7 @@ function this.new(enemy)
 	monster.max_health = 0;
 	monster.health_percentage = 0;
 	monster.missing_health = 0;
-	monster.is_health_initialized = false;
+	monster.is_health_update_requested = true;
 
 	monster.is_capturable = true;
 	monster.capture_health = 0;
@@ -461,6 +461,12 @@ function this.init_UI(monster, monster_UI, cached_config)
 	body_part.init_part_names(monster.id, monster.parts);
 end
 
+function this.request_health_update()
+	for enemy, monster in pairs(this.list) do
+		monster.is_health_update_requested = true;
+	end
+end
+
 function this.update_position(enemy, monster)
 	if not config.current_config.large_monster_UI.dynamic.enabled
 	and config.current_config.large_monster_UI.static.sorting.type ~= "Distance" then
@@ -620,7 +626,8 @@ function this.update_health(enemy, monster)
 		monster.capture_percentage = capture_health / max_health;
 	end
 
-	monster.is_health_initialized = true;
+	xy = string.format("%s %s: %d\n", xy, monster.name, monster.health);
+	monster.is_health_update_requested = false;
 
 	return physical_param;
 end
