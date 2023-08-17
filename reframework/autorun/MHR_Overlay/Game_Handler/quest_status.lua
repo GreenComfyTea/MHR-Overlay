@@ -158,8 +158,17 @@ function this.set_flow_state(new_flow_state)
 
 		damage_meter_UI.last_displayed_players = {};
 
+	elseif this.flow_state == this.flow_states.LOADING_QUEST then
+		players.init();
+		non_players.init();
+		small_monster.init_list();
+		large_monster.init_list();
+		env_creature.init_list();
+
+		damage_meter_UI.last_displayed_players = {};
+
+		this.get_max_cart_count();
 	elseif this.flow_state >= this.flow_states.LOADING_QUEST then
-		this.update_cart_count();
 		this.get_max_cart_count();
 	end
 
