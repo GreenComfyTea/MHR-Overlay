@@ -269,6 +269,9 @@ local get_tg_camera_method = gui_manager_type_def:get_method("get_refGuiHud_TgCa
 local tg_camera_type_def = get_tg_camera_method:get_return_type();
 local get_targeting_enemy_index_field = tg_camera_type_def:get_field("OldTargetingEmIndex");
 
+local lobby_manager_type_def = sdk.find_type_definition("snow.LobbyManager");
+local receive_quest_hunter_info_method = lobby_manager_type_def:get_method("receiveQuestHunterInfo");
+
 function this.init(monster, enemy)
 	local monster_id = enemy_type_field:get_data(enemy);
 	if monster_id == nil then
@@ -626,7 +629,6 @@ function this.update_health(enemy, monster)
 		monster.capture_percentage = capture_health / max_health;
 	end
 
-	xy = string.format("%s %s: %d\n", xy, monster.name, monster.health);
 	monster.is_health_update_requested = false;
 
 	return physical_param;
@@ -778,7 +780,6 @@ function this.update_rage(enemy, monster, anger_param)
 
 	local is_in_rage = is_anger_method:call(anger_param);
 	if is_in_rage ~= nil then
-		--xy = xy .. tostring(is_in_rage) .. "\n";
 		monster.is_in_rage = is_in_rage;
 	else
 		error_handler.report("large_monster.update_rage", "Failed to access Data: is_in_rage");
@@ -1306,6 +1307,11 @@ function this.init_dependencies()
 end
 
 function this.init_module()
+	sdk.hook(receive_quest_hunter_info_method, function(args)
+		this.request_health_update();
+	end, function(retval)
+		return retval;
+	end);
 end
 
 return this;

@@ -109,8 +109,6 @@ function this.new(id, name, master_rank, hunter_rank, type)
 		this.init_highlighted_UI();
 	end
 
-	large_monster.request_health_update();
-
 	return player;
 end
 
