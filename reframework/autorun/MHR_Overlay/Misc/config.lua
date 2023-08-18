@@ -7973,8 +7973,6 @@ function this.init_default()
 		},
 
 		customization_menu = {
-			visible = false,
-
 			position = {
 				x = 360,
 				y = 50

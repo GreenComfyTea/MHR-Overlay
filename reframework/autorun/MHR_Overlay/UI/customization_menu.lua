@@ -64,6 +64,8 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
+this.is_opened = false;
+
 this.font = nil;
 this.full_font_range = {0x1, 0xFFFF, 0};
 
@@ -326,7 +328,7 @@ function this.init()
 end
 
 function this.draw()
-	if not config.current_config.customization_menu.visible then
+	if not this.is_opened then
 		return;
 	end
 
@@ -339,13 +341,13 @@ function this.draw()
 	
 	imgui.push_font(this.font);
 
-	config.current_config.customization_menu.visible = imgui.begin_window(
+	this.is_opened = imgui.begin_window(
 		string.format("%s v%s", language.current_language.customization_menu.mod_name, config.current_config.version),
-		config.current_config.customization_menu.visible,
+		this.is_opened,
 		this.window_flags);
 
 
-	if not config.current_config.customization_menu.visible then
+	if not this.is_opened then
 		imgui.pop_font();
 		imgui.end_window();
 		config.save_current();

@@ -505,9 +505,7 @@ end
 -- #region
 re.on_draw_ui(function()
 	if imgui.button(language.current_language.customization_menu.mod_name .. " v" .. config.current_config.version) then
-		local cached_config = config.current_config.customization_menu;
-		cached_config.visible = not cached_config.visible;
-		config.save_current();
+		customization_menu.is_opened = not customization_menu.is_opened;
 	end
 end);
 
@@ -542,9 +540,9 @@ end);
 -- #endregion
 -----------------------Loop Callbacks------------------------
 
+time.init_global_timers();
+time.new_timer(update_UI, 0.5);
+
 if imgui.begin_table == nil then
 	re.msg(language.current_language.customization_menu.reframework_outdated);
 end
-
-time.init_global_timers();
-time.new_timer(update_UI, 0.5);
