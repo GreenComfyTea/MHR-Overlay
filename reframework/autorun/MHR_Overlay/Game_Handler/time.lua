@@ -75,7 +75,7 @@ function this.new_timer(callback, cooldown_seconds, start_offset_seconds)
 
 end
 
-function this.new_delay(callback, delay)
+function this.new_delay_timer(callback, delay)
 	if callback == nil or delay == nil then
 		return;
 	end
@@ -117,7 +117,7 @@ function this.update_timers()
 	for callback, delay_timer in pairs(this.delay_timer_list) do
 		if this.total_elapsed_script_seconds - delay_timer.init_time > delay_timer.delay then
 			callback();
-			remove_list.insert(callback);
+			table.insert(remove_list, callback);
 		end
 	end
 
