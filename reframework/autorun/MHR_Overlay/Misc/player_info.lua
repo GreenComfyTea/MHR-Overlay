@@ -47,7 +47,7 @@ this.list = {
 	affinity = 0;
 	
 	stamina = 0;
-	max_stamina = 0;
+	max_stamina = -1;
 	
 	element_type = 0;
 	element_attack = 0;
@@ -92,11 +92,14 @@ local get_length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
 function this.update()
-	if not config.current_config.stats_UI.enabled then
+	if quest_status.flow_state == quest_status.flow_states.NONE then
 		return;
 	end
 
-	if quest_status.flow_state == quest_status.flow_states.NONE then
+	local cached_config = config.current_config;
+
+	if not cached_config.buff_UI.enabled
+	and not cached_config.stats_UI.enabled then
 		return;
 	end
 
@@ -116,15 +119,19 @@ function this.update()
 		error_handler.report("player_info.update", "Failed to access Data: master_player_data");
 	end
 
-	this.update_generic("attack", master_player_data, attack_field);
-	this.update_generic("affinity", master_player_data, critical_rate_field);
-	this.update_generic("defense", master_player_data, defence_field);
-
 	this.update_generic("stamina", master_player_data, stamina_field);
 	this.list.stamina = math.floor(this.list.stamina / 30);
 
 	this.update_generic("max_stamina", master_player_data, stamina_max_field);
 	this.list.max_stamina = math.floor(this.list.max_stamina / 30);
+
+	if not cached_config.stats_UI.enabled then
+		return;
+	end
+
+	this.update_generic("attack", master_player_data, attack_field);
+	this.update_generic("affinity", master_player_data, critical_rate_field);
+	this.update_generic("defense", master_player_data, defence_field);
 
 	this.update_generic("element_type", master_player_data, element_type_field);
 	this.update_generic("element_attack", master_player_data, element_attack_field);

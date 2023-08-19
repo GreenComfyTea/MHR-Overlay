@@ -171,10 +171,12 @@ this.default_language = {
 		sleep = "Sleep",
 		stun = "Stun",
 		flash = "Flash",
-		poison = "Poison",
 		blast = "Blast",
 		exhaust = "Exhaust",
 		ride = "Wyvern Riding",
+
+		poison = "Poison",
+		deadly_poison = "Deadly Poison",
 
 		fireblight = "Fireblight",
 		waterblight = "Waterblight",
@@ -192,10 +194,12 @@ this.default_language = {
 
 		dragonblight = "Dragonblight",
 		blastblight = "Blastblight",
-		bubbleblight = "Bubbleblight",
 		hellfireblight = "Hellfireblight",
 		bloodblight = "Bloodblight",
 		frostblight = "Frostblight",
+
+		minor_bubbleblight = "Minor Bubbleblight",
+		major_bubbleblight = "Major Bubbleblight",
 		
 		defense_down = "Defense Down",
 		resistance_down = "Resistance Down",
@@ -278,7 +282,10 @@ this.default_language = {
 		agitator = "Agitator",
 		furious = "Furious",
 		heroics = "Heroics",
-		resuscitate = "Resuscitate"
+		resuscitate = "Resuscitate",
+		maximum_might = "Maximum Might",
+		bloodlust = "Bloodlust",
+		frenzied_bloodlust = "Frenzied Bloodlust"
 	},
 
 	dangos = {
