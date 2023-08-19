@@ -49,10 +49,12 @@ this.list = {
 	thunderblight = nil,
 	dragonblight = nil,
 	blastblight = nil,
-	bubbleblight = nil,
+	minor_bubbleblight = nil,
+	major_bubbleblight = nil,
 	hellfireblight = nil,
 	bloodblight = nil,
 	poison = nil,
+	deadly_poison = nil,
 	stun = nil,
 	paralysis = nil,
 	sleep = nil,
@@ -90,6 +92,7 @@ local dragon_duration_timer = player_quest_base_type_def:get_field("_DragonLDura
 -- blastblight
 local bomb_duration_timer = player_quest_base_type_def:get_field("_BombDurationTimer");
 -- Bubbleblight
+local bubble_type_field = player_quest_base_type_def:get_field("_BubbleType");
 local bubble_damage_timer = player_quest_base_type_def:get_field("_BubbleDamageTimer");
 -- Hellfireblight
 local oni_bomb_duration_timer = player_quest_base_type_def:get_field("_OniBombDurationTimer");
@@ -99,6 +102,7 @@ local mystery_debuff_timer = player_quest_base_type_def:get_field("_MysteryDebuf
 local get_is_frozen_damage_method = player_quest_base_type_def:get_method("get_IsFrozenDamage");
 
 -- Poison
+local poison_level_field = player_quest_base_type_def:get_field("_PoisonLv");
 local poison_duration_timer = player_quest_base_type_def:get_field("_PoisonDurationTimer");
 -- Stun
 local stun_duration_timer = player_quest_base_type_def:get_field("_StunDurationTimer");
@@ -145,6 +149,8 @@ local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 local virus_overcome_buff_timer_field = player_data_type_def:get_field("_VirusOvercomeBuffTimer");
 
 
+local cache = {};
+
 function this.update(player, player_data)
 	--local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
 	--if item_parameter == nil then
@@ -153,8 +159,11 @@ function this.update(player, player_data)
 	--end
 
 	-- Missing:
-	-- Whirlwind
+	-- whirlwind?
+	-- Wind Pressure?
 
+	this.update_poison(player);
+	this.update_bubbleblight(player);
 	this.update_muck(player);
 	this.update_frenzy_infection(player);
 
@@ -165,11 +174,9 @@ function this.update(player, player_data)
 	this.update_generic_timer("dragonblight", player, dragon_duration_timer);
 
 	this.update_generic_timer("blastblight", player, bomb_duration_timer);
-	this.update_generic_timer("bubbleblight", player, bubble_damage_timer);
 	this.update_generic_timer("hellfireblight", player, oni_bomb_duration_timer);
 	this.update_generic_timer("bloodblight", player, mystery_debuff_timer);
 
-	this.update_generic_timer("poison", player, poison_duration_timer);
 	this.update_generic_timer("stun", player, stun_duration_timer);
 	this.update_generic_timer("paralysis", player, paralyze_duration_timer);
 	this.update_generic_timer("sleep", player, sleep_duration_timer);
@@ -182,7 +189,6 @@ function this.update(player, player_data)
 	this.update_generic_timer("webbed", player, beto_duration_timer);
 	this.update_generic_timer("stench", player, stink_duration_timer);
 	this.update_generic_timer("leeched", player, blooding_enemy_timer, true);
-	-- whirlwind?
 	this.update_generic_timer("bleeding", player, bleeding_debuff_timer);
 	this.update_generic_timer("frenzy", player, virus_onset_timer_field);
 	this.update_generic_timer("frenzy_overcome", player_data, virus_overcome_buff_timer_field);
@@ -227,6 +233,50 @@ function this.update_generic_boolean_value_method(debuff_key, value_owner, value
 	end
 
 	this.update_generic(debuff_key, nil);
+end
+
+function this.update_bubbleblight(player)
+	local bubble_Type = bubble_type_field:get_data(player);
+	if bubble_Type == nil then
+		error_handler.report("abnormal_statuses.update_bubbleblight", "Failed to access Data: bubble_Type");
+		return;
+	end
+
+	if bubble_Type == 0 then
+		this.list.minor_bubbleblight = nil;
+		this.list.major_bubbleblight = nil;
+		return;
+	end
+	
+	if bubble_Type == 1 then
+		this.update_generic_timer("minor_bubbleblight", player, bubble_damage_timer);
+		this.list.major_bubbleblight = nil;
+	else
+		this.update_generic_timer("major_bubbleblight", player, bubble_damage_timer);
+		this.list.minor_bubbleblight = nil;
+	end
+end
+
+function this.update_poison(player)
+	local poison_level = poison_level_field:get_data(player);
+	if poison_level == nil then
+		error_handler.report("abnormal_statuses.update_poison", "Failed to access Data: poison_level");
+		return;
+	end
+
+	if poison_level == 0 then
+		this.list.poison = nil;
+		this.list.deadly_poison = nil;
+		return;
+	end
+	
+	if poison_level == 1 then
+		this.update_generic_timer("poison", player, poison_duration_timer);
+		this.list.deadly_poison = nil;
+	else
+		this.update_generic_timer("deadly_poison", player, poison_duration_timer);
+		this.list.poison = nil;
+	end
 end
 
 function this.update_muck(player)
