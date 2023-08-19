@@ -86,8 +86,14 @@ function this.new_delay_timer(callback, delay)
 	
 	delay_timer.init_time = os.clock();
 
-	this.delay_timer_list[callback] =  delay_timer;
+	this.delay_timer_list[callback] = delay_timer;
 
+	return delay_timer;
+
+end
+
+function this.remove_delay_timer(delay_timer)
+	this.delay_timer_list[delay_timer.callback] = nil; 
 end
 
 function this.init_global_timers()
