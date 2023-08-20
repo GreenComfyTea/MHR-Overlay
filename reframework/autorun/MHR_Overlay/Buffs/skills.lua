@@ -67,18 +67,21 @@ this.list = {
 	resuscitate = nil,
 	maximum_might = nil,
 	bloodlust = nil,
-	frenzied_bloodlust = nil
+	frenzied_bloodlust = nil,
+	peak_performance = nil,
+	dragonheart = nil,
+	resentment = nil
 };
 
 local skill_data_list = {
-	peak_performance =	{ id = 3,	is_equipped = false },
-	resentment =		{ id = 4,	is_equipped = false },
-	resuscitate =		{ id = 5,	is_equipped = false },
-	maximum_might =		{ id = 10,	is_equipped = false },
-	heroics =			{ id = 91,	is_equipped = false },
-	dragonheart =		{ id = 103, is_equipped = false },
-	bloodlust =			{ id = 117, is_equipped = false },
-	dereliction =		{ id = 113, is_equipped = false }
+	peak_performance =	{ id = 3,	level = 0, is_equipped = false },
+	resentment =		{ id = 4,	level = 0, is_equipped = false },
+	resuscitate =		{ id = 5,	level = 0, is_equipped = false },
+	maximum_might =		{ id = 10,	level = 0, is_equipped = false },
+	heroics =			{ id = 91,	level = 0, is_equipped = false },
+	dragonheart =		{ id = 103,	level = 0, is_equipped = false },
+	bloodlust =			{ id = 117,	level = 0, is_equipped = false },
+	dereliction =		{ id = 113, level = 0, is_equipped = false }
 }
 
 local burst_breakpoint = 5;
@@ -91,6 +94,8 @@ local maximum_might_previous_timer_value = 0;
 
 local frenzied_bloodlust_duration = 0;
 local frenzied_bloodlust_sheathed_duration = 0;
+
+local dragonheart_breakpoints = {0.5, 0.5, 0.7, 0.7, 0.8};
 
 local wind_mantle_duration = 15;
 local wind_mantle_breakpoints = { 20, 10 }; -- Sword & Shield, Lance, Hammer, Switch Axe, Insect Glaive, Long Sword, Hunting Horn
@@ -109,7 +114,6 @@ local get_player_data_method = player_manager_type_def:get_method("get_PlayerDat
 local get_ref_item_parameter_method = player_manager_type_def:get_method("get_RefItemParameter");
 
 local player_user_data_item_parameter_type_def = get_ref_item_parameter_method:get_return_type();
-local demondrug_atk_up_field = player_user_data_item_parameter_type_def:get_field("_DemondrugAtkUp");
 
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Burst
@@ -147,7 +151,8 @@ local whole_body_timer_field = player_data_type_def:get_field("_WholeBodyTimer")
 -- Frenzied Bloodlust
 local equip_skill_231_wire_num_timer_field = player_data_type_def:get_field("_EquipSkill231_WireNumTimer");
 local equip_skill_231_wp_off_timer_field = player_data_type_def:get_field("_EquipSkill231_WpOffTimer");
-
+-- Resentment
+local r_vital_field = player_data_type_def:get_field("_r_Vital");
 
 
 
@@ -166,7 +171,10 @@ local is_debuff_state_method = player_base_type_def:get_method("isDebuffState");
 
 
 local player_skill_list_type_def = get_player_skill_list_method:get_return_type();
-local has_skill_method = player_skill_list_type_def:get_method("hasSkill");
+local get_skill_data_method = player_skill_list_type_def:get_method("getSkillData");
+
+local skill_data_type_def = get_skill_data_method:get_return_type();
+local skill_lv_field = skill_data_type_def:get_field("SkillLv");
 
 local player_quest_base_type_def = sdk.find_type_definition("snow.player.PlayerQuestBase");
 -- Wind Mantle
@@ -188,7 +196,7 @@ function this.update(player, player_data)
 
 	-- local fields = player_quest_base_type_def:get_fields();
 
-	-- xy = ""
+	-- xy = "Player:\n";
 	-- for i = 1, 999 do
 	-- 	local field = fields[i];
 	-- 	if field == nil then
@@ -206,6 +214,28 @@ function this.update(player, player_data)
 	-- 	end
 	-- end
 
+	-- fields = player_data_type_def:get_fields();
+
+	-- xy = xy .. "Player Data:\n";
+	-- for i = 1, 999 do
+	-- 	local field = fields[i];
+	-- 	if field == nil then
+	-- 		break;
+	-- 	end
+
+	-- 	local value = field:get_data(player_data);
+
+	-- 	if qeree[field] == nil then
+	-- 		qeree[field] = value;
+	-- 	end
+
+	-- 	if qeree[field] ~= value then
+	-- 		xy = string.format("%s%d %s = %s\n", xy, i, field:get_name(), tostring(value));
+	-- 	end
+	-- end
+
+	xy = player_data._BeastRoarOtomoTimer;
+
 	this.update_equipped_skill_data(player);
 
 	this.update_dereliction(player_data);
@@ -213,6 +243,9 @@ function this.update(player, player_data)
 	this.update_maximum_might(player_data);
 	this.update_bloodlust();
 	this.update_frenzied_bloodlust(player, player_data);
+	this.update_peak_performance();
+	this.update_dragonheart();
+	this.update_resentment(player_data);
 
 	this.update_generic_number_value_field("burst", player_data,
 		rengeki_power_up_count_field, rengeki_power_up_timer_field, false, nil, burst_breakpoint);
@@ -255,13 +288,26 @@ function this.update_equipped_skill_data(player)
 	-- end
 
 	for skill_key, skill_data in pairs(skill_data_list) do
-		local has_skill = has_skill_method:call(player_skill_list, skill_data.id, 1);
-		if has_skill == nil then
-			error_handler.report("skills.update_equipped_skill_data", string.format("Failed to access Data: %s -> has_skill", skill_key));
+		local re_skill_data = get_skill_data_method:call(player_skill_list, skill_data.id);
+		if re_skill_data == nil then
 			goto continue;
 		end
 
-		skill_data.is_equipped = has_skill;
+		local skill_level = skill_lv_field:get_data(re_skill_data);
+		if skill_level == nil then
+			error_handler.report("skills.update_equipped_skill_data", string.format("Failed to access Data: %s -> skill_level", skill_key));
+			goto continue;
+		end
+
+
+		if skill_level <= 0 then
+			skill_data.is_equipped = false;
+			skill_data.level = 0;
+			goto continue;
+		end
+
+		skill_data.is_equipped = true;
+		skill_data.level = skill_level;
 
 		::continue::
 	end
@@ -299,9 +345,9 @@ function this.update_generic_timer(skill_key, timer_owner, timer_field, is_infin
 	this.update_generic(skill_key, 1, timer);
 end
 
-function this.update_generic_number_value_field(skill_key, timer_owner, value_field, timer_field, is_infinite, minimal_value, breakpoint)
+function this.update_generic_number_value_field(skill_key, timer_owner, value_field, timer_field, is_infinite, minimal_value, level_breakpoint)
 	if minimal_value == nil then minimal_value = 1; end
-	breakpoint = breakpoint or 1000000;
+	level_breakpoint = level_breakpoint or 1000000;
 	if is_infinite == nil then is_infinite = false; end
 
 	local skill_data = skill_data_list[skill_key];
@@ -325,7 +371,7 @@ function this.update_generic_number_value_field(skill_key, timer_owner, value_fi
 			return;
 		end
 
-		if value >= breakpoint then
+		if value >= level_breakpoint then
 			level = 2;
 		end
 	end
@@ -400,9 +446,9 @@ function this.update_generic_boolean_value_field(skill_key, timer_owner, value_f
 	this.update_generic(skill_key, 1, timer);
 end
 
-function this.update_generic_number_value_method(skill_key, timer_owner, value_method, timer_field, is_infinite, minimal_value, breakpoint)
+function this.update_generic_number_value_method(skill_key, timer_owner, value_method, timer_field, is_infinite, minimal_value, level_breakpoint)
 	if minimal_value == nil then minimal_value = 1; end
-	breakpoint = breakpoint or 1000000;
+	level_breakpoint = level_breakpoint or 1000000;
 	if is_infinite == nil then is_infinite = false; end
 
 	local skill_data = skill_data_list[skill_key];
@@ -426,7 +472,7 @@ function this.update_generic_number_value_method(skill_key, timer_owner, value_m
 			return;
 		end
 
-		if value >= breakpoint then
+		if value >= level_breakpoint then
 			level = 2;
 		end
 	end
@@ -507,8 +553,8 @@ function this.update_generic(skill_key, level, timer, duration)
 	local skill = this.list[skill_key];
 	if skill == nil then
 		local name = language.current_language.skills[skill_key];
-
-		skill = buffs.new(buffs.types.skill, skill_key, name, level, timer, duration);
+		
+		skill = buffs.new(buffs.types.skill, skill_key, name, level, duration);
 		this.list[skill_key] = skill;
 	else
 		skill.level = level;
@@ -729,6 +775,63 @@ function this.update_frenzied_bloodlust(player, player_data)
 	else
 		skill.duration = frenzied_bloodlust_sheathed_duration / 60;
 	end
+end
+
+function this.update_peak_performance()
+	if not skill_data_list.peak_performance.is_equipped then
+		this.list.peak_performance = nil;
+		return;
+	end
+
+	if player_info.list.health ~= player_info.list.max_health then
+		this.list.peak_performance = nil;
+		return;
+	end
+
+	this.update_generic("peak_performance", 1);
+end
+
+function this.update_dragonheart()
+	if not skill_data_list.dragonheart.is_equipped then
+		this.list.dragonheart = nil;
+		return;
+	end
+
+	local breakpoint = dragonheart_breakpoints[skill_data_list.dragonheart.level];
+	local health_percentage = 1;
+
+	local max_health = player_info.list.max_health;
+
+	if max_health ~= 0 then
+		health_percentage = player_info.list.health / max_health;
+	end
+
+	if health_percentage > breakpoint then
+		this.list.dragonheart = nil;
+		return;
+	end
+
+	this.update_generic("dragonheart", 1);
+end
+
+function this.update_resentment(player_data)
+	if not skill_data_list.resentment.is_equipped then
+		this.list.resentment = nil;
+		return;
+	end
+
+	local r_vital = r_vital_field:get_data(player_data);
+	if r_vital == nil then
+		error_handler.report("skills.update_resentment", "Failed to access Data: r_vital");
+		return;
+	end
+
+	if player_info.list.health >= r_vital then
+		this.list.resentment = nil;
+		return;
+	end
+
+	this.update_generic("resentment", 1);
 end
 
 function this.init_names()
