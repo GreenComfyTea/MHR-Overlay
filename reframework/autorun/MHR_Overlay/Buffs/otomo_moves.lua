@@ -46,7 +46,9 @@ local ValueType = ValueType;
 local package = package;
 
 this.list = {
-	rousing_roar = nil
+	rousing_roar = nil,
+	power_drum = nil,
+	go_fight_win = nil
 };
 
 
@@ -56,11 +58,15 @@ local get_player_data_method = player_manager_type_def:get_method("get_PlayerDat
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Palico: Rousing Roar
 local beast_roar_otomo_timer_field = player_data_type_def:get_field("_BeastRoarOtomoTimer");
+-- Palico: Power Drum
+local kijin_otomo_timer_field = player_data_type_def:get_field("_KijinOtomoTimer");
+-- Palico: Go, Fight, Win
+local runhigh_otomo_timer_field = player_data_type_def:get_field("_RunhighOtomoTimer");
 
 function this.update(player_data)
-	xy = player_data._BeastRoarOtomoTimer;
-
 	this.update_generic_timer("rousing_roar", player_data, beast_roar_otomo_timer_field);
+	this.update_generic_timer("power_drum", player_data, kijin_otomo_timer_field);
+	this.update_generic_timer("go_fight_win", player_data, runhigh_otomo_timer_field);
 end
 
 function this.update_generic_timer(otomo_move_key, timer_owner, timer_field, is_infinite)
