@@ -154,12 +154,12 @@ function this.update()
 	local master_player_data = get_player_data_method:call(master_player);
 	if master_player_data ~= nil then
 		consumables.update(master_player_data);
-		endemic_life_buffs.update(master_player_data);
-		skills.update(master_player, master_player_data);
-		dangos.update(master_player, master_player_data);
 		otomo_moves.update(master_player_data);
 
 		if not is_player_lobby_base then
+			skills.update(master_player, master_player_data);
+			dangos.update(master_player, master_player_data);
+			endemic_life_buffs.update(master_player, master_player_data);
 			abnormal_statuses.update(master_player, master_player_data);
 		end
 	else

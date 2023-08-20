@@ -44,8 +44,12 @@ local package = package;
 
 this.list = {
 	cutterfly = nil,
-	clothfly = nil
+	clothfly = nil,
+	ruby_wirebug = nil,
+	gold_wirebug = nil
 };
+
+local marionette_mode_types = { "ruby_wirebug", "gold_wirebug" };
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local get_player_data_method = player_manager_type_def:get_method("get_PlayerData");
@@ -59,75 +63,96 @@ local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 local crit_up_ec_second_timer_field = player_data_type_def:get_field("_CritUpEcSecondTimer");
 -- Clothfly
 local def_up_buff_second_rate_timer_field = player_data_type_def:get_field("_DefUpBuffSecondRateTimer");
+-- Ruby/Gold Wirebugs
+local wirebug_powerup_timer_field = player_data_type_def:get_field("_WireBugPowerUpTimer");
+
+
+
+local player_quest_base_type_def = sdk.find_type_definition("snow.player.PlayerQuestBase");
+-- Ruby/Gold Wirebugs
+local get_marionette_mode_type_method = player_quest_base_type_def:get_method("get_MarionetteModeType");
 
 local message_manager_type_def = sdk.find_type_definition("snow.gui.MessageManager");
 local get_env_creature_name_message_method = message_manager_type_def:get_method("getEnvCreatureNameMessage");
 
-function this.update(player_data)
-	local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
-	if item_parameter == nil then
-		error_handler.report("endemic_life_buffs.update", "Failed to access Data: item_parameter");
-		return;
-	end
-
-	this.update_cutterfly(player_data, item_parameter);
-	this.update_clothfly(player_data, item_parameter);
+function this.update(player, player_data)
+	this.update_generic_timer("cutterfly", player_data, crit_up_ec_second_timer_field);
+	this.update_generic_timer("clothfly", player_data, def_up_buff_second_rate_timer_field);
+	this.update_ruby_and_gold_wirebugs(player, player_data);
 end
 
-function this.update_cutterfly(player_data, item_parameter)
-	local cutterfly_timer = crit_up_ec_second_timer_field:get_data(player_data);
-	if cutterfly_timer == nil then
-		error_handler.report("endemic_life_buffs.update_cutterfly", "Failed to access Data: cutterfly_timer");
-		return;
-	end
+function this.update_generic_timer(endemic_life_buff_key, timer_owner, timer_field, is_infinite)
+	if is_infinite == nil then is_infinite = false; end
 
-	if utils.number.is_equal(cutterfly_timer, 0) then
-		this.list.cutterfly = nil;
-		return;
-	end
-
-	local buff = this.list.cutterfly;
-
-	if buff == nil then
-		local name = get_env_creature_name_message_method:call(singletons.message_manager, env_creature.creature_ids.cutterfly);
-		if name == nil then
-			error_handler.report("endemic_life_buffs.update_cutterfly", "Failed to access Data: name");
+	local timer = nil;
+	if timer_field ~= nil then
+		timer = timer_field:get_data(timer_owner);
+		if timer == nil then
+			error_handler.report("endemic_life_buffs.update_generic_timer", string.format("Failed to access Data: %s_timer", endemic_life_buff_key));
 			return;
 		end
 
-		buff = buffs.new(buffs.types.consumable, "cutterfly", name, 1, cutterfly_timer / 60);
-		this.list.cutterfly = buff;
-	else
-		buffs.update_timer(buff, cutterfly_timer / 60);
-	end
-end
-
-function this.update_clothfly(player_data, item_parameter)
-	local clothfly_timer = def_up_buff_second_rate_timer_field:get_data(player_data);
-	if clothfly_timer == nil then
-		error_handler.report("endemic_life_buffs.update_clothfly", "Failed to access Data: clothfly_timer");
-		return;
-	end
-
-	if utils.number.is_equal(clothfly_timer, 0) then
-		this.list.clothfly = nil;
-		return;
-	end
-
-	local buff = this.list.clothfly;
-
-	if buff == nil then
-		local name = get_env_creature_name_message_method:call(singletons.message_manager, env_creature.creature_ids.clothfly);
-		if name == nil then
-			error_handler.report("endemic_life_buffs.update_clothfly", "Failed to access Data: name");
+		if utils.number.is_equal(timer, 0) then
+			this.list[endemic_life_buff_key] = nil;
 			return;
 		end
 
-		buff = buffs.new(buffs.types.consumable, "clothfly", name, 1, clothfly_timer / 60);
-		this.list.clothfly = buff;
-	else
-		buffs.update_timer(buff, clothfly_timer / 60);
+		if is_infinite then
+			timer = nil;
+		else
+			timer = timer / 60;
+		end
 	end
+
+	this.update_generic(endemic_life_buff_key, 1, timer);
+end
+
+function this.update_generic(endemic_life_buff_key, level, timer, duration)
+	duration = duration or timer;
+
+	if singletons.message_manager == nil then
+		error_handler.report("endemic_life_buffs.update_generic", "Failed to access Data: message_manager");
+		return;
+	end
+
+	local endemic_life_buff = this.list[endemic_life_buff_key];
+	if endemic_life_buff == nil then
+		local name = get_env_creature_name_message_method:call(singletons.message_manager, env_creature.creature_ids[endemic_life_buff_key]);
+		if name == nil then
+			error_handler.report("endemic_life_buffs.update_generic", string.format("Failed to access Data: %s -> name", endemic_life_buff_key));
+			return;
+		end
+		
+		endemic_life_buff = buffs.new(buffs.types.endemic_life_buff, endemic_life_buff_key, name, level, duration);
+		this.list[endemic_life_buff_key] = endemic_life_buff;
+	else
+		endemic_life_buff.level = level;
+
+		if timer ~= nil then
+			buffs.update_timer(endemic_life_buff, timer);
+		end
+	end
+end
+
+function this.update_ruby_and_gold_wirebugs(player, player_data)
+	local marionette_mode_type = get_marionette_mode_type_method:call(player);
+	if marionette_mode_type == nil then
+		error_handler.report("endemic_life_buffs.update_ruby_and_gold_wirebugs", "Failed to access Data: marionette_mode_type");
+	end
+
+	if marionette_mode_type ~= 1 and marionette_mode_type ~= 2 then
+		this.list.ruby_wirebug = nil;
+		this.list.gold_wirebug = nil;
+		return;
+	elseif marionette_mode_type ~= 1 then
+		this.list.ruby_wirebug = nil;
+	else
+		this.list.gold_wirebug = nil;
+	end
+
+	local endemic_life_buff_key = marionette_mode_types[marionette_mode_type];
+
+	this.update_generic_timer(endemic_life_buff_key, player_data, wirebug_powerup_timer_field);
 end
 
 function this.init_names()

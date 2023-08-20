@@ -43,7 +43,9 @@ this.list = {};
 
 this.creature_ids = {
 	cutterfly = 50,
-	clothfly = 7
+	clothfly = 7,
+	ruby_wirebug = 62,
+	gold_wirebug = 63
 };
 
 function this.new(REcreature)
@@ -95,7 +97,7 @@ function this.init(creature, REcreature)
 		error_handler.report("env_creature.init", "Failed to access Data: creature_name");
 		return;
 	end
-
+	
 	creature.name = creature_name;
 end
 
