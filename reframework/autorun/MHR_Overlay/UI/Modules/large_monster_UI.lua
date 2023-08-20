@@ -55,6 +55,8 @@ local get_tg_camera_method = gui_manager_type_def:get_method("get_refGuiHud_TgCa
 local tg_camera_type_def = get_tg_camera_method:get_return_type();
 local get_targeting_enemy_index_field = tg_camera_type_def:get_field("OldTargetingEmIndex");
 
+local large_monster_list = {};
+
 local displayed_dynamic_monsters = {};
 local displayed_static_monsters = {};
 local highlighted_monster = nil;
@@ -67,7 +69,7 @@ function this.update(dynamic_enabled, static_enabled, highlighted_enabled)
 		return;
 	end
 
-	local large_monster_list = {};
+	large_monster_list = {};
 
 	local enemy_count = get_boss_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
@@ -95,8 +97,6 @@ function this.update(dynamic_enabled, static_enabled, highlighted_enabled)
 
 		::continue::
 	end
-
-	this.update_highlighted_monster(large_monster_list, cached_config.highlighted.auto_highlight);
 
 	if dynamic_enabled then
 		this.update_dynamic_monsters(large_monster_list, cached_config);
@@ -305,6 +305,8 @@ end
 
 function this.draw(dynamic_enabled, static_enabled, highlighted_enabled)
 	local cached_config = config.current_config.large_monster_UI;
+
+	this.update_highlighted_monster(large_monster_list, cached_config.highlighted.auto_highlight);
 
 	if dynamic_enabled then
 		local success = pcall(this.draw_dynamic, cached_config);
