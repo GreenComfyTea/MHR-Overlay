@@ -452,6 +452,8 @@
         "wind_pressure_negated": "Wind Pressure Negated"
     },
     "otomo_moves": {
+        "go_fight_win": "Go, Fight, Win",
+        "power_drum": "Power Drum",
         "rousing_roar": "Rousing Roar"
     },
     "parts": {
@@ -548,6 +550,7 @@
         "protective_polish": "Protective Polish",
         "resentment": "Resentment",
         "resuscitate": "Resuscitate",
+        "status_trigger": "Status Trigger",
         "wall_runner": "Wall Runner",
         "wind_mantle": "Wind Mantle"
     },

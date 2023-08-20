@@ -74,14 +74,161 @@ this.list = {
 };
 
 local skill_data_list = {
+	-- 1 	Pl_EquipSkill_000 	Attack Boost
+	-- 2 	Pl_EquipSkill_001 	Agitator
+	-- 3 	Pl_EquipSkill_002 	Peak Performance
 	peak_performance =	{ id = 3,	level = 0, is_equipped = false },
+	-- 4 	Pl_EquipSkill_003 	Resentment
 	resentment =		{ id = 4,	level = 0, is_equipped = false },
+	-- 5 	Pl_EquipSkill_004 	Resuscitate
 	resuscitate =		{ id = 5,	level = 0, is_equipped = false },
+	-- 6 	Pl_EquipSkill_005 	Critical Eye
+	-- 7 	Pl_EquipSkill_006 	Critical Boost
+	-- 8 	Pl_EquipSkill_007 	Weakness Exploit
+	-- 9 	Pl_EquipSkill_008 	Latent Power
+	-- 10 	Pl_EquipSkill_009 	Maximum Might
 	maximum_might =		{ id = 10,	level = 0, is_equipped = false },
+	-- 11 	Pl_EquipSkill_010 	Critical Element
+	-- 12 	Pl_EquipSkill_011 	Master's Touch
+	-- 13 	Pl_EquipSkill_012 	Fire Attack
+	-- 14 	Pl_EquipSkill_013 	Water Attack
+	-- 15 	Pl_EquipSkill_014 	Ice Attack
+	-- 16 	Pl_EquipSkill_015 	Thunder Attack
+	-- 17 	Pl_EquipSkill_016 	Dragon Attack
+	-- 18 	Pl_EquipSkill_017 	Poison Attack
+	-- 19 	Pl_EquipSkill_018 	Paralysis Attack
+	-- 20 	Pl_EquipSkill_019 	Sleep Attack
+	-- 21 	Pl_EquipSkill_020 	Blast Attack
+	-- 22 	Pl_EquipSkill_021 	Handicraft
+	-- 23 	Pl_EquipSkill_022 	Razor Sharp
+	-- 24 	Pl_EquipSkill_023 	Spare Shot
+	-- 25 	Pl_EquipSkill_024 	Protective Polish
+	-- 26 	Pl_EquipSkill_025 	Mind's Eye
+	-- 27 	Pl_EquipSkill_026 	Ballistics
+	-- 28 	Pl_EquipSkill_027 	Bludgeoner
+	-- 29 	Pl_EquipSkill_028 	Bow Charge Plus
+	-- 30 	Pl_EquipSkill_029 	Focus
+	-- 31 	Pl_EquipSkill_030 	Power Prolonger
+	-- 32 	Pl_EquipSkill_031 	Marathon Runner
+	-- 33 	Pl_EquipSkill_032 	Constitution
+	-- 34 	Pl_EquipSkill_033 	Stamina Surge
+	-- 35 	Pl_EquipSkill_034 	Guard
+	-- 36 	Pl_EquipSkill_035 	Guard Up
+	-- 37 	Pl_EquipSkill_036 	Offensive Guard
+	-- 38 	Pl_EquipSkill_037 	Critical Draw
+	-- 39 	Pl_EquipSkill_038 	Punishing Draw
+	-- 40 	Pl_EquipSkill_039 	Quick Sheathe
+	-- 41 	Pl_EquipSkill_040 	Slugger
+	-- 42 	Pl_EquipSkill_041 	Stamina Thief
+	-- 43 	Pl_EquipSkill_042 	Affinity Sliding
+	-- 44 	Pl_EquipSkill_043 	Horn Maestro
+	-- 45 	Pl_EquipSkill_044 	Artillery
+	-- 46 	Pl_EquipSkill_045 	Load Shells
+	-- 47 	Pl_EquipSkill_046 	Special Ammo Boost
+	-- 48 	Pl_EquipSkill_047 	Normal/Rapid Up
+	-- 49 	Pl_EquipSkill_048 	Pierce Up
+	-- 50 	Pl_EquipSkill_049 	Spread Up
+	-- 51 	Pl_EquipSkill_050 	Ammo Up
+	-- 52 	Pl_EquipSkill_051 	Reload Speed
+	-- 53 	Pl_EquipSkill_052 	Recoil Down
+	-- 54 	Pl_EquipSkill_053 	Steadiness
+	-- 55 	Pl_EquipSkill_054 	Rapid Fire Up
+	-- 56 	Pl_EquipSkill_055 	Defense Boost
+	-- 57 	Pl_EquipSkill_056 	Divine Blessing
+	-- 58 	Pl_EquipSkill_057 	Recovery Up
+	-- 59 	Pl_EquipSkill_058 	Recovery Speed
+	-- 60 	Pl_EquipSkill_059 	Speed Eating
+	-- 61 	Pl_EquipSkill_060 	Earplugs
+	-- 62 	Pl_EquipSkill_061 	Windproof
+	-- 63 	Pl_EquipSkill_062 	Tremor Resistance
+	-- 64 	Pl_EquipSkill_063 	Bubbly Dance
+	-- 65 	Pl_EquipSkill_064 	Evade Window
+	-- 66 	Pl_EquipSkill_065 	Evade Extender
+	-- 67 	Pl_EquipSkill_066 	Fire Resistance
+	-- 68 	Pl_EquipSkill_067 	Water Resistance
+	-- 69 	Pl_EquipSkill_068 	Ice Resistance
+	-- 70 	Pl_EquipSkill_069 	Thunder Resistance
+	-- 71 	Pl_EquipSkill_070 	Dragon Resistance
+	-- 72 	Pl_EquipSkill_071 	Blight Resistance
+	-- 73 	Pl_EquipSkill_072 	Poison Resistance
+	-- 74 	Pl_EquipSkill_073 	Paralysis Resistance
+	-- 75 	Pl_EquipSkill_074 	Sleep Resistance
+	-- 76 	Pl_EquipSkill_075 	Stun Resistance
+	-- 77 	Pl_EquipSkill_076 	Muck Resistance
+	-- 78 	Pl_EquipSkill_077 	Blast Resistance
+	-- 79 	Pl_EquipSkill_078 	Botanist
+	-- 80 	Pl_EquipSkill_079 	Geologist
+	-- 81 	Pl_EquipSkill_080 	Partbreaker
+	-- 82 	Pl_EquipSkill_081 	Capture Master
+	-- 83 	Pl_EquipSkill_082 	Carving Master
+	-- 84 	Pl_EquipSkill_083 	Good Luck
+	-- 85 	Pl_EquipSkill_084 	Speed Sharpening
+	-- 86 	Pl_EquipSkill_085 	Bombardier
+	-- 87 	Pl_EquipSkill_086 	Mushroomancer
+	-- 88 	Pl_EquipSkill_087 	Item Prolonger
+	-- 89 	Pl_EquipSkill_088 	Wide-Range
+	-- 90 	Pl_EquipSkill_089 	Free Meal
+	-- 91 	Pl_EquipSkill_090 	Heroics
 	heroics =			{ id = 91,	level = 0, is_equipped = false },
+	-- 92 	Pl_EquipSkill_091 	Fortify
+	-- 93 	Pl_EquipSkill_092 	Flinch Free
+	-- 94 	Pl_EquipSkill_093 	Jump Master
+	-- 95 	Pl_EquipSkill_094 	Carving Pro
+	-- 96 	Pl_EquipSkill_095 	Hunger Resistance
+	-- 97 	Pl_EquipSkill_096 	Leap of Faith
+	-- 98 	Pl_EquipSkill_097 	Diversion
+	-- 99 	Pl_EquipSkill_098 	Master Mounter
+	-- 100 	Pl_EquipSkill_099 	Chameleos Blessing
+	-- 101 	Pl_EquipSkill_100 	Kushala Blessing
+	-- 102 	Pl_EquipSkill_101 	Teostra Blessing
+	-- 103 	Pl_EquipSkill_102 	Dragonheart
 	dragonheart =		{ id = 103,	level = 0, is_equipped = false },
+	-- 104 	Pl_EquipSkill_103 	Wirebug Whisperer
+	-- 105 	Pl_EquipSkill_104 	Wall Runner
+	-- 106 	Pl_EquipSkill_105 	Counterstrike
+	-- 107 	Pl_EquipSkill_106 	Rapid Morph
+	-- 108 	Pl_EquipSkill_107 	Hellfire Cloak
+	-- 109 	Pl_EquipSkill_108 	Wind Alignment
+	-- 110 	Pl_EquipSkill_109 	Thunder Alignment
+	-- 111 	Pl_EquipSkill_110 	Stormsoul
+	-- 112 	Pl_EquipSkill_200 	Blood Rite
+	-- 113 	Pl_EquipSkill_201 	Dereliction
+	dereliction =		{ id = 113, level = 0, is_equipped = false },
+	-- 114 	Pl_EquipSkill_202 	Furious
+	-- 115 	Pl_EquipSkill_203 	Mail of Hellfire
+	-- 116 	Pl_EquipSkill_204 	Coalescence
+	-- 117 	Pl_EquipSkill_205 	Bloodlust
 	bloodlust =			{ id = 117,	level = 0, is_equipped = false },
-	dereliction =		{ id = 113, level = 0, is_equipped = false }
+	-- 118 	Pl_EquipSkill_206 	Defiance
+	-- 119 	Pl_EquipSkill_207 	Sneak Attack
+	-- 120 	Pl_EquipSkill_208 	Adrenaline Rush
+	-- 122 	Pl_EquipSkill_209 	Redirection
+	-- 123 	Pl_EquipSkill_210 	Spiribird's Call
+	-- 124 	Pl_EquipSkill_211 	Charge Master
+	-- 125 	Pl_EquipSkill_212 	Foray
+	-- 126 	Pl_EquipSkill_213 	Tune-Up
+	-- 127 	Pl_EquipSkill_214 	Grinder (S)
+	-- 128 	Pl_EquipSkill_215 	Bladescale Hone
+	-- 129 	Pl_EquipSkill_216 	Wall Runner (Boost)
+	-- 133 	Pl_EquipSkill_217 	Quick Breath
+	-- 130 	Pl_EquipSkill_218 	Element Exploit
+	-- 131 	Pl_EquipSkill_219 	Burst
+	-- 132 	Pl_EquipSkill_220 	Guts
+	-- 134 	Pl_EquipSkill_221 	Status Trigger
+	-- 135 	Pl_EquipSkill_222 	Intrepid Heart
+	-- 136 	Pl_EquipSkill_223 	Buildup Boost
+	-- 121 	Pl_EquipSkill_224 	Embolden
+	-- 138 	Pl_EquipSkill_225 	Wind Mantle
+	-- 139 	Pl_EquipSkill_226 	Powder Mantle
+	-- 137 	Pl_EquipSkill_227 	Berserk
+	-- 145 	Pl_EquipSkill_228 	Strife
+	-- 140 	Pl_EquipSkill_229 	Frostcraft
+	-- 141 	Pl_EquipSkill_230 	Dragon Conversion
+	-- 142 	Pl_EquipSkill_231 	Heaven-Sent
+	-- 143 	Pl_EquipSkill_232 	Frenzied Bloodlust
+	-- 144 	Pl_EquipSkill_233 	Blood Awakening
+	-- 146 	Pl_EquipSkill_234 	Shock Absorber
+	-- 147 	Pl_EquipSkill_235 	Inspiration
 }
 
 local burst_breakpoint = 5;
@@ -153,6 +300,8 @@ local equip_skill_231_wire_num_timer_field = player_data_type_def:get_field("_Eq
 local equip_skill_231_wp_off_timer_field = player_data_type_def:get_field("_EquipSkill231_WpOffTimer");
 -- Resentment
 local r_vital_field = player_data_type_def:get_field("_r_Vital");
+-- Status Trigger
+local equip_skill_222_timer_field = player_data_type_def:get_field("_EquipSkill222_Timer");
 
 
 
@@ -234,8 +383,6 @@ function this.update(player, player_data)
 	-- 	end
 	-- end
 
-	xy = player_data._BeastRoarOtomoTimer;
-
 	this.update_equipped_skill_data(player);
 
 	this.update_dereliction(player_data);
@@ -266,6 +413,7 @@ function this.update(player, player_data)
 	this.update_generic_timer("hellfire_cloak", player_data, onibi_powerup_timer_field);
 	this.update_generic_timer("agitator", player_data, challenge_timer_field, true);
 	this.update_generic_timer("furious", player_data, furious_skill_stamina_buff_second_timer_field);
+	this.update_generic_timer("status_trigger", player_data, equip_skill_222_timer_field);
 
 	this.update_generic_boolean_value_method("heaven_sent", player, is_active_equip_skill_230_method);
 	this.update_generic_boolean_value_method("heroics", player, is_predicament_power_up_method);
