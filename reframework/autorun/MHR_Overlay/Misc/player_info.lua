@@ -42,6 +42,9 @@ local ValueType = ValueType;
 local package = package;
 
 this.list = {
+	health = 0;
+	max_health = 0;
+
 	attack = 0;
 	defense = 0;
 	affinity = 0;
@@ -62,6 +65,8 @@ this.list = {
 	dragon_resistance = 0;
 };
 
+local should_health_update = true;
+
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local get_player_method = player_manager_type_def:get_method("getPlayer");
 local find_master_player_method = player_manager_type_def:get_method("findMasterPlayer");
@@ -71,10 +76,12 @@ local get_player_data_method = player_base_type_def:get_method("get_PlayerData")
 
 local player_data_type_def = get_player_data_method:get_return_type();
 
+local get_vital_method = player_data_type_def:get_method("get_vital");
 local attack_field = player_data_type_def:get_field("_Attack");
 local defence_field = player_data_type_def:get_field("_Defence");
 local critical_rate_field = player_data_type_def:get_field("_CriticalRate");
 
+local vital_max_field = player_data_type_def:get_field("_vitalMax");
 
 local stamina_field = player_data_type_def:get_field("_stamina");
 local stamina_max_field = player_data_type_def:get_field("_staminaMax");
@@ -90,6 +97,13 @@ local resistance_element_field = player_data_type_def:get_field("_ResistanceElem
 local system_array_type_def = sdk.find_type_definition("System.Array");
 local get_length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
+
+local player_quest_base_type_def = sdk.find_type_definition("snow.player.PlayerQuestBase");
+local player_quest_base_update_method = player_quest_base_type_def:get_method("update");
+local is_master_player_method = player_quest_base_type_def:get_method("isMasterPlayer");
+
+local master_player_ref = nil;
+local master_player_data_ref = nil;
 
 function this.update()
 	if quest_status.flow_state == quest_status.flow_states.NONE then
@@ -118,6 +132,12 @@ function this.update()
 	if master_player_data == nil then
 		error_handler.report("player_info.update", "Failed to access Data: master_player_data");
 	end
+	
+	master_player_ref = master_player;
+	master_player_data_ref = master_player_data;
+	should_health_update = true;
+
+	this.update_generic("max_health", master_player_data, vital_max_field);
 
 	this.update_generic("stamina", master_player_data, stamina_field);
 	this.list.stamina = math.floor(this.list.stamina / 30);
@@ -138,7 +158,7 @@ function this.update()
 
 	this.update_generic("element_type_2", master_player_data, element_type_2nd_field);
 	this.update_generic("element_attack_2", master_player_data, element_attack_2nd_field);
-	
+
 	this.update_resistances(master_player_data);
 end
 
@@ -235,6 +255,26 @@ function this.update_resistances(player_data)
 	end
 end
 
+function this.update_health(quest_player_base)
+	if quest_player_base ~= master_player_ref then
+		return;
+	end
+	
+	if not should_health_update then
+		return;
+	end
+
+	should_health_update = false;
+
+	local vital = get_vital_method:call(master_player_data_ref);
+	if vital == nil then
+		error_handler.report("player_info.update_health", "Failed to access Data: vital");
+		return;
+	end
+
+	this.list.health = vital;
+end
+
 function this.init_dependencies()
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	customization_menu = require("MHR_Overlay.UI.customization_menu");
@@ -252,6 +292,12 @@ function this.init_dependencies()
 end
 
 function this.init_module()
+	sdk.hook(player_quest_base_update_method, function(args)
+		local quest_player_base = sdk.to_managed_object(args[2]);
+		this.update_health(quest_player_base);
+	end, function(retval)
+		return retval;
+	end);
 end
 
 return this;

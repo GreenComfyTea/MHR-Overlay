@@ -181,6 +181,7 @@
         "health_break_sever_anomaly_filter": "Здоровье + Повреждение + Отсечение + Ядро аномалии",
         "health_break_sever_filter": "Здоровье + Повреждение + Отсечение",
         "health_filter": "Здоровье",
+        "health_label": "Health Label",
         "health_percentage": "Здоровье в процентах",
         "health_sever_anomaly_filter": "Здоровье + Отсечение + Ядро аномалии",
         "health_sever_filter": "Здоровье + Отсечение",

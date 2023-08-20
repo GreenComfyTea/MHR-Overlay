@@ -7603,6 +7603,74 @@ function this.init_default()
 				anchor = "Bottom-Right"
 			},
 
+			health_label = {
+				visibility = false,
+
+				settings = {
+					right_alignment_shift = 16
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true,
+					max_value = true
+				},
+
+				offset = {
+					x = -514,
+					y = -35
+				},
+
+				color = 0xFFFEFF88,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
+
+			stamina_label = {
+				visibility = false,
+
+				settings = {
+					right_alignment_shift = 16
+				},
+
+				text_formatting = "%s",
+
+				include = {
+					name = true,
+					value = true,
+					max_value = true
+				},
+
+				offset = {
+					x = -382,
+					y = -35
+				},
+
+				color = 0xFFFEFF88,
+
+				shadow = {
+					visibility = true,
+
+					offset = {
+						x = 1,
+						y = 1
+					},
+
+					color = 0xFF000000
+				}
+			},
+
 			attack_label = {
 				visibility = true,
 
@@ -7854,40 +7922,6 @@ function this.init_default()
 				},
 
 				color = 0xFFB999FF,
-
-				shadow = {
-					visibility = true,
-
-					offset = {
-						x = 1,
-						y = 1
-					},
-
-					color = 0xFF000000
-				}
-			},
-
-			stamina_label = {
-				visibility = false,
-
-				settings = {
-					right_alignment_shift = 16
-				},
-
-				text_formatting = "%s",
-
-				include = {
-					name = true,
-					value = true,
-					max_value = true
-				},
-
-				offset = {
-					x = -382,
-					y = -35
-				},
-
-				color = 0xFFFEFF88,
 
 				shadow = {
 					visibility = true,

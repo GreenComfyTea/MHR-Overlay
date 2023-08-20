@@ -181,6 +181,7 @@
         "health_break_sever_anomaly_filter": "生命+破坏+切断+怪异核",
         "health_break_sever_filter": "生命+破坏+切断",
         "health_filter": "生命",
+        "health_label": "Health Label",
         "health_percentage": "生命百分比",
         "health_sever_anomaly_filter": "生命+切断+怪异核",
         "health_sever_filter": "生命+切断",

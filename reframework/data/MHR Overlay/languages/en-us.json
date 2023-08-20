@@ -179,6 +179,7 @@
         "health_break_sever_anomaly_filter": "Health + Break + Sever + Anomaly Core",
         "health_break_sever_filter": "Health + Break + Sever",
         "health_filter": "Health",
+        "health_label": "Health Label",
         "health_percentage": "Health Percentage",
         "health_sever_anomaly_filter": "Health + Sever + Anomaly Core",
         "health_sever_filter": "Health + Sever",

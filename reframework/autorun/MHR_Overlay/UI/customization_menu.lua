@@ -2355,6 +2355,12 @@ function this.draw_stats_UI()
 			imgui.tree_pop();
 		end
 
+		changed = label_customization.draw(language.current_language.customization_menu.health_label, cached_config.health_label);
+		config_changed = config_changed or changed;
+
+		changed = label_customization.draw(language.current_language.customization_menu.stamina_label, cached_config.stamina_label);
+		config_changed = config_changed or changed;
+
 		changed = label_customization.draw(language.current_language.customization_menu.attack_label, cached_config.attack_label);
 		config_changed = config_changed or changed;
 
@@ -2377,9 +2383,6 @@ function this.draw_stats_UI()
 		config_changed = config_changed or changed;
 
 		changed = label_customization.draw(language.current_language.customization_menu.dragon_resistance_label, cached_config.dragon_resistance_label);
-		config_changed = config_changed or changed;
-
-		changed = label_customization.draw(language.current_language.customization_menu.stamina_label, cached_config.stamina_label);
 		config_changed = config_changed or changed;
 
 		changed = label_customization.draw(language.current_language.customization_menu.element_label, cached_config.element_label);

@@ -677,6 +677,8 @@ this.default_language = {
 		value = "Value",
 
 		stats_UI = "Stats UI",
+		health_label = "Health Label",
+		stamina_label = "Stamina Label",
 		attack_label = "Attack Label",
 		defense_label = "Defense Label",
 		affinity_label = "Affinity Label",
@@ -685,7 +687,6 @@ this.default_language = {
 		thunder_resistance_label = "Thunder Resistance Label",
 		ice_resistance_label = "Ice Resistance Label",
 		dragon_resistance_label = "Dragon Resistance Label",
-		stamina_label = "Stamina Label",
 		element_label = "Element Label",
 		element_2_label = "Element 2 Label"
 	},

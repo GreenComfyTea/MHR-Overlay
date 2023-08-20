@@ -60,6 +60,7 @@ this.label_list = {
 };
 
 this.affinity_label = nil;
+this.health_label = nil;
 this.stamina_label = nil;
 this.element_label = nil;
 this.element_2_label = nil;
@@ -81,7 +82,11 @@ function this.draw()
 	for label_key, label in pairs(this.label_list) do
 		local name_text = "";
 		if label.include.name then
-			name_text = string.format("%s: ", cached_names[label_key]);
+			if label.include.value then
+				name_text = string.format("%s: ", cached_names[label_key]);
+			else
+				name_text = string.format("%s", cached_names[label_key]);
+			end
 		end
 
 		if label.include.value then
@@ -93,22 +98,38 @@ function this.draw()
 		::continue::
 	end
 
-	-- Affinity Label
-	local affinity_name_text = "";
-	if this.affinity_label.include.name then
-		affinity_name_text = string.format("%s: ", cached_names.affinity);
+	-- Health Label
+	local health_name_text = "";
+	if this.health_label.include.name then
+		health_name_text = string.format("%s: ", language.current_language.customization_menu.health);
+
+		if this.health_label.include.value or this.health_label.include.max_value then
+			health_name_text = string.format("%s: ", language.current_language.customization_menu.health);
+		else
+			health_name_text = string.format("%s", language.current_language.customization_menu.health);
+		end
 	end
 
-	if this.affinity_label.include.value then
-		affinity_name_text = string.format("%s%s%%", affinity_name_text, tostring(player_info.list.affinity));
+	if this.health_label.include.value and not this.health_label.include.max_value then
+		health_name_text = string.format("%s%s", health_name_text, tostring(player_info.list.health));
+
+	elseif not this.health_label.include.value and this.health_label.include.max_value then
+		health_name_text = string.format("%s%s", health_name_text, tostring(player_info.list.max_health));
+
+	elseif this.health_label.include.value and this.health_label.include.max_value then
+		health_name_text = string.format("%s%s/%s", health_name_text, tostring(player_info.list.health), tostring(player_info.list.max_health));
 	end
 
-	drawing.draw_label(this.affinity_label, position_on_screen, 1, affinity_name_text);
+	drawing.draw_label(this.health_label, position_on_screen, 1, health_name_text);
 
 	-- Stamina Label
 	local stamina_name_text = "";
 	if this.stamina_label.include.name then
-		stamina_name_text = string.format("%s: ", cached_names.stamina);
+		if this.stamina_label.include.value or this.stamina_label.include.max_value then
+			stamina_name_text = string.format("%s: ", cached_names.stamina);
+		else
+			stamina_name_text = string.format("%s", cached_names.stamina);
+		end
 	end
 
 	if this.stamina_label.include.value and not this.stamina_label.include.max_value then
@@ -123,6 +144,22 @@ function this.draw()
 
 	drawing.draw_label(this.stamina_label, position_on_screen, 1, stamina_name_text);
 
+	-- Affinity Label
+	local affinity_name_text = "";
+	if this.affinity_label.include.name then
+		if this.affinity_label.include.value then
+			affinity_name_text = string.format("%s: ", cached_names.affinity);
+		else
+			affinity_name_text = string.format("%s", cached_names.affinity);
+		end
+	end
+
+	if this.affinity_label.include.value then
+		affinity_name_text = string.format("%s%s%%", affinity_name_text, tostring(player_info.list.affinity));
+	end
+
+	drawing.draw_label(this.affinity_label, position_on_screen, 1, affinity_name_text);
+
 	-- Element Label
 	if player_info.list.element_type ~= 0 then
 
@@ -131,26 +168,33 @@ function this.draw()
 
 			local ailment_names = language.current_language.ailments;
 
+			local ailment_name = "";
+
 			if player_info.list.element_type == 1 then
-				element_name_text = string.format("%s: ", cached_names.fire);
+				ailment_name = cached_names.fire;
 			elseif player_info.list.element_type == 2 then
-				element_name_text = string.format("%s: ", cached_names.water);
+				ailment_name = cached_names.water;
 			elseif player_info.list.element_type == 3 then
-				element_name_text = string.format("%s: ", cached_names.thunder);
+				ailment_name = cached_names.thunder;
 			elseif player_info.list.element_type == 4 then
-				element_name_text = string.format("%s: ", cached_names.ice);
+				ailment_name = cached_names.ice;
 			elseif player_info.list.element_type == 5 then
-				element_name_text = string.format("%s: ", cached_names.dragon);
+				ailment_name = cached_names.dragon;
 			elseif player_info.list.element_type == 6 then
-				element_name_text = string.format("%s: ", ailment_names.poison);
+				ailment_name = ailment_names.poison;
 			elseif player_info.list.element_type == 7 then
-				element_name_text = string.format("%s: ", ailment_names.sleep);
+				ailment_name = ailment_names.sleep;
 			elseif player_info.list.element_type == 8 then
-				element_name_text = string.format("%s: ", ailment_names.paralysis);
+				ailment_name = ailment_names.paralysis;
 			elseif player_info.list.element_type == 9 then
-				element_name_text = string.format("%s: ", ailment_names.blast);
+				ailment_name = ailment_names.blast;
 			end
 
+			if this.element_label.include.value then
+				element_name_text = string.format("%s: ", ailment_name);
+			else
+				element_name_text = string.format("%s", ailment_name);
+			end
 		end
 
 		if this.element_label.include.value then
@@ -169,24 +213,32 @@ function this.draw()
 
 			local ailment_names = language.current_language.ailments;
 
+			local ailment_name = "";
+
 			if player_info.list.element_type_2 == 1 then
-				element_2_name_text = string.format("%s: ", cached_names.fire);
+				ailment_name = cached_names.fire;
 			elseif player_info.list.element_type_2 == 2 then
-				element_2_name_text = string.format("%s: ", cached_names.water);
+				ailment_name = cached_names.water;
 			elseif player_info.list.element_type_2 == 3 then
-				element_2_name_text = string.format("%s: ", cached_names.thunder);
+				ailment_name = cached_names.thunder;
 			elseif player_info.list.element_type_2 == 4 then
-				element_2_name_text = string.format("%s: ", cached_names.ice);
+				ailment_name = cached_names.ice;
 			elseif player_info.list.element_type_2 == 5 then
-				element_2_name_text = string.format("%s: ", cached_names.dragon);
+				ailment_name = cached_names.dragon;
 			elseif player_info.list.element_type_2 == 6 then
-				element_2_name_text = string.format("%s: ", ailment_names.poison);
+				ailment_name = ailment_names.poison;
 			elseif player_info.list.element_type_2 == 7 then
-				element_2_name_text = string.format("%s: ", ailment_names.sleep);
+				ailment_name = ailment_names.sleep;
 			elseif player_info.list.element_type_2 == 8 then
-				element_2_name_text = string.format("%s: ", ailment_names.paralysis);
+				ailment_name = ailment_names.paralysis;
 			elseif player_info.list.element_type_2 == 9 then
-				element_2_name_text = string.format("%s: ", ailment_names.blast);
+				ailment_name = ailment_names.blast;
+			end
+
+			if this.element_2_label.include.value then
+				element_2_name_text = string.format("%s: ", ailment_name);
+			else
+				element_2_name_text = string.format("%s", ailment_name);
 			end
 
 		end
@@ -210,6 +262,7 @@ function this.init_UI()
 	this.label_list.dragon_resistance = utils.table.deep_copy(config.current_config.stats_UI.dragon_resistance_label);
 
 	this.affinity_label = utils.table.deep_copy(config.current_config.stats_UI.affinity_label);
+	this.health_label = utils.table.deep_copy(config.current_config.stats_UI.health_label);
 	this.stamina_label = utils.table.deep_copy(config.current_config.stats_UI.stamina_label);
 	this.element_label = utils.table.deep_copy(config.current_config.stats_UI.element_label);
 	this.element_2_label = utils.table.deep_copy(config.current_config.stats_UI.element_2_label);
@@ -223,6 +276,9 @@ function this.init_UI()
 
 	this.affinity_label.offset.x = this.affinity_label.offset.x * global_scale_modifier;
 	this.affinity_label.offset.y = this.affinity_label.offset.y * global_scale_modifier;
+
+	this.health_label.offset.x = this.health_label.offset.x * global_scale_modifier;
+	this.health_label.offset.y = this.health_label.offset.y * global_scale_modifier;
 
 	this.stamina_label.offset.x = this.stamina_label.offset.x * global_scale_modifier;
 	this.stamina_label.offset.y = this.stamina_label.offset.y * global_scale_modifier;

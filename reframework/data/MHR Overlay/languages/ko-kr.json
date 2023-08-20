@@ -181,6 +181,7 @@
         "health_break_sever_anomaly_filter": "체력 + 파괴 + 절단 + 괴이핵",
         "health_break_sever_filter": "체력 + 파괴 + 절단",
         "health_filter": "체력",
+        "health_label": "Health Label",
         "health_percentage": "체력 비율",
         "health_sever_anomaly_filter": "체력 + 절단 + 괴이핵",
         "health_sever_filter": "체력 + 절단",

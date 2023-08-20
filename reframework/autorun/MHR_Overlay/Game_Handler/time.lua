@@ -105,7 +105,6 @@ function this.init_global_timers()
 	this.new_timer(players.update_myself_position, 1);
 	this.new_timer(buffs.update, 1/60);
 	this.new_timer(player_info.update, 0.5);
-	
 end
 
 function this.update_timers()
