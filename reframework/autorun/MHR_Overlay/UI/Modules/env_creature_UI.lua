@@ -71,6 +71,8 @@ function this.update()
 		table.insert(_displayed_creatures, creature);
 		::continue::
 	end
+
+	displayed_creatures = _displayed_creatures;
 end
 
 function this.draw()
