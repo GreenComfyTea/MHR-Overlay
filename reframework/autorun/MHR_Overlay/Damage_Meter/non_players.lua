@@ -232,7 +232,7 @@ function this.update_my_otomos()
 
 			local myself_id = players.myself.id;
 			local otomo = this.otomo_list[myself_id];
-			if otomo == nil then
+			if otomo == nil or name ~= otomo.name then
 				otomo = this.new(0, name, level, players.types.my_otomo);
 				this.otomo_list[myself_id] = otomo;
 			end
@@ -255,7 +255,7 @@ function this.update_my_otomos()
 			-- the secondary otomo is actually the 4th one!
 			local otomo = this.otomo_list[this.my_second_otomo_id];
 
-			if otomo == nil then
+			if otomo == nil or name ~= otomo.name then
 				otomo = this.new(this.my_second_otomo_id, name, level, players.types.my_otomo);
 				this.otomo_list[this.my_second_otomo_id] = otomo;
 			end
