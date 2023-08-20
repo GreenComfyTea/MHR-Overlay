@@ -285,11 +285,63 @@ this.default_language = {
 		resuscitate = "Resuscitate",
 		maximum_might = "Maximum Might",
 		bloodlust = "Bloodlust",
-		frenzied_bloodlust = "Frenzied Bloodlust"
+		frenzied_bloodlust = "Frenzied Bloodlust",
+		peak_performance = "Peak Performance",
+		dragonheart = "Dragonheart",
+		resentment = "Resentment"
 	},
 
 	dangos = {
-		dango_defender_hi = "Dango Defender (Hi)"
+		dango_hurler = "Dango Hurler",
+		dango_specialist = "Dango Specialist",
+		dango_deflector = "Dango Deflector",
+		dango_bulker = "Dango Bulker",
+		dango_booster = "Dango Booster",
+		dango_slugger = "Dango Slugger",
+		dango_bombardier = "Dango Bombardier",
+		dango_temper = "Dango Temper",
+		dango_connector = "Dango Connector",
+
+		dango_insurance = "Dango Insurance",
+		dango_defender_hi = "Dango Defender (Hi)",
+		dango_medic = "Dango Medic",
+		dango_medic_hi = "Dango Medic (Hi)",
+		dango_reviver = "Dango Reviver",
+		dango_immunizer = "Dango Immunizer",
+		dango_fire_res = "Dango Fire Res",
+		dango_water_res = "Dango Water Res",
+		dango_thunder_res = "Dango Thunder Res ",
+		dango_ice_res = "Dango Ice Res",
+		dango_dragon_res = "Dango Dragon Res",
+		dango_fire_res_hi = "Dango Fire Res (Hi)",
+		dango_water_res_hi = "Dango Water Res (Hi)",
+		dango_thunder_res_hi = "Dango Thunder Res (Hi)",
+		dango_ice_res_hi = "Dango Ice Res (Hi)",
+		dango_dragon_res_hi = "Dango Dragon Res (Hi)",
+		dango_moxie = "Dango Moxie",
+		dango_adrenaline = "Dango Adrenaline",
+		dango_defender = "Dango Defender",
+		dango_guard = "Dango Guard",
+		dango_driver = "Dango Driver",
+		
+		dango_polisher = "Dango Polisher",
+		dango_pyro = "Dango Pyro",
+		dango_feet = "Dango Feet",
+		dango_marksman = "Dango Marksman",
+		dango_wall_runner = "Dango Wall Runner",
+		dango_fighter = "Dango Fighter",
+		dango_glutton = "Dango Glutton",
+		dango_weakener = "Dango Weakener",
+		dango_rider = "Dango Rider",
+		dango_hunter = "Dango Hunter",
+		dango_shifter = "Dango Shifter",
+		super_recovery_dango = "Super Recovery Dango",
+		dango_flyer = "Dango Flyer"
+		
+	},
+
+	otomo_moves = {
+		rousing_roar = "Rousing Roar"
 	},
 
 	UI = {

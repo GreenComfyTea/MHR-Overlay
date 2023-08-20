@@ -8,6 +8,7 @@ local utils;
 local error_handler;
 local quest_status;
 local time;
+local dangos;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -101,6 +102,10 @@ local get_value_method = system_array_type_def:get_method("GetValue(System.Int32
 local player_quest_base_type_def = sdk.find_type_definition("snow.player.PlayerQuestBase");
 local player_quest_base_update_method = player_quest_base_type_def:get_method("update");
 local is_master_player_method = player_quest_base_type_def:get_method("isMasterPlayer");
+
+local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
+-- Dango Adrenaline
+local is_kitchen_skill_predicament_powerup_method = player_base_type_def:get_method("isKitchenSkillPredicamentPowerUp");
 
 local master_player_ref = nil;
 local master_player_data_ref = nil;
@@ -255,17 +260,22 @@ function this.update_resistances(player_data)
 	end
 end
 
-function this.update_health(quest_player_base)
-	if quest_player_base ~= master_player_ref then
-		return;
-	end
-	
+function this.on_pre_player_update(quest_player_base)
 	if not should_health_update then
 		return;
 	end
+	
+	if quest_player_base ~= master_player_ref then
+		return;
+	end
+
+	this.update_health(quest_player_base);
+	this.update_dango_adrenaline(quest_player_base);
 
 	should_health_update = false;
+end
 
+function this.update_health(quest_player_base)
 	local vital = get_vital_method:call(master_player_data_ref);
 	if vital == nil then
 		error_handler.report("player_info.update_health", "Failed to access Data: vital");
@@ -273,6 +283,16 @@ function this.update_health(quest_player_base)
 	end
 
 	this.list.health = vital;
+end
+
+function this.update_dango_adrenaline(quest_player_base)
+	local is_kitchen_skill_predicament_powerup = is_kitchen_skill_predicament_powerup_method:call(master_player_ref);
+	if is_kitchen_skill_predicament_powerup == nil then
+		error_handler.report("player_info.update_dango_adrenaline", "Failed to access Data: is_kitchen_skill_predicament_powerup");
+		return;
+	end
+
+	dangos.is_dango_adrenaline_active = is_kitchen_skill_predicament_powerup;
 end
 
 function this.init_dependencies()
@@ -289,12 +309,13 @@ function this.init_dependencies()
 	error_handler = require("MHR_Overlay.Misc.error_handler");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	time = require("MHR_Overlay.Game_Handler.time");
+	dangos = require("MHR_Overlay.Buffs.dangos");
 end
 
 function this.init_module()
 	sdk.hook(player_quest_base_update_method, function(args)
 		local quest_player_base = sdk.to_managed_object(args[2]);
-		this.update_health(quest_player_base);
+		this.on_pre_player_update(quest_player_base);
 	end, function(retval)
 		return retval;
 	end);
