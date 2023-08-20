@@ -1196,7 +1196,7 @@ function this.draw(monster, type, cached_config, position_on_screen, opacity_sca
 		monster_name_text = string.format("%s%s ", monster_name_text, monster.crown);
 	end
 
-	if cached_config.monster_name_label.include.size and monster.size ~= -1 then
+	if cached_config.monster_name_label.include.size and monster.size > 0 then
 		monster_name_text = string.format("%s#%.0f ", monster_name_text, 100 * monster.size);
 	end
 	
