@@ -15,6 +15,7 @@ local endemic_life_buffs;
 local skills;
 local dangos;
 local abnormal_statuses;
+local otomo_moves;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -148,7 +149,6 @@ function this.update()
 		return;
 	end
 
-
 	local is_player_lobby_base = master_player:get_type_definition() == player_lobby_base_type_def;
 
 	local master_player_data = get_player_data_method:call(master_player);
@@ -156,7 +156,8 @@ function this.update()
 		consumables.update(master_player_data);
 		endemic_life_buffs.update(master_player_data);
 		skills.update(master_player, master_player_data);
-		dangos.update(master_player_data);
+		dangos.update(master_player, master_player_data);
+		otomo_moves.update(master_player_data);
 
 		if not is_player_lobby_base then
 			abnormal_statuses.update(master_player, master_player_data);
@@ -209,6 +210,7 @@ function this.init_dependencies()
 	skills = require("MHR_Overlay.Buffs.skills");
 	dangos = require("MHR_Overlay.Buffs.dangos");
 	abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
+	otomo_moves = require("MHR_Overlay.Buffs.otomo_moves");
 end
 
 function this.init_module()

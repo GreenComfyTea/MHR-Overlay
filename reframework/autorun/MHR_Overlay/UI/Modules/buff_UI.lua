@@ -12,6 +12,7 @@ local error_handler;
 local skills;
 local dangos;
 local abnormal_statuses;
+local otomo_moves;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -114,6 +115,16 @@ function this.update()
 		::continue6::
 	end
 
+	for key, otomo_move in pairs(otomo_moves.list) do
+		if not otomo_move.is_active then
+			goto continue6;
+		end
+
+		table.insert(_displayed_buffs, otomo_move);
+
+		::continue6::
+	end
+
 	displayed_buffs = this.sort_buffs(_displayed_buffs, cached_config);
 end
 
@@ -196,6 +207,7 @@ function this.init_dependencies()
 	skills = require("MHR_Overlay.Buffs.skills");
 	dangos = require("MHR_Overlay.Buffs.dangos");
 	abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
+	otomo_moves = require("MHR_Overlay.Buffs.otomo_moves");
 end
 
 function this.init_module()
