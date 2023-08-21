@@ -585,5 +585,16 @@
         65280,
         65519,
         0
-    ]
+    ],
+    "weapon_skills": {
+        "amped_state": "Amped State",
+        "axe_heavy_slam": "Axe: Heavy Slam",
+        "harvest_moon": "Harvest Moon",
+        "iai_slash": "Iai Slash",
+        "power_sheathe": "Power Sheathe",
+        "soaring_kick": "Soaring Kick",
+        "spirit_gauge": "Spirit Gauge",
+        "spirit_gauge_autofill": "Spirit Gauge Autofill",
+        "switch_charger": "Switch Charger"
+    }
 }

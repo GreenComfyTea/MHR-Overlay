@@ -469,6 +469,19 @@ this.default_language = {
 		go_fight_win = "Go, Fight, Win"
 	},
 
+	weapon_skills = {
+		-- Great Sword
+		power_sheathe = "Power Sheathe",
+		-- Switch Axe
+		amped_state = "Amped State",
+		switch_charger = "Switch Charger",
+		axe_heavy_slam = "Axe: Heavy Slam",
+		-- Long Sword
+		spirit_gauge_autofill = "Spirit Gauge Autofill", -- Soaring Kick, Iai Slash
+		spirit_gauge = "Spirit Gauge",
+		harvest_moon = "Harvest Moon"
+	},
+
 	UI = {
 		HP = "HP:",
 		stamina = "Stamina:",

@@ -52,6 +52,7 @@ local skills = require("MHR_Overlay.Buffs.skills");
 local dangos = require("MHR_Overlay.Buffs.dangos");
 local abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
 local otomo_moves = require("MHR_Overlay.Buffs.otomo_moves");
+local weapon_skills = require("MHR_Overlay.Buffs.weapon_skills");
 
 local players = require("MHR_Overlay.Damage_Meter.players");
 local non_players = require("MHR_Overlay.Damage_Meter.non_players");
@@ -133,6 +134,7 @@ skills.init_dependencies();
 dangos.init_dependencies();
 abnormal_statuses.init_dependencies();
 otomo_moves.init_dependencies();
+weapon_skills.init_dependencies();
 
 damage_hook.init_dependencies();
 players.init_dependencies();
@@ -209,6 +211,7 @@ skills.init_module();
 dangos.init_module();
 abnormal_statuses.init_module();
 otomo_moves.init_module();
+weapon_skills.init_module();
 
 damage_hook.init_module();
 players.init_module();

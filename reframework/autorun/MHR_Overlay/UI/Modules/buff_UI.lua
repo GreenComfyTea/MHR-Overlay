@@ -13,6 +13,7 @@ local skills;
 local dangos;
 local abnormal_statuses;
 local otomo_moves;
+local weapon_skills;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -117,12 +118,22 @@ function this.update()
 
 	for key, otomo_move in pairs(otomo_moves.list) do
 		if not otomo_move.is_active then
-			goto continue6;
+			goto continue7;
 		end
 
 		table.insert(_displayed_buffs, otomo_move);
 
-		::continue6::
+		::continue7::
+	end
+
+	for key, weapon_skill in pairs(weapon_skills.list) do
+		if not weapon_skill.is_active then
+			goto continue8;
+		end
+
+		table.insert(_displayed_buffs, weapon_skill);
+
+		::continue8::
 	end
 
 	displayed_buffs = this.sort_buffs(_displayed_buffs, cached_config);
@@ -208,6 +219,7 @@ function this.init_dependencies()
 	dangos = require("MHR_Overlay.Buffs.dangos");
 	abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
 	otomo_moves = require("MHR_Overlay.Buffs.otomo_moves");
+	weapon_skills = require("MHR_Overlay.Buffs.weapon_skills");
 end
 
 function this.init_module()

@@ -572,5 +572,14 @@
     },
     "unicode_glyph_ranges": [
         0
-    ]
+    ],
+    "weapon_skills": {
+        "amped_state": "Amped State",
+        "axe_heavy_slam": "Axe: Heavy Slam",
+        "harvest_moon": "Harvest Moon",
+        "power_sheathe": "Power Sheathe",
+        "spirit_gauge": "Spirit Gauge",
+        "spirit_gauge_autofill": "Spirit Gauge Autofill",
+        "switch_charger": "Switch Charger"
+    }
 }

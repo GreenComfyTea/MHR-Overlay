@@ -62,6 +62,7 @@ function this.init()
 	this.init_game_manager();
 	this.init_servant_manager();
 	this.init_otomo_manager();
+	this.init_long_sword_shell_manager();
 end
 
 function this.init_message_manager()
@@ -182,6 +183,17 @@ function this.init_otomo_manager()
 
 	return this.otomo_manager;
 end
+
+function this.init_long_sword_shell_manager()
+	this.long_sword_shell_manager = sdk.get_managed_singleton("snow.shell.LongSwordShellManager");
+	if this.long_sword_shell_manager == nil then
+		error_handler.report("singletons.init_long_sword_shell_manager", "Failed to access Data: long_sword_shell_manager");
+	end
+
+	return this.long_sword_shell_manager;
+end
+
+
 
 function this.init_dependencies()
 	time = require("MHR_Overlay.Game_Handler.time");
