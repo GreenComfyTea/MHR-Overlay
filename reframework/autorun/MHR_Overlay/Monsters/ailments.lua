@@ -275,6 +275,12 @@ local system_array_type_def = sdk.find_type_definition("System.Array");
 local get_length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
+local int32_type_def = sdk.find_type_definition("System.Int32");
+local int32_mvalue_field = int32_type_def:get_field("mValue");
+
+local single_type_def = sdk.find_type_definition("System.Single");
+local single_mvalue_field = single_type_def:get_field("mValue");
+
 function this.update_ailments(enemy, monster)
 	if enemy == nil then
 		error_handler.report("ailments.update_ailments", "Missing Parameter: enemy");
@@ -369,12 +375,12 @@ function this.update_ailment(monster, ailment_param, id)
 		if activate_count_array_length ~= nil then
 
 			if activate_count_array_length > 0 then
-				local activate_count_valuetype = get_value_method:call(activate_count_array, 0);
+				local activate_count_valtype = get_value_method:call(activate_count_array, 0);
 
-				if activate_count_valuetype ~= nil then
-					activate_count = activate_count_valuetype:get_field("mValue");
+				if activate_count_valtype ~= nil then
+					activate_count = int32_mvalue_field:get_data(activate_count_valtype);
 				else
-					error_handler.report("ailments.update_ailment", "Failed to access Data: activate_count_valuetype");
+					error_handler.report("ailments.update_ailment", "Failed to access Data: activate_count_valtype");
 				end
 			end
 		else
@@ -390,12 +396,12 @@ function this.update_ailment(monster, ailment_param, id)
 		if buildup_array_length ~= nil then 
 
 			if buildup_array_length > 0 then
-				local buildup_valuetype = get_value_method:call(buildup_array, 0);
+				local buildup_valtype = get_value_method:call(buildup_array, 0);
 
-				if buildup_valuetype ~= nil then
-					buildup = buildup_valuetype:get_field("mValue");
+				if buildup_valtype ~= nil then
+					buildup = single_mvalue_field:get_data(buildup_valtype);
 				else
-					error_handler.report("ailments.update_ailment", "Failed to access Data: buildup_valuetype");
+					error_handler.report("ailments.update_ailment", "Failed to access Data: buildup_valtype");
 				end
 			end
 		else
@@ -411,12 +417,12 @@ function this.update_ailment(monster, ailment_param, id)
 		if buildup_limit_array_length ~= nil then 
 
 			if buildup_limit_array_length > 0 then
-				local buildup_limit_valuetype = get_value_method:call(buildup_limit_array, 0);
+				local buildup_limit_valtype = get_value_method:call(buildup_limit_array, 0);
 
-				if buildup_limit_valuetype ~= nil then
-					buildup_limit = buildup_limit_valuetype:get_field("mValue");
+				if buildup_limit_valtype ~= nil then
+					buildup_limit = single_mvalue_field:get_data(buildup_limit_valtype);
 				else
-					error_handler.report("ailments.update_ailment", "Failed to access Data: buildup_limit_valuetype");
+					error_handler.report("ailments.update_ailment", "Failed to access Data: buildup_limit_valtype");
 				end
 			end
 		else
