@@ -75,6 +75,8 @@ this.list = {
 	muck = nil
 };
 
+local ailments_type_name = "ailments";
+
 local frenzy_infected_duration = 121;
 
 local player_quest_base_type_def = sdk.find_type_definition("snow.player.PlayerQuestBase");
@@ -140,16 +142,9 @@ local virus_timer_field = player_quest_base_type_def:get_field("_VirusTimer");
 -- Frenzy
 local virus_onset_timer_field = player_quest_base_type_def:get_field("_VirusOnsetTimer");
 
-
-
-
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
-
 -- Frenzy Overcome
 local virus_overcome_buff_timer_field = player_data_type_def:get_field("_VirusOvercomeBuffTimer");
-
-
-local cache = {};
 
 function this.update(player, player_data)
 	--local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
@@ -167,94 +162,36 @@ function this.update(player, player_data)
 	this.update_muck(player);
 	this.update_frenzy_infection(player);
 
-	this.update_generic_timer("fireblight", player, fire_duration_timer);
-	this.update_generic_timer("waterblight", player, water_duration_timer);
-	this.update_generic_timer("iceblight", player, ice_duration_timer);
-	this.update_generic_timer("thunderblight", player, thunder_duration_timer);
-	this.update_generic_timer("dragonblight", player, dragon_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "fireblight", nil, nil, player, fire_duration_timer);
 
-	this.update_generic_timer("blastblight", player, bomb_duration_timer);
-	this.update_generic_timer("hellfireblight", player, oni_bomb_duration_timer);
-	this.update_generic_timer("bloodblight", player, mystery_debuff_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "fireblight", nil, nil, player, fire_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "waterblight", nil, nil, player, water_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "iceblight", nil, nil, player, ice_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "thunderblight", nil, nil, player, thunder_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "dragonblight", nil, nil, player, dragon_duration_timer);
 
-	this.update_generic_timer("stun", player, stun_duration_timer);
-	this.update_generic_timer("paralysis", player, paralyze_duration_timer);
-	this.update_generic_timer("sleep", player, sleep_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "blastblight", nil, nil, player, bomb_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "hellfireblight", nil, nil, player, oni_bomb_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "bloodblight", nil, nil, player, mystery_debuff_timer);
+
+	buffs.update_generic_buff(this.list, ailments_type_name, "stun", nil, nil, player, stun_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "paralysis", nil, nil, player, paralyze_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "sleep", nil, nil, player, sleep_duration_timer);
 	
-	this.update_generic_timer("defense_down", player, defense_down_duration_timer);
-	this.update_generic_timer("resistance_down", player, resistance_down_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "defense_down", nil, nil, player, defense_down_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "resistance_down", nil, nil, player, resistance_down_duration_timer);
 
-	this.update_generic_timer("tremor", player, quake_duration_timer);
-	this.update_generic_timer("roar", player, ear_duration_timer);
-	this.update_generic_timer("webbed", player, beto_duration_timer);
-	this.update_generic_timer("stench", player, stink_duration_timer);
-	this.update_generic_timer("leeched", player, blooding_enemy_timer, true);
-	this.update_generic_timer("bleeding", player, bleeding_debuff_timer);
-	this.update_generic_timer("frenzy", player, virus_onset_timer_field);
-	this.update_generic_timer("frenzy_overcome", player_data, virus_overcome_buff_timer_field);
+	buffs.update_generic_buff(this.list, ailments_type_name, "tremor", nil, nil, player, quake_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "roar", nil, nil, player, ear_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "webbed", nil, nil, player, beto_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "stench", nil, nil, player, stink_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "leeched", nil, nil, player, blooding_enemy_timer, nil, nil, true);
+	buffs.update_generic_buff(this.list, ailments_type_name, "bleeding", nil, nil, player, bleeding_debuff_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "frenzy", nil, nil, player, virus_onset_timer_field);
+	buffs.update_generic_buff(this.list, ailments_type_name, "frenzy_overcome", nil, nil, player_data, virus_overcome_buff_timer_field);
 
-	this.update_generic_boolean_value_method("engulfed", player, get_is_vacuum_damage_method);
-	this.update_generic_boolean_value_method("frostblight", player, get_is_frozen_damage_method);
-end
-
-function this.update_generic_timer(debuff_key, timer_owner, timer_field, is_infinite)
-	if is_infinite == nil then is_infinite = false; end
-
-	local timer = timer_field:get_data(timer_owner);
-	if timer == nil then
-		error_handler.report("abnormal_statuses.update_generic_timer", string.format("Failed to access Data: %s_timer", debuff_key));
-		return;
-	end
-
-	if utils.number.is_equal(timer, 0) then
-		this.list[debuff_key] = nil;
-		return;
-	end
-
-	if is_infinite then
-		timer = nil;
-	else
-		timer = timer / 60;
-	end
-
-	this.update_generic(debuff_key, timer);
-end
-
-function this.update_generic_boolean_value_method(debuff_key, value_owner, value_method)
-	local value = value_method:call(value_owner);
-	if value == nil then
-		error_handler.report("abnormal_statuses.update_generic_boolean_value_method", string.format("Failed to access Data: %s_value", debuff_key));
-		return;
-	end
-
-	if not value then
-		this.list[debuff_key] = nil;
-		return;
-	end
-
-	this.update_generic(debuff_key, nil);
-end
-
-function this.update_bubbleblight(player)
-	local bubble_Type = bubble_type_field:get_data(player);
-	if bubble_Type == nil then
-		error_handler.report("abnormal_statuses.update_bubbleblight", "Failed to access Data: bubble_Type");
-		return;
-	end
-
-	if bubble_Type == 0 then
-		this.list.minor_bubbleblight = nil;
-		this.list.major_bubbleblight = nil;
-		return;
-	end
-	
-	if bubble_Type == 1 then
-		this.update_generic_timer("minor_bubbleblight", player, bubble_damage_timer);
-		this.list.major_bubbleblight = nil;
-	else
-		this.update_generic_timer("major_bubbleblight", player, bubble_damage_timer);
-		this.list.minor_bubbleblight = nil;
-	end
+	buffs.update_generic_buff(this.list, ailments_type_name, "engulfed", player, get_is_vacuum_damage_method);
+	buffs.update_generic_buff(this.list, ailments_type_name, "frostblight", player, get_is_frozen_damage_method);
 end
 
 function this.update_poison(player)
@@ -271,11 +208,33 @@ function this.update_poison(player)
 	end
 	
 	if poison_level == 1 then
-		this.update_generic_timer("poison", player, poison_duration_timer);
+		buffs.update_generic_buff(this.list, ailments_type_name, "poison", player, poison_duration_timer);
 		this.list.deadly_poison = nil;
 	else
-		this.update_generic_timer("deadly_poison", player, poison_duration_timer);
+		buffs.update_generic_buff(this.list, ailments_type_name, "deadly_poison", player, poison_duration_timer);
 		this.list.poison = nil;
+	end
+end
+
+function this.update_bubbleblight(player)
+	local bubble_type = bubble_type_field:get_data(player);
+	if bubble_type == nil then
+		error_handler.report("abnormal_statuses.update_bubbleblight", "Failed to access Data: bubble_Type");
+		return;
+	end
+
+	if bubble_type == 0 then
+		this.list.minor_bubbleblight = nil;
+		this.list.major_bubbleblight = nil;
+		return;
+	end
+	
+	if bubble_type == 1 then
+		buffs.update_generic_buff(this.list, ailments_type_name, "minor_bubbleblight", player, bubble_damage_timer);
+		this.list.major_bubbleblight = nil;
+	else
+		buffs.update_generic_buff(this.list, ailments_type_name, "major_bubbleblight", player, bubble_damage_timer);
+		this.list.minor_bubbleblight = nil;
 	end
 end
 
@@ -297,7 +256,7 @@ function this.update_muck(player)
 		return;
 	end
 
-	this.update_generic("muck", nil);
+	buffs.update_generic(ailments_type_name, "muck");
 end
 
 function this.update_frenzy_infection(player)
@@ -313,31 +272,14 @@ function this.update_frenzy_infection(player)
 		return;
 	end
 
-	if virus_accumulator_value == 0 and utils.number.is_equal(virus_timer, 0)then
+	if virus_accumulator_value == 0 and utils.number.is_equal(virus_timer, 0) then
 		this.list.frenzy_infection = nil;
 		return;
 	end
 
 	local timer = frenzy_infected_duration - (virus_accumulator_value + virus_timer / 60);
 
-	this.update_generic("frenzy_infection", timer, frenzy_infected_duration);
-end
-
-function this.update_generic(debuff_key, timer, duration)
-	duration = duration or timer;
-
-	local debuff = this.list[debuff_key];
-	if debuff == nil then
-		local name = language.current_language.ailments[debuff_key];
-		if name == nil then
-			name = debuff_key;
-		end
-
-		debuff = buffs.new(buffs.types.debuff, debuff_key, name, 1, duration);
-		this.list[debuff_key] = debuff;
-	elseif timer ~= nil then
-		buffs.update_timer(debuff, timer);
-	end
+	buffs.update_generic(this.list, ailments_type_name, "frenzy_infection", 1, timer, frenzy_infected_duration);
 end
 
 function this.init_names()

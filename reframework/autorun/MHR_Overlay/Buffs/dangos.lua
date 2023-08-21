@@ -47,6 +47,8 @@ this.list = {
 };
 
 this.is_dango_adrenaline_active = false;
+
+local dangos_type_name = "dangos";
 local dango_defender_minimal_value = 200;
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
@@ -72,221 +74,10 @@ function this.update(player, player_data)
 		return;
 	end
 
-	this.update_generic_number_value_field("dango_defender", player_data, kitchen_skill_048_field, nil, true, dango_defender_minimal_value);
+	buffs.update_generic_buff(this.list, dangos_type_name, "dango_defender", player_data, kitchen_skill_048_field, nil, nil, nil, nil, true, dango_defender_minimal_value);
 	this.update_dango_adrenaline();
 end
 
-
-function this.update_generic_timer(dango_key, timer_owner, timer_field, is_infinite)
-	if is_infinite == nil then is_infinite = false; end
-
-	local timer = nil;
-	if timer_field ~= nil then
-		timer = timer_field:get_data(timer_owner);
-		if timer == nil then
-			error_handler.report("dangos.update_generic_timer", string.format("Failed to access Data: %s_timer", dango_key));
-			return;
-		end
-
-		if utils.number.is_equal(timer, 0) then
-			this.list[dango_key] = nil;
-			return;
-		end
-
-		if is_infinite then
-			timer = nil;
-		else
-			timer = timer / 60;
-		end
-	end
-
-	this.update_generic(dango_key, 1, timer);
-end
-
-function this.update_generic_number_value_field(dango_key, timer_owner, value_field, timer_field, is_infinite, minimal_value)
-	if minimal_value == nil then minimal_value = 1; end
-	if is_infinite == nil then is_infinite = false; end
-
-	local level = 1;
-
-	if value_field ~= nil then
-		local value = value_field:get_data(timer_owner);
-		
-		if value == nil then
-			error_handler.report("dangos.update_generic_number_value_field", string.format("Failed to access Data: %s_value", dango_key));
-			return;
-		end
-
-		if value < minimal_value then
-			this.list[dango_key] = nil;
-			return;
-		end
-	end
-
-	local timer = nil;
-	if timer_field ~= nil then
-		timer = timer_field:get_data(timer_owner);
-		if timer == nil then
-			error_handler.report("dangos.update_generic_number_value_field", string.format("Failed to access Data: %s_timer", dango_key));
-			return;
-		end
-
-		if value_field == nil and utils.number.is_equal(timer, 0) then
-			this.list[dango_key] = nil;
-			return;
-		end
-
-		if is_infinite then
-			timer = nil;
-		else
-			timer = timer / 60;
-		end
-	end
-
-	this.update_generic(dango_key, level, timer);
-end
-
-function this.update_generic_boolean_value_field(dango_key, timer_owner, value_field, timer_field, is_infinite, minimal_value)
-	if minimal_value == nil then minimal_value = true; end
-	if is_infinite == nil then is_infinite = false; end
-
-	if value_field ~= nil then
-		local value = value_field:get_data(timer_owner);
-		
-		if value == nil then
-			error_handler.report("dangos.update_generic_boolean_value_field", string.format("Failed to access Data: %s_value", dango_key));
-			return;
-		end
-
-		if value < minimal_value then
-			this.list[dango_key] = nil;
-			return;
-		end
-	end
-
-	local timer = nil;
-	if timer_field ~= nil then
-		timer = timer_field:get_data(timer_owner);
-		if timer == nil then
-			error_handler.report("dangos.update_generic_boolean_value_field", string.format("Failed to access Data: %s_timer", dango_key));
-			return;
-		end
-
-		if value_field == nil and utils.number.is_equal(timer, 0) then
-			this.list[dango_key] = nil;
-			return;
-		end
-
-		if is_infinite then
-			timer = nil;
-		else
-			timer = timer / 60;
-		end
-	end
-
-	this.update_generic(dango_key, 1, timer);
-end
-
-function this.update_generic_number_value_method(dango_key, timer_owner, value_method, timer_field, is_infinite, minimal_value)
-	if minimal_value == nil then minimal_value = 1; end
-	if is_infinite == nil then is_infinite = false; end
-
-	local level = 1;
-
-	if value_method ~= nil then
-		local value = value_method:call(timer_owner);
-		
-		if value == nil then
-			error_handler.report("dangos.update_generic_number_value_method", string.format("Failed to access Data: %s_value", dango_key));
-			return;
-		end
-
-		if value < minimal_value then
-			this.list[dango_key] = nil;
-			return;
-		end
-	end
-
-	local timer = nil;
-	if timer_field ~= nil then
-		timer = timer_field:get_data(timer_owner);
-		if timer == nil then
-			error_handler.report("dangos.update_generic_number_value_method", string.format("Failed to access Data: %s_timer", dango_key));
-			return;
-		end
-
-		if value_method == nil and utils.number.is_equal(timer, 0) then
-			this.list[dango_key] = nil;
-			return;
-		end
-
-		if is_infinite then
-			timer = nil;
-		else
-			timer = timer / 60;
-		end
-	end
-
-	this.update_generic(dango_key, level, timer);
-end
-
-function this.update_generic_boolean_value_method(dango_key, timer_owner, value_method, timer_field, is_infinite, minimal_value)
-	if minimal_value == nil then minimal_value = true; end
-	if is_infinite == nil then is_infinite = false; end
-
-	if value_method ~= nil then
-		local value = value_method:call(timer_owner);
-		if value == nil then
-			error_handler.report("dangos.update_generic_boolean_value_method", string.format("Failed to access Data: %s_value", dango_key));
-			return;
-		end
-
-		if value ~= minimal_value then
-			this.list[dango_key] = nil;
-			return;
-		end
-	end
-
-	local timer = nil;
-	if timer_field ~= nil then
-		timer = timer_field:get_data(timer_owner);
-		if timer == nil then
-			error_handler.report("dangos.update_generic_boolean_value_method", string.format("Failed to access Data: %s_timer", dango_key));
-			return;
-		end
-
-		if value_method == nil and utils.number.is_equal(timer, 0) then
-			this.list[dango_key] = nil;
-			return;
-		end
-
-		if is_infinite then
-			timer = nil;
-		else
-			timer = timer / 60;
-		end
-	end
-
-	this.update_generic(dango_key, 1, timer);
-end
-
-function this.update_generic(dango_key, level, timer, duration)
-	duration = duration or timer;
-
-	local dango = this.list[dango_key];
-	if dango == nil then
-		local name = language.current_language.dangos[dango_key];
-		
-		dango = buffs.new(buffs.types.dango, dango_key, name, level, duration);
-		this.list[dango_key] = dango;
-	else
-		dango.level = level;
-
-		if timer ~= nil then
-			buffs.update_timer(dango, timer);
-		end
-	end
-end
 
 function this.update_dango_adrenaline()
 	if not this.is_dango_adrenaline_active then
@@ -294,7 +85,7 @@ function this.update_dango_adrenaline()
 		return;
 	end
 
-	this.update_generic("dango_adrenaline", 1);
+	buffs.update_generic(this.list, dangos_type_name, "dango_adrenaline");
 end
 
 function this.init_names()

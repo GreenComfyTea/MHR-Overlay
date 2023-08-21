@@ -81,12 +81,15 @@ function this.update(player, player_data)
 	this.update_ruby_and_gold_wirebugs(player, player_data);
 end
 
-function this.update_generic_timer(endemic_life_buff_key, timer_owner, timer_field, is_infinite)
-	if is_infinite == nil then is_infinite = false; end
-
+function this.update_generic_timer(endemic_life_buff_key, timer_owner, timer_holder, is_infinite)
 	local timer = nil;
-	if timer_field ~= nil then
-		timer = timer_field:get_data(timer_owner);
+	if timer_holder ~= nil then
+		if utils.type.is_REField then
+			timer = timer_holder:get_data(timer_owner);
+		else
+			timer = timer_holder:call(timer_owner);
+		end
+		
 		if timer == nil then
 			error_handler.report("endemic_life_buffs.update_generic_timer", string.format("Failed to access Data: %s_timer", endemic_life_buff_key));
 			return;
@@ -123,7 +126,7 @@ function this.update_generic(endemic_life_buff_key, level, timer, duration)
 			return;
 		end
 		
-		endemic_life_buff = buffs.new(buffs.types.endemic_life_buff, endemic_life_buff_key, name, level, duration);
+		endemic_life_buff = buffs.new("endemic_life_buffs", endemic_life_buff_key, name, level, duration);
 		this.list[endemic_life_buff_key] = endemic_life_buff;
 	else
 		endemic_life_buff.level = level;

@@ -138,7 +138,7 @@ function this.update(master_player)
 			goto continue;
 		end
 
-		this.update_melody_effect(i+1, music_data);
+		this.update_melody_effect(i + 1, music_data);
 		::continue::
 	end
 end
@@ -160,7 +160,7 @@ function this.update_melody_effect(lua_index, melody_data)
 			local melody_effect_key = melody_effect_keys[lua_index];
 			local name = language.current_language.melody_effects[melody_effect_key];
 
-			melody_effect = buffs.new(buffs.types.melody_effect, melody_effect_key, name, 1, melody_timer / 60);
+			melody_effect = buffs.new("melody_effects", melody_effect_key, name, 1, melody_timer / 60);
 			this.list[lua_index] = melody_effect;
 		else
 			buffs.update_timer(melody_effect, melody_timer / 60);

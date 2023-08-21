@@ -55,6 +55,8 @@ this.list = {
 	gourmet_fish = nil,
 };
 
+local consumables_type_name = "consumables";
+
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local get_player_data_method = player_manager_type_def:get_method("get_PlayerData");
 local get_ref_item_parameter_method = player_manager_type_def:get_method("get_RefItemParameter");
@@ -106,69 +108,42 @@ function this.update(player_data)
 
 	this.update_demondrug(player_data, item_parameter);
 	this.update_armorskin(player_data, item_parameter);
-	this.update_gourmet_fish(player_data, item_parameter);
 
-	this.update_generic("might_seed", player_data, item_parameter,
-		atk_up_buff_second_field, atk_up_buff_second_timer_field, might_seed_timer_field);
+	buffs.update_generic_buff(this.list, consumables_type_name, "might_seed",
+		player_data, atk_up_buff_second_field,
+		player_data, atk_up_buff_second_timer_field,
+		item_parameter, might_seed_timer_field);
 
-	this.update_generic("adamant_seed", player_data, item_parameter,
-		def_up_buff_second_field, def_up_buff_second_timer_field, adamant_seed_timer_field);
+	buffs.update_generic_buff(this.list, consumables_type_name, "adamant_seed",
+		player_data, def_up_buff_second_field,
+		player_data, def_up_buff_second_timer_field,
+		item_parameter, adamant_seed_timer_field);
 
-	this.update_generic("demon_powder", player_data, item_parameter,
-		atk_up_item_second_field, atk_up_item_second_timer_field, demondrug_powder_timer_field);
+	buffs.update_generic_buff(this.list, consumables_type_name, "demon_powder",
+		player_data, atk_up_item_second_field,
+		player_data, atk_up_item_second_timer_field,
+		item_parameter, demondrug_powder_timer_field);
 
-	this.update_generic("hardshell_powder", player_data, item_parameter,
-		def_up_item_second_field, def_up_item_second_timer_field, armorskin_powder_timer_field);
+	buffs.update_generic_buff(this.list, consumables_type_name, "hardshell_powder",
+		player_data, def_up_item_second_field,
+		player_data, def_up_item_second_timer_field,
+		item_parameter, armorskin_powder_timer_field);
+		
+	buffs.update_generic_buff(this.list, consumables_type_name, "immunizer",
+		nil, nil,
+		player_data, vitalizer_timer_field,
+		item_parameter, vitalizer_timer_const_field);
 
-	this.update_generic("immunizer", player_data, item_parameter,
-		nil, vitalizer_timer_field, vitalizer_timer_const_field);
+	buffs.update_generic_buff(this.list, consumables_type_name, "immunizer",
+		nil, nil,
+		player_data, stamina_up_buff_second_timer_field,
+		item_parameter, stamina_up_buff_second_field);
 
-	this.update_generic("dash_juice", player_data, item_parameter,
-		nil, stamina_up_buff_second_timer_field, stamina_up_buff_second_field);
-
-end
-
-function this.update_generic(consumable_key, player_data, item_parameter, value_field, timer_field, timer_const_value_field)
-	if value_field ~= nil then
-
-		local value = value_field:get_data(player_data);
-		if value == nil then
-			error_handler.report("consumables.update_generic", string.format("Failed to access Data: %s_value", consumable_key));
-			return;
-		end
-
-		if value == 0 then
-			this.list[consumable_key] = nil;
-			return;
-		end
-	end
-
-	local timer = timer_field:get_data(player_data);
-	if timer == nil then
-		error_handler.report("consumables.update_generic", string.format("Failed to access Data: %s_timer", consumable_key));
-		return;
-	end
-
-	if value_field == nil and utils.number.is_equal(timer, 0)then
-		this.list[consumable_key] = nil;
-		return;
-	end
-
-	local consumable = this.list[consumable_key];
-	if consumable == nil then
-		local timer_const_value = timer_const_value_field:get_data(item_parameter);
-		if timer_const_value == nil then
-			error_handler.report("consumables.update_generic", string.format("Failed to access Data: %s_timer_const_value", consumable_key));
-			return;
-		end
-
-		local name = language.current_language.consumables[consumable_key];
-
-		consumable = buffs.new(buffs.types.consumable, consumable_key, name, 1, timer_const_value);
-		this.list[consumable_key] = consumable;
-	else
-		buffs.update_timer(consumable, timer / 60);
-	end
+	buffs.update_generic_buff(this.list, consumables_type_name, "gourmet_fish",
+		nil, nil,
+		player_data, fish_regene_enable_field,
+		nil, nil);
+		
 end
 
 function this.update_demondrug(player_data, item_parameter)
@@ -195,27 +170,14 @@ function this.update_demondrug(player_data, item_parameter)
 		error_handler.report("consumables.update_demondrug", "Failed to access Data: mega_demondrug_const_value");
 		return;
 	end
+
 	if demondrug_value == demondrug_const_value then
-		local buff = this.list.demondrug;
-		if buff ~= nil and buff.value == demondrug_value then
-			return;
-		end
-
-		local name = language.current_language.consumables.demondrug;
-
-		this.list.demondrug = buffs.new(buffs.types.consumable, "demondrug", name);
+		buffs.update_generic(this.list, consumables_type_name, "demondrug");
 		this.list.mega_demondrug = nil;
 	
 	elseif demondrug_value == mega_demondrug_const_value then
-		local buff = this.list.mega_demondrug;
-		if buff ~= nil and buff.value == demondrug_value then
-			return;
-		end
-
-		local name = language.current_language.consumables.mega_demondrug;
-
+		buffs.update_generic(this.list, consumables_type_name, "mega_demondrug");
 		this.list.demondrug = nil;
-		this.list.mega_demondrug = buffs.new(buffs.types.consumable, "mega_demondrug", name);
 	end
 end
 
@@ -245,56 +207,12 @@ function this.update_armorskin(player_data, item_parameter)
 	end
 
 	if armorskin_value == armorskin_const_value then
-		local buff = this.list.armorskin;
-		if buff ~= nil and buff.value == armorskin_value then
-			return;
-		end
-
-		local name = language.current_language.consumables.armorskin;
-
-		this.list.armorskin = buffs.new(buffs.types.consumable, "armorskin", name);
+		buffs.update_generic(this.list, consumables_type_name, "armorskin");
 		this.list.mega_armorskin = nil;
-
+	
 	elseif armorskin_value == mega_armorskin_const_value then
-		local buff = this.list.mega_armorskin;
-		if buff ~= nil and buff.value == armorskin_value then
-			return;
-		end
-
-		local name = language.current_language.consumables.mega_armorskin;
-
+		buffs.update_generic(this.list, consumables_type_name, "mega_armorskin");
 		this.list.armorskin = nil;
-		this.list.mega_armorskin = buffs.new(buffs.types.consumable, "mega_armorskin", name);
-	end
-end
-
-function this.update_gourmet_fish(player_data, item_parameter)
-	local gourmet_fish_timer = fish_regene_enable_field:get_data(player_data);
-	if gourmet_fish_timer == nil then
-		error_handler.report("consumables.update_gourmet_fish", "Failed to access Data: gourmet_fish_timer");
-		return;
-	end
-
-	if utils.number.is_equal(gourmet_fish_timer, 0) then
-		this.list.gourmet_fish = nil;
-		return;
-	end
-
-	local buff = this.list.gourmet_fish;
-
-	if buff == nil then
-		--local gourmet_fish_timer_const_value = stamina_up_buff_second_field:get_data(item_parameter);
-		--if gourmet_fish_timer_const_value == nil then
-		--	error_handler.report("consumables.update_gourmet_fish", "Failed to access Data: gourmet_fish_timer_const_value");
-		--	return;
-		--end
-
-		local name = language.current_language.consumables.gourmet_fish;
-
-		buff = buffs.new(buffs.types.consumable, "gourmet_fish", name, 1, gourmet_fish_timer);
-		this.list.gourmet_fish = buff;
-	else
-		buffs.update_timer(buff, gourmet_fish_timer / 60);
 	end
 end
 
