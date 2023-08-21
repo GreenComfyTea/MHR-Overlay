@@ -44,6 +44,7 @@ local unicode_chars;
 local epsilon = 0.000001;
 
 this.table = {};
+this.type = {};
 this.number = {};
 this.string = {};
 this.vec2 = {};
@@ -213,6 +214,18 @@ function this.table.merge(...)
 	end
 
 	return result;
+end
+
+function this.type.is_boolean(value)
+	return value == true or value == false;
+end
+
+function this.type.is_REField(value)
+	return 	value.get_return_type == nil;
+end
+
+function this.type.is_REMethodDefinition(value)
+	return 	value.get_return_type ~= nil;
 end
 
 function this.number.is_NaN(value)
