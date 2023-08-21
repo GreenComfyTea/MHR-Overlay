@@ -107,6 +107,9 @@ local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
 -- Dango Adrenaline
 local is_kitchen_skill_predicament_powerup_method = player_base_type_def:get_method("isKitchenSkillPredicamentPowerUp");
 
+local single_type_def = sdk.find_type_definition("System.Single");
+local mvalue_field = single_type_def:get_field("mValue");
+
 local master_player_ref = nil;
 local master_player_data_ref = nil;
 
@@ -185,13 +188,13 @@ function this.update_resistances(player_data)
 	end
 
 	-- Fire Resistance
-	local fire_resistance_valtype = get_value_method:call(resistance_element_array, 0);
-	if fire_resistance_valtype == nil then
-		error_handler.report("player_info.update_resistances", "Failed to access Data: fire_resistance_valtype");
+	local fire_resistance_single_valtype = get_value_method:call(resistance_element_array, 0);
+	if fire_resistance_single_valtype == nil then
+		error_handler.report("player_info.update_resistances", "Failed to access Data: fire_resistance_single_valtype");
 		return;
 	end
 
-	local fire_resistance = fire_resistance_valtype:get_field("mValue");
+	local fire_resistance = mvalue_field:get_data(fire_resistance_single_valtype);
 	if fire_resistance ~= nil then
 		this.list.fire_resistance = math.floor(fire_resistance);
 	else
@@ -200,13 +203,13 @@ function this.update_resistances(player_data)
 	end
 
 	-- Water Resistance
-	local water_resistance_valtype = get_value_method:call(resistance_element_array, 1);
-	if water_resistance_valtype == nil then
-		error_handler.report("player_info.update_resistances", "Failed to access Data: water_resistance_valtype");
+	local water_resistance_single_valtype = get_value_method:call(resistance_element_array, 1);
+	if water_resistance_single_valtype == nil then
+		error_handler.report("player_info.update_resistances", "Failed to access Data: water_resistance_single_valtype");
 		return;
 	end
 
-	local water_resistance = water_resistance_valtype:get_field("mValue");
+	local water_resistance = mvalue_field:get_data(water_resistance_single_valtype);
 	if water_resistance ~= nil then
 		this.list.water_resistance = math.floor(water_resistance);
 	else
@@ -215,13 +218,13 @@ function this.update_resistances(player_data)
 	end
 
 	-- Thunder Resistance
-	local thunder_resistance_valtype = get_value_method:call(resistance_element_array, 2);
-	if thunder_resistance_valtype == nil then
-		error_handler.report("player_info.update_resistances", "Failed to access Data: thunder_resistance_valtype");
+	local thunder_resistance_single_valtype = get_value_method:call(resistance_element_array, 2);
+	if thunder_resistance_single_valtype == nil then
+		error_handler.report("player_info.update_resistances", "Failed to access Data: thunder_resistance_single_valtype");
 		return;
 	end
 
-	local thunder_resistance = thunder_resistance_valtype:get_field("mValue");
+	local thunder_resistance = mvalue_field:get_data(thunder_resistance_single_valtype);
 	if thunder_resistance ~= nil then
 		this.list.thunder_resistance = math.floor(thunder_resistance);
 	else
@@ -230,13 +233,13 @@ function this.update_resistances(player_data)
 	end
 
 	-- Ice Resistance
-	local ice_resistance_valtype = get_value_method:call(resistance_element_array, 3);
-	if ice_resistance_valtype == nil then
-		error_handler.report("player_info.update_resistances", "Failed to access Data: ice_resistance_valtype");
+	local ice_resistance_single_valtype = get_value_method:call(resistance_element_array, 3);
+	if ice_resistance_single_valtype == nil then
+		error_handler.report("player_info.update_resistances", "Failed to access Data: ice_resistance_single_valtype");
 		return;
 	end
 
-	local ice_resistance = ice_resistance_valtype:get_field("mValue");
+	local ice_resistance = mvalue_field:get_data(ice_resistance_single_valtype);
 	if ice_resistance ~= nil then
 		this.list.ice_resistance = math.floor(ice_resistance);
 	else
@@ -245,13 +248,13 @@ function this.update_resistances(player_data)
 	end
 
 	-- Dragon Resistance
-	local dragon_resistance_valtype = get_value_method:call(resistance_element_array, 4);
-	if dragon_resistance_valtype == nil then
-		error_handler.report("player_info.update_resistances", "Failed to access Data: dragon_resistance_valtype");
+	local dragon_resistance_single_valtype = get_value_method:call(resistance_element_array, 4);
+	if dragon_resistance_single_valtype == nil then
+		error_handler.report("player_info.update_resistances", "Failed to access Data: dragon_resistance_single_valtype");
 		return;
 	end
 
-	local dragon_resistance = dragon_resistance_valtype:get_field("mValue");
+	local dragon_resistance = mvalue_field:get_data(dragon_resistance_single_valtype);
 	if dragon_resistance ~= nil then
 		this.list.dragon_resistance = math.floor(dragon_resistance);
 	else
