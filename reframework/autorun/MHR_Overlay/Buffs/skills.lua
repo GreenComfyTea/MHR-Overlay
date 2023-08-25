@@ -336,6 +336,9 @@ local is_active_equip_skill_230_method = player_quest_base_type_def:get_method("
 -- Frenzied Bloodlust
 local get_hunter_wire_skill_231_num_method = player_quest_base_type_def:get_method("get_HunterWireSkill231Num");
 
+local bow_type_def = sdk.find_type_definition("snow.player.Bow");
+local _equip_skill_216_bottle_up_timer_field = bow_type_def:get_field("_EquipSkill216_BottleUpTimer");
+
 local qeree = {};
 
 function this.update(player, player_data, weapon_type)
@@ -394,6 +397,7 @@ function this.update(player, player_data, weapon_type)
 	this.update_peak_performance();
 	this.update_dragonheart();
 	this.update_resentment(player_data);
+	this.update_bladescale_hone(player, weapon_type);
 
 	this.update_generic_skill("dereliction", player_data, symbiosis_skill_lost_vital_field,
 		nil, nil, nil, nil, true, nil, dereliction_breakpoints);
@@ -424,6 +428,7 @@ function this.update(player, player_data, weapon_type)
 	this.update_generic_skill("heaven_sent", player, is_active_equip_skill_230_method);
 	this.update_generic_skill("heroics", player, is_predicament_power_up_method);
 	this.update_generic_skill("resuscitate", player, is_debuff_state_method);
+
 end
 
 function this.update_generic_skill(skill_key, value_owner, value_holder, timer_owner, timer_holder, duration_owner, duration_holder,
@@ -690,6 +695,15 @@ function this.update_resentment(player_data)
 	end
 
 	buffs.update_generic(this.list, skills_type_name, "resentment");
+end
+
+function this.update_bladescale_hone(player, weapon_type)
+	if weapon_type ~= 13 then -- 13 = Bow
+		this.list.bladescale_hone = nil;
+		return;
+	end
+
+	this.update_generic_skill("bladescale_hone", nil, nil, player, _equip_skill_216_bottle_up_timer_field);
 end
 
 function this.init_names()
