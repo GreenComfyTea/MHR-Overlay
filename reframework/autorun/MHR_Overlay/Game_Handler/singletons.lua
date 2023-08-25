@@ -63,6 +63,8 @@ function this.init()
 	this.init_servant_manager();
 	this.init_otomo_manager();
 	this.init_long_sword_shell_manager();
+	this.init_light_bowgun_shell_manager();
+	this.init_horn_shell_manager();
 end
 
 function this.init_message_manager()
@@ -193,6 +195,23 @@ function this.init_long_sword_shell_manager()
 	return this.long_sword_shell_manager;
 end
 
+function this.init_light_bowgun_shell_manager()
+	this.light_bowgun_shell_manager = sdk.get_managed_singleton("snow.shell.LightBowgunShellManager");
+	if this.light_bowgun_shell_manager == nil then
+		error_handler.report("singletons.init_light_bowgun_shell_manager", "Failed to access Data: light_bowgun_shell_manager");
+	end
+
+	return this.light_bowgun_shell_manager;
+end
+
+function this.init_horn_shell_manager()
+	this.horn_shell_manager = sdk.get_managed_singleton("snow.shell.HornShellManager");
+	if this.horn_shell_manager == nil then
+		error_handler.report("singletons.init_horn_shell_manager", "Failed to access Data: horn_shell_manager");
+	end
+
+	return this.horn_shell_manager;
+end
 
 
 function this.init_dependencies()

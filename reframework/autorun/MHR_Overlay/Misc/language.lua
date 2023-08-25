@@ -389,7 +389,7 @@ this.default_language = {
 		-- foray = "Foray",
 		-- tune_up = "Tune-Up",
 		grinder_s = "Grinder (S)",
-		-- bladescale_hone = "Bladescale Hone",
+		bladescale_hone = "Bladescale Hone",
 		-- wall_runner_boost = "Wall Runner (Boost)",
 		-- quick_breath = "Quick Breath",
 		-- element_exploit = "Element Exploit",
@@ -479,7 +479,42 @@ this.default_language = {
 		-- Long Sword
 		spirit_gauge_autofill = "Spirit Gauge Autofill", -- Soaring Kick, Iai Slash
 		spirit_gauge = "Spirit Gauge",
-		harvest_moon = "Harvest Moon"
+		harvest_moon = "Harvest Moon",
+		-- Light Bowgun
+		fanning_maneuver = "Fanning Maneuver",
+		-- Heavy Bowgun
+		counter_charger = "Counter Charger",
+		rising_moon = "Rising Moon",
+		setting_sun = "Setting Sun",
+		-- Hammer
+		impact_burst = "Impact Burst",
+		-- Gunlance
+		ground_splitter = "Ground Splitter",
+		erupting_cannon = "Erupting Cannon",
+		-- Lance
+		anchor_rage = "Anchor Rage",
+		spiral_thrust = "Spiral Thrust",
+		twin_wine = "Twin Wine",
+		-- Sword & Shield
+		destroyer_oil = "Destroyer Oil",
+		-- Dual Blades
+		ironshine_silk = "Ironshine Silk",
+		archdemon_mode = "Archdemon Mode",
+		-- Hunting Horn
+		silkbind_shockwave = "Silkbind Shockwave",
+		bead_of_resonance = "Bead of Resonance",
+		sonic_bloom = "Sonic Bloom",
+		-- Charge Blade
+		element_boost = "Element Boost",
+		sword_boost_mode ="Sword Boost Mode",
+		-- Insect Glaive
+		red_extract = "Red Extract",
+		white_extract = "White Extract",
+		orange_extract = "Orange Extract",
+		all_extracts_mix = "All Extracts Mix",
+		-- Bow
+		herculean_draw = "Herculean Draw",
+		bolt_boost = "Bolt Boost" 
 	},
 
 	UI = {
