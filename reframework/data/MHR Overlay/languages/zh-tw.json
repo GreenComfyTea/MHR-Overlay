@@ -453,6 +453,9 @@
         "tremors_negated": "Tremors Negated",
         "wind_pressure_negated": "Wind Pressure Negated"
     },
+    "misc_buffs": {
+        "stamina_use_down": "Stamina Use Down"
+    },
     "otomo_moves": {
         "go_fight_win": "Go, Fight, Win",
         "power_drum": "Power Drum",
@@ -553,6 +556,7 @@
         "protective_polish": "Protective Polish",
         "resentment": "Resentment",
         "resuscitate": "Resuscitate",
+        "spiribirds_call": "Spiribird's Call",
         "status_trigger": "Status Trigger",
         "wall_runner": "Wall Runner",
         "wind_mantle": "Wind Mantle"
@@ -608,6 +612,7 @@
         "impact_burst": "Impact Burst",
         "ironshine_silk": "Ironshine Silk",
         "orange_extract": "O Extract",
+        "overheat": "Overheat",
         "power_sheathe": "Power Sheathe",
         "red_extract": "Red Extract",
         "rising_moon": "Rising Moon",
@@ -623,6 +628,8 @@
         "sword_boost_mode": "Sword Boost Mode",
         "sword_charge": "Sword Charge",
         "twin_wine": "Twin Wine",
-        "white_extract": "White Extract"
+        "white_extract": "White Extract",
+        "wyvernblast_reload": "Wyvernblast Reload",
+        "wyvernsnipe_reload": "Wyvernsnipe Reload"
     }
 }

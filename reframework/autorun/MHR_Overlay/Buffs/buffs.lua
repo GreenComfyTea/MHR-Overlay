@@ -17,6 +17,7 @@ local dangos;
 local abnormal_statuses;
 local otomo_moves;
 local weapon_skills;
+local misc_buffs;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -49,6 +50,17 @@ local reframework = reframework;
 local os = os;
 local ValueType = ValueType;
 local package = package;
+
+--[[
+	TODO:
+	[x] DONE! Wirebug-related skills
+	More otomo skills
+	[x] DONE! More Dango skills
+	Part breaker, charge master
+	[x] DONE! Weapon buffs
+	More endemic life, such as Lampsquid
+	[x] DONE! Horn music
+]]
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local get_player_method = player_manager_type_def:get_method("getPlayer");
@@ -115,11 +127,7 @@ function this.init_UI(buff)
 end
 
 function this.init_names()
-	consumables.init_names();
-	melody_effects.init_names();
-	endemic_life_buffs.init_names();
 	skills.init_names();
-	dangos.init_names();
 	abnormal_statuses.init_names();
 end
 
@@ -170,7 +178,23 @@ function this.update()
 		endemic_life_buffs.update(master_player, master_player_data);
 		abnormal_statuses.update(master_player, master_player_data);
 		weapon_skills.update(master_player, master_player_data, weapon_type);
+		misc_buffs.update(master_player, master_player_data);
 	end
+
+	-- local tbl = {
+	-- 	"_IsEnable_KitchenSkill048_Reduce",
+	-- 	"_KitchenSkill_Insurance_DefUp_Lv3",
+	-- 	"_KitchenSkill_Insurance_DefUp_Lv4",
+	-- 	"_KitchenSkill051_AtkUpTimer",
+	-- 	"_KitchenSkill051_AtkUp",
+	-- 	"_KitchenSkill054_Timer",
+	-- 	"_KitchenSkill054_DefUp",
+	-- };
+
+	-- xy = "";
+	-- for _, key in ipairs(tbl) do
+	-- 	xy = string.format("%s%s: %s\n", xy, key, tostring(master_player_data:get_field(key)));
+	-- end
 end
 
 function this.update_timer(buff, timer, duration)
@@ -199,7 +223,7 @@ function this.update_timer(buff, timer, duration)
 	end
 end
 
-function this.update_generic_buff(buff_list, buff_type, buff_key,
+function this.update_generic_buff(buff_list, buff_type, buff_key, get_name_function,
 	value_owner, value_holder,
 	timer_owner, timer_holder,
 	duration_owner, duration_holder,
@@ -286,17 +310,17 @@ function this.update_generic_buff(buff_list, buff_type, buff_key,
 		end
 	end
 
-	return this.update_generic(buff_list, buff_type, buff_key, level, timer, duration);
+	return this.update_generic(buff_list, buff_type, buff_key, get_name_function, level, timer, duration);
 end
 
-function this.update_generic(buff_list, buff_type, buff_key, level, timer, duration)
+function this.update_generic(buff_list, buff_type, buff_key, get_name_function, level, timer, duration)
 	duration = duration or timer;
 	level = level or 1;
 
 	local buff = buff_list[buff_key];
 	if buff == nil then
-		local name = language.current_language[buff_type][buff_key];
-		
+		local name = get_name_function(buff_key);
+
 		buff = this.new(buff_type, buff_key, name, level, duration);
 		buff_list[buff_key] = buff;
 	else
@@ -329,6 +353,7 @@ function this.init_dependencies()
 	abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
 	otomo_moves = require("MHR_Overlay.Buffs.otomo_moves");
 	weapon_skills = require("MHR_Overlay.Buffs.weapon_skills");
+	misc_buffs = require("MHR_Overlay.Buffs.misc_buffs");
 end
 
 function this.init_module()

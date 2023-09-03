@@ -52,6 +52,7 @@ this.vec3 = {};
 this.vec4 = {};
 this.math = {};
 this.unicode = {};
+this.sdk = {};
 
 this.constants = {};
 this.constants.uninitialized_int = -420;
@@ -440,6 +441,40 @@ function this.unicode.sub(str, i, j)
 	c, b = select(2, iterator());
 
 	return string.sub(str, i, b + c - 1);
+end
+
+function this.sdk.generate_enum(type_def)
+	if not type_def then
+		return {};
+	end
+
+	local fields = type_def:get_fields();
+	local enum = {};
+
+	for i, field in ipairs(fields) do
+		if field:is_static() then
+			local name = field:get_name();
+			local raw_value = field:get_data(nil);
+
+			local enum_entry = {
+				name = name,
+				value = raw_value;
+			};
+
+			table.insert(enum, enum_entry);
+		end
+	end
+
+	return enum;
+end
+
+function this.sdk.generate_enum_by_typename(type_name)
+	local type_def = sdk.find_type_definition(type_name);
+	if not type_def then
+		return {};
+	end;
+
+	return this.sdk.generate_enum(type_def);
 end
 
 function this.init_dependencies()

@@ -162,36 +162,34 @@ function this.update(player, player_data)
 	this.update_muck(player);
 	this.update_frenzy_infection(player);
 
-	buffs.update_generic_buff(this.list, ailments_type_name, "fireblight", nil, nil, player, fire_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "fireblight", this.get_abnormal_status_name, nil, nil, player, fire_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "fireblight", this.get_abnormal_status_name, nil, nil, player, fire_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "waterblight", this.get_abnormal_status_name, nil, nil, player, water_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "iceblight", this.get_abnormal_status_name, nil, nil, player, ice_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "thunderblight", this.get_abnormal_status_name, nil, nil, player, thunder_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "dragonblight", this.get_abnormal_status_name, nil, nil, player, dragon_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "blastblight", this.get_abnormal_status_name, nil, nil, player, bomb_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "hellfireblight", this.get_abnormal_status_name, nil, nil, player, oni_bomb_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "bloodblight", this.get_abnormal_status_name, nil, nil, player, mystery_debuff_timer);
 
-	buffs.update_generic_buff(this.list, ailments_type_name, "fireblight", nil, nil, player, fire_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "waterblight", nil, nil, player, water_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "iceblight", nil, nil, player, ice_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "thunderblight", nil, nil, player, thunder_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "dragonblight", nil, nil, player, dragon_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "stun", this.get_abnormal_status_name, nil, nil, player, stun_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "paralysis", this.get_abnormal_status_name, nil, nil, player, paralyze_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "sleep", this.get_abnormal_status_name, nil, nil, player, sleep_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "defense_down", this.get_abnormal_status_name, nil, nil, player, defense_down_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "resistance_down", this.get_abnormal_status_name, nil, nil, player, resistance_down_duration_timer);
 
-	buffs.update_generic_buff(this.list, ailments_type_name, "blastblight", nil, nil, player, bomb_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "hellfireblight", nil, nil, player, oni_bomb_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "bloodblight", nil, nil, player, mystery_debuff_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "tremor", this.get_abnormal_status_name, nil, nil, player, quake_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "roar", this.get_abnormal_status_name, nil, nil, player, ear_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "webbed", this.get_abnormal_status_name, nil, nil, player, beto_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "stench", this.get_abnormal_status_name, nil, nil, player, stink_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "leeched", this.get_abnormal_status_name, nil, nil, player, blooding_enemy_timer, nil, nil, true);
+	buffs.update_generic_buff(this.list, ailments_type_name, "bleeding", this.get_abnormal_status_name, nil, nil, player, bleeding_debuff_timer);
 
-	buffs.update_generic_buff(this.list, ailments_type_name, "stun", nil, nil, player, stun_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "paralysis", nil, nil, player, paralyze_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "sleep", nil, nil, player, sleep_duration_timer);
+	buffs.update_generic_buff(this.list, ailments_type_name, "frenzy", this.get_abnormal_status_name, nil, nil, player, virus_onset_timer_field);
+	buffs.update_generic_buff(this.list, ailments_type_name, "frenzy_overcome", this.get_abnormal_status_name, nil, nil, player_data, virus_overcome_buff_timer_field);
 	
-	buffs.update_generic_buff(this.list, ailments_type_name, "defense_down", nil, nil, player, defense_down_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "resistance_down", nil, nil, player, resistance_down_duration_timer);
-
-	buffs.update_generic_buff(this.list, ailments_type_name, "tremor", nil, nil, player, quake_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "roar", nil, nil, player, ear_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "webbed", nil, nil, player, beto_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "stench", nil, nil, player, stink_duration_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "leeched", nil, nil, player, blooding_enemy_timer, nil, nil, true);
-	buffs.update_generic_buff(this.list, ailments_type_name, "bleeding", nil, nil, player, bleeding_debuff_timer);
-	buffs.update_generic_buff(this.list, ailments_type_name, "frenzy", nil, nil, player, virus_onset_timer_field);
-	buffs.update_generic_buff(this.list, ailments_type_name, "frenzy_overcome", nil, nil, player_data, virus_overcome_buff_timer_field);
-
-	buffs.update_generic_buff(this.list, ailments_type_name, "engulfed", player, get_is_vacuum_damage_method);
-	buffs.update_generic_buff(this.list, ailments_type_name, "frostblight", player, get_is_frozen_damage_method);
+	buffs.update_generic_buff(this.list, ailments_type_name, "engulfed", this.get_abnormal_status_name, player, get_is_vacuum_damage_method);
+	buffs.update_generic_buff(this.list, ailments_type_name, "frostblight", this.get_abnormal_status_name, player, get_is_frozen_damage_method);
 end
 
 function this.update_poison(player)
@@ -208,10 +206,10 @@ function this.update_poison(player)
 	end
 	
 	if poison_level == 1 then
-		buffs.update_generic_buff(this.list, ailments_type_name, "poison", player, poison_duration_timer);
+		buffs.update_generic_buff(this.list, ailments_type_name, "poison", this.get_abnormal_status_name, player, poison_duration_timer);
 		this.list.deadly_poison = nil;
 	else
-		buffs.update_generic_buff(this.list, ailments_type_name, "deadly_poison", player, poison_duration_timer);
+		buffs.update_generic_buff(this.list, ailments_type_name, "deadly_poison", this.get_abnormal_status_name, player, poison_duration_timer);
 		this.list.poison = nil;
 	end
 end
@@ -230,10 +228,10 @@ function this.update_bubbleblight(player)
 	end
 	
 	if bubble_type == 1 then
-		buffs.update_generic_buff(this.list, ailments_type_name, "minor_bubbleblight", player, bubble_damage_timer);
+		buffs.update_generic_buff(this.list, ailments_type_name, "minor_bubbleblight", this.get_abnormal_status_name, player, bubble_damage_timer);
 		this.list.major_bubbleblight = nil;
 	else
-		buffs.update_generic_buff(this.list, ailments_type_name, "major_bubbleblight", player, bubble_damage_timer);
+		buffs.update_generic_buff(this.list, ailments_type_name, "major_bubbleblight", this.get_abnormal_status_name, player, bubble_damage_timer);
 		this.list.minor_bubbleblight = nil;
 	end
 end
@@ -256,7 +254,7 @@ function this.update_muck(player)
 		return;
 	end
 
-	buffs.update_generic(ailments_type_name, "muck");
+	buffs.update_generic(ailments_type_name, "muck", this.get_abnormal_status_name);
 end
 
 function this.update_frenzy_infection(player)
@@ -279,19 +277,22 @@ function this.update_frenzy_infection(player)
 
 	local timer = frenzy_infected_duration - (virus_accumulator_value + virus_timer / 60);
 
-	buffs.update_generic(this.list, ailments_type_name, "frenzy_infection", 1, timer, frenzy_infected_duration);
+	buffs.update_generic(this.list, ailments_type_name, "frenzy_infection", this.get_abnormal_status_name, 1, timer, frenzy_infected_duration);
 end
 
 function this.init_names()
-	for debuff_key, debuff in pairs(this.list) do
-		local name = language.current_language.ailments[debuff_key];
-
-		if name == nil then
-			name = debuff_key;
-		end
-
-		debuff.name = name;
+	for abnormal_status_key, debuff in pairs(this.list) do
+		debuff.name = this.get_abnormal_status_name(abnormal_status_key);
 	end
+end
+
+function this.get_abnormal_status_name(abnormal_status_key)
+	local abnormal_status_name = language.current_language.ailments[abnormal_status_key];
+	if abnormal_status_name == nil then
+		return abnormal_status_key;
+	end
+
+	return abnormal_status_name;
 end
 
 function this.init_dependencies()

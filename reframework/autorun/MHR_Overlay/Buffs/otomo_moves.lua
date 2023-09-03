@@ -47,8 +47,41 @@ local package = package;
 
 this.list = {
 	rousing_roar = nil,
-	power_drum = nil,
-	go_fight_win = nil
+	go_fight_win = nil,
+	power_drum = nil
+};
+
+local otomo_moves_ids = {
+	herbaceous_healing = 1,
+	felyne_silkbind = 2,
+	felyne_wyvernblast = 3,
+	rousing_roar = 4,
+	endemic_life_barrage = 5,
+	health_horn = 6,
+	healing_bubble = 7,
+	vase_of_vitality = 8,
+	furbidden_acorn = 9,
+	poison_purr_ison = 10,
+	summeown_endemic_life = 11,
+	shock_purr_ison = 12,
+	go_fight_win = 13,
+	giga_barrel_bombay = 14,
+	flash_bombay = 15,
+	anti_monster_mine = 16,
+	zap_blast_spinner = 17,
+	furr_ious = 18,
+	power_drum = 19,
+	fleet_foot_feat = 20,
+	whirlwind_assault = 21,
+	pilfer = 22,
+	shock_tripper = 23,
+	mega_boomerang = 24,
+	camouflage = 25,
+	healing_clover_bat = 26,
+	felyne_firewors = 27,
+	lottery_box = 28,
+	felyne_powered_up = 29,
+	ameowzing_mist = 30
 };
 
 local otomo_moves_type_name = "otomo_moves";
@@ -64,22 +97,28 @@ local kijin_otomo_timer_field = player_data_type_def:get_field("_KijinOtomoTimer
 -- Palico: Go, Fight, Win
 local runhigh_otomo_timer_field = player_data_type_def:get_field("_RunhighOtomoTimer");
 
+local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut");
+local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.DataDef.OtSupportActionId)");
+
 function this.update(player_data)
-	buffs.update_generic_buff(this.list, otomo_moves_type_name, "rousing_roar", nil, nil, player_data, beast_roar_otomo_timer_field);
-	buffs.update_generic_buff(this.list, otomo_moves_type_name, "power_drum", nil, nil, player_data, kijin_otomo_timer_field);
-	buffs.update_generic_buff(this.list, otomo_moves_type_name, "go_fight_win", nil, nil, player_data, runhigh_otomo_timer_field);
+	buffs.update_generic_buff(this.list, otomo_moves_type_name, "rousing_roar", this.get_otomo_move_name,
+		nil, nil, player_data, beast_roar_otomo_timer_field);
+
+	buffs.update_generic_buff(this.list, otomo_moves_type_name, "go_fight_win", this.get_otomo_move_name,
+		nil, nil, player_data, runhigh_otomo_timer_field);
+
+	buffs.update_generic_buff(this.list, otomo_moves_type_name, "power_drum", this.get_otomo_move_name,
+		nil, nil, player_data, kijin_otomo_timer_field);
 end
 
-function this.init_names()
-	for otomo_move_key, otomo_move in pairs(this.list) do
-		local name = language.current_language.otomo_moves[otomo_move_key];
-
-		if name == nil then
-			name = otomo_move_key;
-		end
-
-		otomo_move.name = name;
+function this.get_otomo_move_name(otomo_move_key)
+	local otomo_move_name = get_name_method:call(nil, otomo_moves_ids[otomo_move_key]);
+	if otomo_move_name == nil then
+		error_handler.report("otomo_moves.get_otomo_move_name", string.format("Failed to access Data: %s_name", otomo_move_key));
+		return otomo_move_key;
 	end
+
+	return otomo_move_name;
 end
 
 function this.init_dependencies()

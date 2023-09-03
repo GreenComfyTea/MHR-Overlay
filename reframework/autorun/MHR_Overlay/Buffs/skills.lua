@@ -51,6 +51,7 @@ this.list = {
 	intrepid_heart = nil,
 	dereliction = nil,
 	latent_power = nil,
+	protective_polish = nil,
 	wind_mantle = nil,
 	grinder_s = nil,
 	counterstrike = nil,
@@ -62,6 +63,7 @@ this.list = {
 	hellfire_cloak = nil,
 	agitator = nil,
 	furious = nil,
+	status_trigger = nil,
 	heaven_sent = nil,
 	heroics = nil,
 	resuscitate = nil,
@@ -70,167 +72,161 @@ this.list = {
 	frenzied_bloodlust = nil,
 	peak_performance = nil,
 	dragonheart = nil,
-	resentment = nil
+	resentment = nil,
+	bladescale_hone = nil,
+	spiribirds_call = nil
 };
 
 local skills_type_name = "skills";
 
 local skill_data_list = {
-	-- 1 	Pl_EquipSkill_000 	Attack Boost
-	-- 2 	Pl_EquipSkill_001 	Agitator
-	-- 3 	Pl_EquipSkill_002 	Peak Performance
-	peak_performance =	{ id = 3,	level = 0, is_equipped = false },
-	-- 4 	Pl_EquipSkill_003 	Resentment
-	resentment =		{ id = 4,	level = 0, is_equipped = false },
-	-- 5 	Pl_EquipSkill_004 	Resuscitate
-	resuscitate =		{ id = 5,	level = 0, is_equipped = false },
-	-- 6 	Pl_EquipSkill_005 	Critical Eye
-	-- 7 	Pl_EquipSkill_006 	Critical Boost
-	-- 8 	Pl_EquipSkill_007 	Weakness Exploit
-	-- 9 	Pl_EquipSkill_008 	Latent Power
-	-- 10 	Pl_EquipSkill_009 	Maximum Might
-	maximum_might =		{ id = 10,	level = 0, is_equipped = false },
-	-- 11 	Pl_EquipSkill_010 	Critical Element
-	-- 12 	Pl_EquipSkill_011 	Master's Touch
-	-- 13 	Pl_EquipSkill_012 	Fire Attack
-	-- 14 	Pl_EquipSkill_013 	Water Attack
-	-- 15 	Pl_EquipSkill_014 	Ice Attack
-	-- 16 	Pl_EquipSkill_015 	Thunder Attack
-	-- 17 	Pl_EquipSkill_016 	Dragon Attack
-	-- 18 	Pl_EquipSkill_017 	Poison Attack
-	-- 19 	Pl_EquipSkill_018 	Paralysis Attack
-	-- 20 	Pl_EquipSkill_019 	Sleep Attack
-	-- 21 	Pl_EquipSkill_020 	Blast Attack
-	-- 22 	Pl_EquipSkill_021 	Handicraft
-	-- 23 	Pl_EquipSkill_022 	Razor Sharp
-	-- 24 	Pl_EquipSkill_023 	Spare Shot
-	-- 25 	Pl_EquipSkill_024 	Protective Polish
-	-- 26 	Pl_EquipSkill_025 	Mind's Eye
-	-- 27 	Pl_EquipSkill_026 	Ballistics
-	-- 28 	Pl_EquipSkill_027 	Bludgeoner
-	-- 29 	Pl_EquipSkill_028 	Bow Charge Plus
-	-- 30 	Pl_EquipSkill_029 	Focus
-	-- 31 	Pl_EquipSkill_030 	Power Prolonger
-	-- 32 	Pl_EquipSkill_031 	Marathon Runner
-	-- 33 	Pl_EquipSkill_032 	Constitution
-	-- 34 	Pl_EquipSkill_033 	Stamina Surge
-	-- 35 	Pl_EquipSkill_034 	Guard
-	-- 36 	Pl_EquipSkill_035 	Guard Up
-	-- 37 	Pl_EquipSkill_036 	Offensive Guard
-	-- 38 	Pl_EquipSkill_037 	Critical Draw
-	-- 39 	Pl_EquipSkill_038 	Punishing Draw
-	-- 40 	Pl_EquipSkill_039 	Quick Sheathe
-	-- 41 	Pl_EquipSkill_040 	Slugger
-	-- 42 	Pl_EquipSkill_041 	Stamina Thief
-	-- 43 	Pl_EquipSkill_042 	Affinity Sliding
-	-- 44 	Pl_EquipSkill_043 	Horn Maestro
-	-- 45 	Pl_EquipSkill_044 	Artillery
-	-- 46 	Pl_EquipSkill_045 	Load Shells
-	-- 47 	Pl_EquipSkill_046 	Special Ammo Boost
-	-- 48 	Pl_EquipSkill_047 	Normal/Rapid Up
-	-- 49 	Pl_EquipSkill_048 	Pierce Up
-	-- 50 	Pl_EquipSkill_049 	Spread Up
-	-- 51 	Pl_EquipSkill_050 	Ammo Up
-	-- 52 	Pl_EquipSkill_051 	Reload Speed
-	-- 53 	Pl_EquipSkill_052 	Recoil Down
-	-- 54 	Pl_EquipSkill_053 	Steadiness
-	-- 55 	Pl_EquipSkill_054 	Rapid Fire Up
-	-- 56 	Pl_EquipSkill_055 	Defense Boost
-	-- 57 	Pl_EquipSkill_056 	Divine Blessing
-	-- 58 	Pl_EquipSkill_057 	Recovery Up
-	-- 59 	Pl_EquipSkill_058 	Recovery Speed
-	-- 60 	Pl_EquipSkill_059 	Speed Eating
-	-- 61 	Pl_EquipSkill_060 	Earplugs
-	-- 62 	Pl_EquipSkill_061 	Windproof
-	-- 63 	Pl_EquipSkill_062 	Tremor Resistance
-	-- 64 	Pl_EquipSkill_063 	Bubbly Dance
-	-- 65 	Pl_EquipSkill_064 	Evade Window
-	-- 66 	Pl_EquipSkill_065 	Evade Extender
-	-- 67 	Pl_EquipSkill_066 	Fire Resistance
-	-- 68 	Pl_EquipSkill_067 	Water Resistance
-	-- 69 	Pl_EquipSkill_068 	Ice Resistance
-	-- 70 	Pl_EquipSkill_069 	Thunder Resistance
-	-- 71 	Pl_EquipSkill_070 	Dragon Resistance
-	-- 72 	Pl_EquipSkill_071 	Blight Resistance
-	-- 73 	Pl_EquipSkill_072 	Poison Resistance
-	-- 74 	Pl_EquipSkill_073 	Paralysis Resistance
-	-- 75 	Pl_EquipSkill_074 	Sleep Resistance
-	-- 76 	Pl_EquipSkill_075 	Stun Resistance
-	-- 77 	Pl_EquipSkill_076 	Muck Resistance
-	-- 78 	Pl_EquipSkill_077 	Blast Resistance
-	-- 79 	Pl_EquipSkill_078 	Botanist
-	-- 80 	Pl_EquipSkill_079 	Geologist
-	-- 81 	Pl_EquipSkill_080 	Partbreaker
-	-- 82 	Pl_EquipSkill_081 	Capture Master
-	-- 83 	Pl_EquipSkill_082 	Carving Master
-	-- 84 	Pl_EquipSkill_083 	Good Luck
-	-- 85 	Pl_EquipSkill_084 	Speed Sharpening
-	-- 86 	Pl_EquipSkill_085 	Bombardier
-	-- 87 	Pl_EquipSkill_086 	Mushroomancer
-	-- 88 	Pl_EquipSkill_087 	Item Prolonger
-	-- 89 	Pl_EquipSkill_088 	Wide-Range
-	-- 90 	Pl_EquipSkill_089 	Free Meal
-	-- 91 	Pl_EquipSkill_090 	Heroics
-	heroics =			{ id = 91,	level = 0, is_equipped = false },
-	-- 92 	Pl_EquipSkill_091 	Fortify
-	-- 93 	Pl_EquipSkill_092 	Flinch Free
-	-- 94 	Pl_EquipSkill_093 	Jump Master
-	-- 95 	Pl_EquipSkill_094 	Carving Pro
-	-- 96 	Pl_EquipSkill_095 	Hunger Resistance
-	-- 97 	Pl_EquipSkill_096 	Leap of Faith
-	-- 98 	Pl_EquipSkill_097 	Diversion
-	-- 99 	Pl_EquipSkill_098 	Master Mounter
-	-- 100 	Pl_EquipSkill_099 	Chameleos Blessing
-	-- 101 	Pl_EquipSkill_100 	Kushala Blessing
-	-- 102 	Pl_EquipSkill_101 	Teostra Blessing
-	-- 103 	Pl_EquipSkill_102 	Dragonheart
-	dragonheart =		{ id = 103,	level = 0, is_equipped = false },
-	-- 104 	Pl_EquipSkill_103 	Wirebug Whisperer
-	-- 105 	Pl_EquipSkill_104 	Wall Runner
-	-- 106 	Pl_EquipSkill_105 	Counterstrike
-	-- 107 	Pl_EquipSkill_106 	Rapid Morph
-	-- 108 	Pl_EquipSkill_107 	Hellfire Cloak
-	-- 109 	Pl_EquipSkill_108 	Wind Alignment
-	-- 110 	Pl_EquipSkill_109 	Thunder Alignment
-	-- 111 	Pl_EquipSkill_110 	Stormsoul
-	-- 112 	Pl_EquipSkill_200 	Blood Rite
-	-- 113 	Pl_EquipSkill_201 	Dereliction
-	dereliction =		{ id = 113, level = 0, is_equipped = false },
-	-- 114 	Pl_EquipSkill_202 	Furious
-	-- 115 	Pl_EquipSkill_203 	Mail of Hellfire
-	-- 116 	Pl_EquipSkill_204 	Coalescence
-	-- 117 	Pl_EquipSkill_205 	Bloodlust
-	bloodlust =			{ id = 117,	level = 0, is_equipped = false },
-	-- 118 	Pl_EquipSkill_206 	Defiance
-	-- 119 	Pl_EquipSkill_207 	Sneak Attack
-	-- 120 	Pl_EquipSkill_208 	Adrenaline Rush
-	-- 122 	Pl_EquipSkill_209 	Redirection
-	-- 123 	Pl_EquipSkill_210 	Spiribird's Call
-	-- 124 	Pl_EquipSkill_211 	Charge Master
-	-- 125 	Pl_EquipSkill_212 	Foray
-	-- 126 	Pl_EquipSkill_213 	Tune-Up
-	-- 127 	Pl_EquipSkill_214 	Grinder (S)
-	-- 128 	Pl_EquipSkill_215 	Bladescale Hone
-	-- 129 	Pl_EquipSkill_216 	Wall Runner (Boost)
-	-- 133 	Pl_EquipSkill_217 	Quick Breath
-	-- 130 	Pl_EquipSkill_218 	Element Exploit
-	-- 131 	Pl_EquipSkill_219 	Burst
-	-- 132 	Pl_EquipSkill_220 	Guts
-	-- 134 	Pl_EquipSkill_221 	Status Trigger
-	-- 135 	Pl_EquipSkill_222 	Intrepid Heart
-	-- 136 	Pl_EquipSkill_223 	Buildup Boost
-	-- 121 	Pl_EquipSkill_224 	Embolden
-	-- 138 	Pl_EquipSkill_225 	Wind Mantle
-	-- 139 	Pl_EquipSkill_226 	Powder Mantle
-	-- 137 	Pl_EquipSkill_227 	Berserk
-	-- 145 	Pl_EquipSkill_228 	Strife
-	-- 140 	Pl_EquipSkill_229 	Frostcraft
-	-- 141 	Pl_EquipSkill_230 	Dragon Conversion
-	-- 142 	Pl_EquipSkill_231 	Heaven-Sent
-	-- 143 	Pl_EquipSkill_232 	Frenzied Bloodlust
-	-- 144 	Pl_EquipSkill_233 	Blood Awakening
-	-- 146 	Pl_EquipSkill_234 	Shock Absorber
-	-- 147 	Pl_EquipSkill_235 	Inspiration
+	-- attack_boost =			{ id = 1 },
+	agitator =					{ id = 2 },
+	peak_performance =			{ id = 3,	level = 0, is_equipped = false },
+	resentment =				{ id = 4,	level = 0, is_equipped = false },
+	resuscitate =				{ id = 5,	level = 0, is_equipped = false },
+	-- critical_eye =			{ id = 6 },
+	-- critical_boost =			{ id = 7 },
+	-- weakness_exploit =		{ id = 8 },
+	latent_power =				{ id = 9 },
+	maximum_might =				{ id = 10,	level = 0, is_equipped = false },
+	-- critical_element =		{ id = 11 },
+	-- masters_touch =			{ id = 12 },
+	-- fire_attack =			{ id = 13 },
+	-- water_attack =			{ id = 14 },
+	-- ice_attack =				{ id = 15 },
+	-- thunder_attack =			{ id = 16 },
+	-- dragon_attack =			{ id = 17 },
+	-- poison_attack =			{ id = 18 },
+	-- paralysis_attack =		{ id = 19 },
+	-- sleep_attack =			{ id = 20 },
+	-- blast_attack =			{ id = 21 },
+	-- handicraft =				{ id = 22 },
+	-- razor_sharp =			{ id = 23 },
+	-- spare_shot =				{ id = 24 },
+	protective_polish =			{ id = 25 },
+	-- minds_eye =				{ id = 26 },
+	-- ballistics =				{ id = 27 },
+	-- bludgeoner =				{ id = 28 },
+	-- bow_charge_plus =		{ id = 29 },
+	-- focus =					{ id = 30 },
+	-- power_prolonger =		{ id = 31 },
+	-- marathon_runner =		{ id = 32 },
+	-- constitution =			{ id = 33 },
+	-- stamina_surge =			{ id = 34 },
+	-- guard =					{ id = 35 },
+	-- guard_up =				{ id = 36 },
+	offensive_guard =			{ id = 37 },
+	-- critical_draw =			{ id = 38 },
+	-- punishing_draw =			{ id = 39 },
+	-- quick_sheathe =			{ id = 40 },
+	-- slugger =				{ id = 41 },
+	-- stamina_thief =			{ id = 42 },
+	affinity_sliding =			{ id = 43 },
+	-- horn_maestro =			{ id = 44 },
+	-- artillery =				{ id = 45 },
+	-- load_shells =			{ id = 46 },
+	-- special_ammo_boost =		{ id = 47 },
+	-- normal_rapid_up =		{ id = 48 },
+	-- pierce_up =				{ id = 49 },
+	-- spread_up =				{ id = 50 },
+	-- ammo_up =				{ id = 51 },
+	-- reload_speed =			{ id = 52 },
+	-- recoil_down =			{ id = 53 },
+	-- steadiness =				{ id = 54 },
+	-- rapid_fire_up =			{ id = 55 },
+	-- defense_boost =			{ id = 56 },
+	-- divine_blessing =		{ id = 57 },
+	-- recovery_up =			{ id = 58 },
+	-- recovery_speed =			{ id = 59 },
+	-- speed_eating =			{ id = 60 },
+	-- earplugs =				{ id = 61 },
+	-- windproof =				{ id = 62 },
+	-- tremor_resistance =		{ id = 63 },
+	-- bubbly_dance =			{ id = 64 },
+	-- evade_window =			{ id = 65 },
+	-- evade_extender =			{ id = 66 },
+	-- fire_resistance =		{ id = 67 },
+	-- water_resistance =		{ id = 68 },
+	-- ice_resistance =			{ id = 69 },
+	-- thunder_resistance =		{ id = 70 },
+	-- dragon_resistance =		{ id = 71 },
+	-- blight_resistance =		{ id = 72 },
+	-- poison_resistance =		{ id = 73 },
+	-- paralysis_resistance =	{ id = 74 },
+	-- sleep_resistance =		{ id = 75 },
+	-- stun_resistance =		{ id = 76 },
+	-- muck_resistance =		{ id = 77 },
+	-- blast_resistance =		{ id = 78 },
+	-- botanist =				{ id = 79 },
+	-- geologist =				{ id = 80 },
+	-- partbreaker =			{ id = 81 },
+	-- capture_master =			{ id = 82 },
+	-- carving_master =			{ id = 83 },
+	-- good_luck =				{ id = 84 },
+	-- speed_sharpening =		{ id = 85 },
+	-- bombardier =				{ id = 86 },
+	-- mushroomancer =			{ id = 87 },
+	-- item_prolonger =			{ id = 88 },
+	-- wide_range =				{ id = 89 },
+	-- free_meal =				{ id = 90 },
+	heroics =					{ id = 91,	level = 0, is_equipped = false },
+	-- fortify =				{ id = 92 },
+	-- flinch_free =			{ id = 93 },
+	-- jump_master =			{ id = 94 },
+	-- carving_pro =			{ id = 95 },
+	-- hunger_resistance =		{ id = 96 },
+	-- leap_of_faith =			{ id = 97 },
+	-- diversion =				{ id = 98 },
+	-- master_mounter =			{ id = 99 },
+	-- chameleos_blessing =		{ id = 100 },
+	-- kushala_blessing =		{ id = 101 },
+	-- teostra_blessing =		{ id = 102 },
+	dragonheart =				{ id = 103,	level = 0, is_equipped = false },
+	-- wirebug_whisperer =		{ id = 104 },
+	wall_runner =				{ id = 105 },
+	counterstrike =				{ id = 106 },
+	-- rapid_morph =			{ id = 107 },
+	hellfire_cloak =			{ id = 108 },
+	-- wind_alignment =			{ id = 109 },
+	-- thunder_alignment =		{ id = 110 },
+	-- stormsoul =				{ id = 111 },
+	-- blood_rite =				{ id = 112 },
+	dereliction =				{ id = 113, level = 0, is_equipped = false },
+	furious =					{ id = 114 },
+	-- mail_of_hellfire =		{ id = 115 },
+	coalescence =				{ id = 116 },
+	bloodlust =					{ id = 117,	level = 0, is_equipped = false },
+	-- defiance =				{ id = 118 },
+	-- sneak_attack =			{ id = 119 },
+	adrenaline_rush =			{ id = 120 },
+	-- embolden =				{ id = 121 },
+	-- redirection =			{ id = 122 },
+	spiribirds_call =			{ id = 123 },
+	-- charge_master =			{ id = 124 },
+	-- foray =					{ id = 125 },
+	-- tune_up =				{ id = 126 },
+	grinder_s =					{ id = 127 },
+	bladescale_hone =			{ id = 128 },
+	-- wall_runner_boost =		{ id = 129 },
+	-- element_exploit =		{ id = 130 },
+	burst =						{ id = 131 },
+	-- guts =					{ id = 132 },
+	-- quick_breath =			{ id = 133 },
+	status_trigger =			{ id = 134 },
+	intrepid_heart =			{ id = 135 },
+	-- buildup_boost =			{ id = 136 },
+	-- berserk =				{ id = 137 },
+	wind_mantle =				{ id = 138 },
+	-- powder_mantle =			{ id = 139 },
+	-- frostcraft =				{ id = 140 },
+	-- dragon_conversion =		{ id = 141 },
+	heaven_sent =				{ id = 142 },
+	frenzied_bloodlust =		{ id = 143 },
+	-- blood_awakening =		{ id = 144 },
+	-- strife =					{ id = 145 },
+	-- shock_absorber =			{ id = 146 },
+	-- inspiration =			{ id = 147 },
 }
 
 local burst_breakpoints = {5};
@@ -245,6 +241,8 @@ local frenzied_bloodlust_duration = 0;
 local frenzied_bloodlust_sheathed_duration = 0;
 
 local dragonheart_breakpoints = {0.5, 0.5, 0.7, 0.7, 0.8};
+
+local spiribirds_call_duration = 60;
 
 local wind_mantle_duration = 15;
 local wind_mantle_breakpoints = { 20, 10 }; -- Sword & Shield, Lance, Hammer, Switch Axe, Insect Glaive, Long Sword, Hunting Horn
@@ -304,6 +302,8 @@ local equip_skill_231_wp_off_timer_field = player_data_type_def:get_field("_Equi
 local r_vital_field = player_data_type_def:get_field("_r_Vital");
 -- Status Trigger
 local equip_skill_222_timer_field = player_data_type_def:get_field("_EquipSkill222_Timer");
+-- Spiritbird's Call
+local equip_skill_211_timer_field = player_data_type_def:get_field("_EquipSkill211_Timer");
 
 
 
@@ -339,7 +339,8 @@ local get_hunter_wire_skill_231_num_method = player_quest_base_type_def:get_meth
 local bow_type_def = sdk.find_type_definition("snow.player.Bow");
 local _equip_skill_216_bottle_up_timer_field = bow_type_def:get_field("_EquipSkill216_BottleUpTimer");
 
-local qeree = {};
+local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut");
+local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.DataDef.PlEquipSkillId)");
 
 function this.update(player, player_data, weapon_type)
 	--local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
@@ -347,46 +348,6 @@ function this.update(player, player_data, weapon_type)
 	--	error_handler.report("skills.update", "Failed to access Data: item_parameter");
 	--	return;
 	--end
-
-	-- local fields = player_quest_base_type_def:get_fields();
-
-	-- xy = "Player:\n";
-	-- for i = 1, 999 do
-	-- 	local field = fields[i];
-	-- 	if field == nil then
-	-- 		break;
-	-- 	end
-
-	-- 	local value = field:get_data(player);
-
-	-- 	if qeree[field] == nil then
-	-- 		qeree[field] = value;
-	-- 	end
-
-	-- 	if qeree[field] ~= value then
-	-- 		xy = string.format("%s%d %s = %s\n", xy, i, field:get_name(), tostring(value));
-	-- 	end
-	-- end
-
-	-- fields = player_data_type_def:get_fields();
-
-	-- xy = xy .. "Player Data:\n";
-	-- for i = 1, 999 do
-	-- 	local field = fields[i];
-	-- 	if field == nil then
-	-- 		break;
-	-- 	end
-
-	-- 	local value = field:get_data(player_data);
-
-	-- 	if qeree[field] == nil then
-	-- 		qeree[field] = value;
-	-- 	end
-
-	-- 	if qeree[field] ~= value then
-	-- 		xy = string.format("%s%d %s = %s\n", xy, i, field:get_name(), tostring(value));
-	-- 	end
-	-- end
 
 	this.update_equipped_skill_data(player);
 
@@ -398,6 +359,7 @@ function this.update(player, player_data, weapon_type)
 	this.update_dragonheart();
 	this.update_resentment(player_data);
 	this.update_bladescale_hone(player, weapon_type);
+	this.update_spiribirds_call(player_data);
 
 	this.update_generic_skill("dereliction", player_data, symbiosis_skill_lost_vital_field,
 		nil, nil, nil, nil, true, nil, dereliction_breakpoints);
@@ -435,12 +397,12 @@ function this.update_generic_skill(skill_key, value_owner, value_holder, timer_o
 	is_infinite, minimal_value, level_breakpoints)
 
 	local skill_data = skill_data_list[skill_key];
-	if skill_data ~= nil and not skill_data.is_equipped then
+	if skill_data ~= nil and skill_data.is_equipped ~= nil and not skill_data.is_equipped then
 		this.list[skill_key] = nil;
 		return;
 	end
 
-	buffs.update_generic_buff(this.list, skills_type_name, skill_key,
+	buffs.update_generic_buff(this.list, skills_type_name, skill_key, this.get_skill_name, 
 		value_owner, value_holder, timer_owner, timer_holder, duration_owner, duration_holder,
 		is_infinite, minimal_value, level_breakpoints);
 end
@@ -452,15 +414,11 @@ function this.update_equipped_skill_data(player)
 		return;
 	end
 
-	-- xy = ""
-	-- for i = 0, 999 do 
-	-- 	local has_skill = has_skill_method:call(player_skill_list, i, 1);
-	-- 	if has_skill then
-	-- 		xy = string.format("%s%d = %s\n", xy, i, tostring(has_skill));
-	-- 	end
-	-- end
-
 	for skill_key, skill_data in pairs(skill_data_list) do
+		if skill_data.is_equipped == nil then
+			goto continue;
+		end
+
 		local re_skill_data = get_skill_data_method:call(player_skill_list, skill_data.id);
 		if re_skill_data == nil then
 			goto continue;
@@ -516,7 +474,7 @@ function this.update_wind_mantle(player, weapon_type)
 		end
 	end
 
-	buffs.update_generic(this.list, skills_type_name, "wind_mantle", level, wind_mantle_duration - (wind_mantle_timer / 60), wind_mantle_duration);
+	buffs.update_generic(this.list, skills_type_name, "wind_mantle", this.get_skill_name, level, wind_mantle_duration - (wind_mantle_timer / 60), wind_mantle_duration);
 end
 
 function this.update_maximum_might(player_data)
@@ -544,17 +502,17 @@ function this.update_maximum_might(player_data)
 		end
 
 	elseif skill == nil then
-		local name = language.current_language.skills.maximum_might;
+		local maximum_might_name = this.get_skill_name("maximum_might");
 
 		if whole_body_timer < maximum_might_previous_timer_value then
-			this.list.maximum_might = buffs.new(skills_type_name, "maximum_might", name, 1);
+			this.list.maximum_might = buffs.new(skills_type_name, "maximum_might", maximum_might_name, 1);
 
 		elseif is_timer_zero then
 			if maximum_might_delay_timer == nil then
 				maximum_might_delay_timer = time.new_delay_timer(function()
 					maximum_might_delay_timer = nil;
 
-					this.list.maximum_might = buffs.new(skills_type_name, "maximum_might", name, 1);
+					this.list.maximum_might = buffs.new(skills_type_name, "maximum_might", maximum_might_name, 1);
 				end, 3.5);
 			end
 
@@ -579,8 +537,13 @@ function this.update_bloodlust()
 	end
 
 	if this.list.bloodlust == nil then
-		local name = language.current_language.skills.bloodlust;
-		this.list.bloodlust = buffs.new(skills_type_name, "bloodlust", name);
+		local bloodlust_name = this.get_skill_name("bloodlust");
+		if bloodlust_name == nil then
+			error_handler.report("skills.update_generic_buff", "Failed to access Data: bloodlust_name");
+			return;
+		end
+
+		this.list.bloodlust = buffs.new(skills_type_name, "bloodlust", bloodlust_name);
 	end
 end
 
@@ -631,7 +594,7 @@ function this.update_frenzied_bloodlust(player, player_data)
 		timer =	equip_skill_231_wp_off_timer;
 	end
 
-	local skill = buffs.update_generic(this.list, skills_type_name, "frenzied_bloodlust", 1, timer / 60);
+	local skill = buffs.update_generic(this.list, skills_type_name, "frenzied_bloodlust", this.get_skill_name, 1, timer / 60);
 	
 	if is_wp_off_timer_max then
 		skill.duration = frenzied_bloodlust_duration / 60;
@@ -651,7 +614,7 @@ function this.update_peak_performance()
 		return;
 	end
 
-	buffs.update_generic(this.list, skills_type_name, "peak_performance");
+	buffs.update_generic(this.list, skills_type_name, "peak_performance", this.get_skill_name);
 end
 
 function this.update_dragonheart()
@@ -674,7 +637,7 @@ function this.update_dragonheart()
 		return;
 	end
 
-	buffs.update_generic(this.list, skills_type_name, "dragonheart");
+	buffs.update_generic(this.list, skills_type_name, "dragonheart", this.get_skill_name);
 end
 
 function this.update_resentment(player_data)
@@ -694,7 +657,7 @@ function this.update_resentment(player_data)
 		return;
 	end
 
-	buffs.update_generic(this.list, skills_type_name, "resentment");
+	buffs.update_generic(this.list, skills_type_name, "resentment", this.get_skill_name);
 end
 
 function this.update_bladescale_hone(player, weapon_type)
@@ -706,16 +669,31 @@ function this.update_bladescale_hone(player, weapon_type)
 	this.update_generic_skill("bladescale_hone", nil, nil, player, _equip_skill_216_bottle_up_timer_field);
 end
 
-function this.init_names()
-	for skill_key, skill in pairs(this.list) do
-		local name = language.current_language.skills[skill_key];
-
-		if name == nil then
-			name = skill_key;
-		end
-
-		skill.name = name;
+function this.update_spiribirds_call(player_data)
+	local equip_skill_211_timer = equip_skill_211_timer_field:get_data(player_data);
+	if equip_skill_211_timer == nil then
+		error_handler.report("skills.update_spiribirds_call", "Failed to access Data: equip_skill_211_timer");
+		return;
 	end
+
+	if utils.number.is_equal(equip_skill_211_timer, 0) then
+		this.list.spiribirds_call = nil;
+		return;
+	end
+
+	local timer = spiribirds_call_duration - (equip_skill_211_timer / 60);
+
+	buffs.update_generic(this.list, skills_type_name, "spiribirds_call", this.get_skill_name, 1, timer, spiribirds_call_duration);
+end
+
+function this.get_skill_name(skill_key)
+	local skill_name = get_name_method:call(nil, skill_data_list[skill_key].id);
+	if skill_name == nil then
+		error_handler.report("skills.get_skill_name", string.format("Failed to access Data: %s_name", skill_key));
+		return skill_key;
+	end
+
+	return skill_name;
 end
 
 function this.init_dependencies()

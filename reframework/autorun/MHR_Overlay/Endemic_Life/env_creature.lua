@@ -42,10 +42,12 @@ local package = package;
 this.list = {};
 
 this.creature_ids = {
-	cutterfly = 50,
 	clothfly = 7,
+	butterflame = 28,
+	peepersects = 29,
+	cutterfly = 50,
 	ruby_wirebug = 62,
-	gold_wirebug = 63
+	gold_wirebug = 63,
 };
 
 function this.new(REcreature)
@@ -99,6 +101,7 @@ function this.init(creature, REcreature)
 	end
 	
 	creature.name = creature_name;
+	creature.id = creature_type;
 end
 
 function this.init_UI(creature)
@@ -150,7 +153,7 @@ function this.draw(creature, position_on_screen, opacity_scale)
 		position_on_screen.x = position_on_screen.x - text_width / 2;
 	end
 
-	drawing.draw_label(creature.name_label, position_on_screen, opacity_scale, creature.name);
+	drawing.draw_label(creature.name_label, position_on_screen, opacity_scale, creature.name .. " " .. creature.id);
 end
 
 function this.init_list()

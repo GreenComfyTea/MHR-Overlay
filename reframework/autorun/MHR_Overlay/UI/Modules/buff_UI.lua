@@ -14,6 +14,7 @@ local dangos;
 local abnormal_statuses;
 local otomo_moves;
 local weapon_skills;
+local misc_buffs;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -136,6 +137,16 @@ function this.update()
 		::continue8::
 	end
 
+	for key, misc_buffs in pairs(misc_buffs.list) do
+		if not misc_buffs.is_active then
+			goto continue9;
+		end
+
+		table.insert(_displayed_buffs, misc_buffs);
+
+		::continue9::
+	end
+
 	displayed_buffs = this.sort_buffs(_displayed_buffs, cached_config);
 end
 
@@ -220,6 +231,7 @@ function this.init_dependencies()
 	abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
 	otomo_moves = require("MHR_Overlay.Buffs.otomo_moves");
 	weapon_skills = require("MHR_Overlay.Buffs.weapon_skills");
+	misc_buffs = require("MHR_Overlay.Buffs.misc_buffs");
 end
 
 function this.init_module()

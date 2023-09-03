@@ -41,7 +41,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-local ids = {
+--[[local melody_effect_ids = {
 	self_improvement = 0,
 	attack_up = 1,
 	defense_up = 2,
@@ -70,38 +70,7 @@ local ids = {
 	infernal_melody = 25,
 	sharpness_regeneration = 26,
 	sharpness_extension = 27
-};
-
-local melody_effect_keys = {
-	"self_improvement",
-	"attack_up",
-	"defense_up",
-	"affinity_up",
-	"elemental_attack_boost",
-	"attack_and_defense_up",
-	"attack_and_affinity_up",
-	"knockbacks_negated",
-	"earplugs_s",
-	"earplugs_l",
-	"tremors_negated",
-	"wind_pressure_negated",
-	"stun_negated",
-	"blight_negated",
-	"divine_protection",
-	"health_recovery_s",
-	"health_recovery_l",
-	"health_recovery_s_antidote",
-	"health_regeneration",
-	"stamina_use_reduced",
-	"stamina_recovery_up",
-	"sharpness_loss_reduced",
-	"environment_damage_negated",
-	"sonic_wave",
-	"sonic_barrier",
-	"infernal_melody",
-	"sharpness_regeneration",
-	"sharpness_extension"
-};
+};]]
 
 this.list = {};
 
@@ -117,6 +86,9 @@ local time_field = music_data_type_def:get_field("_Time");
 local system_array_type_def = sdk.find_type_definition("System.Array");
 local get_length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
+
+local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut");
+local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.DataDef.HornConcertId)");
 
 function this.update(master_player)
 	local music_data_array = music_data_field:get_data(master_player);
@@ -138,45 +110,45 @@ function this.update(master_player)
 			goto continue;
 		end
 
-		this.update_melody_effect(i + 1, music_data);
+		this.update_melody_effect(i, music_data);
 		::continue::
 	end
 end
 
-function this.update_melody_effect(lua_index, melody_data)
+function this.update_melody_effect(index, melody_data)
+	local lua_index = index + 1;
+
 	local melody_timer = time_field:get_data(melody_data);
-		if melody_timer == nil then
-			error_handler.report("melody_effects.update", "Failed to access Data: melody_timer No. " .. tostring(lua_index - 1));
-			return;
-		end
+	if melody_timer == nil then
+		error_handler.report("melody_effects.update_melody_effect", "Failed to access Data: melody_timer No. " .. tostring(index));
+		return;
+	end
 
-		if utils.number.is_equal(melody_timer, 0) then
-			this.list[lua_index] = nil;
-			return;
-		end
+	if utils.number.is_equal(melody_timer, 0) then
+		this.list[lua_index] = nil;
+		return;
+	end
 
-		local melody_effect = this.list[lua_index];
-		if melody_effect == nil then
-			local melody_effect_key = melody_effect_keys[lua_index];
-			local name = language.current_language.melody_effects[melody_effect_key];
+	local melody_effect = this.list[lua_index];
+	if melody_effect == nil then
+		local melody_effect_name = this.get_melody_effect_name(index);
 
-			melody_effect = buffs.new("melody_effects", melody_effect_key, name, 1, melody_timer / 60);
-			this.list[lua_index] = melody_effect;
-		else
-			buffs.update_timer(melody_effect, melody_timer / 60);
-		end
+		melody_effect = buffs.new("melody_effects", lua_index, melody_effect_name, 1, melody_timer / 60);
+		this.list[lua_index] = melody_effect;
+	else
+		buffs.update_timer(melody_effect, melody_timer / 60);
+	end
 end
 
-function this.init_names()
-	for index, dango in pairs(this.list) do
-		local name = language.current_language.dangos[dango.key];
-
-		if name == nil then
-			name = dango.key;
-		end
-
-		dango.name = name;
+function this.get_melody_effect_name(melody_effect_id)
+	local melody_effect_name = get_name_method:call(nil, melody_effect_id);
+	if melody_effect_name == nil then
+		local name = string.format("Melody Effect No. %d", melody_effect_id);
+		error_handler.report("melody_effects.get_melody_effect_name", "Failed to access Data: " .. melody_effect_name);
+		return name;
 	end
+
+	return melody_effect_name;
 end
 
 function this.init_dependencies()
