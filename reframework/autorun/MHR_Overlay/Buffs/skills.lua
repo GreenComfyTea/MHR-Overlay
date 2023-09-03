@@ -685,6 +685,12 @@ function this.update_spiribirds_call(player_data)
 	buffs.update_generic(this.list, skills_type_name, "spiribirds_call", this.get_skill_name, 1, timer, spiribirds_call_duration);
 end
 
+function this.init_names()
+	for skill_key, skill in pairs(this.list) do
+		skill.name = this.get_skill_name(skill_key);
+	end
+end
+
 function this.get_skill_name(skill_key)
 	local skill_data = skill_data_list[skill_key];
 

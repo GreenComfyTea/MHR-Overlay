@@ -127,8 +127,10 @@ function this.init_UI(buff)
 end
 
 function this.init_names()
-	skills.init_names();
 	abnormal_statuses.init_names();
+	skills.init_names();
+	weapon_skills.init_names();
+	misc_buffs.init_names();
 end
 
 function this.update()

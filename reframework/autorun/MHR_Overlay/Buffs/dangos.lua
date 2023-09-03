@@ -160,8 +160,6 @@ function this.update(player, player_data)
 
 	buffs.update_generic_buff(this.list, dangos_type_name, "dango_glutton", this.get_dango_name,
 		nil, nil, player_data, kitchen_skill_045_timer_field);
-
-
 end
 
 function this.update_dango_adrenaline()
