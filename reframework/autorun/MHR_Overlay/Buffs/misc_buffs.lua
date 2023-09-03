@@ -74,7 +74,7 @@ function this.update_stamina_use_down(player_data)
 		return;
 	end
 
-	buffs.update_generic(this.list, misc_buffs_type_name, "stamina_use_down", 1,
+	buffs.update_generic(this.list, misc_buffs_type_name, "stamina_use_down", this.get_misc_buff_name, 1,
 		stamina_up_buff_second_timer / 60, endemic_life_buffs.peepersects_duration);
 end
 

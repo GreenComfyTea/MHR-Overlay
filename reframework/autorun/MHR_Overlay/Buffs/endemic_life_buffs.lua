@@ -115,8 +115,8 @@ function this.update_ruby_and_gold_wirebugs(player, player_data)
 
 	local endemic_life_buff_key = marionette_mode_types[marionette_mode_type];
 
-	buffs.update_generic_timer(this.list, endemic_life_buffs_type_name, endemic_life_buff_key, this.get_endemic_life_name,
-		player_data, wirebug_powerup_timer_field);
+	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, endemic_life_buff_key, this.get_endemic_life_name,
+		nil, nil, player_data, wirebug_powerup_timer_field);
 end
 
 function this.update_butterflame(player_data)
@@ -131,8 +131,8 @@ function this.update_butterflame(player_data)
 		return;
 	end
 
-	buffs.update_generic_timer(this.list, endemic_life_buffs_type_name, "butterflame", this.get_endemic_life_name,
-		player_data, atk_up_buff_second_timer_field);
+	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "butterflame", this.get_endemic_life_name,
+		nil, nil, player_data, atk_up_buff_second_timer_field);
 end
 
 function this.update_peepersects(player_data)

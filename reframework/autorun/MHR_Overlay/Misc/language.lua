@@ -217,6 +217,10 @@ this.default_language = {
 		frenzy_overcome = "Frenzy Overcome"
 	},
 
+	skills = {
+		kushala_daora_soul = "Kushala Daora Soul"
+	},
+
 	weapon_skills = {
 		-- Great Sword
 		power_sheathe = "Power Sheathe",

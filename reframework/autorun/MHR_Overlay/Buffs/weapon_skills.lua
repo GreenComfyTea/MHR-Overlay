@@ -1195,16 +1195,22 @@ end
 
 function this.get_weapon_skill_name(weapon_skill_key)
 	if weapon_skill_ids[weapon_skill_key] == nil then
-		return language.current_language.weapon_skills[weapon_skill_key];
-	else
-		local weapon_skill_name = get_name_method:call(nil, weapon_skill_ids[weapon_skill_key]);
+		
+		local weapon_skill_name = language.current_language.weapon_skills[weapon_skill_key];
 		if weapon_skill_name == nil then
-			error_handler.report("weapon_skills.get_weapon_skill_name", string.format("Failed to access Data: %s_name", weapon_skill_key));
 			return weapon_skill_key;
 		end
-	
+
 		return weapon_skill_name;
 	end
+
+	local weapon_skill_name = get_name_method:call(nil, weapon_skill_ids[weapon_skill_key]);
+	if weapon_skill_name == nil then
+		error_handler.report("weapon_skills.get_weapon_skill_name", string.format("Failed to access Data: %s_name", weapon_skill_key));
+		return weapon_skill_key;
+	end
+
+	return weapon_skill_name;
 	
 end
 

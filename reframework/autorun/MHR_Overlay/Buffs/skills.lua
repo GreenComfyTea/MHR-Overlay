@@ -320,7 +320,6 @@ local is_predicament_power_up_method = player_base_type_def:get_method("isPredic
 -- Resuscitate
 local is_debuff_state_method = player_base_type_def:get_method("isDebuffState");
 
-
 local player_skill_list_type_def = get_player_skill_list_method:get_return_type();
 local get_skill_data_method = player_skill_list_type_def:get_method("getSkillData");
 
@@ -687,6 +686,18 @@ function this.update_spiribirds_call(player_data)
 end
 
 function this.get_skill_name(skill_key)
+	local skill_data = skill_data_list[skill_key];
+
+	if skill_data == nil then
+		local skill_name = language.current_language.skills[skill_key];
+
+		if skill_name == nil then
+			return skill_key;
+		end
+
+		return skill_name;
+	end
+
 	local skill_name = get_name_method:call(nil, skill_data_list[skill_key].id);
 	if skill_name == nil then
 		error_handler.report("skills.get_skill_name", string.format("Failed to access Data: %s_name", skill_key));
