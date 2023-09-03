@@ -217,6 +217,10 @@ this.default_language = {
 		frenzy_overcome = "Frenzy Overcome"
 	},
 
+	dangos = {
+		dango_insurance_defense_up = "Dango Insurance Defense Up"
+	},
+
 	skills = {
 		kushala_daora_soul = "Kushala Daora Soul"
 	},
@@ -293,6 +297,8 @@ this.default_language = {
 
 		otomo = "Buddy",
 		servant = "Follower",
+
+		lv = "Lv."
 	},
 
 	customization_menu = {

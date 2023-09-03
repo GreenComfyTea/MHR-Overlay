@@ -42,12 +42,14 @@ local ValueType = ValueType;
 local package = package;
 
 this.list = {
-	dango_defender = nil,
 	dango_adrenaline = nil,
 	dango_booster = nil,
-	dango_glutton = nil,
-
 	dango_bulker = nil,
+	dango_insurance_defense_up = nil,
+	dango_glutton = nil,
+	dango_defender = nil,
+	dango_hunter = nil,
+	dango_connector = nil
 };
 
 local dango_ids = {
@@ -112,7 +114,6 @@ local dango_ids = {
 this.is_dango_adrenaline_active = false;
 
 local dangos_type_name = "dangos";
-local dango_defender_minimal_value = 200;
 local dango_bulker_attack_up = 15;
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
@@ -125,7 +126,7 @@ local player_user_data_item_parameter_type_def = get_ref_item_parameter_method:g
 
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Dango Defender
-local kitchen_skill_048_field = player_data_type_def:get_field("_KitchenSkill048_Damage");
+local is_enable_kitchen_skill_048_reduce_method = player_data_type_def:get_field("_IsEnable_KitchenSkill048_Reduce");
 -- Dango Booster
 local kitchen_skill_027_timer_field = player_data_type_def:get_field("_KitchenSkill027Timer");
 -- Dango Glutton
@@ -133,6 +134,14 @@ local kitchen_skill_045_timer_field = player_data_type_def:get_field("_KitchenSk
 -- Dango Bulker
 local atk_up_buff_second_field = player_data_type_def:get_field("_AtkUpBuffSecond");
 local atk_up_buff_second_timer_field = player_data_type_def:get_field("_AtkUpBuffSecondTimer");
+-- Dango Insurance
+local kitchen_skill_insurance_def_up_lv3_field = player_data_type_def:get_field("_KitchenSkill_Insurance_DefUp_Lv3");
+local kitchen_skill_insurance_def_up_lv4_field = player_data_type_def:get_field("_KitchenSkill_Insurance_DefUp_Lv4");
+-- Dango Hunter
+local kitchen_skill_051_atk_up_timer_field = player_data_type_def:get_field("_KitchenSkill051_AtkUpTimer");
+-- Dango Connector
+local kitchen_skill_054_timer_field = player_data_type_def:get_field("_KitchenSkill054_Timer");
+-- 
 
 
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
@@ -149,17 +158,35 @@ function this.update(player, player_data)
 		return;
 	end
 
+	--[[local tbl = {
+		"_KitchenSkill_Insurance_DefUp_Lv3",
+		"_KitchenSkill_Insurance_DefUp_Lv4",
+	};
+
+	local str = "";
+	for _, field in ipairs(tbl) do
+		local value = player_data:get_field(field);
+		str = string.format("%s%s: %s\n", str, field, tostring(value));
+	end
+
+	xy = str;]]
+
 	this.update_dango_adrenaline();
 	this.update_dango_bulker(player_data);
-	
+	this.update_dango_hunter(player_data);
+	this.update_dango_insurance_defense_up(player_data);
+
 	buffs.update_generic_buff(this.list, dangos_type_name, "dango_defender", this.get_dango_name,
-		player_data, kitchen_skill_048_field, nil, nil, nil, nil, true, dango_defender_minimal_value);
+		player_data, is_enable_kitchen_skill_048_reduce_method, nil, nil, nil, nil, true);
 
 	buffs.update_generic_buff(this.list, dangos_type_name, "dango_booster", this.get_dango_name,
 		nil, nil, player_data, kitchen_skill_027_timer_field);
 
 	buffs.update_generic_buff(this.list, dangos_type_name, "dango_glutton", this.get_dango_name,
 		nil, nil, player_data, kitchen_skill_045_timer_field);
+
+	buffs.update_generic_buff(this.list, dangos_type_name, "dango_connector", this.get_dango_name,
+		nil, nil, player_data, kitchen_skill_054_timer_field);
 end
 
 function this.update_dango_adrenaline()
@@ -186,7 +213,53 @@ function this.update_dango_bulker(player_data)
 	buffs.update_generic_buff(this.list, dangos_type_name, "dango_bulker", this.get_dango_name, nil, nil, player_data, atk_up_buff_second_timer_field);
 end
 
+function this.update_dango_insurance_defense_up(player_data)
+	local level = 3;
+
+	local insurance_def_up_lv3 = kitchen_skill_insurance_def_up_lv3_field:get_data(player_data);
+	if insurance_def_up_lv3 == nil then
+		error_handler.report("buffs.update_dango_insurance", "Failed to access Data: insurance_def_up_lv3");
+		return;
+	end
+
+	if not insurance_def_up_lv3 then
+
+		local insurance_def_up_lv4 = kitchen_skill_insurance_def_up_lv4_field:get_data(player_data);
+		if insurance_def_up_lv4 == nil then
+			error_handler.report("buffs.update_dango_insurance", "Failed to access Data: insurance_def_up_lv4");
+			return;
+		end
+
+		if not insurance_def_up_lv4 then
+			this.list.insurance_defense_up = nil;
+		end
+
+		level = 4;
+	end
+
+	buffs.update_generic(this.list, dangos_type_name, "dango_insurance_defense_up", this.get_dango_name, level);	
+end
+
+function this.update_dango_hunter(player_data)
+	local dango_hunter_buff = buffs.update_generic_buff(this.list, dangos_type_name, "dango_hunter", this.get_dango_name,
+		nil, nil, player_data, kitchen_skill_051_atk_up_timer_field);
+
+	if dango_hunter_buff then
+		dango_hunter_buff.level = 4;
+	end
+end
+
 function this.get_dango_name(dango_key)
+	if dango_ids[dango_key] == nil then
+		
+		local dango_name = language.current_language.dangos[dango_key];
+		if dango_name == nil then
+			return dango_key;
+		end
+
+		return dango_name;
+	end
+
 	local dango_name = get_name_method:call(nil, dango_ids[dango_key]);
 	if dango_name == nil then
 		error_handler.report("dangos.get_dango_name", string.format("Failed to access Data: %s_name", dango_key));

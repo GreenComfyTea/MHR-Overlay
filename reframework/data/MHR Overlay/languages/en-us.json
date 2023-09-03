@@ -3,6 +3,7 @@
         "HP": "HP:",
         "buildup": "Buildup:",
         "gold": "Gold",
+        "lv": "Lv.",
         "mini": "Mini",
         "otomo": "Buddy",
         "part_anomaly_core": "Anomaly Core",
@@ -361,6 +362,9 @@
         "x": "X",
         "y": "Y",
         "z": "Z"
+    },
+    "dangos": {
+        "dango_insurance_defense_up": "Dango Insurance Defense Up"
     },
     "font_name": "",
     "misc_buffs": {
