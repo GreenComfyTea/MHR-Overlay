@@ -232,6 +232,7 @@ function this.update_dango_insurance_defense_up(player_data)
 
 		if not insurance_def_up_lv4 then
 			this.list.insurance_defense_up = nil;
+			return;
 		end
 
 		level = 4;
