@@ -45,6 +45,7 @@ this.list = {
 	dango_adrenaline = nil,
 	dango_booster = nil,
 	dango_bulker = nil,
+	dango_insurance = nil,
 	dango_insurance_defense_up = nil,
 	dango_glutton = nil,
 	dango_flyer = nil,
@@ -121,6 +122,7 @@ local previous_super_recovery_dango_timer = 0;
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local get_player_data_method = player_manager_type_def:get_method("get_PlayerData");
+local get_player_skill_method = player_manager_type_def:get_method("get_PlayerSkill");
 local get_ref_item_parameter_method = player_manager_type_def:get_method("get_RefItemParameter");
 
 local player_user_data_item_parameter_type_def = get_ref_item_parameter_method:get_return_type();
@@ -146,7 +148,6 @@ local kitchen_skill_051_atk_up_timer_field = player_data_type_def:get_field("_Ki
 local kitchen_skill_054_timer_field = player_data_type_def:get_field("_KitchenSkill054_Timer");
 
 
-
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
 -- Dango Adrenaline
 local is_kitchen_skill_predicament_powerup_method = player_base_type_def:get_method("isKitchenSkillPredicamentPowerUp");
@@ -158,8 +159,20 @@ local get_kitchen_skill_surume_regene_timer_method = player_base_type_def:get_me
 
 local player_quest_base_type_def = sdk.find_type_definition("snow.player.PlayerQuestBase");
 
+local player_skill_list_type_def = sdk.find_type_definition("snow.player.PlayerSkillList");
+local has_kitchen_skill_method = player_skill_list_type_def:get_method("hasKitchenSkill");
+
 local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut");
 local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.DataDef.PlKitchenSkillId)");
+
+local quest_manager_type_def = sdk.find_type_definition("snow.QuestManager");
+local flag_cat_skill_insurance_field = quest_manager_type_def:get_field("_FlagCatSkillInsurance");
+local is_cat_skill_insurance_method = quest_manager_type_def:get_method("isCatSkillInsurance");
+
+
+local system_array_type_def = sdk.find_type_definition("System.Array");
+local get_length_method = system_array_type_def:get_method("get_Length");
+local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
 function this.update(player, player_data)
 	local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
@@ -168,37 +181,10 @@ function this.update(player, player_data)
 		return;
 	end
 
-	-- local tbl = {
-	-- 	"startKitchenSkillShortHypnosis",
-	-- 	"startKitchenSkillReduseUseStamina",
-	-- };
-
-	-- local str = "";
-	-- for _, method in ipairs(tbl) do
-	-- 	local value = player_data:call(method);
-	-- 	str = string.format("%s%s: %s\n", str, method, tostring(value));
-	-- end
-
-	-- local value = player:call("getKitchenSkillRevival", 0);
-	-- str = string.format("%s%s: %s\n", str, "getKitchenSkillRevival 0", tostring(value));
-
-	-- value = player:call("getKitchenSkillRevival", 1);
-	-- str = string.format("%s%s: %s\n", str, "getKitchenSkillRevival 1", tostring(value));
-
-	-- value = player:call("getKitchenSkillRevival", 2);
-	-- str = string.format("%s%s: %s\n", str, "getKitchenSkillRevival 2", tostring(value));
-
-	-- value = player:call("getKitchenSkillRevival", 3);
-	-- str = string.format("%s%s: %s\n", str, "getKitchenSkillRevival 3", tostring(value));
-
-	-- value = player:call("getKitchenSkillRevival", 4);
-	-- str = string.format("%s%s: %s\n", str, "getKitchenSkillRevival 4", tostring(value));
-
-	-- xy = str;
-
 	this.update_dango_adrenaline();
 	this.update_dango_bulker(player_data);
 	this.update_dango_hunter(player_data);
+	this.update_dango_insurance();
 	this.update_dango_insurance_defense_up(player_data);
 	this.update_dango_flyer(player);
 	this.update_super_recovery_dango(player);
@@ -240,25 +226,97 @@ function this.update_dango_bulker(player_data)
 	buffs.update_generic_buff(this.list, dangos_type_name, "dango_bulker", this.get_dango_name, nil, nil, player_data, atk_up_buff_second_timer_field);
 end
 
+function this.update_dango_insurance()
+	if singletons.player_manager == nil then
+		error_handler.report("consumables.update_dango_insurance", "Failed to access Data: player_manager");
+		return;
+	end
+
+	if singletons.quest_manager == nil then
+		error_handler.report("consumables.update_dango_insurance", "Failed to access Data: quest_manager");
+		return;
+	end
+
+	local player_skill_list_array = get_player_skill_method:call(singletons.player_manager);
+	if player_skill_list_array == nil then
+		error_handler.report("consumables.update_dango_insurance", "Failed to access Data: player_skill_list_array");
+		return;
+	end
+
+	local player_skill_list_array_length = get_length_method:call(player_skill_list_array);
+	if player_skill_list_array_length == nil then
+		error_handler.report("consumables.update_dango_insurance", "Failed to access Data: player_skill_array_list_length");
+		return;
+	end
+
+	local length = player_skill_list_array_length - 1;
+
+	local has_insurance_skill = false;
+
+	for player_id = 0, length do
+		if players.list[player_id] == nil then
+			goto continue;
+		end
+
+		local player_skill_list = get_value_method:call(player_skill_list_array, player_id);
+		if player_skill_list_array_length == nil then
+			error_handler.report("consumables.update_dango_insurance", "Failed to access Data: player_skill_list No. " .. tostring(player_id));
+			goto continue;
+		end
+
+		local kitchen_skill = has_kitchen_skill_method:call(player_skill_list, dango_ids.dango_insurance);
+		if kitchen_skill == nil then
+			error_handler.report("consumables.update_dango_insurance", "Failed to access Data: kitchen_skill No. " .. tostring(player_id));
+			goto continue;
+		end
+
+		if kitchen_skill then
+			has_insurance_skill = true;
+			break;
+		end
+
+		::continue::
+	end
+
+	local flag_cat_skill_insurance = flag_cat_skill_insurance_field:get_data(singletons.quest_manager);
+	if flag_cat_skill_insurance == nil then
+		error_handler.report("consumables.update_dango_insurance", "Failed to access Data: flag_cat_skill_insurance");
+		return;
+	end
+
+	local is_cat_skill_insurance = is_cat_skill_insurance_method:call(singletons.quest_manager, flag_cat_skill_insurance);
+	if is_cat_skill_insurance == nil then
+		error_handler.report("consumables.update_dango_insurance", "Failed to access Data: is_cat_skill_insurance");
+		return;
+	end
+
+	if not has_insurance_skill or is_cat_skill_insurance then
+		this.list.dango_insurance = nil;
+		return;
+	end
+
+	buffs.update_generic(this.list, dangos_type_name, "dango_insurance", this.get_dango_name, 1);
+end
+
 function this.update_dango_insurance_defense_up(player_data)
 	local level = 3;
 
 	local insurance_def_up_lv3 = kitchen_skill_insurance_def_up_lv3_field:get_data(player_data);
 	if insurance_def_up_lv3 == nil then
-		error_handler.report("dangos.update_dango_insurance", "Failed to access Data: insurance_def_up_lv3");
+		error_handler.report("dangos.update_dango_insurance_defense_up", "Failed to access Data: insurance_def_up_lv3");
 		return;
 	end
 
 	if not insurance_def_up_lv3 then
-
 		local insurance_def_up_lv4 = kitchen_skill_insurance_def_up_lv4_field:get_data(player_data);
+
 		if insurance_def_up_lv4 == nil then
-			error_handler.report("dangos.update_dango_insurance", "Failed to access Data: insurance_def_up_lv4");
+			error_handler.report("dangos.update_dango_insurance_defense_up", "Failed to access Data: insurance_def_up_lv4");
 			return;
 		end
 
 		if not insurance_def_up_lv4 then
-			this.list.insurance_defense_up = nil;
+			this.list.dango_insurance_defense_up = nil;
 			return;
 		end
 
