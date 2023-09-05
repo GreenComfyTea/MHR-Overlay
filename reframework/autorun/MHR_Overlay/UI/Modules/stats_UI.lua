@@ -10,7 +10,7 @@ local screen;
 local utils;
 local error_handler;
 local skills;
-local dangos;
+local dango_skills;
 local abnormal_statuses;
 local drawing;
 local player_info;
@@ -308,7 +308,7 @@ function this.init_dependencies()
 	error_handler = require("MHR_Overlay.Misc.error_handler");
 	endemic_life_buff = require("MHR_Overlay.Buffs.endemic_life_buffs");
 	skills = require("MHR_Overlay.Buffs.skills");
-	dangos = require("MHR_Overlay.Buffs.dangos");
+	dango_skills = require("MHR_Overlay.Buffs.dango_skills");
 	abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
 	drawing = require("MHR_Overlay.UI.drawing");
 	player_info = require("MHR_Overlay.Misc.player_info");

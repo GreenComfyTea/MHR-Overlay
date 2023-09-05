@@ -116,7 +116,7 @@ local dango_ids = {
 
 this.is_dango_adrenaline_active = false;
 
-local dangos_type_name = "dangos";
+local dango_skills_type_name = "dango_skills";
 local dango_bulker_attack_up = 15;
 local previous_super_recovery_dango_timer = 0;
 
@@ -177,7 +177,7 @@ local get_value_method = system_array_type_def:get_method("GetValue(System.Int32
 function this.update(player, player_data)
 	local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
 	if item_parameter == nil then
-		error_handler.report("dangos.update", "Failed to access Data: item_parameter");
+		error_handler.report("dango_skills.update", "Failed to access Data: item_parameter");
 		return;
 	end
 
@@ -189,16 +189,16 @@ function this.update(player, player_data)
 	this.update_dango_flyer(player);
 	this.update_super_recovery_dango(player);
 
-	buffs.update_generic_buff(this.list, dangos_type_name, "dango_defender", this.get_dango_name,
+	buffs.update_generic_buff(this.list, dango_skills_type_name, "dango_defender", this.get_dango_name,
 		player_data, is_enable_kitchen_skill_048_reduce_method, nil, nil, nil, nil, true);
 
-	buffs.update_generic_buff(this.list, dangos_type_name, "dango_booster", this.get_dango_name,
+	buffs.update_generic_buff(this.list, dango_skills_type_name, "dango_booster", this.get_dango_name,
 		nil, nil, player_data, kitchen_skill_027_timer_field);
 
-	buffs.update_generic_buff(this.list, dangos_type_name, "dango_glutton", this.get_dango_name,
+	buffs.update_generic_buff(this.list, dango_skills_type_name, "dango_glutton", this.get_dango_name,
 		nil, nil, player_data, kitchen_skill_045_timer_field);
 
-	buffs.update_generic_buff(this.list, dangos_type_name, "dango_connector", this.get_dango_name,
+	buffs.update_generic_buff(this.list, dango_skills_type_name, "dango_connector", this.get_dango_name,
 		nil, nil, player_data, kitchen_skill_054_timer_field);
 end
 
@@ -208,7 +208,7 @@ function this.update_dango_adrenaline()
 		return;
 	end
 
-	buffs.update_generic(this.list, dangos_type_name, "dango_adrenaline", this.get_dango_name);
+	buffs.update_generic(this.list, dango_skills_type_name, "dango_adrenaline", this.get_dango_name);
 end
 
 function this.update_dango_bulker(player_data)
@@ -223,7 +223,7 @@ function this.update_dango_bulker(player_data)
 		return;
 	end
 
-	buffs.update_generic_buff(this.list, dangos_type_name, "dango_bulker", this.get_dango_name, nil, nil, player_data, atk_up_buff_second_timer_field);
+	buffs.update_generic_buff(this.list, dango_skills_type_name, "dango_bulker", this.get_dango_name, nil, nil, player_data, atk_up_buff_second_timer_field);
 end
 
 function this.update_dango_insurance()
@@ -295,7 +295,7 @@ function this.update_dango_insurance()
 		return;
 	end
 
-	buffs.update_generic(this.list, dangos_type_name, "dango_insurance", this.get_dango_name, 1);
+	buffs.update_generic(this.list, dango_skills_type_name, "dango_insurance", this.get_dango_name, 1);
 end
 
 function this.update_dango_insurance_defense_up(player_data)
@@ -303,7 +303,7 @@ function this.update_dango_insurance_defense_up(player_data)
 
 	local insurance_def_up_lv3 = kitchen_skill_insurance_def_up_lv3_field:get_data(player_data);
 	if insurance_def_up_lv3 == nil then
-		error_handler.report("dangos.update_dango_insurance_defense_up", "Failed to access Data: insurance_def_up_lv3");
+		error_handler.report("dango_skills.update_dango_insurance_defense_up", "Failed to access Data: insurance_def_up_lv3");
 		return;
 	end
 
@@ -311,7 +311,7 @@ function this.update_dango_insurance_defense_up(player_data)
 		local insurance_def_up_lv4 = kitchen_skill_insurance_def_up_lv4_field:get_data(player_data);
 
 		if insurance_def_up_lv4 == nil then
-			error_handler.report("dangos.update_dango_insurance_defense_up", "Failed to access Data: insurance_def_up_lv4");
+			error_handler.report("dango_skills.update_dango_insurance_defense_up", "Failed to access Data: insurance_def_up_lv4");
 			return;
 		end
 
@@ -323,7 +323,7 @@ function this.update_dango_insurance_defense_up(player_data)
 		level = 4;
 	end
 
-	buffs.update_generic(this.list, dangos_type_name, "dango_insurance_defense_up", this.get_dango_name, level);	
+	buffs.update_generic(this.list, dango_skills_type_name, "dango_insurance_defense_up", this.get_dango_name, level);	
 end
 
 function this.update_dango_flyer(player)
@@ -331,7 +331,7 @@ function this.update_dango_flyer(player)
 
 	local is_kitchen_skill_wire_stop_regene = get_is_kitchen_skill_wire_stop_regene_method:call(player);
 	if is_kitchen_skill_wire_stop_regene == nil then
-		error_handler.report("dangos.update_dango_flyer", "Failed to access Data: is_kitchen_skill_wire_stop_regene");
+		error_handler.report("dango_skills.update_dango_flyer", "Failed to access Data: is_kitchen_skill_wire_stop_regene");
 		return;
 	end
 
@@ -339,7 +339,7 @@ function this.update_dango_flyer(player)
 
 		local is_kitchen_skill_wire_stop_heal_spd = get_is_kitchen_skill_wire_stop_heal_spd_method:call(player);
 		if is_kitchen_skill_wire_stop_heal_spd == nil then
-			error_handler.report("dangos.update_dango_flyer", "Failed to access Data: is_kitchen_skill_wire_stop_heal_spd");
+			error_handler.report("dango_skills.update_dango_flyer", "Failed to access Data: is_kitchen_skill_wire_stop_heal_spd");
 			return;
 		end
 
@@ -351,11 +351,11 @@ function this.update_dango_flyer(player)
 		level = 3;
 	end
 
-	buffs.update_generic(this.list, dangos_type_name, "dango_flyer", this.get_dango_name, level);	
+	buffs.update_generic(this.list, dango_skills_type_name, "dango_flyer", this.get_dango_name, level);	
 end
 
 function this.update_dango_hunter(player_data)
-	local dango_hunter_buff = buffs.update_generic_buff(this.list, dangos_type_name, "dango_hunter", this.get_dango_name,
+	local dango_hunter_buff = buffs.update_generic_buff(this.list, dango_skills_type_name, "dango_hunter", this.get_dango_name,
 		nil, nil, player_data, kitchen_skill_051_atk_up_timer_field);
 
 	if dango_hunter_buff then
@@ -366,7 +366,7 @@ end
 function this.update_super_recovery_dango(player)
 	local kitchen_skill_surume_regene_timer = get_kitchen_skill_surume_regene_timer_method:call(player);
 	if kitchen_skill_surume_regene_timer == nil then
-		error_handler.report("dangos.update_super_recovery_dango", "Failed to access Data: kitchen_skill_surume_regene_timer");
+		error_handler.report("dango_skills.update_super_recovery_dango", "Failed to access Data: kitchen_skill_surume_regene_timer");
 		return;
 	end
 
@@ -378,27 +378,27 @@ function this.update_super_recovery_dango(player)
 
 	previous_super_recovery_dango_timer = kitchen_skill_surume_regene_timer;
 
-	buffs.update_generic(this.list, dangos_type_name, "super_recovery_dango", this.get_dango_name);	
+	buffs.update_generic(this.list, dango_skills_type_name, "super_recovery_dango", this.get_dango_name);	
 end
 
 function this.get_dango_name(dango_key)
 	if dango_ids[dango_key] == nil then
 		
-		local dango_name = language.current_language.dangos[dango_key];
-		if dango_name == nil then
+		local dango_skill_name = language.current_language.dango_skills[dango_key];
+		if dango_skill_name == nil then
 			return dango_key;
 		end
 
-		return dango_name;
+		return dango_skill_name;
 	end
 
-	local dango_name = get_name_method:call(nil, dango_ids[dango_key]);
-	if dango_name == nil then
-		error_handler.report("dangos.get_dango_name", string.format("Failed to access Data: %s_name", dango_key));
+	local dango_skill_name = get_name_method:call(nil, dango_ids[dango_key]);
+	if dango_skill_name == nil then
+		error_handler.report("dango_skills.get_dango_name", string.format("Failed to access Data: %s_name", dango_key));
 		return dango_key;
 	end
 
-	return dango_name;
+	return dango_skill_name;
 end
 
 function this.init_dependencies()

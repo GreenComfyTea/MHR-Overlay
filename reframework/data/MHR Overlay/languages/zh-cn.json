@@ -378,6 +378,9 @@
         "y": "Y轴",
         "z": "Z轴"
     },
+    "dango_skills": {
+        "dango_insurance_defense_up": "Dango Insurance Defense Up"
+    },
     "dangos": {
         "dango_adrenaline": "Dango Adrenaline",
         "dango_bombardier": "Dango Bombardier",

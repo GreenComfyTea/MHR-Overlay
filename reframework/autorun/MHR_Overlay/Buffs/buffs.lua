@@ -13,7 +13,7 @@ local quest_status;
 local error_handler;
 local endemic_life_buffs;
 local skills;
-local dangos;
+local dango_skills;
 local abnormal_statuses;
 local otomo_moves;
 local weapon_skills;
@@ -176,7 +176,7 @@ function this.update()
 
 	if not is_player_lobby_base then
 		skills.update(master_player, master_player_data, weapon_type);
-		dangos.update(master_player, master_player_data);
+		dango_skills.update(master_player, master_player_data);
 		endemic_life_buffs.update(master_player, master_player_data);
 		abnormal_statuses.update(master_player, master_player_data);
 		weapon_skills.update(master_player, master_player_data, weapon_type);
@@ -351,7 +351,7 @@ function this.init_dependencies()
 	error_handler = require("MHR_Overlay.Misc.error_handler");
 	endemic_life_buffs = require("MHR_Overlay.Buffs.endemic_life_buffs");
 	skills = require("MHR_Overlay.Buffs.skills");
-	dangos = require("MHR_Overlay.Buffs.dangos");
+	dango_skills = require("MHR_Overlay.Buffs.dango_skills");
 	abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
 	otomo_moves = require("MHR_Overlay.Buffs.otomo_moves");
 	weapon_skills = require("MHR_Overlay.Buffs.weapon_skills");

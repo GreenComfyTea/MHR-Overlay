@@ -217,7 +217,7 @@ this.default_language = {
 		frenzy_overcome = "Frenzy Overcome"
 	},
 
-	dangos = {
+	dango_skills = {
 		dango_insurance_defense_up = "Dango Insurance Defense Up"
 	},
 

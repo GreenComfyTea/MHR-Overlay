@@ -10,7 +10,7 @@ local screen;
 local utils;
 local error_handler;
 local skills;
-local dangos;
+local dango_skills;
 local abnormal_statuses;
 local otomo_moves;
 local weapon_skills;
@@ -97,12 +97,12 @@ function this.update()
 		::continue4::
 	end
 
-	for key, dango_buff in pairs(dangos.list) do
-		if not dango_buff.is_active then
+	for key, dango_skill in pairs(dango_skills.list) do
+		if not dango_skill.is_active then
 			goto continue5;
 		end
 
-		table.insert(_displayed_buffs, dango_buff);
+		table.insert(_displayed_buffs, dango_skill);
 
 		::continue5::
 	end
@@ -227,7 +227,7 @@ function this.init_dependencies()
 	error_handler = require("MHR_Overlay.Misc.error_handler");
 	endemic_life_buff = require("MHR_Overlay.Buffs.endemic_life_buffs");
 	skills = require("MHR_Overlay.Buffs.skills");
-	dangos = require("MHR_Overlay.Buffs.dangos");
+	dango_skills = require("MHR_Overlay.Buffs.dango_skills");
 	abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
 	otomo_moves = require("MHR_Overlay.Buffs.otomo_moves");
 	weapon_skills = require("MHR_Overlay.Buffs.weapon_skills");

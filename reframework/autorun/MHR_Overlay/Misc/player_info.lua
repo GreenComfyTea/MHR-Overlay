@@ -8,7 +8,7 @@ local utils;
 local error_handler;
 local quest_status;
 local time;
-local dangos;
+local dango_skills;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -295,7 +295,7 @@ function this.update_dango_adrenaline(quest_player_base)
 		return;
 	end
 
-	dangos.is_dango_adrenaline_active = is_kitchen_skill_predicament_powerup;
+	dango_skills.is_dango_adrenaline_active = is_kitchen_skill_predicament_powerup;
 end
 
 function this.init_dependencies()
@@ -312,7 +312,7 @@ function this.init_dependencies()
 	error_handler = require("MHR_Overlay.Misc.error_handler");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	time = require("MHR_Overlay.Game_Handler.time");
-	dangos = require("MHR_Overlay.Buffs.dangos");
+	dango_skills = require("MHR_Overlay.Buffs.dango_skills");
 end
 
 function this.init_module()
