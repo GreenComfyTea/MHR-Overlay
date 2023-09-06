@@ -47,7 +47,6 @@ local package = package;
 
 this.list = {
 	burst = nil,
-	kushala_daora_soul = nil,
 	intrepid_heart = nil,
 	dereliction = nil,
 	latent_power = nil,
@@ -74,7 +73,14 @@ this.list = {
 	dragonheart = nil,
 	resentment = nil,
 	bladescale_hone = nil,
-	spiribirds_call = nil
+	spiribirds_call = nil,
+	embolden = nil,
+	berserk = nil,
+	powder_mantle_red = nil,
+	powder_mantle_blue = nil,
+	strife = nil,
+	inspiration = nil,
+	blood_awakening = nil
 };
 
 local skills_type_name = "skills";
@@ -200,7 +206,7 @@ local skill_data_list = {
 	-- defiance =				{ id = 118 },
 	-- sneak_attack =			{ id = 119 },
 	adrenaline_rush =			{ id = 120 },
-	-- embolden =				{ id = 121 },
+	embolden =				{ id = 121 },
 	-- redirection =			{ id = 122 },
 	spiribirds_call =			{ id = 123 },
 	-- charge_master =			{ id = 124 },
@@ -216,35 +222,27 @@ local skill_data_list = {
 	status_trigger =			{ id = 134 },
 	intrepid_heart =			{ id = 135 },
 	-- buildup_boost =			{ id = 136 },
-	-- berserk =				{ id = 137 },
+	berserk =					{ id = 137 },
 	wind_mantle =				{ id = 138 },
 	-- powder_mantle =			{ id = 139 },
 	-- frostcraft =				{ id = 140 },
 	-- dragon_conversion =		{ id = 141 },
 	heaven_sent =				{ id = 142 },
 	frenzied_bloodlust =		{ id = 143 },
-	-- blood_awakening =		{ id = 144 },
-	-- strife =					{ id = 145 },
+	blood_awakening =			{ id = 144 },
+	strife =					{ id = 145,	level = 0, is_equipped = false },
 	-- shock_absorber =			{ id = 146 },
-	-- inspiration =			{ id = 147 },
+	inspiration =				{ id = 147 },
 }
 
-local burst_breakpoints = {5};
-local kushara_daora_soul_breakpoint = 5;
+
 local intrepid_heart_minimal_value = 400;
-local dereliction_breakpoints = {100, 50};
 
-local maximum_might_delay_timer = nil;
-local maximum_might_previous_timer_value = 0;
-
-local frenzied_bloodlust_duration = 0;
-local frenzied_bloodlust_sheathed_duration = 0;
-
-local dragonheart_breakpoints = {0.5, 0.5, 0.7, 0.7, 0.8};
-
-local spiribirds_call_duration = 60;
-
-local wind_mantle_duration = 15;
+local burst_breakpoints = { 5 };
+local dereliction_breakpoints = { 100, 50 };
+local dragonheart_breakpoints = { 0.5, 0.5, 0.7, 0.7, 0.8 };
+local strife_breakpoints = { { 10 }, { 15 }, { 20 } };
+local blood_awakening_breakpoints = { 2 };
 local wind_mantle_breakpoints = { 20, 10 }; -- Sword & Shield, Lance, Hammer, Switch Axe, Insect Glaive, Long Sword, Hunting Horn
 local wind_mantle_special_breakpoints = {
 	[0]  = { 10,  5 }, -- Great Sword
@@ -254,7 +252,17 @@ local wind_mantle_special_breakpoints = {
 	[9]  = { 40, 20 }, -- Dual Blades
 	[11] = { 30, 15 }, -- Charge Blade
 	[13] = { 60, 30 }, -- Bow
-}
+};
+
+local maximum_might_delay_timer = nil;
+local maximum_might_previous_timer_value = 0;
+
+local frenzied_bloodlust_duration = 0;
+local frenzied_bloodlust_sheathed_duration = 0;
+
+local spiribirds_call_duration = 60;
+
+local wind_mantle_duration = 15;
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local get_player_data_method = player_manager_type_def:get_method("get_PlayerData");
@@ -266,9 +274,6 @@ local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Burst
 local rengeki_power_up_count_field = player_data_type_def:get_field("_RengekiPowerUpCnt");
 local rengeki_power_up_timer_field = player_data_type_def:get_field("_RengekiPowerUpTimer");
--- Kushala Daora Soul
-local hyakuryu_dragon_power_up_count_field = player_data_type_def:get_field("_HyakuryuDragonPowerUpCnt");
-local hyakuryu_dragon_power_up_timer_field = player_data_type_def:get_field("_HyakuryuDragonPowerUpTimer");
 -- Intrepid Heart
 local equip_skill_223_accumulator_field = player_data_type_def:get_field("_EquipSkill223Accumulator");
 -- Derelection
@@ -304,6 +309,13 @@ local r_vital_field = player_data_type_def:get_field("_r_Vital");
 local equip_skill_222_timer_field = player_data_type_def:get_field("_EquipSkill222_Timer");
 -- Spiritbird's Call
 local equip_skill_211_timer_field = player_data_type_def:get_field("_EquipSkill211_Timer");
+-- Powder Mantle
+local equip_skill_227_state_field = player_data_type_def:get_field("_EquipSkill227State");
+local equip_skill_227_state_timer_field = player_data_type_def:get_field("_EquipSkill227StateTimer");
+-- Inspiration
+local equip_skill_235_atk_up_second_timer_field = player_data_type_def:get_field("_EquipSkill235AtkUpSecondTimer");
+-- Blood Awakening
+local equip_skill_232_timer_field = player_data_type_def:get_field("_EquipSkill232Timer");
 
 
 
@@ -317,6 +329,10 @@ local power_freedom_timer_field = player_base_type_def:get_field("_PowerFreedomT
 local sharpness_gauge_boost_timer_field = player_base_type_def:get_field("_SharpnessGaugeBoostTimer");
 -- Heroics
 local is_predicament_power_up_method = player_base_type_def:get_method("isPredicamentPowerUp");
+-- Berserk
+local get_is_enable_equip_skill_225_method = player_base_type_def:get_method("get_IsEnableEquipSkill225");
+-- Dragon Conversion
+local equip_skill_229_sum_resist_field = player_base_type_def:get_field("_EquipSkill229SumResist");
 -- Resuscitate
 local is_debuff_state_method = player_base_type_def:get_method("isDebuffState");
 
@@ -326,14 +342,30 @@ local get_skill_data_method = player_skill_list_type_def:get_method("getSkillDat
 local skill_data_type_def = get_skill_data_method:get_return_type();
 local skill_lv_field = skill_data_type_def:get_field("SkillLv");
 
+
+
 local player_quest_base_type_def = sdk.find_type_definition("snow.player.PlayerQuestBase");
 -- Wind Mantle
+local is_equip_skill_226_enable_field = player_quest_base_type_def:get_field("_IsEquipSkill226Enable");
 local equip_skill_226_attack_count_field = player_quest_base_type_def:get_field("_EquipSkill226AttackCount");
 local equip_skill_226_attack_off_timer_field = player_quest_base_type_def:get_field("_EquipSkill226AttackOffTimer");
 -- Heaven-Sent
 local is_active_equip_skill_230_method = player_quest_base_type_def:get_method("isActiveEquipSkill230");
 -- Frenzied Bloodlust
 local get_hunter_wire_skill_231_num_method = player_quest_base_type_def:get_method("get_HunterWireSkill231Num");
+-- Embolden
+local get_active_equip_209_method = player_quest_base_type_def:get_method("getActiveEquipSkill209");
+-- Dragon Conversion
+local equip_skill_229_use_up_flag_field = player_quest_base_type_def:get_field("_EquipSkill229UseUpFlg");
+-- Strife
+local get_affinity_equip_skill_233_method = player_quest_base_type_def:get_method("getAffinityEquipSkill233");
+-- Blood Awakening
+local get_equip_skill_232_lv_method = player_quest_base_type_def:get_method("getEquipSkill232Lv");
+local get_equip_skill_232_param_method = player_quest_base_type_def:get_method("getEquipSkill232Param");
+
+local equip_skill_232_param_type_def = get_equip_skill_232_param_method:get_return_type();
+local activation_time_lv_1_field = equip_skill_232_param_type_def:get_field("_ActivationTime_Lv1");
+local activation_time_lv_2_field = equip_skill_232_param_type_def:get_field("_ActivationTime_Lv2");
 
 local bow_type_def = sdk.find_type_definition("snow.player.Bow");
 local _equip_skill_216_bottle_up_timer_field = bow_type_def:get_field("_EquipSkill216_BottleUpTimer");
@@ -359,15 +391,14 @@ function this.update(player, player_data, weapon_type)
 	this.update_resentment(player_data);
 	this.update_bladescale_hone(player, weapon_type);
 	this.update_spiribirds_call(player_data);
+	this.update_powder_mantle(player_data);
+	this.update_blood_awakening(player, player_data);
 
 	this.update_generic_skill("dereliction", player_data, symbiosis_skill_lost_vital_field,
 		nil, nil, nil, nil, true, nil, dereliction_breakpoints);
 
 	this.update_generic_skill("burst", player_data, rengeki_power_up_count_field,
 		player_data, rengeki_power_up_timer_field, nil, nil, false, nil, burst_breakpoints);
-
-	this.update_generic_skill("kushala_daora_soul", player_data, hyakuryu_dragon_power_up_count_field,
-		player_data, hyakuryu_dragon_power_up_timer_field, nil, nil, false, nil, {kushara_daora_soul_breakpoint});
 
 	this.update_generic_skill("intrepid_heart", player_data, equip_skill_223_accumulator_field,
 		nil, nil, nil, nil, true, intrepid_heart_minimal_value);
@@ -382,14 +413,21 @@ function this.update(player, player_data, weapon_type)
 	this.update_generic_skill("wall_runner", nil, nil, player_data, wall_run_powerup_timer_field);
 	this.update_generic_skill("offensive_guard", nil, nil, player_data, equip_skill_036_timer_field);
 	this.update_generic_skill("hellfire_cloak", nil, nil, player_data, onibi_powerup_timer_field);
-	this.update_generic_skill("agitator", nil, nil, player_data, challenge_timer_field, true);
+	this.update_generic_skill("agitator", nil, nil, player_data, challenge_timer_field, nil, nil, true);
 	this.update_generic_skill("furious", nil, nil, player_data, furious_skill_stamina_buff_second_timer_field);
 	this.update_generic_skill("status_trigger", nil, nil, player_data, equip_skill_222_timer_field);
+	this.update_generic_skill("inspiration", nil, nil, player_data, equip_skill_235_atk_up_second_timer_field);
 
 	this.update_generic_skill("heaven_sent", player, is_active_equip_skill_230_method);
 	this.update_generic_skill("heroics", player, is_predicament_power_up_method);
 	this.update_generic_skill("resuscitate", player, is_debuff_state_method);
-
+	this.update_generic_skill("embolden", player, get_active_equip_209_method);
+	this.update_generic_skill("berserk", player, get_is_enable_equip_skill_225_method);
+	this.update_generic_skill("dragon_conversion_elemental_attack_up", player, equip_skill_229_sum_resist_field);
+	this.update_generic_skill("dragon_conversion_elemental_res_up", player, equip_skill_229_use_up_flag_field);
+	
+	this.update_generic_skill("strife", player, get_affinity_equip_skill_233_method,
+		nil, nil, nil, nil, nil, nil, strife_breakpoints[skill_data_list.strife.level]);
 end
 
 function this.update_generic_skill(skill_key, value_owner, value_holder, timer_owner, timer_holder, duration_owner, duration_holder,
@@ -444,14 +482,20 @@ function this.update_equipped_skill_data(player)
 end
 
 function this.update_wind_mantle(player, weapon_type)
-	local wind_mantle_timer = equip_skill_226_attack_off_timer_field:get_data(player);
-	if wind_mantle_timer == nil then
-		error_handler.report("skills.update_wind_mantle", "Failed to access Data: wind_mantle_timer");
+	local is_wind_mantle_enable = is_equip_skill_226_enable_field:get_data(player);
+	if is_wind_mantle_enable == nil then
+		error_handler.report("skills.update_wind_mantle", "Failed to access Data: is_wind_mantle_enable");
 		return;
 	end
 
-	if utils.number.is_equal(wind_mantle_timer, 0) then
+	if not is_wind_mantle_enable then
 		this.list.wind_mantle = nil;
+		return;
+	end
+
+	local wind_mantle_timer = equip_skill_226_attack_off_timer_field:get_data(player);
+	if wind_mantle_timer == nil then
+		error_handler.report("skills.update_wind_mantle", "Failed to access Data: wind_mantle_timer");
 		return;
 	end
 
@@ -683,6 +727,42 @@ function this.update_spiribirds_call(player_data)
 	local timer = spiribirds_call_duration - (equip_skill_211_timer / 60);
 
 	buffs.update_generic(this.list, skills_type_name, "spiribirds_call", this.get_skill_name, 1, timer, spiribirds_call_duration);
+end
+
+function this.update_powder_mantle(player_data)
+	this.update_generic_skill("powder_mantle_blue", player_data, equip_skill_227_state_field,
+		player_data, equip_skill_227_state_timer_field, nil, nil, nil, 2);
+
+	if this.list.powder_mantle_blue ~= nil then
+		this.list.powder_mantle_red = nil;
+		return;
+	end
+
+	this.update_generic_skill("powder_mantle_red", player_data, equip_skill_227_state_field,
+		player_data, equip_skill_227_state_timer_field, nil, nil, nil);
+end
+
+function this.update_blood_awakening(player, player_data)
+	this.update_generic_skill("blood_awakening", player, get_equip_skill_232_lv_method,
+		player_data, equip_skill_232_timer_field,
+		nil, nil,
+		nil, nil, blood_awakening_breakpoints);
+
+	local blood_awakening = this.list.blood_awakening;	
+	if this.list.blood_awakening == nil then
+		return;
+	end
+
+	local activation_time_field = activation_time_lv_1_field;
+	if 	blood_awakening.level == 2 then
+		activation_time_field = activation_time_lv_2_field;
+	end
+
+	local blood_awakening_param = get_equip_skill_232_param_method:call(player);
+
+	local blood_awakening_duration = activation_time_field:get_data(blood_awakening_param);
+
+	blood_awakening.duration = blood_awakening_duration / 60;
 end
 
 function this.init_names()
