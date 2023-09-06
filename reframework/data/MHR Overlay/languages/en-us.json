@@ -30,6 +30,7 @@
         "exhaust": "Exhaust",
         "fall_otomo_trap": "Fall Buddy Trap",
         "fall_trap": "Fall Trap",
+        "falling_asleep": "Falling Asleep",
         "fireblight": "Fireblight",
         "flash": "Flash",
         "frenzy": "Frenzy",
@@ -368,6 +369,9 @@
     },
     "font_name": "",
     "misc_buffs": {
+        "attack_up": "Attack Up",
+        "defense_up": "Defense Up",
+        "immunity": "Immunity",
         "stamina_use_down": "Stamina Use Down"
     },
     "parts": {
@@ -440,7 +444,11 @@
         "wings": "Wings"
     },
     "skills": {
-        "kushala_daora_soul": "Kushala Daora Soul"
+        "dragon_conversion_elemental_attack_up": "Dragon Conversion Elem. Atk Up",
+        "dragon_conversion_elemental_res_up": "Dragon Conversion Elem. Res Up",
+        "kushala_daora_soul": "Kushala Daora Soul",
+        "powder_mantle_blue": "Powder Mantle (Blue)",
+        "powder_mantle_red": "Powder Mantle (Red)"
     },
     "stats": {
         "affinity": "Affinity",

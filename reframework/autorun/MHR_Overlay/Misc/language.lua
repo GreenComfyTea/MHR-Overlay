@@ -204,6 +204,7 @@ this.default_language = {
 		defense_down = "Defense Down",
 		resistance_down = "Resistance Down",
 		
+		falling_asleep = "Falling Asleep",
 		tremor = "Tremor",
 		roar = "Roar",
 		webbed = "Webbed",
@@ -222,7 +223,11 @@ this.default_language = {
 	},
 
 	skills = {
-		kushala_daora_soul = "Kushala Daora Soul"
+		kushala_daora_soul = "Kushala Daora Soul",
+		powder_mantle_red = "Powder Mantle (Red)",
+		powder_mantle_blue = "Powder Mantle (Blue)",
+		dragon_conversion_elemental_attack_up = "Dragon Conversion Elem. Atk Up",
+		dragon_conversion_elemental_res_up = "Dragon Conversion Elem. Res Up",
 	},
 
 	weapon_skills = {
@@ -277,7 +282,10 @@ this.default_language = {
 	},
 
 	misc_buffs = {
-		stamina_use_down = "Stamina Use Down"
+		attack_up = "Attack Up",
+		defense_up = "Defense Up",
+		stamina_use_down = "Stamina Use Down",
+		immunity = "Immunity"
 	},
 
 	UI = {

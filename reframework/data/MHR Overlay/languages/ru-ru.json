@@ -31,6 +31,7 @@
         "exhaust": "Усталость",
         "fall_otomo_trap": "Волчья яма спутника",
         "fall_trap": "Волчья яма",
+        "falling_asleep": "Falling Asleep",
         "fireblight": "Огненная порча",
         "flash": "Оглушение",
         "frenzy": "Frenzy",
@@ -459,6 +460,10 @@
         "wind_pressure_negated": "Wind Pressure Negated"
     },
     "misc_buffs": {
+        "attack_up": "Attack Up",
+        "defense_down": "Defense Down",
+        "defense_up": "Defense Up",
+        "immunity": "Immunity",
         "stamina_use_down": "Stamina Use Down"
     },
     "otomo_moves": {
@@ -545,6 +550,8 @@
         "coalescence": "Coalescence",
         "counterstrike": "Counterstrike",
         "dereliction": "Dereliction",
+        "dragon_conversion_elemental_attack_up": "Dragon Conversion Elem. Attack Up",
+        "dragon_conversion_elemental_res_up": "Dragon Conversion Elem. Res. Up",
         "dragonheart": "Dragonheart",
         "frenzied_bloodlust": "Frenzied Bloodlust",
         "furious": "Furious",
@@ -558,6 +565,8 @@
         "maximum_might": "Maximum Might",
         "offensive_guard": "Offensive Guard",
         "peak_performance": "Peak Performance",
+        "powder_mantle_blue": "Powder Mantle (Blue)",
+        "powder_mantle_red": "Powder Mantle (Red)",
         "protective_polish": "Protective Polish",
         "resentment": "Resentment",
         "resuscitate": "Resuscitate",
