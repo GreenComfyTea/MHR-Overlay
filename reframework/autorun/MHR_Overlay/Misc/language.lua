@@ -223,7 +223,6 @@ this.default_language = {
 	},
 
 	skills = {
-		kushala_daora_soul = "Kushala Daora Soul",
 		powder_mantle_red = "Powder Mantle (Red)",
 		powder_mantle_blue = "Powder Mantle (Blue)",
 		dragon_conversion_elemental_attack_up = "Dragon Conversion Elem. Atk Up",
