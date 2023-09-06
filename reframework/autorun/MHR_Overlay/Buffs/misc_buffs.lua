@@ -44,38 +44,51 @@ local ValueType = ValueType;
 local package = package;
 
 this.list = {
+	attack_up = nil,
+	defense_up = nil,
 	stamina_use_down = nil,
 };
 
 local misc_buffs_type_name = "misc_buffs";
 
+-- Attack Up
+-- Might Seed +10		3min
+-- Dango Bulker + 15	30sec
+-- Chameleos Souls +15	30sec
+
+-- Defense Up
+-- Adamant Seed +20		3min
+-- Chameleos Souls +20	30sec
+
+-- Stamina Use Down
+-- Dash Juice			3min
+-- Peepersects			1.5min
+-- Chameleos Soul		30sec
+
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
--- Dash Juice/Peepersects
+-- Attack Up
+local atk_up_buff_second_field = player_data_type_def:get_field("_AtkUpBuffSecond");
+local atk_up_buff_second_timer_field = player_data_type_def:get_field("_AtkUpBuffSecondTimer");
+-- Defense Up
+local def_up_buff_second_field = player_data_type_def:get_field("_DefUpBuffSecond");
+local def_up_buff_second_timer_field = player_data_type_def:get_field("_DefUpBuffSecondTimer");
+-- Stamina Use Down
 local stamina_up_buff_second_timer_field = player_data_type_def:get_field("_StaminaUpBuffSecondTimer");
+-- Immunity
+local debuff_prevention_timer_field = player_data_type_def:get_field("_DebuffPreventionTimer");
 
 function this.update(player, player_data)
-	this.update_stamina_use_down(player_data);
-end
+	buffs.update_generic_buff(this.list, misc_buffs_type_name, "stamina_use_down", this.get_misc_buff_name,
+		nil, nil, player_data, stamina_up_buff_second_timer_field);
 
-function this.update_stamina_use_down(player_data)
-	if consumables.list.dash_juice ~= nil or endemic_life_buffs.list.peepersects ~= nil then
-		this.list.stamina_use_down = nil;
-		return;
-	end
+	buffs.update_generic_buff(this.list, misc_buffs_type_name, "attack_up", this.get_misc_buff_name,
+		player_data, atk_up_buff_second_field, player_data, atk_up_buff_second_timer_field);
 
-	local stamina_up_buff_second_timer = stamina_up_buff_second_timer_field:get_data(player_data);
-	if stamina_up_buff_second_timer == nil then
-		error_handler.report("consumables.update_stamina_use_down", "Failed to access Data: stamina_up_buff_second_timer");
-		return;
-	end
+	buffs.update_generic_buff(this.list, misc_buffs_type_name, "defense_up", this.get_misc_buff_name,
+		player_data, def_up_buff_second_field, player_data, def_up_buff_second_timer_field);
 
-	if utils.number.is_equal(stamina_up_buff_second_timer, 0) then
-		this.list.stamina_use_down = nil;
-		return;
-	end
-
-	buffs.update_generic(this.list, misc_buffs_type_name, "stamina_use_down", this.get_misc_buff_name, 1,
-		stamina_up_buff_second_timer / 60, endemic_life_buffs.peepersects_duration);
+	buffs.update_generic_buff(this.list, misc_buffs_type_name, "immunity", this.get_misc_buff_name,
+		nil, nil, player_data, debuff_prevention_timer_field);
 end
 
 function this.init_names()
