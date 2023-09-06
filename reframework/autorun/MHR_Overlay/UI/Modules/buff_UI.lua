@@ -15,6 +15,7 @@ local abnormal_statuses;
 local otomo_moves;
 local weapon_skills;
 local misc_buffs;
+local rampage_skills;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -137,15 +138,26 @@ function this.update()
 		::continue8::
 	end
 
+	for key, rampage_skill in pairs(rampage_skills.list) do
+		if not rampage_skill.is_active then
+			goto continue9;
+		end
+
+		table.insert(_displayed_buffs, rampage_skill);
+
+		::continue9::
+	end
+
 	for key, misc_buffs in pairs(misc_buffs.list) do
 		if not misc_buffs.is_active then
-			goto continue9;
+			goto continue10;
 		end
 
 		table.insert(_displayed_buffs, misc_buffs);
 
-		::continue9::
+		::continue10::
 	end
+	
 
 	displayed_buffs = this.sort_buffs(_displayed_buffs, cached_config);
 end
@@ -232,6 +244,7 @@ function this.init_dependencies()
 	otomo_moves = require("MHR_Overlay.Buffs.otomo_moves");
 	weapon_skills = require("MHR_Overlay.Buffs.weapon_skills");
 	misc_buffs = require("MHR_Overlay.Buffs.misc_buffs");
+	rampage_skills = require("MHR_Overlay.Buffs.rampage_skills");
 end
 
 function this.init_module()

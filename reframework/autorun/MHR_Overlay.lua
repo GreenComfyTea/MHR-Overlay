@@ -53,6 +53,7 @@ local dango_skills = require("MHR_Overlay.Buffs.dango_skills");
 local abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
 local otomo_moves = require("MHR_Overlay.Buffs.otomo_moves");
 local weapon_skills = require("MHR_Overlay.Buffs.weapon_skills");
+local rampage_skills = require("MHR_Overlay.Buffs.rampage_skills");
 local misc_buffs = require("MHR_Overlay.Buffs.misc_buffs");
 
 local players = require("MHR_Overlay.Damage_Meter.players");
@@ -136,6 +137,7 @@ dango_skills.init_dependencies();
 abnormal_statuses.init_dependencies();
 otomo_moves.init_dependencies();
 weapon_skills.init_dependencies();
+rampage_skills.init_dependencies();
 misc_buffs.init_dependencies();
 
 damage_hook.init_dependencies();
@@ -214,6 +216,7 @@ dango_skills.init_module();
 abnormal_statuses.init_module();
 otomo_moves.init_module();
 weapon_skills.init_module();
+rampage_skills.init_module();
 misc_buffs.init_module();
 
 damage_hook.init_module();
