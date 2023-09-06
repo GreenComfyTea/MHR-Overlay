@@ -43,6 +43,7 @@ this.list = {};
 
 this.creature_ids = {
 	clothfly = 7,
+	stinkmink = 23,
 	butterflame = 28,
 	peepersects = 29,
 	cutterfly = 50,

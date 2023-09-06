@@ -44,8 +44,11 @@ local ValueType = ValueType;
 local package = package;
 
 this.list = {
-	cutterfly = nil,
 	clothfly = nil,
+	stinkmink = nil,
+	butterflame = nil,
+	-- peepersects = nil,
+	cutterfly = nil,
 	ruby_wirebug = nil,
 	gold_wirebug = nil
 };
@@ -75,8 +78,8 @@ local wirebug_powerup_timer_field = player_data_type_def:get_field("_WireBugPowe
 -- Butterflame
 local atk_up_buff_second_field = player_data_type_def:get_field("_AtkUpBuffSecond");
 local atk_up_buff_second_timer_field = player_data_type_def:get_field("_AtkUpBuffSecondTimer");
--- Peepersects
-local stamina_up_buff_second_timer_field = player_data_type_def:get_field("_StaminaUpBuffSecondTimer");
+-- Stinkmink
+local lead_enemy_timer_field = player_data_type_def:get_field("_LeadEnemyTimer");
 
 local player_quest_base_type_def = sdk.find_type_definition("snow.player.PlayerQuestBase");
 -- Ruby/Gold Wirebugs
@@ -88,13 +91,15 @@ local get_env_creature_name_message_method = message_manager_type_def:get_method
 function this.update(player, player_data, item_parameter)
 	this.update_ruby_and_gold_wirebugs(player, player_data);
 	this.update_butterflame(player_data);
-	this.update_peepersects(player_data);
 
 	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "cutterfly", this.get_endemic_life_name,
 		nil, nil, player_data, crit_up_ec_second_timer_field);
 
 	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "clothfly", this.get_endemic_life_name,
 		nil, nil, player_data, def_up_buff_second_rate_timer_field);
+
+	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "stinkmink", this.get_endemic_life_name,
+		nil, nil, player_data, lead_enemy_timer_field);
 end
 
 function this.update_ruby_and_gold_wirebugs(player, player_data)
