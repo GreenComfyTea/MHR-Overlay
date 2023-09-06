@@ -18,6 +18,7 @@ local abnormal_statuses;
 local otomo_moves;
 local weapon_skills;
 local misc_buffs;
+local rampage_skills;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -54,12 +55,31 @@ local package = package;
 --[[
 	TODO:
 	[x] DONE! Wirebug-related skills
-	More otomo skills
 	[x] DONE! More Dango skills
-	Part breaker, charge master
 	[x] DONE! Weapon buffs
-	More endemic life, such as Lampsquid
 	[x] DONE! Horn music
+	[x] DONE! abnormal_statuses: Immunity
+	[x] DONE! consumables: Stinkmink
+	[x] DONE! rampage skills: Chameleos Soul
+	[x] WONT IMPLEMENT! skills: Furious Buildup
+	[x] DONE! skills: powder mantle
+	[x] WONT IMPLEMENT! skills: frostcraft
+	[x] COULDNT FIND! skills: defiance -- 
+	[x] DONE! skills: embolden
+	[x] DONE! skills: strife
+	[x] DONE! skills: berserk
+	[x] DONE! skills: dragon conversion
+	[x] DONE! abnormal_statuses: Pre-Sleep
+	More otomo skills
+	skills: Part breaker, charge master
+	Demon Ammo, Armor Ammo
+	weapon skills - Arc Shot: Affinity, Arc Shot: Brace
+	endemic_life_buffs: Red, Yellow Lampsquid
+	Add duration detection to skills
+	Add duration detection to otomo moves
+	Add duration detection to dango skills
+	Add duration detection to rampage skills
+	Add duration detection to endemic life buffs
 ]]
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
@@ -173,6 +193,7 @@ function this.update()
 
 	consumables.update(master_player_data);
 	otomo_moves.update(master_player_data);
+	rampage_skills.update(master_player_data);
 
 	if not is_player_lobby_base then
 		skills.update(master_player, master_player_data, weapon_type);
@@ -183,19 +204,20 @@ function this.update()
 		misc_buffs.update(master_player, master_player_data);
 	end
 
-	-- local tbl = {
-	-- 	"_IsEnable_KitchenSkill048_Reduce",
-	-- 	"_KitchenSkill_Insurance_DefUp_Lv3",
-	-- 	"_KitchenSkill_Insurance_DefUp_Lv4",
-	-- 	"_KitchenSkill051_AtkUpTimer",
-	-- 	"_KitchenSkill051_AtkUp",
-	-- 	"_KitchenSkill054_Timer",
-	-- 	"_KitchenSkill054_DefUp",
-	-- };
-
 	-- xy = "";
-	-- for _, key in ipairs(tbl) do
-	-- 	xy = string.format("%s%s: %s\n", xy, key, tostring(master_player_data:get_field(key)));
+
+	-- local fields =  sdk.find_type_definition("snow.player.PlayerData"):get_fields();
+	-- for i = 1, 999 do
+	-- 	if fields[i] ~= nil then
+	-- 		local value = fields[i]:get_data(master_player_data);
+	-- 		if value ~= nil then
+	-- 			pcall(function()
+	-- 				if not utils.number.is_equal(value, 0) then
+	-- 					xy = string.format("%s%s: %s\n", xy, fields[i]:get_name(), tostring(value));
+	-- 				end
+	-- 			end);
+	-- 		end
+	-- 	end
 	-- end
 end
 
@@ -355,6 +377,7 @@ function this.init_dependencies()
 	abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
 	otomo_moves = require("MHR_Overlay.Buffs.otomo_moves");
 	weapon_skills = require("MHR_Overlay.Buffs.weapon_skills");
+	rampage_skills = require("MHR_Overlay.Buffs.rampage_skills");
 	misc_buffs = require("MHR_Overlay.Buffs.misc_buffs");
 end
 
