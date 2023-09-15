@@ -277,7 +277,9 @@ this.default_language = {
 		all_extracts_mix = "All Extracts Mix",
 		-- Bow
 		herculean_draw = "Herculean Draw",
-		--bolt_boost = "Bolt Boost" 
+		--bolt_boost = "Bolt Boost",
+		arc_shot_affinity = "Arc Shot: Affinity",
+		arc_shot_brace = "Arc Shot: Brace",
 	},
 
 	misc_buffs = {
@@ -305,7 +307,7 @@ this.default_language = {
 		otomo = "Buddy",
 		servant = "Follower",
 
-		lv = "Lv."
+		lv = ""
 	},
 
 	customization_menu = {

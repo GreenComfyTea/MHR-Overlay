@@ -3,7 +3,7 @@
         "HP": "HP:",
         "buildup": "Buildup:",
         "gold": "Gold",
-        "lv": "Lv.",
+        "lv": "",
         "mini": "Mini",
         "otomo": "Buddy",
         "part_anomaly_core": "Anomaly Core",
@@ -446,7 +446,6 @@
     "skills": {
         "dragon_conversion_elemental_attack_up": "Dragon Conversion Elem. Atk Up",
         "dragon_conversion_elemental_res_up": "Dragon Conversion Elem. Res Up",
-        "kushala_daora_soul": "Kushala Daora Soul",
         "powder_mantle_blue": "Powder Mantle (Blue)",
         "powder_mantle_red": "Powder Mantle (Red)"
     },
@@ -472,6 +471,8 @@
     "weapon_skills": {
         "all_extracts_mix": "All Extracts Mix",
         "amped_state": "Amped State",
+        "arc_shot_affinity": "Arc Shot: Affinity",
+        "arc_shot_brace": "Arc Shot: Brace",
         "archdemon_mode": "Archdemon Mode",
         "axe_heavy_slam": "Axe: Heavy Slam",
         "element_boost": "Element Boost",

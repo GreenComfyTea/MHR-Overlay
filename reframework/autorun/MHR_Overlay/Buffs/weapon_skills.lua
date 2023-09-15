@@ -93,7 +93,9 @@ this.list = {
 	all_extracts_mix = nil,
 	-- Bow
 	herculean_draw = nil,
-	bolt_boost = nil
+	bolt_boost = nil,
+	arc_shot_affinity = nil,
+	arc_shot_brace = nil
 };
 
 local weapon_skill_ids = {
@@ -391,6 +393,11 @@ local wire_buff_attack_up_timer_field = bow_type_def:get_field("_WireBuffAttackU
 -- Bolt Boost
 local wire_buff_arrow_up_timer_field = bow_type_def:get_field("_WireBuffArrowUpTimer");
 
+-- Arc Shot: Affinity
+local crit_chance_bow_timer_field = player_data_type_def:get_field("_CritChanceUpBowTimer");
+-- Arc Shot: Brace
+local super_armor_item_timer_field = player_data_type_def:get_field("_SuperArmorItemTimer");
+
 local player_user_data_bow_type_def = get_ref_player_user_data_bow_method:get_return_type();
 local get_wire_buff_attack_up_time_method = player_user_data_bow_type_def:get_method("get_WireBuffAttackUpTime");
 local get_arrow_up_time_method = player_user_data_bow_type_def:get_method("get_ArrowUpBufTime");
@@ -458,7 +465,7 @@ function this.update(player, player_data, weapon_type)
 		this.update_insect_glaive_skills(player);
 
 	else
-		this.update_bow_skills(player);
+		this.update_bow_skills(player, player_data);
 	end
 end
 
@@ -1155,7 +1162,7 @@ function this.update_extract(player, extract_key, time_holder, max_time_holder)
 	buffs.update_generic(this.list, weapon_skills_type_name, extract_key, this.get_weapon_skill_name, 1, extractive_time, duration);
 end
 
-function this.update_bow_skills(player)
+function this.update_bow_skills(player, player_data)
 	local player_user_data_bow = get_ref_player_user_data_bow_method:call(player);
 	if player_user_data_bow == nil then
 		error_handler.report("weapon_skills.update_extract", "Failed to access Data: player_user_data_bow");
@@ -1164,6 +1171,14 @@ function this.update_bow_skills(player)
 
 	this.update_bow_skill(player, "herculean_draw", wire_buff_attack_up_timer_field, player_user_data_bow, get_wire_buff_attack_up_time_method);
 	this.update_bow_skill(player, "bolt_boost", wire_buff_arrow_up_timer_field, player_user_data_bow, get_arrow_up_time_method);
+
+	buffs.update_generic_buff(this.list, weapon_skills_type_name, "arc_shot_affinity", this.get_weapon_skill_name,
+		nil, nil, player_data, crit_chance_bow_timer_field);
+
+	buffs.update_generic_buff(this.list, weapon_skills_type_name, "arc_shot_brace", this.get_weapon_skill_name,
+		nil, nil, player_data, super_armor_item_timer_field);
+
+		
 end
 
 function this.update_bow_skill(player, bow_skill_key, timer_holder, player_user_data_bow, max_time_holder)
