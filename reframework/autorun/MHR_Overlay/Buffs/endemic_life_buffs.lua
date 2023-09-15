@@ -9,7 +9,7 @@ local utils;
 local language;
 local error_handler;
 local env_creature;
-local consumables;
+local item_buffs;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -50,7 +50,9 @@ this.list = {
 	-- peepersects = nil,
 	cutterfly = nil,
 	ruby_wirebug = nil,
-	gold_wirebug = nil
+	gold_wirebug = nil,
+	red_lampsquid = nil,
+	yellow_lampsquid = nil
 };
 
 this.peepersects_duration = 90;
@@ -59,6 +61,7 @@ local endemic_life_buffs_type_name = "endemic_life_buffs";
 
 local marionette_mode_types = { "ruby_wirebug", "gold_wirebug" };
 local butterflame_attack_up = 25;
+
 
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
@@ -80,6 +83,11 @@ local atk_up_buff_second_field = player_data_type_def:get_field("_AtkUpBuffSecon
 local atk_up_buff_second_timer_field = player_data_type_def:get_field("_AtkUpBuffSecondTimer");
 -- Stinkmink
 local lead_enemy_timer_field = player_data_type_def:get_field("_LeadEnemyTimer");
+-- Red Lampsquid
+local atk_up_ec_second_timer_field = player_data_type_def:get_field("_AtkUpEcSecondTimer");
+-- Yellow Lampsquid
+local def_up_ec_second_timer_field = player_data_type_def:get_field("_DefUpEcSecondTimer");
+
 
 local player_quest_base_type_def = sdk.find_type_definition("snow.player.PlayerQuestBase");
 -- Ruby/Gold Wirebugs
@@ -100,6 +108,14 @@ function this.update(player, player_data, item_parameter)
 
 	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "stinkmink", this.get_endemic_life_name,
 		nil, nil, player_data, lead_enemy_timer_field);
+
+	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "red_lampsquid", this.get_endemic_life_name,
+		nil, nil, player_data, atk_up_ec_second_timer_field);
+
+	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "yellow_lampsquid", this.get_endemic_life_name,
+		nil, nil, player_data, def_up_ec_second_timer_field);
+
+		
 end
 
 function this.update_ruby_and_gold_wirebugs(player, player_data)
@@ -127,7 +143,7 @@ end
 function this.update_butterflame(player_data)
 	local atk_up_buff_second = atk_up_buff_second_field:get_data(player_data);
 	if atk_up_buff_second == nil then
-		error_handler.report("consumables.update_butterflame", "Failed to access Data: atk_up_buff_second");
+		error_handler.report("item_buffs.update_butterflame", "Failed to access Data: atk_up_buff_second");
 		return;
 	end
 
@@ -143,7 +159,7 @@ end
 function this.update_peepersects(player_data)
 	local stamina_up_buff_second_timer = stamina_up_buff_second_timer_field:get_data(player_data);
 	if stamina_up_buff_second_timer == nil then
-		error_handler.report("consumables.update_peepersects", "Failed to access Data: stamina_up_buff_second_timer");
+		error_handler.report("item_buffs.update_peepersects", "Failed to access Data: stamina_up_buff_second_timer");
 		return;
 	end
 
@@ -155,7 +171,7 @@ function this.update_peepersects(player_data)
 	local timer = stamina_up_buff_second_timer / 60;
 	local peepersects_buff = this.list.peepersects;
 
-	if peepersects_buff == nil and consumables.list.dash_juice ~= nil and timer <= consumables.list.dash_juice.timer then
+	if peepersects_buff == nil and item_buffs.list.dash_juice ~= nil and timer <= item_buffs.list.dash_juice.timer then
 		return;
 	end
 
@@ -196,7 +212,7 @@ function this.init_dependencies()
 	language = require("MHR_Overlay.Misc.language");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
-	consumables = require("MHR_Overlay.Buffs.consumables");
+	item_buffs = require("MHR_Overlay.Buffs.item_buffs");
 end
 
 function this.init_module()
