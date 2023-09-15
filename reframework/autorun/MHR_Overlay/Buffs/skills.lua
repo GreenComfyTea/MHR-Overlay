@@ -80,7 +80,8 @@ this.list = {
 	powder_mantle_blue = nil,
 	strife = nil,
 	inspiration = nil,
-	blood_awakening = nil
+	blood_awakening = nil,
+	partbreaker = nil
 };
 
 local skills_type_name = "skills";
@@ -166,7 +167,7 @@ local skill_data_list = {
 	-- blast_resistance =		{ id = 78 },
 	-- botanist =				{ id = 79 },
 	-- geologist =				{ id = 80 },
-	-- partbreaker =			{ id = 81 },
+	partbreaker =				{ id = 81, level = 0, is_equipped = false },
 	-- capture_master =			{ id = 82 },
 	-- carving_master =			{ id = 83 },
 	-- good_luck =				{ id = 84 },
@@ -206,10 +207,10 @@ local skill_data_list = {
 	-- defiance =				{ id = 118 },
 	-- sneak_attack =			{ id = 119 },
 	adrenaline_rush =			{ id = 120 },
-	embolden =				{ id = 121 },
+	embolden =					{ id = 121 },
 	-- redirection =			{ id = 122 },
 	spiribirds_call =			{ id = 123 },
-	-- charge_master =			{ id = 124 },
+	charge_master =				{ id = 124 },
 	-- foray =					{ id = 125 },
 	-- tune_up =				{ id = 126 },
 	grinder_s =					{ id = 127 },
@@ -393,6 +394,7 @@ function this.update(player, player_data, weapon_type)
 	this.update_spiribirds_call(player_data);
 	this.update_powder_mantle(player_data);
 	this.update_blood_awakening(player, player_data);
+	
 
 	this.update_generic_skill("dereliction", player_data, symbiosis_skill_lost_vital_field,
 		nil, nil, nil, nil, true, nil, dereliction_breakpoints);
@@ -425,6 +427,7 @@ function this.update(player, player_data, weapon_type)
 	this.update_generic_skill("berserk", player, get_is_enable_equip_skill_225_method);
 	this.update_generic_skill("dragon_conversion_elemental_attack_up", player, equip_skill_229_sum_resist_field);
 	this.update_generic_skill("dragon_conversion_elemental_res_up", player, equip_skill_229_use_up_flag_field);
+	this.update_generic_skill("partbreaker", nil, nil, nil, nil, nil, nil, true);
 	
 	this.update_generic_skill("strife", player, get_affinity_equip_skill_233_method,
 		nil, nil, nil, nil, nil, nil, strife_breakpoints[skill_data_list.strife.level]);
@@ -458,6 +461,8 @@ function this.update_equipped_skill_data(player)
 
 		local re_skill_data = get_skill_data_method:call(player_skill_list, skill_data.id);
 		if re_skill_data == nil then
+			skill_data.is_equipped = false;
+			skill_data.level = 0;
 			goto continue;
 		end
 
