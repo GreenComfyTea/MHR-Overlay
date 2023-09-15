@@ -208,24 +208,24 @@ end
 
 function this.update_dango_insurance()
 	if singletons.player_manager == nil then
-		error_handler.report("consumables.update_dango_insurance", "Failed to access Data: player_manager");
+		error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: player_manager");
 		return;
 	end
 
 	if singletons.quest_manager == nil then
-		error_handler.report("consumables.update_dango_insurance", "Failed to access Data: quest_manager");
+		error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: quest_manager");
 		return;
 	end
 
 	local player_skill_list_array = get_player_skill_method:call(singletons.player_manager);
 	if player_skill_list_array == nil then
-		error_handler.report("consumables.update_dango_insurance", "Failed to access Data: player_skill_list_array");
+		error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: player_skill_list_array");
 		return;
 	end
 
 	local player_skill_list_array_length = get_length_method:call(player_skill_list_array);
 	if player_skill_list_array_length == nil then
-		error_handler.report("consumables.update_dango_insurance", "Failed to access Data: player_skill_array_list_length");
+		error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: player_skill_array_list_length");
 		return;
 	end
 
@@ -240,13 +240,13 @@ function this.update_dango_insurance()
 
 		local player_skill_list = get_value_method:call(player_skill_list_array, player_id);
 		if player_skill_list_array_length == nil then
-			error_handler.report("consumables.update_dango_insurance", "Failed to access Data: player_skill_list No. " .. tostring(player_id));
+			error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: player_skill_list No. " .. tostring(player_id));
 			goto continue;
 		end
 
 		local kitchen_skill = has_kitchen_skill_method:call(player_skill_list, dango_ids.dango_insurance);
 		if kitchen_skill == nil then
-			error_handler.report("consumables.update_dango_insurance", "Failed to access Data: kitchen_skill No. " .. tostring(player_id));
+			error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: kitchen_skill No. " .. tostring(player_id));
 			goto continue;
 		end
 
@@ -260,13 +260,13 @@ function this.update_dango_insurance()
 
 	local flag_cat_skill_insurance = flag_cat_skill_insurance_field:get_data(singletons.quest_manager);
 	if flag_cat_skill_insurance == nil then
-		error_handler.report("consumables.update_dango_insurance", "Failed to access Data: flag_cat_skill_insurance");
+		error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: flag_cat_skill_insurance");
 		return;
 	end
 
 	local is_cat_skill_insurance = is_cat_skill_insurance_method:call(singletons.quest_manager, flag_cat_skill_insurance);
 	if is_cat_skill_insurance == nil then
-		error_handler.report("consumables.update_dango_insurance", "Failed to access Data: is_cat_skill_insurance");
+		error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: is_cat_skill_insurance");
 		return;
 	end
 
