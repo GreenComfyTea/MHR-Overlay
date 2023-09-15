@@ -151,7 +151,7 @@ local virus_overcome_buff_timer_field = player_data_type_def:get_field("_VirusOv
 function this.update(player, player_data)
 	--local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
 	--if item_parameter == nil then
-	--	error_handler.report("consumables.update", "Failed to access Data: item_parameter");
+	--	error_handler.report("abnormal_statuses.update", "Failed to access Data: item_parameter");
 	--	return;
 	--end
 
