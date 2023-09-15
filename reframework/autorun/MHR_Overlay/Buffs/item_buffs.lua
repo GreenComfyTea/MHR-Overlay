@@ -56,7 +56,7 @@ this.list = {
 	gourmet_fish = nil,
 };
 
-local consumable_ids = {
+local item_ids = {
 	demondrug = 68157917,
 	mega_demondrug = 68157918,
 	armorskin = 68157922,
@@ -67,10 +67,12 @@ local consumable_ids = {
 	hardshell_powder = 68157925,
 	immunizer = 68157911,
 	--dash_juice = 68157913,
-	gourmet_fish = 68157909
+	gourmet_fish = 68157909,
+	demon_ammo = 68157595,
+	armor_ammo = 68157596
 }
 
-local consumables_type_name = "consumables";
+local item_buffs_type_name = "item_buffs";
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local get_player_data_method = player_manager_type_def:get_method("get_PlayerData");
@@ -108,6 +110,10 @@ local def_up_item_second_timer_field = player_data_type_def:get_field("_DefUpIte
 local vitalizer_timer_field = player_data_type_def:get_field("_VitalizerTimer");
 -- Gourmet Fish
 local fish_regene_enable_field = player_data_type_def:get_field("_FishRegeneEnableTimer");
+-- Demon Ammo
+local kijin_bullet_timer_field = player_data_type_def:get_field("_KijinBulletTimer");
+-- Armor Ammo
+local kouka_bullet_timer_field = player_data_type_def:get_field("_KoukaBulletTimer");
 
 local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut");
 local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.ContentsIdSystem.ItemId)");
@@ -115,32 +121,38 @@ local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.Con
 function this.update(player_data)
 	local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
 	if item_parameter == nil then
-		error_handler.report("consumables.update", "Failed to access Data: item_parameter");
+		error_handler.report("item_buffs.update", "Failed to access Data: item_parameter");
 		return;
 	end
 
-	local cached_language = language.current_language
+	local cached_language = language.current_language;
 
 	this.update_demondrug(player_data, item_parameter);
 	this.update_armorskin(player_data, item_parameter);
 	
-	buffs.update_generic_buff(this.list, consumables_type_name, "demon_powder", this.get_consumable_name,
+	buffs.update_generic_buff(this.list, item_buffs_type_name, "demon_powder", this.get_item_name,
 		player_data, atk_up_item_second_field, player_data, atk_up_item_second_timer_field, item_parameter, demondrug_powder_timer_field);
 	
-	buffs.update_generic_buff(this.list, consumables_type_name, "hardshell_powder", this.get_consumable_name,
+	buffs.update_generic_buff(this.list, item_buffs_type_name, "hardshell_powder", this.get_item_name,
 		player_data, def_up_item_second_field, player_data, def_up_item_second_timer_field, item_parameter, armorskin_powder_timer_field);
 	
-	buffs.update_generic_buff(this.list, consumables_type_name, "immunizer", this.get_consumable_name,
+	buffs.update_generic_buff(this.list, item_buffs_type_name, "immunizer", this.get_item_name,
 		nil, nil, player_data, vitalizer_timer_field, item_parameter, vitalizer_timer_const_field);
 
-	buffs.update_generic_buff(this.list, consumables_type_name, "gourmet_fish", this.get_consumable_name,
-		nil, nil, player_data, fish_regene_enable_field, nil, nil);
+	buffs.update_generic_buff(this.list, item_buffs_type_name, "gourmet_fish", this.get_item_name,
+		nil, nil, player_data, fish_regene_enable_field);
+
+	buffs.update_generic_buff(this.list, item_buffs_type_name, "demon_ammo", this.get_item_name,
+		nil, nil, player_data, kijin_bullet_timer_field);
+
+	buffs.update_generic_buff(this.list, item_buffs_type_name, "armor_ammo", this.get_item_name,
+		nil, nil, player_data, kouka_bullet_timer_field);
 end
 
 function this.update_demondrug(player_data, item_parameter)
 	local demondrug_value = atk_up_alive_field:get_data(player_data);
 	if demondrug_value == nil then
-		error_handler.report("consumables.update_demondrug", "Failed to access Data: demondrug_value");
+		error_handler.report("item_buffs.update_demondrug", "Failed to access Data: demondrug_value");
 		return;
 	end
 
@@ -152,33 +164,33 @@ function this.update_demondrug(player_data, item_parameter)
 
 	local demondrug_const_value = demondrug_atk_up_field:get_data(item_parameter);
 	if demondrug_const_value == nil then
-		error_handler.report("consumables.update_demondrug", "Failed to access Data: demondrug_const_value");
+		error_handler.report("item_buffs.update_demondrug", "Failed to access Data: demondrug_const_value");
 		return;
 	end
 
 	local mega_demondrug_const_value = great_demondrug_atk_up_field:get_data(item_parameter);
 	if mega_demondrug_const_value == nil then
-		error_handler.report("consumables.update_demondrug", "Failed to access Data: mega_demondrug_const_value");
+		error_handler.report("item_buffs.update_demondrug", "Failed to access Data: mega_demondrug_const_value");
 		return;
 	end
 
-	local consumable_key;
+	local item_key;
 	if demondrug_value == demondrug_const_value then
-		consumable_key = "demondrug";
+		item_key = "demondrug";
 		this.list.mega_demondrug = nil;
 	
 	elseif demondrug_value == mega_demondrug_const_value then
-		consumable_key = "mega_demondrug";
+		item_key = "mega_demondrug";
 		this.list.demondrug = nil;
 	end
 
-	buffs.update_generic(this.list, consumables_type_name, consumable_key, this.get_consumable_name);
+	buffs.update_generic(this.list, item_buffs_type_name, item_key, this.get_item_name);
 end
 
 function this.update_armorskin(player_data, item_parameter)
 	local armorskin_value = def_up_alive_field:get_data(player_data);
 	if armorskin_value == nil then
-		error_handler.report("consumables.update_armorskin", "Failed to access Data: armorskin_value");
+		error_handler.report("item_buffs.update_armorskin", "Failed to access Data: armorskin_value");
 		return;
 	end
 
@@ -190,37 +202,37 @@ function this.update_armorskin(player_data, item_parameter)
 
 	local armorskin_const_value = armorskin_def_up_field:get_data(item_parameter);
 	if armorskin_const_value == nil then
-		error_handler.report("consumables.update_armorskin", "Failed to access Data: armorskin_const_value");
+		error_handler.report("item_buffs.update_armorskin", "Failed to access Data: armorskin_const_value");
 		return;
 	end
 
 	local mega_armorskin_const_value = great_armorskin_def_up_field:get_data(item_parameter);
 	if mega_armorskin_const_value == nil then
-		error_handler.report("consumables.update_armorskin", "Failed to access Data: mega_armorskin_const_value");
+		error_handler.report("item_buffs.update_armorskin", "Failed to access Data: mega_armorskin_const_value");
 		return;
 	end
 
-	local consumable_key;
+	local item_key;
 	if armorskin_value == armorskin_const_value then
-		consumable_key = "armorskin";
+		item_key = "armorskin";
 		this.list.mega_armorskin = nil;
 	
 	elseif armorskin_value == mega_armorskin_const_value then
-		consumable_key = "mega_armorskin";
+		item_key = "mega_armorskin";
 		this.list.armorskin = nil;
 	end
 
-	buffs.update_generic(this.list, consumables_type_name, consumable_key, this.get_consumable_name);
+	buffs.update_generic(this.list, item_buffs_type_name, item_key, this.get_item_name);
 end
 
-function this.get_consumable_name(consumable_key)
-	local consumable_name = get_name_method:call(nil, consumable_ids[consumable_key]);
-	if consumable_name == nil then
-		error_handler.report("consumables.get_consumable_name", string.format("Failed to access Data: %s_name", consumable_key));
-		return consumable_key;
+function this.get_item_name(item_key)
+	local item_name = get_name_method:call(nil, item_ids[item_key]);
+	if item_name == nil then
+		error_handler.report("item_buffs.get_item_name", string.format("Failed to access Data: %s_name", item_key));
+		return item_key;
 	end
 
-	return consumable_name;
+	return item_name;
 end
 
 function this.init_dependencies()

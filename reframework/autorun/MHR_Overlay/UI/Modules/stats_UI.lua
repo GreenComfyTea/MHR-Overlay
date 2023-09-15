@@ -3,7 +3,7 @@ local this = {};
 local buff_UI_entity;
 local config;
 local buffs;
-local consumables;
+local item_buffs;
 local melody_effects;
 local endemic_life_buff;
 local screen;
@@ -293,7 +293,7 @@ end
 function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
-	consumables = require("MHR_Overlay.Buffs.consumables");
+	item_buffs = require("MHR_Overlay.Buffs.item_buffs");
 	melody_effects = require("MHR_Overlay.Buffs.melody_effects");
 	buffs = require("MHR_Overlay.Buffs.buffs");
 	--singletons = require("MHR_Overlay.Game_Handler.singletons");

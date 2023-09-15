@@ -9,7 +9,7 @@ local utils;
 local language;
 local error_handler;
 local endemic_life_buffs;
-local consumables;
+local item_buffs;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -116,7 +116,7 @@ function this.init_dependencies()
 	language = require("MHR_Overlay.Misc.language");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
 	endemic_life_buffs = require("MHR_Overlay.Buffs.endemic_life_buffs");
-	consumables = require("MHR_Overlay.Buffs.consumables");
+	item_buffs = require("MHR_Overlay.Buffs.item_buffs");
 end
 
 function this.init_module()

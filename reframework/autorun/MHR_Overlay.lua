@@ -45,7 +45,7 @@ local utils = require("MHR_Overlay.Misc.utils");
 local player_info = require("MHR_Overlay.Misc.player_info");
 
 local buffs = require("MHR_Overlay.Buffs.buffs");
-local consumables = require("MHR_Overlay.Buffs.consumables");
+local item_buffs = require("MHR_Overlay.Buffs.item_buffs");
 local melody_effects = require("MHR_Overlay.Buffs.melody_effects");
 local endemic_life_buffs = require("MHR_Overlay.Buffs.endemic_life_buffs");
 local skills = require("MHR_Overlay.Buffs.skills");
@@ -129,7 +129,7 @@ buff_UI_entity.init_dependencies();
 player_info.init_dependencies();
 
 buffs.init_dependencies();
-consumables.init_dependencies();
+item_buffs.init_dependencies();
 melody_effects.init_dependencies();
 endemic_life_buffs.init_dependencies();
 skills.init_dependencies();
@@ -208,7 +208,7 @@ buff_UI_entity.init_module();
 player_info.init_module();
 
 buffs.init_module();
-consumables.init_module();
+item_buffs.init_module();
 melody_effects.init_module();
 endemic_life_buffs.init_module();
 skills.init_module();

@@ -3,7 +3,7 @@ local this = {};
 local buff_UI_entity;
 local config;
 local buffs;
-local consumables;
+local item_buffs;
 local melody_effects;
 local endemic_life_buff;
 local screen;
@@ -56,13 +56,13 @@ function this.update()
 
 	local _displayed_buffs = {};
 
-	for key, consumable in pairs(consumables.list) do
+	for key, item_buff in pairs(item_buffs.list) do
 		
-		if not consumable.is_active then
+		if not item_buff.is_active then
 			goto continue;
 		end
 
-		table.insert(_displayed_buffs, consumable);
+		table.insert(_displayed_buffs, item_buff);
 
 		::continue::
 	end
@@ -224,7 +224,7 @@ end
 function this.init_dependencies()
 	config = require("MHR_Overlay.Misc.config");
 	buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
-	consumables = require("MHR_Overlay.Buffs.consumables");
+	item_buffs = require("MHR_Overlay.Buffs.item_buffs");
 	melody_effects = require("MHR_Overlay.Buffs.melody_effects");
 	buffs = require("MHR_Overlay.Buffs.buffs");
 	--singletons = require("MHR_Overlay.Game_Handler.singletons");

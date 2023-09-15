@@ -4,7 +4,7 @@ local buff_UI_entity;
 local config;
 local singletons;
 local players;
-local consumables;
+local item_buffs;
 local melody_effects;
 local utils;
 local language;
@@ -59,27 +59,28 @@ local package = package;
 	[x] DONE! Weapon buffs
 	[x] DONE! Horn music
 	[x] DONE! abnormal_statuses: Immunity
-	[x] DONE! consumables: Stinkmink
+	[x] DONE! item_buffs: Stinkmink
 	[x] DONE! rampage skills: Chameleos Soul
-	[x] WONT IMPLEMENT! skills: Furious Buildup
 	[x] DONE! skills: powder mantle
-	[x] WONT IMPLEMENT! skills: frostcraft
-	[x] COULDNT FIND! skills: defiance -- 
 	[x] DONE! skills: embolden
 	[x] DONE! skills: strife
 	[x] DONE! skills: berserk
 	[x] DONE! skills: dragon conversion
 	[x] DONE! abnormal_statuses: Pre-Sleep
+	[x] DONE! skills: charge master
+	[x] DONE! endemic_life_buffs: Red, Yellow Lampsquid
+	[x] DONE! weapon skills - Arc Shot: Affinity, Arc Shot: Brace
+	[x] DONE! Demon Ammo, Armor Ammo
 	More otomo skills
-	skills: Part breaker, charge master
-	Demon Ammo, Armor Ammo
-	weapon skills - Arc Shot: Affinity, Arc Shot: Brace
-	endemic_life_buffs: Red, Yellow Lampsquid
 	Add duration detection to skills
 	Add duration detection to otomo moves
 	Add duration detection to dango skills
 	Add duration detection to rampage skills
 	Add duration detection to endemic life buffs
+
+	[x] WONT IMPLEMENT! skills: Furious Buildup
+	[x] WONT IMPLEMENT! skills: frostcraft
+	[x] COULDNT FIND! skills: defiance
 ]]
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
@@ -153,6 +154,8 @@ function this.init_names()
 	misc_buffs.init_names();
 end
 
+local tere = {};
+
 function this.update()
 	if not config.current_config.buff_UI.enabled then
 		return;
@@ -191,7 +194,7 @@ function this.update()
 
 	local is_player_lobby_base = master_player:get_type_definition() == player_lobby_base_type_def;
 
-	consumables.update(master_player_data);
+	item_buffs.update(master_player_data);
 	otomo_moves.update(master_player_data);
 	rampage_skills.update(master_player_data);
 
@@ -206,13 +209,17 @@ function this.update()
 
 	-- xy = "";
 
-	-- local fields =  sdk.find_type_definition("snow.player.PlayerData"):get_fields();
+	-- local fields = master_player_data:get_type_definition():get_fields();
+
 	-- for i = 1, 999 do
 	-- 	if fields[i] ~= nil then
 	-- 		local value = fields[i]:get_data(master_player_data);
 	-- 		if value ~= nil then
 	-- 			pcall(function()
-	-- 				if not utils.number.is_equal(value, 0) then
+	-- 				if tere[fields[i]] == nil then
+	-- 					tere[fields[i]] = value;
+
+	-- 				elseif not utils.number.is_equal(value, tere[fields[i]]) then
 	-- 					xy = string.format("%s%s: %s\n", xy, fields[i]:get_name(), tostring(value));
 	-- 				end
 	-- 			end);
@@ -364,7 +371,7 @@ function this.init_dependencies()
 	buff_UI_entity = require("MHR_Overlay.UI.UI_Entities.buff_UI_entity");
 	singletons = require("MHR_Overlay.Game_Handler.singletons");
 	players = require("MHR_Overlay.Damage_Meter.players");
-	consumables = require("MHR_Overlay.Buffs.consumables");
+	item_buffs = require("MHR_Overlay.Buffs.item_buffs");
 	melody_effects = require("MHR_Overlay.Buffs.melody_effects");
 	utils = require("MHR_Overlay.Misc.utils");
 	language = require("MHR_Overlay.Misc.language");
