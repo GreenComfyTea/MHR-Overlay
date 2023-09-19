@@ -65,7 +65,7 @@ local item_ids = {
 	--adamant_seed = 68157924,
 	demon_powder = 68157920,
 	hardshell_powder = 68157925,
-	immunizer = 68157911,
+	--immunizer = 68157911,
 	--dash_juice = 68157913,
 	gourmet_fish = 68157909,
 	demon_ammo = 68157595,
@@ -86,15 +86,6 @@ local great_demondrug_atk_up_field = player_user_data_item_parameter_type_def:ge
 local armorskin_def_up_field = player_user_data_item_parameter_type_def:get_field("_ArmorSkinDefUp");
 local great_armorskin_def_up_field = player_user_data_item_parameter_type_def:get_field("_GreatArmorSkinDefUp");
 
-local might_seed_atk_up_field = player_user_data_item_parameter_type_def:get_field("_MightSeedAtkUp");
-local might_seed_timer_field = player_user_data_item_parameter_type_def:get_field("_MightSeedTimer");
-
-local adamant_seed_timer_field = player_user_data_item_parameter_type_def:get_field("_AdamantSeedTimer");
-local demondrug_powder_timer_field = player_user_data_item_parameter_type_def:get_field("_DemondrugPowderTimer");
-local armorskin_powder_timer_field = player_user_data_item_parameter_type_def:get_field("_ArmorSkinPowderTimer");
-local vitalizer_timer_const_field = player_user_data_item_parameter_type_def:get_field("_VitalizerTimer");
-local stamina_up_buff_second_field = player_user_data_item_parameter_type_def:get_field("_StaminaUpBuffSecond");
-
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Demondrug/Mega Demondrug
 local atk_up_alive_field = player_data_type_def:get_field("_AtkUpAlive");
@@ -106,8 +97,6 @@ local atk_up_item_second_timer_field = player_data_type_def:get_field("_AtkUpIte
 -- Hardshell Powder
 local def_up_item_second_field = player_data_type_def:get_field("_DefUpItemSecond");
 local def_up_item_second_timer_field = player_data_type_def:get_field("_DefUpItemSecondTimer");
--- Immunizer
-local vitalizer_timer_field = player_data_type_def:get_field("_VitalizerTimer");
 -- Gourmet Fish
 local fish_regene_enable_field = player_data_type_def:get_field("_FishRegeneEnableTimer");
 -- Demon Ammo
@@ -119,6 +108,11 @@ local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut"
 local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.ContentsIdSystem.ItemId)");
 
 function this.update(player_data)
+	if singletons.player_manager == nil then
+		error_handler.report("item_buffs.update", "Failed to access Data: player_manager");
+		return;
+	end
+
 	local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
 	if item_parameter == nil then
 		error_handler.report("item_buffs.update", "Failed to access Data: item_parameter");
@@ -130,22 +124,19 @@ function this.update(player_data)
 	this.update_demondrug(player_data, item_parameter);
 	this.update_armorskin(player_data, item_parameter);
 	
-	buffs.update_generic_buff(this.list, item_buffs_type_name, "demon_powder", this.get_item_name,
-		player_data, atk_up_item_second_field, player_data, atk_up_item_second_timer_field, item_parameter, demondrug_powder_timer_field);
+	buffs.update_generic_buff(this.list, item_buffs_type_name, "demon_powder", this.get_item_buff_name,
+		player_data, atk_up_item_second_field, player_data, atk_up_item_second_timer_field);
 	
-	buffs.update_generic_buff(this.list, item_buffs_type_name, "hardshell_powder", this.get_item_name,
-		player_data, def_up_item_second_field, player_data, def_up_item_second_timer_field, item_parameter, armorskin_powder_timer_field);
-	
-	buffs.update_generic_buff(this.list, item_buffs_type_name, "immunizer", this.get_item_name,
-		nil, nil, player_data, vitalizer_timer_field, item_parameter, vitalizer_timer_const_field);
+	buffs.update_generic_buff(this.list, item_buffs_type_name, "hardshell_powder", this.get_item_buff_name,
+		player_data, def_up_item_second_field, player_data, def_up_item_second_timer_field);
 
-	buffs.update_generic_buff(this.list, item_buffs_type_name, "gourmet_fish", this.get_item_name,
+	buffs.update_generic_buff(this.list, item_buffs_type_name, "gourmet_fish", this.get_item_buff_name,
 		nil, nil, player_data, fish_regene_enable_field);
 
-	buffs.update_generic_buff(this.list, item_buffs_type_name, "demon_ammo", this.get_item_name,
+	buffs.update_generic_buff(this.list, item_buffs_type_name, "demon_ammo", this.get_item_buff_name,
 		nil, nil, player_data, kijin_bullet_timer_field);
 
-	buffs.update_generic_buff(this.list, item_buffs_type_name, "armor_ammo", this.get_item_name,
+	buffs.update_generic_buff(this.list, item_buffs_type_name, "armor_ammo", this.get_item_buff_name,
 		nil, nil, player_data, kouka_bullet_timer_field);
 end
 
@@ -184,7 +175,7 @@ function this.update_demondrug(player_data, item_parameter)
 		this.list.demondrug = nil;
 	end
 
-	buffs.update_generic(this.list, item_buffs_type_name, item_key, this.get_item_name);
+	buffs.update_generic(this.list, item_buffs_type_name, item_key, this.get_item_buff_name);
 end
 
 function this.update_armorskin(player_data, item_parameter)
@@ -222,17 +213,17 @@ function this.update_armorskin(player_data, item_parameter)
 		this.list.armorskin = nil;
 	end
 
-	buffs.update_generic(this.list, item_buffs_type_name, item_key, this.get_item_name);
+	buffs.update_generic(this.list, item_buffs_type_name, item_key, this.get_item_buff_name);
 end
 
-function this.get_item_name(item_key)
-	local item_name = get_name_method:call(nil, item_ids[item_key]);
-	if item_name == nil then
-		error_handler.report("item_buffs.get_item_name", string.format("Failed to access Data: %s_name", item_key));
+function this.get_item_buff_name(item_key)
+	local item_buff_name = get_name_method:call(nil, item_ids[item_key]);
+	if item_buff_name == nil then
+		error_handler.report("item_buffs.get_item_buff_name", string.format("Failed to access Data: %s_name", item_key));
 		return item_key;
 	end
 
-	return item_name;
+	return item_buff_name;
 end
 
 function this.init_dependencies()

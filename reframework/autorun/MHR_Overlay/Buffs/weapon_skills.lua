@@ -471,7 +471,7 @@ end
 
 function this.update_great_sword_skills(player)
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "power_sheathe", this.get_weapon_skill_name,
-		nil, nil, player, move_wp_off_buff_set_time_field, player, move_wp_off_buff_set_time_field);
+		nil, nil, player, move_wp_off_buff_set_time_field);
 end
 
 function this.update_switch_axe_skills(player)
@@ -482,10 +482,10 @@ function this.update_switch_axe_skills(player)
 	end
 
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "amped_state", this.get_weapon_skill_name,
-		nil, nil, player, get_bottle_awake_duration_timer_method, player, bottle_awake_duration_time_field);
+		nil, nil, player, get_bottle_awake_duration_timer_method);
 
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "switch_charger", this.get_weapon_skill_name,
-		nil, nil, player, no_use_slash_gauge_timer_field, player_user_data_slash_axe, get_no_user_slash_gauge_time_method);
+		nil, nil, player, no_use_slash_gauge_timer_field);
 
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "axe_heavy_slam", this.get_weapon_skill_name,
 		nil, nil, player, bottle_awake_assist_timer_field);
@@ -495,47 +495,10 @@ function this.update_long_sword_skills(player)
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "spirit_gauge_autofill",  this.get_weapon_skill_name,
 		nil, nil, player, get_long_sword_gauge_powerup_time_method);
 
-	this.update_spirit_gauge(player);
+	buffs.update_generic_buff(this.list, weapon_skills_type_name, "spirit_gauge", this.get_weapon_skill_name,
+		player, get_long_sword_gauge_lv_method, player, get_long_sword_gauge_lv_timer_method, false, nil, spirit_gauge_breakpoints);
+
 	this.update_harvest_moon();
-end
-
-function this.update_spirit_gauge(player)
-	local weapon_skill = buffs.update_generic_buff(this.list, weapon_skills_type_name, "spirit_gauge", this.get_weapon_skill_name,
-		player, get_long_sword_gauge_lv_method, player, get_long_sword_gauge_lv_timer_method, nil, nil, false, nil, spirit_gauge_breakpoints);
-
-	if weapon_skill == nil then
-		return;
-	end
-
-	local long_sword_gauge_lv_time_array = long_sword_gauge_lv_time_field:get_data(player);
-	if long_sword_gauge_lv_time_array == nil then
-		error_handler.report("weapon_skills.update_spirit_gauge", "Failed to access Data: long_sword_gauge_lv_time_array");
-		return;
-	end
-
-	local long_sword_gauge_lv_time_array_length = get_length_method:call(long_sword_gauge_lv_time_array);
-	if long_sword_gauge_lv_time_array_length == nil then
-		error_handler.report("weapon_skills.update_spirit_gauge", "Failed to access Data: long_sword_gauge_lv_time_array_length");
-		return;
-	end
-
-	if weapon_skill.level >= long_sword_gauge_lv_time_array_length then
-		return;
-	end
-
-	local long_sword_gauge_lv_time_single_valtype = get_value_method:call(long_sword_gauge_lv_time_array, weapon_skill.level);
-	if long_sword_gauge_lv_time_single_valtype == nil then
-		error_handler.report("weapon_skills.update_spirit_gauge", "Failed to access Data: long_sword_gauge_lv_time_single_valtype");
-		return;
-	end
-
-	local long_sword_gauge_lv_time = single_mvalue_field:get_data(long_sword_gauge_lv_time_single_valtype);
-	if long_sword_gauge_lv_time == nil then
-		error_handler.report("weapon_skills.update_spirit_gauge", "Failed to access Data: long_sword_gauge_lv_time");
-		return;
-	end
-
-	weapon_skill.duration = long_sword_gauge_lv_time / 60;
 end
 
 function this.update_harvest_moon()
@@ -606,7 +569,7 @@ end
 
 function this.update_heavy_bowgun_skills(player, player_data)
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "counter_charger", this.get_weapon_skill_name,
-		nil, nil, player, reduce_charge_timer_field, player, reduce_charge_timer_base_field);
+		nil, nil, player, reduce_charge_timer_field);
 
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "wyvernsnipe_reload", this.get_weapon_skill_name,
 		nil, nil, player_data, heavy_bowgun_wyvern_snipe_timer_field);
@@ -747,97 +710,26 @@ function this.update_overheat(player_data)
 end
 
 function this.update_hammer_skills(player)
-	local player_user_data_hammer = player_user_data_hammer_field:get_data(player);
-	if player_user_data_hammer == nil then
-		error_handler.report("weapon_skills.update_hammer_skills", "Failed to access Data: player_user_data_hammer");
-		return;
-	end
-
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "impact_burst", this.get_weapon_skill_name,
-		nil, nil, player, horn_impact_pulls_timer_field, player_user_data_hammer, hammer_impact_pulls_time_max_field);
+		nil, nil, player, horn_impact_pulls_timer_field);
 end
 
 function this.update_gunlance_skills(player)
-	local player_user_data_gunlance = get_player_user_data_gunlance_method:call(player);
-	if player_user_data_gunlance == nil then
-		error_handler.report("weapon_skills.update_gunlance_skills", "Failed to access Data: player_user_data_gunlance");
-		return;
-	end
-
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "ground_splitter", this.get_weapon_skill_name,
-		nil, nil, player, shot_damage_up_duration_timer_field, player_user_data_gunlance, get_player_user_data_gunlance_method);
-
-	this.update_erupting_cannon(player, player_user_data_gunlance);
-end
-
-function this.update_erupting_cannon(player, player_user_data_gunlance)
-	local shot_type = get_shot_type_method:call(player);
-	if shot_type == nil then
-		error_handler.report("weapon_skills.update_erupting_cannon", "Failed to access Data: shot_type");
-		return;
-	end
-
-	local explode_pile_data = heavy_bowgun_shot_type_data_fields[shot_type + 1]:get_data(player_user_data_gunlance);
-	if explode_pile_data == nil then
-		error_handler.report("weapon_skills.update_erupting_cannon", "Failed to access Data: explode_pile_data");
-		return;
-	end
+		nil, nil, player, shot_damage_up_duration_timer_field);
 
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "erupting_cannon", this.get_weapon_skill_name,
-		nil, nil, player, explode_pile_buff_timer_field, explode_pile_data, explode_pile_data_duration_field);
+		nil, nil, player, explode_pile_buff_timer_field);
 end
 
 function this.update_lance_skills(player)
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "spiral_thrust", this.get_weapon_skill_name,
 		nil, nil, player, get_ruten_timer_method);
 
-	this.update_anchor_rage(player);
-	this.update_twin_wine(player);
-end
-
-function this.update_anchor_rage(player)
-	local guard_rage_buff_type = guard_rage_buff_type_field:get_data(player);
-	if guard_rage_buff_type == nil then
-		error_handler.report("weapon_skills.update_anchor_rage", "Failed to access Data: guard_rage_buff_type");
-		return;
-	end
-
-	if guard_rage_buff_type == 0 then
-		this.anchor_rage = nil;
-		return;
-	end
-
-	local player_user_data_lance = player_user_data_lance_field:get_data(player);
-	if player_user_data_lance == nil then
-		error_handler.report("weapon_skills.update_anchor_rage", "Failed to access Data: player_user_data_lance");
-		return;
-	end
-
-	local guard_rage_timer_array = guard_rage_timer_field:get_data(player_user_data_lance);
-	if guard_rage_timer_array == nil then
-		error_handler.report("weapon_skills.update_anchor_rage", "Failed to access Data: guard_rage_timer_array");
-		return;
-	end
-
-	local guard_rage_timer_array_length = get_length_method:call(guard_rage_timer_array);
-	if guard_rage_timer_array_length == nil then
-		error_handler.report("weapon_skills.update_anchor_rage", "Failed to access Data: guard_rage_timer_array_length");
-		return;
-	end
-
-	if guard_rage_buff_type >= guard_rage_timer_array_length then
-		this.anchor_rage = nil;
-		return;
-	end
-
-	local guard_rage_duration_valtype = get_value_method:call(guard_rage_timer_array, guard_rage_buff_type);
-	if guard_rage_duration_valtype == nil then
-		error_handler.report("weapon_skills.update_anchor_rage", "Failed to access Data: guard_rage_duration_valtype");
-		return;
-	end
-
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "anchor_rage", this.get_weapon_skill_name,
-		nil, nil, player, get_guard_rage_timer_method, guard_rage_duration_valtype, single_mvalue_field);
+		nil, nil, player, get_guard_rage_timer_method);
+
+	this.update_twin_wine(player);
 end
 
 function this.update_twin_wine(player)
@@ -852,29 +744,15 @@ function this.update_twin_wine(player)
 end
 
 function this.update_sword_and_shield_skills(player)
-	local player_user_data_short_sword = player_user_data_short_sword_field:get_data(player);
-	if player_user_data_short_sword == nil then
-		error_handler.report("weapon_skills.update_sword_and_shield_skills", "Failed to access Data: player_user_data_short_sword");
-		return;
-	end
-
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "destroyer_oil", this.get_weapon_skill_name,
-		nil, nil, player, get_oil_buff_timer_method, player_user_data_short_sword, oil_buff_time_field);
+		nil, nil, player, get_oil_buff_timer_method);
 end
 
 function this.update_dual_blades_skills(player)
 	this.update_archdemon_mode(player)
 
-	local player_user_data_dual_blades = player_user_data_dual_blades_field:get_data(player);
-	if player_user_data_dual_blades == nil then
-		error_handler.report("weapon_skills.update_dual_blades_skills", "Failed to access Data: player_user_data_dual_blades");
-		return;
-	end
-
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "ironshine_silk", this.get_weapon_skill_name,
-		nil, nil, player,
-		get_sharpness_recovery_buff_valid_timer_method,
-		player_user_data_dual_blades, sharpness_recovery_buff_valid_max_timer_field);
+		nil, nil, player, get_sharpness_recovery_buff_valid_timer_method);
 end
 
 function this.update_archdemon_mode(player)
@@ -907,14 +785,8 @@ function this.update_hunting_horn_skills(player)
 	this.update_bead_of_resonance();
 	this.update_sonic_bloom(player);
 
-	local player_user_data_horn = player_user_data_horn_field:get_data(player);
-	if player_user_data_horn == nil then
-		error_handler.report("weapon_skills.update_hunting_horn_skills", "Failed to access Data: player_user_data_horn");
-		return;
-	end
-
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "silkbind_shockwave", this.get_weapon_skill_name,
-		nil, nil, player, horn_impact_pulls_timer_field, player_user_data_horn, horn_impact_pulls_duration_field);
+		nil, nil, player, horn_impact_pulls_timer_field);
 end
 
 function this.update_bead_of_resonance()
@@ -999,75 +871,13 @@ function this.update_sonic_bloom(player)
 end
 
 function this.update_charge_blade_skills(player)
-	local player_user_data_charge_axe = get_ref_player_user_data_charge_axe_method:call(player);
-	if player_user_data_charge_axe == nil then
-		error_handler.report("weapon_skills.update_sonic_bloom", "Failed to access Data: life_timer");
-		return;
-	end
+	buffs.update_generic_buff(this.list, weapon_skills_type_name, "element_boost", this.get_weapon_skill_name, nil, nil,
+		player, shield_buff_timer_field);
 
-	this.update_element_boost(player, player_user_data_charge_axe);
-	this.update_sword_boost_mode(player, player_user_data_charge_axe);
+	buffs.update_generic_buff(this.list, weapon_skills_type_name, "sword_boost_mode", this.get_weapon_skill_name, nil, nil,
+		player, sword_buff_timer_field);
 end
 
-function this.update_element_boost(player, player_user_data_charge_axe)
-	local shield_buff_timer = shield_buff_timer_field:get_data(player);
-	if shield_buff_timer == nil then
-		error_handler.report("weapon_skills.update_element_boost", "Failed to access Data: shield_buff_timer");
-		return;
-	end
-
-	if utils.number.is_equal(shield_buff_timer, 0) then
-		this.list.element_boost = nil;
-		return;
-	end
-
-	shield_buff_timer = shield_buff_timer / 60;
-
-	local duration = nil;
-	if this.list.element_boost == nil then
-		local shield_buff_time_per_bottle = get_shield_buff_time_per_bottle_method:call(player_user_data_charge_axe);
-		if shield_buff_time_per_bottle == nil then
-			error_handler.report("weapon_skills.update_element_boost", "Failed to access Data: shield_buff_time_duration");
-			return;
-		end
-
-		local bottle_num = get_charged_bottle_num_method:call(player);
-		if bottle_num == nil then
-			error_handler.report("weapon_skills.update_element_boost", "Failed to access Data: bottle_num");
-			return;
-		end
-
-		if bottle_num ~= 0 then
-			duration = (bottle_num * shield_buff_time_per_bottle) / 60;
-		else
-			duration = shield_buff_timer;
-		end
-	end
-
-	buffs.update_generic(this.list, weapon_skills_type_name, "element_boost", this.get_weapon_skill_name, 1, shield_buff_timer, duration);
-end
-
-function this.update_sword_boost_mode(player, player_user_data_charge_axe)
-	local sword_buff_timer = sword_buff_timer_field:get_data(player);
-	if sword_buff_timer == nil then
-		error_handler.report("weapon_skills.update_sword_boost_mode", "Failed to access Data: sword_buff_timer");
-		return;
-	end
-
-	if utils.number.is_equal(sword_buff_timer, 0) then
-		this.list.sword_boost_mode = nil;
-		return;
-	end
-
-	local sword_buff_time_duration = get_sword_buff_time_method:call(player_user_data_charge_axe);
-	if sword_buff_time_duration == nil then
-		error_handler.report("weapon_skills.update_sword_boost_mode", "Failed to access Data: sword_buff_time_duration");
-		return;
-	end
-
-	buffs.update_generic(this.list, weapon_skills_type_name, "sword_boost_mode", this.get_weapon_skill_name, 1,
-		sword_buff_timer / 60, sword_buff_time_duration / 60);
-end
 
 function this.update_insect_glaive_skills(player)
 	this.update_all_extracts_mix(player);
@@ -1079,9 +889,9 @@ function this.update_insect_glaive_skills(player)
 		return;
 	end
 
-	this.update_extract(player, "red_extract", get_red_extractive_time_method, red_extractive_max_time_field);
-	this.update_extract(player, "white_extract", get_white_extractive_time_method, white_extractive_max_time_field);
-	this.update_extract(player, "orange_extract", get_orange_extractive_time_method, orange_extractive_max_time_field);
+	this.update_extract(player, "red_extract", get_red_extractive_time_method);
+	this.update_extract(player, "white_extract", get_white_extractive_time_method);
+	this.update_extract(player, "orange_extract", get_orange_extractive_time_method);
 end
 
 function this.update_all_extracts_mix(player)
@@ -1107,17 +917,11 @@ function this.update_all_extracts_mix(player)
 		return;
 	end
 
-	local all_extractive_max_time = all_extractive_max_time_field:get_data(player);
-	if all_extractive_max_time == nil then
-		error_handler.report("weapon_skills.update_all_extract", "Failed to access Data: all_extractive_max_time");
-		return;
-	end
-
 	buffs.update_generic(this.list, weapon_skills_type_name, "all_extracts_mix", this.get_weapon_skill_name, 1,
-		red_extractive_time, all_extractive_max_time);
+		red_extractive_time);
 end
 
-function this.update_extract(player, extract_key, time_holder, max_time_holder)
+function this.update_extract(player, extract_key, time_holder)
 	local extractive_time = time_holder:call(player);
 	if extractive_time == nil then
 		error_handler.report("weapon_skills.update_extract", string.format("Failed to access Data: %s_extractive_time", extract_key));
@@ -1129,77 +933,21 @@ function this.update_extract(player, extract_key, time_holder, max_time_holder)
 		return;
 	end
 
-	local duration = nil;
-
-	local extractive_max_time_array = max_time_holder:get_data(player);
-	if extractive_max_time_array == nil then
-		error_handler.report("weapon_skills.update_red_extract", string.format("Failed to access Data: %s_extractive_max_time_array", extract_key));
-		return;
-	end
-
-	local extractive_max_time_array_length = get_length_method:call(extractive_max_time_array);
-	if extractive_max_time_array_length == nil then
-		error_handler.report("weapon_skills.update_red_extract", string.format("Failed to access Data: %s_extractive_max_time_array_length", extract_key));
-		return;
-	end
-
-	if extractive_max_time_array_length ~= 0 then
-		local extractive_max_time_int32_valtype = get_value_method:call(extractive_max_time_array, 0);
-		if extractive_max_time_int32_valtype == nil then
-			error_handler.report("weapon_skills.update_red_extract", string.format("Failed to access Data: %s_extractive_max_time_int32_valtype", extract_key));
-			return;
-		end
-
-		local extractive_max_time = int32_mvalue_field:get_data(extractive_max_time_int32_valtype);
-		if extractive_max_time == nil then
-			error_handler.report("weapon_skills.update_red_extract", string.format("Failed to access Data: %s_extractive_max_time", extract_key));
-			return;
-		end
-
-		duration = extractive_max_time;
-	end
-
-	buffs.update_generic(this.list, weapon_skills_type_name, extract_key, this.get_weapon_skill_name, 1, extractive_time, duration);
+	buffs.update_generic(this.list, weapon_skills_type_name, extract_key, this.get_weapon_skill_name, 1, extractive_time);
 end
 
 function this.update_bow_skills(player, player_data)
-	local player_user_data_bow = get_ref_player_user_data_bow_method:call(player);
-	if player_user_data_bow == nil then
-		error_handler.report("weapon_skills.update_extract", "Failed to access Data: player_user_data_bow");
-		return;
-	end
+	buffs.update_generic_buff(this.list, weapon_skills_type_name, "herculean_draw", this.get_weapon_skill_name,
+		nil, nil, player, wire_buff_attack_up_timer_field);
 
-	this.update_bow_skill(player, "herculean_draw", wire_buff_attack_up_timer_field, player_user_data_bow, get_wire_buff_attack_up_time_method);
-	this.update_bow_skill(player, "bolt_boost", wire_buff_arrow_up_timer_field, player_user_data_bow, get_arrow_up_time_method);
+	buffs.update_generic_buff(this.list, weapon_skills_type_name, "bolt_boost", this.get_weapon_skill_name,
+		nil, nil, player, wire_buff_arrow_up_timer_field);
 
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "arc_shot_affinity", this.get_weapon_skill_name,
 		nil, nil, player_data, crit_chance_bow_timer_field);
 
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "arc_shot_brace", this.get_weapon_skill_name,
 		nil, nil, player_data, super_armor_item_timer_field);
-
-		
-end
-
-function this.update_bow_skill(player, bow_skill_key, timer_holder, player_user_data_bow, max_time_holder)
-	local timer = timer_holder:get_data(player);
-	if timer == nil then
-		error_handler.report("weapon_skills.update_bow_skill", string.format("Failed to access Data: %s_timer", bow_skill_key));
-		return;
-	end
-
-	if utils.number.is_equal(timer, 0) then
-		this.list[bow_skill_key] = nil;
-		return;
-	end
-
-	local max_time = max_time_holder:call(player_user_data_bow);
-	if max_time == nil then
-		error_handler.report("weapon_skills.update_bow_skill", string.format("Failed to access Data: %s_max_time", bow_skill_key));
-		return;
-	end
-
-	buffs.update_generic(this.list, weapon_skills_type_name, bow_skill_key, this.get_weapon_skill_name, 1, timer / 60, max_time / 60);
 end
 
 function this.init_names()

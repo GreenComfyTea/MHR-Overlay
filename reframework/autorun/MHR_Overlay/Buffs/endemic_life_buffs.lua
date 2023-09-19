@@ -64,13 +64,6 @@ local butterflame_attack_up = 25;
 
 
 
-local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
-local get_player_data_method = player_manager_type_def:get_method("get_PlayerData");
-local get_ref_item_parameter_method = player_manager_type_def:get_method("get_RefItemParameter");
-
-local player_user_data_item_parameter_type_def = get_ref_item_parameter_method:get_return_type();
-local demondrug_atk_up_field = player_user_data_item_parameter_type_def:get_field("_DemondrugAtkUp");
-
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Cutterfly
 local crit_up_ec_second_timer_field = player_data_type_def:get_field("_CritUpEcSecondTimer");
@@ -114,8 +107,6 @@ function this.update(player, player_data, item_parameter)
 
 	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "yellow_lampsquid", this.get_endemic_life_name,
 		nil, nil, player_data, def_up_ec_second_timer_field);
-
-		
 end
 
 function this.update_ruby_and_gold_wirebugs(player, player_data)
@@ -154,37 +145,6 @@ function this.update_butterflame(player_data)
 
 	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "butterflame", this.get_endemic_life_name,
 		nil, nil, player_data, atk_up_buff_second_timer_field);
-end
-
-function this.update_peepersects(player_data)
-	local stamina_up_buff_second_timer = stamina_up_buff_second_timer_field:get_data(player_data);
-	if stamina_up_buff_second_timer == nil then
-		error_handler.report("item_buffs.update_peepersects", "Failed to access Data: stamina_up_buff_second_timer");
-		return;
-	end
-
-	if utils.number.is_equal(stamina_up_buff_second_timer, 0) then
-		this.list.peepersects = nil;
-		return;
-	end
-
-	local timer = stamina_up_buff_second_timer / 60;
-	local peepersects_buff = this.list.peepersects;
-
-	if peepersects_buff == nil and item_buffs.list.dash_juice ~= nil and timer <= item_buffs.list.dash_juice.timer then
-		return;
-	end
-
-	if peepersects_buff == nil
-	or (peepersects_buff ~= nil and timer > peepersects_buff.timer) then
-		local timer_percentage = timer / this.peepersects_duration;
-		if timer_percentage < 0.95 or timer_percentage > 1.05 then
-			this.list.peepersects = nil;
-			return;
-		end
-	end
-
-	buffs.update_generic(this.list, endemic_life_buffs_type_name, "peepersects", this.get_endemic_life_name, 1, timer, this.peepersects_duration);
 end
 
 function this.get_endemic_life_name(endemic_life_buff_key)

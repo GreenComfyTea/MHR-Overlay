@@ -177,7 +177,7 @@ local skill_data_list = {
 	-- item_prolonger =			{ id = 88 },
 	-- wide_range =				{ id = 89 },
 	-- free_meal =				{ id = 90 },
-	heroics =					{ id = 91,	level = 0, is_equipped = false },
+	heroics =					{ id = 91, level = 0, is_equipped = false },
 	-- fortify =				{ id = 92 },
 	-- flinch_free =			{ id = 93 },
 	-- jump_master =			{ id = 94 },
@@ -322,7 +322,6 @@ local equip_skill_232_timer_field = player_data_type_def:get_field("_EquipSkill2
 
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
 local player_weapon_type_field = player_base_type_def:get_field("_playerWeaponType");
-local get_player_skill_list_method = player_base_type_def:get_method("get_PlayerSkillList");
 
 -- Latent Power
 local power_freedom_timer_field = player_base_type_def:get_field("_PowerFreedomTimer");
@@ -337,7 +336,7 @@ local equip_skill_229_sum_resist_field = player_base_type_def:get_field("_EquipS
 -- Resuscitate
 local is_debuff_state_method = player_base_type_def:get_method("isDebuffState");
 
-local player_skill_list_type_def = get_player_skill_list_method:get_return_type();
+local player_skill_list_type_def = sdk.find_type_definition("snow.player.PlayerSkillList");
 local get_skill_data_method = player_skill_list_type_def:get_method("getSkillData");
 
 local skill_data_type_def = get_skill_data_method:get_return_type();
@@ -374,14 +373,8 @@ local _equip_skill_216_bottle_up_timer_field = bow_type_def:get_field("_EquipSki
 local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut");
 local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.DataDef.PlEquipSkillId)");
 
-function this.update(player, player_data, weapon_type)
-	--local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
-	--if item_parameter == nil then
-	--	error_handler.report("skills.update", "Failed to access Data: item_parameter");
-	--	return;
-	--end
-
-	this.update_equipped_skill_data(player);
+function this.update(player, player_data, weapon_type, player_skill_list)
+	this.update_equipped_skill_data(player, player_skill_list);
 
 	this.update_wind_mantle(player, weapon_type);
 	this.update_maximum_might(player_data);
@@ -397,13 +390,13 @@ function this.update(player, player_data, weapon_type)
 	
 
 	this.update_generic_skill("dereliction", player_data, symbiosis_skill_lost_vital_field,
-		nil, nil, nil, nil, true, nil, dereliction_breakpoints);
+		nil, nil, true, nil, dereliction_breakpoints);
 
 	this.update_generic_skill("burst", player_data, rengeki_power_up_count_field,
-		player_data, rengeki_power_up_timer_field, nil, nil, false, nil, burst_breakpoints);
+		player_data, rengeki_power_up_timer_field, false, nil, burst_breakpoints);
 
 	this.update_generic_skill("intrepid_heart", player_data, equip_skill_223_accumulator_field,
-		nil, nil, nil, nil, true, intrepid_heart_minimal_value);
+		nil, nil, true, intrepid_heart_minimal_value);
 
 	this.update_generic_skill("latent_power", nil, nil, player, power_freedom_timer_field);
 	this.update_generic_skill("protective_polish", nil, nil, player, sharpness_gauge_boost_timer_field);
@@ -427,33 +420,24 @@ function this.update(player, player_data, weapon_type)
 	this.update_generic_skill("berserk", player, get_is_enable_equip_skill_225_method);
 	this.update_generic_skill("dragon_conversion_elemental_attack_up", player, equip_skill_229_sum_resist_field);
 	this.update_generic_skill("dragon_conversion_elemental_res_up", player, equip_skill_229_use_up_flag_field);
-	this.update_generic_skill("partbreaker", nil, nil, nil, nil, nil, nil, true);
+	this.update_generic_skill("partbreaker", nil, nil, nil, nil, true);
 	
 	this.update_generic_skill("strife", player, get_affinity_equip_skill_233_method,
-		nil, nil, nil, nil, nil, nil, strife_breakpoints[skill_data_list.strife.level]);
+		nil, nil, nil, nil, strife_breakpoints[skill_data_list.strife.level]);
 end
 
-function this.update_generic_skill(skill_key, value_owner, value_holder, timer_owner, timer_holder, duration_owner, duration_holder,
-	is_infinite, minimal_value, level_breakpoints)
-
+function this.update_generic_skill(skill_key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
 	local skill_data = skill_data_list[skill_key];
 	if skill_data ~= nil and skill_data.is_equipped ~= nil and not skill_data.is_equipped then
 		this.list[skill_key] = nil;
-		return;
+		return nil;
 	end
 
-	buffs.update_generic_buff(this.list, skills_type_name, skill_key, this.get_skill_name, 
-		value_owner, value_holder, timer_owner, timer_holder, duration_owner, duration_holder,
-		is_infinite, minimal_value, level_breakpoints);
+	return buffs.update_generic_buff(this.list, skills_type_name, skill_key, this.get_skill_name, 
+		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints);
 end
 
-function this.update_equipped_skill_data(player)
-	local player_skill_list = get_player_skill_list_method:call(player);
-	if player_skill_list == nil then
-		error_handler.report("skills.update_equipped_skill_data", "Failed to access Data: player_skill_list");
-		return;
-	end
-
+function this.update_equipped_skill_data(player, player_skill_list)
 	for skill_key, skill_data in pairs(skill_data_list) do
 		if skill_data.is_equipped == nil then
 			goto continue;
@@ -471,7 +455,6 @@ function this.update_equipped_skill_data(player)
 			error_handler.report("skills.update_equipped_skill_data", string.format("Failed to access Data: %s -> skill_level", skill_key));
 			goto continue;
 		end
-
 
 		if skill_level <= 0 then
 			skill_data.is_equipped = false;
@@ -522,7 +505,7 @@ function this.update_wind_mantle(player, weapon_type)
 		end
 	end
 
-	buffs.update_generic(this.list, skills_type_name, "wind_mantle", this.get_skill_name, level, wind_mantle_duration - (wind_mantle_timer / 60), wind_mantle_duration);
+	buffs.update_generic(this.list, skills_type_name, "wind_mantle", this.get_skill_name, level, wind_mantle_duration - (wind_mantle_timer / 60));
 end
 
 function this.update_maximum_might(player_data)
@@ -731,12 +714,12 @@ function this.update_spiribirds_call(player_data)
 
 	local timer = spiribirds_call_duration - (equip_skill_211_timer / 60);
 
-	buffs.update_generic(this.list, skills_type_name, "spiribirds_call", this.get_skill_name, 1, timer, spiribirds_call_duration);
+	buffs.update_generic(this.list, skills_type_name, "spiribirds_call", this.get_skill_name, 1, timer);
 end
 
 function this.update_powder_mantle(player_data)
 	this.update_generic_skill("powder_mantle_blue", player_data, equip_skill_227_state_field,
-		player_data, equip_skill_227_state_timer_field, nil, nil, nil, 2);
+		player_data, equip_skill_227_state_timer_field, nil, 2);
 
 	if this.list.powder_mantle_blue ~= nil then
 		this.list.powder_mantle_red = nil;
@@ -744,13 +727,12 @@ function this.update_powder_mantle(player_data)
 	end
 
 	this.update_generic_skill("powder_mantle_red", player_data, equip_skill_227_state_field,
-		player_data, equip_skill_227_state_timer_field, nil, nil, nil);
+		player_data, equip_skill_227_state_timer_field);
 end
 
 function this.update_blood_awakening(player, player_data)
 	this.update_generic_skill("blood_awakening", player, get_equip_skill_232_lv_method,
 		player_data, equip_skill_232_timer_field,
-		nil, nil,
 		nil, nil, blood_awakening_breakpoints);
 
 	local blood_awakening = this.list.blood_awakening;	

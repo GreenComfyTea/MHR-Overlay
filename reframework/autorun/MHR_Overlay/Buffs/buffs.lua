@@ -52,37 +52,6 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
---[[
-	TODO:
-	[x] DONE! Wirebug-related skills
-	[x] DONE! More Dango skills
-	[x] DONE! Weapon buffs
-	[x] DONE! Horn music
-	[x] DONE! abnormal_statuses: Immunity
-	[x] DONE! item_buffs: Stinkmink
-	[x] DONE! rampage skills: Chameleos Soul
-	[x] DONE! skills: powder mantle
-	[x] DONE! skills: embolden
-	[x] DONE! skills: strife
-	[x] DONE! skills: berserk
-	[x] DONE! skills: dragon conversion
-	[x] DONE! abnormal_statuses: Pre-Sleep
-	[x] DONE! skills: charge master
-	[x] DONE! endemic_life_buffs: Red, Yellow Lampsquid
-	[x] DONE! weapon skills - Arc Shot: Affinity, Arc Shot: Brace
-	[x] DONE! Demon Ammo, Armor Ammo
-	More otomo skills
-	Add duration detection to skills
-	Add duration detection to otomo moves
-	Add duration detection to dango skills
-	Add duration detection to rampage skills
-	Add duration detection to endemic life buffs
-
-	[x] WONT IMPLEMENT! skills: Furious Buildup
-	[x] WONT IMPLEMENT! skills: frostcraft
-	[x] COULDNT FIND! skills: defiance
-]]
-
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local get_player_method = player_manager_type_def:get_method("getPlayer");
 local find_master_player_method = player_manager_type_def:get_method("findMasterPlayer");
@@ -93,6 +62,7 @@ local get_player_data_method = player_base_type_def:get_method("get_PlayerData")
 local player_lobby_base_type_def = sdk.find_type_definition("snow.player.PlayerLobbyBase");
 
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
+local get_player_skill_list_method = player_base_type_def:get_method("get_PlayerSkillList");
 local player_weapon_type_field = player_base_type_def:get_field("_playerWeaponType");
 
 function this.new(type, key, name, level, duration)
@@ -154,8 +124,6 @@ function this.init_names()
 	misc_buffs.init_names();
 end
 
-local tere = {};
-
 function this.update()
 	if not config.current_config.buff_UI.enabled then
 		return;
@@ -186,6 +154,12 @@ function this.update()
 		return;
 	end
 
+	local player_skill_list = get_player_skill_list_method:call(master_player);
+	if player_skill_list == nil then
+		error_handler.report("buffs.update", "Failed to access Data: player_skill_list");
+		return;
+	end
+
 	local weapon_type = player_weapon_type_field:get_data(master_player);
 	if weapon_type == nil then
 		error_handler.report("skills.update", "Failed to access Data: weapon_type");
@@ -199,36 +173,16 @@ function this.update()
 	rampage_skills.update(master_player_data);
 
 	if not is_player_lobby_base then
-		skills.update(master_player, master_player_data, weapon_type);
-		dango_skills.update(master_player, master_player_data);
+		skills.update(master_player, master_player_data, weapon_type, player_skill_list);
+		dango_skills.update(master_player, master_player_data, player_skill_list);
 		endemic_life_buffs.update(master_player, master_player_data);
 		abnormal_statuses.update(master_player, master_player_data);
 		weapon_skills.update(master_player, master_player_data, weapon_type);
 		misc_buffs.update(master_player, master_player_data);
 	end
-
-	-- xy = "";
-
-	-- local fields = master_player_data:get_type_definition():get_fields();
-
-	-- for i = 1, 999 do
-	-- 	if fields[i] ~= nil then
-	-- 		local value = fields[i]:get_data(master_player_data);
-	-- 		if value ~= nil then
-	-- 			pcall(function()
-	-- 				if tere[fields[i]] == nil then
-	-- 					tere[fields[i]] = value;
-
-	-- 				elseif not utils.number.is_equal(value, tere[fields[i]]) then
-	-- 					xy = string.format("%s%s: %s\n", xy, fields[i]:get_name(), tostring(value));
-	-- 				end
-	-- 			end);
-	-- 		end
-	-- 	end
-	-- end
 end
 
-function this.update_timer(buff, timer, duration)
+function this.update_timer(buff, timer)
 	if timer == nil then
 		return;
 	end
@@ -237,10 +191,8 @@ function this.update_timer(buff, timer, duration)
 		timer = 0;
 	end
 
-	duration = duration or timer;
-
-	if duration > buff.duration then
-		buff.duration = duration;
+	if timer > buff.duration then
+		buff.duration = timer;
 	end
 
 	local minutes_left = math.floor(timer / 60);
@@ -257,7 +209,6 @@ end
 function this.update_generic_buff(buff_list, buff_type, buff_key, get_name_function,
 	value_owner, value_holder,
 	timer_owner, timer_holder,
-	duration_owner, duration_holder,
 	is_infinite, minimal_value, level_breakpoints)
 
 	if timer_owner == nil then timer_owner = value_owner; end
@@ -327,36 +278,35 @@ function this.update_generic_buff(buff_list, buff_type, buff_key, get_name_funct
 		end
 	end
 
-	local duration = nil;
-	if duration_holder ~= nil then
-		if utils.type.is_REField(duration_holder) then
-			duration = duration_holder:get_data(duration_owner);
-		else
-			duration = duration_holder:call(duration_owner);
-		end
+	-- local duration = nil;
+	-- if duration_holder ~= nil then
+	-- 	if utils.type.is_REField(duration_holder) then
+	-- 		duration = duration_holder:get_data(duration_owner);
+	-- 	else
+	-- 		duration = duration_holder:call(duration_owner);
+	-- 	end
 
-		if duration == nil then
-			error_handler.report("buffs.update_generic_number", string.format("Failed to access Data: %s_duration", buff_key));
-			return;
-		end
-	end
+	-- 	if duration == nil then
+	-- 		error_handler.report("buffs.update_generic_number", string.format("Failed to access Data: %s_duration", buff_key));
+	-- 		return;
+	-- 	end
+	-- end
 
-	return this.update_generic(buff_list, buff_type, buff_key, get_name_function, level, timer, duration);
+	return this.update_generic(buff_list, buff_type, buff_key, get_name_function, level, timer);
 end
 
-function this.update_generic(buff_list, buff_type, buff_key, get_name_function, level, timer, duration)
-	duration = duration or timer;
+function this.update_generic(buff_list, buff_type, buff_key, get_name_function, level, timer)
 	level = level or 1;
 
 	local buff = buff_list[buff_key];
 	if buff == nil then
 		local name = get_name_function(buff_key);
 
-		buff = this.new(buff_type, buff_key, name, level, duration);
+		buff = this.new(buff_type, buff_key, name, level, timer);
 		buff_list[buff_key] = buff;
 	else
 		buff.level = level;
-		this.update_timer(buff, timer, duration);
+		this.update_timer(buff, timer);
 	end
 
 	return buff;

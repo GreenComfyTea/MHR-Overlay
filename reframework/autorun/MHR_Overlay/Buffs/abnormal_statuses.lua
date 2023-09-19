@@ -184,7 +184,7 @@ function this.update(player, player_data)
 	buffs.update_generic_buff(this.list, ailments_type_name, "roar", this.get_abnormal_status_name, nil, nil, player, ear_duration_timer_field);
 	buffs.update_generic_buff(this.list, ailments_type_name, "webbed", this.get_abnormal_status_name, nil, nil, player, beto_duration_timer_field);
 	buffs.update_generic_buff(this.list, ailments_type_name, "stench", this.get_abnormal_status_name, nil, nil, player, stink_duration_timer_field);
-	buffs.update_generic_buff(this.list, ailments_type_name, "leeched", this.get_abnormal_status_name, nil, nil, player, blooding_enemy_timer_field, nil, nil, true);
+	buffs.update_generic_buff(this.list, ailments_type_name, "leeched", this.get_abnormal_status_name, nil, nil, player, blooding_enemy_timer_field, true);
 	buffs.update_generic_buff(this.list, ailments_type_name, "bleeding", this.get_abnormal_status_name, nil, nil, player, bleeding_debuff_timer_field);
 
 	buffs.update_generic_buff(this.list, ailments_type_name, "frenzy", this.get_abnormal_status_name, nil, nil, player, virus_onset_timer_field);
@@ -281,7 +281,7 @@ function this.update_frenzy_infection(player)
 
 	local timer = frenzy_infected_duration - (virus_accumulator_value + virus_timer / 60);
 
-	buffs.update_generic(this.list, ailments_type_name, "frenzy_infection", this.get_abnormal_status_name, 1, timer, frenzy_infected_duration);
+	buffs.update_generic(this.list, ailments_type_name, "frenzy_infection", this.get_abnormal_status_name, 1, timer);
 end
 
 function this.update_sleep(player)
