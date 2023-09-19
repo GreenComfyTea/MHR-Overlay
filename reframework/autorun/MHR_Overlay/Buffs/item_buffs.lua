@@ -75,7 +75,6 @@ local item_ids = {
 local item_buffs_type_name = "item_buffs";
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
-local get_player_data_method = player_manager_type_def:get_method("get_PlayerData");
 local get_ref_item_parameter_method = player_manager_type_def:get_method("get_RefItemParameter");
 
 local player_user_data_item_parameter_type_def = get_ref_item_parameter_method:get_return_type();

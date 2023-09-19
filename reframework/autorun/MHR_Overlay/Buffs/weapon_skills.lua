@@ -171,16 +171,12 @@ local spirit_gauge_breakpoints = {3, 2};
 
 local wyverblast_reload_duration = 60;
 
-local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
-local get_player_data_method = player_manager_type_def:get_method("get_PlayerData");
-
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 
 -- Great Sword
 
 local great_sword_type_def = sdk.find_type_definition("snow.player.GreatSword");
 -- Power Sheathe
-local move_wp_off_buff_great_sword_timer_field = great_sword_type_def:get_field("MoveWpOffBuffGreatSwordTimer");
 local move_wp_off_buff_set_time_field = great_sword_type_def:get_field("_MoveWpOffBuffSetTime");
 
 -- Switch Axe
@@ -188,17 +184,10 @@ local move_wp_off_buff_set_time_field = great_sword_type_def:get_field("_MoveWpO
 local slash_axe_type_def = sdk.find_type_definition("snow.player.SlashAxe");
 -- Amped State
 local get_bottle_awake_duration_timer_method = slash_axe_type_def:get_method("get_BottleAwakeDurationTimer");
-local bottle_awake_duration_time_field = slash_axe_type_def:get_field("_BottleAwakeDurationTime");
 -- Switch Charger
 local no_use_slash_gauge_timer_field = slash_axe_type_def:get_field("_NoUseSlashGaugeTimer");
 -- Axe: Heavy Slam
 local bottle_awake_assist_timer_field = slash_axe_type_def:get_field("_BottleAwakeAssistTimer");
-
-
-local get_ref_player_user_data_s_axe_method = slash_axe_type_def:get_method("get_RefPlayerUserDataS_Axe");
-
-local player_user_data_slash_axe_type_def = get_ref_player_user_data_s_axe_method:get_return_type();
-local  get_no_user_slash_gauge_time_method = player_user_data_slash_axe_type_def:get_method("get_NoUserSlashGaugeTime");
 
 -- Long Sword
 
@@ -207,7 +196,6 @@ local long_sword_type_def = sdk.find_type_definition("snow.player.LongSword");
 local get_long_sword_gauge_powerup_time_method = long_sword_type_def:get_method("get_LongSwordGaugePowerUpTime");
 -- Spirit Gauge
 local get_long_sword_gauge_lv_method = long_sword_type_def:get_method("get_LongSwordGaugeLv");
-local long_sword_gauge_lv_time_field = long_sword_type_def:get_field("_LongSwordGaugeLvTime");
 local get_long_sword_gauge_lv_timer_method = long_sword_type_def:get_method("get_LongSwordGaugeLvTimer");
 
 -- Harvest Moon
@@ -234,7 +222,6 @@ local wyvernblast_reload_timer_field = player_data_type_def:get_field("_WyvernBl
 local heavy_bowgun_type_def = sdk.find_type_definition("snow.player.HeavyBowgun");
 -- Counter Charger 
 local reduce_charge_timer_field = heavy_bowgun_type_def:get_field("_ReduseChargeTimer");
-local reduce_charge_timer_base_field = heavy_bowgun_type_def:get_field("_ReduseChargeTimeBase");
 -- Rising Moon
 local light_bowgun_shell_manager_type_def = sdk.find_type_definition("snow.shell.LightBowgunShellManager");
 local get_light_bowgun_shell_030s_speed_boost_list_method = light_bowgun_shell_manager_type_def:get_method("get_getLightBowgunShell030s_SpeedBoost");
@@ -259,29 +246,19 @@ local heavy_bowgun_wyvern_snipe_timer_field = player_data_type_def:get_field("_H
 local hammer_type_def = sdk.find_type_definition("snow.player.Hammer");
 -- Impact Burst
 local hammer_impact_pulls_timer_field = hammer_type_def:get_field("_ImpactPullsTimer");
-local player_user_data_hammer_field = hammer_type_def:get_field("_PlayerUserDataHammer");
-
-local player_user_data_hammer_type_def = player_user_data_hammer_field:get_type();
-local hammer_impact_pulls_time_max_field = player_user_data_hammer_type_def:get_field("ImpactPullsTimeMax");
 
 -- Gunlance
 
 local gunlance_type_def = sdk.find_type_definition("snow.player.GunLance");
-local get_shot_type_method = gunlance_type_def:get_method("get__ShotType");
-
 -- Ground Splitter
 local shot_damage_up_duration_timer_field = gunlance_type_def:get_field("_ShotDamageUpDurationTimer");
 local get_player_user_data_gunlance_method = gunlance_type_def:get_method("GetPlayerUserDataGunLance");
 
 local player_user_data_gunlance_type_def = get_player_user_data_gunlance_method:get_return_type();
-local shot_damage_up_time_field = player_user_data_gunlance_type_def:get_field("_ShotDamageUpTime");
 
 local explode_pile_data_normal_field = player_user_data_gunlance_type_def:get_field("_ExplodePileData_Normal");
 local explode_pile_data_radiate_field = player_user_data_gunlance_type_def:get_field("_ExplodePileData_Radiate");
 local explode_pile_data_spread_field = player_user_data_gunlance_type_def:get_field("_ExplodePileData_Spread");
-
-local explode_pile_data_type_def = explode_pile_data_normal_field:get_type();
-local explode_pile_data_duration_field = explode_pile_data_type_def:get_field("_Duration");
 
 -- Erupting Cannon
 local explode_pile_buff_timer_field = gunlance_type_def:get_field("_ExplodePileBuffTimer");
@@ -291,7 +268,6 @@ local explode_pile_buff_timer_field = gunlance_type_def:get_field("_ExplodePileB
 local lance_type_def = sdk.find_type_definition("snow.player.Lance");
 -- Anchor Rage
 local get_guard_rage_timer_method = lance_type_def:get_method("get_GuardRageTimer");
-local guard_rage_buff_type_field = lance_type_def:get_field("_GuardRageBuffType");
 
 -- Spiral Thrust
 local get_ruten_timer_method = lance_type_def:get_method("get_RutenTimer");
@@ -300,20 +276,11 @@ local chain_death_match_shell_field = lance_type_def:get_field("_ChainDeathMatch
 local chain_death_match_shell_type_def = chain_death_match_shell_field:get_type();
 local chain_death_match_shell_life_timer_field = chain_death_match_shell_type_def:get_field("_lifeTimer");
 
-local player_user_data_lance_field = lance_type_def:get_field("_PlayerUserDataLance");
-
-local player_user_data_lance_type_field = player_user_data_lance_field:get_type();
-local guard_rage_timer_field = player_user_data_lance_type_field:get_field("_GuardRageTimer");
-
 -- Sword & Shield
 
 local short_sword_type_def = sdk.find_type_definition("snow.player.ShortSword");
 -- Destroyer Oil
 local get_oil_buff_timer_method = short_sword_type_def:get_method("get_OilBuffTimer");
-local player_user_data_short_sword_field = short_sword_type_def:get_field("_PlayerUserDataShortSword");
-
-local player_user_data_short_sword_type_def = player_user_data_short_sword_field:get_type();
-local oil_buff_time_field = player_user_data_short_sword_type_def:get_field("OilBuffTime");
 
 -- Dual Blades
 
@@ -323,20 +290,13 @@ local get_sharpness_recovery_buff_valid_timer_method = dual_blades_type_def:get_
 -- Archdemon Mode
 local is_kijin_kyouka_field = dual_blades_type_def:get_field("IsKijinKyouka");
 local get_kijin_kyouka_gauge_method = dual_blades_type_def:get_method("get_KijinKyoukaGuage");
-local player_user_data_dual_blades_field = dual_blades_type_def:get_field("_PlayerUserDataDualBlades");
-
-local player_user_data_dual_blades_type_def = player_user_data_dual_blades_field:get_type();
-local sharpness_recovery_buff_valid_max_timer_field = player_user_data_dual_blades_type_def:get_field("_SharpnessRecoveryBuffValidMaxTimer");
 
 -- Hunting Horn
 
 local horn_type_def = sdk.find_type_definition("snow.player.Horn");
 -- Silkbind Shockwave
 local horn_impact_pulls_timer_field = horn_type_def:get_field("_ImpactPullsTimer");
-local player_user_data_horn_field = horn_type_def:get_field("_PlayerUserDataHorn");
 
-local player_user_data_dual_horn_type_def = player_user_data_horn_field:get_type();
-local horn_impact_pulls_duration_field = player_user_data_dual_horn_type_def:get_field("_ImpactPullsDuration");
 -- Bead of Resonance
 local horn_shell_manager_type_def = sdk.find_type_definition("snow.shell.HornShellManager");
 local horn_shell_003s_field = horn_shell_manager_type_def:get_field("_HornShell003s");
@@ -357,37 +317,25 @@ local horn_shell_020_life_timer_field = horn_shell_020_type_def:get_field("_life
 local charge_axe_type_def = sdk.find_type_definition("snow.player.ChargeAxe");
 -- Element Boost
 local shield_buff_timer_field = charge_axe_type_def:get_field("_ShieldBuffTimer");
-local get_charged_bottle_num_method = charge_axe_type_def:get_method("get_ChargedBottleNum");
 -- Sword Boost Mode
 local sword_buff_timer_field = charge_axe_type_def:get_field("_SwordBuffTimer");
-
-local get_ref_player_user_data_charge_axe_method = charge_axe_type_def:get_method("get_RefPlayerUserDataC_Axe");
-
-local player_user_data_charge_axe_type_def = get_ref_player_user_data_charge_axe_method:get_return_type();
-local get_sword_buff_time_method = player_user_data_charge_axe_type_def:get_method("get_SwordBuffTime");
-local get_shield_buff_time_per_bottle_method = player_user_data_charge_axe_type_def:get_method("get_ShieldBuffTimePerBottle");
 
 -- Insect Glaive
 
 local insect_glaive_type_def = sdk.find_type_definition("snow.player.InsectGlaive");
 -- All Extracts Mix
 local is_get_all_extractive_method = insect_glaive_type_def:get_method("isGetAllExtractive");
-local all_extractive_max_time_field = insect_glaive_type_def:get_field("AllExtractiveMaxTime");
 
 -- Red Extract
 local get_red_extractive_time_method = insect_glaive_type_def:get_method("get_RedExtractiveTime");
-local red_extractive_max_time_field = insect_glaive_type_def:get_field("RedExtractiveMaxTime");
 -- White Extract
 local get_white_extractive_time_method = insect_glaive_type_def:get_method("get_WhiteExtractiveTime");
-local white_extractive_max_time_field = insect_glaive_type_def:get_field("WhiteExtractiveMaxTime");
 -- Orange Extract
 local get_orange_extractive_time_method = insect_glaive_type_def:get_method("get_OrangeExtractiveTime");
-local orange_extractive_max_time_field = insect_glaive_type_def:get_field("OrangeExtractiveMaxTime");
 
 -- Bow
 
 local bow_type_def = sdk.find_type_definition("snow.player.Bow");
-local get_ref_player_user_data_bow_method = bow_type_def:get_method("get_RefPlayerUserDataBow");
 -- Herculean Draw
 local wire_buff_attack_up_timer_field = bow_type_def:get_field("_WireBuffAttackUpTimer");
 -- Bolt Boost
@@ -398,20 +346,11 @@ local crit_chance_bow_timer_field = player_data_type_def:get_field("_CritChanceU
 -- Arc Shot: Brace
 local super_armor_item_timer_field = player_data_type_def:get_field("_SuperArmorItemTimer");
 
-local player_user_data_bow_type_def = get_ref_player_user_data_bow_method:get_return_type();
-local get_wire_buff_attack_up_time_method = player_user_data_bow_type_def:get_method("get_WireBuffAttackUpTime");
-local get_arrow_up_time_method = player_user_data_bow_type_def:get_method("get_ArrowUpBufTime");
 
 
 local system_array_type_def = sdk.find_type_definition("System.Array");
 local get_length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
-
-local single_type_def = sdk.find_type_definition("System.Single");
-local single_mvalue_field = single_type_def:get_field("mValue");
-
-local int32_type_def = sdk.find_type_definition("System.Int32");
-local int32_mvalue_field = int32_type_def:get_field("mValue");
 
 local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut");
 local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.DataDef.PlWeaponActionId)");
@@ -475,12 +414,6 @@ function this.update_great_sword_skills(player)
 end
 
 function this.update_switch_axe_skills(player)
-	local player_user_data_slash_axe = get_ref_player_user_data_s_axe_method:call(player);
-	if player_user_data_slash_axe == nil then
-		error_handler.report("weapon_skills.update_switch_axe_skills", "Failed to access Data: player_user_data_slash_axe");
-		return;
-	end
-
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "amped_state", this.get_weapon_skill_name,
 		nil, nil, player, get_bottle_awake_duration_timer_method);
 
@@ -711,7 +644,7 @@ end
 
 function this.update_hammer_skills(player)
 	buffs.update_generic_buff(this.list, weapon_skills_type_name, "impact_burst", this.get_weapon_skill_name,
-		nil, nil, player, horn_impact_pulls_timer_field);
+		nil, nil, player, hammer_impact_pulls_timer_field);
 end
 
 function this.update_gunlance_skills(player)

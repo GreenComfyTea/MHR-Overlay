@@ -120,7 +120,6 @@ local dango_bulker_attack_up = 15;
 local previous_super_recovery_dango_timer = 0;
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
-local get_player_data_method = player_manager_type_def:get_method("get_PlayerData");
 local has_anyone_kitchen_skill_in_quest_method = player_manager_type_def:get_method("hasAnyoneKitchenSkillInQuest");
 
 
@@ -142,14 +141,14 @@ local kitchen_skill_054_timer_field = player_data_type_def:get_field("_KitchenSk
 
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
 -- Dango Adrenaline
-local is_kitchen_skill_predicament_powerup_method = player_base_type_def:get_method("isKitchenSkillPredicamentPowerUp");
+-- local is_kitchen_skill_predicament_powerup_method = player_base_type_def:get_method("isKitchenSkillPredicamentPowerUp");
 -- Dango Flyer
 local get_is_kitchen_skill_wire_stop_heal_spd_method = player_base_type_def:get_method("get_IsKitchenSkill_WireStop_HealSpd");
 local get_is_kitchen_skill_wire_stop_regene_method = player_base_type_def:get_method("get_IsKitchenSkill_WireStop_Regene");
 -- Super Recovery Dango
 local get_kitchen_skill_surume_regene_timer_method = player_base_type_def:get_method("get_KitchenSkill_Surume_RegeneTimer");
 
-local player_quest_base_type_def = sdk.find_type_definition("snow.player.PlayerQuestBase");
+
 
 local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut");
 local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.DataDef.PlKitchenSkillId)");
@@ -157,11 +156,6 @@ local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.Dat
 local quest_manager_type_def = sdk.find_type_definition("snow.QuestManager");
 local flag_cat_skill_insurance_field = quest_manager_type_def:get_field("_FlagCatSkillInsurance");
 local is_cat_skill_insurance_method = quest_manager_type_def:get_method("isCatSkillInsurance");
-
-
-local system_array_type_def = sdk.find_type_definition("System.Array");
-local get_length_method = system_array_type_def:get_method("get_Length");
-local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
 function this.update(player, player_data)
 	this.update_dango_adrenaline();

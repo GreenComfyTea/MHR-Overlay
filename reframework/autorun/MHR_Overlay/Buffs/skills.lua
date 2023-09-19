@@ -265,12 +265,6 @@ local spiribirds_call_duration = 60;
 
 local wind_mantle_duration = 15;
 
-local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
-local get_player_data_method = player_manager_type_def:get_method("get_PlayerData");
-local get_ref_item_parameter_method = player_manager_type_def:get_method("get_RefItemParameter");
-
-local player_user_data_item_parameter_type_def = get_ref_item_parameter_method:get_return_type();
-
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Burst
 local rengeki_power_up_count_field = player_data_type_def:get_field("_RengekiPowerUpCnt");
@@ -321,7 +315,6 @@ local equip_skill_232_timer_field = player_data_type_def:get_field("_EquipSkill2
 
 
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
-local player_weapon_type_field = player_base_type_def:get_field("_playerWeaponType");
 local get_player_skill_list_method = player_base_type_def:get_method("get_PlayerSkillList");
 
 -- Latent Power

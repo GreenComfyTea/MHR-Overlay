@@ -53,7 +53,6 @@ local ValueType = ValueType;
 local package = package;
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
-local get_player_method = player_manager_type_def:get_method("getPlayer");
 local find_master_player_method = player_manager_type_def:get_method("findMasterPlayer");
 
 local player_base_type_def = find_master_player_method:get_return_type();
