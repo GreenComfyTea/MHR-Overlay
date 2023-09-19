@@ -46,7 +46,7 @@ local package = package;
 this.list = {
 	attack_up = nil,
 	defense_up = nil,
-	stamina_use_down = nil,
+	stamina_use_down = nil
 };
 
 local misc_buffs_type_name = "misc_buffs";
@@ -65,6 +65,10 @@ local misc_buffs_type_name = "misc_buffs";
 -- Peepersects			1.5min
 -- Chameleos Soul		30sec
 
+-- Natural Healing Up
+-- Immunizer			5min
+-- Vase of Vitality		20sec
+
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Attack Up
 local atk_up_buff_second_field = player_data_type_def:get_field("_AtkUpBuffSecond");
@@ -76,6 +80,8 @@ local def_up_buff_second_timer_field = player_data_type_def:get_field("_DefUpBuf
 local stamina_up_buff_second_timer_field = player_data_type_def:get_field("_StaminaUpBuffSecondTimer");
 -- Immunity
 local debuff_prevention_timer_field = player_data_type_def:get_field("_DebuffPreventionTimer");
+-- Immunizer
+local vitalizer_timer_field = player_data_type_def:get_field("_VitalizerTimer");
 
 function this.update(player, player_data)
 	buffs.update_generic_buff(this.list, misc_buffs_type_name, "stamina_use_down", this.get_misc_buff_name,
@@ -89,6 +95,9 @@ function this.update(player, player_data)
 
 	buffs.update_generic_buff(this.list, misc_buffs_type_name, "immunity", this.get_misc_buff_name,
 		nil, nil, player_data, debuff_prevention_timer_field);
+
+	buffs.update_generic_buff(this.list, misc_buffs_type_name, "natural_healing_up", this.get_misc_buff_name,
+		nil, nil, player_data, vitalizer_timer_field);
 end
 
 function this.init_names()

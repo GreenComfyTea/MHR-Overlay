@@ -286,7 +286,8 @@ this.default_language = {
 		attack_up = "Attack Up",
 		defense_up = "Defense Up",
 		stamina_use_down = "Stamina Use Down",
-		immunity = "Immunity"
+		immunity = "Immunity",
+		natural_healing_up = "Natural Healing Up"
 	},
 
 	UI = {

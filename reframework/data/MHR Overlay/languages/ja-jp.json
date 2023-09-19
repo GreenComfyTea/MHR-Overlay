@@ -463,6 +463,7 @@
         "defense_down": "Defense Down",
         "defense_up": "Defense Up",
         "immunity": "Immunity",
+        "natural_healing_up": "Natural Healing Up",
         "stamina_use_down": "Stamina Use Down"
     },
     "otomo_moves": {

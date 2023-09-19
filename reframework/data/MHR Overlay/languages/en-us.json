@@ -372,6 +372,7 @@
         "attack_up": "Attack Up",
         "defense_up": "Defense Up",
         "immunity": "Immunity",
+        "natural_healing_up": "Natural Healing Up",
         "stamina_use_down": "Stamina Use Down"
     },
     "parts": {
