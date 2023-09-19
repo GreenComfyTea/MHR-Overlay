@@ -355,11 +355,6 @@ local equip_skill_229_use_up_flag_field = player_quest_base_type_def:get_field("
 local get_affinity_equip_skill_233_method = player_quest_base_type_def:get_method("getAffinityEquipSkill233");
 -- Blood Awakening
 local get_equip_skill_232_lv_method = player_quest_base_type_def:get_method("getEquipSkill232Lv");
-local get_equip_skill_232_param_method = player_quest_base_type_def:get_method("getEquipSkill232Param");
-
-local equip_skill_232_param_type_def = get_equip_skill_232_param_method:get_return_type();
-local activation_time_lv_1_field = equip_skill_232_param_type_def:get_field("_ActivationTime_Lv1");
-local activation_time_lv_2_field = equip_skill_232_param_type_def:get_field("_ActivationTime_Lv2");
 
 local bow_type_def = sdk.find_type_definition("snow.player.Bow");
 local _equip_skill_216_bottle_up_timer_field = bow_type_def:get_field("_EquipSkill216_BottleUpTimer");
@@ -381,7 +376,6 @@ function this.update(player, player_data, weapon_type)
 	this.update_spiribirds_call(player_data);
 	this.update_powder_mantle(player_data);
 	this.update_blood_awakening(player, player_data);
-	
 
 	this.update_generic_skill("dereliction", player_data, symbiosis_skill_lost_vital_field,
 		nil, nil, true, nil, dereliction_breakpoints);
@@ -732,24 +726,7 @@ end
 
 function this.update_blood_awakening(player, player_data)
 	this.update_generic_skill("blood_awakening", player, get_equip_skill_232_lv_method,
-		player_data, equip_skill_232_timer_field,
-		nil, nil, blood_awakening_breakpoints);
-
-	local blood_awakening = this.list.blood_awakening;	
-	if this.list.blood_awakening == nil then
-		return;
-	end
-
-	local activation_time_field = activation_time_lv_1_field;
-	if 	blood_awakening.level == 2 then
-		activation_time_field = activation_time_lv_2_field;
-	end
-
-	local blood_awakening_param = get_equip_skill_232_param_method:call(player);
-
-	local blood_awakening_duration = activation_time_field:get_data(blood_awakening_param);
-
-	blood_awakening.duration = blood_awakening_duration / 60;
+		player_data, equip_skill_232_timer_field, nil, nil, blood_awakening_breakpoints);
 end
 
 function this.init_names()
