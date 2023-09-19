@@ -322,6 +322,7 @@ local equip_skill_232_timer_field = player_data_type_def:get_field("_EquipSkill2
 
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
 local player_weapon_type_field = player_base_type_def:get_field("_playerWeaponType");
+local get_player_skill_list_method = player_base_type_def:get_method("get_PlayerSkillList");
 
 -- Latent Power
 local power_freedom_timer_field = player_base_type_def:get_field("_PowerFreedomTimer");
@@ -373,8 +374,8 @@ local _equip_skill_216_bottle_up_timer_field = bow_type_def:get_field("_EquipSki
 local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut");
 local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.DataDef.PlEquipSkillId)");
 
-function this.update(player, player_data, weapon_type, player_skill_list)
-	this.update_equipped_skill_data(player, player_skill_list);
+function this.update(player, player_data, weapon_type)
+	this.update_equipped_skill_data(player);
 
 	this.update_wind_mantle(player, weapon_type);
 	this.update_maximum_might(player_data);
@@ -437,7 +438,13 @@ function this.update_generic_skill(skill_key, value_owner, value_holder, timer_o
 		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints);
 end
 
-function this.update_equipped_skill_data(player, player_skill_list)
+function this.update_equipped_skill_data(player)
+	local player_skill_list = get_player_skill_list_method:call(player);
+	if player_skill_list == nil then
+		error_handler.report("buffs.update", "Failed to access Data: player_skill_list");
+		return;
+	end
+
 	for skill_key, skill_data in pairs(skill_data_list) do
 		if skill_data.is_equipped == nil then
 			goto continue;

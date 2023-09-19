@@ -163,12 +163,7 @@ local system_array_type_def = sdk.find_type_definition("System.Array");
 local get_length_method = system_array_type_def:get_method("get_Length");
 local get_value_method = system_array_type_def:get_method("GetValue(System.Int32)");
 
-function this.update(player, player_data, player_skill_list)
-	if singletons.player_manager == nil then
-		error_handler.report("dango_skills.update", "Failed to access Data: player_manager");
-		return;
-	end
-
+function this.update(player, player_data)
 	this.update_dango_adrenaline();
 	this.update_dango_hunter(player_data);
 	this.update_dango_insurance();

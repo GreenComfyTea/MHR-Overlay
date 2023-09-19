@@ -62,7 +62,6 @@ local get_player_data_method = player_base_type_def:get_method("get_PlayerData")
 local player_lobby_base_type_def = sdk.find_type_definition("snow.player.PlayerLobbyBase");
 
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
-local get_player_skill_list_method = player_base_type_def:get_method("get_PlayerSkillList");
 local player_weapon_type_field = player_base_type_def:get_field("_playerWeaponType");
 
 function this.new(type, key, name, level, duration)
@@ -154,12 +153,6 @@ function this.update()
 		return;
 	end
 
-	local player_skill_list = get_player_skill_list_method:call(master_player);
-	if player_skill_list == nil then
-		error_handler.report("buffs.update", "Failed to access Data: player_skill_list");
-		return;
-	end
-
 	local weapon_type = player_weapon_type_field:get_data(master_player);
 	if weapon_type == nil then
 		error_handler.report("skills.update", "Failed to access Data: weapon_type");
@@ -173,8 +166,8 @@ function this.update()
 	rampage_skills.update(master_player_data);
 
 	if not is_player_lobby_base then
-		skills.update(master_player, master_player_data, weapon_type, player_skill_list);
-		dango_skills.update(master_player, master_player_data, player_skill_list);
+		skills.update(master_player, master_player_data, weapon_type);
+		dango_skills.update(master_player, master_player_data);
 		endemic_life_buffs.update(master_player, master_player_data);
 		abnormal_statuses.update(master_player, master_player_data);
 		weapon_skills.update(master_player, master_player_data, weapon_type);
