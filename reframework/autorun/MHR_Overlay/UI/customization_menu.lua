@@ -13,10 +13,21 @@ local time_UI;
 local keyboard;
 local non_players;
 local quest_status;
-local buffs;
 local error_handler;
 local time;
 local stats_UI;
+
+local buffs;
+local item_buffs;
+local melody_effects;
+local endemic_life_buffs;
+local skills;
+local dango_skills;
+local abnormal_statuses;
+local otomo_moves;
+local weapon_skills;
+local rampage_skills;
+local misc_buffs;
 
 local label_customization;
 local bar_customization;
@@ -471,15 +482,14 @@ function this.draw()
 	end
 
 	if buff_UI_changed or modifiers_changed or config_changed then
-		for _, buff in pairs(buffs.list) do
-			buffs.init_UI(buff);
-		end
+		-- for _, buff in pairs(buffs.list) do
+		-- 	buffs.init_UI(buff);
+		-- end
 	end
 
 	if stats_UI_changed or modifiers_changed or config_changed then
 		stats_UI.init_UI();
 	end
-
 
 	if this.menu_font_changed and (apply_font_requested or config_changed) then
 		this.menu_font_changed = false;
@@ -2302,6 +2312,190 @@ function this.draw_buff_UI()
 			imgui.tree_pop();
 		end
 
+		if imgui.tree_node(language.current_language.customization_menu.filter) then
+		
+			-- weapon_skills = "Weapon Skills",
+			-- otomo_moves = "Buddy Moves",
+			-- misc_buffs = "Misc Buffs",
+
+			if imgui.tree_node(language.current_language.customization_menu.abnormal_statuses) then
+
+				for _, key in ipairs(abnormal_statuses.keys) do
+					changed, cached_config.filter.abnormal_statuses[key] = imgui.checkbox(
+						abnormal_statuses.get_abnormal_status_name(key), cached_config.filter.abnormal_statuses[key]);
+
+					config_changed = config_changed or changed;
+				end
+		
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.item_buffs) then
+		
+				for _, key in ipairs(item_buffs.keys) do
+					changed, cached_config.filter.item_buffs[key] = imgui.checkbox(
+						item_buffs.get_item_buff_name(key), cached_config.filter.item_buffs[key]);
+
+					config_changed = config_changed or changed;
+				end
+
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.endemic_life_buffs) then
+		
+				for _, key in ipairs(endemic_life_buffs.keys) do
+					changed, cached_config.filter.endemic_life_buffs[key] = imgui.checkbox(
+						endemic_life_buffs.get_endemic_life_name(key), cached_config.filter.endemic_life_buffs[key]);
+
+					config_changed = config_changed or changed;
+				end
+
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.melody_effects) then
+		
+				for lua_index, key in ipairs(melody_effects.keys) do
+					if (lua_index >= 16 and lua_index <= 18) or lua_index == 24 then
+						goto continue;
+					end
+
+					changed, cached_config.filter.melody_effects[key] = imgui.checkbox(
+						melody_effects.get_melody_effect_name(lua_index - 1), cached_config.filter.melody_effects[key]);
+
+					config_changed = config_changed or changed;
+
+					::continue::
+				end
+
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.dango_skills) then
+		
+				for _, key in ipairs(dango_skills.keys) do
+					changed, cached_config.filter.dango_skills[key] = imgui.checkbox(
+						dango_skills.get_dango_skill_name(key), cached_config.filter.dango_skills[key]);
+
+					config_changed = config_changed or changed;
+				end
+
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.rampage_skills) then
+		
+				for _, key in ipairs(rampage_skills.keys) do
+					changed, cached_config.filter.rampage_skills[key] = imgui.checkbox(
+						rampage_skills.get_rampage_skill_name(key), cached_config.filter.rampage_skills[key]);
+
+					config_changed = config_changed or changed;
+				end
+
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.skills) then
+
+				for _, key in ipairs(skills.keys) do
+					changed, cached_config.filter.skills[key] = imgui.checkbox(
+						skills.get_skill_name(key), cached_config.filter.skills[key]);
+
+					config_changed = config_changed or changed;
+				end
+		
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.weapon_skills) then
+		
+				for _, weapon in ipairs(weapon_skills.keys) do
+
+					if imgui.tree_node(language.current_language.weapons[weapon.key]) then
+
+						local cached_weapon_filter = cached_config.filter.weapon_skills[weapon.key];
+
+						for _, key in ipairs(weapon.skill_keys) do
+							local name = weapon_skills.get_weapon_skill_name(key);
+
+							if key == "spirit_gauge_autofill" then
+								local soaring_kick_name = weapon_skills.get_weapon_skill_name("soaring_kick");
+								local iai_slash_name = weapon_skills.get_weapon_skill_name("iai_slash");
+								name = string.format("%s (%s, %s)", name, soaring_kick_name, iai_slash_name);
+							end
+
+							changed, cached_weapon_filter[key] = imgui.checkbox(
+								name, cached_weapon_filter[key]);
+		
+							config_changed = config_changed or changed;
+						end
+
+						imgui.tree_pop();
+					end
+				end
+
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.otomo_moves) then
+
+				for _, key in ipairs(otomo_moves.keys) do
+					changed, cached_config.filter.otomo_moves[key] = imgui.checkbox(
+						otomo_moves.get_otomo_move_name(key), cached_config.filter.otomo_moves[key]);
+
+					config_changed = config_changed or changed;
+				end
+		
+				imgui.tree_pop();
+			end
+
+			if imgui.tree_node(language.current_language.customization_menu.misc_buffs) then
+
+				for _, key in ipairs(misc_buffs.keys) do
+					local name = misc_buffs.get_misc_buff_name(key);
+
+					if key == "attack_up" then
+
+						local might_seed_name = item_buffs.get_item_buff_name("might_seed");
+						local dango_bulker_name = dango_skills.get_dango_skill_name("dango_bulker");
+						local chameleos_soul_name = rampage_skills.get_rampage_skill_name("chameleos_soul");
+						name = string.format("%s (%s, %s, %s)", name, might_seed_name, dango_bulker_name, chameleos_soul_name);
+
+					elseif key == "defense_up" then
+
+						local adamant_seed_name = item_buffs.get_item_buff_name("adamant_seed");
+						local chameleos_soul_name = rampage_skills.get_rampage_skill_name("chameleos_soul");
+
+						name = string.format("%s (%s, %s)", name, adamant_seed_name, chameleos_soul_name);
+					elseif key == "stamina_use_down" then
+
+						local dash_juice_name = item_buffs.get_item_buff_name("dash_juice");
+						local peepersects_name = endemic_life_buffs.get_endemic_life_name("peepersects");
+						local chameleos_soul_name = rampage_skills.get_rampage_skill_name("chameleos_soul");
+
+						name = string.format("%s (%s, %s, %s)", name, dash_juice_name, peepersects_name, chameleos_soul_name);
+					elseif key == "natural_healing_up" then
+
+						local immunizer_name = item_buffs.get_item_buff_name("immunizer");
+						local vase_of_vitality_name = otomo_moves.get_otomo_move_name("vase_of_vitality");
+
+						name = string.format("%s (%s, %s)", name, immunizer_name, vase_of_vitality_name);
+					end
+
+					changed, cached_config.filter.misc_buffs[key] = imgui.checkbox(
+						name, cached_config.filter.misc_buffs[key]);
+
+					config_changed = config_changed or changed;
+				end
+		
+				imgui.tree_pop();
+			end
+
+
+			imgui.tree_pop();
+		end
+
 		changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.name_label);
 		config_changed = config_changed or changed;
 
@@ -2467,10 +2661,21 @@ function this.init_dependencies()
 	keyboard = require("MHR_Overlay.Game_Handler.keyboard");
 	non_players = require("MHR_Overlay.Damage_Meter.non_players");
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
-	buffs = require("MHR_Overlay.Buffs.buffs");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
 	time = require("MHR_Overlay.Game_Handler.time");
 	stats_UI = require("MHR_Overlay.UI.Modules.stats_UI");
+
+	buffs = require("MHR_Overlay.Buffs.buffs");
+	item_buffs = require("MHR_Overlay.Buffs.item_buffs");
+	melody_effects = require("MHR_Overlay.Buffs.melody_effects");
+	endemic_life_buffs = require("MHR_Overlay.Buffs.endemic_life_buffs");
+	skills = require("MHR_Overlay.Buffs.skills");
+	dango_skills = require("MHR_Overlay.Buffs.dango_skills");
+	abnormal_statuses = require("MHR_Overlay.Buffs.abnormal_statuses");
+	otomo_moves = require("MHR_Overlay.Buffs.otomo_moves");
+	weapon_skills = require("MHR_Overlay.Buffs.weapon_skills");
+	rampage_skills = require("MHR_Overlay.Buffs.rampage_skills");
+	misc_buffs = require("MHR_Overlay.Buffs.misc_buffs");
 
 	label_customization = require("MHR_Overlay.UI.Customizations.label_customization");
 	bar_customization = require("MHR_Overlay.UI.Customizations.bar_customization");

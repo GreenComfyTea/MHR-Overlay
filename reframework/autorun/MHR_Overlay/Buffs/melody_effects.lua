@@ -8,6 +8,7 @@ local players;
 local utils;
 local language;
 local error_handler;
+local time;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -72,6 +73,37 @@ local package = package;
 	sharpness_extension = 27
 };]]
 
+this.keys = {
+	"self_improvement",
+	"attack_up",
+	"defense_up",
+	"affinity_up",
+	"elemental_attack_boost",
+	"attack_and_defense_up",
+	"attack_and_affinity_up",
+	"knockbacks_negated",
+	"earplugs_s",
+	"earplugs_l",
+	"tremors_negated",
+	"wind_pressure_negated",
+	"stun_negated",
+	"blight_negated",
+	"divine_protection",
+	"health_recovery_s",
+	"health_recovery_l",
+	"health_recovery_s_antidote",
+	"health_regeneration",
+	"stamina_use_reduced",
+	"stamina_recovery_up",
+	"sharpness_loss_reduced",
+	"environment_damage_negated",
+	"sonic_wave",
+	"sonic_barrier",
+	"infernal_melody",
+	"sharpness_regeneration",
+	"sharpness_extension"
+};
+
 this.list = {};
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
@@ -97,30 +129,40 @@ function this.update(master_player)
 		return;
 	end
 
-	local length = get_length_method:call(music_data_array) - 1;
+	local length = get_length_method:call(music_data_array);
 	if length == nil then
 		error_handler.report("melody_effects.update", "Failed to access Data: music_data_array -> length");
 		return;
 	end
 
-	for i = 0, length do
-		local music_data = get_value_method:call(music_data_array, i);
-		if music_data == nil then
-			error_handler.report("melody_effects.update", "Failed to access Data: music_data No." .. tostring(i));
+	length = length - 1;
+
+	for id = 0, length do
+
+		local lua_index = id + 1;
+
+		local melody_effect = this.list[lua_index];
+		local key = this.keys[lua_index];
+
+		if this.apply_filter(key, lua_index) then
 			goto continue;
 		end
 
-		this.update_melody_effect(i, music_data);
+		local music_data = get_value_method:call(music_data_array, id);
+		if music_data == nil then
+			error_handler.report("melody_effects.update", "Failed to access Data: music_data No." .. tostring(id));
+			goto continue;
+		end
+
+		this.update_melody_effect(lua_index, id, key, melody_effect, music_data);
 		::continue::
 	end
 end
 
-function this.update_melody_effect(index, melody_data)
-	local lua_index = index + 1;
-
+function this.update_melody_effect(lua_index, id, key, melody_effect, melody_data)
 	local melody_timer = time_field:get_data(melody_data);
 	if melody_timer == nil then
-		error_handler.report("melody_effects.update_melody_effect", "Failed to access Data: melody_timer No. " .. tostring(index));
+		error_handler.report("melody_effects.update_melody_effect", "Failed to access Data: melody_timer No. " .. tostring(id));
 		return;
 	end
 
@@ -129,21 +171,52 @@ function this.update_melody_effect(index, melody_data)
 		return;
 	end
 
-	local melody_effect = this.list[lua_index];
 	if melody_effect == nil then
-		local melody_effect_name = this.get_melody_effect_name(index);
+		local melody_effect_name = this.get_melody_effect_name(id);
 
-		melody_effect = buffs.new("melody_effects", lua_index, melody_effect_name, 1, melody_timer / 60);
+		melody_effect = buffs.new(key, melody_effect_name, 1, melody_timer / 60);
 		this.list[lua_index] = melody_effect;
 	else
 		buffs.update_timer(melody_effect, melody_timer / 60);
 	end
 end
 
-function this.get_melody_effect_name(melody_effect_id)
-	local melody_effect_name = get_name_method:call(nil, melody_effect_id);
+function this.apply_filter(key, lua_index)
+	if config.current_config.buff_UI.filter.melody_effects[key] then
+		return false;
+	end
+	
+	local buff = this.list[lua_index];
+	if buff == nil then
+		return true;
+	end
+
+	if not buff.is_visible then
+		return true;
+	end
+
+	if buff.is_infinite then
+		this.list[lua_index] = nil;
+		return true;
+	end
+
+	time.new_delay_timer(function()
+		
+		local _buff = this.list[lua_index];
+		if _buff ~= nil and not _buff.is_visible then
+			this.list[lua_index] = nil;
+		end
+
+	end, buff.timer);
+
+	buff.is_visible = false;
+	return true;
+end
+
+function this.get_melody_effect_name(id)
+	local melody_effect_name = get_name_method:call(nil, id);
 	if melody_effect_name == nil then
-		local name = string.format("Melody Effect No. %d", melody_effect_id);
+		local name = string.format("Melody Effect No. %d", id);
 		error_handler.report("melody_effects.get_melody_effect_name", "Failed to access Data: " .. melody_effect_name);
 		return name;
 	end
@@ -160,6 +233,7 @@ function this.init_dependencies()
 	players = require("MHR_Overlay.Damage_Meter.players");
 	language = require("MHR_Overlay.Misc.language");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	time = require("MHR_Overlay.Game_Handler.time");
 end
 
 function this.init_module()

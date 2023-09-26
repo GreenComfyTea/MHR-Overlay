@@ -77,7 +77,24 @@ this.language_folder = "MHR Overlay\\languages\\";
 this.current_language = {};
 this.default_language = {
 	font_name = "",
-	unicode_glyph_ranges = {0},
+	unicode_glyph_ranges = {
+		-- 0x0020, 0x00FF, -- Basic Latin + Latin Supplement
+		-- 0x0100, 0x017F,  -- Latin Extended-A
+		-- 0x0400, 0x052F, -- Cyrillic
+		-- 0x1100, 0x11FF, -- Hangul Jamo
+		-- 0x2000, 0x206F, -- General Punctuation
+		-- 0x3000, 0x30FF, -- CJK Symbols and Punctuations, Hiragana, Katakana
+		-- 0x3130, 0x318F, -- Hangul Compatibility Jamo
+		-- 0x31F0, 0x31FF, -- Katakana Phonetic Extensions
+		-- 0x4e00, 0x9FAF, -- CJK Ideograms
+		-- 0xAC00, 0xD7AF, -- Hangul Syllables
+		-- 0xFF00, 0xFFEF, -- Half-width characters
+		0
+	},
+	-- unicode_glyph_ranges = {
+	-- 	0x0020, 0xFFFF,
+	-- 	0
+	-- },
 	parts = {
 		head = "Head",
 		neck = "Neck",
@@ -180,8 +197,8 @@ this.default_language = {
 
 		fireblight = "Fireblight",
 		waterblight = "Waterblight",
-		iceblight = "Iceblight",
 		thunderblight = "Thunderblight",
+		iceblight = "Iceblight",
 
 		fall_trap = "Fall Trap",
 		shock_trap = "Shock Trap",
@@ -229,55 +246,86 @@ this.default_language = {
 		dragon_conversion_elemental_res_up = "Dragon Conversion Elem. Res Up",
 	},
 
+	weapons = {
+		great_sword = "Great Sword",
+		long_sword = "Long Sword",
+		sword_and_shield = "Sword & Shield",
+		dual_blades = "Dual Blades",
+		lance = "Lance",
+		gunlance = "Gunlance",
+		hammer = "Hammer",
+		hunting_horn = "Hunting Horn",
+		switch_axe = "Switch Axe",
+		charge_blade = "Charge Blade",
+		insect_glaive = "Insect Glaive",
+		light_bowgun = "Light Bowgun",
+		heavy_bowgun = "Heavy Bowgun",
+		bow = "Bow"
+	},
+
 	weapon_skills = {
 		-- Great Sword
 		power_sheathe = "Power Sheathe",
+
+		-- Long Sword
+		iai_slash = "Iai Slash",
+		spirit_gauge_autofill = "Spirit Gauge Autofill", -- Soaring Kick, Iai Slash
+		spirit_gauge = "Spirit Gauge",
+		-- harvest_moon = "Harvest Moon",
+
+		-- Sword & Shield
+		-- destroyer_oil = "Destroyer Oil",
+
+		-- Dual Blades
+		ironshine_silk = "Ironshine Silk",
+		archdemon_mode = "Archdemon Mode",
+
+		-- Lance
+		-- anchor_rage = "Anchor Rage",
+		-- spiral_thrust = "Spiral Thrust",
+		twin_wine = "Twin Wine",
+
+		-- Gunlance
+		--ground_splitter = "Ground Splitter",
+		--erupting_cannon = "Erupting Cannon",
+		
+		-- Hammer
+		-- impact_burst = "Impact Burst",
+		
+		-- Hunting Horn
+		-- silkbind_shockwave = "Silkbind Shockwave",
+		-- bead_of_resonance = "Bead of Resonance",
+		-- sonic_bloom = "Sonic Bloom",
+
 		-- Switch Axe
 		amped_state = "Amped State",
 		switch_charger = "Switch Charger",
 		axe_heavy_slam = "Axe: Heavy Slam",
-		-- Long Sword
-		spirit_gauge_autofill = "Spirit Gauge Autofill", -- Soaring Kick, Iai Slash
-		spirit_gauge = "Spirit Gauge",
-		--harvest_moon = "Harvest Moon",
-		-- Light Bowgun
-		--fanning_maneuver = "Fanning Maneuver",
-		wyvernblast_reload = "Wyvernblast Reload",
-		-- Heavy Bowgun
-		--counter_charger = "Counter Charger",
-		--rising_moon = "Rising Moon",
-		--setting_sun = "Setting Sun",
-		overheat = "Overheat",
-		wyvernsnipe_reload = "Wyvernsnipe Reload",
-		-- Hammer
-		--impact_burst = "Impact Burst",
-		-- Gunlance
-		--ground_splitter = "Ground Splitter",
-		--erupting_cannon = "Erupting Cannon",
-		-- Lance
-		--anchor_rage = "Anchor Rage",
-		--spiral_thrust = "Spiral Thrust",
-		twin_wine = "Twin Wine",
-		-- Sword & Shield
-		--destroyer_oil = "Destroyer Oil",
-		-- Dual Blades
-		ironshine_silk = "Ironshine Silk",
-		archdemon_mode = "Archdemon Mode",
-		-- Hunting Horn
-		--silkbind_shockwave = "Silkbind Shockwave",
-		--bead_of_resonance = "Bead of Resonance",
-		--sonic_bloom = "Sonic Bloom",
+
 		-- Charge Blade
 		element_boost = "Element Boost",
 		sword_boost_mode ="Sword Boost Mode",
+
 		-- Insect Glaive
 		red_extract = "Red Extract",
 		white_extract = "White Extract",
 		orange_extract = "Orange Extract",
 		all_extracts_mix = "All Extracts Mix",
+
+		-- Light Bowgun
+		-- fanning_maneuver = "Fanning Maneuver",
+		wyvernblast_reload = "Wyvernblast Reload",
+
+		-- Heavy Bowgun
+		-- counter_charger = "Counter Charger",
+		-- rising_moon = "Rising Moon",
+		-- setting_sun = "Setting Sun",
+		overheat = "Overheat",
+		wyvernsnipe_reload = "Wyvernsnipe Reload",
+		
 		-- Bow
 		herculean_draw = "Herculean Draw",
-		--bolt_boost = "Bolt Boost",
+		-- bolt_boost = "Bolt Boost",
 		arc_shot_affinity = "Arc Shot: Affinity",
 		arc_shot_brace = "Arc Shot: Brace",
 	},
@@ -309,6 +357,26 @@ this.default_language = {
 		servant = "Follower",
 
 		lv = ""
+	},
+
+	stats = {
+		attack = "Attack",
+		defense = "Defense",
+		affinity = "Affinity",
+		
+		fire_resistance = "Fire Res";
+		water_resistance = "Water Res";
+		thunder_resistance = "Thunder Res";
+		ice_resistance = "Ice Res";
+		dragon_resistance = "Dragon Res";
+
+		stamina = "Stamina",
+
+		fire = "Fire",
+		water = "Water",
+		thunder = "Thunder",
+		ice = "Ice",
+		dragon = "Dragon",
 	},
 
 	customization_menu = {
@@ -688,28 +756,19 @@ this.default_language = {
 		ice_resistance_label = "Ice Resistance Label",
 		dragon_resistance_label = "Dragon Resistance Label",
 		element_label = "Element Label",
-		element_2_label = "Element 2 Label"
+		element_2_label = "Element 2 Label",
+
+		abnormal_statuses = "Abnormal Statuses",
+		item_buffs = "Item Buffs",
+		endemic_life_buffs = "Endemic Life Buffs",
+		melody_effects = "Melody Effects",
+		dango_skills = "Dango Skills",
+		rampage_skills = "Rampage Skills",
+		skills = "Skills",
+		weapon_skills = "Weapon Skills",
+		otomo_moves = "Buddy Moves",
+		misc_buffs = "Misc Buffs",
 	},
-
-	stats = {
-		attack = "Attack",
-		defense = "Defense",
-		affinity = "Affinity",
-		
-		fire_resistance = "Fire Res";
-		water_resistance = "Water Res";
-		thunder_resistance = "Thunder Res";
-		ice_resistance = "Ice Res";
-		dragon_resistance = "Dragon Res";
-
-		stamina = "Stamina",
-
-		fire = "Fire",
-		water = "Water",
-		thunder = "Thunder",
-		ice = "Ice",
-		dragon = "Dragon",
-	}
 };
 
 this.language_names = { "default"};

@@ -8,6 +8,7 @@ local players;
 local utils;
 local language;
 local error_handler;
+local time;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -54,6 +55,19 @@ this.list = {
 	super_recovery_dango = nil
 };
 
+this.keys = {
+	"dango_adrenaline",
+	"dango_booster",
+	"dango_insurance",
+	"dango_insurance_defense_up",
+	"dango_glutton",
+	"dango_flyer",
+	"dango_defender",
+	"dango_hunter",
+	"dango_connector",
+	"super_recovery_dango"
+};
+
 local dango_skill_ids = {
 	-- dango_polisher = 1,
 	-- dango_rider = 2,
@@ -84,7 +98,7 @@ local dango_skill_ids = {
 	-- dango_trainer = 27,
 	dango_booster = 28,
 	-- dango_feet = 29,
-	-- dango_bulker = 30,
+	dango_bulker = 30,
 	dango_insurance = 31,
 	-- dango_reviver = 32,
 	-- dango_summoner = 33,
@@ -115,7 +129,6 @@ local dango_skill_ids = {
 
 this.is_dango_adrenaline_active = false;
 
-local dango_skills_type_name = "dango_skills";
 local dango_bulker_attack_up = 15;
 local previous_super_recovery_dango_timer = 0;
 
@@ -125,7 +138,7 @@ local has_anyone_kitchen_skill_in_quest_method = player_manager_type_def:get_met
 
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Dango Defender
-local is_enable_kitchen_skill_048_reduce_method = player_data_type_def:get_field("_IsEnable_KitchenSkill048_Reduce");
+local is_enable_kitchen_skill_048_reduce_field = player_data_type_def:get_field("_IsEnable_KitchenSkill048_Reduce");
 -- Dango Booster
 local kitchen_skill_027_timer_field = player_data_type_def:get_field("_KitchenSkill027Timer");
 -- Dango Glutton
@@ -158,6 +171,8 @@ local flag_cat_skill_insurance_field = quest_manager_type_def:get_field("_FlagCa
 local is_cat_skill_insurance_method = quest_manager_type_def:get_method("isCatSkillInsurance");
 
 function this.update(player, player_data)
+
+
 	this.update_dango_adrenaline();
 	this.update_dango_hunter(player_data);
 	this.update_dango_insurance();
@@ -165,22 +180,43 @@ function this.update(player, player_data)
 	this.update_dango_flyer(player);
 	this.update_super_recovery_dango(player);
 
-	buffs.update_generic_buff(this.list, dango_skills_type_name, "dango_booster", this.get_dango_skill_name, nil, nil, player_data, kitchen_skill_027_timer_field);
-	buffs.update_generic_buff(this.list, dango_skills_type_name, "dango_defender", this.get_dango_skill_name, player_data, is_enable_kitchen_skill_048_reduce_method, nil, nil, true);
-	buffs.update_generic_buff(this.list, dango_skills_type_name, "dango_glutton", this.get_dango_skill_name, nil, nil, player_data, kitchen_skill_045_timer_field);
-	buffs.update_generic_buff(this.list, dango_skills_type_name, "dango_connector", this.get_dango_skill_name, nil, nil, player_data, kitchen_skill_054_timer_field);
+	this.update_dango_skill("dango_booster", nil, nil, player_data, kitchen_skill_027_timer_field);
+	this.update_dango_skill("dango_defender", player_data, is_enable_kitchen_skill_048_reduce_field, nil, nil, true);
+	this.update_dango_skill("dango_glutton", nil, nil, player_data, kitchen_skill_045_timer_field);
+	this.update_dango_skill("dango_connector", nil, nil, player_data, kitchen_skill_054_timer_field);
+end
+
+function this.update_dango_skill(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.dango_skills, this.get_dango_skill_name, key,
+		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints);
+end
+
+function this.update_generic(key, level, timer)
+	return buffs.update_generic(this.list, this.get_dango_skill_name, key, level, timer);
+end
+
+function this.apply_filter(key)
+	return buffs.apply_filter(this.list, config.current_config.buff_UI.filter.dango_skills, key);
 end
 
 function this.update_dango_adrenaline()
+	if this.apply_filter("dango_adrenaline") then
+		return;
+	end
+
 	if not this.is_dango_adrenaline_active then
 		this.list.dango_adrenaline = nil;
 		return;
 	end
 
-	buffs.update_generic(this.list, dango_skills_type_name, "dango_adrenaline", this.get_dango_skill_name);
+	this.update_generic("dango_adrenaline");
 end
 
 function this.update_dango_insurance()
+	if this.apply_filter("dango_insurance") then
+		return;
+	end
+
 	if singletons.player_manager == nil then
 		error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: player_manager");
 		return;
@@ -210,10 +246,14 @@ function this.update_dango_insurance()
 		return;
 	end
 
-	buffs.update_generic(this.list, dango_skills_type_name, "dango_insurance", this.get_dango_skill_name, 1);
+	this.update_generic("dango_insurance");
 end
 
 function this.update_dango_insurance_defense_up(player_data)
+	if this.apply_filter("dango_insurance_defense_up") then
+		return;
+	end
+
 	local level = 3;
 
 	local insurance_def_up_lv3 = kitchen_skill_insurance_def_up_lv3_field:get_data(player_data);
@@ -238,10 +278,14 @@ function this.update_dango_insurance_defense_up(player_data)
 		level = 4;
 	end
 
-	buffs.update_generic(this.list, dango_skills_type_name, "dango_insurance_defense_up", this.get_dango_skill_name, level);	
+	this.update_generic("dango_insurance_defense_up", level);	
 end
 
 function this.update_dango_flyer(player)
+	if this.apply_filter("dango_flyer") then
+		return;
+	end
+
 	local level = 4;
 
 	local is_kitchen_skill_wire_stop_regene = get_is_kitchen_skill_wire_stop_regene_method:call(player);
@@ -266,11 +310,11 @@ function this.update_dango_flyer(player)
 		level = 3;
 	end
 
-	buffs.update_generic(this.list, dango_skills_type_name, "dango_flyer", this.get_dango_skill_name, level);	
+	this.update_generic("dango_flyer", level);	
 end
 
 function this.update_dango_hunter(player_data)
-	local dango_hunter_buff = buffs.update_generic_buff(this.list, dango_skills_type_name, "dango_hunter", this.get_dango_skill_name, nil, nil, player_data, kitchen_skill_051_atk_up_timer_field);
+	local dango_hunter_buff = this.update_dango_skill("dango_hunter", nil, nil, player_data, kitchen_skill_051_atk_up_timer_field);
 
 	if dango_hunter_buff ~= nil then
 		dango_hunter_buff.level = 4;
@@ -278,6 +322,10 @@ function this.update_dango_hunter(player_data)
 end
 
 function this.update_super_recovery_dango(player)
+	if this.apply_filter("super_recovery_dango") then
+		return;
+	end
+
 	local kitchen_skill_surume_regene_timer = get_kitchen_skill_surume_regene_timer_method:call(player);
 	if kitchen_skill_surume_regene_timer == nil then
 		error_handler.report("dango_skills.update_super_recovery_dango", "Failed to access Data: kitchen_skill_surume_regene_timer");
@@ -285,23 +333,22 @@ function this.update_super_recovery_dango(player)
 	end
 
 	if utils.number.is_equal(kitchen_skill_surume_regene_timer, 0)
-	and utils.number.is_equal(previous_super_recovery_dango_timer, 0)  then
+	and utils.number.is_equal(previous_super_recovery_dango_timer, 0) then
 		this.list.super_recovery_dango = nil;
 		return;
 	end
 
 	previous_super_recovery_dango_timer = kitchen_skill_surume_regene_timer;
-
-	buffs.update_generic(this.list, dango_skills_type_name, "super_recovery_dango", this.get_dango_skill_name);	
+	this.update_generic("super_recovery_dango");	
 end
 
-function this.get_dango_skill_name(dango_key)
-	local dango_skill_id = dango_skill_ids[dango_key];
+function this.get_dango_skill_name(key)
+	local dango_skill_id = dango_skill_ids[key];
 	if dango_skill_id == nil then
 		
-		local dango_skill_name = language.current_language.dango_skills[dango_key];
+		local dango_skill_name = language.current_language.dango_skills[key];
 		if dango_skill_name == nil then
-			return dango_key;
+			return key;
 		end
 
 		return dango_skill_name;
@@ -309,8 +356,8 @@ function this.get_dango_skill_name(dango_key)
 
 	local dango_skill_name = get_name_method:call(nil, dango_skill_id);
 	if dango_skill_name == nil then
-		error_handler.report("dango_skills.get_dango_name", string.format("Failed to access Data: %s_name", dango_key));
-		return dango_key;
+		error_handler.report("dango_skills.get_dango_name", string.format("Failed to access Data: %s_name", key));
+		return key;
 	end
 
 	return dango_skill_name;
@@ -325,6 +372,7 @@ function this.init_dependencies()
 	players = require("MHR_Overlay.Damage_Meter.players");
 	language = require("MHR_Overlay.Misc.language");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	time = require("MHR_Overlay.Game_Handler.time");
 end
 
 

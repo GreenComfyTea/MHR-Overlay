@@ -48,14 +48,40 @@ local package = package;
 this.list = {
 	-- Great Sword
 	power_sheathe = nil,
-	-- Switch Axe
-	amped_state = nil,
-	switch_charger = nil,
-	axe_heavy_slam = nil,
 	-- Long Sword
 	spirit_gauge_autofill = nil, -- Soaring Kick, Iai Slash
 	spirit_gauge = nil,
 	harvest_moon = nil,
+	-- Sword & Shield
+	destroyer_oil = nil,
+	-- Dual Blades
+	ironshine_silk = nil,
+	archdemon_mode = nil,
+	-- Lance
+	anchor_rage = nil,
+	spiral_thrust = nil,
+	twin_wine = nil,
+	-- Gunlance
+	ground_splitter = nil,
+	erupting_cannon = nil,
+	-- Hammer
+	impact_burst = nil,
+	-- Hunting Horn
+	silkbind_shockwave = nil,
+	bead_of_resonance = nil,
+	sonic_bloom = nil,
+	-- Switch Axe
+	amped_state = nil,
+	switch_charger = nil,
+	axe_heavy_slam = nil,
+	-- Charge Blade
+	element_boost = nil,
+	sword_boost_mode = nil,
+	-- Insect Glaive
+	red_extract = nil,
+	white_extract = nil,
+	orange_extract = nil,
+	all_extracts_mix = nil,
 	-- Light Bowgun
 	fanning_maneuver = nil,
 	wyvernblast_reload = nil,
@@ -65,24 +91,166 @@ this.list = {
 	setting_sun = nil,
 	overheat = nil,
 	wyvernsnipe_reload = nil,
-	-- Hammer
-	impact_burst = nil,
-	-- Gunlance
-	ground_splitter = nil,
-	erupting_cannon = nil,
-	-- Lance
-	anchor_rage = nil,
-	spiral_thrust = nil,
-	twin_wine = nil,
+	-- Bow
+	herculean_draw = nil,
+	bolt_boost = nil,
+	arc_shot_affinity = nil,
+	arc_shot_brace = nil
+};
+
+this.keys = {
+	-- Great Sword
+	{
+		key = "great_sword",
+		skill_keys = {
+			"power_sheathe"
+		}
+	},
+	-- Long Sword
+	{
+		key = "long_sword",
+		skill_keys = {
+			"spirit_gauge_autofill", -- Soaring Kick, Iai Slash
+			"spirit_gauge",
+			"harvest_moon"
+		}
+	},
 	-- Sword & Shield
-	destroyer_oil = nil,
+	{
+		key = "sword_and_shield",
+		skill_keys = {
+			"destroyer_oil"
+		}
+	},
 	-- Dual Blades
-	ironshine_silk = nil,
-	archdemon_mode = nil,
+	{
+		key = "dual_blades",
+		skill_keys = {
+			"ironshine_silk",
+			"archdemon_mode"
+		}
+	},
+	-- Lance
+	{
+		key = "lance",
+		skill_keys = {
+			"anchor_rage",
+			"spiral_thrust",
+			"twin_wine"
+		}
+	},
+	-- Gunlance
+	{
+		key = "gunlance",
+		skill_keys = {
+			"ground_splitter",
+			"erupting_cannon"
+		}
+	},
+	-- Hammer
+	{
+		key = "hammer",
+		skill_keys = {
+			"impact_burst"
+		}
+	},
 	-- Hunting Horn
-	silkbind_shockwave = nil,
-	bead_of_resonance = nil,
-	sonic_bloom = nil,
+	{
+		key = "hunting_horn",
+		skill_keys = {
+			"silkbind_shockwave",
+			"bead_of_resonance",
+			"sonic_bloom"
+		}
+	},
+	-- Switch Axe
+	{
+		key = "switch_axe",
+		skill_keys = {
+			"amped_state",
+			"switch_charger",
+			"axe_heavy_slam"
+		}
+	},
+	-- Charge Blade
+	{
+		key = "charge_blade",
+		skill_keys = {
+			"element_boost",
+			"sword_boost_mode"
+		}
+	},
+	-- Insect Glaive
+	{
+		key = "insect_glaive",
+		skill_keys = {
+			"red_extract",
+			"white_extract",
+			"orange_extract",
+			"all_extracts_mix"
+		}
+	},
+	-- Light Bowgun
+	{
+		key = "light_bowgun",
+		skill_keys = {
+			"fanning_maneuver",
+			"wyvernblast_reload"
+		}
+	},
+	-- Heavy Bowgun
+	{
+		key = "heavy_bowgun",
+		skill_keys = {
+			"counter_charger",
+			"rising_moon",
+			"setting_sun",
+			"overheat",
+			"wyvernsnipe_reload"
+		}
+	},
+	-- Bow
+	{
+		key = "bow",
+		skill_keys = {
+			"herculean_draw",
+			"bolt_boost",
+			"arc_shot_affinity",
+			"arc_shot_brace"
+		}
+	}
+};
+
+local weapon_skill_ids = {
+	-- Great Sword
+	power_sheathe = nil,
+	-- Long Sword
+	soaring_kick = 9,
+	spirit_gauge_autofill = nil, -- Soaring Kick, Iai Slash
+	spirit_gauge = nil,
+	harvest_moon = 94,
+	-- Sword & Shield
+	destroyer_oil = 97,
+	-- Dual Blades
+	ironshine_silk = 104,
+	archdemon_mode = nil,
+	-- Lance
+	anchor_rage = 37,
+	spiral_thrust = 38,
+	twin_wine = nil,
+	-- Gunlance
+	ground_splitter = 46,
+	erupting_cannon = 121,
+	-- Hammer
+	impact_burst = 109,
+	-- Hunting Horn
+	silkbind_shockwave = 114,
+	bead_of_resonance = 35,
+	sonic_bloom = 112,
+	-- Switch Axe
+	amped_state = nil,
+	switch_charger = nil,
+	axe_heavy_slam = nil,
 	-- Charge Blade
 	element_boost = nil,
 	sword_boost_mode = nil,
@@ -91,24 +259,6 @@ this.list = {
 	white_extract = nil,
 	orange_extract = nil,
 	all_extracts_mix = nil,
-	-- Bow
-	herculean_draw = nil,
-	bolt_boost = nil,
-	arc_shot_affinity = nil,
-	arc_shot_brace = nil
-};
-
-local weapon_skill_ids = {
-	-- Great Sword
-	power_sheathe = nil,
-	-- Switch Axe
-	amped_state = nil,
-	switch_charger = nil,
-	axe_heavy_slam = nil,
-	-- Long Sword
-	spirit_gauge_autofill = nil, -- Soaring Kick, Iai Slash
-	spirit_gauge = nil,
-	harvest_moon = 94,
 	-- Light Bowgun
 	fanning_maneuver = 72,
 	wyvernblast_reload = nil,
@@ -118,53 +268,40 @@ local weapon_skill_ids = {
 	setting_sun = 149,
 	overheat = nil,
 	wyvernsnipe_reload = nil,
-	-- Hammer
-	impact_burst = 109,
-	-- Gunlance
-	ground_splitter = 46,
-	erupting_cannon = 121,
-	-- Lance
-	anchor_rage = 37,
-	spiral_thrust = 38,
-	twin_wine = nil,
-	-- Sword & Shield
-	destroyer_oil = 97,
-	-- Dual Blades
-	ironshine_silk = 104,
-	archdemon_mode = nil,
-	-- Hunting Horn
-	silkbind_shockwave = 114,
-	bead_of_resonance = 35,
-	sonic_bloom = 112,
-	-- Charge Blade
-	element_boost = nil,
-	sword_boost_mode = nil,
-	-- Insect Glaive
-	red_extract = nil,
-	white_extract = nil,
-	orange_extract = nil,
-	all_extracts_mix = nil,
 	-- Bow
 	herculean_draw = nil,
 	bolt_boost = 154
 };
 
 --  0 Great Sword
+local great_sword_type_name = "great_sword";
 --  1 Switch Axe
+local switch_axe_type_name = "switch_axe";
 --  2 Long Sword
+local long_sword_type_name = "long_sword";
 --  3 Light Bowgun
+local light_bowgun_type_name = "light_bowgun";
 --  4 Heavy Bowgun
+local heavy_bowgun_type_name = "heavy_bowgun";
 --  5 Hammer
+local hammer_type_name = "hammer";
 --  6 Gunlance
+local gunlance_type_name = "gunlance";
 --  7 Lance
+local lance_type_name = "lance";
 --  8 Sword and Shield
+local sword_and_shield_type_name = "sword_and_shield";
 --  9 Dual Blades
+local dual_blades_type_name = "dual_blades";
 -- 10 Hunting Horn
+local hunting_horn_type_name = "hunting_horn";
 -- 11 Charge Blade
+local charge_blade_type_name = "charge_blade";
 -- 12 Insect Glaive
+local insect_glaive_type_name = "insect_glaive";
 -- 13 Bow
+local bow_type_name = "bow";
 
-local weapon_skills_type_name = "weapon_skills";
 local previous_weapon_type = -1;
 
 local spirit_gauge_breakpoints = {3, 2};
@@ -177,7 +314,7 @@ local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 
 local great_sword_type_def = sdk.find_type_definition("snow.player.GreatSword");
 -- Power Sheathe
-local move_wp_off_buff_set_time_field = great_sword_type_def:get_field("_MoveWpOffBuffSetTime");
+local move_wp_off_buff_great_sword_timer_field = great_sword_type_def:get_field("MoveWpOffBuffGreatSwordTimer");
 
 -- Switch Axe
 
@@ -408,33 +545,41 @@ function this.update(player, player_data, weapon_type)
 	end
 end
 
+function this.update_weapon_skill(key, weapon_type_name, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.weapon_skills[weapon_type_name], this.get_weapon_skill_name, key,
+		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints);
+end
+
+function this.update_generic(key, level, timer)
+	return buffs.update_generic(this.list, this.get_weapon_skill_name, key, level, timer);
+end
+
+function this.apply_filter(weapon_type_name, key)
+	return buffs.apply_filter(this.list, config.current_config.buff_UI.filter.weapon_skills[weapon_type_name], key);
+end
+
 function this.update_great_sword_skills(player)
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "power_sheathe", this.get_weapon_skill_name,
-		nil, nil, player, move_wp_off_buff_set_time_field);
+	this.update_weapon_skill("power_sheathe", great_sword_type_name, nil, nil, player, move_wp_off_buff_great_sword_timer_field);
 end
 
 function this.update_switch_axe_skills(player)
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "amped_state", this.get_weapon_skill_name,
-		nil, nil, player, get_bottle_awake_duration_timer_method);
-
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "switch_charger", this.get_weapon_skill_name,
-		nil, nil, player, no_use_slash_gauge_timer_field);
-
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "axe_heavy_slam", this.get_weapon_skill_name,
-		nil, nil, player, bottle_awake_assist_timer_field);
+	this.update_weapon_skill("amped_state", switch_axe_type_name, nil, nil, player, get_bottle_awake_duration_timer_method);
+	this.update_weapon_skill("switch_charger", switch_axe_type_name, nil, nil, player, no_use_slash_gauge_timer_field);
+	this.update_weapon_skill("axe_heavy_slam", switch_axe_type_name, nil, nil, player, bottle_awake_assist_timer_field);
 end
 
 function this.update_long_sword_skills(player)
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "spirit_gauge_autofill",  this.get_weapon_skill_name,
-		nil, nil, player, get_long_sword_gauge_powerup_time_method);
-
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "spirit_gauge", this.get_weapon_skill_name,
-		player, get_long_sword_gauge_lv_method, player, get_long_sword_gauge_lv_timer_method, false, nil, spirit_gauge_breakpoints);
+	this.update_weapon_skill("spirit_gauge_autofill", long_sword_type_name, nil, nil, player, get_long_sword_gauge_powerup_time_method);
+	this.update_weapon_skill("spirit_gauge", long_sword_type_name, player, get_long_sword_gauge_lv_method, player, get_long_sword_gauge_lv_timer_method, false, nil, spirit_gauge_breakpoints);
 
 	this.update_harvest_moon();
 end
 
 function this.update_harvest_moon()
+	if this.apply_filter(long_sword_type_name, "harvest_moon") then
+		return;
+	end
+
 	if singletons.long_sword_shell_manager == nil then
 		error_handler.report("weapon_skills.update_harvest_moon", "Failed to access Data: long_sword_shell_manager");
 		return;
@@ -473,17 +618,20 @@ function this.update_harvest_moon()
 		return;
 	end
 
-	buffs.update_generic(this.list, weapon_skills_type_name, "harvest_moon", this.get_weapon_skill_name, 1, life_timer);
+	this.update_generic("harvest_moon", 1, life_timer);
 end
 
 function this.update_light_bowgun_skills(player, player_data)
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "fanning_maneuver", this.get_weapon_skill_name,
-		nil, nil, player, light_bowgun_wire_buff_timer_field);
+	this.update_weapon_skill("fanning_maneuver", light_bowgun_type_name, nil, nil, player, light_bowgun_wire_buff_timer_field);
 
 	this.update_wyvernblast_reload(player_data);
 end
 
 function this.update_wyvernblast_reload(player_data)
+	if this.apply_filter(light_bowgun_type_name, "wyvernblast_reload") then
+		return;
+	end
+
 	local wyvernblast_reload_timer = wyvernblast_reload_timer_field:get_data(player_data);
 	if wyvernblast_reload_timer == nil then
 		error_handler.report("weapon_skills.update_wyvernblast_reload", "Failed to access Data: heavy_bowgun_overheat_timer_field");
@@ -497,15 +645,12 @@ function this.update_wyvernblast_reload(player_data)
 
 	local timer = wyverblast_reload_duration - (wyvernblast_reload_timer / 60);
 
-	buffs.update_generic(this.list, weapon_skills_type_name, "wyvernblast_reload", this.get_weapon_skill_name, 1, timer);
+	this.update_generic("wyvernblast_reload", 1, timer);
 end
 
 function this.update_heavy_bowgun_skills(player, player_data)
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "counter_charger", this.get_weapon_skill_name,
-		nil, nil, player, reduce_charge_timer_field);
-
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "wyvernsnipe_reload", this.get_weapon_skill_name,
-		nil, nil, player_data, heavy_bowgun_wyvern_snipe_timer_field);
+	this.update_weapon_skill("counter_charger", heavy_bowgun_type_name, nil, nil, player, reduce_charge_timer_field);
+	this.update_weapon_skill("wyvernsnipe_reload", heavy_bowgun_type_name, nil, nil, player_data, heavy_bowgun_wyvern_snipe_timer_field);
 
 	this.update_rising_moon();
 	this.update_setting_sun();
@@ -513,6 +658,10 @@ function this.update_heavy_bowgun_skills(player, player_data)
 end
 
 function this.update_rising_moon()
+	if this.apply_filter(heavy_bowgun_type_name, "rising_moon") then
+		return;
+	end
+	
 	if singletons.light_bowgun_shell_manager == nil then
 		error_handler.report("weapon_skills.update_rising_moon", "Failed to access Data: light_bowgun_shell_manager");
 		return;
@@ -564,10 +713,14 @@ function this.update_rising_moon()
 		return;
 	end
 
-	buffs.update_generic(this.list, weapon_skills_type_name, "rising_moon", this.get_weapon_skill_name, 1, timer);
+	this.update_generic("rising_moon", 1, timer);
 end
 
 function this.update_setting_sun()
+	if this.apply_filter(heavy_bowgun_type_name, "setting_sun") then
+		return;
+	end
+
 	if singletons.light_bowgun_shell_manager == nil then
 		error_handler.report("weapon_skills.update_setting_sun", "Failed to access Data: light_bowgun_shell_manager");
 		return;
@@ -624,10 +777,14 @@ function this.update_setting_sun()
 		return;
 	end
 
-	buffs.update_generic(this.list, weapon_skills_type_name, "setting_sun", this.get_weapon_skill_name, 1, timer);
+	this.update_generic("setting_sun", 1, timer);
 end
 
 function this.update_overheat(player_data)
+	if this.apply_filter(heavy_bowgun_type_name, "overheat") then
+		return;
+	end
+
 	local heavy_bowgun_overheat_timer = heavy_bowgun_overheat_timer_field:get_data(player_data);
 	if heavy_bowgun_overheat_timer_field == nil then
 		error_handler.report("weapon_skills.update_overheat", "Failed to access Data: heavy_bowgun_overheat_timer_field");
@@ -639,56 +796,54 @@ function this.update_overheat(player_data)
 		return;
 	end
 
-	buffs.update_generic(this.list, weapon_skills_type_name, "overheat", this.get_weapon_skill_name, 1, heavy_bowgun_overheat_timer);
+	this.update_generic("overheat", 1, heavy_bowgun_overheat_timer);
 end
 
 function this.update_hammer_skills(player)
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "impact_burst", this.get_weapon_skill_name,
-		nil, nil, player, hammer_impact_pulls_timer_field);
+	this.update_weapon_skill("impact_burst", hammer_type_name, nil, nil, player, hammer_impact_pulls_timer_field);
 end
 
 function this.update_gunlance_skills(player)
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "ground_splitter", this.get_weapon_skill_name,
-		nil, nil, player, shot_damage_up_duration_timer_field);
-
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "erupting_cannon", this.get_weapon_skill_name,
-		nil, nil, player, explode_pile_buff_timer_field);
+	this.update_weapon_skill("ground_splitter", gunlance_type_name, nil, nil, player, shot_damage_up_duration_timer_field);
+	this.update_weapon_skill("erupting_cannon", gunlance_type_name, nil, nil, player, explode_pile_buff_timer_field);
 end
 
 function this.update_lance_skills(player)
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "spiral_thrust", this.get_weapon_skill_name,
-		nil, nil, player, get_ruten_timer_method);
-
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "anchor_rage", this.get_weapon_skill_name,
-		nil, nil, player, get_guard_rage_timer_method);
+	this.update_weapon_skill("spiral_thrust", lance_type_name, nil, nil, player, get_ruten_timer_method);
+	this.update_weapon_skill("anchor_rage", lance_type_name, nil, nil, player, get_guard_rage_timer_method);
 
 	this.update_twin_wine(player);
 end
 
 function this.update_twin_wine(player)
+	if this.apply_filter(lance_type_name, "twin_wine") then
+		return;
+	end
+
 	local chain_death_match_shell = chain_death_match_shell_field:get_data(player);
 	if chain_death_match_shell == nil then
 		error_handler.report("weapon_skills.update_twin_wine", "Failed to access Data: chain_death_match_shell");
 		return;
 	end
 
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "twin_wine", this.get_weapon_skill_name,
-		nil, nil, chain_death_match_shell, chain_death_match_shell_life_timer_field);
+	this.update_weapon_skill("twin_wine", lance_type_name, nil, nil, chain_death_match_shell, chain_death_match_shell_life_timer_field);
 end
 
 function this.update_sword_and_shield_skills(player)
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "destroyer_oil", this.get_weapon_skill_name,
-		nil, nil, player, get_oil_buff_timer_method);
+	this.update_weapon_skill("destroyer_oil", sword_and_shield_type_name, nil, nil, player, get_oil_buff_timer_method);
 end
 
 function this.update_dual_blades_skills(player)
-	this.update_archdemon_mode(player)
+	this.update_weapon_skill("ironshine_silk", dual_blades_type_name, nil, nil, player, get_sharpness_recovery_buff_valid_timer_method);
 
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "ironshine_silk", this.get_weapon_skill_name,
-		nil, nil, player, get_sharpness_recovery_buff_valid_timer_method);
+	this.update_archdemon_mode(player)
 end
 
 function this.update_archdemon_mode(player)
+	if this.apply_filter(dual_blades_type_name, "archdemon_mode") then
+		return;
+	end
+
 	local is_kijin_kyouka = is_kijin_kyouka_field:get_data(player);
 	if is_kijin_kyouka == nil then
 		error_handler.report("weapon_skills.update_archdemon_mode", "Failed to access Data: is_kijin_kyouka");
@@ -711,18 +866,21 @@ function this.update_archdemon_mode(player)
 		return;
 	end
 
-	buffs.update_generic(this.list, weapon_skills_type_name, "archdemon_mode", this.get_weapon_skill_name, 1, kijin_kyouka_gauge);
+	this.update_generic("archdemon_mode", 1, kijin_kyouka_gauge);
 end
 
 function this.update_hunting_horn_skills(player)
 	this.update_bead_of_resonance();
 	this.update_sonic_bloom(player);
 
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "silkbind_shockwave", this.get_weapon_skill_name,
-		nil, nil, player, horn_impact_pulls_timer_field);
+	this.update_weapon_skill("silkbind_shockwave", hunting_horn_type_name, nil, nil, player, horn_impact_pulls_timer_field);
 end
 
 function this.update_bead_of_resonance()
+	if this.apply_filter(hunting_horn_type_name, "bead_of_resonance") then
+		return;
+	end
+
 	if singletons.horn_shell_manager == nil then
 		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to access Data: horn_shell_manager");
 		return;
@@ -779,10 +937,14 @@ function this.update_bead_of_resonance()
 		return;
 	end
 
-	buffs.update_generic(this.list, weapon_skills_type_name, "bead_of_resonance", this.get_weapon_skill_name, 1, life_timer);
+	this.update_generic("bead_of_resonance", 1, life_timer);
 end
 
 function this.update_sonic_bloom(player)
+	if this.apply_filter(hunting_horn_type_name, "sonic_bloom") then
+		return;
+	end
+
 	local blast_speaker_shell = get_ref_blast_speaker_shell_method:call(player);
 	if blast_speaker_shell == nil then
 		this.list.bead_of_resonance = nil;
@@ -800,17 +962,14 @@ function this.update_sonic_bloom(player)
 		return;
 	end
 
-	buffs.update_generic(this.list, weapon_skills_type_name, "sonic_bloom", this.get_weapon_skill_name, 1, life_timer);
+	this.update_generic("sonic_bloom", 1, life_timer);
 end
 
 function this.update_charge_blade_skills(player)
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "element_boost", this.get_weapon_skill_name, nil, nil,
-		player, shield_buff_timer_field);
+	this.update_weapon_skill("element_boost", charge_blade_type_name, nil, nil, player, shield_buff_timer_field);
 
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "sword_boost_mode", this.get_weapon_skill_name, nil, nil,
-		player, sword_buff_timer_field);
+	this.update_weapon_skill("sword_boost_mode", charge_blade_type_name, nil, nil, player, sword_buff_timer_field);
 end
-
 
 function this.update_insect_glaive_skills(player)
 	this.update_all_extracts_mix(player);
@@ -828,6 +987,10 @@ function this.update_insect_glaive_skills(player)
 end
 
 function this.update_all_extracts_mix(player)
+	if this.apply_filter(insect_glaive_type_name, "all_extracts_mix") then
+		return;
+	end
+
 	local is_get_all_extractive = is_get_all_extractive_method:call(player);
 	if is_get_all_extractive == nil then
 		error_handler.report("weapon_skills.update_all_extracts_mix", "Failed to access Data: is_get_all_extractive");
@@ -850,11 +1013,14 @@ function this.update_all_extracts_mix(player)
 		return;
 	end
 
-	buffs.update_generic(this.list, weapon_skills_type_name, "all_extracts_mix", this.get_weapon_skill_name, 1,
-		red_extractive_time);
+	this.update_generic("all_extracts_mix", 1, red_extractive_time);
 end
 
 function this.update_extract(player, extract_key, time_holder)
+	if this.apply_filter(insect_glaive_type_name, extract_key) then
+		return;
+	end
+
 	local extractive_time = time_holder:call(player);
 	if extractive_time == nil then
 		error_handler.report("weapon_skills.update_extract", string.format("Failed to access Data: %s_extractive_time", extract_key));
@@ -866,21 +1032,14 @@ function this.update_extract(player, extract_key, time_holder)
 		return;
 	end
 
-	buffs.update_generic(this.list, weapon_skills_type_name, extract_key, this.get_weapon_skill_name, 1, extractive_time);
+	this.update_generic(extract_key, 1, extractive_time);
 end
 
 function this.update_bow_skills(player, player_data)
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "herculean_draw", this.get_weapon_skill_name,
-		nil, nil, player, wire_buff_attack_up_timer_field);
-
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "bolt_boost", this.get_weapon_skill_name,
-		nil, nil, player, wire_buff_arrow_up_timer_field);
-
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "arc_shot_affinity", this.get_weapon_skill_name,
-		nil, nil, player_data, crit_chance_bow_timer_field);
-
-	buffs.update_generic_buff(this.list, weapon_skills_type_name, "arc_shot_brace", this.get_weapon_skill_name,
-		nil, nil, player_data, super_armor_item_timer_field);
+	this.update_weapon_skill("herculean_draw", bow_type_name, nil, nil, player, wire_buff_attack_up_timer_field);
+	this.update_weapon_skill("bolt_boost", bow_type_name, nil, nil, player, wire_buff_arrow_up_timer_field);
+	this.update_weapon_skill("arc_shot_affinity", bow_type_name, nil, nil, player_data, crit_chance_bow_timer_field);
+	this.update_weapon_skill("arc_shot_brace", bow_type_name, nil, nil, player_data, super_armor_item_timer_field);
 end
 
 function this.init_names()

@@ -50,7 +50,10 @@ this.list = {
 	chameleos_soul = nil
 };
 
-local rampage_skills_type_name = "rampage_skills";
+this.keys = {
+	"kushala_daora_soul",
+	"chameleos_soul"
+};
 
 local rampage_skill_ids = {
 	chameleos_soul = 250,
@@ -70,25 +73,32 @@ local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut"
 local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.DataDef.PlHyakuryuSkillId)");
 
 function this.update(player_data)
+	this.update_rampage_skill("kushala_daora_soul", player_data, hyakuryu_dragon_power_up_count_field,
+		player_data, hyakuryu_dragon_power_up_timer_field, false, nil, {kushara_daora_soul_breakpoint});
 
-	buffs.update_generic_buff(this.list, rampage_skills_type_name, "kushala_daora_soul", this.get_skill_name,
-		player_data, hyakuryu_dragon_power_up_count_field, player_data, hyakuryu_dragon_power_up_timer_field, false, nil, {kushara_daora_soul_breakpoint});
+	this.update_rampage_skill("chameleos_soul", nil, nil, player_data, hyakuryu_onazuti_power_up_interval_field);
+end
 
-	buffs.update_generic_buff(this.list, rampage_skills_type_name, "chameleos_soul", this.get_skill_name,
-		nil, nil, player_data, hyakuryu_onazuti_power_up_interval_field);
+function this.update_rampage_skill(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.rampage_skills, this.get_rampage_skill_name, key,
+		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
+end
+
+function this.apply_filter(key)
+	return this.apply_filter(this.list, config.current_config.buff_UI.filter.rampage_skills, key);
 end
 
 function this.init_names()
 	for rampage_skill_key, skill in pairs(this.list) do
-		skill.name = this.get_skill_name(rampage_skill_key);
+		skill.name = this.get_rampage_skill_name(rampage_skill_key);
 	end
 end
 
-function this.get_skill_name(rampage_skill_key)
-	local rampage_skill_name = get_name_method:call(nil, rampage_skill_ids[rampage_skill_key]);
+function this.get_rampage_skill_name(key)
+	local rampage_skill_name = get_name_method:call(nil, rampage_skill_ids[key]);
 	if rampage_skill_name == nil then
-		error_handler.report("rampage_skills.get_skill_name", string.format("Failed to access Data: %s_name", rampage_skill_key));
-		return rampage_skill_key;
+		error_handler.report("rampage_skills.get_rampage_skill_name", string.format("Failed to access Data: %s_name", key));
+		return key;
 	end
 
 	return rampage_skill_name;

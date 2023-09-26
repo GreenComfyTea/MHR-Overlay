@@ -54,6 +54,7 @@ local package = package;
 
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local find_master_player_method = player_manager_type_def:get_method("findMasterPlayer");
+local get_ref_item_parameter_method = player_manager_type_def:get_method("get_RefItemParameter");
 
 local player_base_type_def = find_master_player_method:get_return_type();
 local get_player_data_method = player_base_type_def:get_method("get_PlayerData");
@@ -63,7 +64,7 @@ local player_lobby_base_type_def = sdk.find_type_definition("snow.player.PlayerL
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
 local player_weapon_type_field = player_base_type_def:get_field("_playerWeaponType");
 
-function this.new(type, key, name, level, duration)
+function this.new(key, name, level, duration)
 	local is_infinite = false;
 
 	if name == nil then
@@ -82,7 +83,6 @@ function this.new(type, key, name, level, duration)
 
 	local buff = {};
 
-	buff.type = type;
 	buff.key = key;
 	buff.name = name;
 	buff.level = level;
@@ -90,7 +90,7 @@ function this.new(type, key, name, level, duration)
 	buff.timer = duration;
 	buff.duration = duration;
 
-	buff.is_active = true;
+	buff.is_visible = true;
 
 	buff.timer_percentage = 0;
 
@@ -121,6 +121,8 @@ function this.init_names()
 	weapon_skills.init_names();
 	misc_buffs.init_names();
 end
+
+local tere = {};
 
 function this.update()
 	if not config.current_config.buff_UI.enabled then
@@ -154,27 +156,40 @@ function this.update()
 
 	local weapon_type = player_weapon_type_field:get_data(master_player);
 	if weapon_type == nil then
-		error_handler.report("skills.update", "Failed to access Data: weapon_type");
+		error_handler.report("buffs.update", "Failed to access Data: weapon_type");
+		return;
+	end
+
+	if singletons.player_manager == nil then
+		error_handler.report("buffs.update", "Failed to access Data: player_manager");
+		return;
+	end
+
+	local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
+	if item_parameter == nil then
+		error_handler.report("buffs.update", "Failed to access Data: item_parameter");
 		return;
 	end
 
 	local is_player_lobby_base = master_player:get_type_definition() == player_lobby_base_type_def;
 
-	item_buffs.update(master_player_data);
-	otomo_moves.update(master_player_data);
+	item_buffs.update(master_player_data, item_parameter);
 	rampage_skills.update(master_player_data);
+	otomo_moves.update(master_player_data);
 
 	if not is_player_lobby_base then
-		skills.update(master_player, master_player_data, weapon_type);
-		dango_skills.update(master_player, master_player_data);
-		endemic_life_buffs.update(master_player, master_player_data);
 		abnormal_statuses.update(master_player, master_player_data);
+		endemic_life_buffs.update(master_player, master_player_data);
+		dango_skills.update(master_player, master_player_data);
+		skills.update(master_player, master_player_data, weapon_type);
 		weapon_skills.update(master_player, master_player_data, weapon_type);
-		misc_buffs.update(master_player, master_player_data);
+		misc_buffs.update(master_player, master_player_data, item_parameter);
 	end
 end
 
 function this.update_timer(buff, timer)
+	buff.is_visible = true;
+
 	if timer == nil then
 		return;
 	end
@@ -183,7 +198,7 @@ function this.update_timer(buff, timer)
 		timer = 0;
 	end
 
-	if timer > buff.duration then
+	if timer > buff.duration or timer > buff.timer then
 		buff.duration = timer;
 	end
 
@@ -198,13 +213,16 @@ function this.update_timer(buff, timer)
 	end
 end
 
-function this.update_generic_buff(buff_list, buff_type, buff_key, get_name_function,
+function this.update_generic_buff(buff_list, filter_list, get_name_function, buff_key,
 	value_owner, value_holder,
 	timer_owner, timer_holder,
 	is_infinite, minimal_value, level_breakpoints)
 
+	if this.apply_filter(buff_list, filter_list, buff_key) then
+		return;
+	end
+
 	if timer_owner == nil then timer_owner = value_owner; end
-	if duration_owner == nil then duration_owner = value_owner; end
 	if minimal_value == nil then minimal_value = 1; end
 
 	local level = 1;
@@ -270,38 +288,60 @@ function this.update_generic_buff(buff_list, buff_type, buff_key, get_name_funct
 		end
 	end
 
-	-- local duration = nil;
-	-- if duration_holder ~= nil then
-	-- 	if utils.type.is_REField(duration_holder) then
-	-- 		duration = duration_holder:get_data(duration_owner);
-	-- 	else
-	-- 		duration = duration_holder:call(duration_owner);
-	-- 	end
-
-	-- 	if duration == nil then
-	-- 		error_handler.report("buffs.update_generic_number", string.format("Failed to access Data: %s_duration", buff_key));
-	-- 		return;
-	-- 	end
-	-- end
-
-	return this.update_generic(buff_list, buff_type, buff_key, get_name_function, level, timer);
+	return this.update_generic(buff_list, get_name_function, buff_key, level, timer);
 end
 
-function this.update_generic(buff_list, buff_type, buff_key, get_name_function, level, timer)
+function this.update_generic(buff_list, get_name_function, buff_key, level, timer)
 	level = level or 1;
 
 	local buff = buff_list[buff_key];
 	if buff == nil then
 		local name = get_name_function(buff_key);
 
-		buff = this.new(buff_type, buff_key, name, level, timer);
+		buff = this.new(buff_key, name, level, timer);
 		buff_list[buff_key] = buff;
 	else
+		if buff.level ~= level then
+			buff.duration = timer;
+		end
+
 		buff.level = level;
 		this.update_timer(buff, timer);
 	end
 
 	return buff;
+end
+
+function this.apply_filter(buff_list, filter_list, buff_key)
+	if filter_list[buff_key] then
+		return false;
+	end
+	
+	local buff = buff_list[buff_key];
+	if buff == nil then
+		return true;
+	end
+
+	if not buff.is_visible then
+		return true;
+	end
+
+	if buff.is_infinite then
+		buff_list[buff_key] = nil;
+		return true;
+	end
+
+	time.new_delay_timer(function()
+		
+		local _buff = buff_list[buff_key];
+		if _buff ~= nil and not _buff.is_visible then
+			buff_list[buff_key] = nil;
+		end
+
+	end, buff.timer);
+
+	buff.is_visible = false;
+	return true;
 end
 
 function this.draw(buff, buff_UI, position_on_screen, opacity_scale)

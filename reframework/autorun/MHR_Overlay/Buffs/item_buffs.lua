@@ -47,13 +47,27 @@ this.list = {
 	mega_demondrug = nil,
 	armorskin = nil,
 	mega_armorskin = nil,
-	-- might_seed = nil,
+	might_seed = nil,
 	-- adamant_seed = nil,
 	demon_powder = nil,
 	hardshell_powder = nil,
-	immunizer = nil,
+	-- immunizer = nil,
 	-- dash_juice = nil,
 	gourmet_fish = nil,
+};
+
+this.keys = {
+	"demondrug",
+	"mega_demondrug",
+	"armorskin",
+	"mega_armorskin",
+	"might_seed",
+	-- "adamant_seed",
+	"demon_powder",
+	"hardshell_powder",
+	-- "immunizer",
+	-- "dash_juice",
+	"gourmet_fish",
 };
 
 local item_ids = {
@@ -61,35 +75,27 @@ local item_ids = {
 	mega_demondrug = 68157918,
 	armorskin = 68157922,
 	mega_armorskin = 68157923,
-	--might_seed = 68157919,
-	--adamant_seed = 68157924,
+	might_seed = 68157919,
+	adamant_seed = 68157924,
 	demon_powder = 68157920,
 	hardshell_powder = 68157925,
-	--immunizer = 68157911,
-	--dash_juice = 68157913,
+	immunizer = 68157911,
+	dash_juice = 68157913,
 	gourmet_fish = 68157909,
 	demon_ammo = 68157595,
 	armor_ammo = 68157596
 }
 
-local item_buffs_type_name = "item_buffs";
-
-local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
-local get_ref_item_parameter_method = player_manager_type_def:get_method("get_RefItemParameter");
-
-local player_user_data_item_parameter_type_def = get_ref_item_parameter_method:get_return_type();
-
-local demondrug_atk_up_field = player_user_data_item_parameter_type_def:get_field("_DemondrugAtkUp");
-local great_demondrug_atk_up_field = player_user_data_item_parameter_type_def:get_field("_GreatDemondrugAtkUp");
-
-local armorskin_def_up_field = player_user_data_item_parameter_type_def:get_field("_ArmorSkinDefUp");
-local great_armorskin_def_up_field = player_user_data_item_parameter_type_def:get_field("_GreatArmorSkinDefUp");
+this.might_seed_attack_up = 10;
 
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Demondrug/Mega Demondrug
 local atk_up_alive_field = player_data_type_def:get_field("_AtkUpAlive");
 -- Armorskin/Mega Armorskin
 local def_up_alive_field = player_data_type_def:get_field("_DefUpAlive");
+-- Might Seed
+local atk_up_buff_second_field = player_data_type_def:get_field("_AtkUpBuffSecond");
+local atk_up_buff_second_timer_field = player_data_type_def:get_field("_AtkUpBuffSecondTimer");
 -- Demon Powder
 local atk_up_item_second_field = player_data_type_def:get_field("_AtkUpItemSecond");
 local atk_up_item_second_timer_field = player_data_type_def:get_field("_AtkUpItemSecondTimer");
@@ -103,43 +109,58 @@ local kijin_bullet_timer_field = player_data_type_def:get_field("_KijinBulletTim
 -- Armor Ammo
 local kouka_bullet_timer_field = player_data_type_def:get_field("_KoukaBulletTimer");
 
+local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
+local get_ref_item_parameter_method = player_manager_type_def:get_method("get_RefItemParameter");
+
+local player_user_data_item_parameter_type_def = get_ref_item_parameter_method:get_return_type();
+
+-- Demondrug/Mega Demondrug
+local demondrug_atk_up_field = player_user_data_item_parameter_type_def:get_field("_DemondrugAtkUp");
+local great_demondrug_atk_up_field = player_user_data_item_parameter_type_def:get_field("_GreatDemondrugAtkUp");
+-- Armorskin/Mega Armorskin
+local armorskin_def_up_field = player_user_data_item_parameter_type_def:get_field("_ArmorSkinDefUp");
+local great_armorskin_def_up_field = player_user_data_item_parameter_type_def:get_field("_GreatArmorSkinDefUp");
+-- Might Seed
+local might_seed_atk_up_field = player_user_data_item_parameter_type_def:get_field("_MightSeedAtkUp");
+
+
 local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut");
 local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.ContentsIdSystem.ItemId)");
 
-function this.update(player_data)
-	if singletons.player_manager == nil then
-		error_handler.report("item_buffs.update", "Failed to access Data: player_manager");
-		return;
-	end
-
-	local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
-	if item_parameter == nil then
-		error_handler.report("item_buffs.update", "Failed to access Data: item_parameter");
-		return;
-	end
-
-	local cached_language = language.current_language;
-
+function this.update(player_data, item_parameter)
 	this.update_demondrug(player_data, item_parameter);
 	this.update_armorskin(player_data, item_parameter);
+	this.update_might_seed(player_data, item_parameter);
 	
-	buffs.update_generic_buff(this.list, item_buffs_type_name, "demon_powder", this.get_item_buff_name,
-		player_data, atk_up_item_second_field, player_data, atk_up_item_second_timer_field);
-	
-	buffs.update_generic_buff(this.list, item_buffs_type_name, "hardshell_powder", this.get_item_buff_name,
-		player_data, def_up_item_second_field, player_data, def_up_item_second_timer_field);
+	this.update_item_buff("demon_powder", player_data, atk_up_item_second_field, player_data, atk_up_item_second_timer_field);
+	this.update_item_buff("hardshell_powder", player_data, def_up_item_second_field, player_data, def_up_item_second_timer_field);
+	this.update_item_buff("gourmet_fish", nil, nil, player_data, fish_regene_enable_field);
+	this.update_item_buff("demon_ammo", nil, nil, player_data, kijin_bullet_timer_field);
+	this.update_item_buff("armor_ammo", nil, nil, player_data, kouka_bullet_timer_field);
+end
 
-	buffs.update_generic_buff(this.list, item_buffs_type_name, "gourmet_fish", this.get_item_buff_name,
-		nil, nil, player_data, fish_regene_enable_field);
+function this.update_item_buff(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.item_buffs, this.get_item_buff_name, key,
+		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
+end
 
-	buffs.update_generic_buff(this.list, item_buffs_type_name, "demon_ammo", this.get_item_buff_name,
-		nil, nil, player_data, kijin_bullet_timer_field);
+function this.update_generic(key, level, timer)
+	return buffs.update_generic(this.list, this.get_item_buff_name, key, level, timer);
+end
 
-	buffs.update_generic_buff(this.list, item_buffs_type_name, "armor_ammo", this.get_item_buff_name,
-		nil, nil, player_data, kouka_bullet_timer_field);
+function this.apply_filter(key)
+	return buffs.apply_filter(this.list, config.current_config.buff_UI.filter.item_buffs, key);
 end
 
 function this.update_demondrug(player_data, item_parameter)
+	local cached_config = config.current_config.buff_UI.filter.item_buffs;
+
+	if not cached_config.demondrug and not cached_config.mega_demondrug then
+		this.list.demondrug = nil;
+		this.list.mega_demondrug = nil;
+		return;
+	end
+
 	local demondrug_value = atk_up_alive_field:get_data(player_data);
 	if demondrug_value == nil then
 		error_handler.report("item_buffs.update_demondrug", "Failed to access Data: demondrug_value");
@@ -174,10 +195,23 @@ function this.update_demondrug(player_data, item_parameter)
 		this.list.demondrug = nil;
 	end
 
-	buffs.update_generic(this.list, item_buffs_type_name, item_key, this.get_item_buff_name);
+	if not cached_config[item_key] then
+		this.list[item_key] = nil;
+		return;
+	end
+
+	this.update_generic(item_key);
 end
 
 function this.update_armorskin(player_data, item_parameter)
+	local cached_config = config.current_config.buff_UI.filter.item_buffs;
+
+	if not cached_config.armorskin and not cached_config.mega_armorskin then
+		this.list.armorskin = nil;
+		this.list.mega_armorskin = nil;
+		return;
+	end
+
 	local armorskin_value = def_up_alive_field:get_data(player_data);
 	if armorskin_value == nil then
 		error_handler.report("item_buffs.update_armorskin", "Failed to access Data: armorskin_value");
@@ -212,14 +246,44 @@ function this.update_armorskin(player_data, item_parameter)
 		this.list.armorskin = nil;
 	end
 
-	buffs.update_generic(this.list, item_buffs_type_name, item_key, this.get_item_buff_name);
+	if not cached_config[item_key] then
+		this.list[item_key] = nil;
+		return;
+	end
+
+	this.update_generic(item_key);
 end
 
-function this.get_item_buff_name(item_key)
-	local item_buff_name = get_name_method:call(nil, item_ids[item_key]);
+function this.update_might_seed(player_data, item_parameter)
+	if this.apply_filter("might_seed") then
+		return;
+	end
+
+	local atk_up_buff_second = atk_up_buff_second_field:get_data(player_data);
+	if atk_up_buff_second == nil then
+		error_handler.report("item_buffs.update_might_seed", "Failed to access Data: atk_up_buff_second");
+		return;
+	end
+
+	local might_seed_atk_up = might_seed_atk_up_field:get_data(item_parameter);
+	if might_seed_atk_up == nil then
+		error_handler.report("item_buffs.update_might_seed", "Failed to access Data: might_seed_atk_up");
+		return;
+	end
+
+	if atk_up_buff_second ~= might_seed_atk_up then
+		this.list.might_seed = nil;
+		return;
+	end
+
+	this.update_item_buff("might_seed", nil, nil, player_data, atk_up_buff_second_timer_field);
+end
+
+function this.get_item_buff_name(key)
+	local item_buff_name = get_name_method:call(nil, item_ids[key]);
 	if item_buff_name == nil then
-		error_handler.report("item_buffs.get_item_buff_name", string.format("Failed to access Data: %s_name", item_key));
-		return item_key;
+		error_handler.report("item_buffs.get_item_buff_name", string.format("Failed to access Data: %s_name", key));
+		return key;
 	end
 
 	return item_buff_name;

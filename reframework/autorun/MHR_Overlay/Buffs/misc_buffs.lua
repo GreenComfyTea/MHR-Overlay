@@ -46,15 +46,24 @@ local package = package;
 this.list = {
 	attack_up = nil,
 	defense_up = nil,
-	stamina_use_down = nil
+	stamina_use_down = nil,
+	natural_healing_up = nil,
+	immunity = nil
 };
 
-local misc_buffs_type_name = "misc_buffs";
+this.keys = {
+	"attack_up",
+	"defense_up",
+	"stamina_use_down",
+	"natural_healing_up",
+	"immunity"
+};
 
 -- Attack Up
--- Might Seed +10		3min
+-- Might Seed +10		3min	-- Separated
 -- Dango Bulker + 15	30sec
--- Chameleos Souls +15	30sec
+-- Chameleos Soul +15	30sec
+-- Butterflame +25		1min	-- Separated
 
 -- Defense Up
 -- Adamant Seed +20		3min
@@ -70,6 +79,7 @@ local misc_buffs_type_name = "misc_buffs";
 -- Vase of Vitality		20sec
 
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
+
 -- Attack Up
 local atk_up_buff_second_field = player_data_type_def:get_field("_AtkUpBuffSecond");
 local atk_up_buff_second_timer_field = player_data_type_def:get_field("_AtkUpBuffSecondTimer");
@@ -83,22 +93,58 @@ local debuff_prevention_timer_field = player_data_type_def:get_field("_DebuffPre
 -- Immunizer
 local vitalizer_timer_field = player_data_type_def:get_field("_VitalizerTimer");
 
-function this.update(player, player_data)
-	buffs.update_generic_buff(this.list, misc_buffs_type_name, "stamina_use_down", this.get_misc_buff_name,
-		nil, nil, player_data, stamina_up_buff_second_timer_field);
+local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
+local get_ref_item_parameter_method = player_manager_type_def:get_method("get_RefItemParameter");
 
-	buffs.update_generic_buff(this.list, misc_buffs_type_name, "attack_up", this.get_misc_buff_name,
-		player_data, atk_up_buff_second_field, player_data, atk_up_buff_second_timer_field);
+local player_user_data_item_parameter_type_def = get_ref_item_parameter_method:get_return_type();
 
-	buffs.update_generic_buff(this.list, misc_buffs_type_name, "defense_up", this.get_misc_buff_name,
-		player_data, def_up_buff_second_field, player_data, def_up_buff_second_timer_field);
+-- Might Seed
+local might_seed_atk_up_field = player_user_data_item_parameter_type_def:get_field("_MightSeedAtkUp");
 
-	buffs.update_generic_buff(this.list, misc_buffs_type_name, "immunity", this.get_misc_buff_name,
-		nil, nil, player_data, debuff_prevention_timer_field);
+function this.update(player, player_data, item_parameter)
+	this.update_attack_up(player_data, item_parameter);
 
-	buffs.update_generic_buff(this.list, misc_buffs_type_name, "natural_healing_up", this.get_misc_buff_name,
-		nil, nil, player_data, vitalizer_timer_field);
+	--this.update_misc_buff("attack_up", player_data, atk_up_buff_second_field, player_data, atk_up_buff_second_timer_field);
+	this.update_misc_buff("defense_up", player_data, def_up_buff_second_field, player_data, def_up_buff_second_timer_field);
+	this.update_misc_buff("stamina_use_down", nil, nil, player_data, stamina_up_buff_second_timer_field);
+	this.update_misc_buff("natural_healing_up", nil, nil, player_data, vitalizer_timer_field);
+	this.update_misc_buff("immunity", nil, nil, player_data, debuff_prevention_timer_field);
 end
+
+function this.update_misc_buff(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.misc_buffs, this.get_misc_buff_name, key,
+		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints);
+end
+
+function this.apply_filter(key)
+	return buffs.apply_filter(this.list, config.current_config.buff_UI.filter.misc_buffs, key);
+end
+
+function this.update_attack_up(player_data, item_parameter)
+	if this.apply_filter("attack_up") then
+		return;
+	end
+
+	local atk_up_buff_second = atk_up_buff_second_field:get_data(player_data);
+	if atk_up_buff_second == nil then
+		error_handler.report("item_buffs.update_attack_up", "Failed to access Data: atk_up_buff_second");
+		return;
+	end
+
+	local might_seed_atk_up = might_seed_atk_up_field:get_data(item_parameter);
+	if might_seed_atk_up == nil then
+		error_handler.report("item_buffs.update_might_seed", "Failed to access Data: might_seed_atk_up");
+		return;
+	end
+
+	if atk_up_buff_second == might_seed_atk_up or atk_up_buff_second == endemic_life_buffs.butterflame_attack_up then
+		this.list.attack_up = nil;
+		return;
+	end
+
+	this.update_misc_buff("attack_up", nil, nil, player_data, atk_up_buff_second_timer_field);
+end
+
 
 function this.init_names()
 	for misc_buff_key, dango in pairs(this.list) do
@@ -106,10 +152,10 @@ function this.init_names()
 	end
 end
 
-function this.get_misc_buff_name(misc_buff_key)
-	local misc_buff_name = language.current_language.misc_buffs[misc_buff_key];
+function this.get_misc_buff_name(key)
+	local misc_buff_name = language.current_language.misc_buffs[key];
 	if misc_buff_name == nil then
-		return misc_buff_key;
+		return key;
 	end
 
 	return misc_buff_name;

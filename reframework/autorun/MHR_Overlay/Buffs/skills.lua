@@ -81,7 +81,50 @@ this.list = {
 	strife = nil,
 	inspiration = nil,
 	blood_awakening = nil,
-	partbreaker = nil
+	dragon_conversion_elemental_attack_up = nil,
+	dragon_conversion_elemental_res_up = nil,
+	partbreaker = nil,
+};
+
+this.keys = {
+	"burst",
+	"intrepid_heart",
+	"dereliction",
+	"latent_power",
+	"protective_polish",
+	"wind_mantle",
+	"grinder_s",
+	"counterstrike",
+	"affinity_sliding",
+	"coalescence",
+	"adrenaline_rush",
+	"wall_runner",
+	"offensive_guard",
+	"hellfire_cloak",
+	"agitator",
+	"furious",
+	"status_trigger",
+	"heaven_sent",
+	"heroics",
+	"resuscitate",
+	"maximum_might",
+	"bloodlust",
+	"frenzied_bloodlust",
+	"peak_performance",
+	"dragonheart",
+	"resentment",
+	"bladescale_hone",
+	"spiribirds_call",
+	"embolden",
+	"berserk",
+	"powder_mantle_red",
+	"powder_mantle_blue",
+	"strife",
+	"inspiration",
+	"blood_awakening",
+	"dragon_conversion_elemental_attack_up",
+	"dragon_conversion_elemental_res_up",
+	"partbreaker"
 };
 
 local skills_type_name = "skills";
@@ -227,7 +270,7 @@ local skill_data_list = {
 	wind_mantle =				{ id = 138 },
 	-- powder_mantle =			{ id = 139 },
 	-- frostcraft =				{ id = 140 },
-	-- dragon_conversion =		{ id = 141 },
+	-- dragon_conversion =		{ id = 141 }, -- implemented
 	heaven_sent =				{ id = 142 },
 	frenzied_bloodlust =		{ id = 143 },
 	blood_awakening =			{ id = 144 },
@@ -236,6 +279,7 @@ local skill_data_list = {
 	inspiration =				{ id = 147 },
 }
 
+this.is_heroics_active = false;
 
 local intrepid_heart_minimal_value = 400;
 
@@ -322,7 +366,7 @@ local power_freedom_timer_field = player_base_type_def:get_field("_PowerFreedomT
 -- Protective Polish
 local sharpness_gauge_boost_timer_field = player_base_type_def:get_field("_SharpnessGaugeBoostTimer");
 -- Heroics
-local is_predicament_power_up_method = player_base_type_def:get_method("isPredicamentPowerUp");
+--local is_predicament_power_up_method = player_base_type_def:get_method("isPredicamentPowerUp");
 -- Berserk
 local get_is_enable_equip_skill_225_method = player_base_type_def:get_method("get_IsEnableEquipSkill225");
 -- Dragon Conversion
@@ -370,6 +414,7 @@ function this.update(player, player_data, weapon_type)
 	this.update_bloodlust();
 	this.update_frenzied_bloodlust(player, player_data);
 	this.update_peak_performance();
+	this.update_heroics();
 	this.update_dragonheart();
 	this.update_resentment(player_data);
 	this.update_bladescale_hone(player, weapon_type);
@@ -377,52 +422,51 @@ function this.update(player, player_data, weapon_type)
 	this.update_powder_mantle(player_data);
 	this.update_blood_awakening(player, player_data);
 
-	this.update_generic_skill("dereliction", player_data, symbiosis_skill_lost_vital_field,
-		nil, nil, true, nil, dereliction_breakpoints);
-
-	this.update_generic_skill("burst", player_data, rengeki_power_up_count_field,
-		player_data, rengeki_power_up_timer_field, false, nil, burst_breakpoints);
-
-	this.update_generic_skill("intrepid_heart", player_data, equip_skill_223_accumulator_field,
-		nil, nil, true, intrepid_heart_minimal_value);
-
-	this.update_generic_skill("latent_power", nil, nil, player, power_freedom_timer_field);
-	this.update_generic_skill("protective_polish", nil, nil, player, sharpness_gauge_boost_timer_field);
-	this.update_generic_skill("grinder_s", nil, nil, player_data, brand_new_sharpness_adjust_up_timer_field);
-	this.update_generic_skill("counterstrike", nil, nil, player_data, counterattack_powerup_timer_field);
-	this.update_generic_skill("affinity_sliding", nil, nil, player_data, sliding_powerup_timer_field);
-	this.update_generic_skill("coalescence", nil, nil, player_data, disaster_turn_powerup_timer_field);
-	this.update_generic_skill("adrenaline_rush", nil, nil, player_data, equip_skill_208_atk_up_field);
-	this.update_generic_skill("wall_runner", nil, nil, player_data, wall_run_powerup_timer_field);
-	this.update_generic_skill("offensive_guard", nil, nil, player_data, equip_skill_036_timer_field);
-	this.update_generic_skill("hellfire_cloak", nil, nil, player_data, onibi_powerup_timer_field);
-	this.update_generic_skill("agitator", nil, nil, player_data, challenge_timer_field, nil, nil, true);
-	this.update_generic_skill("furious", nil, nil, player_data, furious_skill_stamina_buff_second_timer_field);
-	this.update_generic_skill("status_trigger", nil, nil, player_data, equip_skill_222_timer_field);
-	this.update_generic_skill("inspiration", nil, nil, player_data, equip_skill_235_atk_up_second_timer_field);
-
-	this.update_generic_skill("heaven_sent", player, is_active_equip_skill_230_method);
-	this.update_generic_skill("heroics", player, is_predicament_power_up_method);
-	this.update_generic_skill("resuscitate", player, is_debuff_state_method);
-	this.update_generic_skill("embolden", player, get_active_equip_209_method);
-	this.update_generic_skill("berserk", player, get_is_enable_equip_skill_225_method);
-	this.update_generic_skill("dragon_conversion_elemental_attack_up", player, equip_skill_229_sum_resist_field);
-	this.update_generic_skill("dragon_conversion_elemental_res_up", player, equip_skill_229_use_up_flag_field);
-	this.update_generic_skill("partbreaker", nil, nil, nil, nil, true);
-	
-	this.update_generic_skill("strife", player, get_affinity_equip_skill_233_method,
-		nil, nil, nil, nil, strife_breakpoints[skill_data_list.strife.level]);
+	this.update_skill("dereliction", player_data, symbiosis_skill_lost_vital_field, nil, nil, true, nil, dereliction_breakpoints);
+	this.update_skill("burst", player_data, rengeki_power_up_count_field, player_data, rengeki_power_up_timer_field, false, nil, burst_breakpoints);
+	this.update_skill("intrepid_heart", player_data, equip_skill_223_accumulator_field, nil, nil, true, intrepid_heart_minimal_value);
+	this.update_skill("latent_power", nil, nil, player, power_freedom_timer_field);
+	this.update_skill("protective_polish", nil, nil, player, sharpness_gauge_boost_timer_field);
+	this.update_skill("grinder_s", nil, nil, player_data, brand_new_sharpness_adjust_up_timer_field);
+	this.update_skill("counterstrike", nil, nil, player_data, counterattack_powerup_timer_field);
+	this.update_skill("affinity_sliding", nil, nil, player_data, sliding_powerup_timer_field);
+	this.update_skill("coalescence", nil, nil, player_data, disaster_turn_powerup_timer_field);
+	this.update_skill("adrenaline_rush", nil, nil, player_data, equip_skill_208_atk_up_field);
+	this.update_skill("wall_runner", nil, nil, player_data, wall_run_powerup_timer_field);
+	this.update_skill("offensive_guard", nil, nil, player_data, equip_skill_036_timer_field);
+	this.update_skill("hellfire_cloak", nil, nil, player_data, onibi_powerup_timer_field);
+	this.update_skill("agitator", nil, nil, player_data, challenge_timer_field, nil, nil, true);
+	this.update_skill("furious", nil, nil, player_data, furious_skill_stamina_buff_second_timer_field);
+	this.update_skill("status_trigger", nil, nil, player_data, equip_skill_222_timer_field);
+	this.update_skill("inspiration", nil, nil, player_data, equip_skill_235_atk_up_second_timer_field);
+	this.update_skill("heaven_sent", player, is_active_equip_skill_230_method);
+	this.update_skill("resuscitate", player, is_debuff_state_method);
+	this.update_skill("embolden", player, get_active_equip_209_method);
+	this.update_skill("berserk", player, get_is_enable_equip_skill_225_method);
+	this.update_skill("dragon_conversion_elemental_attack_up", player, equip_skill_229_sum_resist_field);
+	this.update_skill("dragon_conversion_elemental_res_up", player, equip_skill_229_use_up_flag_field);
+	this.update_skill("partbreaker", nil, nil, nil, nil, true);
+	this.update_skill("strife", player, get_affinity_equip_skill_233_method, nil, nil, nil, nil, strife_breakpoints[skill_data_list.strife.level]);
 end
 
-function this.update_generic_skill(skill_key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
-	local skill_data = skill_data_list[skill_key];
+
+function this.update_skill(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
+	local skill_data = skill_data_list[key];
 	if skill_data ~= nil and skill_data.is_equipped ~= nil and not skill_data.is_equipped then
-		this.list[skill_key] = nil;
+		this.list[key] = nil;
 		return nil;
 	end
 
-	return buffs.update_generic_buff(this.list, skills_type_name, skill_key, this.get_skill_name, 
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.skills, this.get_skill_name, key,
 		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints);
+end
+
+function this.update_generic(key, level, timer)
+	return buffs.update_generic(this.list, this.get_skill_name, key, level, timer);
+end
+
+function this.apply_filter(key)
+	return buffs.apply_filter(this.list, config.current_config.buff_UI.filter.skills, key);
 end
 
 function this.update_equipped_skill_data(player)
@@ -464,6 +508,10 @@ function this.update_equipped_skill_data(player)
 end
 
 function this.update_wind_mantle(player, weapon_type)
+	if this.apply_filter("wind_mantle") then
+		return;
+	end
+
 	local is_wind_mantle_enable = is_equip_skill_226_enable_field:get_data(player);
 	if is_wind_mantle_enable == nil then
 		error_handler.report("skills.update_wind_mantle", "Failed to access Data: is_wind_mantle_enable");
@@ -499,10 +547,16 @@ function this.update_wind_mantle(player, weapon_type)
 		end
 	end
 
-	buffs.update_generic(this.list, skills_type_name, "wind_mantle", this.get_skill_name, level, wind_mantle_duration - (wind_mantle_timer / 60));
+	this.update_generic("wind_mantle", level, wind_mantle_duration - (wind_mantle_timer / 60));
 end
 
 function this.update_maximum_might(player_data)
+	if not config.current_config.buff_UI.filter.skills.maximum_might then
+		this.list.maximum_might = nil;
+		maximum_might_previous_timer_value = 0;
+		return;
+	end
+
 	if not skill_data_list.maximum_might.is_equipped then
 		this.list.maximum_might = nil;
 		return;
@@ -518,26 +572,25 @@ function this.update_maximum_might(player_data)
 		return;
 	end
 
-	local skill = this.list.maximum_might;
-	local is_timer_zero = utils.number.is_equal(whole_body_timer, 0);
+	local maximum_might = this.list.maximum_might;
 
 	if player_info.list.stamina ~= player_info.list.max_stamina then
-		if skill ~= nil and whole_body_timer < maximum_might_previous_timer_value then
+		if whole_body_timer < maximum_might_previous_timer_value then
 			this.list.maximum_might = nil;
 		end
 
-	elseif skill == nil then
+	elseif maximum_might == nil then
 		local maximum_might_name = this.get_skill_name("maximum_might");
 
 		if whole_body_timer < maximum_might_previous_timer_value then
-			this.list.maximum_might = buffs.new(skills_type_name, "maximum_might", maximum_might_name, 1);
+			this.list.maximum_might = buffs.new("maximum_might", maximum_might_name, 1);
 
-		elseif is_timer_zero then
+		elseif utils.number.is_equal(whole_body_timer, 0) then
 			if maximum_might_delay_timer == nil then
 				maximum_might_delay_timer = time.new_delay_timer(function()
 					maximum_might_delay_timer = nil;
 
-					this.list.maximum_might = buffs.new(skills_type_name, "maximum_might", maximum_might_name, 1);
+					this.list.maximum_might = buffs.new("maximum_might", maximum_might_name, 1);
 				end, 3.5);
 			end
 
@@ -547,9 +600,18 @@ function this.update_maximum_might(player_data)
 	end
 
 	maximum_might_previous_timer_value = whole_body_timer;
+
+	if maximum_might ~= nil then
+		maximum_might.is_visible = true;
+	end
 end
 
 function this.update_bloodlust()
+	if not config.current_config.buff_UI.filter.skills.bloodlust then
+		this.list.bloodlust = nil;
+		return;
+	end
+
 	if not skill_data_list.bloodlust.is_equipped then
 		this.list.bloodlust = nil;
 		return;
@@ -561,18 +623,25 @@ function this.update_bloodlust()
 		return;
 	end
 
-	if this.list.bloodlust == nil then
+	local bloodlust = this.list.bloodlust;
+	if bloodlust == nil then
 		local bloodlust_name = this.get_skill_name("bloodlust");
 		if bloodlust_name == nil then
-			error_handler.report("skills.update_generic_buff", "Failed to access Data: bloodlust_name");
+			error_handler.report("skills.update_bloodlust", "Failed to access Data: bloodlust_name");
 			return;
 		end
 
-		this.list.bloodlust = buffs.new(skills_type_name, "bloodlust", bloodlust_name);
+		this.list.bloodlust = buffs.new("bloodlust", bloodlust_name);
 	end
+
+	this.list.bloodlust.is_visible = true;
 end
 
 function this.update_frenzied_bloodlust(player, player_data)
+	if this.apply_filter("frenzied_bloodlust") then
+		return;
+	end
+
 	local hunter_wire_skill_231_num = get_hunter_wire_skill_231_num_method:call(player);
 	if hunter_wire_skill_231_num == nil then
 		error_handler.report("skills.update_frenzied_bloodlust", "Failed to access Data: hunter_wire_skill_231_num");
@@ -619,7 +688,7 @@ function this.update_frenzied_bloodlust(player, player_data)
 		timer =	equip_skill_231_wp_off_timer;
 	end
 
-	local skill = buffs.update_generic(this.list, skills_type_name, "frenzied_bloodlust", this.get_skill_name, 1, timer / 60);
+	local skill = this.update_generic("frenzied_bloodlust", 1, timer / 60);
 	
 	if is_wp_off_timer_max then
 		skill.duration = frenzied_bloodlust_duration / 60;
@@ -629,6 +698,11 @@ function this.update_frenzied_bloodlust(player, player_data)
 end
 
 function this.update_peak_performance()
+	if not config.current_config.buff_UI.filter.skills.peak_performance then
+		this.list.peak_performance = nil;
+		return;
+	end
+
 	if not skill_data_list.peak_performance.is_equipped then
 		this.list.peak_performance = nil;
 		return;
@@ -639,10 +713,28 @@ function this.update_peak_performance()
 		return;
 	end
 
-	buffs.update_generic(this.list, skills_type_name, "peak_performance", this.get_skill_name);
+	this.update_generic("peak_performance");
+end
+
+function this.update_heroics()
+	if this.apply_filter("heroics") then
+		return;
+	end
+
+	if not this.is_heroics_active then
+		this.list.heroics = nil;
+		return;
+	end
+
+	this.update_generic("heroics");
 end
 
 function this.update_dragonheart()
+	if not config.current_config.buff_UI.filter.skills.dragonheart then
+		this.list.dragonheart = nil;
+		return;
+	end
+
 	if not skill_data_list.dragonheart.is_equipped then
 		this.list.dragonheart = nil;
 		return;
@@ -662,10 +754,15 @@ function this.update_dragonheart()
 		return;
 	end
 
-	buffs.update_generic(this.list, skills_type_name, "dragonheart", this.get_skill_name);
+	this.update_generic("dragonheart");
 end
 
 function this.update_resentment(player_data)
+	if not config.current_config.buff_UI.filter.skills.resentment then
+		this.list.resentment = nil;
+		return;
+	end
+
 	if not skill_data_list.resentment.is_equipped then
 		this.list.resentment = nil;
 		return;
@@ -682,7 +779,7 @@ function this.update_resentment(player_data)
 		return;
 	end
 
-	buffs.update_generic(this.list, skills_type_name, "resentment", this.get_skill_name);
+	this.update_generic("resentment");
 end
 
 function this.update_bladescale_hone(player, weapon_type)
@@ -691,10 +788,18 @@ function this.update_bladescale_hone(player, weapon_type)
 		return;
 	end
 
-	this.update_generic_skill("bladescale_hone", nil, nil, player, _equip_skill_216_bottle_up_timer_field);
+	if this.apply_filter("bladescale_hone") then
+		return;
+	end
+
+	this.update_skill("bladescale_hone", nil, nil, player, _equip_skill_216_bottle_up_timer_field);
 end
 
 function this.update_spiribirds_call(player_data)
+	if this.apply_filter("spiribirds_call") then
+		return;
+	end
+
 	local equip_skill_211_timer = equip_skill_211_timer_field:get_data(player_data);
 	if equip_skill_211_timer == nil then
 		error_handler.report("skills.update_spiribirds_call", "Failed to access Data: equip_skill_211_timer");
@@ -708,25 +813,28 @@ function this.update_spiribirds_call(player_data)
 
 	local timer = spiribirds_call_duration - (equip_skill_211_timer / 60);
 
-	buffs.update_generic(this.list, skills_type_name, "spiribirds_call", this.get_skill_name, 1, timer);
+	this.update_generic("spiribirds_call", 1, timer);
 end
 
 function this.update_powder_mantle(player_data)
-	this.update_generic_skill("powder_mantle_blue", player_data, equip_skill_227_state_field,
-		player_data, equip_skill_227_state_timer_field, nil, 2);
-
+	if not this.apply_filter("powder_mantle_blue") then
+		this.update_skill("powder_mantle_blue", player_data, equip_skill_227_state_field, player_data, equip_skill_227_state_timer_field, nil, 2);
+	end
+	
 	if this.list.powder_mantle_blue ~= nil then
 		this.list.powder_mantle_red = nil;
 		return;
 	end
+	
+	if this.apply_filter("powder_mantle_red") then
+		return;
+	end
 
-	this.update_generic_skill("powder_mantle_red", player_data, equip_skill_227_state_field,
-		player_data, equip_skill_227_state_timer_field);
+	this.update_skill("powder_mantle_red", player_data, equip_skill_227_state_field, player_data, equip_skill_227_state_timer_field);
 end
 
 function this.update_blood_awakening(player, player_data)
-	this.update_generic_skill("blood_awakening", player, get_equip_skill_232_lv_method,
-		player_data, equip_skill_232_timer_field, nil, nil, blood_awakening_breakpoints);
+	this.update_skill("blood_awakening", player, get_equip_skill_232_lv_method, player_data, equip_skill_232_timer_field, nil, nil, blood_awakening_breakpoints);
 end
 
 function this.init_names()
@@ -735,23 +843,23 @@ function this.init_names()
 	end
 end
 
-function this.get_skill_name(skill_key)
-	local skill_data = skill_data_list[skill_key];
+function this.get_skill_name(key)
+	local skill_data = skill_data_list[key];
 
 	if skill_data == nil then
-		local skill_name = language.current_language.skills[skill_key];
+		local skill_name = language.current_language.skills[key];
 
 		if skill_name == nil then
-			return skill_key;
+			return key;
 		end
 
 		return skill_name;
 	end
 
-	local skill_name = get_name_method:call(nil, skill_data_list[skill_key].id);
+	local skill_name = get_name_method:call(nil, skill_data_list[key].id);
 	if skill_name == nil then
-		error_handler.report("skills.get_skill_name", string.format("Failed to access Data: %s_name", skill_key));
-		return skill_key;
+		error_handler.report("skills.get_skill_name", string.format("Failed to access Data: %s_name", key));
+		return key;
 	end
 
 	return skill_name;

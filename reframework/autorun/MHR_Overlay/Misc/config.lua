@@ -7501,6 +7501,235 @@ function this.init_default()
 				reversed_order = true
 			},
 
+			filter = {
+				abnormal_statuses = {
+					fireblight = true,
+					waterblight = true,
+					thunderblight = true,
+					iceblight = true,
+					dragonblight = true,
+					blastblight = true,
+					minor_bubbleblight = true,
+					major_bubbleblight = true,
+					hellfireblight = true,
+					bloodblight = true,
+					poison = true,
+					deadly_poison = true,
+					stun = true,
+					paralysis = true,
+					sleep = true,
+					defense_down = true,
+					resistance_down = true,
+					tremor = true,
+					roar = true,
+					webbed = true,
+					stench = true,
+					leeched = true,
+					--whirlwind = true,
+					bleeding = true,
+					frenzy = true,
+					frenzy_overcome = true,
+					frenzy_infection = true,
+					engulfed = true,
+					frostblight = true,
+					muck = true
+				},
+
+				item_buffs = {
+					demondrug = true,
+					mega_demondrug = true,
+					armorskin = true,
+					mega_armorskin = true,
+					demon_powder = true,
+					hardshell_powder = true,
+					gourmet_fish = true,
+					demon_ammo = true,
+					armor_ammo = true
+				},
+
+				endemic_life_buffs = {
+					clothfly = true,
+					stinkmink = true,
+					butterflame = true,
+					cutterfly = true,
+					ruby_wirebug = true,
+					gold_wirebug = true,
+					red_lampsquid = true,
+					yellow_lampsquid = true
+				},
+
+				melody_effects = {
+					self_improvement = true,
+					attack_up = true,
+					defense_up = true,
+					affinity_up = true,
+					elemental_attack_boost = true,
+					attack_and_defense_up = true,
+					attack_and_affinity_up = true,
+					knockbacks_negated = true,
+					earplugs_s = true,
+					earplugs_l = true,
+					tremors_negated = true,
+					wind_pressure_negated = true,
+					stun_negated = true,
+					blight_negated = true,
+					divine_protection = true,
+					health_recovery_s = true,
+					health_recovery_l = true,
+					health_recovery_s_antidote = true,
+					health_regeneration = true,
+					stamina_use_reduced = true,
+					stamina_recovery_up = true,
+					sharpness_loss_reduced = true,
+					environment_damage_negated = true,
+					sonic_wave = true,
+					sonic_barrier = true,
+					infernal_melody = true,
+					sharpness_regeneration = true,
+					sharpness_extension = true
+				},
+
+				dango_skills = {
+					dango_adrenaline = true,
+					dango_booster = true,
+					dango_insurance = true,
+					dango_insurance_defense_up = true,
+					dango_glutton = true,
+					dango_flyer = true,
+					dango_defender = true,
+					dango_hunter = true,
+					dango_connector = true,
+					super_recovery_dango = true
+				},
+
+				rampage_skills = {
+					kushala_daora_soul = true,
+					chameleos_soul = true
+				},
+
+				skills = {
+					burst = true,
+					intrepid_heart = true,
+					dereliction = true,
+					latent_power = true,
+					protective_polish = true,
+					wind_mantle = true,
+					grinder_s = true,
+					counterstrike = true,
+					affinity_sliding = true,
+					coalescence = true,
+					adrenaline_rush = true,
+					wall_runner = true,
+					offensive_guard = true,
+					hellfire_cloak = true,
+					agitator = true,
+					furious = true,
+					status_trigger = true,
+					heaven_sent = true,
+					heroics = true,
+					resuscitate = true,
+					maximum_might = true,
+					bloodlust = true,
+					frenzied_bloodlust = true,
+					peak_performance = true,
+					dragonheart = true,
+					resentment = true,
+					bladescale_hone = true,
+					spiribirds_call = true,
+					embolden = true,
+					berserk = true,
+					powder_mantle_red = true,
+					powder_mantle_blue = true,
+					strife = true,
+					inspiration = true,
+					blood_awakening = true,
+					dragon_conversion_elemental_attack_up = true,
+					dragon_conversion_elemental_res_up = true,
+					partbreaker = true
+				},
+
+				weapon_skills = {
+					great_sword = {
+						power_sheathe = true
+					},
+					long_sword = {
+						spirit_gauge_autofill = true, -- Soaring Kick, Iai Slash
+						spirit_gauge = true,
+						harvest_moon = true,
+					},
+					sword_and_shield = {
+						destroyer_oil = true
+					},
+					dual_blades = {
+						ironshine_silk = true,
+						archdemon_mode = true
+					},
+					lance = {
+						anchor_rage = true,
+						spiral_thrust = true,
+						twin_wine = true,
+					},
+					gunlance = {
+						ground_splitter = true,
+						erupting_cannon = true
+					},
+					hammer = {
+						impact_burst = true
+					},
+					hunting_horn = {
+						silkbind_shockwave = true,
+						bead_of_resonance = true,
+						sonic_bloom = true
+					},
+					switch_axe = {
+						amped_state = true,
+						switch_charger = true,
+						axe_heavy_slam = true
+					},
+					charge_blade = {
+						element_boost = true,
+						sword_boost_mode = true
+					},
+					insect_glaive = {
+						red_extract = true,
+						white_extract = true,
+						orange_extract = true,
+						all_extracts_mix = true
+					},
+					light_bowgun = {
+						fanning_maneuver = true,
+						wyvernblast_reload = true
+					},
+					heavy_bowgun = {
+						counter_charger = true,
+						rising_moon = true,
+						setting_sun = true,
+						overheat = true,
+						wyvernsnipe_reload = true,
+					},
+					bow = {
+						herculean_draw = true,
+						bolt_boost = true,
+						arc_shot_affinity = true,
+						arc_shot_brace = true
+					}
+				},
+
+				otomo_moves = {
+					rousing_roar = true,
+					go_fight_win = true,
+					power_drum = true
+				},
+
+				misc_buffs = {
+					attack_up = true,
+					defense_up = true,
+					stamina_use_down = true,
+					immunity = true,
+					natural_healing_up = true
+				}
+			},
+
 			name_label = {
 				visibility = true,
 

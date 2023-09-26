@@ -56,110 +56,78 @@ function this.update()
 
 	local _displayed_buffs = {};
 
-	for key, item_buff in pairs(item_buffs.list) do
-		
-		if not item_buff.is_active then
-			goto continue;
+	for key, abnormal_status in pairs(abnormal_statuses.list) do
+
+		if abnormal_status.is_visible then
+			table.insert(_displayed_buffs, abnormal_status);
 		end
+	end
 
-		table.insert(_displayed_buffs, item_buff);
+	for key, item_buff in pairs(item_buffs.list) do
 
-		::continue::
+		if item_buff.is_visible then
+			table.insert(_displayed_buffs, item_buff);
+		end
+	end
+
+	for key, endemic_life_buff in pairs(endemic_life_buff.list) do
+
+		if endemic_life_buff.is_visible then
+			table.insert(_displayed_buffs, endemic_life_buff);
+		end
 	end
 
 	for _, melody_effect in pairs(melody_effects.list) do
 		
-		if not melody_effect.is_active then
-			goto continue2;
+		if melody_effect.is_visible then
+			table.insert(_displayed_buffs, melody_effect);
 		end
-
-		table.insert(_displayed_buffs, melody_effect);
-
-		::continue2::
-	end
-
-	for key, endemic_life_buff in pairs(endemic_life_buff.list) do
-		if not endemic_life_buff.is_active then
-			goto continue3;
-		end
-
-		table.insert(_displayed_buffs, endemic_life_buff);
-
-		::continue3::
-	end
-
-	for key, skill in pairs(skills.list) do
-		if not skill.is_active then
-			goto continue4;
-		end
-
-		table.insert(_displayed_buffs, skill);
-
-		::continue4::
 	end
 
 	for key, dango_skill in pairs(dango_skills.list) do
-		if not dango_skill.is_active then
-			goto continue5;
+		
+		if dango_skill.is_visible then
+			table.insert(_displayed_buffs, dango_skill);
 		end
-
-		table.insert(_displayed_buffs, dango_skill);
-
-		::continue5::
-	end
-
-	for key, abnormal_status in pairs(abnormal_statuses.list) do
-		if not abnormal_status.is_active then
-			goto continue6;
-		end
-
-		table.insert(_displayed_buffs, abnormal_status);
-
-		::continue6::
-	end
-
-	for key, otomo_move in pairs(otomo_moves.list) do
-		if not otomo_move.is_active then
-			goto continue7;
-		end
-
-		table.insert(_displayed_buffs, otomo_move);
-
-		::continue7::
-	end
-
-	for key, weapon_skill in pairs(weapon_skills.list) do
-		if not weapon_skill.is_active then
-			goto continue8;
-		end
-
-		table.insert(_displayed_buffs, weapon_skill);
-
-		::continue8::
 	end
 
 	for key, rampage_skill in pairs(rampage_skills.list) do
-		if not rampage_skill.is_active then
-			goto continue9;
+
+		if rampage_skill.is_visible then
+			table.insert(_displayed_buffs, rampage_skill);
 		end
+	end
 
-		table.insert(_displayed_buffs, rampage_skill);
+	for key, skill in pairs(skills.list) do
 
-		::continue9::
+		if skill.is_visible then
+			table.insert(_displayed_buffs, skill);
+		end
+	end
+
+	for key, weapon_skill in pairs(weapon_skills.list) do
+
+		if weapon_skill.is_visible then
+			table.insert(_displayed_buffs, weapon_skill);
+		end
+	end
+
+	for key, otomo_move in pairs(otomo_moves.list) do
+
+		if otomo_move.is_visible then
+			table.insert(_displayed_buffs, otomo_move);
+		end
 	end
 
 	for key, misc_buffs in pairs(misc_buffs.list) do
-		if not misc_buffs.is_active then
-			goto continue10;
+
+		if misc_buffs.is_visible then
+			table.insert(_displayed_buffs, misc_buffs);
 		end
-
-		table.insert(_displayed_buffs, misc_buffs);
-
-		::continue10::
 	end
 	
-
 	displayed_buffs = this.sort_buffs(_displayed_buffs, cached_config);
+
 end
 
 function this.sort_buffs(_displayed_buffs, cached_config)

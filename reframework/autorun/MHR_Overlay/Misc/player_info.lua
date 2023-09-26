@@ -9,6 +9,7 @@ local error_handler;
 local quest_status;
 local time;
 local dango_skills;
+local skills;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -104,6 +105,8 @@ local player_quest_base_update_method = player_quest_base_type_def:get_method("u
 local is_master_player_method = player_quest_base_type_def:get_method("isMasterPlayer");
 
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
+-- Heroics
+local is_predicament_power_up_method = player_base_type_def:get_method("isPredicamentPowerUp");
 -- Dango Adrenaline
 local is_kitchen_skill_predicament_powerup_method = player_base_type_def:get_method("isKitchenSkillPredicamentPowerUp");
 
@@ -273,6 +276,7 @@ function this.on_pre_player_update(quest_player_base)
 	end
 
 	this.update_health(quest_player_base);
+	this.update_heroics(quest_player_base);
 	this.update_dango_adrenaline(quest_player_base);
 
 	should_health_update = false;
@@ -288,7 +292,25 @@ function this.update_health(quest_player_base)
 	this.list.health = vital;
 end
 
+function this.update_heroics(quest_player_base)
+	if not config.current_config.buff_UI.filter.skills.heroics then
+		return;
+	end
+
+	local is_predicament_power_up = is_predicament_power_up_method:call(master_player_ref);
+	if is_predicament_power_up == nil then
+		error_handler.report("player_info.update_heroics", "Failed to access Data: is_predicament_power_up");
+		return;
+	end
+
+	skills.is_heroics_active = is_predicament_power_up;
+end
+
 function this.update_dango_adrenaline(quest_player_base)
+	if not config.current_config.buff_UI.filter.dango_skills.dango_adrenaline then
+		return;
+	end
+
 	local is_kitchen_skill_predicament_powerup = is_kitchen_skill_predicament_powerup_method:call(master_player_ref);
 	if is_kitchen_skill_predicament_powerup == nil then
 		error_handler.report("player_info.update_dango_adrenaline", "Failed to access Data: is_kitchen_skill_predicament_powerup");
@@ -313,6 +335,7 @@ function this.init_dependencies()
 	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 	time = require("MHR_Overlay.Game_Handler.time");
 	dango_skills = require("MHR_Overlay.Buffs.dango_skills");
+	skills = require("MHR_Overlay.Buffs.skills");
 end
 
 function this.init_module()

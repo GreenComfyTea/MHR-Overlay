@@ -10,6 +10,7 @@ local language;
 local error_handler;
 local env_creature;
 local item_buffs;
+local time;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -55,12 +56,22 @@ this.list = {
 	yellow_lampsquid = nil
 };
 
-this.peepersects_duration = 90;
+this.keys = {
+	"clothfly",
+	"stinkmink",
+	"butterflame",
+	-- "peepersects",
+	"cutterfly",
+	"ruby_wirebug",
+	"gold_wirebug",
+	"red_lampsquid",
+	"yellow_lampsquid"
+};
 
-local endemic_life_buffs_type_name = "endemic_life_buffs";
+this.peepersects_duration = 90;
+this.butterflame_attack_up = 25;
 
 local marionette_mode_types = { "ruby_wirebug", "gold_wirebug" };
-local butterflame_attack_up = 25;
 
 
 
@@ -93,23 +104,40 @@ function this.update(player, player_data, item_parameter)
 	this.update_ruby_and_gold_wirebugs(player, player_data);
 	this.update_butterflame(player_data);
 
-	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "cutterfly", this.get_endemic_life_name,
-		nil, nil, player_data, crit_up_ec_second_timer_field);
+	this.update_endemic_life_buff("cutterfly", nil, nil, player_data, crit_up_ec_second_timer_field);
+	this.update_endemic_life_buff("clothfly", nil, nil, player_data, def_up_buff_second_rate_timer_field);
+	this.update_endemic_life_buff("stinkmink", nil, nil, player_data, lead_enemy_timer_field);
+	this.update_endemic_life_buff("red_lampsquid", nil, nil, player_data, atk_up_ec_second_timer_field);
+	this.update_endemic_life_buff("yellow_lampsquid", nil, nil, player_data, def_up_ec_second_timer_field);
+end
 
-	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "clothfly", this.get_endemic_life_name,
-		nil, nil, player_data, def_up_buff_second_rate_timer_field);
+function this.update_endemic_life_buff(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.endemic_life_buffs, this.get_endemic_life_name, key,
+		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
+end
 
-	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "stinkmink", this.get_endemic_life_name,
-		nil, nil, player_data, lead_enemy_timer_field);
+function this.update_generic(key, level, timer)
+	return buffs.update_generic(this.list, this.get_endemic_life_name, key, level, timer);
+end
 
-	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "red_lampsquid", this.get_endemic_life_name,
-		nil, nil, player_data, atk_up_ec_second_timer_field);
-
-	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "yellow_lampsquid", this.get_endemic_life_name,
-		nil, nil, player_data, def_up_ec_second_timer_field);
+function this.apply_filter(key)
+	return buffs.apply_filter(this.list, config.current_config.buff_UI.filter.endemic_life_buffs, key);
 end
 
 function this.update_ruby_and_gold_wirebugs(player, player_data)
+	local cached_config = config.current_config.buff_UI.filter.endemic_life_buffs;
+	
+	if not cached_config.ruby_wirebug
+	and not cached_config.gold_wirebug then
+		if this.apply_filter("ruby_wirebug") then
+			return;
+		end
+
+		if this.apply_filter("gold_wirebug") then
+			return;
+		end
+	end
+
 	local marionette_mode_type = get_marionette_mode_type_method:call(player);
 	if marionette_mode_type == nil then
 		error_handler.report("endemic_life_buffs.update_ruby_and_gold_wirebugs", "Failed to access Data: marionette_mode_type");
@@ -126,37 +154,38 @@ function this.update_ruby_and_gold_wirebugs(player, player_data)
 	end
 
 	local endemic_life_buff_key = marionette_mode_types[marionette_mode_type];
-
-	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, endemic_life_buff_key, this.get_endemic_life_name,
-		nil, nil, player_data, wirebug_powerup_timer_field);
+	this.update_endemic_life_buff(endemic_life_buff_key, nil, nil, player_data, wirebug_powerup_timer_field);
 end
 
 function this.update_butterflame(player_data)
+	if this.apply_filter("butterflame") then
+		return;
+	end
+
 	local atk_up_buff_second = atk_up_buff_second_field:get_data(player_data);
 	if atk_up_buff_second == nil then
 		error_handler.report("item_buffs.update_butterflame", "Failed to access Data: atk_up_buff_second");
 		return;
 	end
 
-	if atk_up_buff_second ~= butterflame_attack_up then
+	if atk_up_buff_second ~= this.butterflame_attack_up then
 		this.list.butterflame = nil;
 		return;
 	end
 
-	buffs.update_generic_buff(this.list, endemic_life_buffs_type_name, "butterflame", this.get_endemic_life_name,
-		nil, nil, player_data, atk_up_buff_second_timer_field);
+	this.update_endemic_life_buff("butterflame", nil, nil, player_data, atk_up_buff_second_timer_field);
 end
 
-function this.get_endemic_life_name(endemic_life_buff_key)
+function this.get_endemic_life_name(key)
 	if singletons.message_manager == nil then
 		error_handler.report("endemic_life_buffs.get_endemic_life_name", "Failed to access Data: message_manager");
-		return endemic_life_buff_key;
+		return key;
 	end
 
-	local endemic_life_name = get_env_creature_name_message_method:call(singletons.message_manager, env_creature.creature_ids[endemic_life_buff_key]);
+	local endemic_life_name = get_env_creature_name_message_method:call(singletons.message_manager, env_creature.creature_ids[key]);
 	if endemic_life_name == nil then
-		error_handler.report("endemic_life_buffs.get_endemic_life_name", string.format("Failed to access Data: %s_name", endemic_life_buff_key));
-		return endemic_life_buff_key;
+		error_handler.report("endemic_life_buffs.get_endemic_life_name", string.format("Failed to access Data: %s_name", key));
+		return key;
 	end
 
 	return endemic_life_name;
@@ -173,6 +202,7 @@ function this.init_dependencies()
 	error_handler = require("MHR_Overlay.Misc.error_handler");
 	env_creature = require("MHR_Overlay.Endemic_Life.env_creature");
 	item_buffs = require("MHR_Overlay.Buffs.item_buffs");
+	time = require("MHR_Overlay.Game_Handler.time");
 end
 
 function this.init_module()

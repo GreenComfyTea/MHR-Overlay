@@ -51,6 +51,12 @@ this.list = {
 	power_drum = nil
 };
 
+this.keys = {
+	"rousing_roar",
+	"go_fight_win",
+	"power_drum"
+};
+
 local otomo_moves_ids = {
 	-- herbaceous_healing = 1,
 	-- felyne_silkbind = 2,
@@ -59,12 +65,12 @@ local otomo_moves_ids = {
 	-- endemic_life_barrage = 5,
 	-- health_horn = 6,
 	-- healing_bubble = 7,
-	-- vase_of_vitality = 8,
+	vase_of_vitality = 8,
 	-- furbidden_acorn = 9,
 	-- poison_purr_ison = 10,
 	-- summeown_endemic_life = 11,
 	-- shock_purr_ison = 12,
-	-- go_fight_win = 13,
+	go_fight_win = 13,
 	-- giga_barrel_bombay = 14,
 	-- flash_bombay = 15,
 	-- anti_monster_mine = 16,
@@ -84,8 +90,6 @@ local otomo_moves_ids = {
 	-- ameowzing_mist = 30
 };
 
-local otomo_moves_type_name = "otomo_moves";
-
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Palico: Rousing Roar
 local beast_roar_otomo_timer_field = player_data_type_def:get_field("_BeastRoarOtomoTimer");
@@ -98,21 +102,25 @@ local data_shortcut_type_def = sdk.find_type_definition("snow.data.DataShortcut"
 local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.DataDef.OtSupportActionId)");
 
 function this.update(player_data)
-	buffs.update_generic_buff(this.list, otomo_moves_type_name, "rousing_roar", this.get_otomo_move_name,
-		nil, nil, player_data, beast_roar_otomo_timer_field);
-
-	buffs.update_generic_buff(this.list, otomo_moves_type_name, "go_fight_win", this.get_otomo_move_name,
-		nil, nil, player_data, runhigh_otomo_timer_field);
-
-	buffs.update_generic_buff(this.list, otomo_moves_type_name, "power_drum", this.get_otomo_move_name,
-		nil, nil, player_data, kijin_otomo_timer_field);
+	this.update_otomo_move("rousing_roar", nil, nil, player_data, beast_roar_otomo_timer_field);
+	this.update_otomo_move("go_fight_win", nil, nil, player_data, runhigh_otomo_timer_field);
+	this.update_otomo_move("power_drum", nil, nil, player_data, kijin_otomo_timer_field);
 end
 
-function this.get_otomo_move_name(otomo_move_key)
-	local otomo_move_name = get_name_method:call(nil, otomo_moves_ids[otomo_move_key]);
+function this.update_otomo_move(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.otomo_moves, this.get_otomo_move_name, key,
+		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
+end
+
+function this.apply_filter(key)
+	return buffs.apply_filter(this.list, config.current_config.buff_UI.filter.otomo_moves, key);
+end
+
+function this.get_otomo_move_name(key)
+	local otomo_move_name = get_name_method:call(nil, otomo_moves_ids[key]);
 	if otomo_move_name == nil then
-		error_handler.report("otomo_moves.get_otomo_move_name", string.format("Failed to access Data: %s_name", otomo_move_key));
-		return otomo_move_key;
+		error_handler.report("otomo_moves.get_otomo_move_name", string.format("Failed to access Data: %s_name", key));
+		return key;
 	end
 
 	return otomo_move_name;
