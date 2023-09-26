@@ -99,14 +99,20 @@ function this.remove_delay_timer(delay_timer)
 end
 
 function this.init_global_timers()
-	this.new_timer(singletons.init, 1);
-	this.new_timer(screen.update_window_size, 1);
-	this.new_timer(quest_status.update_is_online, 1);
-	this.new_timer(this.update_quest_time, 1 / 60);
-	this.new_timer(players.update_players, 0.5);
-	this.new_timer(players.update_myself_position, 1);
-	this.new_timer(buffs.update, 0.5);
-	this.new_timer(player_info.update, 0.5);
+	local cached_config = config.current_config.global_settings.performance.timer_delays;
+
+	this.timer_list = {};
+
+	this.new_timer(singletons.update, cached_config.update_singletons_delay);
+	this.new_timer(screen.update_window_size, cached_config.update_window_size_delay);
+	this.new_timer(quest_status.update_is_online, cached_config.update_is_online_delay);
+	this.new_timer(this.update_quest_time, cached_config.update_quest_time_delay);
+	this.new_timer(players.update_players, cached_config.update_players_delay);
+	this.new_timer(players.update_myself_position, cached_config.update_myself_position_delay);
+	this.new_timer(buffs.update, cached_config.update_buffs_delay);
+	this.new_timer(player_info.update, cached_config.update_player_info_delay);
+
+	xy = utils.table.tostring(this.timer_list);
 end
 
 function this.update_timers()

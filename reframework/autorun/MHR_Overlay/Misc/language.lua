@@ -768,6 +768,16 @@ this.default_language = {
 		weapon_skills = "Weapon Skills",
 		otomo_moves = "Buddy Moves",
 		misc_buffs = "Misc Buffs",
+
+		timer_delays = "Timer Delays",
+		update_singletons_delay = "Update Singletons (seconds)",
+		update_window_size_delay = "Update Window Size (seconds)",
+		update_quest_time_delay = "Update Quest Time (seconds)",
+		update_is_online_delay = "Update Is Online (seconds)",
+		update_players_delay = "Update Players (seconds)",
+		update_myself_position_delay = "Update Myself Position (seconds)",
+		update_player_info_delay = "Update Player Info (seconds)",
+		update_buffs_delay = "Update Buffs (seconds)",
 	},
 };
 

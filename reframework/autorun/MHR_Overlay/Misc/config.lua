@@ -76,7 +76,17 @@ function this.init_default()
 	
 			performance = {
 				max_monster_updates_per_tick = 2,
-				prioritize_large_monsters = false
+				prioritize_large_monsters = false,
+				timer_delays = {
+					update_singletons_delay = 1,
+					update_window_size_delay = 1,
+					update_quest_time_delay = 1 / 60,
+					update_is_online_delay = 1,
+					update_players_delay = 0.5,
+					update_myself_position_delay = 1,
+					update_player_info_delay = 0.5,
+					update_buffs_delay = 0.5,
+				}
 			},
 	
 			renderer = {

@@ -371,6 +371,7 @@ function this.draw()
 	local modifiers_changed = false;
 	local modules_changed = false;
 	local global_settings_changed = false;
+	local timer_delays_changed = false;
 	local small_monster_UI_changed = false;
 	local large_monster_dynamic_UI_changed = false;
 	local large_monster_static_UI_changed = false;
@@ -405,7 +406,7 @@ function this.draw()
 	config_changed, apply_font_requested = this.draw_config();
 	modules_changed = this.draw_modules();
 	this.draw_hotkeys();
-	global_settings_changed, modifiers_changed, apply_font_requested, language_changed = this.draw_global_settings(apply_font_requested, config_changed);
+	global_settings_changed, modifiers_changed, timer_delays_changed, apply_font_requested, language_changed = this.draw_global_settings(apply_font_requested, config_changed);
 	small_monster_UI_changed = this.draw_small_monster_UI();
 
 	if imgui.tree_node(language.current_language.customization_menu.large_monster_UI) then
@@ -489,6 +490,10 @@ function this.draw()
 
 	if stats_UI_changed or modifiers_changed or config_changed then
 		stats_UI.init_UI();
+	end
+
+	if timer_delays_changed then
+		time.init_global_timers();
 	end
 
 	if this.menu_font_changed and (apply_font_requested or config_changed) then
@@ -868,6 +873,7 @@ function this.draw_global_settings(apply_font_requested, language_changed)
 	local changed = false;
 	local config_changed = false;
 	local modifiers_changed = false;
+	local timer_delays_changed = false;
 
 	local index = 1;
 
@@ -1006,6 +1012,67 @@ function this.draw_global_settings(apply_font_requested, language_changed)
 					cached_config.performance.prioritize_large_monsters);
 
 			config_changed = config_changed or changed;
+
+			if imgui.tree_node(language.current_language.customization_menu.timer_delays) then
+
+				changed, cached_config.performance.timer_delays.update_singletons_delay = imgui.drag_float(
+					language.current_language.customization_menu.update_singletons_delay,
+					cached_config.performance.timer_delays.update_singletons_delay, 0.001, 0.001, screen.width, "%.3f");
+				
+				config_changed = config_changed or changed;
+				timer_delays_changed = timer_delays_changed or changed;
+
+				changed, cached_config.performance.timer_delays.update_window_size_delay = imgui.drag_float(
+					language.current_language.customization_menu.update_window_size_delay,
+					cached_config.performance.timer_delays.update_window_size_delay, 0.001, 0.001, screen.width, "%.3f");
+				
+				config_changed = config_changed or changed;
+				timer_delays_changed = timer_delays_changed or changed;
+				
+				changed, cached_config.performance.timer_delays.update_quest_time_delay = imgui.drag_float(
+					language.current_language.customization_menu.update_quest_time_delay,
+					cached_config.performance.timer_delays.update_quest_time_delay, 0.001, 0.001, screen.width, "%.3f");
+				
+				config_changed = config_changed or changed;
+				timer_delays_changed = timer_delays_changed or changed;
+
+				changed, cached_config.performance.timer_delays.update_is_online_delay = imgui.drag_float(
+					language.current_language.customization_menu.update_is_online_delay,
+					cached_config.performance.timer_delays.update_is_online_delay, 0.001, 0.001, screen.width, "%.3f");
+				
+				config_changed = config_changed or changed;
+				timer_delays_changed = timer_delays_changed or changed;
+
+				changed, cached_config.performance.timer_delays.update_players_delay = imgui.drag_float(
+					language.current_language.customization_menu.update_players_delay,
+					cached_config.performance.timer_delays.update_players_delay, 0.001, 0.001, screen.width, "%.3f");
+				
+				config_changed = config_changed or changed;
+				timer_delays_changed = timer_delays_changed or changed;
+
+				changed, cached_config.performance.timer_delays.update_myself_position_delay = imgui.drag_float(
+					language.current_language.customization_menu.update_myself_position_delay,
+					cached_config.performance.timer_delays.update_myself_position_delay, 0.001, 0.001, screen.width, "%.3f");
+
+				config_changed = config_changed or changed;
+				timer_delays_changed = timer_delays_changed or changed;
+
+				changed, cached_config.performance.timer_delays.update_player_info_delay = imgui.drag_float(
+					language.current_language.customization_menu.update_player_info_delay,
+					cached_config.performance.timer_delays.update_player_info_delay, 0.001, 0.001, screen.width, "%.3f");
+
+				config_changed = config_changed or changed;
+				timer_delays_changed = timer_delays_changed or changed;
+
+				changed, cached_config.performance.timer_delays.update_buffs_delay = imgui.drag_float(
+					language.current_language.customization_menu.update_buffs_delay,
+					cached_config.performance.timer_delays.update_buffs_delay, 0.001, 0.001, screen.width, "%.3f");
+
+				config_changed = config_changed or changed;
+				timer_delays_changed = timer_delays_changed or changed;
+	
+				imgui.tree_pop();
+			end
 
 			imgui.tree_pop();
 		end
@@ -1146,7 +1213,7 @@ function this.draw_global_settings(apply_font_requested, language_changed)
 		imgui.tree_pop();
 	end
 
-	return config_changed, modifiers_changed, apply_font_requested, language_changed;
+	return config_changed, modifiers_changed, timer_delays_changed, apply_font_requested, language_changed;
 end
 
 function this.draw_small_monster_UI()
