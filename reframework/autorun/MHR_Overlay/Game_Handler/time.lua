@@ -72,7 +72,6 @@ function this.new_timer(callback, cooldown_seconds, start_offset_seconds)
 	timer.last_trigger_time = os.clock() + start_offset_seconds;
 
 	this.timer_list[callback] =  timer;
-
 end
 
 function this.new_delay_timer(callback, delay)
@@ -89,10 +88,13 @@ function this.new_delay_timer(callback, delay)
 	this.delay_timer_list[callback] = delay_timer;
 
 	return delay_timer;
-
 end
 
 function this.remove_delay_timer(delay_timer)
+	if delay_timer == nil then
+		return;
+	end
+
 	this.delay_timer_list[delay_timer.callback] = nil; 
 end
 
