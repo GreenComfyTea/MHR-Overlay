@@ -111,8 +111,6 @@ function this.init_global_timers()
 	this.new_timer(players.update_myself_position, cached_config.update_myself_position_delay);
 	this.new_timer(buffs.update, cached_config.update_buffs_delay);
 	this.new_timer(player_info.update, cached_config.update_player_info_delay);
-
-	xy = utils.table.tostring(this.timer_list);
 end
 
 function this.update_timers()
