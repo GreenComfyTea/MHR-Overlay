@@ -226,6 +226,7 @@
         "in_lobby": "로비 내",
         "in_training_area": "훈련구역 내",
         "include": "포함",
+        "infinite_buffs_location": "Infinite Buffs Location",
         "init_singletons_delay": "Init Singletons Delay (seconds)",
         "inside": "내부",
         "installations": "설치",

@@ -99,6 +99,9 @@ this.displayed_monster_UI_sorting_types = {};
 this.buff_UI_sorting_types = {};
 this.displayed_buff_UI_sorting_types = {};
 
+this.buff_UI_infinite_buffs_location_types = {};
+this.displayed_buff_UI_infinite_buffs_location_types = {};
+
 this.damage_meter_UI_highlighted_entity_types = {};
 this.displayed_damage_meter_UI_highlighted_entity_types = {};
 
@@ -235,6 +238,20 @@ function this.init()
 		current.name,
 		current.timer,
 		current.duration
+	};
+
+	this.buff_UI_infinite_buffs_location_types =
+	{
+		default.normal,
+		default.first,
+		default.last
+	};
+
+	this.displayed_buff_UI_infinite_buffs_location_types =
+	{
+		current.normal,
+		current.first,
+		current.last
 	};
 
 	this.damage_meter_UI_highlighted_entity_types =
@@ -2315,6 +2332,17 @@ function this.draw_buff_UI()
 
 			if changed then
 				cached_config.settings.orientation = this.orientation_types[index];
+			end
+
+			changed, index = imgui.combo(
+				language.current_language.customization_menu.infinite_buffs_location,
+				utils.table.find_index(this.buff_UI_infinite_buffs_location_types, cached_config.settings.infinite_buffs_location),
+				this.displayed_buff_UI_infinite_buffs_location_types);
+
+			config_changed = config_changed or changed;
+
+			if changed then
+				cached_config.settings.infinite_buffs_location = this.buff_UI_infinite_buffs_location_types[index];
 			end
 
 			imgui.tree_pop();

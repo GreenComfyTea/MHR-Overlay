@@ -7492,6 +7492,7 @@ function this.init_default()
 				hide_bar_for_infinite_buffs = true,
 				hide_timer_for_infinite_buffs = true,
 				orientation = "Vertical", -- "Vertical" or "Horizontal"
+				infinite_buffs_location = "Last"
 			},
 
 			spacing = {

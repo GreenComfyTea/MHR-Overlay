@@ -131,36 +131,199 @@ function this.update()
 end
 
 function this.sort_buffs(_displayed_buffs, cached_config)
+	local infinite_buffs_location = cached_config.settings.infinite_buffs_location;
 	cached_config = cached_config.sorting;
 
 	if cached_config.type == "Name" then
 		if cached_config.reversed_order then
 			table.sort(_displayed_buffs, function(left, right)
-				return left.name > right.name;
+				
+				if infinite_buffs_location == "First" then
+
+					if left.is_infinite and right.is_infinite then
+						return left.name < right.name;
+					elseif left.is_infinite then
+						return true;
+					elseif right.is_infinite then
+						return false;
+					else
+						return left.name < right.name;
+					end
+
+				elseif infinite_buffs_location == "Last" then
+
+					if left.is_infinite and right.is_infinite then
+						return left.name < right.name;
+					elseif left.is_infinite then
+						return false;
+					elseif right.is_infinite then
+						return true;
+					else
+						return left.name < right.name;
+					end
+
+				else
+					return left.name < right.name;
+				end
 			end);
 		else
 			table.sort(_displayed_buffs, function(left, right)
-				return left.name < right.name;
+
+				if infinite_buffs_location == "First" then
+
+					if left.is_infinite and right.is_infinite then
+						return left.name > right.name;
+					elseif left.is_infinite then
+						return false;
+					elseif right.is_infinite then
+						return true;
+					else
+						return left.name > right.name;
+					end
+
+				elseif infinite_buffs_location == "Last" then
+
+					if left.is_infinite and right.is_infinite then
+						return left.name > right.name;
+					elseif left.is_infinite then
+						return true;
+					elseif right.is_infinite then
+						return false;
+					else
+						return left.name > right.name;
+					end
+
+				else
+					return left.name > right.name;
+				end
 			end);
 		end
 	elseif cached_config.type == "Timer" then
 		if cached_config.reversed_order then
 			table.sort(_displayed_buffs, function(left, right)
-				return left.timer > right.timer;
+
+				if infinite_buffs_location == "First" then
+
+					if left.is_infinite and right.is_infinite then
+						return left.timer < right.timer;
+					elseif left.is_infinite then
+						return true;
+					elseif right.is_infinite then
+						return false;
+					else
+						return left.timer < right.timer;
+					end
+
+				elseif infinite_buffs_location == "Last" then
+
+					if left.is_infinite and right.is_infinite then
+						return left.timer < right.timer;
+					elseif left.is_infinite then
+						return false;
+					elseif right.is_infinite then
+						return true;
+					else
+						return left.timer < right.timer;
+					end
+
+				else
+					return left.timer < right.timer;
+				end
 			end);
 		else
 			table.sort(_displayed_buffs, function(left, right)
-				return left.timer < right.timer;
+
+				if infinite_buffs_location == "First" then
+
+					if left.is_infinite and right.is_infinite then
+						return left.timer > right.timer;
+					elseif left.is_infinite then
+						return false;
+					elseif right.is_infinite then
+						return true;
+					else
+						return left.timer > right.timer;
+					end
+
+				elseif infinite_buffs_location == "Last" then
+
+					if left.is_infinite and right.is_infinite then
+						return left.timer > right.timer;
+					elseif left.is_infinite then
+						return true;
+					elseif right.is_infinite then
+						return false;
+					else
+						return left.timer > right.timer;
+					end
+
+				else
+					return left.timer > right.timer;
+				end
 			end);
 		end
-	else
+	else -- Duration
 		if cached_config.reversed_order then
 			table.sort(_displayed_buffs, function(left, right)
-				return left.duration > right.duration;
+
+				if infinite_buffs_location == "First" then
+
+					if left.is_infinite and right.is_infinite then
+						return left.duration < right.duration;
+					elseif left.is_infinite then
+						return true;
+					elseif right.is_infinite then
+						return false;
+					else
+						return left.duration < right.duration;
+					end
+
+				elseif infinite_buffs_location == "Last" then
+
+					if left.is_infinite and right.is_infinite then
+						return left.duration < right.duration;
+					elseif left.is_infinite then
+						return false;
+					elseif right.is_infinite then
+						return true;
+					else
+						return left.duration < right.duration;
+					end
+
+				else
+					return left.duration < right.duration;
+				end
 			end);
 		else
 			table.sort(_displayed_buffs, function(left, right)
-				return left.duration < right.duration;
+
+				if infinite_buffs_location == "First" then
+
+					if left.is_infinite and right.is_infinite then
+						return left.duration > right.duration;
+					elseif left.is_infinite then
+						return false;
+					elseif right.is_infinite then
+						return true;
+					else
+						return left.duration > right.duration;
+					end
+
+				elseif infinite_buffs_location == "Last" then
+
+					if left.is_infinite and right.is_infinite then
+						return left.duration > right.duration;
+					elseif left.is_infinite then
+						return true;
+					elseif right.is_infinite then
+						return false;
+					else
+						return left.duration > right.duration;
+					end
+
+				else
+					return left.duration > right.duration;
+				end
 			end);
 		end
 	end

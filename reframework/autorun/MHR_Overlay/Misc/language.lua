@@ -778,6 +778,8 @@ this.default_language = {
 		update_myself_position_delay = "Update Myself Position (seconds)",
 		update_player_info_delay = "Update Player Info (seconds)",
 		update_buffs_delay = "Update Buffs (seconds)",
+
+		infinite_buffs_location = "Infinite Buffs Location",
 	},
 };
 
