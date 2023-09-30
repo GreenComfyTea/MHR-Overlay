@@ -64,7 +64,7 @@ local player_lobby_base_type_def = sdk.find_type_definition("snow.player.PlayerL
 local player_base_type_def = sdk.find_type_definition("snow.player.PlayerBase");
 local player_weapon_type_field = player_base_type_def:get_field("_playerWeaponType");
 
-function this.new(key, name, level, duration)
+function this.new(type, key, name, level, duration)
 	local is_infinite = false;
 
 	if name == nil then
@@ -83,6 +83,7 @@ function this.new(key, name, level, duration)
 
 	local buff = {};
 
+	buff.type = type;
 	buff.key = key;
 	buff.name = name;
 	buff.level = level;
@@ -121,8 +122,6 @@ function this.init_names()
 	weapon_skills.init_names();
 	misc_buffs.init_names();
 end
-
-local tere = {};
 
 function this.update()
 	if not config.current_config.buff_UI.enabled then
@@ -213,7 +212,8 @@ function this.update_timer(buff, timer)
 	end
 end
 
-function this.update_generic_buff(buff_list, filter_list, get_name_function, buff_key,
+function this.update_generic_buff(buff_list, filter_list, get_name_function, 
+	buff_type, buff_key,
 	value_owner, value_holder,
 	timer_owner, timer_holder,
 	is_infinite, minimal_value, level_breakpoints)
@@ -288,17 +288,17 @@ function this.update_generic_buff(buff_list, filter_list, get_name_function, buf
 		end
 	end
 
-	return this.update_generic(buff_list, get_name_function, buff_key, level, timer);
+	return this.update_generic(buff_list, get_name_function, buff_type, buff_key, level, timer);
 end
 
-function this.update_generic(buff_list, get_name_function, buff_key, level, timer)
+function this.update_generic(buff_list, get_name_function, buff_type, buff_key, level, timer)
 	level = level or 1;
 
 	local buff = buff_list[buff_key];
 	if buff == nil then
 		local name = get_name_function(buff_key);
 
-		buff = this.new(buff_key, name, level, timer);
+		buff = this.new(buff_type, buff_key, name, level, timer);
 		buff_list[buff_key] = buff;
 	else
 		if buff.level ~= level then

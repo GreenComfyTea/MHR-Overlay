@@ -449,7 +449,6 @@ function this.update(player, player_data, weapon_type)
 	this.update_skill("strife", player, get_affinity_equip_skill_233_method, nil, nil, nil, nil, strife_breakpoints[skill_data_list.strife.level]);
 end
 
-
 function this.update_skill(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
 	local skill_data = skill_data_list[key];
 	if skill_data ~= nil and skill_data.is_equipped ~= nil and not skill_data.is_equipped then
@@ -457,12 +456,13 @@ function this.update_skill(key, value_owner, value_holder, timer_owner, timer_ho
 		return nil;
 	end
 
-	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.skills, this.get_skill_name, key,
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.skills, this.get_skill_name,
+		skills_type_name, key,
 		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints);
 end
 
 function this.update_generic(key, level, timer)
-	return buffs.update_generic(this.list, this.get_skill_name, key, level, timer);
+	return buffs.update_generic(this.list, this.get_skill_name, skills_type_name, key, level, timer);
 end
 
 function this.apply_filter(key)
@@ -472,7 +472,7 @@ end
 function this.update_equipped_skill_data(player)
 	local player_skill_list = get_player_skill_list_method:call(player);
 	if player_skill_list == nil then
-		error_handler.report("buffs.update", "Failed to access Data: player_skill_list");
+		error_handler.report("this.update_equipped_skill_data", "Failed to access Data: player_skill_list");
 		return;
 	end
 
@@ -583,14 +583,14 @@ function this.update_maximum_might(player_data)
 		local maximum_might_name = this.get_skill_name("maximum_might");
 
 		if whole_body_timer < maximum_might_previous_timer_value then
-			this.list.maximum_might = buffs.new("maximum_might", maximum_might_name, 1);
+			this.list.maximum_might = buffs.new(skills_type_name, "maximum_might", maximum_might_name, 1);
 
 		elseif utils.number.is_equal(whole_body_timer, 0) then
 			if maximum_might_delay_timer == nil then
 				maximum_might_delay_timer = time.new_delay_timer(function()
 					maximum_might_delay_timer = nil;
 
-					this.list.maximum_might = buffs.new("maximum_might", maximum_might_name, 1);
+					this.list.maximum_might = buffs.new(skills_type_name, "maximum_might", maximum_might_name, 1);
 				end, 3.5);
 			end
 
@@ -631,7 +631,7 @@ function this.update_bloodlust()
 			return;
 		end
 
-		this.list.bloodlust = buffs.new("bloodlust", bloodlust_name);
+		this.list.bloodlust = buffs.new(skills_type_name, "bloodlust", bloodlust_name);
 	end
 
 	this.list.bloodlust.is_visible = true;

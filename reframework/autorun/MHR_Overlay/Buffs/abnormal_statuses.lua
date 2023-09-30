@@ -109,6 +109,10 @@ this.keys = {
 	"frenzy_infection"
 };
 
+this.UI = nil;
+
+local abnormal_statuses_type_name = "abnormal_statuses";
+
 local frenzy_infected_duration = 121;
 
 local player_quest_base_type_def = sdk.find_type_definition("snow.player.PlayerQuestBase");
@@ -221,12 +225,12 @@ function this.update(player, player_data)
 end
 
 function this.update_abnormal_status(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
-	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.abnormal_statuses, this.get_abnormal_status_name, key,
-		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints);
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.abnormal_statuses, this.get_abnormal_status_name,
+		abnormal_statuses_type_name, key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints);
 end
 
 function this.update_generic(key, level, timer)
-	return buffs.update_generic(this.list, this.get_abnormal_status_name, key, level, timer);
+	return buffs.update_generic(this.list, this.get_abnormal_status_name, abnormal_statuses_type_name, key, level, timer);
 end
 
 function this.apply_filter(key)

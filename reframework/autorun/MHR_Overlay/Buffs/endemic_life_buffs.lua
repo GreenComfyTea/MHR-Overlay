@@ -71,6 +71,8 @@ this.keys = {
 this.peepersects_duration = 90;
 this.butterflame_attack_up = 25;
 
+local endemic_life_buffs_type_name = "endemic_life_buffs";
+
 local marionette_mode_types = { "ruby_wirebug", "gold_wirebug" };
 
 
@@ -112,12 +114,13 @@ function this.update(player, player_data, item_parameter)
 end
 
 function this.update_endemic_life_buff(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
-	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.endemic_life_buffs, this.get_endemic_life_name, key,
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.endemic_life_buffs, this.get_endemic_life_name,
+		endemic_life_buffs_type_name, key,
 		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
 end
 
 function this.update_generic(key, level, timer)
-	return buffs.update_generic(this.list, this.get_endemic_life_name, key, level, timer);
+	return buffs.update_generic(this.list, this.get_endemic_life_name, endemic_life_buffs_type_name, key, level, timer);
 end
 
 function this.apply_filter(key)

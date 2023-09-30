@@ -78,6 +78,8 @@ this.keys = {
 -- Immunizer			5min
 -- Vase of Vitality		20sec
 
+local misc_buffs_type_name = "misc_buffs";
+
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 
 -- Attack Up
@@ -112,7 +114,8 @@ function this.update(player, player_data, item_parameter)
 end
 
 function this.update_misc_buff(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
-	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.misc_buffs, this.get_misc_buff_name, key,
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.misc_buffs, this.get_misc_buff_name,
+		misc_buffs_type_name, key,
 		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints);
 end
 
@@ -144,7 +147,6 @@ function this.update_attack_up(player_data, item_parameter)
 
 	this.update_misc_buff("attack_up", nil, nil, player_data, atk_up_buff_second_timer_field);
 end
-
 
 function this.init_names()
 	for misc_buff_key, dango in pairs(this.list) do

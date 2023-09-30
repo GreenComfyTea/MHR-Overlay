@@ -90,6 +90,8 @@ local otomo_moves_ids = {
 	-- ameowzing_mist = 30
 };
 
+local otomo_moves_type_name = "otomo_moves"
+
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Palico: Rousing Roar
 local beast_roar_otomo_timer_field = player_data_type_def:get_field("_BeastRoarOtomoTimer");
@@ -108,7 +110,8 @@ function this.update(player_data)
 end
 
 function this.update_otomo_move(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
-	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.otomo_moves, this.get_otomo_move_name, key,
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.otomo_moves, this.get_otomo_move_name,
+		otomo_moves_type_name, key,
 		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
 end
 

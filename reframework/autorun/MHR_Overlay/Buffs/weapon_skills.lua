@@ -273,6 +273,7 @@ local weapon_skill_ids = {
 	bolt_boost = 154
 };
 
+local weapon_skill_type_name = "weapon_skills";
 --  0 Great Sword
 local great_sword_type_name = "great_sword";
 --  1 Switch Axe
@@ -546,12 +547,13 @@ function this.update(player, player_data, weapon_type)
 end
 
 function this.update_weapon_skill(key, weapon_type_name, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
-	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.weapon_skills[weapon_type_name], this.get_weapon_skill_name, key,
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.weapon_skills[weapon_type_name], this.get_weapon_skill_name, 
+		weapon_skill_type_name, key,
 		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints);
 end
 
 function this.update_generic(key, level, timer)
-	return buffs.update_generic(this.list, this.get_weapon_skill_name, key, level, timer);
+	return buffs.update_generic(this.list, this.get_weapon_skill_name, weapon_skill_type_name, key, level, timer);
 end
 
 function this.apply_filter(weapon_type_name, key)

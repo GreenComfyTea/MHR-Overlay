@@ -60,6 +60,8 @@ local rampage_skill_ids = {
 	kushala_daora_soul = 251,
 };
 
+local rampage_skills_type_name = "rampage_skills";
+
 local kushara_daora_soul_breakpoint = 5;
 
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
@@ -80,7 +82,8 @@ function this.update(player_data)
 end
 
 function this.update_rampage_skill(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
-	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.rampage_skills, this.get_rampage_skill_name, key,
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.rampage_skills, this.get_rampage_skill_name,
+		rampage_skills_type_name, key,
 		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
 end
 

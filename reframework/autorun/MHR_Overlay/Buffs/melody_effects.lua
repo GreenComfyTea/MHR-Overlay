@@ -106,6 +106,8 @@ this.keys = {
 
 this.list = {};
 
+local melody_effects_type_name = "melody_effects";
+
 local player_manager_type_def = sdk.find_type_definition("snow.player.PlayerManager");
 local find_master_player_method = player_manager_type_def:get_method("findMasterPlayer");
 
@@ -174,7 +176,7 @@ function this.update_melody_effect(lua_index, id, key, melody_effect, melody_dat
 	if melody_effect == nil then
 		local melody_effect_name = this.get_melody_effect_name(id);
 
-		melody_effect = buffs.new(key, melody_effect_name, 1, melody_timer / 60);
+		melody_effect = buffs.new(melody_effects_type_name, key, melody_effect_name, 1, melody_timer / 60);
 		this.list[lua_index] = melody_effect;
 	else
 		buffs.update_timer(melody_effect, melody_timer / 60);

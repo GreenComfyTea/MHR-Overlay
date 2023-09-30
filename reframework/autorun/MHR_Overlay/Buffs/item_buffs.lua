@@ -88,6 +88,8 @@ local item_ids = {
 
 this.might_seed_attack_up = 10;
 
+local item_buffs_type_name = "item_buffs";
+
 local player_data_type_def = sdk.find_type_definition("snow.player.PlayerData");
 -- Demondrug/Mega Demondrug
 local atk_up_alive_field = player_data_type_def:get_field("_AtkUpAlive");
@@ -140,12 +142,13 @@ function this.update(player_data, item_parameter)
 end
 
 function this.update_item_buff(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
-	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.item_buffs, this.get_item_buff_name, key,
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.item_buffs, this.get_item_buff_name, 
+		item_buffs_type_name, key,
 		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
 end
 
 function this.update_generic(key, level, timer)
-	return buffs.update_generic(this.list, this.get_item_buff_name, key, level, timer);
+	return buffs.update_generic(this.list, this.get_item_buff_name, item_buffs_type_name, key, level, timer);
 end
 
 function this.apply_filter(key)

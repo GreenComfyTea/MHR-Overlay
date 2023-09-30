@@ -127,7 +127,10 @@ local dango_skill_ids = {
 	super_recovery_dango = 56
 };
 
+
 this.is_dango_adrenaline_active = false;
+
+local dango_skills_type_name = "dango_skills";
 
 local dango_bulker_attack_up = 15;
 local previous_super_recovery_dango_timer = 0;
@@ -171,8 +174,6 @@ local flag_cat_skill_insurance_field = quest_manager_type_def:get_field("_FlagCa
 local is_cat_skill_insurance_method = quest_manager_type_def:get_method("isCatSkillInsurance");
 
 function this.update(player, player_data)
-
-
 	this.update_dango_adrenaline();
 	this.update_dango_hunter(player_data);
 	this.update_dango_insurance();
@@ -187,12 +188,13 @@ function this.update(player, player_data)
 end
 
 function this.update_dango_skill(key, value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints)
-	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.dango_skills, this.get_dango_skill_name, key,
+	return buffs.update_generic_buff(this.list, config.current_config.buff_UI.filter.dango_skills, this.get_dango_skill_name,
+		dango_skills_type_name, key,
 		value_owner, value_holder, timer_owner, timer_holder, is_infinite, minimal_value, level_breakpoints);
 end
 
 function this.update_generic(key, level, timer)
-	return buffs.update_generic(this.list, this.get_dango_skill_name, key, level, timer);
+	return buffs.update_generic(this.list, this.get_dango_skill_name, dango_skills_type_name, key, level, timer);
 end
 
 function this.apply_filter(key)
