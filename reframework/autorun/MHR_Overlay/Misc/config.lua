@@ -7741,94 +7741,933 @@ function this.init_default()
 				}
 			},
 
-			name_label = {
-				visibility = true,
-
-				settings = {
-					right_alignment_shift = 0
-				},
-
-				text_formatting = "%s",
-
-				include = {
-					skill_level = true
-				},
-
-				offset = {
-					x = 5,
-					y = 0
-				},
-
-				color = 0xFFFEFF88,
-
-				shadow = {
+			abnormal_statuses = {
+				name_label = {
 					visibility = true,
-
-					offset = {
-						x = 1,
-						y = 1
+	
+					settings = {
+						right_alignment_shift = 0
 					},
-
-					color = 0xFF000000
+	
+					text_formatting = "%s",
+	
+					include = {
+						skill_level = true
+					},
+	
+					offset = {
+						x = 5,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+	
+						color = 0xFF000000
+					}
+				},
+	
+				timer_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%2.0f:%02.0f",
+	
+					offset = {
+						x = 200,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+						
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+	
+					settings = {
+						fill_direction = "Left to Right"
+					},
+	
+					offset = {
+						x = 0,
+						y = 17
+					},
+	
+					size = {
+						width = 240,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA76FD456,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
 				}
 			},
 
-			timer_label = {
-				visibility = true,
-
-				settings = {
-					right_alignment_shift = 0
-				},
-
-				text_formatting = "%2.0f:%02.0f",
-
-				offset = {
-					x = 200,
-					y = 0
-				},
-
-				color = 0xFFFFBF81,
-
-				shadow = {
+			item_buffs = {
+				name_label = {
 					visibility = true,
-
-					offset = {
-						x = 1,
-						y = 1
+	
+					settings = {
+						right_alignment_shift = 0
 					},
-					
-					color = 0xFF000000
+	
+					text_formatting = "%s",
+	
+					include = {
+						skill_level = true
+					},
+	
+					offset = {
+						x = 5,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+	
+						color = 0xFF000000
+					}
+				},
+	
+				timer_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%2.0f:%02.0f",
+	
+					offset = {
+						x = 200,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+						
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+	
+					settings = {
+						fill_direction = "Left to Right"
+					},
+	
+					offset = {
+						x = 0,
+						y = 17
+					},
+	
+					size = {
+						width = 240,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA76FD456,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
 				}
 			},
 
-			bar = {
-				visibility = true,
-
-				settings = {
-					fill_direction = "Left to Right"
-				},
-
-				offset = {
-					x = 0,
-					y = 17
-				},
-
-				size = {
-					width = 240,
-					height = 5
-				},
-
-				outline = {
+			endemic_life_buffs = {
+				name_label = {
 					visibility = true,
-					thickness = 1,
-					offset = 0,
-					style = "Center"
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%s",
+	
+					include = {
+						skill_level = true
+					},
+	
+					offset = {
+						x = 5,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+	
+						color = 0xFF000000
+					}
 				},
+	
+				timer_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%2.0f:%02.0f",
+	
+					offset = {
+						x = 200,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+						
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+	
+					settings = {
+						fill_direction = "Left to Right"
+					},
+	
+					offset = {
+						x = 0,
+						y = 17
+					},
+	
+					size = {
+						width = 240,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA76FD456,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
+				}
+			},
 
-				colors = {
-					foreground = 0xA76FD456,
-					background = 0xA7000000,
-					outline = 0xC0000000
+			melody_effects = {
+				name_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%s",
+	
+					include = {
+						skill_level = true
+					},
+	
+					offset = {
+						x = 5,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+	
+						color = 0xFF000000
+					}
+				},
+	
+				timer_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%2.0f:%02.0f",
+	
+					offset = {
+						x = 200,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+						
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+	
+					settings = {
+						fill_direction = "Left to Right"
+					},
+	
+					offset = {
+						x = 0,
+						y = 17
+					},
+	
+					size = {
+						width = 240,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA76FD456,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
+				}
+			},
+
+			dango_skills = {
+				name_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%s",
+	
+					include = {
+						skill_level = true
+					},
+	
+					offset = {
+						x = 5,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+	
+						color = 0xFF000000
+					}
+				},
+	
+				timer_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%2.0f:%02.0f",
+	
+					offset = {
+						x = 200,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+						
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+	
+					settings = {
+						fill_direction = "Left to Right"
+					},
+	
+					offset = {
+						x = 0,
+						y = 17
+					},
+	
+					size = {
+						width = 240,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA76FD456,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
+				}
+			},
+
+			rampage_skills = {
+				name_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%s",
+	
+					include = {
+						skill_level = true
+					},
+	
+					offset = {
+						x = 5,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+	
+						color = 0xFF000000
+					}
+				},
+	
+				timer_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%2.0f:%02.0f",
+	
+					offset = {
+						x = 200,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+						
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+	
+					settings = {
+						fill_direction = "Left to Right"
+					},
+	
+					offset = {
+						x = 0,
+						y = 17
+					},
+	
+					size = {
+						width = 240,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA76FD456,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
+				}
+			},
+
+			skills = {
+				name_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%s",
+	
+					include = {
+						skill_level = true
+					},
+	
+					offset = {
+						x = 5,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+	
+						color = 0xFF000000
+					}
+				},
+	
+				timer_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%2.0f:%02.0f",
+	
+					offset = {
+						x = 200,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+						
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+	
+					settings = {
+						fill_direction = "Left to Right"
+					},
+	
+					offset = {
+						x = 0,
+						y = 17
+					},
+	
+					size = {
+						width = 240,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA76FD456,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
+				}
+			},
+
+			weapon_skills = {
+				name_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%s",
+	
+					include = {
+						skill_level = true
+					},
+	
+					offset = {
+						x = 5,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+	
+						color = 0xFF000000
+					}
+				},
+	
+				timer_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%2.0f:%02.0f",
+	
+					offset = {
+						x = 200,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+						
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+	
+					settings = {
+						fill_direction = "Left to Right"
+					},
+	
+					offset = {
+						x = 0,
+						y = 17
+					},
+	
+					size = {
+						width = 240,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA76FD456,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
+				}
+			},
+
+			otomo_moves = {
+				name_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%s",
+	
+					include = {
+						skill_level = true
+					},
+	
+					offset = {
+						x = 5,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+	
+						color = 0xFF000000
+					}
+				},
+	
+				timer_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%2.0f:%02.0f",
+	
+					offset = {
+						x = 200,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+						
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+	
+					settings = {
+						fill_direction = "Left to Right"
+					},
+	
+					offset = {
+						x = 0,
+						y = 17
+					},
+	
+					size = {
+						width = 240,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA76FD456,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
+				}
+			},
+
+			misc_buffs = {
+				name_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%s",
+	
+					include = {
+						skill_level = true
+					},
+	
+					offset = {
+						x = 5,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+	
+						color = 0xFF000000
+					}
+				},
+	
+				timer_label = {
+					visibility = true,
+	
+					settings = {
+						right_alignment_shift = 0
+					},
+	
+					text_formatting = "%2.0f:%02.0f",
+	
+					offset = {
+						x = 200,
+						y = 0
+					},
+	
+					color = 0xFFFEFF88,
+	
+					shadow = {
+						visibility = true,
+	
+						offset = {
+							x = 1,
+							y = 1
+						},
+						
+						color = 0xFF000000
+					}
+				},
+	
+				bar = {
+					visibility = true,
+	
+					settings = {
+						fill_direction = "Left to Right"
+					},
+	
+					offset = {
+						x = 0,
+						y = 17
+					},
+	
+					size = {
+						width = 240,
+						height = 5
+					},
+	
+					outline = {
+						visibility = true,
+						thickness = 1,
+						offset = 0,
+						style = "Center"
+					},
+	
+					colors = {
+						foreground = 0xA76FD456,
+						background = 0xA7000000,
+						outline = 0xC0000000
+					}
 				}
 			}
 		},

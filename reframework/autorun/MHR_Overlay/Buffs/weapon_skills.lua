@@ -1044,6 +1044,12 @@ function this.update_bow_skills(player, player_data)
 	this.update_weapon_skill("arc_shot_brace", bow_type_name, nil, nil, player_data, super_armor_item_timer_field);
 end
 
+function this.init_all_UI()
+	for weapon_skill_key, weapon_skill in pairs(this.list) do
+		buffs.init_UI(weapon_skill);
+	end
+end
+
 function this.init_names()
 	for weapon_skill_key, weapon_skill in pairs(this.list) do
 		weapon_skill.name = this.get_weapon_skill_name(weapon_skill_key);

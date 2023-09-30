@@ -119,6 +119,18 @@ function this.apply_filter(key)
 	return buffs.apply_filter(this.list, config.current_config.buff_UI.filter.otomo_moves, key);
 end
 
+function this.init_all_UI()
+	for otomo_move_key, otomo_move in pairs(this.list) do
+		buffs.init_UI(otomo_move);
+	end
+end
+
+function this.init_names()
+	for otomo_move_key, otomo_move in pairs(this.list) do
+		otomo_move.name =  this.get_otomo_move_name(otomo_move_key);
+	end
+end
+
 function this.get_otomo_move_name(key)
 	local otomo_move_name = get_name_method:call(nil, otomo_moves_ids[key]);
 	if otomo_move_name == nil then

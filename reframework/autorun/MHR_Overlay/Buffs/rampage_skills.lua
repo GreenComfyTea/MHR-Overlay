@@ -91,9 +91,15 @@ function this.apply_filter(key)
 	return this.apply_filter(this.list, config.current_config.buff_UI.filter.rampage_skills, key);
 end
 
+function this.init_all_UI()
+	for rampage_skill_key, rampage_skill in pairs(this.list) do
+		buffs.init_UI(rampage_skill);
+	end
+end
+
 function this.init_names()
-	for rampage_skill_key, skill in pairs(this.list) do
-		skill.name = this.get_rampage_skill_name(rampage_skill_key);
+	for rampage_skill_key, rampage_skill in pairs(this.list) do
+		rampage_skill.name = this.get_rampage_skill_name(rampage_skill_key);
 	end
 end
 

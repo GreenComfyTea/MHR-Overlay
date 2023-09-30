@@ -500,9 +500,7 @@ function this.draw()
 	end
 
 	if buff_UI_changed or modifiers_changed or config_changed then
-		-- for _, buff in pairs(buffs.list) do
-		-- 	buffs.init_UI(buff);
-		-- end
+		buffs.init_all_UI();
 	end
 
 	if stats_UI_changed or modifiers_changed or config_changed then
@@ -2408,10 +2406,6 @@ function this.draw_buff_UI()
 		end
 
 		if imgui.tree_node(language.current_language.customization_menu.filter) then
-		
-			-- weapon_skills = "Weapon Skills",
-			-- otomo_moves = "Buddy Moves",
-			-- misc_buffs = "Misc Buffs",
 
 			if imgui.tree_node(language.current_language.customization_menu.abnormal_statuses) then
 
@@ -2587,18 +2581,148 @@ function this.draw_buff_UI()
 				imgui.tree_pop();
 			end
 
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.abnormal_statuses) then
+
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.abnormal_statuses.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.timer_label, cached_config.abnormal_statuses.timer_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.bar, cached_config.abnormal_statuses.bar);
+			config_changed = config_changed or changed;
+	
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.item_buffs) then
+	
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.item_buffs.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.timer_label, cached_config.item_buffs.timer_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.bar, cached_config.item_buffs.bar);
+			config_changed = config_changed or changed;
 
 			imgui.tree_pop();
 		end
 
-		changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.name_label);
-		config_changed = config_changed or changed;
+		if imgui.tree_node(language.current_language.customization_menu.endemic_life_buffs) then
+	
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.endemic_life_buffs.name_label);
+			config_changed = config_changed or changed;
 
-		changed = label_customization.draw(language.current_language.customization_menu.timer_label, cached_config.timer_label);
-		config_changed = config_changed or changed;
+			changed = label_customization.draw(language.current_language.customization_menu.timer_label, cached_config.endemic_life_buffs.timer_label);
+			config_changed = config_changed or changed;
 
-		changed = bar_customization.draw(language.current_language.customization_menu.bar, cached_config.bar);
-		config_changed = config_changed or changed;
+			changed = bar_customization.draw(language.current_language.customization_menu.bar, cached_config.endemic_life_buffs.bar);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.melody_effects) then
+	
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.melody_effects.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.timer_label, cached_config.melody_effects.timer_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.bar, cached_config.melody_effects.bar);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.dango_skills) then
+	
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.dango_skills.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.timer_label, cached_config.dango_skills.timer_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.bar, cached_config.dango_skills.bar);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.rampage_skills) then
+	
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.rampage_skills.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.timer_label, cached_config.rampage_skills.timer_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.bar, cached_config.rampage_skills.bar);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.skills) then
+
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.skills.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.timer_label, cached_config.skills.timer_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.bar, cached_config.skills.bar);
+			config_changed = config_changed or changed;
+	
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.weapon_skills) then
+	
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.weapon_skills.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.timer_label, cached_config.weapon_skills.timer_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.bar, cached_config.weapon_skills.bar);
+			config_changed = config_changed or changed;
+
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.otomo_moves) then
+
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.otomo_moves.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.timer_label, cached_config.otomo_moves.timer_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.bar, cached_config.otomo_moves.bar);
+			config_changed = config_changed or changed;
+	
+			imgui.tree_pop();
+		end
+
+		if imgui.tree_node(language.current_language.customization_menu.misc_buffs) then
+
+			changed = label_customization.draw(language.current_language.customization_menu.name_label, cached_config.misc_buffs.name_label);
+			config_changed = config_changed or changed;
+
+			changed = label_customization.draw(language.current_language.customization_menu.timer_label, cached_config.misc_buffs.timer_label);
+			config_changed = config_changed or changed;
+
+			changed = bar_customization.draw(language.current_language.customization_menu.bar, cached_config.misc_buffs.bar);
+			config_changed = config_changed or changed;
+		
+			imgui.tree_pop();
+		end
 
 		imgui.tree_pop();
 	end

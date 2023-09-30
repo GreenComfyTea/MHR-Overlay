@@ -215,6 +215,18 @@ function this.apply_filter(key, lua_index)
 	return true;
 end
 
+function this.init_all_UI()
+	for melody_effect_id, melody_effect in pairs(this.list) do
+		buffs.init_UI(melody_effect);
+	end
+end
+
+function this.init_names()
+	for melody_effect_id, melody_effect in pairs(this.list) do
+		melody_effect.name = this.get_melody_effect_name(melody_effect_id - 1);
+	end
+end
+
 function this.get_melody_effect_name(id)
 	local melody_effect_name = get_name_method:call(nil, id);
 	if melody_effect_name == nil then

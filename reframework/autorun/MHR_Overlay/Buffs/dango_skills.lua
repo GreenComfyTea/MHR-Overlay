@@ -344,6 +344,18 @@ function this.update_super_recovery_dango(player)
 	this.update_generic("super_recovery_dango");	
 end
 
+function this.init_all_UI()
+	for dango_skill_key, dango_skill in pairs(this.list) do
+		buffs.init_UI(dango_skill);
+	end
+end
+
+function this.init_names()
+	for dango_skill_key, dango_skill in pairs(this.list) do
+		dango_skill.name = this.get_dango_skill_name(dango_skill_key);
+	end
+end
+
 function this.get_dango_skill_name(key)
 	local dango_skill_id = dango_skill_ids[key];
 	if dango_skill_id == nil then

@@ -372,9 +372,15 @@ function this.update_sleep(player)
 	this.update_abnormal_status("sleep", nil, nil, player, sleep_duration_timer_field);
 end
 
+function this.init_all_UI()
+	for abnormal_status_key, abnormal_status in pairs(this.list) do
+		buffs.init_UI(abnormal_status);
+	end
+end
+
 function this.init_names()
-	for abnormal_status_key, debuff in pairs(this.list) do
-		debuff.name = this.get_abnormal_status_name(abnormal_status_key);
+	for abnormal_status_key, abnormal_status in pairs(this.list) do
+		abnormal_status.name = this.get_abnormal_status_name(abnormal_status_key);
 	end
 end
 

@@ -837,6 +837,12 @@ function this.update_blood_awakening(player, player_data)
 	this.update_skill("blood_awakening", player, get_equip_skill_232_lv_method, player_data, equip_skill_232_timer_field, nil, nil, blood_awakening_breakpoints);
 end
 
+function this.init_all_UI()
+	for skill_key, skill in pairs(this.list) do
+		buffs.init_UI(skill);
+	end
+end
+
 function this.init_names()
 	for skill_key, skill in pairs(this.list) do
 		skill.name = this.get_skill_name(skill_key);

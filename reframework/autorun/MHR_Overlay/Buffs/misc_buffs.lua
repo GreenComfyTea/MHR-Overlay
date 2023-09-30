@@ -148,9 +148,15 @@ function this.update_attack_up(player_data, item_parameter)
 	this.update_misc_buff("attack_up", nil, nil, player_data, atk_up_buff_second_timer_field);
 end
 
+function this.init_all_UI()
+	for misc_buff_key, misc_buff in pairs(this.list) do
+		buffs.init_UI(misc_buff);
+	end
+end
+
 function this.init_names()
-	for misc_buff_key, dango in pairs(this.list) do
-		dango.name =  this.get_misc_buff_name(misc_buff_key);
+	for misc_buff_key, misc_buff in pairs(this.list) do
+		misc_buff.name =  this.get_misc_buff_name(misc_buff_key);
 	end
 end
 

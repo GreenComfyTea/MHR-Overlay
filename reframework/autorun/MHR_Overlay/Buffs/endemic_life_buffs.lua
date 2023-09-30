@@ -179,6 +179,18 @@ function this.update_butterflame(player_data)
 	this.update_endemic_life_buff("butterflame", nil, nil, player_data, atk_up_buff_second_timer_field);
 end
 
+function this.init_all_UI()
+	for endemic_life_key, endemic_life in pairs(this.list) do
+		buffs.init_UI(endemic_life);
+	end
+end
+
+function this.init_names()
+	for endemic_life_key, endemic_life in pairs(this.list) do
+		endemic_life.name = this.get_endemic_life_name(endemic_life_key);
+	end
+end
+
 function this.get_endemic_life_name(key)
 	if singletons.message_manager == nil then
 		error_handler.report("endemic_life_buffs.get_endemic_life_name", "Failed to access Data: message_manager");

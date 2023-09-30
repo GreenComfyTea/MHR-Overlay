@@ -282,6 +282,18 @@ function this.update_might_seed(player_data, item_parameter)
 	this.update_item_buff("might_seed", nil, nil, player_data, atk_up_buff_second_timer_field);
 end
 
+function this.init_all_UI()
+	for item_buff_key, item_buff in pairs(this.list) do
+		buffs.init_UI(item_buff);
+	end
+end
+
+function this.init_names()
+	for item_buff_key, item_buff in pairs(this.list) do
+		item_buff.name = this.get_item_buff_name(item_buff_key);
+	end
+end
+
 function this.get_item_buff_name(key)
 	local item_buff_name = get_name_method:call(nil, item_ids[key]);
 	if item_buff_name == nil then

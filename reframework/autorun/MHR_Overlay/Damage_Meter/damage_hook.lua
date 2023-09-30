@@ -231,33 +231,6 @@ function this.update_damage(enemy, enemy_calc_damage_info)
 
 	players.update_damage(players.total, damage_source_type, is_large_monster, damage_object);
 	players.update_damage(player, damage_source_type, is_large_monster, damage_object);
-
-	--[[xy = string.format(
-		
-			PhysicalPartsVitalDamage(): 		%s
-			PhysicalPartsBreakVitalDamage():	%s
-			PhysicalPartsLossVitalDamage():		%s
-			PhysicalMultiPartsVitalDamage():	%s
-
-			ElementPartsVitalDamage():			%s
-			ElementPartsBreakVitalDamage():		%s
-			ElementPartsLossVitalDamage():		%s
-			ElementMultiPartsVitalDamage():		%s
-
-			IsBreakPartsDamage():				%s
-		,
-		tostring(enemy_calc_damage_info:get_PhysicalPartsVitalDamage()),
-		tostring(enemy_calc_damage_info:get_PhysicalPartsBreakVitalDamage()),
-		tostring(enemy_calc_damage_info:get_PhysicalPartsLossVitalDamage()),
-		tostring(enemy_calc_damage_info:get_PhysicalMultiPartsVitalDamage()),
-
-		tostring(enemy_calc_damage_info:get_ElementPartsVitalDamage()),
-		tostring(enemy_calc_damage_info:get_ElementPartsBreakVitalDamage()),
-		tostring(enemy_calc_damage_info:get_ElementPartsLossVitalDamage()),
-		tostring(enemy_calc_damage_info:get_ElementMultiPartsVitalDamage()),
-
-		tostring(enemy_calc_damage_info:get_IsBreakPartsDamage())
-	);]]
 end
 
 function this.cart(dead_player_id, flag_cat_skill_insurance)

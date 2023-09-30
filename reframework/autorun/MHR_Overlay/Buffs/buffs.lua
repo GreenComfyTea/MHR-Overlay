@@ -111,15 +111,34 @@ function this.init_buffs()
 	this.list = {};
 end
 
+function this.init_all_UI()
+	abnormal_statuses.init_all_UI();
+	item_buffs.init_all_UI();
+	endemic_life_buffs.init_all_UI();
+	melody_effects.init_all_UI();
+	dango_skills.init_all_UI();
+	rampage_skills.init_all_UI();
+	skills.init_all_UI();
+	weapon_skills.init_all_UI();
+	otomo_moves.init_all_UI();
+	misc_buffs.init_all_UI();
+end
+
 function this.init_UI(buff)
-	local cached_config = config.current_config.buff_UI;
+	local cached_config = config.current_config.buff_UI[buff.type];
 	buff.buff_UI = buff_UI_entity.new(cached_config.bar, cached_config.name_label, cached_config.timer_label);
 end
 
 function this.init_names()
 	abnormal_statuses.init_names();
+	item_buffs.init_names();
+	endemic_life_buffs.init_names();
+	melody_effects.init_names();
+	dango_skills.init_names();
+	rampage_skills.init_names();
 	skills.init_names();
 	weapon_skills.init_names();
+	otomo_moves.init_names();
 	misc_buffs.init_names();
 end
 
