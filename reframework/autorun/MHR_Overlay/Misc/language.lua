@@ -780,6 +780,8 @@ this.default_language = {
 		update_buffs_delay = "Update Buffs (seconds)",
 
 		infinite_buffs_location = "Infinite Buffs Location",
+
+		skill_level = "Skill Level"
 	},
 };
 
