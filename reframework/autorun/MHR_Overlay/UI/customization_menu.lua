@@ -442,6 +442,96 @@ function this.draw()
 	imgui.new_line();
 	debug_changed = this.draw_debug();
 
+	-- local lorem_ipsum = [[
+	-- 	Japanese:
+	-- 	個、えろつのはんエセコモニョ雲雲てなっけもいてのょり阿目手区きも模差露毛阿はら雲毛かくれめ二野なすなまよひか氏氏くっ瀬知魔んよ絵魔て列離日ね留差ほつれつえてゆせそそ、都、うし絵らにな根遊二雲以ゆ野目るヒカヤロ、オシレ遊擢ねてゆ等手津もえ。津阿みこえ知氏阿ンカカおぬやてと。
+	-- 	おせす尾樹目個二阿樹ねけゃもたら。おうょる阿雲けてろふ尾課二毛日ニュサのへひ課遊にらそほき離以ろひむもふそろは素日シキハモゅつ野知つせ毛舳ひ列留よせ御遊舳れつ、ねすんと譜保。以樹。夜津尾派露鵜り手手すやとれあろまめにて、こに列留魔知他列二樹ほ。はつに保知等てまゃ無夜とひけやへこ。
+	-- 	素派目鵜ちうはえなエヘフレキ、派知他瀬列遊根区いな都留手けもつっそぬりいゆおふゅれもイタキホ無二コチクキやそるき野毛以そいはぬうめ御んせたくめ遊模魔つ鵜阿ほよほつ擢以露、等離譜ぬれ鵜ゆおきまうるかせ擢ひたフンユ。
+	-- 	保ゆぬホノハスシカ以屋ら日模へたよ樹手手まお手根派御マツッセチカら、ヒョアレょへち保以屋瀬キョュナめにゆな樹舳毛手え鵜留等瀬ほえ夜区鵜根目名阿絵区日素めフルモョヌスリサクマテカ根鵜さおゆヒエサレ露日鵜留りすせいへたそりるきや個舳らそめっっ知二阿露きね課譜名けょひ根区列以樹個。列津以模ャセャサョみうえのらす鵜派舳。
+	-- 	目個なふ、そゃ氏区、鵜瀬保以露遊やはみすき舳課保手舳津譜素個等くせうアメヨルラチヘ留素保手氏たえたお露瀬日毛野ちふ巣課瀬日留列ぬりにほゆ絵擢名模。ふの。っうつゆ、みょタノフカ目列巣舳手知けすん手魔、無雲の課ゅおんりょ。
+	-- 	魔雲留課舳根舳か手素二はめ差ーャオシ津やちんなふやてもか列等以露つまえよ。はゆて擢露譜へねょ以区ねのへふもとゃえきナュユモトヌセ樹列知阿阿他列等みれとほルスナ。魔お区ゃゅね素遊ふにふ以個素日絵こもとれち。ゆゆっや阿絵ちネネむろ夜派等阿離知手氏るつねおきえ巣留夜派雲名目他ュノミサミキメウケヘ。
+	-- 	氏毛かき夜鵜まのひよかひほねに他んんはし、しへ課氏模めなサシヌケミヘけんむりひめめえもこほよ。差根トャレムリテメへめメメ個差津らめのはょゃ巣えせく列名個舳もま個派るみめ根鵜、きすめ区瀬屋雲れ。鵜留譜夜ツリミふたれ個とい「めつょめこったゅふ」ゅ、すぬやら日区尾等手んひ模、マホセね絵絵コヤヌマ絵んんっへけなぬ野差課瀬ゅり絵等ウチイヌヘ樹、雲他ねろくす名無尾派手遊等区雲そほせるえ派列。
+	-- 	よそ津根差屋雲う夜舳野絵こさほえふろクヒはす目鵜っえンノネモソ尾野毛おむめ保日等夜ささえゃうあ列瀬ョイニケョセオウュレヘすすさめ、ぬちひぬはゅれしまろむ屋知まきぬむのひひの目津名二名尾無知め区津津瀬えくよほえっしえお目個留瀬毛譜二雲野知屋ぬ差無鵜のやゆアコハサシヤ根素手無、や模露ョヌヒムフクミ。
+	-- 	きまるふかいゅみ他夜都知手野雲サヨシ舳露。くち、野フノユタせおょち目課るれらつはッサウセモュムオンョ無尾列かりのこけろイネいまてめの、絵夜毛遊毛離差無以素課瀬日ゆこう素瀬シサスヒモン列擢はやせ留知名すさぬ。
+	-- 	魔等むホカヨアるユチエリサ御都。素樹絵そたゃ擢個尾列ま無雲知名セイ譜津遊たち夜尾ゅっきたろん無模毛都遊ゆ名差。さ雲目ちゆゅんれ、素御やひい巣擢樹つあそ魔、模都以巣舳すれ鵜以「鵜ヘノメヨメヘにさ」もちかしみっはまひゅねほら鵜保尾氏派かろるめあ。遊目樹目鵜毛はせなへめ。
+
+	-- 	English:
+	-- 	abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+	-- 	French:
+	-- 	abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ Àà Ââ Ææ Çç Éé Èè Êê Ëë Îî Ïï Ôô Œœ Ùù Ûû Üü Ÿÿ
+
+	-- 	German:
+	-- 	abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ Ä Ü Ö ß
+
+	-- 	Italian:
+	-- 	abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+	-- 	Spanish:
+	-- 	abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ Ññ 
+
+	-- 	Russian:
+	-- 	абвгдеёжзийклмнопрстуфцчшщъыьэюя АБВГДЕЁЖЗИЙКЛМНОПРСТУФЦЧШЩЪЫЬЭЮЯ
+
+	-- 	Polish:
+	-- 	abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ Ąą Ćć Ęę Łł Ńń Óó Śś Źź Żż é
+
+	-- 	Brazilian Portuguese:
+	-- 	abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+	-- 	Korean
+	-- 	ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅅ ㅇ ㅈ ㅊ ㅋ ㅌ ㅍ ㅎㅏ ㅑ ㅓ ㅕ ㅗ ㅛ ㅜ ㅠ ㅡ ㅣㄲ ㄸ ㅃ ㅉ ㅆ ㅢ ㅚ ㅐ ㅟ ㅔ ㅒ ㅖ ㅘ ㅝ ㅙ ㅞ
+	-- 	기관과 간에 이 것이다. 풀밭에 부패뿐이다, 보라, 봄바람이다. 희망의 황금시대다, 못할 앞이 지혜는 공자는 평화스러운 그리하였는가? 긴지라 청춘이 없으면 바이며, 우리의 길지 미묘한 무엇을 끝에 것은 사는가 끓는다. 인류의 그것을 같이.
+	-- 	같으며, 물방아 예수는 풍부하게 이상의 있으랴? 그들의 용기가 튼튼하며, 사라지지 보내는 내려온 위하여서 꽃이 것이다. 심장의 피가 고행을 무한한 끝까지 보라. 같이. 그리하였는가? 무엇이 넣는 물방아 봄바람이다. 이것은 청춘의 있는 이것이다. 못할 방지하는 구하기 능히 속에 피다.
+	-- 	찾아다녀도. 쓸쓸한 생생하며. 찾아다녀도. 튼튼하며. 이상의 피다, 눈에 새가 피부가 그들의 그들의 작고 것은 운다. 부패를 인생에 이상은 보배를 그리하였는가? 품었기 창공에 작고 커다란 용기가 것이 것이다, 쓸쓸하랴?이것을 심장의 긴지라 착목한는 것이다.
+	-- 	속에 우리 그들은 광야에서 인생에 노년에게서 청춘이 동산에는 것이다. 얼음과 할지니. 길지 낙원을 대한 말이다. 뭇 피가 이것이다, 풍부하게 바이며. 살았으며. 스며들어 착목한는 이상은 우리 밥을 그들은 평화스러운 용기가 칼이다, 방황하여도.
+	-- 	얼음과 장식하는 아니한 있다. 소금이라 온갖 너의 것이다. 눈이 동력은 그들의 이상. 끓는 뼈 이상은 싶이 보내는 인간의 뿐이다, 피어나는 착목한는 이것이야말로 사랑의 쓸쓸하랴? 가치를 그것을 놀이 싸인 무엇이 이것이다. 곧 않는 풀밭에 것은 용감하고 낙원을 황금시대다. 몸이 인간의 교향악이다. 너의 반짝이는 우리의 방지하는 아름다우냐? 트고.
+	-- 	힘차게 이 같으며, 앞이 동력은 인생의 바로 심장은 바이며. 역사를 고동을 약동하다. 실현에 투명하되 별과 낙원을 듣는다. 구하지 같은 노년에게서 열락의 이상의 있으며, 같지 인간은 위하여. 못할 가치를 인생을 그들은 무엇이 내려온 때문이다, 하는 꽃 인간의 같이 미인을 인생을 이것이다.
+	-- 	용감하고 때에. 가치를 기관과 그러므로 사랑의 이상은 살았으며. 방황하였으며. 그들은 방황하여도. 그들은 철환하였는가 운다. 끝에 동산에는 눈이 풀이 동력은 품에 주는 일월과 아름다우냐? 가는 같은 하여도 그리하였는가? 주는 몸이 위하여. 목숨을 이것은 곧 피부가 날카로우나 위하여 청춘의 위하여. 약동하다.
+	-- 	불러 과실이 가는 쓸쓸하랴? 보내는 것이 뜨거운지라. 것이다. 가치를 인간은 풀이 이상 하여도 없으면. 산야에 위하여. 피고. 모래뿐일 낙원을 바이며, 우리 작고 바로 많이 있는 위하여서, 길지 피가 시들어 힘차게 주며.
+	-- 	아름답고 그들에게 꽃 그러므로 약동하다. 만물은 품었기 따뜻한 석가는 봄바람이다. 천지는 크고 것이다. 구할 이상의 무한한 눈이 것이다. 그와 이상의 사랑의 바로 보배를 가지에 동력은 열매를 사막이다. 같이 것이 할지니. 인생에 기쁘며. 방황하였으며.
+	-- 	우리의 찬미를 없으면 아니더면. 그러므로 인생에 얼마나 그것은 것이다. 바이며. 얼음에 그들의 시들어 하였으며, 것이다. 천자만홍이 품었기 청춘이 끓는 않는 끓는다. 같이 발휘하기 열매를 예수는 인생의 때문이다, 얼음과 낙원을 우리의 없으면 용기가 이것이야말로 돋고.
+
+	-- 	Chinese Traditional:
+	-- 	枝測歳就大治昔室帯師象験庁編共。識問好加者元位指領化書今情。究都高転一質年語聞療土児任記流成週照竹定。房宿案月新報謙欺上健済逮毎子祭。籍成未移違行彩暮者多謝略文。提校意社接停報適増交匠氏室絶。導購説瞬彼花町提談氷計票記載聞防需。暮貢毎水細文東降健与回勢。年読治教来詳指答販名殺平芸民必和。薬幹読輔断事那主放合変端英利走。
+	-- 	団無次住時問多事権少全般執理凱声透浄記。警国消報提造幾事連野投算伊見。活対真覧意近話大上日長点。提催思展産一可子心参幅一犠。標問鳴開台前由有違済任木必乗岐問費氏応録。基集引具下応日続年官者局両覧能種傷次。変年南調年流撃張代延見幕金物逆上記決地。誰事路専金拓数質大法判図部石。野親二画減頭絞選同支著全意策賭落必能。
+	-- 	個記郎梅政格棋明北情偉支禁趣択旋議。切気功首日始格科打浮夕位端木。更房野実瞬保拠融元図航申憂機攻堀界景。権政闘催偽各遅果五面方代谷。覧登睦輪味身属博同二思裂開治。聞足事年人督治進開済郷疑芸用多。化事惑火広想三報共図京場一罪述合音。名町差導電国費陸済足景時口遺再写搬。者禁宅茶議手天保内術結生社受健問開。
+	-- 	光話今世日員月供団載社池委撮観実造北規。一特通従貴和上美井買板婦放開記市総。図枝向旅刻野欲内放賛好千率初。初戦掛要保社際転目読以急活変反読。産程士旬介抗吉両過国芸社着民若所務田南。会立名尚講派話教事中自種浜。治謙績信歓土力松笑会億果併。路研害多響測求阿知高超学和影念。能提腹国碁問思全除札図講敗円張任北況。
+	-- 	術高歌道転認情女必浜阪起者外。属芋辞土理性聞東音供昭豊裕。料三実玉短別上立童守庭終京社点協開。処模歩棚員要育通人筑変品転。覚並稿災答瑞用能見特阪受洲退。青般見販住悲識教東回福川演取確康対学足。開町体之室売世態略味器庁転北習。誰属役編研扱玲宰勝世利稿痕見話携問。午使際季回成読写子陸校稿図変逃時樹。
+	-- 	健要南浜紹神名元田価散細後療熱郎顧。調現速清質宅対把辺急建所必強題演有見。柴別聴試互行門浩詐左話判私由屋。意類打円全施引権豊共打禁再雪。場含納験圧目表説磯開利世家東積月断在極業。勝撮意道面間打低転彰終鳥徹。著北案社族来破転大力収見運任企。有富景油購石超支自神報直雪追真根。約車万視作男審弱書化求住人要連元極。
+	-- 	載改阜新社保聞活辺盤司間情渡問。登第実止領著義望施変模彼務説企。里科遊事事訴病危芸留際年芸掲問。告著営元住課提遂対呼問暮成。提発下限時軋小主百北明合聴社告送肪響際。林査今浪米特宇会北購玲健。記語吉延恋流終社費士西標下検器北家担。理極載価問木世鱸籍治勢浮芸予可百。道敗組解住人真始日美幹録送件子治。
+	-- 	面好沿上全業物速効炭時題界表変省磁因。警学際年準訳時俊用岡鋭呼漢。賞団堂情開体性子転権貴顔考裁崩経。舞詰池碁田魚経紀情宮動施再。新嶋乳引済下守提公生春際目。蔵家代通資町者量村法年東仕題。合親講好治秋根主表必背元方碁任江部医。権海献停完定質対済興造載非禁納独野池時。最長覧事堂定創人検新経要企。賞経上関工写時声繊園人恥大。
+	-- 	疎舎岡実約来新心境広長腹本蓮茎気宅費。警間表川舞傾考暴圏無量顔召検密需惑領。平朝使一在士面地芸要問海街了連。館想児作入新謙的質木極原辞田係摘営。生車賞石破載記枚川弁題立重禁。着演郷任和総能天講中全転才部。層愛続好務橋疾土健給節球情合。業国場鈴圏断埼画検判氏品購情写者校思。図技衝舞強読画再上査趣発府挑侵。
+	-- 	部国為経番弘超首応理貸駆面橋以内。打郵西版庁車支特手世用面。運崎王穏小込画録量全度彦綿視補囲提的辺解。掲子乳百面自紀古測市際変年月。目京協投大講子経跡備株年更職室。為鈴門輸田学碁花法国務理。津再合紹覧岳容春言馬通返。銭著問転写命久広覧葉女提供覧日第精戻王点。評白付難担変切見雨潔速八。席長日倉魚開玲理料報男本業負文一衛。
+
+	-- 	Chinese Simplified:
+	-- 	住們投水覺很你音行行定把
+	-- 	古特縣人同，能的開電際認所友吸賣子如目眼它時李了做廣加令另受香大有積我喜士成施到山不且回推。
+	-- 	病是大西參的金：期那代、對一物而書車書濟熱她。現美影海當投中一生放準時鄉機；起遠富行……我在開們住這，為明調主情今……決像民覺起政管是性：集物萬屋師後時但或裝邊裡腳，支而可論不沒毒業難統息精上父適。
+	-- 	告像經功滿一我爭我收學有代。始狀裝園時火型隨不精？
+	-- 	第我光：倒沒平成想這清對朋目才設平業。配力我學，條一上何法語氣會倒著有美時人下也創進道香臺水著們府。
+	-- 	解裡什；甚國對經吃上個了白？要來北維外就古要何大作女由會為資，臺師爭一主機大時像遠百究到下目往有生怕運上回，房會成不岸術員一，國我親得。隊是下過分人來才體風精，對答水球制也，沒當吸在女王此存頭黃人建有性、不樣影、關的國課：通當作平何你得早獨以面處，傳林票由是麗的也朋決顧我想各術有險，商日則山的不配那話在黨進相許一們春界企、政會家視業，門行差加那當野此不林打願。一強起，住大熱總成百花。
+
+	-- 	Arabic: 
+	-- 	ا   ب 	ت 	ث 	ج 	ح 	خ 	د 	ذ 	ر 	ز 	س 	ش 	ص 	ض 	ط 	ظ 	ع 	غ 	ف 	ق 	ك 	ل 	م 	ن 	ه 	و 	ي 	ء
+
+	-- 	لان هنا؟ عجّل العسكري أن, تم يبق يرتبط اسبوعين وباستثناء, فصل قامت العمليات التغييرات أي. غير هُزم وسوء بداية مع, أجزاء المدن ثم عرض. أم كلا غضون حاملات, وبدأت المبرمة تشيكوسلوفاكيا أي الى. ومطالبة واندونيسيا، جعل ثم.
+	-- 	قد بتطويق مقاومة الإقتصادي ومن. أن عملية يعادل وفي, خلاف جديداً ضرب ثم, و الشهير التبرعات بحق. لم اسبوعين ألمانيا الجنرال بين. أملاً الإيطالية عدد ما, تونس انتهت أم وفي, ثمّة وبدأت استراليا، تلك أي. ثم إبّان عالمية قُدُماً بعد. يبق عجّل بقسوة الشرقي عن.
+	-- 	أن أخر أسابيع الأسيوي, ٣٠ الحكم مسارح الحيلولة تعد. بلا تمهيد الثالث وقوعها، لم, ضرب خطّة مرجع تجهيز ثم. سابق أواخر حكومة ومن بـ, أن يبق المواد ليتسنّى بريطانيا, ألمّ تاريخ السفن تم جهة. والنفيس والفلبين أسر بل.
+	-- 	دون هو الدمج انتباه بريطانيا،, ثم حصدت ساعة واعتلاء شيء. شيء تم أدنى وسمّيت المتاخمة, إيو عل لعدم مشروط مقاطعة. بل تطوير حاملات بمباركة وصل, كما قُدُماً بالولايات بـ. دون الثالث، للإتحاد وحلفاؤها أم, أمّا والديون الأثناء، ذلك قد.
+	-- 	ما أحكم مواقعها لان. الأرواح لتقليعة بـ الا, مايو ومحاولة المتساقطة، فقد تم. لم بخطوط تشيكوسلوفاكيا ذات, بلا لم مساعدة الجنرال, ان خطّة للأراضي ذلك. لم كانت كانتا تغييرات بحق. دون أي عشوائية باستحداث.
+	-- 	ذلك بقصف البشريةً كل. كنقطة اعلان بالولايات من بين, أخذ وسوء الساحل لم, بقيادة إتفاقية الإثنان لم لها. وبدأت السيطرة المشتّتون عل بين, عن إعادة انتهت للإتحاد أخر. إذ ليرتفع وتتحمّل عدد. مايو فكانت كما كل.
+	-- 	قد مارد الإقتصادية حول, حتى أم وأزيز مساعدة الأرضية, بحق ما خطّة وتتحمّل. بـ غير تنفّس البرية ولكسمبورغ, تم جهة عقبت أسيا. تعداد المارق بمحاولة بـ الى, لم أعمال عشوائية بين. أم حيث هُزم أثره، ليركز, لأداء المارق فصل ما. أسر لم لهيمنة السيطرة. ما إيو لإنعدام التقليدي وبالتحديد،.
+	-- 	كان كل خلاف موالية, بال ثم غريمه بتحدّي. هذا هو وترك تحرير, فصل من فرنسية واستمرت. مع قبضتهم ويكيبيديا فصل. ما فهرست وحلفاؤها بلا, كما مع ٠٨٠٤ وسمّيت استطاعوا.
+	-- 	أن ويعزى الشهيرة بالرّغم تحت. مع أسر رئيس ماليزيا، المتساقطة،, فمرّ اليابان الحيلولة كلا في. دار ما غرّة، يتعلّق, موالية المواد لبلجيكا، في بين, أحكم المجتمع التنازلي تم ومن. يبق جديدة إعادة مكثّفة ان, لإعادة جزيرتي واعتلاء بال ما. الخاسرة بالإنزال ما يتم, اسبوعين الأثناء، حيث أم.
+	-- 	فشكّل الإتفاقية قد كان, ابتدعها وفنلندا بل انه. في جهة تاريخ احداث تكتيكاً, أمام للصين إختار وتم إذ. أما بأضرار الربيع، عشوائية من, وشعار نهاية كُلفة بل تحت. هو أخذ اوروبا الأسيوي قُدُماً. دون في للصين فرنسا أدوات. غير تسبب الذود الأحمر ثم.
+
+	-- 	Latin American Spanish:
+	-- 	abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ Ññ
+	-- ]];
+
+	-- imgui.text(lorem_ipsum);
+
 	imgui.pop_font();
 	imgui.end_window();
 
@@ -2421,10 +2511,10 @@ function this.draw_buff_UI()
 
 			if imgui.tree_node(language.current_language.customization_menu.item_buffs) then
 		
-				for _, key in ipairs(item_buffs.keys) do
-					changed, cached_config.filter.item_buffs[key] = imgui.checkbox(
-						item_buffs.get_item_buff_name(key), cached_config.filter.item_buffs[key]);
+				local cached_language = language.current_language.item_buffs; 
 
+				for _, key in ipairs(item_buffs.keys) do
+					changed, cached_config.filter.item_buffs[key] = imgui.checkbox(cached_language[key], cached_config.filter.item_buffs[key]);
 					config_changed = config_changed or changed;
 				end
 
@@ -2432,11 +2522,11 @@ function this.draw_buff_UI()
 			end
 
 			if imgui.tree_node(language.current_language.customization_menu.endemic_life_buffs) then
-		
-				for _, key in ipairs(endemic_life_buffs.keys) do
-					changed, cached_config.filter.endemic_life_buffs[key] = imgui.checkbox(
-						endemic_life_buffs.get_endemic_life_name(key), cached_config.filter.endemic_life_buffs[key]);
+				
+				local cached_language = language.current_language.endemic_life; 
 
+				for _, key in ipairs(endemic_life_buffs.keys) do
+					changed, cached_config.filter.endemic_life_buffs[key] = imgui.checkbox(cached_language[key], cached_config.filter.endemic_life_buffs[key]);
 					config_changed = config_changed or changed;
 				end
 
@@ -2445,14 +2535,15 @@ function this.draw_buff_UI()
 
 			if imgui.tree_node(language.current_language.customization_menu.melody_effects) then
 		
+				local cached_language = language.current_language.melody_effects; 
+
 				for lua_index, key in ipairs(melody_effects.keys) do
+					-- Health Recovery (S), Health Recovery (L), Health Recovery (S) + (Antidote), Sonic Wave
 					if (lua_index >= 16 and lua_index <= 18) or lua_index == 24 then
 						goto continue;
 					end
 
-					changed, cached_config.filter.melody_effects[key] = imgui.checkbox(
-						melody_effects.get_melody_effect_name(lua_index - 1), cached_config.filter.melody_effects[key]);
-
+					changed, cached_config.filter.melody_effects[key] = imgui.checkbox(cached_language[key], cached_config.filter.melody_effects[key]);
 					config_changed = config_changed or changed;
 
 					::continue::
@@ -2463,10 +2554,10 @@ function this.draw_buff_UI()
 
 			if imgui.tree_node(language.current_language.customization_menu.dango_skills) then
 		
-				for _, key in ipairs(dango_skills.keys) do
-					changed, cached_config.filter.dango_skills[key] = imgui.checkbox(
-						dango_skills.get_dango_skill_name(key), cached_config.filter.dango_skills[key]);
+				local cached_language = language.current_language.dango_skills; 
 
+				for _, key in ipairs(dango_skills.keys) do
+					changed, cached_config.filter.dango_skills[key] = imgui.checkbox(cached_language[key], cached_config.filter.dango_skills[key]);
 					config_changed = config_changed or changed;
 				end
 
@@ -2475,9 +2566,10 @@ function this.draw_buff_UI()
 
 			if imgui.tree_node(language.current_language.customization_menu.rampage_skills) then
 		
+				local cached_language = language.current_language.rampage_skills; 
+
 				for _, key in ipairs(rampage_skills.keys) do
-					changed, cached_config.filter.rampage_skills[key] = imgui.checkbox(
-						rampage_skills.get_rampage_skill_name(key), cached_config.filter.rampage_skills[key]);
+					changed, cached_config.filter.rampage_skills[key] = imgui.checkbox(cached_language[key], cached_config.filter.rampage_skills[key]);
 
 					config_changed = config_changed or changed;
 				end
@@ -2487,10 +2579,10 @@ function this.draw_buff_UI()
 
 			if imgui.tree_node(language.current_language.customization_menu.skills) then
 
-				for _, key in ipairs(skills.keys) do
-					changed, cached_config.filter.skills[key] = imgui.checkbox(
-						skills.get_skill_name(key), cached_config.filter.skills[key]);
+				local cached_language = language.current_language.skills; 
 
+				for _, key in ipairs(skills.keys) do
+					changed, cached_config.filter.skills[key] = imgui.checkbox(cached_language[key], cached_config.filter.skills[key]);
 					config_changed = config_changed or changed;
 				end
 		
@@ -2500,17 +2592,17 @@ function this.draw_buff_UI()
 			if imgui.tree_node(language.current_language.customization_menu.weapon_skills) then
 		
 				for _, weapon in ipairs(weapon_skills.keys) do
-
 					if imgui.tree_node(language.current_language.weapons[weapon.key]) then
 
 						local cached_weapon_filter = cached_config.filter.weapon_skills[weapon.key];
+						local cached_language = language.current_language.weapon_skills[weapon.key]; 
 
 						for _, key in ipairs(weapon.skill_keys) do
-							local name = weapon_skills.get_weapon_skill_name(key);
+							local name = cached_language[key];
 
 							if key == "spirit_gauge_autofill" then
-								local soaring_kick_name = weapon_skills.get_weapon_skill_name("soaring_kick");
-								local iai_slash_name = weapon_skills.get_weapon_skill_name("iai_slash");
+								local soaring_kick_name = tostring(cached_language.soaring_kick);
+								local iai_slash_name = tostring(cached_language.iai_slash);
 								name = string.format("%s (%s, %s)", name, soaring_kick_name, iai_slash_name);
 							end
 
@@ -2529,10 +2621,10 @@ function this.draw_buff_UI()
 
 			if imgui.tree_node(language.current_language.customization_menu.otomo_moves) then
 
-				for _, key in ipairs(otomo_moves.keys) do
-					changed, cached_config.filter.otomo_moves[key] = imgui.checkbox(
-						otomo_moves.get_otomo_move_name(key), cached_config.filter.otomo_moves[key]);
+				local cached_language = language.current_language.otomo_moves; 
 
+				for _, key in ipairs(otomo_moves.keys) do
+					changed, cached_config.filter.otomo_moves[key] = imgui.checkbox(cached_language[key], cached_config.filter.otomo_moves[key]);
 					config_changed = config_changed or changed;
 				end
 		
@@ -2541,39 +2633,40 @@ function this.draw_buff_UI()
 
 			if imgui.tree_node(language.current_language.customization_menu.misc_buffs) then
 
+				local cached_language = language.current_language.misc_buffs;
+
 				for _, key in ipairs(misc_buffs.keys) do
-					local name = misc_buffs.get_misc_buff_name(key);
+					local name = cached_language[key];
 
 					if key == "attack_up" then
 
-						local might_seed_name = item_buffs.get_item_buff_name("might_seed");
-						local dango_bulker_name = dango_skills.get_dango_skill_name("dango_bulker");
-						local chameleos_soul_name = rampage_skills.get_rampage_skill_name("chameleos_soul");
+						local might_seed_name = tostring(language.current_language.item_buffs.might_seed);
+						local dango_bulker_name = tostring(language.current_language.dango_skills.dango_bulker);
+						local chameleos_soul_name = tostring(language.current_language.rampage_skills.chameleos_soul);
 						name = string.format("%s (%s, %s, %s)", name, might_seed_name, dango_bulker_name, chameleos_soul_name);
 
 					elseif key == "defense_up" then
 
-						local adamant_seed_name = item_buffs.get_item_buff_name("adamant_seed");
-						local chameleos_soul_name = rampage_skills.get_rampage_skill_name("chameleos_soul");
+						local adamant_seed_name = tostring(language.current_language.item_buffs.adamant_seed);
+						local chameleos_soul_name = tostring(language.current_language.rampage_skills.chameleos_soul);
 
 						name = string.format("%s (%s, %s)", name, adamant_seed_name, chameleos_soul_name);
 					elseif key == "stamina_use_down" then
 
-						local dash_juice_name = item_buffs.get_item_buff_name("dash_juice");
-						local peepersects_name = endemic_life_buffs.get_endemic_life_name("peepersects");
-						local chameleos_soul_name = rampage_skills.get_rampage_skill_name("chameleos_soul");
+						local dash_juice_name = tostring(language.current_language.item_buffs.dash_juice);
+						local peepersects_name = tostring(language.current_language.endemic_life.peepersects);
+						local chameleos_soul_name = tostring(language.current_language.rampage_skills.chameleos_soul);
 
 						name = string.format("%s (%s, %s, %s)", name, dash_juice_name, peepersects_name, chameleos_soul_name);
 					elseif key == "natural_healing_up" then
 
-						local immunizer_name = item_buffs.get_item_buff_name("immunizer");
-						local vase_of_vitality_name = otomo_moves.get_otomo_move_name("vase_of_vitality");
+						local immunizer_name = tostring(language.current_language.item_buffs.immunizer);
+						local vase_of_vitality_name = tostring(language.current_language.otomo_moves.vase_of_vitality);
 
 						name = string.format("%s (%s, %s)", name, immunizer_name, vase_of_vitality_name);
 					end
 
-					changed, cached_config.filter.misc_buffs[key] = imgui.checkbox(
-						name, cached_config.filter.misc_buffs[key]);
+					changed, cached_config.filter.misc_buffs[key] = imgui.checkbox(name, cached_config.filter.misc_buffs[key]);
 
 					config_changed = config_changed or changed;
 				end

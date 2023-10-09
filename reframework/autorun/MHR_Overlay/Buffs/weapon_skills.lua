@@ -110,9 +110,9 @@ this.keys = {
 	{
 		key = "long_sword",
 		skill_keys = {
-			"spirit_gauge_autofill", -- Soaring Kick, Iai Slash
+			"harvest_moon",
 			"spirit_gauge",
-			"harvest_moon"
+			"spirit_gauge_autofill", -- Soaring Kick, Iai Slash
 		}
 	},
 	-- Sword & Shield
@@ -126,8 +126,8 @@ this.keys = {
 	{
 		key = "dual_blades",
 		skill_keys = {
+			"archdemon_mode",
 			"ironshine_silk",
-			"archdemon_mode"
 		}
 	},
 	-- Lance
@@ -143,8 +143,9 @@ this.keys = {
 	{
 		key = "gunlance",
 		skill_keys = {
+			"erupting_cannon", 
 			"ground_splitter",
-			"erupting_cannon"
+
 		}
 	},
 	-- Hammer
@@ -158,8 +159,8 @@ this.keys = {
 	{
 		key = "hunting_horn",
 		skill_keys = {
-			"silkbind_shockwave",
 			"bead_of_resonance",
+			"silkbind_shockwave",
 			"sonic_bloom"
 		}
 	},
@@ -168,8 +169,8 @@ this.keys = {
 		key = "switch_axe",
 		skill_keys = {
 			"amped_state",
+			"axe_heavy_slam",
 			"switch_charger",
-			"axe_heavy_slam"
 		}
 	},
 	-- Charge Blade
@@ -203,9 +204,9 @@ this.keys = {
 		key = "heavy_bowgun",
 		skill_keys = {
 			"counter_charger",
+			"overheat",
 			"rising_moon",
 			"setting_sun",
-			"overheat",
 			"wyvernsnipe_reload"
 		}
 	},
@@ -213,10 +214,10 @@ this.keys = {
 	{
 		key = "bow",
 		skill_keys = {
-			"herculean_draw",
-			"bolt_boost",
 			"arc_shot_affinity",
-			"arc_shot_brace"
+			"arc_shot_brace", 
+			"bolt_boost",
+			"herculean_draw",
 		}
 	}
 };
@@ -1057,7 +1058,8 @@ function this.init_names()
 end
 
 function this.get_weapon_skill_name(weapon_skill_key)
-	if weapon_skill_ids[weapon_skill_key] == nil then
+	local weapon_skill_id = weapon_skill_ids[weapon_skill_key];
+	if weapon_skill_id == nil then
 		
 		local weapon_skill_name = language.current_language.weapon_skills[weapon_skill_key];
 		if weapon_skill_name == nil then
@@ -1067,7 +1069,7 @@ function this.get_weapon_skill_name(weapon_skill_key)
 		return weapon_skill_name;
 	end
 
-	local weapon_skill_name = get_name_method:call(nil, weapon_skill_ids[weapon_skill_key]);
+	local weapon_skill_name = get_name_method:call(nil, weapon_skill_id);
 	if weapon_skill_name == nil then
 		error_handler.report("weapon_skills.get_weapon_skill_name", string.format("Failed to access Data: %s_name", weapon_skill_key));
 		return weapon_skill_key;

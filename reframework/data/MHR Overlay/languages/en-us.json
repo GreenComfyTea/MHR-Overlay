@@ -386,15 +386,87 @@
         "z": "Z"
     },
     "dango_skills": {
-        "dango_insurance_defense_up": "Dango Insurance Defense Up"
+        "dango_adrenaline": "Dango Adrenaline",
+        "dango_booster": "Dango Booster",
+        "dango_bulker": "Dango Bulker",
+        "dango_connector": "Dango Connector",
+        "dango_defender": "Dango Defender",
+        "dango_flyer": "Dango Flyer",
+        "dango_glutton": "Dango Glutton",
+        "dango_hunter": "Dango Hunter",
+        "dango_insurance": "Dango Insurance",
+        "dango_insurance_defense_up": "Dango Insurance Defense Up",
+        "super_recovery_dango": "Super Recovery Dango"
     },
-    "font_name": "",
+    "endemic_life": {
+        "butterflame": "Butterflame",
+        "clothfly": "Clothfly",
+        "cutterfly": "Cutterfly",
+        "gold_wirebug": "Gold Wirebug",
+        "peepersects": "Peepersects",
+        "red_lampsquid": "Red Lampsquid",
+        "ruby_wirebug": "Ruby Wirebug",
+        "stinkmink": "Stinkmink",
+        "yellow_lampsquid": "Yellow Lampsquid"
+    },
+    "font_name": "NotoSans-Bold.otf",
+    "item_buffs": {
+        "adamant_seed": "Adamant Seed",
+        "armor_ammo": "Armor Ammo",
+        "armorskin": "Armorskin",
+        "dash_juice": "Dash Juice",
+        "demon_ammo": "Demon Ammo",
+        "demon_powder": "Demon Powder",
+        "demondrug": "Demondrug",
+        "gourmet_fish": "Gourmet Fish",
+        "hardshell_powder": "Hardshell Powder",
+        "immunizer": "Immunizer",
+        "mega_armorskin": "Mega Armorskin",
+        "mega_demondrug": "Mega Demondrug",
+        "might_seed": "Might Seed"
+    },
+    "melody_effects": {
+        "affinity_up": "Affinity Up",
+        "attack_and_affinity_up": "Attack and Affinity Up",
+        "attack_and_defense_up": "Attack and Defense Up",
+        "attack_up": "Attack Up",
+        "blight_negated": "Blight Negated",
+        "defense_up": "Defense Up",
+        "divine_protection": "Divine Protection",
+        "earplugs_l": "Earplugs (L)",
+        "earplugs_s": "Earplugs (S)",
+        "elemental_attack_boost": "Elemental Attack Boost",
+        "environment_damage_negated": "Environment Damage Negated",
+        "health_recovery_l": "Health Recovery (L)",
+        "health_recovery_s": "Health Recovery (S)",
+        "health_recovery_s_antidote": "Health Recovery (S) + (Antidote)",
+        "health_regeneration": "Health Regeneration",
+        "infernal_melody": "Infernal Melody",
+        "knockbacks_negated": "Knockbacks Negated",
+        "self_improvement": "Self-Improvement",
+        "sharpness_extension": "Sharpness Extension",
+        "sharpness_loss_reduced": "Sharpness Loss Reduced",
+        "sharpness_regeneration": "Sharpness Regeneration",
+        "sonic_barrier": "Sonic Barrier",
+        "sonic_wave": "Sonic Wave",
+        "stamina_recovery_up": "Stamina Recovery Up",
+        "stamina_use_reduced": "Stamina Use Reduced",
+        "stun_negated": "Stun Negated",
+        "tremors_negated": "Tremors Negated",
+        "wind_pressure_negated": "Wind Pressure Negated"
+    },
     "misc_buffs": {
         "attack_up": "Attack Up",
         "defense_up": "Defense Up",
         "immunity": "Immunity",
         "natural_healing_up": "Natural Healing Up",
         "stamina_use_down": "Stamina Use Down"
+    },
+    "otomo_moves": {
+        "go_fight_win": "Go, Fight, Win",
+        "power_drum": "Power Drum",
+        "rousing_roar": "Rousing Roar",
+        "vase_of_vitality": "Vase of Vitality"
     },
     "parts": {
         "abdomen": "Abdomen",
@@ -465,11 +537,49 @@
         "wingclaws": "Wingclaws",
         "wings": "Wings"
     },
+    "rampage_skills": {
+        "chameleos_soul": "Chameleos Soul",
+        "kushala_daora_soul": "Kushala Daora Soul"
+    },
     "skills": {
+        "adrenaline_rush": "Adrenaline Rush",
+        "affinity_sliding": "Affinity Sliding",
+        "agitator": "Agitator",
+        "berserk": "Berserk",
+        "bladescale_hone": "Bladescale Hone",
+        "blood_awakening": "Blood Awakened",
+        "bloodlust": "Bloodlust",
+        "burst": "Burst",
+        "coalescence": "Coalescence",
+        "counterstrike": "Counterstrike",
+        "dereliction": "Dereliction",
         "dragon_conversion_elemental_attack_up": "Dragon Conversion Elem. Atk Up",
         "dragon_conversion_elemental_res_up": "Dragon Conversion Elem. Res Up",
+        "dragonheart": "Dragonheart",
+        "embolden": "Embolden",
+        "frenzied_bloodlust": "Frenzied Bloodlust",
+        "furious": "Furious",
+        "grinder_s": "Grinder (S)",
+        "heaven_sent": "Heaven-Sent",
+        "hellfire_cloak": "Hellfire Cloak",
+        "heroics": "Heroics",
+        "inspiration": "Inspiration",
+        "intrepid_heart": "Intrepid Heart",
+        "latent_power": "Latent Power",
+        "maximum_might": "Maximum Might",
+        "offensive_guard": "Offensive Guard",
+        "partbreaker": "Partbreaker",
+        "peak_performance": "Peak Performance",
         "powder_mantle_blue": "Powder Mantle (Blue)",
-        "powder_mantle_red": "Powder Mantle (Red)"
+        "powder_mantle_red": "Powder Mantle (Red)",
+        "protective_polish": "Protective Polish",
+        "resentment": "Resentment",
+        "resuscitate": "Resuscitate",
+        "spiribirds_call": "Spiribird's Call",
+        "status_trigger": "Status Trigger",
+        "strife": "Strife",
+        "wall_runner": "Wall Runner",
+        "wind_mantle": "Wind Mantle"
     },
     "stats": {
         "affinity": "Affinity",
@@ -488,31 +598,87 @@
         "water_resistance": "Water Res"
     },
     "unicode_glyph_ranges": [
+        32,
+        255,
+        256,
+        383,
+        1024,
+        1327,
+        7680,
+        7935,
+        8192,
+        8303,
+        65280,
+        65519,
         0
     ],
     "weapon_skills": {
-        "all_extracts_mix": "All Extracts Mix",
-        "amped_state": "Amped State",
-        "arc_shot_affinity": "Arc Shot: Affinity",
-        "arc_shot_brace": "Arc Shot: Brace",
-        "archdemon_mode": "Archdemon Mode",
-        "axe_heavy_slam": "Axe: Heavy Slam",
-        "element_boost": "Element Boost",
-        "herculean_draw": "Herculean Draw",
-        "iai_slash": "Iai Slash",
-        "ironshine_silk": "Ironshine Silk",
-        "orange_extract": "Orange Extract",
-        "overheat": "Overheat",
-        "power_sheathe": "Power Sheathe",
-        "red_extract": "Red Extract",
-        "spirit_gauge": "Spirit Gauge",
-        "spirit_gauge_autofill": "Spirit Gauge Autofill",
-        "switch_charger": "Switch Charger",
-        "sword_boost_mode": "Sword Boost Mode",
-        "twin_wine": "Twin Wine",
-        "white_extract": "White Extract",
-        "wyvernblast_reload": "Wyvernblast Reload",
-        "wyvernsnipe_reload": "Wyvernsnipe Reload"
+        "bow": {
+            "arc_shot_affinity": "Arc Shot: Affinity",
+            "arc_shot_brace": "Arc Shot: Brace",
+            "bolt_boost": "Bolt Boost",
+            "herculean_draw": "Herculean Draw"
+        },
+        "charge_blade": {
+            "element_boost": "Element Boost",
+            "sword_boost_mode": "Sword Boost Mode"
+        },
+        "dual_blades": {
+            "archdemon_mode": "Archdemon Mode",
+            "ironshine_silk": "Ironshine Silk"
+        },
+        "great_sword": {
+            "power_sheathe": "Power Sheathe"
+        },
+        "gunlance": {
+            "erupting_cannon": "Erupting Cannon",
+            "ground_splitter": "Ground Splitter"
+        },
+        "hammer": {
+            "impact_burst": "Impact Burst"
+        },
+        "heavy_bowgun": {
+            "counter_charger": "Counter Charger",
+            "overheat": "Overheat",
+            "rising_moon": "Rising Moon",
+            "setting_sun": "Setting Sun",
+            "wyvernsnipe_reload": "Wyvernsnipe Reload"
+        },
+        "hunting_horn": {
+            "bead_of_resonance": "Bead of Resonance",
+            "silkbind_shockwave": "Silkbind Shockwave",
+            "sonic_bloom": "Sonic Bloom"
+        },
+        "insect_glaive": {
+            "all_extracts_mix": "All Extracts Mix",
+            "orange_extract": "Orange Extract",
+            "red_extract": "Red Extract",
+            "white_extract": "White Extract"
+        },
+        "lance": {
+            "anchor_rage": "Anchor Rage",
+            "spiral_thrust": "Spiral Thrust",
+            "twin_wine": "Twin Wine"
+        },
+        "light_bowgun": {
+            "fanning_maneuver": "Fanning Maneuver",
+            "wyvernblast_reload": "Wyvernblast Reload"
+        },
+        "long_sword": {
+            "harvest_moon": "Harvest Moon",
+            "iai_slash": "Iai Slash",
+            "soaring_kick": "Soaring Kick",
+            "spirit_gauge": "Spirit Gauge",
+            "spirit_gauge_autofill": "Spirit Gauge Autofill"
+        },
+        "switch_axe": {
+            "amped_state": "Amped State",
+            "axe_heavy_slam": "Axe: Heavy Slam",
+            "switch_charger": "Switch Charger"
+        },
+        "sword_and_shield": {
+            "destroyer_oil": "Destroyer Oil"
+        }
     },
     "weapons": {
         "bow": "Bow",

@@ -45,26 +45,26 @@ local package = package;
 this.list = {
 	dango_adrenaline = nil,
 	dango_booster = nil,
+	dango_connector = nil,
+	dango_defender = nil,
+	dango_flyer = nil,
+	dango_glutton = nil,
+	dango_hunter = nil,
 	dango_insurance = nil,
 	dango_insurance_defense_up = nil,
-	dango_glutton = nil,
-	dango_flyer = nil,
-	dango_defender = nil,
-	dango_hunter = nil,
-	dango_connector = nil,
 	super_recovery_dango = nil
 };
 
 this.keys = {
 	"dango_adrenaline",
 	"dango_booster",
+	"dango_connector",
+	"dango_defender",
+	"dango_flyer",
+	"dango_glutton",
+	"dango_hunter",
 	"dango_insurance",
 	"dango_insurance_defense_up",
-	"dango_glutton",
-	"dango_flyer",
-	"dango_defender",
-	"dango_hunter",
-	"dango_connector",
 	"super_recovery_dango"
 };
 

@@ -54,6 +54,8 @@ this.list = {
 	-- immunizer = nil,
 	-- dash_juice = nil,
 	gourmet_fish = nil,
+	demon_ammo = nil,
+	armor_ammo = nil
 };
 
 this.keys = {
@@ -68,6 +70,8 @@ this.keys = {
 	-- "immunizer",
 	-- "dash_juice",
 	"gourmet_fish",
+	"demon_ammo",
+	"armor_ammo"
 };
 
 local item_ids = {
@@ -76,11 +80,11 @@ local item_ids = {
 	armorskin = 68157922,
 	mega_armorskin = 68157923,
 	might_seed = 68157919,
-	adamant_seed = 68157924,
+	-- adamant_seed = 68157924,
 	demon_powder = 68157920,
 	hardshell_powder = 68157925,
-	immunizer = 68157911,
-	dash_juice = 68157913,
+	-- immunizer = 68157911,
+	-- dash_juice = 68157913,
 	gourmet_fish = 68157909,
 	demon_ammo = 68157595,
 	armor_ammo = 68157596

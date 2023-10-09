@@ -46,13 +46,13 @@ local ValueType = ValueType;
 local package = package;
 
 this.list = {
+	chameleos_soul = nil,
 	kushala_daora_soul = nil,
-	chameleos_soul = nil
 };
 
 this.keys = {
+	"chameleos_soul",
 	"kushala_daora_soul",
-	"chameleos_soul"
 };
 
 local rampage_skill_ids = {

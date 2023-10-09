@@ -37,64 +37,55 @@ local package = package;
 
 this.language_folder = "MHR Overlay\\languages\\";
 
---[[
-	EXAMPLE: 
-	unicode_glyph_ranges = {
-		0x0020, 0x00FF, -- Basic Latin + Latin Supplement
-		0x2000, 0x206F, -- General Punctuation
-		0x3000, 0x30FF, -- CJK Symbols and Punctuations, Hiragana, Katakana
-		0x31F0, 0x31FF, -- Katakana Phonetic Extensions
-		0x4e00, 0x9FAF, -- CJK Ideograms
-		0xFF00, 0xFFEF, -- Half-width characters
-		0
-	},
-]]
+-- this.traditional_chinese_ranges = {
+-- 	0x0020, 0x00FF, -- Basic Latin + Latin Supplement
+-- 	0x2000, 0x206F, -- General Punctuation
+-- 	0x2E80, 0x2EFF, -- CJK Radicals Supplement
+-- 	0x3000, 0x303F, -- CJK Symbols and Punctuations
+-- 	0x31F0, 0x31FF, -- Katakana Phonetic Extensions
+-- 	0x3200, 0x4DBF, -- Enclosed CJK Letters and Months, CJK Compatibility, CJK Unified Ideographs Extension A 	
+-- 	0x4E00, 0x9FAF, -- CJK Unified Ideograms
+-- 	0xF900, 0xFAFF, -- CJK Compatibility Ideographs
+-- 	0xFE30, 0xFE4F, -- CJK Compatibility Forms
+-- 	0xFF00, 0xFFEF, -- Half-width characters
+-- };
 
---[[
-	EXAMPLE: 
-	unicode_glyph_ranges = {
-		0x0020, 0x00FF, -- Basic Latin + Latin Supplement
-		0x0400, 0x052F, -- Cyrillic
-		0x2000, 0x206F, -- General Punctuation
-		0xFF00, 0xFFEF, -- Half-width characters
-		0
-	},
-]]
+-- this.japanese_glyph_ranges = {
+-- 	0x0020, 0x00FF, -- Basic Latin + Latin Supplement
+-- 	0x2000, 0x206F, -- General Punctuation
+-- 	0x2E80, 0x2EFF, -- CJK Radicals Supplement
+-- 	0x3000, 0x30FF, -- CJK Symbols and Punctuations, Hiragana, Katakana
+-- 	0x31F0, 0x31FF, -- Katakana Phonetic Extensions
+-- 	0x3200, 0x4DBF, -- Enclosed CJK Letters and Months, CJK Compatibility, CJK Unified Ideographs Extension A 	
+-- 	0x4E00, 0x9FAF, -- CJK Unified Ideograms
+-- 	0xF900, 0xFAFF, -- CJK Compatibility Ideographs
+-- 	0xFE30, 0xFE4F, -- CJK Compatibility Forms
+-- 	0xFF00, 0xFFEF, -- Half-width characters
+-- };
 
---[[
-	EXAMPLE: 
-	unicode_glyph_ranges = {
-		0x0020, 0x00FF, -- Basic Latin + Latin Supplement
-		0x1100, 0x11FF, -- Hangul Jamo
-		0x2000, 0x206F, -- General Punctuation
-		0x3130, 0x318F, -- Hangul Compatibility Jamo
-		0xAC00, 0xD7AF, -- Hangul Syllables
-		0xFF00, 0xFFEF, -- Half-width characters
-		0
-	},
-]]
+-- this.korean_glyph_ranges = {
+-- 	0x0020, 0x00FF, -- Basic Latin + Latin Supplement
+-- 	0x1100, 0x11FF, -- Hangul Jamo
+-- 	0x2000, 0x206F, -- General Punctuation
+-- 	0x3130, 0x318F, -- Hangul Compatibility Jamo
+-- 	0xAC00, 0xD7AF, -- Hangul Syllables
+-- 	0xFF00, 0xFFEF, -- Half-width characters
+-- 	0
+-- }
 
 this.current_language = {};
 this.default_language = {
-	font_name = "",
+	font_name = "NotoSans-Bold.otf",
 	unicode_glyph_ranges = {
-		-- 0x0020, 0x00FF, -- Basic Latin + Latin Supplement
-		-- 0x0100, 0x017F,  -- Latin Extended-A
-		-- 0x0400, 0x052F, -- Cyrillic
-		-- 0x1100, 0x11FF, -- Hangul Jamo
-		-- 0x2000, 0x206F, -- General Punctuation
-		-- 0x3000, 0x30FF, -- CJK Symbols and Punctuations, Hiragana, Katakana
-		-- 0x3130, 0x318F, -- Hangul Compatibility Jamo
-		-- 0x31F0, 0x31FF, -- Katakana Phonetic Extensions
-		-- 0x4e00, 0x9FAF, -- CJK Ideograms
-		-- 0xAC00, 0xD7AF, -- Hangul Syllables
-		-- 0xFF00, 0xFFEF, -- Half-width characters
+		0x0020, 0x00FF, -- Basic Latin + Latin Supplement
+		0x0100, 0x017F, -- Latin Extended-A
+		0x0400, 0x052F, -- Cyrillic
+		0x1E00, 0x1EFF, -- Latin Extended Additional
+		0x2000, 0x206F, -- General Punctuation
+		0xFF00, 0xFFEF, -- Halfwidth and Fullwidth Forms
 		0
 	},
-	-- unicode_glyph_ranges = {
-	-- 	0x0020, 0xFFFF,
-	-- 	0
-	-- },
+
 	parts = {
 		head = "Head",
 		neck = "Neck",
@@ -235,15 +226,123 @@ this.default_language = {
 		frenzy_overcome = "Frenzy Overcome"
 	},
 
+	item_buffs = {
+		demondrug = "Demondrug",
+		mega_demondrug = "Mega Demondrug",
+		armorskin = "Armorskin",
+		mega_armorskin = "Mega Armorskin",
+		might_seed = "Might Seed",
+		adamant_seed = "Adamant Seed",
+		demon_powder = "Demon Powder",
+		hardshell_powder = "Hardshell Powder",
+		immunizer = "Immunizer",
+		dash_juice = "Dash Juice",
+		gourmet_fish = "Gourmet Fish",
+		demon_ammo = "Demon Ammo",
+		armor_ammo = "Armor Ammo",
+	},
+
+	endemic_life = {
+		cutterfly = "Cutterfly",
+		clothfly = "Clothfly",
+		butterflame = "Butterflame",
+		peepersects = "Peepersects",
+		stinkmink = "Stinkmink",
+		ruby_wirebug = "Ruby Wirebug",
+		gold_wirebug = "Gold Wirebug",
+		red_lampsquid = "Red Lampsquid",
+		yellow_lampsquid = "Yellow Lampsquid"
+	},
+
+	melody_effects = {
+		self_improvement = "Self-Improvement",
+		attack_up =	"Attack Up",
+		defense_up ="Defense Up",
+		affinity_up = "Affinity Up",
+		elemental_attack_boost = "Elemental Attack Boost",
+		attack_and_defense_up = "Attack and Defense Up",
+		attack_and_affinity_up = "Attack and Affinity Up",
+		knockbacks_negated = "Knockbacks Negated",
+		earplugs_s = "Earplugs (S)",
+		earplugs_l = "Earplugs (L)",
+		tremors_negated = "Tremors Negated",
+		wind_pressure_negated = "Wind Pressure Negated",
+		stun_negated = "Stun Negated",
+		blight_negated = "Blight Negated",
+		divine_protection = "Divine Protection",
+		health_recovery_s = "Health Recovery (S)",
+		health_recovery_l = "Health Recovery (L)",
+		health_recovery_s_antidote = "Health Recovery (S) + (Antidote)",
+		health_regeneration = "Health Regeneration",
+		stamina_use_reduced = "Stamina Use Reduced",
+		stamina_recovery_up = "Stamina Recovery Up",
+		sharpness_loss_reduced = "Sharpness Loss Reduced",
+		environment_damage_negated = "Environment Damage Negated",
+		sonic_wave = "Sonic Wave",
+		sonic_barrier = "Sonic Barrier",
+		infernal_melody = "Infernal Melody",
+		sharpness_regeneration = "Sharpness Regeneration",
+		sharpness_extension = "Sharpness Extension",
+	},
+
 	dango_skills = {
-		dango_insurance_defense_up = "Dango Insurance Defense Up"
+		dango_adrenaline = "Dango Adrenaline",	
+		dango_booster = "Dango Booster",
+		dango_bulker = "Dango Bulker",
+		dango_connector = "Dango Connector",
+		dango_defender = "Dango Defender",
+		dango_flyer = "Dango Flyer",
+		dango_glutton = "Dango Glutton",
+		dango_hunter = "Dango Hunter",
+		dango_insurance = "Dango Insurance",
+		dango_insurance_defense_up = "Dango Insurance Defense Up",
+		super_recovery_dango = "Super Recovery Dango"
+	},
+
+	rampage_skills = {
+		chameleos_soul = "Chameleos Soul",
+		kushala_daora_soul = "Kushala Daora Soul"
 	},
 
 	skills = {
-		powder_mantle_red = "Powder Mantle (Red)",
-		powder_mantle_blue = "Powder Mantle (Blue)",
+		adrenaline_rush = "Adrenaline Rush",
+		affinity_sliding = "Affinity Sliding",
+		agitator = "Agitator",
+		berserk = "Berserk",
+		bladescale_hone = "Bladescale Hone",
+		blood_awakening = "Blood Awakened",
+		bloodlust = "Bloodlust",
+		burst = "Burst",
+		coalescence = "Coalescence",
+		counterstrike = "Counterstrike",
+		dereliction = "Dereliction",
 		dragon_conversion_elemental_attack_up = "Dragon Conversion Elem. Atk Up",
 		dragon_conversion_elemental_res_up = "Dragon Conversion Elem. Res Up",
+		dragonheart = "Dragonheart",
+		embolden = "Embolden",
+		frenzied_bloodlust = "Frenzied Bloodlust",
+		furious = "Furious",
+		grinder_s = "Grinder (S)",
+		heaven_sent = "Heaven-Sent",
+		hellfire_cloak = "Hellfire Cloak",
+		heroics = "Heroics",
+		inspiration = "Inspiration",
+		intrepid_heart = "Intrepid Heart",
+		latent_power = "Latent Power",
+		maximum_might = "Maximum Might",
+		offensive_guard = "Offensive Guard",
+		partbreaker = "Partbreaker",
+		peak_performance = "Peak Performance",
+		powder_mantle_red = "Powder Mantle (Red)",
+		powder_mantle_blue = "Powder Mantle (Blue)",
+		protective_polish = "Protective Polish",
+		resentment = "Resentment",
+		resuscitate = "Resuscitate",
+		spiribirds_call = "Spiribird's Call",
+		status_trigger = "Status Trigger",
+		strife = "Strife",
+		wall_runner = "Wall Runner",
+		wind_mantle = "Wind Mantle"
 	},
 
 	weapons = {
@@ -265,69 +364,92 @@ this.default_language = {
 
 	weapon_skills = {
 		-- Great Sword
-		power_sheathe = "Power Sheathe",
-
+		great_sword = {
+			power_sheathe = "Power Sheathe"
+		},
 		-- Long Sword
-		iai_slash = "Iai Slash",
-		spirit_gauge_autofill = "Spirit Gauge Autofill", -- Soaring Kick, Iai Slash
-		spirit_gauge = "Spirit Gauge",
-		-- harvest_moon = "Harvest Moon",
-
+		long_sword = {
+			harvest_moon = "Harvest Moon",
+			iai_slash = "Iai Slash",
+			soaring_kick = "Soaring Kick",
+			spirit_gauge = "Spirit Gauge",
+			spirit_gauge_autofill = "Spirit Gauge Autofill", -- Soaring Kick, Iai Slash
+		},
 		-- Sword & Shield
-		-- destroyer_oil = "Destroyer Oil",
-
+		sword_and_shield = {
+			destroyer_oil = "Destroyer Oil"
+		},
 		-- Dual Blades
-		ironshine_silk = "Ironshine Silk",
-		archdemon_mode = "Archdemon Mode",
-
+		dual_blades = {
+			archdemon_mode = "Archdemon Mode",
+			ironshine_silk = "Ironshine Silk"
+		},
 		-- Lance
-		-- anchor_rage = "Anchor Rage",
-		-- spiral_thrust = "Spiral Thrust",
-		twin_wine = "Twin Wine",
-
+		lance = {
+			anchor_rage = "Anchor Rage",
+			spiral_thrust = "Spiral Thrust",
+			twin_wine = "Twin Wine"
+		},
 		-- Gunlance
-		--ground_splitter = "Ground Splitter",
-		--erupting_cannon = "Erupting Cannon",
-		
+		gunlance = {
+			erupting_cannon = "Erupting Cannon",
+			ground_splitter = "Ground Splitter"
+		},
 		-- Hammer
-		-- impact_burst = "Impact Burst",
-		
+		hammer = {
+			impact_burst = "Impact Burst"
+		},
 		-- Hunting Horn
-		-- silkbind_shockwave = "Silkbind Shockwave",
-		-- bead_of_resonance = "Bead of Resonance",
-		-- sonic_bloom = "Sonic Bloom",
-
+		hunting_horn =	{
+			bead_of_resonance = "Bead of Resonance",
+			silkbind_shockwave = "Silkbind Shockwave",
+			sonic_bloom = "Sonic Bloom"
+		},
 		-- Switch Axe
-		amped_state = "Amped State",
-		switch_charger = "Switch Charger",
-		axe_heavy_slam = "Axe: Heavy Slam",
-
+		switch_axe = {
+			amped_state = "Amped State",
+			axe_heavy_slam = "Axe: Heavy Slam",
+			switch_charger = "Switch Charger"
+		},
 		-- Charge Blade
-		element_boost = "Element Boost",
-		sword_boost_mode ="Sword Boost Mode",
-
+		charge_blade = {
+			element_boost = "Element Boost",
+			sword_boost_mode = "Sword Boost Mode"
+		},
 		-- Insect Glaive
-		red_extract = "Red Extract",
-		white_extract = "White Extract",
-		orange_extract = "Orange Extract",
-		all_extracts_mix = "All Extracts Mix",
-
+		insect_glaive = {
+			red_extract = "Red Extract",
+			white_extract = "White Extract",
+			orange_extract = "Orange Extract",
+			all_extracts_mix = "All Extracts Mix"
+		},
 		-- Light Bowgun
-		-- fanning_maneuver = "Fanning Maneuver",
-		wyvernblast_reload = "Wyvernblast Reload",
-
+		light_bowgun = {
+			fanning_maneuver = "Fanning Maneuver",
+			wyvernblast_reload = "Wyvernblast Reload"
+		},
 		-- Heavy Bowgun
-		-- counter_charger = "Counter Charger",
-		-- rising_moon = "Rising Moon",
-		-- setting_sun = "Setting Sun",
-		overheat = "Overheat",
-		wyvernsnipe_reload = "Wyvernsnipe Reload",
-		
+		heavy_bowgun = {
+			counter_charger = "Counter Charger",
+			overheat = "Overheat",
+			rising_moon = "Rising Moon",
+			setting_sun = "Setting Sun",
+			wyvernsnipe_reload = "Wyvernsnipe Reload"
+		},
 		-- Bow
-		herculean_draw = "Herculean Draw",
-		-- bolt_boost = "Bolt Boost",
-		arc_shot_affinity = "Arc Shot: Affinity",
-		arc_shot_brace = "Arc Shot: Brace",
+		bow = {
+			arc_shot_affinity = "Arc Shot: Affinity",
+			arc_shot_brace = "Arc Shot: Brace",
+			bolt_boost = "Bolt Boost",
+			herculean_draw = "Herculean Draw"
+		}
+	},
+
+	otomo_moves = {
+		go_fight_win = "Go, Fight, Win",
+		power_drum = "Power Drum",
+		rousing_roar = "Rousing Roar",
+		vase_of_vitality = "Vase of Vitality",
 	},
 
 	misc_buffs = {
@@ -785,7 +907,7 @@ this.default_language = {
 	},
 };
 
-this.language_names = { "default"};
+this.language_names = { "default" };
 this.languages = { this.default_language };
 
 function this.load()

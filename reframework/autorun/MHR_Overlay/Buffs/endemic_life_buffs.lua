@@ -45,11 +45,11 @@ local ValueType = ValueType;
 local package = package;
 
 this.list = {
+	cutterfly = nil,
 	clothfly = nil,
-	stinkmink = nil,
 	butterflame = nil,
 	-- peepersects = nil,
-	cutterfly = nil,
+	stinkmink = nil,
 	ruby_wirebug = nil,
 	gold_wirebug = nil,
 	red_lampsquid = nil,
@@ -57,11 +57,11 @@ this.list = {
 };
 
 this.keys = {
+	"cutterfly",
 	"clothfly",
-	"stinkmink",
 	"butterflame",
 	-- "peepersects",
-	"cutterfly",
+	"stinkmink",
 	"ruby_wirebug",
 	"gold_wirebug",
 	"red_lampsquid",

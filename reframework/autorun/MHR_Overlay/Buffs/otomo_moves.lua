@@ -46,15 +46,15 @@ local ValueType = ValueType;
 local package = package;
 
 this.list = {
-	rousing_roar = nil,
 	go_fight_win = nil,
-	power_drum = nil
+	power_drum = nil,
+	rousing_roar = nil
 };
 
 this.keys = {
-	"rousing_roar",
 	"go_fight_win",
-	"power_drum"
+	"power_drum",
+	"rousing_roar"
 };
 
 local otomo_moves_ids = {
