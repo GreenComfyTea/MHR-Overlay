@@ -59,7 +59,7 @@ function this.init_default()
 			language = "default",
 	
 			menu_font = {
-				size = 17
+				size = 16
 			},
 	
 			UI_font = {
