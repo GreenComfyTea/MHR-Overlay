@@ -7464,6 +7464,11 @@ function this.init_default()
 				},
 
 				text_formatting = "%s",
+
+				include = {
+					name = true,
+					id = false
+				},
 	
 				offset = {
 					x = 0,

@@ -156,7 +156,18 @@ function this.draw(creature, position_on_screen, opacity_scale)
 		position_on_screen.x = position_on_screen.x - text_width / 2;
 	end
 
-	drawing.draw_label(creature.name_label, position_on_screen, opacity_scale, creature.name .. " " .. creature.id);
+	local cached_config = config.current_config.endemic_life_UI.creature_name_label.include;
+
+	local name_text = "";
+	if cached_config.name then
+		name_text = string.format("%s ", creature.name);
+	end
+
+	if cached_config.id then
+		name_text = string.format("%s%s ", name_text, tostring(creature.id));
+	end
+
+	drawing.draw_label(creature.name_label, position_on_screen, opacity_scale, name_text);
 end
 
 function this.init_list()

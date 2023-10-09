@@ -1469,9 +1469,7 @@ function this.draw_small_monster_UI()
 			imgui.tree_pop();
 		end
 
-		changed = label_customization.draw(language.current_language.customization_menu.monster_name_label,
-			cached_config.monster_name_label);
-
+		changed = label_customization.draw(language.current_language.customization_menu.monster_name_label, cached_config.monster_name_label);
 		config_changed = config_changed or changed;
 
 		changed = health_customization.draw(cached_config.health);
@@ -1498,8 +1496,7 @@ function this.draw_large_monster_dynamic_UI()
 	if imgui.tree_node(language.current_language.customization_menu.dynamically_positioned) then
 		local cached_config = config.current_config.large_monster_UI.dynamic;
 
-		changed, cached_config.enabled = imgui.checkbox(
-			language.current_language.customization_menu.enabled, cached_config.enabled);
+		changed, cached_config.enabled = imgui.checkbox(language.current_language.customization_menu.enabled, cached_config.enabled);
 		
 		config_changed = config_changed or changed;
 
