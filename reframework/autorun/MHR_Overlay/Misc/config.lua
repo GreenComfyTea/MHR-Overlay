@@ -7757,7 +7757,8 @@ function this.init_default()
 					text_formatting = "%s",
 	
 					include = {
-						skill_level = true
+						name = true,
+						effect_level = true
 					},
 	
 					offset = {
@@ -7850,7 +7851,8 @@ function this.init_default()
 					text_formatting = "%s",
 	
 					include = {
-						skill_level = true
+						name = true,
+						effect_level = true
 					},
 	
 					offset = {
@@ -7943,7 +7945,8 @@ function this.init_default()
 					text_formatting = "%s",
 	
 					include = {
-						skill_level = true
+						name = true,
+						effect_level = true
 					},
 	
 					offset = {
@@ -8036,7 +8039,8 @@ function this.init_default()
 					text_formatting = "%s",
 	
 					include = {
-						skill_level = true
+						name = true,
+						effect_level = true
 					},
 	
 					offset = {
@@ -8129,7 +8133,8 @@ function this.init_default()
 					text_formatting = "%s",
 	
 					include = {
-						skill_level = true
+						name = true,
+						effect_level = true
 					},
 	
 					offset = {
@@ -8222,7 +8227,8 @@ function this.init_default()
 					text_formatting = "%s",
 	
 					include = {
-						skill_level = true
+						name = true,
+						effect_level = true
 					},
 	
 					offset = {
@@ -8315,7 +8321,8 @@ function this.init_default()
 					text_formatting = "%s",
 	
 					include = {
-						skill_level = true
+						name = true,
+						effect_level = true
 					},
 	
 					offset = {
@@ -8408,7 +8415,8 @@ function this.init_default()
 					text_formatting = "%s",
 	
 					include = {
-						skill_level = true
+						name = true,
+						effect_level = true
 					},
 	
 					offset = {
@@ -8501,7 +8509,8 @@ function this.init_default()
 					text_formatting = "%s",
 	
 					include = {
-						skill_level = true
+						name = true,
+						effect_level = true
 					},
 	
 					offset = {
@@ -8594,7 +8603,8 @@ function this.init_default()
 					text_formatting = "%s",
 	
 					include = {
-						skill_level = true
+						name = true,
+						effect_level = true
 					},
 	
 					offset = {

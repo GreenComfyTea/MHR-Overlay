@@ -106,64 +106,6 @@ this.keys = {
 			"power_sheathe"
 		}
 	},
-	-- Long Sword
-	{
-		key = "long_sword",
-		skill_keys = {
-			"harvest_moon",
-			"spirit_gauge",
-			"spirit_gauge_autofill", -- Soaring Kick, Iai Slash
-		}
-	},
-	-- Sword & Shield
-	{
-		key = "sword_and_shield",
-		skill_keys = {
-			"destroyer_oil"
-		}
-	},
-	-- Dual Blades
-	{
-		key = "dual_blades",
-		skill_keys = {
-			"archdemon_mode",
-			"ironshine_silk",
-		}
-	},
-	-- Lance
-	{
-		key = "lance",
-		skill_keys = {
-			"anchor_rage",
-			"spiral_thrust",
-			"twin_wine"
-		}
-	},
-	-- Gunlance
-	{
-		key = "gunlance",
-		skill_keys = {
-			"erupting_cannon", 
-			"ground_splitter",
-
-		}
-	},
-	-- Hammer
-	{
-		key = "hammer",
-		skill_keys = {
-			"impact_burst"
-		}
-	},
-	-- Hunting Horn
-	{
-		key = "hunting_horn",
-		skill_keys = {
-			"bead_of_resonance",
-			"silkbind_shockwave",
-			"sonic_bloom"
-		}
-	},
 	-- Switch Axe
 	{
 		key = "switch_axe",
@@ -173,22 +115,13 @@ this.keys = {
 			"switch_charger",
 		}
 	},
-	-- Charge Blade
+	-- Long Sword
 	{
-		key = "charge_blade",
+		key = "long_sword",
 		skill_keys = {
-			"element_boost",
-			"sword_boost_mode"
-		}
-	},
-	-- Insect Glaive
-	{
-		key = "insect_glaive",
-		skill_keys = {
-			"red_extract",
-			"white_extract",
-			"orange_extract",
-			"all_extracts_mix"
+			"harvest_moon",
+			"spirit_gauge",
+			"spirit_gauge_autofill", -- Soaring Kick, Iai Slash
 		}
 	},
 	-- Light Bowgun
@@ -208,6 +141,73 @@ this.keys = {
 			"rising_moon",
 			"setting_sun",
 			"wyvernsnipe_reload"
+		}
+	},
+	-- Hammer
+	{
+		key = "hammer",
+		skill_keys = {
+			"impact_burst"
+		}
+	},
+	-- Gunlance
+	{
+		key = "gunlance",
+		skill_keys = {
+			"erupting_cannon", 
+			"ground_splitter",
+
+		}
+	},
+	-- Lance
+	{
+		key = "lance",
+		skill_keys = {
+			"anchor_rage",
+			"spiral_thrust",
+			"twin_wine"
+		}
+	},
+	-- Sword & Shield
+	{
+		key = "sword_and_shield",
+		skill_keys = {
+			"destroyer_oil"
+		}
+	},
+	-- Dual Blades
+	{
+		key = "dual_blades",
+		skill_keys = {
+			"archdemon_mode",
+			"ironshine_silk",
+		}
+	},
+	-- Hunting Horn
+	{
+		key = "hunting_horn",
+		skill_keys = {
+			"bead_of_resonance",
+			"silkbind_shockwave",
+			"sonic_bloom"
+		}
+	},
+	-- Charge Blade
+	{
+		key = "charge_blade",
+		skill_keys = {
+			"element_boost",
+			"sword_boost_mode"
+		}
+	},
+	-- Insect Glaive
+	{
+		key = "insect_glaive",
+		skill_keys = {
+			"red_extract",
+			"white_extract",
+			"orange_extract",
+			"all_extracts_mix"
 		}
 	},
 	-- Bow
@@ -305,6 +305,7 @@ local insect_glaive_type_name = "insect_glaive";
 local bow_type_name = "bow";
 
 local previous_weapon_type = -1;
+local previous_weapon_key = "great_sword";
 
 local spirit_gauge_breakpoints = {3, 2};
 
@@ -502,6 +503,7 @@ function this.update(player, player_data, weapon_type)
 	end
 
 	previous_weapon_type = weapon_type;
+	previous_weapon_key = this.keys[previous_weapon_type].key;
 
 	if weapon_type == 0 then
 		this.update_great_sword_skills(player);
@@ -1061,7 +1063,7 @@ function this.get_weapon_skill_name(weapon_skill_key)
 	local weapon_skill_id = weapon_skill_ids[weapon_skill_key];
 	if weapon_skill_id == nil then
 		
-		local weapon_skill_name = language.current_language.weapon_skills[weapon_skill_key];
+		local weapon_skill_name = language.current_language.weapon_skills[previous_weapon_key][weapon_skill_key];
 		if weapon_skill_name == nil then
 			return weapon_skill_key;
 		end

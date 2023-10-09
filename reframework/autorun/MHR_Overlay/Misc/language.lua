@@ -272,7 +272,7 @@ this.default_language = {
 		divine_protection = "Divine Protection",
 		health_recovery_s = "Health Recovery (S)",
 		health_recovery_l = "Health Recovery (L)",
-		health_recovery_s_antidote = "Health Recovery (S) + (Antidote)",
+		health_recovery_s_antidote = "Health Recovery (S) + Antidote",
 		health_regeneration = "Health Regeneration",
 		stamina_use_reduced = "Stamina Use Reduced",
 		stamina_recovery_up = "Stamina Recovery Up",
@@ -310,7 +310,7 @@ this.default_language = {
 		agitator = "Agitator",
 		berserk = "Berserk",
 		bladescale_hone = "Bladescale Hone",
-		blood_awakening = "Blood Awakened",
+		blood_awakening = "Blood Awakening",
 		bloodlust = "Bloodlust",
 		burst = "Burst",
 		coalescence = "Coalescence",
@@ -903,7 +903,7 @@ this.default_language = {
 
 		infinite_buffs_location = "Infinite Buffs Location",
 
-		skill_level = "Skill Level"
+		effect_level = "Effect Level",
 	},
 };
 

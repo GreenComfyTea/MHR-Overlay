@@ -591,6 +591,7 @@ function this.draw()
 
 	if buff_UI_changed or modifiers_changed or config_changed then
 		buffs.init_all_UI();
+		buffs.init_names();
 	end
 
 	if stats_UI_changed or modifiers_changed or config_changed then

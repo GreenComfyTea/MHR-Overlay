@@ -73,9 +73,13 @@ function this.draw(buff, buff_UI, position_on_screen, opacity_scale)
 		drawing.draw_bar(buff_UI.bar, position_on_screen, opacity_scale, 1);
 	end
 
-	local buff_name = buff.name;
-	if buff_UI.name_label.include.skill_level and buff.level > 1 then
-		buff_name = string.format("%s %s%d", buff_name, language.current_language.UI.lv, buff.level);
+	local buff_name = "";
+	if buff_UI.name_label.include.name then
+		buff_name = string.format("%s ", buff.name);
+	end
+
+	if buff_UI.name_label.include.effect_level and buff.level > 1 then
+		buff_name = string.format("%s%s%d", buff_name, language.current_language.UI.lv, buff.level);
 	end
 
 	drawing.draw_label(buff_UI.name_label, position_on_screen, opacity_scale, buff_name);
