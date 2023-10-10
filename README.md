@@ -135,33 +135,34 @@
 * **[Troubleshooting](https://github.com/GreenComfyTea/MHR-Overlay/wiki/Troubleshooting)**  
 
 # Requirements
-1. [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26) (v1.503+);
-2. [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134) (v0.4.0+) - Needed for Unicode Support.
+1. **[REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26)** (v1.503+);
+2. **[REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134)** (v0.4.0+) - Needed for Unicode Support.
 
 # How to install:
-1. Install [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26);
-2. Install [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134);
+1. Install **[REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26)**;
+2. Install **[REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134)**;
 >**:pushpin: Windows:** Works normally.
 
 >**:pushpin: Linux:** Latest Experimental Proton seems to have it working normally as well (https://github.com/cursey/reframework-d2d/issues/5).
 
->**:pushpin: Steam Deck:** I've seen people getting it working but I don't have the exact instructions. You will have to figure it out yourself and/or search the nexus pages for information ([REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26?tab=description), [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134), [MHR Overlay](https://www.nexusmods.com/monsterhunterrise/mods/50)).
+>**:pushpin: Steam Deck:** I've seen people getting it working but I don't have the exact instructions. You will have to figure it out yourself and/or search the nexus pages for information (**[REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26?tab=description)**, **[REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134)**, **[MHR Overlay](https://www.nexusmods.com/monsterhunterrise/mods/50)**).
 
 3. Download the mod:
-    * Official release can be downloaded from [Nexus Mods](https://www.nexusmods.com/monsterhunterrise/mods/50);
-    * Nightly builds are available in [this repo](https://github.com/GreenComfyTea/MHR-Overlay) and can contain broken functionality, debugging info on screen, bugs and might require the latest [nightly build](https://github.com/praydog/REFramework-nightly/releases) of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26). Use with caution!
-4. Extract the mod from the archive and place it in MonsterHunterRise folder. Refer to [FAQ](https://github.com/GreenComfyTea/MHR-Overlay/wiki/FAQ) to verify how the file hierarchy should look like if everything is done correctly.
+    * Official release can be downloaded from **[Nexus Mods](https://www.nexusmods.com/monsterhunterrise/mods/50)**;
+    * Nightly builds are available in **[this repo](https://github.com/GreenComfyTea/MHR-Overlay)** and can contain broken functionality, debugging info on screen, bugs and might require the latest **[nightly build](https://github.com/praydog/REFramework-nightly/releases)** of **[REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26)**. Use with caution!
+4. Extract the mod from the archive and place it in MonsterHunterRise folder. Refer to **[FAQ](https://github.com/GreenComfyTea/MHR-Overlay/wiki/FAQ)** to verify how the file hierarchy should look like if everything is done correctly.
 
 # Credits
-**GreenComfyTea** - creator of the mod and it's main contributor.  
-**cursecat** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26), [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134) plugin and [Monster Has HP Bar](https://www.nexusmods.com/monsterhunterrise/mods/43) mod, which provided an example on how to retrieve monster HP data.  
-**praydog2** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26). Contributed huge improvements to the performance of the mod.  
-**coavins** - creator of [coavins damage meter](https://www.nexusmods.com/monsterhunterrise/mods/68) mod.  
+**[GreenComfyTea](https://github.com/GreenComfyTea)** - creator of the mod and it's main contributor.  
+**[cursey](https://github.com/cursey)** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26), [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134) plugin and [Monster Has HP Bar](https://www.nexusmods.com/monsterhunterrise/mods/43) mod, which provided an example on how to retrieve monster HP data.  
+**[praydog](https://github.com/praydog)** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26). Contributed huge improvements to the performance of the mod.  
+**[coavins](https://github.com/coavins)** - creator of [coavins damage meter](https://www.nexusmods.com/monsterhunterrise/mods/68) mod.  
+**[lingsamuel](https://github.com/lingsamuel)** - creator of [Data Reporter and Buff Notification](https://www.nexusmods.com/monsterhunterrise/mods/1609) mod.  
   
-**neatnet** - Korean translation.  
-**s9000008, mcc1** - Traditional Chinese translation.  
-**etnAtker**, **sukiqwq** - Simplified Chinese translation.  
-**AKILAND0214** - Japanese translation.
+**[neatnet](https://github.com/neatnet)** - Korean translation.  
+**[s9000008](https://github.com/s9000008)**, **[mcc1](https://github.com/mcc1)** - Traditional Chinese translation.  
+**[etnAtker](https://github.com/etnAtker)**, **[sukiqwq](https://github.com/sukiqwq)** - Simplified Chinese translation.  
+**[AKILAND0214](https://github.com/AKILAND0214)** - Japanese translation.  
 ***
 # Support
 
