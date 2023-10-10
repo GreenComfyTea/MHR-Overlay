@@ -409,7 +409,7 @@
         "stinkmink": "Пахучка",
         "yellow_lampsquid": "Жлт. Лампокальм."
     },
-    "font_name": "NotoSansKR-Bold.otf",
+    "font_name": "NotoSans-Bold.otf",
     "item_buffs": {
         "adamant_seed": "Адамант. зерно",
         "armor_ammo": "Защитные снаряды",
@@ -600,13 +600,13 @@
     "unicode_glyph_ranges": [
         32,
         255,
+        256,
+        383,
         1024,
-        1241,
+        1327,
+        7680,
+        7935,
         8192,
-        8303,
-        65280,
-        65519,
-        0,
         8303,
         65280,
         65519,
