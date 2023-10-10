@@ -38,59 +38,51 @@ local package = package;
 this.language_folder = "MHR Overlay\\languages\\";
 
 -- this.chinese_ranges = {
--- 	0x0020, 0x00FF, -- Basic Latin + Latin Supplement 32, 255, 
--- 	0x2000, 0x206F, -- General Punctuation 8192, 8303,
--- 	0x2E80, 0x2EFF, -- CJK Radicals Supplement 11904, 12031,
--- 	0x3000, 0x303F, -- CJK Symbols and Punctuations 12288, 12351,
--- 	0x3200, 0x4DBF, -- Enclosed CJK Letters and Months, CJK Compatibility, CJK Unified Ideographs Extension A 12800, 19903,
--- 	0x4E00, 0x9FAF, -- CJK Unified Ideograms 19968, 40879,
--- 	0xF900, 0xFAFF, -- CJK Compatibility Ideographs 63744, 64255,
--- 	0xFE30, 0xFE4F, -- CJK Compatibility Forms 65072, 65103, 
--- 	0xFF00, 0xFFEF, -- Half-width characters 65280, 65519,
+-- 	0x0020, 0x00FF, -- Basic Latin + Latin Supplement 
+-- 	0x2000, 0x206F, -- General Punctuations
+-- 	0x2E80, 0x2EFF, -- CJK Radicals Supplement
+-- 	0x3000, 0x303F, -- CJK Symbols and Punctuations
+-- 	0x3200, 0x4DBF, -- Enclosed CJK Letters and Months, CJK Compatibility, CJK Unified Ideographs Extension A
+-- 	0x4E00, 0x9FFF, -- CJK Unified Ideograms
+-- 	0xF900, 0xFAFF, -- CJK Compatibility Ideographs
+-- 	0xFE30, 0xFE4F, -- CJK Compatibility Forms
+-- 	0xFF00, 0xFFEF, -- Half-width characters
 -- 	0
 -- };
 
 -- this.japanese_glyph_ranges = {
--- 	0x0020, 0x00FF, -- Basic Latin + Latin Supplement 32, 255, 
--- 	0x2000, 0x206F, -- General Punctuation 8192, 8303,
--- 	0x2E80, 0x2EFF, -- CJK Radicals Supplement 11904, 12031,
--- 	0x3000, 0x30FF, -- CJK Symbols and Punctuations, Hiragana, Katakana 12288, 12543,
--- 	0x31F0, 0x4DBF, -- Katakana Phonetic Extensions, Enclosed CJK Letters and Months, CJK Compatibility, CJK Unified Ideographs Extension A 12784, 19903,
--- 	0x4E00, 0x9FAF, -- CJK Unified Ideograms 19968, 40879,
--- 	0xF900, 0xFAFF, -- CJK Compatibility Ideographs 63744, 64255,
--- 	0xFE30, 0xFE4F, -- CJK Compatibility Forms 65072, 65103, 
--- 	0xFF00, 0xFFEF, -- Half-width characters 65280, 65519,
+-- 	0x0020, 0x00FF, -- Basic Latin + Latin Supplement
+-- 	0x2000, 0x206F, -- General Punctuation
+-- 	0x2E80, 0x2EFF, -- CJK Radicals Supplement
+-- 	0x3000, 0x30FF, -- CJK Symbols and Punctuations, Hiragana, Katakana
+-- 	0x31F0, 0x4DBF, -- Katakana Phonetic Extensions, Enclosed CJK Letters and Months, CJK Compatibility, CJK Unified Ideographs Extension A
+-- 	0x4E00, 0x9FFF, -- CJK Unified Ideograms
+-- 	0xF900, 0xFAFF, -- CJK Compatibility Ideographs
+-- 	0xFE30, 0xFE4F, -- CJK Compatibility Forms
+-- 	0xFF00, 0xFFEF, -- Half-width characters
 -- 	0
 -- };
 
 -- this.korean_glyph_ranges = {
--- 	0x0020, 0x00FF, -- Basic Latin + Latin Supplement 32, 255,
--- 	0x1100, 0x11FF, -- Hangul Jamo 4352, 4607,
--- 	0x2000, 0x206F, -- General Punctuation 8192, 8303,
--- 	0x2E80, 0x2EFF, -- CJK Radicals Supplement 11904, 12031,
--- 	0x3000, 0x303F, -- CJK Symbols and Punctuations 12288, 12351,
--- 	0x3130, 0x318F, -- Hangul Compatibility Jamo 12592, 12687,
--- 	0x3200, 0x4DBF, -- Enclosed CJK Letters and Months, CJK Compatibility, CJK Unified Ideographs Extension A 12800, 19903,
--- 	0x4E00, 0x9FAF, -- CJK Unified Ideograms 19968, 40879,
--- 	0xAC00, 0xD7AF, -- Hangul Syllables 44032, 55215,
--- 	0xF900, 0xFAFF, -- CJK Compatibility Ideographs 63744, 64255,
--- 	0xFE30, 0xFE4F, -- CJK Compatibility Forms 65072, 65103, 
--- 	0xFF00, 0xFFEF, -- Half-width characters 65280, 65519,
+-- 	0x0020, 0x00FF, -- Basic Latin + Latin Supplement
+-- 	0x1100, 0x11FF, -- Hangul Jamo
+-- 	0x2000, 0x206F, -- General Punctuation
+-- 	0x2E80, 0x2EFF, -- CJK Radicals Supplement
+-- 	0x3000, 0x303F, -- CJK Symbols and Punctuations
+-- 	0x3130, 0x318F, -- Hangul Compatibility Jamo
+-- 	0x3200, 0x4DBF, -- Enclosed CJK Letters and Months, CJK Compatibility, CJK Unified Ideographs Extension A
+-- 	0x4E00, 0x9FFF, -- CJK Unified Ideograms
+-- 	0xAC00, 0xD7AF, -- Hangul Syllables
+-- 	0xF900, 0xFAFF, -- CJK Compatibility Ideographs
+-- 	0xFE30, 0xFE4F, -- CJK Compatibility Forms
+-- 	0xFF00, 0xFFEF, -- Half-width characters
 -- 	0
 -- }
 
 this.current_language = {};
 this.default_language = {
-	font_name = "NotoSans-Bold.otf",
-	unicode_glyph_ranges = {
-		0x0020, 0x00FF, -- Basic Latin + Latin Supplement 32, 255,
-		0x0100, 0x017F, -- Latin Extended-A 256, 383, 
-		0x0400, 0x052F, -- Cyrillic 1024, 1327,
-		0x1E00, 0x1EFF, -- Latin Extended Additional 7680, 7935,
-		0x2000, 0x206F, -- General Punctuation 8192, 8303,
-		0xFF00, 0xFFEF, -- Halfwidth and Fullwidth Forms 65280, 65519,
-		0
-	},
+	font_name = nil,
+	unicode_glyph_ranges = nil,
 
 	parts = {
 		head = "Head",
@@ -967,9 +959,21 @@ function this.init_dependencies()
 end
 
 function this.init_module()
-	this.save_default();
 	this.load();
 	this.current_language = this.default_language;
+
+	this.default_language.font_name = "NotoSans-Bold.otf";
+	this.default_language.unicode_glyph_ranges = {
+		0x0020, 0x00FF, -- Basic Latin + Latin Supplement
+		0x0100, 0x024F, -- Latin Extended-A, Latin Extended-B,
+		0x0400, 0x052F, -- Cyrillic, Cyrillic Supplementary
+		0x1E00, 0x1EFF, -- Latin Extended Additional
+		0x2000, 0x206F, -- General Punctuation
+		0xFF00, 0xFFEF, -- Halfwidth and Fullwidth Forms
+		0
+	};
+
+	this.save_default();
 end
 
 return this;
