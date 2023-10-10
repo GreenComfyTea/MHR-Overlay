@@ -153,15 +153,16 @@
 4. Extract the mod from the archive and place it in MonsterHunterRise folder. Refer to [FAQ](https://github.com/GreenComfyTea/MHR-Overlay/wiki/FAQ) to verify how the file hierarchy should look like if everything is done correctly.
 
 # Credits
-**GreenComfyTea** - creator of the mod and it's main contributor.  
-**cursecat** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26), [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134) plugin and [Monster Has HP Bar](https://www.nexusmods.com/monsterhunterrise/mods/43) mod, which provided an example on how to retrieve monster HP data.  
-**praydog2** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26). Contributed huge improvements to the performance of the mod.  
-**coavins** - creator of [coavins damage meter](https://www.nexusmods.com/monsterhunterrise/mods/68) mod.  
+**[GreenComfyTea](https://github.com/GreenComfyTea)** - creator of the mod and it's main contributor.  
+**[cursey](https://github.com/cursey)** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26), [REFramework Direct2D](https://www.nexusmods.com/monsterhunterrise/mods/134) plugin and [Monster Has HP Bar](https://www.nexusmods.com/monsterhunterrise/mods/43) mod, which provided an example on how to retrieve monster HP data.  
+**[praydog](https://github.com/praydog)** - creator of [REFramework](https://www.nexusmods.com/monsterhunterrise/mods/26). Contributed huge improvements to the performance of the mod.  
+**[coavins](https://github.com/coavins)** - creator of [coavins damage meter](https://www.nexusmods.com/monsterhunterrise/mods/68) mod.  
+**[lingsamuel](https://github.com/lingsamuel)** - creator of [Data Reporter and Buff Notification](https://www.nexusmods.com/monsterhunterrise/mods/1609) mod.  
   
-**neatnet** - Korean translation.  
-**s9000008, mcc1** - Traditional Chinese translation.  
-**etnAtker**, **sukiqwq** - Simplified Chinese translation.  
-**AKILAND0214** - Japanese translation.
+**[neatnet](https://github.com/neatnet)** - Korean translation.  
+**[s9000008](https://github.com/s9000008)**, **[mcc1](https://github.com/mcc1)** - Traditional Chinese translation.  
+**[etnAtker](https://github.com/etnAtker)**, **[sukiqwq](https://github.com/sukiqwq)** - Simplified Chinese translation.  
+**[AKILAND0214](https://github.com/AKILAND0214)** - Japanese translation.  
 ***
 # Support
 
