@@ -7557,6 +7557,7 @@ function this.init_default()
 					mega_demondrug = true,
 					armorskin = true,
 					mega_armorskin = true,
+					might_seed = true,
 					demon_powder = true,
 					hardshell_powder = true,
 					gourmet_fish = true,
