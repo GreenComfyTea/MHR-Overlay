@@ -7533,6 +7533,7 @@ function this.init_default()
 					deadly_poison = true,
 					stun = true,
 					paralysis = true,
+					falling_asleep = true,
 					sleep = true,
 					defense_down = true,
 					resistance_down = true,
