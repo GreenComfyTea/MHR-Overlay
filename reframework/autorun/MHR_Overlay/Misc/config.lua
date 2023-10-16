@@ -292,6 +292,20 @@ function this.init_default()
 					ctrl = false,
 					alt = false,
 					key = 0
+				},
+
+				buff_UI = {
+					shift = false,
+					ctrl = false,
+					alt = false,
+					key = 0
+				},
+
+				stats_UI = {
+					shift = false,
+					ctrl = false,
+					alt = false,
+					key = 0
 				}
 			}
 		},

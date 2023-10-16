@@ -145,6 +145,8 @@ this.large_monster_highlighted_UI_waiting_for_key = false;
 this.time_UI_waiting_for_key = false;
 this.damage_meter_UI_waiting_for_key = false;
 this.endemic_life_UI_waiting_for_key = false;
+this.buff_UI_waiting_for_key = false;
+this.stats_UI_waiting_for_key = false;
 this.menu_font_changed = false;
 
 this.config_name_input = "";
@@ -387,6 +389,7 @@ function this.draw()
 	local language_changed = false;
 	local modifiers_changed = false;
 	local modules_changed = false;
+	local hotkeys_changed = false;
 	local global_settings_changed = false;
 	local timer_delays_changed = false;
 	local small_monster_UI_changed = false;
@@ -422,7 +425,7 @@ function this.draw()
 
 	config_changed, apply_font_requested = this.draw_config();
 	modules_changed = this.draw_modules();
-	this.draw_hotkeys();
+	hotkeys_changed = this.draw_hotkeys();
 	global_settings_changed, modifiers_changed, timer_delays_changed, apply_font_requested, language_changed = this.draw_global_settings(apply_font_requested, config_changed);
 	small_monster_UI_changed = this.draw_small_monster_UI();
 
@@ -517,7 +520,7 @@ function this.draw()
 		this.reload_font();
 	end
 
-	if window_changed or modules_changed or global_settings_changed or small_monster_UI_changed or large_monster_dynamic_UI_changed or
+	if window_changed or modules_changed or hotkeys_changed or global_settings_changed or small_monster_UI_changed or large_monster_dynamic_UI_changed or
 		large_monster_static_UI_changed or large_monster_highlighted_UI_changed or time_UI_changed or damage_meter_UI_changed or
 		endemic_life_UI_changed or buff_UI_changed or stats_UI_changed or modifiers_changed or config_changed or debug_changed then
 		config.save_current();
@@ -653,6 +656,8 @@ function this.draw_modules()
 end
 
 function this.draw_hotkeys()
+	local config_changed = false;
+
 	if imgui.tree_node(language.current_language.customization_menu.hotkeys) then
 		if this.all_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
@@ -661,25 +666,26 @@ function this.draw_hotkeys()
 				config.current_config.global_settings.hotkeys_with_modifiers.all_UI.shift = false;
 				config.current_config.global_settings.hotkeys_with_modifiers.all_UI.alt = false;
 				this.all_UI_waiting_for_key = false;
+				config_changed = true;
 			end
 
 		elseif imgui.button(language.current_language.customization_menu.all_UI) then
-			local is_any_other_waiting = this.small_monster_UI_waiting_for_key or
-				                             this.large_monster_UI_waiting_for_key or
-				                             this.large_monster_dynamic_UI_waiting_for_key or
-				                             this.large_monster_static_UI_waiting_for_key or
-				                             this.large_monster_highlighted_UI_waiting_for_key or
-				                             this.time_UI_waiting_for_key or
-				                             this.damage_meter_UI_waiting_for_key or
-				                             this.endemic_life_UI_waiting_for_key;
-			if not is_any_other_waiting then
-				this.all_UI_waiting_for_key = true;
-			end
+			this.all_UI_waiting_for_key = true;
+			this.small_monster_UI_waiting_for_key = false;
+			this.large_monster_UI_waiting_for_key = false;
+			this.large_monster_dynamic_UI_waiting_for_key = false;
+			this.large_monster_static_UI_waiting_for_key = false;
+			this.large_monster_highlighted_UI_waiting_for_key = false;
+			this.time_UI_waiting_for_key = false;
+			this.damage_meter_UI_waiting_for_key = false;
+			this.endemic_life_UI_waiting_for_key = false;
+			this.buff_UI_waiting_for_key = false;
+			this.stats_UI_waiting_for_key = false;
 		end
 
 		imgui.same_line();
-
 		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.all_UI));
+		
 		if this.small_monster_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
 				config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI.key = 0;
@@ -687,24 +693,25 @@ function this.draw_hotkeys()
 				config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI.shift = false;
 				config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI.alt = false;
 				this.small_monster_UI_waiting_for_key = false;
+				config_changed = true;
 			end
 		elseif imgui.button(language.current_language.customization_menu.small_monster_UI) then
-			local is_any_other_waiting = this.all_UI_waiting_for_key or
-				                             this.large_monster_UI_waiting_for_key or
-				                             this.large_monster_dynamic_UI_waiting_for_key or
-				                             this.large_monster_static_UI_waiting_for_key or
-				                             this.large_monster_highlighted_UI_waiting_for_key or
-				                             this.time_UI_waiting_for_key or
-				                             this.damage_meter_UI_waiting_for_key or
-				                             this.endemic_life_UI_waiting_for_key;
-			if not is_any_other_waiting then
-				this.small_monster_UI_waiting_for_key = true;
-			end
+			this.all_UI_waiting_for_key = false;
+			this.small_monster_UI_waiting_for_key = true;
+			this.large_monster_UI_waiting_for_key = false;
+			this.large_monster_dynamic_UI_waiting_for_key = false;
+			this.large_monster_static_UI_waiting_for_key = false;
+			this.large_monster_highlighted_UI_waiting_for_key = false;
+			this.time_UI_waiting_for_key = false;
+			this.damage_meter_UI_waiting_for_key = false;
+			this.endemic_life_UI_waiting_for_key = false;
+			this.buff_UI_waiting_for_key = false;
+			this.stats_UI_waiting_for_key = false;
 		end
 
 		imgui.same_line();
-
 		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.small_monster_UI));
+		
 		if this.large_monster_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
 				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI.key = 0;
@@ -712,24 +719,25 @@ function this.draw_hotkeys()
 				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI.shift = false;
 				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI.alt = false;
 				this.large_monster_UI_waiting_for_key = false;
+				config_changed = true;
 			end
 		elseif imgui.button(language.current_language.customization_menu.large_monster_UI) then
-			local is_any_other_waiting = this.all_UI_waiting_for_key or
-				                             this.small_monster_UI_waiting_for_key or
-				                             this.large_monster_dynamic_UI_waiting_for_key or
-				                             this.large_monster_static_UI_waiting_for_key or
-				                             this.large_monster_highlighted_UI_waiting_for_key or
-				                             this.time_UI_waiting_for_key or
-				                             this.damage_meter_UI_waiting_for_key or
-				                             this.endemic_life_UI_waiting_for_key;
-			if not is_any_other_waiting then
-				this.large_monster_UI_waiting_for_key = true;
-			end
+			this.all_UI_waiting_for_key = false;
+			this.small_monster_UI_waiting_for_key = false;
+			this.large_monster_UI_waiting_for_key = true;
+			this.large_monster_dynamic_UI_waiting_for_key = false;
+			this.large_monster_static_UI_waiting_for_key = false;
+			this.large_monster_highlighted_UI_waiting_for_key = false;
+			this.time_UI_waiting_for_key = false;
+			this.damage_meter_UI_waiting_for_key = false;
+			this.endemic_life_UI_waiting_for_key = false;
+			this.buff_UI_waiting_for_key = false;
+			this.stats_UI_waiting_for_key = false;
 		end
 
 		imgui.same_line();
-
 		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.large_monster_UI));
+		
 		if this.large_monster_dynamic_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
 				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI.key = 0;
@@ -737,25 +745,25 @@ function this.draw_hotkeys()
 				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI.shift = false;
 				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI.alt = false;
 				this.large_monster_dynamic_UI_waiting_for_key = false;
+				config_changed = true;
 			end
 		elseif imgui.button(language.current_language.customization_menu.large_monster_dynamic_UI) then
-			local is_any_other_waiting = this.all_UI_waiting_for_key or
-				                             this.small_monster_UI_waiting_for_key or
-				                             this.large_monster_UI_waiting_for_key or
-				                             this.large_monster_static_UI_waiting_for_key or
-				                             this.large_monster_highlighted_UI_waiting_for_key or
-				                             this.time_UI_waiting_for_key or
-				                             this.damage_meter_UI_waiting_for_key or
-				                             this.endemic_life_UI_waiting_for_key;
-			if not is_any_other_waiting then
-				this.large_monster_dynamic_UI_waiting_for_key = true;
-			end
+			this.all_UI_waiting_for_key = false;
+			this.small_monster_UI_waiting_for_key = false;
+			this.large_monster_UI_waiting_for_key = false;
+			this.large_monster_dynamic_UI_waiting_for_key = true;
+			this.large_monster_static_UI_waiting_for_key = false;
+			this.large_monster_highlighted_UI_waiting_for_key = false;
+			this.time_UI_waiting_for_key = false;
+			this.damage_meter_UI_waiting_for_key = false;
+			this.endemic_life_UI_waiting_for_key = false;
+			this.buff_UI_waiting_for_key = false;
+			this.stats_UI_waiting_for_key = false;
 		end
 
 		imgui.same_line();
-
-		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers
-			                                    .large_monster_dynamic_UI));
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.large_monster_dynamic_UI));
+		
 		if this.large_monster_static_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
 				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI.key = 0;
@@ -763,25 +771,25 @@ function this.draw_hotkeys()
 				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI.shift = false;
 				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI.alt = false;
 				this.large_monster_static_UI_waiting_for_key = false;
+				config_changed = true;
 			end
 		elseif imgui.button(language.current_language.customization_menu.large_monster_static_UI) then
-			local is_any_other_waiting = this.all_UI_waiting_for_key or
-				                             this.small_monster_UI_waiting_for_key or
-				                             this.large_monster_UI_waiting_for_key or
-				                             this.large_monster_dynamic_UI_waiting_for_key or
-				                             this.large_monster_highlighted_UI_waiting_for_key or
-				                             this.time_UI_waiting_for_key or
-				                             this.damage_meter_UI_waiting_for_key or
-				                             this.endemic_life_UI_waiting_for_key;
-			if not is_any_other_waiting then
-				this.large_monster_static_UI_waiting_for_key = true;
-			end
+			this.all_UI_waiting_for_key = false;
+			this.small_monster_UI_waiting_for_key = false;
+			this.large_monster_UI_waiting_for_key = false;
+			this.large_monster_dynamic_UI_waiting_for_key = false;
+			this.large_monster_static_UI_waiting_for_key = true;
+			this.large_monster_highlighted_UI_waiting_for_key = false;
+			this.time_UI_waiting_for_key = false;
+			this.damage_meter_UI_waiting_for_key = false;
+			this.endemic_life_UI_waiting_for_key = false;
+			this.buff_UI_waiting_for_key = false;
+			this.stats_UI_waiting_for_key = false;
 		end
 
 		imgui.same_line();
-
-		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers
-			                                    .large_monster_static_UI));
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.large_monster_static_UI));
+		
 		if this.large_monster_highlighted_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
 				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI.key = 0;
@@ -789,23 +797,25 @@ function this.draw_hotkeys()
 				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI.shift = false;
 				config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI.alt = false;
 				this.large_monster_highlighted_UI_waiting_for_key = false;
+				config_changed = true;
 			end
 		elseif imgui.button(language.current_language.customization_menu.large_monster_highlighted_UI) then
-			local is_any_other_waiting = this.all_UI_waiting_for_key or
-				                             this.small_monster_UI_waiting_for_key or
-				                             this.large_monster_UI_waiting_for_key or
-				                             this.large_monster_dynamic_UI_waiting_for_key or
-				                             this.large_monster_static_UI_waiting_for_key or
-				                             this.time_UI_waiting_for_key or
-				                             this.damage_meter_UI_waiting_for_key or
-				                             this.endemic_life_UI_waiting_for_key;
-			if not is_any_other_waiting then
-				this.large_monster_highlighted_UI_waiting_for_key = true;
-			end
+			this.all_UI_waiting_for_key = false;
+			this.small_monster_UI_waiting_for_key = false;
+			this.large_monster_UI_waiting_for_key = false;
+			this.large_monster_dynamic_UI_waiting_for_key = false;
+			this.large_monster_static_UI_waiting_for_key = false;
+			this.large_monster_highlighted_UI_waiting_for_key = true;
+			this.time_UI_waiting_for_key = false;
+			this.damage_meter_UI_waiting_for_key = false;
+			this.endemic_life_UI_waiting_for_key = false;
+			this.buff_UI_waiting_for_key = false;
+			this.stats_UI_waiting_for_key = false;
 		end
+
 		imgui.same_line();
-		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers
-			                                    .large_monster_highlighted_UI));
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.large_monster_highlighted_UI));
+		
 		if this.time_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
 				config.current_config.global_settings.hotkeys_with_modifiers.time_UI.key = 0;
@@ -813,24 +823,25 @@ function this.draw_hotkeys()
 				config.current_config.global_settings.hotkeys_with_modifiers.time_UI.shift = false;
 				config.current_config.global_settings.hotkeys_with_modifiers.time_UI.alt = false;
 				this.time_UI_waiting_for_key = false;
+				config_changed = true;
 			end
 		elseif imgui.button(language.current_language.customization_menu.time_UI) then
-			local is_any_other_waiting = this.all_UI_waiting_for_key or
-				                             this.small_monster_UI_waiting_for_key or
-				                             this.large_monster_UI_waiting_for_key or
-				                             this.large_monster_dynamic_UI_waiting_for_key or
-				                             this.large_monster_static_UI_waiting_for_key or
-				                             this.large_monster_highlighted_UI_waiting_for_key or
-				                             this.damage_meter_UI_waiting_for_key or
-				                             this.endemic_life_UI_waiting_for_key;
-			if not is_any_other_waiting then
-				this.time_UI_waiting_for_key = true;
-			end
+			this.all_UI_waiting_for_key = false;
+			this.small_monster_UI_waiting_for_key = false;
+			this.large_monster_UI_waiting_for_key = false;
+			this.large_monster_dynamic_UI_waiting_for_key = false;
+			this.large_monster_static_UI_waiting_for_key = false;
+			this.large_monster_highlighted_UI_waiting_for_key = false;
+			this.time_UI_waiting_for_key = true;
+			this.damage_meter_UI_waiting_for_key = false;
+			this.endemic_life_UI_waiting_for_key = false;
+			this.buff_UI_waiting_for_key = false;
+			this.stats_UI_waiting_for_key = false;
 		end
 
 		imgui.same_line();
-
 		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.time_UI));
+		
 		if this.damage_meter_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
 				config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.key = 0;
@@ -838,24 +849,25 @@ function this.draw_hotkeys()
 				config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.shift = false;
 				config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI.alt = false;
 				this.damage_meter_UI_waiting_for_key = false;
+				config_changed = true;
 			end
 		elseif imgui.button(language.current_language.customization_menu.damage_meter_UI) then
-			local is_any_other_waiting = this.all_UI_waiting_for_key or
-				                             this.small_monster_UI_waiting_for_key or
-				                             this.large_monster_UI_waiting_for_key or
-				                             this.large_monster_dynamic_UI_waiting_for_key or
-				                             this.large_monster_static_UI_waiting_for_key or
-				                             this.large_monster_highlighted_UI_waiting_for_key or
-				                             this.time_UI_waiting_for_key or
-				                             this.endemic_life_UI_waiting_for_key;
-			if not is_any_other_waiting then
-				this.damage_meter_UI_waiting_for_key = true;
-			end
+			this.all_UI_waiting_for_key = false;
+			this.small_monster_UI_waiting_for_key = false;
+			this.large_monster_UI_waiting_for_key = false;
+			this.large_monster_dynamic_UI_waiting_for_key = false;
+			this.large_monster_static_UI_waiting_for_key = false;
+			this.large_monster_highlighted_UI_waiting_for_key = false;
+			this.time_UI_waiting_for_key = false;
+			this.damage_meter_UI_waiting_for_key = true;
+			this.endemic_life_UI_waiting_for_key = false;
+			this.buff_UI_waiting_for_key = false;
+			this.stats_UI_waiting_for_key = false;
 		end
 
 		imgui.same_line();
-
 		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.damage_meter_UI));
+		
 		if this.endemic_life_UI_waiting_for_key then
 			if imgui.button(language.current_language.customization_menu.press_any_key) then
 				config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.key = 0;
@@ -863,26 +875,81 @@ function this.draw_hotkeys()
 				config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.shift = false;
 				config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI.alt = false;
 				this.endemic_life_UI_waiting_for_key = false;
+				config_changed = true;
 			end
 		elseif imgui.button(language.current_language.customization_menu.endemic_life_UI) then
-			local is_any_other_waiting = this.all_UI_waiting_for_key or
-				                             this.small_monster_UI_waiting_for_key or
-				                             this.large_monster_UI_waiting_for_key or
-				                             this.large_monster_dynamic_UI_waiting_for_key or
-				                             this.large_monster_static_UI_waiting_for_key or
-				                             this.large_monster_highlighted_UI_waiting_for_key or
-				                             this.time_UI_waiting_for_key or
-				                             this.endemic_life_UI_waiting_for_key;
-			if not is_any_other_waiting then
-				this.endemic_life_UI_waiting_for_key = true;
-			end
+			this.all_UI_waiting_for_key = false;
+			this.small_monster_UI_waiting_for_key = false;
+			this.large_monster_UI_waiting_for_key = false;
+			this.large_monster_dynamic_UI_waiting_for_key = false;
+			this.large_monster_static_UI_waiting_for_key = false;
+			this.large_monster_highlighted_UI_waiting_for_key = false;
+			this.time_UI_waiting_for_key = false;
+			this.damage_meter_UI_waiting_for_key = false;
+			this.endemic_life_UI_waiting_for_key = true;
+			this.buff_UI_waiting_for_key = false;
+			this.stats_UI_waiting_for_key = false;
 		end
 
 		imgui.same_line();
-
 		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.endemic_life_UI));
+		
+		if this.buff_UI_waiting_for_key then
+			if imgui.button(language.current_language.customization_menu.press_any_key) then
+				config.current_config.global_settings.hotkeys_with_modifiers.buff_UI.key = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.buff_UI.ctrl = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.buff_UI.shift = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.buff_UI.alt = false;
+				this.buff_UI_waiting_for_key = false;
+				config_changed = true;
+			end
+		elseif imgui.button(language.current_language.customization_menu.buff_UI) then
+			this.all_UI_waiting_for_key = false;
+			this.small_monster_UI_waiting_for_key = false;
+			this.large_monster_UI_waiting_for_key = false;
+			this.large_monster_dynamic_UI_waiting_for_key = false;
+			this.large_monster_static_UI_waiting_for_key = false;
+			this.large_monster_highlighted_UI_waiting_for_key = false;
+			this.time_UI_waiting_for_key = false;
+			this.damage_meter_UI_waiting_for_key = false;
+			this.endemic_life_UI_waiting_for_key = false;
+			this.buff_UI_waiting_for_key = true;
+			this.stats_UI_waiting_for_key = false;
+		end
+
+		imgui.same_line();
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.buff_UI));
+		
+		if this.stats_UI_waiting_for_key then
+			if imgui.button(language.current_language.customization_menu.press_any_key) then
+				config.current_config.global_settings.hotkeys_with_modifiers.stats_UI.key = 0;
+				config.current_config.global_settings.hotkeys_with_modifiers.stats_UI.ctrl = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.stats_UI.shift = false;
+				config.current_config.global_settings.hotkeys_with_modifiers.stats_UI.alt = false;
+				this.stats_UI_waiting_for_key = false;
+				config_changed = true;
+			end
+		elseif imgui.button(language.current_language.customization_menu.stats_UI) then
+			this.all_UI_waiting_for_key = false;
+			this.small_monster_UI_waiting_for_key = false;
+			this.large_monster_UI_waiting_for_key = false;
+			this.large_monster_dynamic_UI_waiting_for_key = false;
+			this.large_monster_static_UI_waiting_for_key = false;
+			this.large_monster_highlighted_UI_waiting_for_key = false;
+			this.time_UI_waiting_for_key = false;
+			this.damage_meter_UI_waiting_for_key = false;
+			this.endemic_life_UI_waiting_for_key = false;
+			this.buff_UI_waiting_for_key = false;
+			this.stats_UI_waiting_for_key = true;
+		end
+
+		imgui.same_line();
+		imgui.text(keyboard.get_hotkey_name(config.current_config.global_settings.hotkeys_with_modifiers.stats_UI));
+		
 		imgui.tree_pop();
 	end
+
+	return config_changed;
 end
 
 function this.draw_global_settings(apply_font_requested, language_changed)

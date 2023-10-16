@@ -480,6 +480,28 @@ function this.register_hotkey(hard_keyboard)
 				return true;
 			end
 		end
+	elseif customization_menu.buff_UI_waiting_for_key then
+		for key, key_name in pairs(this.keys) do
+			if get_release_method:call(hard_keyboard, key) then
+				cached_config.buff_UI.ctrl = this.hotkey_modifiers_down.ctrl;
+				cached_config.buff_UI.shift = this.hotkey_modifiers_down.shift;
+				cached_config.buff_UI.alt = this.hotkey_modifiers_down.alt;
+				cached_config.buff_UI.key = key;
+				customization_menu.buff_UI_waiting_for_key = false;
+				return true;
+			end
+		end
+	elseif customization_menu.stats_UI_waiting_for_key then
+		for key, key_name in pairs(this.keys) do
+			if get_release_method:call(hard_keyboard, key) then
+				cached_config.stats_UI.ctrl = this.hotkey_modifiers_down.ctrl;
+				cached_config.stats_UI.shift = this.hotkey_modifiers_down.shift;
+				cached_config.stats_UI.alt = this.hotkey_modifiers_down.alt;
+				cached_config.stats_UI.key = key;
+				customization_menu.stats_UI_waiting_for_key = false;
+				return true;
+			end
+		end
 	end
 
 	return false;
@@ -503,7 +525,10 @@ function this.check_hotkeys(hard_keyboard)
 				or config.current_config.large_monster_UI.dynamic.enabled
 				or config.current_config.large_monster_UI.static.enabled
 				or config.current_config.large_monster_UI.highlighted.enabled
-				or config.current_config.damage_meter_UI.enabled;
+				or config.current_config.damage_meter_UI.enabled
+				or config.current_config.endemic_life_UI.enabled
+				or config.current_config.buff_UI.enabled
+				or config.current_config.stats_UI.enabled;
 
 			config.current_config.time_UI.enabled = not is_any_enabled;
 			config.current_config.small_monster_UI.enabled = not is_any_enabled;
@@ -511,6 +536,9 @@ function this.check_hotkeys(hard_keyboard)
 			config.current_config.large_monster_UI.static.enabled = not is_any_enabled;
 			config.current_config.large_monster_UI.highlighted.enabled = not is_any_enabled;
 			config.current_config.damage_meter_UI.enabled = not is_any_enabled;
+			config.current_config.endemic_life_UI.enabled = not is_any_enabled;
+			config.current_config.buff_UI.enabled = not is_any_enabled;
+			config.current_config.stats_UI.enabled = not is_any_enabled;
 		end
 	end
 
@@ -629,6 +657,34 @@ function this.check_hotkeys(hard_keyboard)
 
 		elseif endemic_life_UI_key_release then
 			config.current_config.endemic_life_UI.enabled = not config.current_config.endemic_life_UI.enabled;
+		end
+	end
+
+	if not (cached_config.buff_UI.ctrl and not this.hotkey_modifiers_down.ctrl)
+	and not (cached_config.buff_UI.shift and not this.hotkey_modifiers_down.shift)
+	and not (cached_config.buff_UI.alt and not this.hotkey_modifiers_down.alt) then
+
+		local buff_UI_key_release = get_release_method:call(hard_keyboard, math.tointeger(cached_config.buff_UI.key));
+
+		if buff_UI_key_release == nil then
+			error_handler.report("keyboard.check_hotkeys", "Failed to access Data: buff_UI_key_release");
+
+		elseif buff_UI_key_release then
+			config.current_config.buff_UI.enabled = not config.current_config.buff_UI.enabled;
+		end
+	end
+
+	if not (cached_config.stats_UI.ctrl and not this.hotkey_modifiers_down.ctrl)
+	and not (cached_config.stats_UI.shift and not this.hotkey_modifiers_down.shift)
+	and not (cached_config.stats_UI.alt and not this.hotkey_modifiers_down.alt) then
+
+		local stats_UI_key_release = get_release_method:call(hard_keyboard, math.tointeger(cached_config.stats_UI.key));
+
+		if stats_UI_key_release == nil then
+			error_handler.report("keyboard.check_hotkeys", "Failed to access Data: stats_UI_key_release");
+
+		elseif stats_UI_key_release then
+			config.current_config.stats_UI.enabled = not config.current_config.stats_UI.enabled;
 		end
 	end
 end
