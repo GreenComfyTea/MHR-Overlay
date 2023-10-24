@@ -9215,7 +9215,7 @@ function this.load_configs()
 			table.insert(this.config_names, this.current_config_name);
 			table.insert(this.configs, this.current_config);
 	
-			this.save(this.current_config_name, this.current_config);
+			this.save(string.format("%s\\%s.json", this.config_folder, this.current_config_name), this.current_config);
 		end
 
 		this.save_current_config_name();
