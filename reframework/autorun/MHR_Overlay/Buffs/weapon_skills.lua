@@ -304,7 +304,7 @@ local insect_glaive_type_name = "insect_glaive";
 -- 13 Bow
 local bow_type_name = "bow";
 
-local previous_weapon_type = -1;
+local previous_weapon_type = 0;
 local previous_weapon_key = "great_sword";
 
 local spirit_gauge_breakpoints = {3, 2};
@@ -503,7 +503,7 @@ function this.update(player, player_data, weapon_type)
 	end
 
 	previous_weapon_type = weapon_type;
-	previous_weapon_key = this.keys[previous_weapon_type].key;
+	previous_weapon_key = this.keys[previous_weapon_type + 1].key;
 
 	if weapon_type == 0 then
 		this.update_great_sword_skills(player);
@@ -952,7 +952,7 @@ function this.update_sonic_bloom(player)
 
 	local blast_speaker_shell = get_ref_blast_speaker_shell_method:call(player);
 	if blast_speaker_shell == nil then
-		this.list.bead_of_resonance = nil;
+		this.list.sonic_bloom = nil;
 		return;
 	end
 
@@ -963,7 +963,7 @@ function this.update_sonic_bloom(player)
 	end
 
 	if utils.number.is_equal(life_timer, 0) then
-		this.list.bead_of_resonance = nil;
+		this.list.sonic_bloom = nil;
 		return;
 	end
 
@@ -972,7 +972,6 @@ end
 
 function this.update_charge_blade_skills(player)
 	this.update_weapon_skill("element_boost", charge_blade_type_name, nil, nil, player, shield_buff_timer_field);
-
 	this.update_weapon_skill("sword_boost_mode", charge_blade_type_name, nil, nil, player, sword_buff_timer_field);
 end
 
