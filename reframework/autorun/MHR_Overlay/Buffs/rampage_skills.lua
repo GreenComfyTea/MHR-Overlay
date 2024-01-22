@@ -88,7 +88,7 @@ function this.update_rampage_skill(key, value_owner, value_holder, timer_owner, 
 end
 
 function this.apply_filter(key)
-	return this.apply_filter(this.list, config.current_config.buff_UI.filter.rampage_skills, key);
+	return buffs.apply_filter(this.list, config.current_config.buff_UI.filter.rampage_skills, key);
 end
 
 function this.init_all_UI()
