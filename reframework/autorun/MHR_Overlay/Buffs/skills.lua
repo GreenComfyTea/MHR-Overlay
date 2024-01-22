@@ -515,6 +515,7 @@ function this.update_wind_mantle(player, weapon_type)
 	local is_wind_mantle_enable = is_equip_skill_226_enable_field:get_data(player);
 	if is_wind_mantle_enable == nil then
 		error_handler.report("skills.update_wind_mantle", "Failed to access Data: is_wind_mantle_enable");
+		this.list.wind_mantle = nil;
 		return;
 	end
 
@@ -526,12 +527,14 @@ function this.update_wind_mantle(player, weapon_type)
 	local wind_mantle_timer = equip_skill_226_attack_off_timer_field:get_data(player);
 	if wind_mantle_timer == nil then
 		error_handler.report("skills.update_wind_mantle", "Failed to access Data: wind_mantle_timer");
+		this.list.wind_mantle = nil;
 		return;
 	end
 
 	local wind_mantle_value = equip_skill_226_attack_count_field:get_data(player);
 	if wind_mantle_value == nil then
 		error_handler.report("skills.update_wind_mantle", "Failed to access Data: wind_mantle_value");
+		this.list.wind_mantle = nil;
 		return;
 	end
 
@@ -565,10 +568,12 @@ function this.update_maximum_might(player_data)
 	local whole_body_timer = whole_body_timer_field:get_data(player_data);
 	if whole_body_timer == nil then
 		error_handler.report("skills.update_maximum_might", "Failed to access Data: whole_body_timer");
+		this.list.maximum_might = nil;
 		return;
 	end
 
 	if player_info.list.max_stamina == -1 then
+		this.list.maximum_might = nil;
 		return;
 	end
 
@@ -628,6 +633,7 @@ function this.update_bloodlust()
 		local bloodlust_name = this.get_skill_name("bloodlust");
 		if bloodlust_name == nil then
 			error_handler.report("skills.update_bloodlust", "Failed to access Data: bloodlust_name");
+			this.list.bloodlust = nil;
 			return;
 		end
 
@@ -645,6 +651,7 @@ function this.update_frenzied_bloodlust(player, player_data)
 	local hunter_wire_skill_231_num = get_hunter_wire_skill_231_num_method:call(player);
 	if hunter_wire_skill_231_num == nil then
 		error_handler.report("skills.update_frenzied_bloodlust", "Failed to access Data: hunter_wire_skill_231_num");
+		this.list.frenzied_bloodlust = nil;
 		return;
 	end
 
@@ -658,12 +665,14 @@ function this.update_frenzied_bloodlust(player, player_data)
 	local equip_skill_231_wire_num_timer = equip_skill_231_wire_num_timer_field:get_data(player_data);
 	if equip_skill_231_wire_num_timer == nil then
 		error_handler.report("skills.update_frenzied_bloodlust", "Failed to access Data: equip_skill_231_wire_num_timer");
+		this.list.frenzied_bloodlust = nil;
 		return;
 	end
 
 	local equip_skill_231_wp_off_timer = equip_skill_231_wp_off_timer_field:get_data(player_data);
 	if equip_skill_231_wp_off_timer == nil then
 		error_handler.report("skills.update_frenzied_bloodlust", "Failed to access Data: equip_skill_231_wp_off_timer");
+		this.list.frenzied_bloodlust = nil;
 		return;
 	end
 
@@ -771,6 +780,7 @@ function this.update_resentment(player_data)
 	local r_vital = r_vital_field:get_data(player_data);
 	if r_vital == nil then
 		error_handler.report("skills.update_resentment", "Failed to access Data: r_vital");
+		this.list.resentment = nil;
 		return;
 	end
 
@@ -803,6 +813,7 @@ function this.update_spiribirds_call(player_data)
 	local equip_skill_211_timer = equip_skill_211_timer_field:get_data(player_data);
 	if equip_skill_211_timer == nil then
 		error_handler.report("skills.update_spiribirds_call", "Failed to access Data: equip_skill_211_timer");
+		this.list.spiribirds_call = nil;
 		return;
 	end
 

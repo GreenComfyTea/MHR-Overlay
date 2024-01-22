@@ -131,12 +131,14 @@ function this.update_attack_up(player_data, item_parameter)
 	local atk_up_buff_second = atk_up_buff_second_field:get_data(player_data);
 	if atk_up_buff_second == nil then
 		error_handler.report("item_buffs.update_attack_up", "Failed to access Data: atk_up_buff_second");
+		this.list.attack_up = nil;
 		return;
 	end
 
 	local might_seed_atk_up = might_seed_atk_up_field:get_data(item_parameter);
 	if might_seed_atk_up == nil then
 		error_handler.report("item_buffs.update_might_seed", "Failed to access Data: might_seed_atk_up");
+		this.list.attack_up = nil;
 		return;
 	end
 

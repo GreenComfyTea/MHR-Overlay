@@ -254,6 +254,8 @@ function this.update_poison(player)
 	local poison_level = poison_level_field:get_data(player);
 	if poison_level == nil then
 		error_handler.report("abnormal_statuses.update_poison", "Failed to access Data: poison_level");
+		this.list.poison = nil;
+		this.list.deadly_poison = nil;
 		return;
 	end
 
@@ -289,6 +291,8 @@ function this.update_bubbleblight(player)
 	local bubble_type = bubble_type_field:get_data(player);
 	if bubble_type == nil then
 		error_handler.report("abnormal_statuses.update_bubbleblight", "Failed to access Data: bubble_Type");
+		this.list.minor_bubbleblight = nil;
+		this.list.major_bubbleblight = nil;
 		return;
 	end
 
@@ -315,12 +319,14 @@ function this.update_muck(player)
 	local is_mud_damage = get_is_mud_damage_method:call(player);
 	if is_mud_damage == nil then
 		error_handler.report("abnormal_statuses.update_generic_boolean_value_method", "Failed to access Data: is_mud_damage");
+		this.list.muck = nil;
 		return;
 	end
 
 	local is_gold_mud_damage = get_is_gold_mud_damage_method:call(player);
 	if is_gold_mud_damage == nil then
 		error_handler.report("abnormal_statuses.update_generic_boolean_value_method", "Failed to access Data: is_gold_mud_damage");
+		this.list.muck = nil;
 		return;
 	end
 
@@ -340,12 +346,14 @@ function this.update_frenzy_infection(player)
 	local virus_accumulator_value = virus_accumulator_field:get_data(player);
 	if virus_accumulator_value == nil then
 		error_handler.report("abnormal_statuses.update_frenzy_infection", "Failed to access Data: virus_accumulator_value");
+		this.list.frenzy_infection = nil;
 		return;
 	end
 
 	local virus_timer = virus_timer_field:get_data(player);
 	if virus_timer == nil then
 		error_handler.report("abnormal_statuses.update_frenzy_infection", "Failed to access Data: virus_timer");
+		this.list.frenzy_infection = nil;
 		return;
 	end
 
@@ -361,6 +369,7 @@ end
 
 function this.update_sleep(player)
 	if this.apply_filter("sleep") then
+		this.list.sleep = nil;
 		return;
 	end
 

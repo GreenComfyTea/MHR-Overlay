@@ -153,6 +153,7 @@ function this.update(master_player)
 		local music_data = get_value_method:call(music_data_array, id);
 		if music_data == nil then
 			error_handler.report("melody_effects.update", "Failed to access Data: music_data No." .. tostring(id));
+			this.list[lua_index] = nil;
 			goto continue;
 		end
 
@@ -165,6 +166,7 @@ function this.update_melody_effect(lua_index, id, key, melody_effect, melody_dat
 	local melody_timer = time_field:get_data(melody_data);
 	if melody_timer == nil then
 		error_handler.report("melody_effects.update_melody_effect", "Failed to access Data: melody_timer No. " .. tostring(id));
+		this.list[lua_index] = nil;
 		return;
 	end
 

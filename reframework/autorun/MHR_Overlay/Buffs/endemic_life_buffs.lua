@@ -144,6 +144,8 @@ function this.update_ruby_and_gold_wirebugs(player, player_data)
 	local marionette_mode_type = get_marionette_mode_type_method:call(player);
 	if marionette_mode_type == nil then
 		error_handler.report("endemic_life_buffs.update_ruby_and_gold_wirebugs", "Failed to access Data: marionette_mode_type");
+		this.list.ruby_wirebug = nil;
+		this.list.gold_wirebug = nil;
 	end
 
 	if marionette_mode_type ~= 1 and marionette_mode_type ~= 2 then
@@ -168,6 +170,7 @@ function this.update_butterflame(player_data)
 	local atk_up_buff_second = atk_up_buff_second_field:get_data(player_data);
 	if atk_up_buff_second == nil then
 		error_handler.report("item_buffs.update_butterflame", "Failed to access Data: atk_up_buff_second");
+		this.list.butterflame = nil;
 		return;
 	end
 

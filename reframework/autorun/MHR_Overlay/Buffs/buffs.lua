@@ -256,6 +256,7 @@ function this.update_generic_buff(buff_list, filter_list, get_name_function,
 		
 		if value == nil then
 			error_handler.report("buffs.update_generic_number", string.format("Failed to access Data: %s_value", buff_key));
+			buff_list[buff_key] = nil;
 			return;
 		end
 
@@ -292,6 +293,7 @@ function this.update_generic_buff(buff_list, filter_list, get_name_function,
 
 		if timer == nil then
 			error_handler.report("buffs.update_generic_number", string.format("Failed to access Data: %s_timer", buff_key));
+			buff_list[buff_key] = nil;
 			return;
 		end
 
