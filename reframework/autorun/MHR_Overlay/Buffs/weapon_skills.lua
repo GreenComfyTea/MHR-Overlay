@@ -606,6 +606,7 @@ function this.update_harvest_moon()
 	end
 
 	if master_long_sword_shell_010_list_count == 0 then
+		this.list.harvest_moon = nil;
 		return;
 	end
 
