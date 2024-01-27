@@ -34,7 +34,7 @@
 		<img alt="Platform" src="https://custom-icon-badges.demolab.com/badge/platform-win%20%7C%20linux%20%7C%20steam%20deck-blue?logo=device-desktop" />
 	</a>
 	<a href="">
-		<img alt="Maintenance" src="https://custom-icon-badges.demolab.com/maintenance/yes/2023?logo=tools" />
+		<img alt="Maintenance" src="https://custom-icon-badges.demolab.com/maintenance/yes/2024?logo=tools" />
 	</a>
 	<br>
 	<a href="https://www.nexusmods.com/monsterhunterrise/mods/26">
