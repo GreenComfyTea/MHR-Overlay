@@ -534,7 +534,7 @@ end);
 if d2d ~= nil then
 	d2d.register(function()
 		drawing.init_font();
-	end, function() 
+	end, function()
 		if config.current_config.global_settings.renderer.use_d2d_if_available then
 			draw_loop();
 		end
@@ -543,7 +543,6 @@ end
 
 re.on_frame(function()
 	time.update_timers();
-	keyboard.update();
 
 	if d2d == nil or not config.current_config.global_settings.renderer.use_d2d_if_available then
 		draw_loop();

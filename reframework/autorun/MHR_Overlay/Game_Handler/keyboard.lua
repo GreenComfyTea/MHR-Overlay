@@ -9,6 +9,7 @@ local large_monster;
 local damage_meter_UI;
 local time;
 local error_handler;
+local quest_status;
 
 local sdk = sdk;
 local tostring = tostring;
@@ -49,6 +50,7 @@ local hard_keyboard_field_type_def = hard_keyboard_field:get_type();
 local get_down_method = hard_keyboard_field_type_def:get_method("getDown");
 local get_trigger_method = hard_keyboard_field_type_def:get_method("getTrg");
 local get_release_method = hard_keyboard_field_type_def:get_method("getRelease");
+local update_method = hard_keyboard_field_type_def:get_method("update");
 
 this.hotkey_modifiers_down = {
 	ctrl = false,
@@ -334,13 +336,7 @@ this.keys = {
 	--[254] = "Clear"
 };
 
-function this.update()
-	if singletons.game_keyboard == nil then
-		error_handler.report("keyboard.update", "Failed to access Data: game_keyboard");
-		return;
-	end
-
-	local hard_keyboard = hard_keyboard_field:get_data(singletons.game_keyboard);
+function this.update(hard_keyboard)
 	if hard_keyboard == nil then
 		error_handler.report("keyboard.update", "Failed to access Data: hard_keyboard");
 		return;
@@ -717,9 +713,19 @@ function this.init_dependencies()
 	damage_meter_UI = require("MHR_Overlay.UI.Modules.damage_meter_UI");
 	time = require("MHR_Overlay.Game_Handler.time");
 	error_handler = require("MHR_Overlay.Misc.error_handler");
+	quest_status = require("MHR_Overlay.Game_Handler.quest_status");
 end
 
 function this.init_module()
+	sdk.hook(update_method, function(args)
+		
+		local hard_keyboard = sdk.to_managed_object(args[2]);
+
+		this.update(hard_keyboard);
+
+	end, function(retval)
+		return retval;
+	end);
 end
 
 return this;
