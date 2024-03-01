@@ -699,7 +699,6 @@ function this.update_rising_moon()
 		return;
 	end
 
-	-- Possibly requires players.myself.id instead of 0?
 	local light_bowgun_shell_030 = get_light_bowgun_shell_030_list_item_method:call(light_bowgun_shell_030s_speed_boost_list, 0);
 	if light_bowgun_shell_030 == nil then
 		error_handler.report("weapon_skills.update_rising_moon", "Failed to access Data: light_bowgun_shell_030");
@@ -769,7 +768,6 @@ function this.update_setting_sun()
 		return;
 	end
 
-	-- Possibly requires players.myself.id instead of 0?
 	local light_bowgun_shell_030 = get_light_bowgun_shell_030_list_item_method:call(light_bowgun_shell_030s_all_list, 0);
 	if light_bowgun_shell_030 == nil then
 		error_handler.report("weapon_skills.update_setting_sun", "Failed to access Data: light_bowgun_shell_030");
@@ -929,12 +927,12 @@ function this.update_bead_of_resonance()
 		return;
 	end
 
-	if players.myself.id >= horn_shell_003s_array_length then
+	if horn_shell_003s_array_length == 0 then
 		this.list.bead_of_resonance = nil;
 		return;
 	end
 
-	local horn_shell_003_list = get_value_method:call(horn_shell_003s_array, players.myself.id);
+	local horn_shell_003_list = get_value_method:call(horn_shell_003s_array, 0);
 	if horn_shell_003_list == nil then
 		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to access Data: horn_shell_003_list");
 		this.list.bead_of_resonance = nil;
