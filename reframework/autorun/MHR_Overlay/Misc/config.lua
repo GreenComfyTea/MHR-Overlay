@@ -36,7 +36,7 @@ local os = os;
 local ValueType = ValueType;
 local package = package;
 
-this.version = "2.6.5";
+this.version = "2.6.6";
 
 this.config_folder = "MHR Overlay\\configs\\";
 this.current_config_value_file_name = "MHR Overlay\\config.json";
