@@ -2310,6 +2310,11 @@ function this.draw_endemic_life_UI()
 		config_changed = config_changed or changed;
 
 		if imgui.tree_node(language.current_language.customization_menu.settings) then
+			changed, cached_config.settings.head_tracking = imgui.checkbox(
+				language.current_language.customization_menu.head_tracking, cached_config.settings.head_tracking);
+
+			config_changed = config_changed or changed;
+
 			changed, cached_config.settings.hide_inactive_creatures = imgui.checkbox(
 				language.current_language.customization_menu.hide_inactive_creatures, cached_config.settings.hide_inactive_creatures);
 

@@ -86,7 +86,12 @@ function this.draw()
 			cached_config.world_offset.z
 		);
 
-		local position_on_screen = draw.world_to_screen(creature.position + world_offset);
+		local position_on_screen;
+		if cached_config.settings.head_tracking then
+			position_on_screen = draw.world_to_screen(creature.head_position + world_offset);
+		else
+			position_on_screen = draw.world_to_screen(creature.position + world_offset);
+		end
 
 		if position_on_screen == nil then
 			goto continue;

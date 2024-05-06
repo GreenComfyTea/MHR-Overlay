@@ -7457,6 +7457,7 @@ function this.init_default()
 			enabled = false,
 	
 			settings = {
+				head_tracking = true,
 				hide_inactive_creatures = true,
 				max_distance = 300,
 				opacity_falloff = true

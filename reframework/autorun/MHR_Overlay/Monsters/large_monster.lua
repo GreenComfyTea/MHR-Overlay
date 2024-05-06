@@ -526,7 +526,9 @@ function this.update_head_joint(enemy, monster)
 
 	local head_joint = get_joint_by_name_method:call(transform, "Head_00")
 	or get_joint_by_name_method:call(transform, "Head")
+	or get_joint_by_name_method:call(transform, "Head_01")
 	or get_joint_by_name_method:call(transform, "Spine_00")
+	or get_joint_by_name_method:call(transform, "Cog")
 	or get_joint_by_name_method:call(transform, "head")
 	or get_joint_by_name_method:call(transform, "root");
 

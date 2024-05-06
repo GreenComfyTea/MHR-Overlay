@@ -53,6 +53,29 @@ this.creature_ids = {
 	gold_wirebug = 63,
 };
 
+local environment_creature_base_type_def = sdk.find_type_definition("snow.envCreature.EnvironmentCreatureBase");
+local creature_type_field = environment_creature_base_type_def:get_field("_Type");
+local creature_is_inactive_field = environment_creature_base_type_def:get_field("<Muteki>k__BackingField");
+
+local message_manager_type_def = sdk.find_type_definition("snow.gui.MessageManager");
+local get_env_creature_name_message_method = message_manager_type_def:get_method("getEnvCreatureNameMessage");
+
+local get_pos_method = environment_creature_base_type_def:get_method("get_Pos");
+
+local get_ref_mesh_method = environment_creature_base_type_def:get_method("getMesh");
+
+local mesh_type_def = get_ref_mesh_method:get_return_type();
+local get_game_object_method = mesh_type_def:get_method("get_GameObject");
+
+local game_object_type_def = get_game_object_method:get_return_type();
+local get_transform_method = game_object_type_def:get_method("get_Transform");
+
+local transform_type_def = get_transform_method:get_return_type();
+local get_joint_by_name_method = transform_type_def:get_method("getJointByName");
+
+local joint_type_def = get_joint_by_name_method:get_return_type();
+local get_position_method = joint_type_def:get_method("get_Position");
+
 function this.new(REcreature)
 	local creature = {};
 
@@ -81,15 +104,6 @@ function this.get_creature(REcreature)
 	return this.list[REcreature];
 end
 
-local environment_creature_base_type_def = sdk.find_type_definition("snow.envCreature.EnvironmentCreatureBase");
-local creature_type_field = environment_creature_base_type_def:get_field("_Type");
-local creature_is_inactive_field = environment_creature_base_type_def:get_field("<Muteki>k__BackingField");
-
-local message_manager_type_def = sdk.find_type_definition("snow.gui.MessageManager");
-local get_env_creature_name_message_method = message_manager_type_def:get_method("getEnvCreatureNameMessage");
-
-local get_pos_method = environment_creature_base_type_def:get_method("get_Pos");
-
 function this.init(creature, REcreature)
 	local creature_type = creature_type_field:get_data(REcreature);
 	if creature_type == nil then
@@ -105,6 +119,8 @@ function this.init(creature, REcreature)
 	
 	creature.name = creature_name;
 	creature.id = creature_type;
+
+	this.update_head_joint(REcreature, creature)
 end
 
 function this.init_UI(creature)
@@ -131,6 +147,8 @@ function this.update_position(REcreature, creature)
 	end
 	
 	creature.position = position;
+
+	this.update_head_position(REcreature, creature);
 end
 
 function this.update(REcreature, creature)
@@ -148,6 +166,70 @@ function this.update(REcreature, creature)
 	end
 	
 	creature.is_inactive = is_inactive;
+end
+
+function this.update_head_joint(REcreature, creature)
+	local mesh = get_ref_mesh_method:call(REcreature);
+	if mesh == nil then
+		error_handler.report("env_creature.update_head_joint", "Failed to Access Data: Mesh");
+		return;
+	end
+
+	local game_object = get_game_object_method:call(mesh);
+	if game_object == nil then
+		error_handler.report("env_creature.update_head_joint", "Failed to Access Data: GameObject");
+		return;
+	end
+
+	local transform = get_transform_method:call(game_object);
+	if transform == nil then
+		error_handler.report("env_creature.update_head_joint", "Failed to Access Data: Transform");
+		return;
+	end
+
+	local head_joint = get_joint_by_name_method:call(transform, "Head_00")
+	or get_joint_by_name_method:call(transform, "Head")
+	or get_joint_by_name_method:call(transform, "Head_01")
+	or get_joint_by_name_method:call(transform, "Spine_00")
+	or get_joint_by_name_method:call(transform, "Body_00")
+	or get_joint_by_name_method:call(transform, "body_00")
+	or get_joint_by_name_method:call(transform, "Cog")
+	or get_joint_by_name_method:call(transform, "Cog_00")
+	or get_joint_by_name_method:call(transform, "head")
+	or get_joint_by_name_method:call(transform, "root");
+
+	if head_joint == nil then
+		-- local out = "";
+		-- local joints = transform:get_Joints();
+
+		-- for i = 0, joints:get_Length() - 1 do
+		-- 	local joint = joints[i];
+		-- 	local joint_name = joint:get_Name();
+
+		-- 	out = out .. joint_name .. "\n";
+		-- end
+
+		-- error_handler.report(creature.name, out);
+
+		error_handler.report("small_monster.update_head_joint", "Failed to Access Data: HeadJoint");
+		return;
+	end
+
+	creature.head_joint = head_joint;
+end
+
+function this.update_head_position(REcreature, creature)
+	if creature.head_joint == nil then
+		return;
+	end
+
+	local head_position = get_position_method:call(creature.head_joint);
+	if head_position == nil then
+		error_handler.report("env_creature.update_head_position", "Failed to Access Data: HeadPosition");
+		return;
+	end
+
+	creature.head_position = head_position;
 end
 
 function this.draw(creature, position_on_screen, opacity_scale)
