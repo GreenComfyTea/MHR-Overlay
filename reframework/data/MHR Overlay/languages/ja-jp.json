@@ -165,6 +165,7 @@
         "global_position_modifier": "全体的な位置の調整",
         "global_scale_modifier": "全体的なスケールの調整",
         "global_settings": "全体設定",
+        "head_tracking": "Head Tracking",
         "health": "体力",
         "health_anomaly_filter": "Health + Anomaly Core",
         "health_break_anomaly_filter": "Health + Break + Anomaly Core",

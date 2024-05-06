@@ -165,6 +165,7 @@
         "global_position_modifier": "全局位置更改",
         "global_scale_modifier": "全局比例更改",
         "global_settings": "全局设定",
+        "head_tracking": "Head Tracking",
         "health": "生命",
         "health_anomaly_filter": "Health + Anomaly Core",
         "health_break_anomaly_filter": "Health + Break + Anomaly Core",

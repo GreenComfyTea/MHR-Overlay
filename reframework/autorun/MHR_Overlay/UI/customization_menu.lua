@@ -1338,6 +1338,11 @@ function this.draw_small_monster_UI()
 
 			config_changed = config_changed or changed;
 
+			changed, cached_config.dynamic_positioning.head_tracking = imgui.checkbox(
+				language.current_language.customization_menu.head_tracking, cached_config.dynamic_positioning.head_tracking);
+
+			config_changed = config_changed or changed;
+
 			changed, cached_config.dynamic_positioning.opacity_falloff =
 				imgui.checkbox(language.current_language.customization_menu.opacity_falloff,
 					cached_config.dynamic_positioning.opacity_falloff);
@@ -1479,6 +1484,11 @@ function this.draw_large_monster_dynamic_UI()
 		config_changed = config_changed or changed;
 
 		if imgui.tree_node(language.current_language.customization_menu.settings) then
+			changed, cached_config.settings.head_tracking = imgui.checkbox(
+				language.current_language.customization_menu.head_tracking, cached_config.settings.head_tracking);
+			
+			config_changed = config_changed or changed;
+
 			changed, cached_config.settings.hide_dead_or_captured = imgui.checkbox(
 				language.current_language.customization_menu.hide_dead_or_captured, cached_config.settings.hide_dead_or_captured);
 			

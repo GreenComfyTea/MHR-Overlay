@@ -48,6 +48,39 @@ local package = package;
 
 this.list = {};
 
+
+local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
+local enemy_type_field = enemy_character_base_type_def:get_field("<EnemyType>k__BackingField");
+
+local message_manager_type_def = sdk.find_type_definition("snow.gui.MessageManager");
+local get_enemy_name_message_method = message_manager_type_def:get_method("getEnemyNameMessage");
+
+local get_ref_mesh_method = enemy_character_base_type_def:get_method("get_RefMesh");
+
+local mesh_type_def = get_ref_mesh_method:get_return_type();
+local get_game_object_method = mesh_type_def:get_method("get_GameObject");
+
+local game_object_type_def = get_game_object_method:get_return_type();
+local get_transform_method = game_object_type_def:get_method("get_Transform");
+
+local transform_type_def = get_transform_method:get_return_type();
+local get_joint_by_name_method = transform_type_def:get_method("getJointByName");
+
+local joint_type_def = get_joint_by_name_method:get_return_type();
+local get_position_method = joint_type_def:get_method("get_Position");
+
+local get_physical_param_method = enemy_character_base_type_def:get_method("get_PhysicalParam");
+local check_die_method = enemy_character_base_type_def:get_method("checkDie");
+
+local physical_param_type = get_physical_param_method:get_return_type();
+local get_vital_method = physical_param_type:get_method("getVital");
+
+local vital_param_type = get_vital_method:get_return_type();
+local get_current_method = vital_param_type:get_method("get_Current");
+local get_max_method = vital_param_type:get_method("get_Max");
+
+local get_pos_method = enemy_character_base_type_def:get_method("get_Pos");
+
 function this.new(enemy)
 	local monster = {};
 	monster.is_large = false;
@@ -58,7 +91,10 @@ function this.new(enemy)
 	monster.missing_health = 0;
 	monster.capture_health = 0;
 
+	monster.head_joint = nil;
+
 	monster.position = Vector3f.new(0, 0, 0);
+	monster.head_position = Vector3f.new(0, 0, 0);
 	monster.distance = 0;
 
 	monster.name = "Small Monster";
@@ -89,16 +125,10 @@ function this.get_monster(enemy)
 	return monster;
 end
 
-local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.EnemyCharacterBase");
-local enemy_type_field = enemy_character_base_type_def:get_field("<EnemyType>k__BackingField");
-
-local message_manager_type_def = sdk.find_type_definition("snow.gui.MessageManager");
-local get_enemy_name_message_method = message_manager_type_def:get_method("getEnemyNameMessage");
-
 function this.init(monster, enemy)
 	local enemy_type = enemy_type_field:get_data(enemy);
 	if enemy_type == nil then
-		error_handler.report("small_monster.init", "Failed to access Data: enemy_type");
+		error_handler.report("small_monster.init", "Failed to Access Data: enemy_type");
 		return;
 	end
 
@@ -106,10 +136,12 @@ function this.init(monster, enemy)
 
 	local enemy_name = get_enemy_name_message_method:call(singletons.message_manager, enemy_type);
 	if enemy_name == nil then
-		error_handler.report("small_monster.init", "Failed to access Data: enemy_name");
+		error_handler.report("small_monster.init", "Failed to Access Data: enemy_name");
 	end
 
 	monster.name = enemy_name;
+
+	this.update_head_joint(enemy, monster);
 end
 
 function this.init_UI(monster)
@@ -153,18 +185,6 @@ function this.init_UI(monster)
 	);
 end
 
-local get_physical_param_method = enemy_character_base_type_def:get_method("get_PhysicalParam");
-local check_die_method = enemy_character_base_type_def:get_method("checkDie");
-
-local physical_param_type = get_physical_param_method:get_return_type();
-local get_vital_method = physical_param_type:get_method("getVital");
-
-local vital_param_type = get_vital_method:get_return_type();
-local get_current_method = vital_param_type:get_method("get_Current");
-local get_max_method = vital_param_type:get_method("get_Max");
-
-local get_pos_method = enemy_character_base_type_def:get_method("get_Pos");
-
 function this.update_position(enemy, monster)
 	local cached_config = config.current_config.small_monster_UI;
 
@@ -179,10 +199,71 @@ function this.update_position(enemy, monster)
 
 	local position = get_pos_method:call(enemy);
 	if position == nil then
-		error_handler.report("small_monster.update_position", "Failed to access Data: position");
+		error_handler.report("small_monster.update_position", "Failed to Access Data: position");
 	end
 	
 	monster.position = position;
+
+	this.update_head_position(enemy, monster);
+end
+
+function this.update_head_joint(enemy, monster)
+	local mesh = get_ref_mesh_method:call(enemy);
+	if mesh == nil then
+		error_handler.report("small_monster.update_head_joint", "Failed to Access Data: Mesh");
+		return;
+	end
+
+	local game_object = get_game_object_method:call(mesh);
+	if game_object == nil then
+		error_handler.report("small_monster.update_head_joint", "Failed to Access Data: GameObject");
+		return;
+	end
+
+	local transform = get_transform_method:call(game_object);
+	if transform == nil then
+		error_handler.report("small_monster.update_head_joint", "Failed to Access Data: Transform");
+		return;
+	end
+
+	local head_joint = get_joint_by_name_method:call(transform, "Head_00")
+	or get_joint_by_name_method:call(transform, "Head")
+	or get_joint_by_name_method:call(transform, "Spine_00")
+	or get_joint_by_name_method:call(transform, "head")
+	or get_joint_by_name_method:call(transform, "root");
+
+	if head_joint == nil then
+		-- local out = "";
+		-- local joints = transform:get_Joints();
+
+		-- for i = 0, joints:get_Length() - 1 do
+		-- 	local joint = joints[i];
+		-- 	local joint_name = joint:get_Name();
+
+		-- 	out = out .. joint_name .. "\n";
+		-- end
+
+		-- error_handler.report(monster.name, out);
+
+		error_handler.report("small_monster.update_head_joint", "Failed to Access Data: HeadJoint");
+		return;
+	end
+
+	monster.head_joint = head_joint;
+end
+
+function this.update_head_position(enemy, monster)
+	if monster.head_joint == nil then
+		return;
+	end
+
+	local head_position = get_position_method:call(monster.head_joint);
+	if head_position == nil then
+		error_handler.report("small_monster.update_head_position", "Failed to Access Data: HeadPosition");
+		return;
+	end
+
+	monster.head_position = head_position;
 end
 
 function this.update(enemy, monster)
@@ -194,7 +275,7 @@ function this.update(enemy, monster)
 	if dead_or_captured ~= nil then
 		monster.dead_or_captured = dead_or_captured;
 	else
-		error_handler.report("small_monster.update", "Failed to access Data: dead_or_captured");
+		error_handler.report("small_monster.update", "Failed to Access Data: dead_or_captured");
 	end
 
 	pcall(ailments.update_ailments, enemy, monster);
@@ -207,13 +288,13 @@ function this.update_health(enemy, monster)
 
 	local physical_param = get_physical_param_method:call(enemy);
 	if physical_param == nil then
-		error_handler.report("small_monster.update_health", "Failed to access Data: physical_param");
+		error_handler.report("small_monster.update_health", "Failed to Access Data: physical_param");
 		return;
 	end
 
 	local vital_param = get_vital_method:call(physical_param, 0, 0);
 	if vital_param == nil then
-		error_handler.report("small_monster.update_health", "Failed to access Data: vital_param");
+		error_handler.report("small_monster.update_health", "Failed to Access Data: vital_param");
 		return;
 	end
 
@@ -221,7 +302,7 @@ function this.update_health(enemy, monster)
 	if health ~= nil then
 		monster.health = health;
 	else
-		error_handler.report("small_monster.update_health", "Failed to access Data: health");
+		error_handler.report("small_monster.update_health", "Failed to Access Data: health");
 		return;
 	end
 
@@ -229,7 +310,7 @@ function this.update_health(enemy, monster)
 	if max_health ~= nil then
 		monster.max_health = max_health;
 	else
-		error_handler.report("small_monster.update_health", "Failed to access Data: max_health");
+		error_handler.report("small_monster.update_health", "Failed to Access Data: max_health");
 		return;
 	end
 

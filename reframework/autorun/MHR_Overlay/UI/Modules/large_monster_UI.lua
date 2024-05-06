@@ -65,7 +65,7 @@ function this.update(dynamic_enabled, static_enabled, highlighted_enabled)
 	local cached_config = config.current_config.large_monster_UI;
 
 	if singletons.enemy_manager == nil then
-		error_handler.report("large_monster_UI.update", "Failed to access Data: enemy_manager");
+		error_handler.report("large_monster_UI.update", "Failed to Access Data: enemy_manager");
 		return;
 	end
 
@@ -73,7 +73,7 @@ function this.update(dynamic_enabled, static_enabled, highlighted_enabled)
 
 	local enemy_count = get_boss_enemy_count_method:call(singletons.enemy_manager);
 	if enemy_count == nil then
-		error_handler.report("large_monster_UI.update", "Failed to access Data: enemy_count");
+		error_handler.report("large_monster_UI.update", "Failed to Access Data: enemy_count");
 		return;
 	end
 	
@@ -81,7 +81,7 @@ function this.update(dynamic_enabled, static_enabled, highlighted_enabled)
 	for i = 0, enemy_count - 1 do
 		local enemy = get_boss_enemy_method:call(singletons.enemy_manager, i);
 		if enemy == nil then
-			error_handler.report("large_monster_UI.update", "Failed to access Data: enemy No. " .. tostring(i));
+			error_handler.report("large_monster_UI.update", "Failed to Access Data: enemy No. " .. tostring(i));
 			goto continue;
 		end
 
@@ -337,7 +337,13 @@ function this.draw_dynamic(cached_config)
 	local i = 0;
 	for _, monster in ipairs(displayed_dynamic_monsters) do
 		local world_offset = Vector3f.new(cached_config.world_offset.x, cached_config.world_offset.y, cached_config.world_offset.z);
-		local position_on_screen = draw.world_to_screen(monster.position + world_offset);
+
+		local position_on_screen;
+		if cached_config.settings.head_tracking then
+			position_on_screen = draw.world_to_screen(monster.head_position + world_offset);
+		else
+			position_on_screen = draw.world_to_screen(monster.position + world_offset);
+		end
 
 		if position_on_screen == nil then
 			goto continue;

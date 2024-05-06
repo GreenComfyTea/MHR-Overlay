@@ -165,6 +165,7 @@
         "global_position_modifier": "Global Position Modifier",
         "global_scale_modifier": "Global Scale Modifier",
         "global_settings": "Global Settings",
+        "head_tracking": "Head Tracking",
         "health": "Health",
         "health_anomaly_filter": "Health + Anomaly Core",
         "health_break_anomaly_filter": "Health + Break + Anomaly Core",

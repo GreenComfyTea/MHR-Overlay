@@ -902,6 +902,8 @@ this.default_language = {
 		infinite_buffs_location = "Infinite Buffs Location",
 
 		effect_level = "Effect Level",
+
+		head_tracking = "Head Tracking"
 	},
 };
 

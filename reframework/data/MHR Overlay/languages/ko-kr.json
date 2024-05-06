@@ -165,6 +165,7 @@
         "global_position_modifier": "전역 위치 배율",
         "global_scale_modifier": "전역 크기 배율",
         "global_settings": "전역 설정",
+        "head_tracking": "Head Tracking",
         "health": "체력",
         "health_anomaly_filter": "체력 + 괴이핵",
         "health_break_anomaly_filter": "체력 + 파괴 + 괴이핵",

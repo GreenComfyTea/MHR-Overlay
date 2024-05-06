@@ -320,18 +320,20 @@ function this.init_default()
 	
 			dynamic_positioning = {
 				enabled = true,
-				max_distance = 300,
+				head_tracking = true,
+				
 				opacity_falloff = true,
-	
+				max_distance = 300,
+
 				world_offset = {
 					x = 0,
-					y = 3,
+					y = 1,
 					z = 0
 				},
 	
 				viewport_offset = {
 					x = -50,
-					y = 0
+					y = -30
 				}
 			},
 	
@@ -1022,23 +1024,24 @@ function this.init_default()
 				enabled = true,
 	
 				settings = {
+					head_tracking = true,
 					hide_dead_or_captured = true,
 					render_highlighted_monster = true,
 					render_not_highlighted_monsters = true,
-					max_distance = 300,
 					opacity_falloff = true,
+					max_distance = 300,
 					time_limit = 15
 				},
 	
 				world_offset = {
 					x = 0,
-					y = 6,
+					y = 2,
 					z = 0
 				},
 	
 				viewport_offset = {
 					x = -100,
-					y = 0
+					y = -30
 				},
 	
 				monster_name_label = {

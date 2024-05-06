@@ -126,7 +126,8 @@ end
 function this.draw()
 	local cached_config = config.current_config.small_monster_UI;
 
-	local is_dynamic_positioning_enabled = cached_config.dynamic_positioning.enabled;
+	local dynamic_positioning_config = cached_config.dynamic_positioning;
+	local is_dynamic_positioning_enabled = dynamic_positioning_config.enabled;
 
 	local i = 0;
 	for _, monster in ipairs(displayed_monsters) do
@@ -134,19 +135,23 @@ function this.draw()
 
 		if is_dynamic_positioning_enabled then
 			local world_offset = Vector3f.new(
-				cached_config.dynamic_positioning.world_offset.x,
-				cached_config.dynamic_positioning.world_offset.y,
-				cached_config.dynamic_positioning.world_offset.z
+				dynamic_positioning_config.world_offset.x,
+				dynamic_positioning_config.world_offset.y,
+				dynamic_positioning_config.world_offset.z
 			);
 
-			position_on_screen = draw.world_to_screen(monster.position + world_offset);
+			if dynamic_positioning_config.head_tracking then
+				position_on_screen = draw.world_to_screen(monster.head_position + world_offset);
+			else
+				position_on_screen = draw.world_to_screen(monster.position + world_offset);
+			end
 
 			if position_on_screen == nil then
 				goto continue;
 			end
 
-			position_on_screen.x = position_on_screen.x + cached_config.dynamic_positioning.viewport_offset.x;
-			position_on_screen.y = position_on_screen.y + cached_config.dynamic_positioning.viewport_offset.y;
+			position_on_screen.x = position_on_screen.x + dynamic_positioning_config.viewport_offset.x;
+			position_on_screen.y = position_on_screen.y + dynamic_positioning_config.viewport_offset.y;
 		else
 			position_on_screen = screen.calculate_absolute_coordinates(cached_config.static_position);
 			if cached_config.settings.orientation == "Horizontal" then
@@ -157,9 +162,9 @@ function this.draw()
 		end
 
 		local opacity_scale = 1;
-		if is_dynamic_positioning_enabled and cached_config.dynamic_positioning.opacity_falloff then
+		if is_dynamic_positioning_enabled and dynamic_positioning_config.opacity_falloff then
 			monster.distance = (players.myself_position - monster.position):length();
-			opacity_scale = 1 - (monster.distance / cached_config.dynamic_positioning.max_distance);
+			opacity_scale = 1 - (monster.distance / dynamic_positioning_config.max_distance);
 		end
 
 		small_monster.draw(monster, cached_config, position_on_screen, opacity_scale);
