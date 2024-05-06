@@ -220,13 +220,13 @@ function this.update_dango_insurance()
 	end
 
 	if singletons.player_manager == nil then
-		error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: player_manager");
+		error_handler.report("dango_skills.update_dango_insurance", "Failed to Access Data: player_manager");
 		this.list.dango_insurance = nil;
 		return;
 	end
 
 	if singletons.quest_manager == nil then
-		error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: quest_manager");
+		error_handler.report("dango_skills.update_dango_insurance", "Failed to Access Data: quest_manager");
 		this.list.dango_insurance = nil;
 		return;
 	end
@@ -235,14 +235,14 @@ function this.update_dango_insurance()
 
 	local flag_cat_skill_insurance = flag_cat_skill_insurance_field:get_data(singletons.quest_manager);
 	if flag_cat_skill_insurance == nil then
-		error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: flag_cat_skill_insurance");
+		error_handler.report("dango_skills.update_dango_insurance", "Failed to Access Data: flag_cat_skill_insurance");
 		this.list.dango_insurance = nil;
 		return;
 	end
 
 	local is_cat_skill_insurance = is_cat_skill_insurance_method:call(singletons.quest_manager, flag_cat_skill_insurance);
 	if is_cat_skill_insurance == nil then
-		error_handler.report("dango_skills.update_dango_insurance", "Failed to access Data: is_cat_skill_insurance");
+		error_handler.report("dango_skills.update_dango_insurance", "Failed to Access Data: is_cat_skill_insurance");
 		this.list.dango_insurance = nil;
 		return;
 	end
@@ -264,7 +264,7 @@ function this.update_dango_insurance_defense_up(player_data)
 
 	local insurance_def_up_lv3 = kitchen_skill_insurance_def_up_lv3_field:get_data(player_data);
 	if insurance_def_up_lv3 == nil then
-		error_handler.report("dango_skills.update_dango_insurance_defense_up", "Failed to access Data: insurance_def_up_lv3");
+		error_handler.report("dango_skills.update_dango_insurance_defense_up", "Failed to Access Data: insurance_def_up_lv3");
 		this.list.dango_insurance_defense_up = nil;
 		return;
 	end
@@ -273,7 +273,7 @@ function this.update_dango_insurance_defense_up(player_data)
 		local insurance_def_up_lv4 = kitchen_skill_insurance_def_up_lv4_field:get_data(player_data);
 
 		if insurance_def_up_lv4 == nil then
-			error_handler.report("dango_skills.update_dango_insurance_defense_up", "Failed to access Data: insurance_def_up_lv4");
+			error_handler.report("dango_skills.update_dango_insurance_defense_up", "Failed to Access Data: insurance_def_up_lv4");
 			this.list.dango_insurance_defense_up = nil;
 			return;
 		end
@@ -298,7 +298,7 @@ function this.update_dango_flyer(player)
 
 	local is_kitchen_skill_wire_stop_regene = get_is_kitchen_skill_wire_stop_regene_method:call(player);
 	if is_kitchen_skill_wire_stop_regene == nil then
-		error_handler.report("dango_skills.update_dango_flyer", "Failed to access Data: is_kitchen_skill_wire_stop_regene");
+		error_handler.report("dango_skills.update_dango_flyer", "Failed to Access Data: is_kitchen_skill_wire_stop_regene");
 		this.list.dango_flyer = nil;
 		return;
 	end
@@ -307,7 +307,7 @@ function this.update_dango_flyer(player)
 
 		local is_kitchen_skill_wire_stop_heal_spd = get_is_kitchen_skill_wire_stop_heal_spd_method:call(player);
 		if is_kitchen_skill_wire_stop_heal_spd == nil then
-			error_handler.report("dango_skills.update_dango_flyer", "Failed to access Data: is_kitchen_skill_wire_stop_heal_spd");
+			error_handler.report("dango_skills.update_dango_flyer", "Failed to Access Data: is_kitchen_skill_wire_stop_heal_spd");
 			this.list.dango_flyer = nil;
 			return;
 		end
@@ -338,7 +338,7 @@ function this.update_super_recovery_dango(player)
 
 	local kitchen_skill_surume_regene_timer = get_kitchen_skill_surume_regene_timer_method:call(player);
 	if kitchen_skill_surume_regene_timer == nil then
-		error_handler.report("dango_skills.update_super_recovery_dango", "Failed to access Data: kitchen_skill_surume_regene_timer");
+		error_handler.report("dango_skills.update_super_recovery_dango", "Failed to Access Data: kitchen_skill_surume_regene_timer");
 		this.list.super_recovery_dango = nil;
 		return;
 	end
@@ -379,7 +379,7 @@ function this.get_dango_skill_name(key)
 
 	local dango_skill_name = get_name_method:call(nil, dango_skill_id);
 	if dango_skill_name == nil then
-		error_handler.report("dango_skills.get_dango_name", string.format("Failed to access Data: %s_name", key));
+		error_handler.report("dango_skills.get_dango_name", string.format("Failed to Access Data: %s_name", key));
 		return key;
 	end
 

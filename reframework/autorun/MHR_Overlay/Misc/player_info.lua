@@ -129,19 +129,19 @@ function this.update()
 	end
 
 	if singletons.player_manager == nil then
-		error_handler.report("player_info.update", "Failed to access Data: player_manager");
+		error_handler.report("player_info.update", "Failed to Access Data: player_manager");
 		return;
 	end
 
 	local master_player = find_master_player_method:call(singletons.player_manager); 
 	if master_player == nil then
-		error_handler.report("player_info.update", "Failed to access Data: master_player");
+		error_handler.report("player_info.update", "Failed to Access Data: master_player");
 		return;
 	end
 
 	local master_player_data = get_player_data_method:call(master_player);
 	if master_player_data == nil then
-		error_handler.report("player_info.update", "Failed to access Data: master_player_data");
+		error_handler.report("player_info.update", "Failed to Access Data: master_player_data");
 	end
 	
 	master_player_ref = master_player;
@@ -176,7 +176,7 @@ end
 function this.update_generic(key, player_data, field)
 	local value = field:get_data(player_data);
 	if value == nil then
-		error_handler.report("player_info.update_generic", string.format("Failed to access Data: %s_value", key));
+		error_handler.report("player_info.update_generic", string.format("Failed to Access Data: %s_value", key));
 		return;
 	end
 
@@ -186,14 +186,14 @@ end
 function this.update_resistances(player_data)
 	local resistance_element_array = resistance_element_field:get_data(player_data);
 	if resistance_element_array == nil then
-		error_handler.report("player_info.update_resistances", "Failed to access Data: resistance_element_array");
+		error_handler.report("player_info.update_resistances", "Failed to Access Data: resistance_element_array");
 		return;
 	end
 
 	-- Fire Resistance
 	local fire_resistance_single_valtype = get_value_method:call(resistance_element_array, 0);
 	if fire_resistance_single_valtype == nil then
-		error_handler.report("player_info.update_resistances", "Failed to access Data: fire_resistance_single_valtype");
+		error_handler.report("player_info.update_resistances", "Failed to Access Data: fire_resistance_single_valtype");
 		return;
 	end
 
@@ -201,14 +201,14 @@ function this.update_resistances(player_data)
 	if fire_resistance ~= nil then
 		this.list.fire_resistance = math.floor(fire_resistance);
 	else
-		error_handler.report("player_info.update_resistances", "Failed to access Data: fire_resistance");
+		error_handler.report("player_info.update_resistances", "Failed to Access Data: fire_resistance");
 		return;
 	end
 
 	-- Water Resistance
 	local water_resistance_single_valtype = get_value_method:call(resistance_element_array, 1);
 	if water_resistance_single_valtype == nil then
-		error_handler.report("player_info.update_resistances", "Failed to access Data: water_resistance_single_valtype");
+		error_handler.report("player_info.update_resistances", "Failed to Access Data: water_resistance_single_valtype");
 		return;
 	end
 
@@ -216,14 +216,14 @@ function this.update_resistances(player_data)
 	if water_resistance ~= nil then
 		this.list.water_resistance = math.floor(water_resistance);
 	else
-		error_handler.report("player_info.update_resistances", "Failed to access Data: water_resistance");
+		error_handler.report("player_info.update_resistances", "Failed to Access Data: water_resistance");
 		return;
 	end
 
 	-- Thunder Resistance
 	local thunder_resistance_single_valtype = get_value_method:call(resistance_element_array, 2);
 	if thunder_resistance_single_valtype == nil then
-		error_handler.report("player_info.update_resistances", "Failed to access Data: thunder_resistance_single_valtype");
+		error_handler.report("player_info.update_resistances", "Failed to Access Data: thunder_resistance_single_valtype");
 		return;
 	end
 
@@ -231,14 +231,14 @@ function this.update_resistances(player_data)
 	if thunder_resistance ~= nil then
 		this.list.thunder_resistance = math.floor(thunder_resistance);
 	else
-		error_handler.report("player_info.update_resistances", "Failed to access Data: thunder_resistance");
+		error_handler.report("player_info.update_resistances", "Failed to Access Data: thunder_resistance");
 		return;
 	end
 
 	-- Ice Resistance
 	local ice_resistance_single_valtype = get_value_method:call(resistance_element_array, 3);
 	if ice_resistance_single_valtype == nil then
-		error_handler.report("player_info.update_resistances", "Failed to access Data: ice_resistance_single_valtype");
+		error_handler.report("player_info.update_resistances", "Failed to Access Data: ice_resistance_single_valtype");
 		return;
 	end
 
@@ -246,14 +246,14 @@ function this.update_resistances(player_data)
 	if ice_resistance ~= nil then
 		this.list.ice_resistance = math.floor(ice_resistance);
 	else
-		error_handler.report("player_info.update_resistances", "Failed to access Data: ice_resistance");
+		error_handler.report("player_info.update_resistances", "Failed to Access Data: ice_resistance");
 		return;
 	end
 
 	-- Dragon Resistance
 	local dragon_resistance_single_valtype = get_value_method:call(resistance_element_array, 4);
 	if dragon_resistance_single_valtype == nil then
-		error_handler.report("player_info.update_resistances", "Failed to access Data: dragon_resistance_single_valtype");
+		error_handler.report("player_info.update_resistances", "Failed to Access Data: dragon_resistance_single_valtype");
 		return;
 	end
 
@@ -261,7 +261,7 @@ function this.update_resistances(player_data)
 	if dragon_resistance ~= nil then
 		this.list.dragon_resistance = math.floor(dragon_resistance);
 	else
-		error_handler.report("player_info.update_resistances", "Failed to access Data: dragon_resistance");
+		error_handler.report("player_info.update_resistances", "Failed to Access Data: dragon_resistance");
 		return;
 	end
 end
@@ -285,7 +285,7 @@ end
 function this.update_health(quest_player_base)
 	local vital = get_vital_method:call(master_player_data_ref);
 	if vital == nil then
-		error_handler.report("player_info.update_health", "Failed to access Data: vital");
+		error_handler.report("player_info.update_health", "Failed to Access Data: vital");
 		return;
 	end
 
@@ -299,7 +299,7 @@ function this.update_heroics(quest_player_base)
 
 	local is_predicament_power_up = is_predicament_power_up_method:call(master_player_ref);
 	if is_predicament_power_up == nil then
-		error_handler.report("player_info.update_heroics", "Failed to access Data: is_predicament_power_up");
+		error_handler.report("player_info.update_heroics", "Failed to Access Data: is_predicament_power_up");
 		return;
 	end
 
@@ -313,7 +313,7 @@ function this.update_dango_adrenaline(quest_player_base)
 
 	local is_kitchen_skill_predicament_powerup = is_kitchen_skill_predicament_powerup_method:call(master_player_ref);
 	if is_kitchen_skill_predicament_powerup == nil then
-		error_handler.report("player_info.update_dango_adrenaline", "Failed to access Data: is_kitchen_skill_predicament_powerup");
+		error_handler.report("player_info.update_dango_adrenaline", "Failed to Access Data: is_kitchen_skill_predicament_powerup");
 		return;
 	end
 

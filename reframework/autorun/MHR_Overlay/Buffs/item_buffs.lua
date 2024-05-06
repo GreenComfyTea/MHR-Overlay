@@ -170,7 +170,7 @@ function this.update_demondrug(player_data, item_parameter)
 
 	local demondrug_value = atk_up_alive_field:get_data(player_data);
 	if demondrug_value == nil then
-		error_handler.report("item_buffs.update_demondrug", "Failed to access Data: demondrug_value");
+		error_handler.report("item_buffs.update_demondrug", "Failed to Access Data: demondrug_value");
 		this.list.demondrug = nil;
 		this.list.mega_demondrug = nil;
 		return;
@@ -184,7 +184,7 @@ function this.update_demondrug(player_data, item_parameter)
 
 	local demondrug_const_value = demondrug_atk_up_field:get_data(item_parameter);
 	if demondrug_const_value == nil then
-		error_handler.report("item_buffs.update_demondrug", "Failed to access Data: demondrug_const_value");
+		error_handler.report("item_buffs.update_demondrug", "Failed to Access Data: demondrug_const_value");
 		this.list.demondrug = nil;
 		this.list.mega_demondrug = nil;
 		return;
@@ -192,7 +192,7 @@ function this.update_demondrug(player_data, item_parameter)
 
 	local mega_demondrug_const_value = great_demondrug_atk_up_field:get_data(item_parameter);
 	if mega_demondrug_const_value == nil then
-		error_handler.report("item_buffs.update_demondrug", "Failed to access Data: mega_demondrug_const_value");
+		error_handler.report("item_buffs.update_demondrug", "Failed to Access Data: mega_demondrug_const_value");
 		this.list.demondrug = nil;
 		this.list.mega_demondrug = nil;
 		return;
@@ -227,7 +227,7 @@ function this.update_armorskin(player_data, item_parameter)
 
 	local armorskin_value = def_up_alive_field:get_data(player_data);
 	if armorskin_value == nil then
-		error_handler.report("item_buffs.update_armorskin", "Failed to access Data: armorskin_value");
+		error_handler.report("item_buffs.update_armorskin", "Failed to Access Data: armorskin_value");
 		this.list.armorskin = nil;
 		this.list.mega_armorskin = nil;
 		return;
@@ -241,7 +241,7 @@ function this.update_armorskin(player_data, item_parameter)
 
 	local armorskin_const_value = armorskin_def_up_field:get_data(item_parameter);
 	if armorskin_const_value == nil then
-		error_handler.report("item_buffs.update_armorskin", "Failed to access Data: armorskin_const_value");
+		error_handler.report("item_buffs.update_armorskin", "Failed to Access Data: armorskin_const_value");
 		this.list.armorskin = nil;
 		this.list.mega_armorskin = nil;
 		return;
@@ -249,7 +249,7 @@ function this.update_armorskin(player_data, item_parameter)
 
 	local mega_armorskin_const_value = great_armorskin_def_up_field:get_data(item_parameter);
 	if mega_armorskin_const_value == nil then
-		error_handler.report("item_buffs.update_armorskin", "Failed to access Data: mega_armorskin_const_value");
+		error_handler.report("item_buffs.update_armorskin", "Failed to Access Data: mega_armorskin_const_value");
 		this.list.armorskin = nil;
 		this.list.mega_armorskin = nil;
 		return;
@@ -280,14 +280,14 @@ function this.update_might_seed(player_data, item_parameter)
 
 	local atk_up_buff_second = atk_up_buff_second_field:get_data(player_data);
 	if atk_up_buff_second == nil then
-		error_handler.report("item_buffs.update_might_seed", "Failed to access Data: atk_up_buff_second");
+		error_handler.report("item_buffs.update_might_seed", "Failed to Access Data: atk_up_buff_second");
 		this.list.might_seed = nil;
 		return;
 	end
 
 	local might_seed_atk_up = might_seed_atk_up_field:get_data(item_parameter);
 	if might_seed_atk_up == nil then
-		error_handler.report("item_buffs.update_might_seed", "Failed to access Data: might_seed_atk_up");
+		error_handler.report("item_buffs.update_might_seed", "Failed to Access Data: might_seed_atk_up");
 		this.list.might_seed = nil;
 		return;
 	end
@@ -315,7 +315,7 @@ end
 function this.get_item_buff_name(key)
 	local item_buff_name = get_name_method:call(nil, item_ids[key]);
 	if item_buff_name == nil then
-		error_handler.report("item_buffs.get_item_buff_name", string.format("Failed to access Data: %s_name", key));
+		error_handler.report("item_buffs.get_item_buff_name", string.format("Failed to Access Data: %s_name", key));
 		return key;
 	end
 

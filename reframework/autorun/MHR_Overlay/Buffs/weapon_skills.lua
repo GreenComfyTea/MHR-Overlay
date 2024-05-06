@@ -586,21 +586,21 @@ function this.update_harvest_moon()
 	end
 
 	if singletons.long_sword_shell_manager == nil then
-		error_handler.report("weapon_skills.update_harvest_moon", "Failed to access Data: long_sword_shell_manager");
+		error_handler.report("weapon_skills.update_harvest_moon", "Failed to Access Data: long_sword_shell_manager");
 		this.list.harvest_moon = nil;
 		return;
 	end
 
 	local master_long_sword_shell_010_list =  get_master_long_sword_shell_010s_method:call(singletons.long_sword_shell_manager, players.myself.id);
 	if master_long_sword_shell_010_list == nil then
-		error_handler.report("weapon_skills.update_harvest_moon", "Failed to access Data: master_long_sword_shell_010_list");
+		error_handler.report("weapon_skills.update_harvest_moon", "Failed to Access Data: master_long_sword_shell_010_list");
 		this.list.harvest_moon = nil;
 		return;
 	end
 
 	local master_long_sword_shell_010_list_count = get_long_sword_shell_010_list_count_method:call(master_long_sword_shell_010_list);
 	if master_long_sword_shell_010_list_count == nil then
-		error_handler.report("weapon_skills.update_harvest_moon", "Failed to access Data: master_long_sword_shell_010_list_count");
+		error_handler.report("weapon_skills.update_harvest_moon", "Failed to Access Data: master_long_sword_shell_010_list_count");
 		this.list.harvest_moon = nil;
 		return;
 	end
@@ -612,14 +612,14 @@ function this.update_harvest_moon()
 
 	local master_long_sword_shell_010 = get_long_sword_shell_010_list_item_method:call(master_long_sword_shell_010_list, 0);
 	if master_long_sword_shell_010 == nil then
-		error_handler.report("weapon_skills.update_harvest_moon", "Failed to access Data: master_long_sword_shell_010");
+		error_handler.report("weapon_skills.update_harvest_moon", "Failed to Access Data: master_long_sword_shell_010");
 		this.list.harvest_moon = nil;
 		return;
 	end
 
 	local life_timer = long_sword_shell_010_life_timer_field:get_data(master_long_sword_shell_010);
 	if life_timer == nil then
-		error_handler.report("weapon_skills.update_harvest_moon", "Failed to access Data: life_timer");
+		error_handler.report("weapon_skills.update_harvest_moon", "Failed to Access Data: life_timer");
 		this.list.harvest_moon = nil;
 		return;
 	end
@@ -645,7 +645,7 @@ function this.update_wyvernblast_reload(player_data)
 
 	local wyvernblast_reload_timer = wyvernblast_reload_timer_field:get_data(player_data);
 	if wyvernblast_reload_timer == nil then
-		error_handler.report("weapon_skills.update_wyvernblast_reload", "Failed to access Data: heavy_bowgun_overheat_timer_field");
+		error_handler.report("weapon_skills.update_wyvernblast_reload", "Failed to Access Data: heavy_bowgun_overheat_timer_field");
 		this.list.wyvernblast_reload = nil;
 		return;
 	end
@@ -675,21 +675,21 @@ function this.update_rising_moon()
 	end
 	
 	if singletons.light_bowgun_shell_manager == nil then
-		error_handler.report("weapon_skills.update_rising_moon", "Failed to access Data: light_bowgun_shell_manager");
+		error_handler.report("weapon_skills.update_rising_moon", "Failed to Access Data: light_bowgun_shell_manager");
 		this.list.rising_moon = nil;
 		return;
 	end
 
 	local light_bowgun_shell_030s_speed_boost_list =  get_light_bowgun_shell_030s_speed_boost_list_method:call(singletons.light_bowgun_shell_manager);
 	if light_bowgun_shell_030s_speed_boost_list == nil then
-		error_handler.report("weapon_skills.update_rising_moon", "Failed to access Data: light_bowgun_shell_030s_speed_boost_list");
+		error_handler.report("weapon_skills.update_rising_moon", "Failed to Access Data: light_bowgun_shell_030s_speed_boost_list");
 		this.list.rising_moon = nil;
 		return;
 	end
 
 	local light_bowgun_shell_030_speed_boost_list_count = get_light_bowgun_shell_030_list_count_method:call(light_bowgun_shell_030s_speed_boost_list);
 	if light_bowgun_shell_030_speed_boost_list_count == nil then
-		error_handler.report("weapon_skills.update_rising_moon", "Failed to access Data: light_bowgun_shell_030_speed_boost_list_count");
+		error_handler.report("weapon_skills.update_rising_moon", "Failed to Access Data: light_bowgun_shell_030_speed_boost_list_count");
 		this.list.rising_moon = nil;
 		return;
 	end
@@ -701,14 +701,14 @@ function this.update_rising_moon()
 
 	local light_bowgun_shell_030 = get_light_bowgun_shell_030_list_item_method:call(light_bowgun_shell_030s_speed_boost_list, 0);
 	if light_bowgun_shell_030 == nil then
-		error_handler.report("weapon_skills.update_rising_moon", "Failed to access Data: light_bowgun_shell_030");
+		error_handler.report("weapon_skills.update_rising_moon", "Failed to Access Data: light_bowgun_shell_030");
 		this.list.rising_moon = nil;
 		return;
 	end
 
 	local is_hit_enable = light_bowgun_shell_030_is_enable_hit_field:get_data(light_bowgun_shell_030);
 	if is_hit_enable == nil then
-		error_handler.report("weapon_skills.update_rising_moon", "Failed to access Data: is_hit_enable");
+		error_handler.report("weapon_skills.update_rising_moon", "Failed to Access Data: is_hit_enable");
 		this.list.rising_moon = nil;
 		return;
 	end
@@ -720,7 +720,7 @@ function this.update_rising_moon()
 
 	local timer = light_bowgun_shell_030_timer_field:get_data(light_bowgun_shell_030);
 	if timer == nil then
-		error_handler.report("weapon_skills.update_rising_moon", "Failed to access Data: timer");
+		error_handler.report("weapon_skills.update_rising_moon", "Failed to Access Data: timer");
 		this.list.rising_moon = nil;
 		return;
 	end
@@ -739,21 +739,21 @@ function this.update_setting_sun()
 	end
 
 	if singletons.light_bowgun_shell_manager == nil then
-		error_handler.report("weapon_skills.update_setting_sun", "Failed to access Data: light_bowgun_shell_manager");
+		error_handler.report("weapon_skills.update_setting_sun", "Failed to Access Data: light_bowgun_shell_manager");
 		this.list.setting_sun = nil;
 		return;
 	end
 
 	local light_bowgun_shell_030s_all_list =  get_light_bowgun_shell_030s_all_list_method:call(singletons.light_bowgun_shell_manager);
 	if light_bowgun_shell_030s_all_list == nil then
-		error_handler.report("weapon_skills.update_setting_sun", "Failed to access Data: light_bowgun_shell_030s_all_list");
+		error_handler.report("weapon_skills.update_setting_sun", "Failed to Access Data: light_bowgun_shell_030s_all_list");
 		this.list.setting_sun = nil;
 		return;
 	end
 
 	local light_bowgun_shell_030_all_list_count = get_light_bowgun_shell_030_list_count_method:call(light_bowgun_shell_030s_all_list);
 	if light_bowgun_shell_030_all_list_count == nil then
-		error_handler.report("weapon_skills.update_setting_sun", "Failed to access Data: light_bowgun_shell_030_all_list_count");
+		error_handler.report("weapon_skills.update_setting_sun", "Failed to Access Data: light_bowgun_shell_030_all_list_count");
 		this.list.setting_sun = nil;
 		return;
 	end
@@ -770,14 +770,14 @@ function this.update_setting_sun()
 
 	local light_bowgun_shell_030 = get_light_bowgun_shell_030_list_item_method:call(light_bowgun_shell_030s_all_list, 0);
 	if light_bowgun_shell_030 == nil then
-		error_handler.report("weapon_skills.update_setting_sun", "Failed to access Data: light_bowgun_shell_030");
+		error_handler.report("weapon_skills.update_setting_sun", "Failed to Access Data: light_bowgun_shell_030");
 		this.list.setting_sun = nil;
 		return;
 	end
 
 	local is_hit_enable = light_bowgun_shell_030_is_enable_hit_field:get_data(light_bowgun_shell_030);
 	if is_hit_enable == nil then
-		error_handler.report("weapon_skills.update_setting_sun", "Failed to access Data: is_hit_enable");
+		error_handler.report("weapon_skills.update_setting_sun", "Failed to Access Data: is_hit_enable");
 		this.list.setting_sun = nil;
 		return;
 	end
@@ -789,7 +789,7 @@ function this.update_setting_sun()
 
 	local timer = light_bowgun_shell_030_timer_field:get_data(light_bowgun_shell_030);
 	if timer == nil then
-		error_handler.report("weapon_skills.update_setting_sun", "Failed to access Data: timer");
+		error_handler.report("weapon_skills.update_setting_sun", "Failed to Access Data: timer");
 		this.list.setting_sun = nil;
 		return;
 	end
@@ -809,7 +809,7 @@ function this.update_overheat(player_data)
 
 	local heavy_bowgun_overheat_timer = heavy_bowgun_overheat_timer_field:get_data(player_data);
 	if heavy_bowgun_overheat_timer_field == nil then
-		error_handler.report("weapon_skills.update_overheat", "Failed to access Data: heavy_bowgun_overheat_timer_field");
+		error_handler.report("weapon_skills.update_overheat", "Failed to Access Data: heavy_bowgun_overheat_timer_field");
 		this.list.overheat = nil;
 		return;
 	end
@@ -845,7 +845,7 @@ function this.update_twin_wine(player)
 
 	local chain_death_match_shell = chain_death_match_shell_field:get_data(player);
 	if chain_death_match_shell == nil then
-		error_handler.report("weapon_skills.update_twin_wine", "Failed to access Data: chain_death_match_shell");
+		error_handler.report("weapon_skills.update_twin_wine", "Failed to Access Data: chain_death_match_shell");
 		this.list.twin_wine = nil;
 		return;
 	end
@@ -870,7 +870,7 @@ function this.update_archdemon_mode(player)
 
 	local is_kijin_kyouka = is_kijin_kyouka_field:get_data(player);
 	if is_kijin_kyouka == nil then
-		error_handler.report("weapon_skills.update_archdemon_mode", "Failed to access Data: is_kijin_kyouka");
+		error_handler.report("weapon_skills.update_archdemon_mode", "Failed to Access Data: is_kijin_kyouka");
 		this.list.archdemon_mode = nil;
 		return;
 	end
@@ -882,7 +882,7 @@ function this.update_archdemon_mode(player)
 
 	local kijin_kyouka_gauge = get_kijin_kyouka_gauge_method:call(player);
 	if kijin_kyouka_gauge == nil then
-		error_handler.report("weapon_skills.update_archdemon_mode", "Failed to access Data: kijin_kyouka_gauge");
+		error_handler.report("weapon_skills.update_archdemon_mode", "Failed to Access Data: kijin_kyouka_gauge");
 		this.list.archdemon_mode = nil;
 		return;
 	end
@@ -908,21 +908,21 @@ function this.update_bead_of_resonance()
 	end
 
 	if singletons.horn_shell_manager == nil then
-		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to access Data: horn_shell_manager");
+		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to Access Data: horn_shell_manager");
 		this.list.bead_of_resonance = nil;
 		return;
 	end
 
 	local horn_shell_003s_array = horn_shell_003s_field:get_data(singletons.horn_shell_manager);
 	if horn_shell_003s_array == nil then
-		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to access Data: horn_shell_003s_list");
+		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to Access Data: horn_shell_003s_list");
 		this.list.bead_of_resonance = nil;
 		return;
 	end
 
 	local horn_shell_003s_array_length = get_length_method:call(horn_shell_003s_array);
 	if horn_shell_003s_array_length == nil then
-		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to access Data: horn_shell_003s_array_length");
+		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to Access Data: horn_shell_003s_array_length");
 		this.list.bead_of_resonance = nil;
 		return;
 	end
@@ -934,14 +934,14 @@ function this.update_bead_of_resonance()
 
 	local horn_shell_003_list = get_value_method:call(horn_shell_003s_array, 0);
 	if horn_shell_003_list == nil then
-		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to access Data: horn_shell_003_list");
+		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to Access Data: horn_shell_003_list");
 		this.list.bead_of_resonance = nil;
 		return;
 	end
 
 	local horn_shell_003_list_count = get_horn_shell_003_list_count_method:call(horn_shell_003_list);
 	if horn_shell_003_list_count == nil then
-		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to access Data: horn_shell_003_list_count");
+		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to Access Data: horn_shell_003_list_count");
 		this.list.bead_of_resonance = nil;
 		return;
 	end
@@ -953,14 +953,14 @@ function this.update_bead_of_resonance()
 
 	local horn_shell_003 = get_horn_shell_003_list_item_method:call(horn_shell_003_list, 0);
 	if horn_shell_003 == nil then
-		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to access Data: horn_shell_003");
+		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to Access Data: horn_shell_003");
 		this.list.bead_of_resonance = nil;
 		return;
 	end
 
 	local life_timer = horn_shell_003_life_timer_field:get_data(horn_shell_003);
 	if life_timer == nil then
-		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to access Data: life_timer");
+		error_handler.report("weapon_skills.update_bead_of_resonance", "Failed to Access Data: life_timer");
 		this.list.bead_of_resonance = nil;
 		return;
 	end
@@ -986,7 +986,7 @@ function this.update_sonic_bloom(player)
 
 	local life_timer = horn_shell_020_life_timer_field:get_data(blast_speaker_shell);
 	if life_timer == nil then
-		error_handler.report("weapon_skills.update_sonic_bloom", "Failed to access Data: life_timer");
+		error_handler.report("weapon_skills.update_sonic_bloom", "Failed to Access Data: life_timer");
 		this.list.sonic_bloom = nil;
 		return;
 	end
@@ -1026,7 +1026,7 @@ function this.update_all_extracts_mix(player)
 
 	local is_get_all_extractive = is_get_all_extractive_method:call(player);
 	if is_get_all_extractive == nil then
-		error_handler.report("weapon_skills.update_all_extracts_mix", "Failed to access Data: is_get_all_extractive");
+		error_handler.report("weapon_skills.update_all_extracts_mix", "Failed to Access Data: is_get_all_extractive");
 		this.list.all_extracts_mix = nil;
 		return;
 	end
@@ -1038,7 +1038,7 @@ function this.update_all_extracts_mix(player)
 
 	local red_extractive_time = get_red_extractive_time_method:call(player);
 	if red_extractive_time == nil then
-		error_handler.report("weapon_skills.update_all_extracts_mix", "Failed to access Data: red_extractive_time");
+		error_handler.report("weapon_skills.update_all_extracts_mix", "Failed to Access Data: red_extractive_time");
 		this.list.all_extracts_mix = nil;
 		return;
 	end
@@ -1058,7 +1058,7 @@ function this.update_extract(player, extract_key, time_holder)
 
 	local extractive_time = time_holder:call(player);
 	if extractive_time == nil then
-		error_handler.report("weapon_skills.update_extract", string.format("Failed to access Data: %s_extractive_time", extract_key));
+		error_handler.report("weapon_skills.update_extract", string.format("Failed to Access Data: %s_extractive_time", extract_key));
 		this.list[extract_key] = nil;
 		return;
 	end
@@ -1104,7 +1104,7 @@ function this.get_weapon_skill_name(weapon_skill_key)
 
 	local weapon_skill_name = get_name_method:call(nil, weapon_skill_id);
 	if weapon_skill_name == nil then
-		error_handler.report("weapon_skills.get_weapon_skill_name", string.format("Failed to access Data: %s_name", weapon_skill_key));
+		error_handler.report("weapon_skills.get_weapon_skill_name", string.format("Failed to Access Data: %s_name", weapon_skill_key));
 		return weapon_skill_key;
 	end
 

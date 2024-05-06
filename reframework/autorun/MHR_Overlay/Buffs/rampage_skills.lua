@@ -106,7 +106,7 @@ end
 function this.get_rampage_skill_name(key)
 	local rampage_skill_name = get_name_method:call(nil, rampage_skill_ids[key]);
 	if rampage_skill_name == nil then
-		error_handler.report("rampage_skills.get_rampage_skill_name", string.format("Failed to access Data: %s_name", key));
+		error_handler.report("rampage_skills.get_rampage_skill_name", string.format("Failed to Access Data: %s_name", key));
 		return key;
 	end
 

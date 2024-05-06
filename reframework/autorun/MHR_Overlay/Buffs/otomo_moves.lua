@@ -134,7 +134,7 @@ end
 function this.get_otomo_move_name(key)
 	local otomo_move_name = get_name_method:call(nil, otomo_moves_ids[key]);
 	if otomo_move_name == nil then
-		error_handler.report("otomo_moves.get_otomo_move_name", string.format("Failed to access Data: %s_name", key));
+		error_handler.report("otomo_moves.get_otomo_move_name", string.format("Failed to Access Data: %s_name", key));
 		return key;
 	end
 

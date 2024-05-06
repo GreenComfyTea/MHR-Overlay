@@ -93,13 +93,13 @@ local get_pos_method = environment_creature_base_type_def:get_method("get_Pos");
 function this.init(creature, REcreature)
 	local creature_type = creature_type_field:get_data(REcreature);
 	if creature_type == nil then
-		error_handler.report("env_creature.init", "Failed to access Data: creature_type");
+		error_handler.report("env_creature.init", "Failed to Access Data: creature_type");
 		return;
 	end
 
 	local creature_name = get_env_creature_name_message_method:call(singletons.message_manager, creature_type);
 	if creature_name == nil then
-		error_handler.report("env_creature.init", "Failed to access Data: creature_name");
+		error_handler.report("env_creature.init", "Failed to Access Data: creature_name");
 		return;
 	end
 	
@@ -127,7 +127,7 @@ function this.update_position(REcreature, creature)
 
 	local position = get_pos_method:call(REcreature);
 	if position == nil then
-		error_handler.report("env_creature.update_position", "Failed to access Data: position");
+		error_handler.report("env_creature.update_position", "Failed to Access Data: position");
 	end
 	
 	creature.position = position;
@@ -144,7 +144,7 @@ function this.update(REcreature, creature)
 
 	local is_inactive = creature_is_inactive_field:get_data(REcreature);
 	if is_inactive == nil then
-		error_handler.report("env_creature.update", "Failed to access Data: is_inactive");
+		error_handler.report("env_creature.update", "Failed to Access Data: is_inactive");
 	end
 	
 	creature.is_inactive = is_inactive;

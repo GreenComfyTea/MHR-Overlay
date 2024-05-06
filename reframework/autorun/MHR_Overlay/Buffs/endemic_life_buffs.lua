@@ -143,7 +143,7 @@ function this.update_ruby_and_gold_wirebugs(player, player_data)
 
 	local marionette_mode_type = get_marionette_mode_type_method:call(player);
 	if marionette_mode_type == nil then
-		error_handler.report("endemic_life_buffs.update_ruby_and_gold_wirebugs", "Failed to access Data: marionette_mode_type");
+		error_handler.report("endemic_life_buffs.update_ruby_and_gold_wirebugs", "Failed to Access Data: marionette_mode_type");
 		this.list.ruby_wirebug = nil;
 		this.list.gold_wirebug = nil;
 	end
@@ -169,7 +169,7 @@ function this.update_butterflame(player_data)
 
 	local atk_up_buff_second = atk_up_buff_second_field:get_data(player_data);
 	if atk_up_buff_second == nil then
-		error_handler.report("item_buffs.update_butterflame", "Failed to access Data: atk_up_buff_second");
+		error_handler.report("item_buffs.update_butterflame", "Failed to Access Data: atk_up_buff_second");
 		this.list.butterflame = nil;
 		return;
 	end
@@ -196,13 +196,13 @@ end
 
 function this.get_endemic_life_name(key)
 	if singletons.message_manager == nil then
-		error_handler.report("endemic_life_buffs.get_endemic_life_name", "Failed to access Data: message_manager");
+		error_handler.report("endemic_life_buffs.get_endemic_life_name", "Failed to Access Data: message_manager");
 		return key;
 	end
 
 	local endemic_life_name = get_env_creature_name_message_method:call(singletons.message_manager, env_creature.creature_ids[key]);
 	if endemic_life_name == nil then
-		error_handler.report("endemic_life_buffs.get_endemic_life_name", string.format("Failed to access Data: %s_name", key));
+		error_handler.report("endemic_life_buffs.get_endemic_life_name", string.format("Failed to Access Data: %s_name", key));
 		return key;
 	end
 

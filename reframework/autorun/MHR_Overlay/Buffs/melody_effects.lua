@@ -127,13 +127,13 @@ local get_name_method = data_shortcut_type_def:get_method("getName(snow.data.Dat
 function this.update(master_player)
 	local music_data_array = music_data_field:get_data(master_player);
 	if music_data_array == nil then
-		error_handler.report("melody_effects.update", "Failed to access Data: music_data_array");
+		error_handler.report("melody_effects.update", "Failed to Access Data: music_data_array");
 		return;
 	end
 
 	local length = get_length_method:call(music_data_array);
 	if length == nil then
-		error_handler.report("melody_effects.update", "Failed to access Data: music_data_array -> length");
+		error_handler.report("melody_effects.update", "Failed to Access Data: music_data_array -> length");
 		return;
 	end
 
@@ -152,7 +152,7 @@ function this.update(master_player)
 
 		local music_data = get_value_method:call(music_data_array, id);
 		if music_data == nil then
-			error_handler.report("melody_effects.update", "Failed to access Data: music_data No." .. tostring(id));
+			error_handler.report("melody_effects.update", "Failed to Access Data: music_data No." .. tostring(id));
 			this.list[lua_index] = nil;
 			goto continue;
 		end
@@ -165,7 +165,7 @@ end
 function this.update_melody_effect(lua_index, id, key, melody_effect, melody_data)
 	local melody_timer = time_field:get_data(melody_data);
 	if melody_timer == nil then
-		error_handler.report("melody_effects.update_melody_effect", "Failed to access Data: melody_timer No. " .. tostring(id));
+		error_handler.report("melody_effects.update_melody_effect", "Failed to Access Data: melody_timer No. " .. tostring(id));
 		this.list[lua_index] = nil;
 		return;
 	end
@@ -233,7 +233,7 @@ function this.get_melody_effect_name(id)
 	local melody_effect_name = get_name_method:call(nil, id);
 	if melody_effect_name == nil then
 		local name = string.format("Melody Effect No. %d", id);
-		error_handler.report("melody_effects.get_melody_effect_name", "Failed to access Data: " .. melody_effect_name);
+		error_handler.report("melody_effects.get_melody_effect_name", "Failed to Access Data: " .. melody_effect_name);
 		return name;
 	end
 

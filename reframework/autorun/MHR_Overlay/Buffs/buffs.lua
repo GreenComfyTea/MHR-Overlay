@@ -142,13 +142,17 @@ function this.init_names()
 	misc_buffs.init_names();
 end
 
+local tere = {};
+local tere2 = {};
+local tere3 = {};
+
 function this.update()
 	if not config.current_config.buff_UI.enabled then
 		return;
 	end
 
 	if singletons.player_manager == nil then
-		error_handler.report("buffs.update", "Failed to access Data: player_manager");
+		error_handler.report("buffs.update", "Failed to Access Data: player_manager");
 		return;
 	end
 
@@ -158,9 +162,9 @@ function this.update()
 		return;
 	end
 
-	local master_player = find_master_player_method:call(singletons.player_manager); 
+	local master_player = find_master_player_method:call(singletons.player_manager);
 	if master_player == nil then
-		error_handler.report("buffs.update", "Failed to access Data: master_player");
+		error_handler.report("buffs.update", "Failed to Access Data: master_player");
 		return;
 	end
 
@@ -168,24 +172,24 @@ function this.update()
 
 	local master_player_data = get_player_data_method:call(master_player);
 	if master_player_data == nil then
-		error_handler.report("buffs.update", "Failed to access Data: master_player_data");
+		error_handler.report("buffs.update", "Failed to Access Data: master_player_data");
 		return;
 	end
 
 	local weapon_type = player_weapon_type_field:get_data(master_player);
 	if weapon_type == nil then
-		error_handler.report("buffs.update", "Failed to access Data: weapon_type");
+		error_handler.report("buffs.update", "Failed to Access Data: weapon_type");
 		return;
 	end
 
 	if singletons.player_manager == nil then
-		error_handler.report("buffs.update", "Failed to access Data: player_manager");
+		error_handler.report("buffs.update", "Failed to Access Data: player_manager");
 		return;
 	end
 
 	local item_parameter = get_ref_item_parameter_method:call(singletons.player_manager);
 	if item_parameter == nil then
-		error_handler.report("buffs.update", "Failed to access Data: item_parameter");
+		error_handler.report("buffs.update", "Failed to Access Data: item_parameter");
 		return;
 	end
 
@@ -255,7 +259,7 @@ function this.update_generic_buff(buff_list, filter_list, get_name_function,
 		end
 		
 		if value == nil then
-			error_handler.report("buffs.update_generic_number", string.format("Failed to access Data: %s_value", buff_key));
+			error_handler.report("buffs.update_generic_number", string.format("Failed to Access Data: %s_value", buff_key));
 			buff_list[buff_key] = nil;
 			return;
 		end
@@ -292,7 +296,7 @@ function this.update_generic_buff(buff_list, filter_list, get_name_function,
 		end
 
 		if timer == nil then
-			error_handler.report("buffs.update_generic_number", string.format("Failed to access Data: %s_timer", buff_key));
+			error_handler.report("buffs.update_generic_number", string.format("Failed to Access Data: %s_timer", buff_key));
 			buff_list[buff_key] = nil;
 			return;
 		end

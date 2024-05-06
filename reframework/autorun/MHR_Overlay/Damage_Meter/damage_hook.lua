@@ -107,13 +107,13 @@ function this.update_damage(enemy, enemy_calc_damage_info)
 	local is_large_monster = is_boss_enemy_method:call(enemy);
 
 	if is_large_monster == nil then
-		error_handler.report("damage_hook.update_damage", "Failed to access Data: is_large_monster");
+		error_handler.report("damage_hook.update_damage", "Failed to Access Data: is_large_monster");
 		return;
 	end
 
 	local dead_or_captured = check_die_method:call(enemy);
 	if dead_or_captured == nil then
-		error_handler.report("damage_hook.update_damage", "Failed to access Data: dead_or_captured");
+		error_handler.report("damage_hook.update_damage", "Failed to Access Data: dead_or_captured");
 		return;
 	end
 
@@ -331,7 +331,7 @@ function this.on_anomaly_core_break(anomaly_core_part)
 
 	local anomaly_core_break_damage_rate = get_mystery_core_break_damage_rate_method:call(anomaly_monster.enemy);
 	if anomaly_core_break_damage_rate == nil then
-		error_handler.report("damage_hook.on_anomaly_core_break", "Failed to access Data: anomaly_core_break_damage_rate");
+		error_handler.report("damage_hook.on_anomaly_core_break", "Failed to Access Data: anomaly_core_break_damage_rate");
 		return;
 	end
 
