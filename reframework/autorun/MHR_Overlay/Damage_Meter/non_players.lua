@@ -140,7 +140,7 @@ function this.update_servant_list()
 
 	local quest_servant_id_list = get_quest_servant_id_list_method:call(singletons.servant_manager);
 	if quest_servant_id_list == nil then
-		error_handler.report("non_players.update_servant_list", "Failed to Access Data: quest_servant_id_list");
+		-- error_handler.report("non_players.update_servant_list", "Failed to Access Data: quest_servant_id_list");
 		return;
 	end
 

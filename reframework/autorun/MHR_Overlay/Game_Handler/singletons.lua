@@ -126,7 +126,7 @@ end
 function this.update_village_area_manager()
 	this.village_area_manager = sdk.get_managed_singleton("snow.VillageAreaManager");
 	if this.village_area_manager == nil then
-		error_handler.report("singletons.update_village_area_manager", "Failed to Access Data: village_area_manager");
+		-- error_handler.report("singletons.update_village_area_manager", "Failed to Access Data: village_area_manager");
 	end
 
 	return this.village_area_manager;

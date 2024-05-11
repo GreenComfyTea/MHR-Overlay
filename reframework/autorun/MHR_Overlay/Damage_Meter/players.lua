@@ -520,7 +520,7 @@ function this.update_player_list(hunter_info_field_)
 	for i = 0, count - 1 do
 		local player_info = get_item_method:call(player_info_array, i);
 		if player_info == nil then
-			error_handler.report("players.update_player_list", "Failed to Access Data: player_info No. " .. tostring(i));
+			-- error_handler.report("players.update_player_list", "Failed to Access Data: player_info No. " .. tostring(i));
 			goto continue;
 		end
 
