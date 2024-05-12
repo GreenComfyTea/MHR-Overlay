@@ -205,7 +205,7 @@ function this.sort_buffs(_displayed_buffs, cached_config)
 				if infinite_buffs_location == "First" then
 
 					if left.is_infinite and right.is_infinite then
-						return left.timer < right.timer;
+						return left.name < right.name;
 					elseif left.is_infinite then
 						return true;
 					elseif right.is_infinite then
@@ -217,7 +217,7 @@ function this.sort_buffs(_displayed_buffs, cached_config)
 				elseif infinite_buffs_location == "Last" then
 
 					if left.is_infinite and right.is_infinite then
-						return left.timer < right.timer;
+						return left.name < right.name;
 					elseif left.is_infinite then
 						return false;
 					elseif right.is_infinite then
@@ -236,7 +236,7 @@ function this.sort_buffs(_displayed_buffs, cached_config)
 				if infinite_buffs_location == "First" then
 
 					if left.is_infinite and right.is_infinite then
-						return left.timer > right.timer;
+						return left.name > right.name;
 					elseif left.is_infinite then
 						return false;
 					elseif right.is_infinite then
@@ -248,7 +248,7 @@ function this.sort_buffs(_displayed_buffs, cached_config)
 				elseif infinite_buffs_location == "Last" then
 
 					if left.is_infinite and right.is_infinite then
-						return left.timer > right.timer;
+						return left.name > right.name;
 					elseif left.is_infinite then
 						return true;
 					elseif right.is_infinite then
@@ -269,7 +269,7 @@ function this.sort_buffs(_displayed_buffs, cached_config)
 				if infinite_buffs_location == "First" then
 
 					if left.is_infinite and right.is_infinite then
-						return left.duration < right.duration;
+						return left.name < right.name;
 					elseif left.is_infinite then
 						return true;
 					elseif right.is_infinite then
@@ -281,7 +281,7 @@ function this.sort_buffs(_displayed_buffs, cached_config)
 				elseif infinite_buffs_location == "Last" then
 
 					if left.is_infinite and right.is_infinite then
-						return left.duration < right.duration;
+						return left.name < right.name;
 					elseif left.is_infinite then
 						return false;
 					elseif right.is_infinite then
@@ -300,7 +300,7 @@ function this.sort_buffs(_displayed_buffs, cached_config)
 				if infinite_buffs_location == "First" then
 
 					if left.is_infinite and right.is_infinite then
-						return left.duration > right.duration;
+						return left.name > right.name;
 					elseif left.is_infinite then
 						return false;
 					elseif right.is_infinite then
@@ -312,7 +312,7 @@ function this.sort_buffs(_displayed_buffs, cached_config)
 				elseif infinite_buffs_location == "Last" then
 
 					if left.is_infinite and right.is_infinite then
-						return left.duration > right.duration;
+						return left.name > right.name;
 					elseif left.is_infinite then
 						return true;
 					elseif right.is_infinite then
