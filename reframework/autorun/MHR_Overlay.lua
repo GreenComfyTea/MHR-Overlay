@@ -271,14 +271,16 @@ log.info("[MHR Overlay] Loaded.");
 -- #region
 
 local function update_modules(module_visibility_config, flow_state_name)
-	if module_visibility_config.small_monster_UI and config.current_config.small_monster_UI.enabled then
+	local current_config = config.current_config;
+
+	if module_visibility_config.small_monster_UI and current_config.small_monster_UI.enabled then
 		local success, error = pcall(small_monster_UI.update);
 		if not success then
 			error_handler.report("MHR_Overlay.update_modules", string.format("[%s] Small Monster UI: %s", flow_state_name, tostring(error)));
 		end
 	end
 
-	local large_monster_UI_config = config.current_config.large_monster_UI;
+	local large_monster_UI_config = current_config.large_monster_UI;
 
 	local dynamic_enabled = large_monster_UI_config.dynamic.enabled and module_visibility_config.large_monster_dynamic_UI;
 	local static_enabled = large_monster_UI_config.static.enabled and module_visibility_config.large_monster_static_UI;
@@ -291,21 +293,21 @@ local function update_modules(module_visibility_config, flow_state_name)
 		end
 	end
 
-	if config.current_config.damage_meter_UI.enabled and module_visibility_config.damage_meter_UI then
+	if current_config.damage_meter_UI.enabled and module_visibility_config.damage_meter_UI then
 		local success, error = pcall(damage_meter_UI.update);
 		if not success then
 			error_handler.report("MHR_Overlay.update_modules", string.format("[%s] Damage Meter UI: %s", flow_state_name, tostring(error)));
 		end
 	end
 
-	if config.current_config.endemic_life_UI.enabled and module_visibility_config.endemic_life_UI then
+	if current_config.endemic_life_UI.enabled and module_visibility_config.endemic_life_UI then
 		local success, error = pcall(env_creature_UI.update);
 		if not success then
 			error_handler.report("MHR_Overlay.update_modules", string.format("[%s] Endemic Life UI: %s", flow_state_name, tostring(error)));
 		end
 	end
 
-	if config.current_config.buff_UI.enabled and module_visibility_config.buff_UI then
+	if current_config.buff_UI.enabled and module_visibility_config.buff_UI then
 		local success, error = pcall(buff_UI.update);
 		if not success then
 			error_handler.report("MHR_Overlay.update_modules", string.format("[%s] Buff UI: %s", flow_state_name, tostring(error)));
@@ -314,14 +316,16 @@ local function update_modules(module_visibility_config, flow_state_name)
 end
 
 local function draw_modules(module_visibility_config, flow_state_name)
-	if module_visibility_config.small_monster_UI and config.current_config.small_monster_UI.enabled then
+	local current_config = config.current_config;
+
+	if module_visibility_config.small_monster_UI and current_config.small_monster_UI.enabled then
 		local success, error = pcall(small_monster_UI.draw);
 		if not success then
 			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Small Monster UI: %s", flow_state_name, tostring(error)));
 		end
 	end
 
-	local large_monster_UI_config = config.current_config.large_monster_UI;
+	local large_monster_UI_config = current_config.large_monster_UI;
 
 	local dynamic_enabled = large_monster_UI_config.dynamic.enabled and module_visibility_config.large_monster_dynamic_UI;
 	local static_enabled = large_monster_UI_config.static.enabled and module_visibility_config.large_monster_static_UI;
@@ -334,35 +338,35 @@ local function draw_modules(module_visibility_config, flow_state_name)
 		end
 	end
 
-	if config.current_config.time_UI.enabled and module_visibility_config.time_UI then
+	if current_config.time_UI.enabled and module_visibility_config.time_UI then
 		local success, error = pcall(time_UI.draw);
 		if not success then
 			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Time UI: %s", flow_state_name, tostring(error)));
 		end
 	end
 
-	if config.current_config.damage_meter_UI.enabled and module_visibility_config.damage_meter_UI then
+	if current_config.damage_meter_UI.enabled and module_visibility_config.damage_meter_UI then
 		local success, error = pcall(damage_meter_UI.draw);
 		if not success then
 			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Damage Meter UI: %s", flow_state_name, tostring(error)));
 		end
 	end
 
-	if config.current_config.endemic_life_UI.enabled and module_visibility_config.endemic_life_UI then
+	if current_config.endemic_life_UI.enabled and module_visibility_config.endemic_life_UI then
 		local success, error = pcall(env_creature_UI.draw);
 		if not success then
 			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Endemic Life UI: %s", flow_state_name, tostring(error)));
 		end
 	end
 
-	if config.current_config.buff_UI.enabled and module_visibility_config.buff_UI then
+	if current_config.buff_UI.enabled and module_visibility_config.buff_UI then
 		local success, error = pcall(buff_UI.draw);
 		if not success then
 			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Buff UI: %s", flow_state_name, tostring(error)));
 		end
 	end
 
-	if config.current_config.stats_UI.enabled and module_visibility_config.stats_UI then
+	if current_config.stats_UI.enabled and module_visibility_config.stats_UI then
 		local success, error = pcall(stats_UI.draw);
 		if not success then
 			error_handler.report("MHR_Overlay.draw_modules", string.format("[%s] Stats UI: %s", flow_state_name, tostring(error)));
@@ -371,14 +375,18 @@ local function draw_modules(module_visibility_config, flow_state_name)
 end
 
 local function update_UI()
-	if quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
+	local current_config = config.current_config;
+	local module_visibility_config = current_config.global_settings.module_visibility;
+	local flow_states = quest_status.flow_states;
 
-		local large_monster_UI_config = config.current_config.large_monster_UI;
-		local module_visibility_config = config.current_config.global_settings.module_visibility.in_training_area;
+	if quest_status.flow_state == flow_states.IN_TRAINING_AREA then
 
-		local dynamic_enabled = large_monster_UI_config.dynamic.enabled and module_visibility_config.large_monster_dynamic_UI;
-		local static_enabled = large_monster_UI_config.static.enabled and module_visibility_config.large_monster_static_UI;
-		local highlighted_enabled = large_monster_UI_config.highlighted.enabled and module_visibility_config.large_monster_highlighted_UI;
+		local large_monster_UI_config = current_config.large_monster_UI;
+		local module_visibility_in_training_area_config = module_visibility_config.in_training_area;
+
+		local dynamic_enabled = large_monster_UI_config.dynamic.enabled and module_visibility_in_training_area_config.large_monster_dynamic_UI;
+		local static_enabled = large_monster_UI_config.static.enabled and module_visibility_in_training_area_config.large_monster_static_UI;
+		local highlighted_enabled = large_monster_UI_config.highlighted.enabled and module_visibility_in_training_area_config.large_monster_highlighted_UI;
 
 		if dynamic_enabled or static_enabled or highlighted_enabled then
 			local success, error = pcall(large_monster_UI.update, dynamic_enabled, static_enabled, highlighted_enabled);
@@ -387,69 +395,73 @@ local function update_UI()
 			end
 		end
 
-		if config.current_config.damage_meter_UI.enabled and module_visibility_config.damage_meter_UI then
+		if current_config.damage_meter_UI.enabled and module_visibility_in_training_area_config.damage_meter_UI then
 			local success, error = pcall(damage_meter_UI.update);
 			if not success then
 				error_handler.report("MHR_Overlay.update_UI", string.format("[In Training Area] Damage Meter UI: %s", tostring(error)));
 			end
 		end
 
-		if config.current_config.endemic_life_UI.enabled and module_visibility_config.endemic_life_UI then
+		if current_config.endemic_life_UI.enabled and module_visibility_in_training_area_config.endemic_life_UI then
 			local success, error = pcall(env_creature_UI.update);
 			if not success then
 				error_handler.report("MHR_Overlay.update_UI", string.format("[In Training Area] Endemic Life UI: %s", tostring(error)));
 			end
 		end
 
-		if config.current_config.buff_UI.enabled and module_visibility_config.buff_UI then
+		if current_config.buff_UI.enabled and module_visibility_in_training_area_config.buff_UI then
 			local success, error = pcall(buff_UI.update);
 			if not success then
 				error_handler.report("MHR_Overlay.update_UI", string.format("[In Training Area] Buff UI: %s", tostring(error)));
 			end
 		end
 
-	elseif quest_status.flow_state == quest_status.flow_states.CUTSCENE then
-		update_modules(config.current_config.global_settings.module_visibility.cutscene, "Cutscene");
-	elseif quest_status.flow_state == quest_status.flow_states.LOADING_QUEST then
-		update_modules(config.current_config.global_settings.module_visibility.loading_quest, "Loading Quest");
-	elseif quest_status.flow_state == quest_status.flow_states.QUEST_START_ANIMATION then
-		update_modules(config.current_config.global_settings.module_visibility.quest_start_animation, "Quest Start Animation");
-	elseif quest_status.flow_state >= quest_status.flow_states.PLAYING_QUEST and quest_status.flow_state <= quest_status.flow_states.WYVERN_RIDING_START_ANIMATION then
-		update_modules(config.current_config.global_settings.module_visibility.playing_quest, "Playing Quest");
-	elseif quest_status.flow_state == quest_status.flow_states.KILLCAM then
-		update_modules(config.current_config.global_settings.module_visibility.killcam, "Killcam");
-	elseif quest_status.flow_state == quest_status.flow_states.QUEST_END_TIMER then
-		update_modules(config.current_config.global_settings.module_visibility.quest_end_timer, "Quest End Timer");
-	elseif quest_status.flow_state == quest_status.flow_states.QUEST_END_ANIMATION then
-		update_modules(config.current_config.global_settings.module_visibility.quest_end_animation, "Quest End Animation");
-	elseif quest_status.flow_state == quest_status.flow_states.QUEST_END_SCREEN then
-		update_modules(config.current_config.global_settings.module_visibility.quest_end_screen, "Quest End Screen");
-	elseif quest_status.flow_state == quest_status.flow_states.REWARD_SCREEN then
-		update_modules(config.current_config.global_settings.module_visibility.reward_screen, "Reward Screen");
-	elseif quest_status.flow_state == quest_status.flow_states.SUMMARY_SCREEN then
-		update_modules(config.current_config.global_settings.module_visibility.summary_screen, "Summary Screen");
+	elseif quest_status.flow_state == flow_states.CUTSCENE then
+		update_modules(module_visibility_config.cutscene, "Cutscene");
+	elseif quest_status.flow_state == flow_states.LOADING_QUEST then
+		update_modules(module_visibility_config.loading_quest, "Loading Quest");
+	elseif quest_status.flow_state == flow_states.QUEST_START_ANIMATION then
+		update_modules(module_visibility_config.quest_start_animation, "Quest Start Animation");
+	elseif quest_status.flow_state >= flow_states.PLAYING_QUEST and quest_status.flow_state <= flow_states.WYVERN_RIDING_START_ANIMATION then
+		update_modules(module_visibility_config.playing_quest, "Playing Quest");
+	elseif quest_status.flow_state == flow_states.KILLCAM then
+		update_modules(module_visibility_config.killcam, "Killcam");
+	elseif quest_status.flow_state == flow_states.QUEST_END_TIMER then
+		update_modules(module_visibility_config.quest_end_timer, "Quest End Timer");
+	elseif quest_status.flow_state == flow_states.QUEST_END_ANIMATION then
+		update_modules(module_visibility_config.quest_end_animation, "Quest End Animation");
+	elseif quest_status.flow_state == flow_states.QUEST_END_SCREEN then
+		update_modules(module_visibility_config.quest_end_screen, "Quest End Screen");
+	elseif quest_status.flow_state == flow_states.REWARD_SCREEN then
+		update_modules(module_visibility_config.reward_screen, "Reward Screen");
+	elseif quest_status.flow_state == flow_states.SUMMARY_SCREEN then
+		update_modules(module_visibility_config.summary_screen, "Summary Screen");
 	end
 end
 
 local function draw_loop()
-	if quest_status.flow_state == quest_status.flow_states.IN_LOBBY then
-		local module_visibility_config = config.current_config.global_settings.module_visibility.in_lobby;
+	local current_config = config.current_config;
+	local module_visibility_config = current_config.global_settings.module_visibility;
+	local flow_states = quest_status.flow_states;
 
-		if config.current_config.stats_UI.enabled and module_visibility_config.stats_UI then
+	if quest_status.flow_state == flow_states.IN_LOBBY then
+		local module_visibility_in_lobby_config = module_visibility_config.in_lobby;
+
+		if current_config.stats_UI.enabled and module_visibility_in_lobby_config.stats_UI then
 			local success, error = pcall(stats_UI.draw);
 			if not success then
 				error_handler.report("MHR_Overlay.main_loop", string.format("[In Training Area] Stats UI: %s", tostring(error)));
 			end
 		end
 
-	elseif quest_status.flow_state == quest_status.flow_states.IN_TRAINING_AREA then
+	elseif quest_status.flow_state == flow_states.IN_TRAINING_AREA then
 
-		local large_monster_UI_config = config.current_config.large_monster_UI;
-		local module_visibility_config = config.current_config.global_settings.module_visibility.in_training_area;
+		local large_monster_UI_config = current_config.large_monster_UI;
+		local module_visibility_in_training_area_config = module_visibility_config.in_training_area;
 
-		local dynamic_enabled = large_monster_UI_config.dynamic.enabled and module_visibility_config.large_monster_dynamic_UI;
-		local static_enabled = large_monster_UI_config.static.enabled and module_visibility_config.large_monster_static_UI;
-		local highlighted_enabled = large_monster_UI_config.highlighted.enabled and module_visibility_config.large_monster_highlighted_UI;
+		local dynamic_enabled = large_monster_UI_config.dynamic.enabled and module_visibility_in_training_area_config.large_monster_dynamic_UI;
+		local static_enabled = large_monster_UI_config.static.enabled and module_visibility_in_training_area_config.large_monster_static_UI;
+		local highlighted_enabled = large_monster_UI_config.highlighted.enabled and module_visibility_in_training_area_config.large_monster_highlighted_UI;
 
 		if dynamic_enabled or static_enabled or highlighted_enabled then
 			local success, error = pcall(large_monster_UI.draw, dynamic_enabled, static_enabled, highlighted_enabled);
@@ -458,55 +470,54 @@ local function draw_loop()
 			end
 		end
 
-		if config.current_config.damage_meter_UI.enabled and module_visibility_config.damage_meter_UI then
+		if current_config.damage_meter_UI.enabled and module_visibility_in_training_area_config.damage_meter_UI then
 			local success, error = pcall(damage_meter_UI.draw);
 			if not success then
 				error_handler.report("MHR_Overlay.main_loop", string.format("[In Training Area] Damage Meter UI: %s", tostring(error)));
 			end
 		end
 
-		if config.current_config.endemic_life_UI.enabled and module_visibility_config.endemic_life_UI then
+		if current_config.endemic_life_UI.enabled and module_visibility_in_training_area_config.endemic_life_UI then
 			local success, error = pcall(env_creature_UI.draw);
 			if not success then
 				error_handler.report("MHR_Overlay.main_loop", string.format("[In Training Area] Endemic Life UI: %s", tostring(error)));
 			end
 		end
 
-		if config.current_config.buff_UI.enabled and module_visibility_config.buff_UI then
+		if current_config.buff_UI.enabled and module_visibility_in_training_area_config.buff_UI then
 			local success, error = pcall(buff_UI.draw);
 			if not success then
 				error_handler.report("MHR_Overlay.main_loop", string.format("[In Training Area] Buff UI: %s", tostring(error)));
 			end
 		end
 
-		if config.current_config.stats_UI.enabled and module_visibility_config.stats_UI then
+		if current_config.stats_UI.enabled and module_visibility_in_training_area_config.stats_UI then
 			local success, error = pcall(stats_UI.draw);
 			if not success then
 				error_handler.report("MHR_Overlay.main_loop", string.format("[In Training Area] Stats UI: %s", tostring(error)));
 			end
 		end
 
-
-	elseif quest_status.flow_state == quest_status.flow_states.CUTSCENE then
-		draw_modules(config.current_config.global_settings.module_visibility.cutscene, "Cutscene");
-	elseif quest_status.flow_state == quest_status.flow_states.LOADING_QUEST then
-		draw_modules(config.current_config.global_settings.module_visibility.loading_quest, "Loading Quest");
-	elseif quest_status.flow_state == quest_status.flow_states.QUEST_START_ANIMATION then
-		draw_modules(config.current_config.global_settings.module_visibility.quest_start_animation, "Quest Start Animation");
-	elseif quest_status.flow_state >= quest_status.flow_states.PLAYING_QUEST and quest_status.flow_state <= quest_status.flow_states.WYVERN_RIDING_START_ANIMATION then
-		draw_modules(config.current_config.global_settings.module_visibility.playing_quest, "Playing Quest");
-	elseif quest_status.flow_state == quest_status.flow_states.KILLCAM then
-		draw_modules(config.current_config.global_settings.module_visibility.killcam, "Killcam");
-	elseif quest_status.flow_state == quest_status.flow_states.QUEST_END_TIMER then
-		draw_modules(config.current_config.global_settings.module_visibility.quest_end_timer, "Quest End Timer");
-	elseif quest_status.flow_state == quest_status.flow_states.QUEST_END_ANIMATION then
-		draw_modules(config.current_config.global_settings.module_visibility.quest_end_animation, "Quest End Animation");
-	elseif quest_status.flow_state == quest_status.flow_states.QUEST_END_SCREEN then
-		draw_modules(config.current_config.global_settings.module_visibility.quest_end_screen, "Quest End Screen");
-	elseif quest_status.flow_state == quest_status.flow_states.REWARD_SCREEN then
-		draw_modules(config.current_config.global_settings.module_visibility.reward_screen, "Reward Screen");
-	elseif quest_status.flow_state == quest_status.flow_states.SUMMARY_SCREEN then
-		draw_modules(config.current_config.global_settings.module_visibility.summary_screen, "Summary Screen");
+	elseif quest_status.flow_state == flow_states.CUTSCENE then
+		draw_modules(module_visibility_config.cutscene, "Cutscene");
+	elseif quest_status.flow_state == flow_states.LOADING_QUEST then
+		draw_modules(module_visibility_config.loading_quest, "Loading Quest");
+	elseif quest_status.flow_state == flow_states.QUEST_START_ANIMATION then
+		draw_modules(module_visibility_config.quest_start_animation, "Quest Start Animation");
+	elseif quest_status.flow_state >= flow_states.PLAYING_QUEST and quest_status.flow_state <= flow_states.WYVERN_RIDING_START_ANIMATION then
+		draw_modules(module_visibility_config.playing_quest, "Playing Quest");
+	elseif quest_status.flow_state == flow_states.KILLCAM then
+		draw_modules(module_visibility_config.killcam, "Killcam");
+	elseif quest_status.flow_state == flow_states.QUEST_END_TIMER then
+		draw_modules(module_visibility_config.quest_end_timer, "Quest End Timer");
+	elseif quest_status.flow_state == flow_states.QUEST_END_ANIMATION then
+		draw_modules(module_visibility_config.quest_end_animation, "Quest End Animation");
+	elseif quest_status.flow_state == flow_states.QUEST_END_SCREEN then
+		draw_modules(module_visibility_config.quest_end_screen, "Quest End Screen");
+	elseif quest_status.flow_state == flow_states.REWARD_SCREEN then
+		draw_modules(module_visibility_config.reward_screen, "Reward Screen");
+	elseif quest_status.flow_state == flow_states.SUMMARY_SCREEN then
+		draw_modules(module_visibility_config.summary_screen, "Summary Screen");
 	end
 end
 
