@@ -44,6 +44,7 @@ local enemy_character_base_type_def = sdk.find_type_definition("snow.enemy.Enemy
 local enemy_character_base_update_method = enemy_character_base_type_def:get_method("update");
 
 local is_boss_enemy_method = enemy_character_base_type_def:get_method("get_isBossEnemy");
+local on_destroy_method = enemy_character_base_type_def:get_method("onDestroy");
 
 local enemy_damage_check_type_def = sdk.find_type_definition("snow.enemy.EnemyDamageCheck");
 local damage_check_update_param_update_method = enemy_damage_check_type_def:get_method("updateParam");
@@ -261,6 +262,20 @@ function this.update_rage_timer(anger_param, enemy)
 	large_monster.update_rage_timer(enemy, monster, anger_param);
 end
 
+function this.on_destroy(enemy)
+	local is_large = is_boss_enemy_method:call(enemy);
+	if is_large == nil then
+		error_handler.report("monster_hook.on_destroy", "Failed to Access Data: is_large");
+		return;
+	end
+
+	if is_large then
+		large_monster.list[enemy] = nil;
+	else
+		small_monster.list[enemy] = nil;
+	end
+end
+
 function this.init_dependencies()
 	small_monster = require("MHR_Overlay.Monsters.small_monster");
 	large_monster = require("MHR_Overlay.Monsters.large_monster");
@@ -293,6 +308,12 @@ function this.init_module()
 	sdk.hook(anger_add_method, function(args)
 		pcall(this.update_rage, sdk.to_managed_object(args[2]), sdk.to_float(args[3]),
 			sdk.to_managed_object(args[4]));
+	end, function(retval)
+		return retval;
+	end);
+
+	sdk.hook(on_destroy_method, function(args)
+		pcall(this.on_destroy, sdk.to_managed_object(args[2]));
 	end, function(retval)
 		return retval;
 	end);
