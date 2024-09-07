@@ -38,7 +38,7 @@
 	</a>
 	<br>
 	<a href="https://www.nexusmods.com/monsterhunterrise/mods/26">
-		<img alt="REFramework Dependency" src="https://custom-icon-badges.demolab.com/badge/dependency-REFramework%20v1.5.6%2B-green?logo=package-dependencies" />
+		<img alt="REFramework Dependency" src="https://custom-icon-badges.demolab.com/badge/dependency-REFramework%20v1.5.7%2B-green?logo=package-dependencies" />
 	</a>
    	<a href="https://www.nexusmods.com/monsterhunterrise/mods/134">
 		<img alt="REFramework Direct2D Dependency" src="https://custom-icon-badges.demolab.com/badge/dependency-REFramework%20Direct2D%20v1.0.1%2B-green?logo=package-dependencies" />
@@ -163,6 +163,7 @@
 **[s9000008](https://github.com/s9000008)**, **[mcc1](https://github.com/mcc1)** - Traditional Chinese translation.  
 **[etnAtker](https://github.com/etnAtker)**, **[sukiqwq](https://github.com/sukiqwq)** - Simplified Chinese translation.  
 **[AKILAND0214](https://github.com/AKILAND0214)** - Japanese translation.  
+**[Krude](https://github.com/Krude)** - German translation.
 ***
 # Support
 
