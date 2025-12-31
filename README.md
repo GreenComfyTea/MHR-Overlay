@@ -163,7 +163,8 @@
 **[s9000008](https://github.com/s9000008)**, **[mcc1](https://github.com/mcc1)** - Traditional Chinese translation.  
 **[etnAtker](https://github.com/etnAtker)**, **[sukiqwq](https://github.com/sukiqwq)** - Simplified Chinese translation.  
 **[AKILAND0214](https://github.com/AKILAND0214)** - Japanese translation.  
-**[Krude](https://github.com/Krude)** - German translation.
+**[Krude](https://github.com/Krude)** - German translation.  
+**[LLDan](https://www.nexusmods.com/profile/LLDan)** - Spanish translation.
 ***
 # Support
 
